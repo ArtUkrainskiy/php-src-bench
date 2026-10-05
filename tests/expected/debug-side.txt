@@ -1,0 +1,16 @@
+A: base — PHP 8.6.0-dev, 100e8f353ea ext/uri: Preserve empty query and fragment in URL builders
+B: dev — PHP 8.6.0-dev, working tree on top of 100e8f353ea ext/uri: Preserve empty query and fragment in URL builders, DEBUG
+CPU 2 (13th Gen Intel(R) Core(TM) i7-13700H), governor powersave, turbo on, kernel 7.0.0-34-generic
+4 rounds × 7 samples × 10 ms, cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, configure --disable-all --disable-cgi --disable-phpdbg --enable-cli, CFLAGS -O2 -g -falign-functions=64 -falign-loops=32, 2026-10-05T19:28+00:00
+! B (dev) is a DEBUG build: its timings mean nothing
+! A and B differ in configure: '--disable-all --disable-cgi --disable-phpdbg --enable-cli' vs '--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-debug'
+! A and B differ in cflags: '-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -O2 -g -falign-functions=64 -falign-loops=32 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS $(PROF_FLAGS)' vs '-O0 -g'
+
+case                       bytes  A ns/op     ±  B ns/op     ±          B vs A  A instr/op  B instr/op  instr B vs A
+htmlspecialchars @ empty       0      6.1  4.9%      6.2  4.4%  1.02× slower ~         120         120         1.00×
+htmlspecialchars @ word-8      8     52.8  1.0%     32.6  1.4%  1.62× faster ✓         937         564   1.66× fewer
+htmlspecialchars @ en-1k    1042     4308  0.9%     1757  0.4%  2.45× faster ✓       63144       10027   6.30× fewer
+
+ns/op: median time of one evaluation, loop overhead subtracted; ±: spread of the samples
+(1.4826·MAD/median); B vs A: A time / B time; ✓/✗: every round of B was faster/slower than every round of
+A, by at least 1%; ~: rounds overlap, no clear difference; instr/op: instructions per evaluation

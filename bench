@@ -1,0 +1,89 @@
+#!/usr/bin/env bash
+# php-src-bench: A/B micro-benchmarks for php-src.
+set -euo pipefail
+
+BENCH_ROOT="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)"
+PARENT="$(dirname "$BENCH_ROOT")"
+export BENCH_ROOT
+export PHP_SRC="${PHP_SRC:-$PARENT/php-src}"
+export BENCH_BUILDS="${BENCH_BUILDS:-$PARENT/php-builds}"
+
+usage() {
+	cat <<'USAGE'
+php-src-bench: A/B micro-benchmarks for php-src.
+
+Usage:
+  bench build <name> [<git-ref>|.]   Build a release php CLI of a php-src ref in $BENCH_BUILDS/<name>
+                                     ('.' = the php-src working tree as it is now; default: HEAD)
+  bench builds                       List the builds
+  bench rm <name>                    Delete a build
+  bench suites                       List the suites
+  bench run <suite> --a <build|php> [--b <build|php>] [options]
+                                     Measure a suite and compare B against A, see `bench run --help`
+  bench show <result.json> [--md]    Render a saved result again
+  bench difftest <generator> <A> <B> [--seed N] [--count N]
+                                     Check that two builds give identical output on generated inputs
+  bench check [--cpu N]              Report sources of benchmark noise on this machine
+  bench tune on|off|status           on: performance governor and no turbo boost, off: back to what
+                                     it was (both need sudo), status: show the current settings
+  bench php                          Print the php binary that runs the orchestrator
+
+A typical session:
+  bench build base master            # the reference
+  bench build dev .                  # your working tree
+  bench run html --a base --b dev --perf
+
+Environment:
+  PHP_SRC                php-src checkout (default: ../php-src next to this directory)
+  BENCH_BUILDS           where the builds live (default: ../php-builds)
+  BENCH_PHP              php that runs the orchestrator (default: one of the builds, then php in PATH)
+  BENCH_CONFIGURE_EXTRA  extra ./configure options for `bench build`
+  BENCH_CFLAGS           CFLAGS for `bench build` (default: -O2 -g -falign-functions=64 -falign-loops=32)
+USAGE
+}
+
+# bench rm <name>: a build is a git worktree of php-src, so git has to forget it too.
+remove_build() {
+	local name="${1:?usage: bench rm <name>}"
+	[[ -e "$BENCH_BUILDS/$name/.git" ]] || { echo "bench rm: no such build: $name" >&2; exit 1; }
+	git -C "$PHP_SRC" worktree remove --force "$BENCH_BUILDS/$name"
+	echo "removed $name"
+}
+
+# The orchestrator needs some PHP 8.0+ to run on: BENCH_PHP, else the first build found, else php
+# from PATH. It only starts and reads the measured processes, so its own speed does not matter.
+runner_php() {
+	if [[ -n "${BENCH_PHP:-}" ]]; then
+		echo "$BENCH_PHP"
+		return
+	fi
+	local candidate
+	for candidate in "$BENCH_BUILDS"/*/sapi/cli/php; do
+		[[ -x "$candidate" ]] && { echo "$candidate"; return; }
+	done
+	if command -v php >/dev/null; then
+		command -v php
+		return
+	fi
+	if [[ -x "$PHP_SRC/sapi/cli/php" ]]; then
+		echo "$PHP_SRC/sapi/cli/php"
+		return
+	fi
+	echo "bench: no PHP found to run the orchestrator; run 'bench build <name>' or set BENCH_PHP" >&2
+	exit 1
+}
+
+cmd="${1:-help}"
+case "$cmd" in
+	build) shift; exec "$BENCH_ROOT/lib/build.sh" "$@" ;;
+	tune) shift; exec "$BENCH_ROOT/lib/tune.sh" "$@" ;;
+	difftest) shift; exec "$BENCH_ROOT/lib/difftest.sh" "$@" ;;
+	run|show|check|builds|suites)
+		php="$(runner_php)"
+		exec "$php" -n -d memory_limit=-1 "$BENCH_ROOT/lib/runner.php" "$@"
+		;;
+	rm) shift; remove_build "$@" ;;
+	php) runner_php ;;
+	help|-h|--help) usage ;;
+	*) usage >&2; exit 2 ;;
+esac
