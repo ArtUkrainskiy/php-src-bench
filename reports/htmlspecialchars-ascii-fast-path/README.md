@@ -35,9 +35,11 @@ Two things to know when reading it:
   and, in the cp1251 row, the old one: that row has 1.35× fewer instructions and was 1–2% slower
   in two of three runs, while 64 KB of the same text is 1.08× faster. See "Traps" in
   [the methodology notes](../../docs/methodology.md).
-- One machine, one compiler: GCC 13.3 on an Intel i7-13700H (x86-64). On a second machine
-  (GCC 15.2, a virtual Haswell core, wall time only) the same comparison gave English 2.5–2.8×,
-  HTML 1.8–2.0×, Russian 1.3×, cp1251 1.3–1.6× faster, with no row slower.
+- The tables below are from an Intel i7-13700H with GCC 13.3. The same comparison on an AMD
+  Ryzen 9 5950X with GCC 15.2 is in the section "A second machine": the instruction ratios are
+  the same within a few percent, the gains in time are larger (English 2.7–3.8×, HTML 2.5–2.9×),
+  and the cp1251 row is 1.3–1.7× faster there. On a third one (GCC 15.2, a virtual Haswell
+  core, wall time only) English was 2.5–2.8× and HTML 1.8–2.0× faster, with no row slower.
 
 ## How it was measured
 
@@ -126,6 +128,83 @@ Same builds and settings.
 | json_decode @ json-ru-raw-64k | 66592 | 137760 | 0.2% | 138475 | 0.2% | 1.01× slower ~ | 1245313 | 1245307 | 1.00× |
 
 <sub>ns/op: median time of one evaluation, loop overhead subtracted; ±: spread of the samples (1.4826·MAD/median); B vs A: A time / B time; ✅/❌: every round of B was faster/slower than every round of A, by at least 1%; ~: rounds overlap, no clear difference; instr/op: instructions per evaluation</sub>
+
+## A second machine
+
+AMD Ryzen 9 5950X, GCC 15.2, htmlspecialchars suite, same commits and settings. The machine was
+in use during the run (load average 3.2): the runner reported 11 cases with a disturbed round and
+6 with a spread above 5%, so read the times as approximate; instruction counts are not affected.
+The `empty` row shows what `layout?` is for: 112 instructions in both builds, one nanosecond
+apart.
+
+```
+A: base — PHP 8.6.0-dev, 100e8f353ea ext/uri: Preserve empty query and fragment in URL builders
+B: ascii-fast-path — PHP 8.6.0-dev, 0e4d8e73a21 ext/standard: Add a fast path for ASCII in htmlspecialchars()
+CPU 1 (AMD Ryzen 9 5950X 16-Core Processor), governor powersave, turbo on, kernel 7.0.0-34-generic
+4 rounds × 7 samples × 10 ms, cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0, configure --disable-all --disable-cgi --disable-phpdbg --enable-cli, CFLAGS -O2 -g -falign-functions=64 -falign-loops=32, 2026-10-05T21:53+00:00
+
+case                                           bytes  A ns/op      ±  B ns/op     ±                  B vs A  A instr/op  B instr/op  instr B vs A
+htmlspecialchars @ empty                           0      6.4   6.2%      5.4  1.4%  1.19× faster ✓ layout?         112         112         1.00×
+htmlspecialchars @ word-8                          8     41.5   0.6%     27.9  0.2%          1.49× faster ✓         916         555   1.65× fewer
+htmlspecialchars @ name-16                        16     64.8   0.7%     34.4  0.3%          1.88× faster ✓        1410         630   2.24× fewer
+htmlspecialchars @ title-40                       40    135.5   0.4%     54.2  0.2%          2.50× faster ✓        2902         855   3.39× fewer
+htmlspecialchars @ title-amp-40                   40    147.8   0.3%     71.7  0.5%          2.06× faster ✓        3009        1311   2.30× fewer
+htmlspecialchars @ ru-title-30                    30    103.6   0.3%     73.0  0.6%          1.42× faster ✓        2062        1434   1.44× fewer
+htmlspecialchars @ en-64                          86    269.0   0.5%     99.2  0.5%          2.71× faster ✓        5631        1278   4.41× fewer
+htmlspecialchars @ en-256                        314    968.7   1.5%    316.4  0.2%          3.06× faster ✓       19355        3345   5.79× fewer
+htmlspecialchars @ en-1k                        1042     3751   0.4%     1010  0.5%          3.71× faster ✓       63347       10410   6.09× fewer
+htmlspecialchars @ en-64k                      65583   250744   0.3%    65231  0.5%          3.84× faster ✓     3959850      636290   6.22× fewer
+htmlspecialchars @ html-1k                      1076     4042   3.9%     1417  2.6%          2.85× faster ✓       67596       19698   3.43× fewer
+htmlspecialchars @ html-page-4k                 4096    13612   1.8%     5081  2.1%          2.68× faster ✓      255009       71349   3.57× fewer
+htmlspecialchars @ html-wiki-64k               65536   242254   0.4%    97694  0.7%          2.48× faster ✓     4047634     1209208   3.35× fewer
+htmlspecialchars @ md-4k                        4096    15534   0.5%     4165  0.3%          3.73× faster ✓      248435       40537   6.13× fewer
+htmlspecialchars @ js-4k                        4096    16204   1.7%     3997  0.4%          4.05× faster ✓      253119       44900   5.64× fewer
+htmlspecialchars @ js-min-4k                    4096    15056   2.6%     3795  0.5%          3.97× faster ✓      249369       49194   5.07× fewer
+htmlspecialchars @ amp-1k                       1024     2858   0.3%     2214  0.8%          1.29× faster ✓       48146       41160   1.17× fewer
+htmlspecialchars @ quot-1k                      1024     5259   0.3%     5193  1.0%          1.01× faster ~       88746       81816   1.08× fewer
+htmlspecialchars @ ru-1k                        1030     3210   2.3%     2784  6.1%          1.15× faster ✓       52463       40728   1.29× fewer
+htmlspecialchars @ ru-64k                      65537   214921   0.8%   175920  2.0%          1.22× faster ✓     3315040     2562834   1.29× fewer
+htmlspecialchars @ zh-1k                        1046     2107   0.7%     1774  5.8%          1.19× faster ✓       39443       33415   1.18× fewer
+htmlspecialchars @ zh-64k                      65577   129543   0.8%   105778  1.3%          1.22× faster ✓     2442756     2065817   1.18× fewer
+htmlspecialchars @ emoji-1k                     1071     2812   0.5%     1158  0.9%          2.43× faster ✓       53108       19977   2.66× fewer
+htmlspecialchars !double_encode @ html-1k       1076     3994   2.6%     1422  2.0%          2.81× faster ✓       67900       20001   3.39× fewer
+htmlspecialchars !double_encode @ entities-1k   1080     3450  10.2%     1282  0.7%          2.69× faster ✓       61083       22317   2.74× fewer
+htmlspecialchars !double_encode @ amp-1k        1024     3315   0.4%     2648  0.5%          1.25× faster ✓       65600       58613   1.12× fewer
+htmlspecialchars ENT_DISALLOWED @ en-1k         1042     4294   0.5%     3540  0.2%          1.21× faster ✓       72315       56685   1.28× fewer
+htmlspecialchars ENT_DISALLOWED @ html-1k       1076     4443   0.9%     3501  1.2%          1.27× faster ✓       75957       59709   1.27× fewer
+htmlspecialchars cp1251 @ en-1k                 1042     3755   8.6%     1023  0.3%          3.67× faster ✓       61625       10773   5.72× fewer
+htmlspecialchars cp1251 @ cp1251-1k             1056     2903   3.2%     1711  0.4%          1.70× faster ✓       62291       41411   1.50× fewer
+htmlspecialchars cp1251 @ cp1251-64k           65572   246149   0.4%   188197  0.3%          1.31× faster ✓     3823019     2518727   1.52× fewer
+htmlspecialchars Shift_JIS @ sjis-1k            1034     3076   0.8%     2693  0.5%          1.14× faster ✓       50548       42509   1.19× fewer
+htmlspecialchars BIG5 @ big5-1k                 1061     2864   0.6%     2957  0.8%          1.03× slower ~       50194       42606   1.18× fewer
+htmlentities @ title-40                           40    178.8   0.6%    142.0  0.7%          1.26× faster ✓        3782        3062   1.24× fewer
+htmlentities @ en-1k                            1042     3969   0.4%     3072  0.3%          1.29× faster ✓       86982       68244   1.27× fewer
+htmlentities @ html-1k                          1076     4605   1.2%     3598  0.5%          1.28× faster ✓       90609       71529   1.27× fewer
+htmlentities @ ru-1k                            1030     3622   3.9%     3024  8.1%          1.20× faster ✓       65668       54348   1.21× fewer
+```
+
+The json suite on the same machine: the same 1.1× fewer instructions for non-ASCII text, a
+smaller gain in time than on the Intel machine.
+
+```
+case                                       bytes  A ns/op      ±  B ns/op     ±          B vs A  A instr/op  B instr/op  instr B vs A
+json_encode @ en-1k                         1042    789.0   1.9%    792.7  0.8%         1.00× ~       15019       15019         1.00×
+json_encode @ en-64k                       65583    52395   0.6%    52229  0.3%         1.00× ~      901393      901395         1.00×
+json_encode @ html-1k                       1076    961.3  10.2%    987.8  2.3%  1.03× slower ~       19764       19764         1.00×
+json_encode @ ru-1k                         1030     2401   1.8%     2322  5.1%  1.03× faster ~       55922       50059   1.12× fewer
+json_encode @ ru-64k                       65537   198323   0.3%   189805  0.3%  1.04× faster ✓     3496508     3125315   1.12× fewer
+json_encode @ zh-1k                         1046     1823   0.5%     1690  0.5%  1.08× faster ✓       43767       38979   1.12× fewer
+json_encode @ zh-64k                       65577   112746   0.4%   103837  0.1%  1.09× faster ✓     2688143     2387714   1.13× fewer
+json_encode @ emoji-1k                      1071     1221   0.3%     1202  0.6%  1.02× faster ~       29687       28276   1.05× fewer
+json_encode UNESCAPED_UNICODE @ ru-1k       1030     3384   4.0%     3370  2.9%         1.00× ~       59839       53976   1.11× fewer
+json_encode UNESCAPED_UNICODE @ ru-64k     65537   238910   1.3%   232536  1.3%  1.03× faster ~     3749368     3378167   1.11× fewer
+json_encode UNESCAPED_UNICODE @ zh-1k       1046     2254   1.3%     2164  0.5%  1.04× faster ~       46773       41985   1.11× fewer
+json_encode UNESCAPED_UNICODE @ zh-64k     65577   138969   2.8%   131897  0.4%  1.05× faster ~     2878871     2578437   1.12× fewer
+json_encode UNESCAPED_UNICODE @ emoji-1k    1071     1346   0.7%     1347  0.4%         1.00× ~       27557       26146   1.05× fewer
+json_decode @ json-en-64k                  67475   123299   0.5%   123410  0.5%         1.00× ~     1540342     1540340         1.00×
+json_decode @ json-ru-64k                 180808   429209   0.6%   427015  0.6%  1.01× faster ~     6054537     6054540         1.00×
+json_decode @ json-ru-raw-64k              66592    84333   0.3%    84368  0.6%         1.00× ~     1245274     1245278         1.00×
+```
 
 ## Output
 
