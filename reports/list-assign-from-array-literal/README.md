@@ -2,11 +2,11 @@
 
 php-src change: branch `destructure-array-literal`, "Zend: Compile a list assignment from an
 array literal without the array" (php/php-src issue GH-23048), compared with its parent on
-master, [`e17e2970bc0`](https://github.com/php/php-src/commit/e17e2970bc0).
+master, [`26e588f5637`](https://github.com/php/php-src/commit/26e588f5637).
 
 `[$a, $b] = [$b, $a];` compiled to INIT_ARRAY + ADD_ARRAY_ELEMENT, two FETCH_LIST_R, two
 ASSIGN and a FREE. With the change, when the result is unused, the right side is an array
-literal and the left side a plain list with a target for every value, it compiles to two
+literal and the left side a flat list with a target for every value, it compiles to two
 QM_ASSIGN (the variables are copied before any assignment), two COPY_TMP + ASSIGN pairs and
 two FREE. Assignments in the expression lists of a `for` loop, whose results are not used
 either, are compiled the same way; nested lists, keys, references, spread, a different number
@@ -24,11 +24,11 @@ can prove, and a throwing destructor turns the difference into a control-flow ch
 copies no difference is left, the destruction order of pending values when a target expression
 or an assignment throws included.
 
-Nested lists were covered in an earlier version and taken out: without the array the inner
-list has no owner whose destruction order matches the old nested fetches, and a COPY_TMP that
-is freed later cannot be that owner, because the live range of a COPY_TMP result is computed
-for the `??` pattern (definition to use, then from the block of FREEs) and a copy that an inner
-assignment throws across leaks. No covered statement in real code had a nested list.
+Nested lists are not covered: without the array the inner list has no owner whose destruction
+order matches the old nested fetches, and a COPY_TMP that is freed later cannot be that owner,
+because the live range of a COPY_TMP result is computed for the `??` pattern (definition to
+use, then from the block of FREEs), so a copy that an inner assignment throws across leaks —
+tried and rejected. No covered statement in real code has a nested list.
 
 Lists with values nobody takes, `[, $b] = [f(), g()]`, are left alone on purpose: the copy that
 would keep such a value alive is `T = QM_ASSIGN CV; ...; FREE T`, which opcache's block pass
@@ -68,12 +68,12 @@ raw run in `swap-suite.json`.
   elements with side effects, `$GLOBALS`, references, keys, spread, compile errors) give
   identical output on master and the change, on a release build, a debug build, with opcache,
   and with the tracing and function JIT. Each case is compiled from a file with
-  `opcache.file_update_protection=0`, so the optimizer really runs on it; code given with
-  `-r` is not optimized, and an earlier run that used `-r` missed the block-pass issue above.
-- About 3,700 generated programs from three review agents (combinations of 15 target kinds and
-  4 value kinds, generators and fibers, references, hooks, readonly, string offsets, nesting
-  up to 3,000 levels, 500-element lists): no difference; the combinatorial sweep of 3,376
-  programs gives 0 differing outputs.
+  `opcache.file_update_protection=0`, so the optimizer really runs on it (code given with
+  `-r` is not optimized, and a comparison made that way says nothing about opcache).
+- A combinatorial sweep of 3,376 generated programs (two targets and two values, each from 15
+  target kinds and 4 value kinds, with destructors and setters that print) and about 300
+  hand-written ones (generators and fibers, references, hooks, readonly, string offsets,
+  nesting up to 3,000 levels, 500-element lists): 0 differing outputs.
 - Zend/tests and ext/opcache/tests on the debug build (with zend_test): 6,498 passed,
   0 failed; Zend/tests with opcache and with the tracing JIT: 5,559 passed, 0 failed each.
 - All `.php` files of two large `vendor` trees (46,857 files, 327,462 op_arrays) compiled on
@@ -88,6 +88,7 @@ raw run in `swap-suite.json`.
   targets of every kind with the fallback forms next to them, `for` loop lists; evaluation
   order and lifetime of the values (a setter that drops the value, the same variable twice, a
   throwing destructor, two targets that are references to each other, a reference to a typed
-  property, a target expression or a value or an assignment that throws, values nobody takes);
-  undefined variables in the new path with their line numbers — and an opcode-shape test in
-  ext/opcache/tests/opt.
+  property, a target expression or a value or an assignment that throws, a destructor that
+  throws during the release after the assignments, values nobody takes), the lifetime test
+  also run with `opcache.optimization_level=-1`; undefined variables in the new path with
+  their line numbers — and an opcode-shape test in ext/opcache/tests/opt.
