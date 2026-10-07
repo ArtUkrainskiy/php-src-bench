@@ -8,9 +8,9 @@ master, [`e17e2970bc0`](https://github.com/php/php-src/commit/e17e2970bc0).
 ASSIGN and a FREE. With the change, when the result is unused, the right side is an array
 literal and the left side a plain list with a target for every value, it compiles to two
 QM_ASSIGN (the variables are copied before any assignment), two COPY_TMP + ASSIGN pairs and
-two FREE. Nested literals are handled the same way, and so are assignments in the expression
-lists of a `for` loop, whose results are not used either; keys, references, spread, a different
-number of values and targets and a used result keep the usual compilation.
+two FREE. Assignments in the expression lists of a `for` loop, whose results are not used
+either, are compiled the same way; nested lists, keys, references, spread, a different number
+of values and targets and a used result keep the usual compilation.
 
 Lifetime of the values: the array held every value until after the last assignment, and that
 is observable through destructors (a setter that drops the value, two targets that are
@@ -20,9 +20,15 @@ assignment, exactly when the array was; constants need no copy. Consuming the va
 when the target is a plain variable was built and measured (swap 467 instead of 523) and
 rejected: whether a variable keeps its value until the end of the statement is a runtime
 property (references, user code in a later target's expression), not something the compiler
-can prove, and a throwing destructor turns the difference into a control-flow change. What
-remains observable is the order in which pending values are destroyed when an assignment
-throws: that of the temporaries instead of that of the array.
+can prove, and a throwing destructor turns the difference into a control-flow change. With the
+copies no difference is left, the destruction order of pending values when a target expression
+or an assignment throws included.
+
+Nested lists were covered in an earlier version and taken out: without the array the inner
+list has no owner whose destruction order matches the old nested fetches, and a COPY_TMP that
+is freed later cannot be that owner, because the live range of a COPY_TMP result is computed
+for the `??` pattern (definition to use, then from the block of FREEs) and a copy that an inner
+assignment throws across leaks. No covered statement in real code had a nested list.
 
 Lists with values nobody takes, `[, $b] = [f(), g()]`, are left alone on purpose: the copy that
 would keep such a value alive is `T = QM_ASSIGN CV; ...; FREE T`, which opcache's block pass
@@ -51,7 +57,6 @@ Loops of 300,000 statements (`jit-stress.php`, opcache on, pinned to one core), 
 | swap of two ints | 5.1 → 1.1 ms | 3.8 → 0.5 ms | 4.0 → 0.6 ms |
 | swap of two array elements | 7.9 → 3.7 ms | 4.8 → 1.2 ms | 4.6 → 1.2 ms |
 | swap of two properties | 8.0 → 4.7 ms | 7.8 → 4.8 ms | 7.1 → 4.7 ms |
-| nested `[[$a, $b], $c] = [[$b, $c], $a]` | 10.7 → 0.9 ms | 7.6 → 1.4 ms | 7.7 → 1.3 ms |
 
 The loop outputs are identical on both builds. The suite is `swap-suite.php` next to this file;
 raw run in `swap-suite.json`.
@@ -67,17 +72,22 @@ raw run in `swap-suite.json`.
   `-r` is not optimized, and an earlier run that used `-r` missed the block-pass issue above.
 - About 3,700 generated programs from three review agents (combinations of 15 target kinds and
   4 value kinds, generators and fibers, references, hooks, readonly, string offsets, nesting
-  up to 3,000 levels, 500-element lists): the only difference left is the destruction order of
-  pending values when an assignment throws (30 of the 3,376 combinations, all of that shape).
-- Zend/tests and ext/opcache/tests on the debug build (with zend_test): 6,499 passed,
-  0 failed; Zend/tests with opcache and with the tracing JIT: 5,560 passed, 0 failed each.
+  up to 3,000 levels, 500-element lists): no difference; the combinatorial sweep of 3,376
+  programs gives 0 differing outputs.
+- Zend/tests and ext/opcache/tests on the debug build (with zend_test): 6,498 passed,
+  0 failed; Zend/tests with opcache and with the tracing JIT: 5,559 passed, 0 failed each.
 - All `.php` files of two large `vendor` trees (46,857 files, 327,462 op_arrays) compiled on
-  both builds with the opcodes dumped: 41 op_arrays differ, every one of them contains a
-  covered statement (46 statements; 114 of their 124 targets are plain variables, 10 are array
-  elements); the only opcodes removed are INIT_ARRAY, ADD_ARRAY_ELEMENT and FETCH_LIST_R, the
-  only ones added QM_ASSIGN, COPY_TMP and FREE. Nothing else in the output changes.
-- Tests added: five in Zend/tests/list (values and targets, `for` loop lists, evaluation order
-  and lifetime of the values including a throwing destructor, two targets that are references
-  to each other and the unwind order, undefined variables in the new path with line numbers, missing values, the two compile
-  errors that still apply to nested lists), an opcode-shape test in ext/opcache/tests/opt, and
-  a nested-literal case in Zend/tests/stack_limit.
+  both builds with the opcodes dumped: 41 op_arrays differ, every one of them because of a
+  covered statement — 56 statements, 46 that built the array at runtime (124 targets) and 10
+  that assigned from a constant array, `[$a, $b, $c] = [0, 1, 2]`, which now assign the
+  constants directly (43 targets); 157 of the 167 targets are plain variables, 10 are array
+  elements, none is a nested list. The only opcodes removed are INIT_ARRAY (46),
+  ADD_ARRAY_ELEMENT (78) and FETCH_LIST_R (167), the only ones added QM_ASSIGN (36), COPY_TMP
+  (118) and FREE (72 net). Nothing else in the output changes.
+- Tests added: three in Zend/tests/list, every expectation generated on master — values and
+  targets of every kind with the fallback forms next to them, `for` loop lists; evaluation
+  order and lifetime of the values (a setter that drops the value, the same variable twice, a
+  throwing destructor, two targets that are references to each other, a reference to a typed
+  property, a target expression or a value or an assignment that throws, values nobody takes);
+  undefined variables in the new path with their line numbers — and an opcode-shape test in
+  ext/opcache/tests/opt.
