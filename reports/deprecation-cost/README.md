@@ -48,3 +48,43 @@ callgrind_annotate cg.out | head -60
 `deprecation-cost.php MODE N`: `baseline` (plain call), `none` (deprecated call, no handler),
 `noop` (handler returning false), `framework` (handler that formats and stores the message).
 `null-deprecation.php MODE N`: the classic deprecation for comparison.
+
+## The patch: build the suffix once
+
+Branch `deprecated-suffix-cache`: the suffix a persistent `#[\Deprecated]` or `#[\NoDiscard]`
+attribute produces (" since 8.5, as it has no effect since PHP 8.1") is built on the first use
+and kept in the attribute, as an immutable persistent string; later calls take it from there
+instead of constructing the attribute object again. A call to
+`ReflectionProperty::setAccessible()` goes from 5,010 to 1,807 instructions, reported or
+filtered alike; the message is byte for byte the same.
+
+Why the cache lives in the attribute and not in the function: closures and reflection copy
+`zend_internal_function` with `memcpy` and never free the copy, so a cache field there would
+be filled in copies and leak. The attribute is one per declaration, shared by every copy of
+the function and by every thread, and freed exactly once with the attribute.
+
+What it does per environment:
+
+- **php-fpm, php-cgi, CLI (NTS).** The function tables and their attributes are built in the
+  master process; FPM workers inherit them copy-on-write. Each process fills the cache lazily
+  on the first call of each deprecated function (one `malloc`'d string, the attribute's page
+  copied on write) and frees it at shutdown. Nothing goes through shared memory and nothing
+  needs to: at most 196 strings of a few dozen bytes per process.
+- **ZTS (Apache worker/event with mod_php, FrankenPHP, parallel).** The attribute structs are
+  shared by all threads. The first call in any thread builds the string and publishes it with
+  a compare-and-swap; two threads racing both build it and the loser frees its copy. Readers do
+  an acquire load of the pointer; the string is immutable (interned flag, so no refcount
+  traffic; hash computed before publishing), so there is nothing to race on. Freed once at
+  process shutdown.
+- **opcache.** Not involved for internal functions, which are not in shared memory. Userland
+  `#[\Deprecated]` and `#[\NoDiscard]` are not cached: their attribute structs live in
+  opcache's shared memory, common to all workers, where a process-heap pointer cannot go, and
+  their arguments may be constant expressions. Those calls keep the old path (~5,000); a cache
+  for them needs a per-process table keyed by the attribute and is a separate change.
+- **`dl()` in the CLI.** The extension's attributes are persistent too; same behaviour.
+
+What does not depend on the environment: the saving applies regardless of `error_reporting`,
+of an error handler and of logging, since all of it happened before any of those were
+consulted. The one case that could behave differently doesn't: an extension registering a
+`#[\Deprecated]` with invalid arguments made the constructor throw on every call before, and
+still does, because a failed build is not cached.
