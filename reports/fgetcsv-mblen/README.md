@@ -11,14 +11,15 @@ release build:
 | `php_fgetcsv_lookup_trailing_spaces` | 5% |
 | `php_fgetcsv` | 3% |
 
-Every charset a libc can use for `LC_CTYPE` is ASCII-compatible, so in an encoding without shift
-states a byte below 0x80 is one character and `php_mblen()` returns 1 for it without calling
-`mbrlen()`. Whether the encoding has shift states is read once per string, in `php_mb_reset()`,
-with `mblen(NULL, 0)` (C99 7.20.7.1); glibc reports 1 for BIG5-HKSCS, CP1255, EUC/SHIFT_JISX0213,
-TCVN5712-1, CP1258 and TSCII (decoders that buffer output), 0 for everything else. State-dependent
-encodings keep going through `mbrlen()` with the state held across the string, as ZTS builds
-always did, and a decoder that flushes a buffered character without consuming input is retried
-from the initial state, since every caller reads a 0 as end of input.
+When the locale uses ASCII characters as singletons — `CG(ascii_compatible_locale)`, the flag
+`php_basename()` already relies on: C, single-byte and UTF-8 locales — and the encoding has no
+shift states (`mblen(NULL, 0)`, C99 7.20.7.1; glibc reports 1 for BIG5-HKSCS, CP1255,
+EUC/SHIFT_JISX0213, TCVN5712-1, CP1258 and TSCII, decoders that buffer output), a byte below
+0x80 is one character and `php_mblen()` returns 1 for it without calling `mbrlen()`. That is
+read once per string, in `php_mb_reset()`. Everything else — CJK locales, ISO-2022 where a libc
+offers it, the buffering decoders — keeps going through `mbrlen()` with the state held across
+the string, as ZTS builds always did; a decoder that flushes a buffered character without
+consuming input is retried from the initial state, since every caller reads a 0 as end of input.
 
 ## Numbers
 
@@ -27,14 +28,14 @@ Release build, `mblen-bench.php`, best of 5, ns per row or per call. Data from `
 
 | | master | patched |
 |---|---|---|
-| `fgetcsv()` plain | 4,222 | 483 |
-| `fgetcsv()` quoted | 2,557 | 348 |
-| `fgetcsv()` wide | 20,753 | 2,142 |
-| `str_getcsv()` plain | 4,094 | 445 |
-| `str_getcsv()` wide | 20,508 | 2,040 |
-| `escapeshellarg()` 24-byte path | 311 | 49 |
-| `escapeshellarg()` 128 bytes | 1,573 | 114 |
-| `escapeshellarg()` 26 bytes of UTF-8 Cyrillic | 234 | 160 |
+| `fgetcsv()` plain | 4,217 | 515 |
+| `fgetcsv()` quoted | 2,558 | 354 |
+| `fgetcsv()` wide | 20,775 | 2,241 |
+| `str_getcsv()` plain | 4,131 | 458 |
+| `str_getcsv()` wide | 20,583 | 2,068 |
+| `escapeshellarg()` 24-byte path | 310 | 48 |
+| `escapeshellarg()` 128 bytes | 1,573 | 115 |
+| `escapeshellarg()` 128 bytes, `ja_JP.SJIS` (old path) | 1,400 | 1,368 |
 | `basename()` | 19 | 19 |
 
 `basename()` has its own ASCII path when the locale is `C` and is not affected.
