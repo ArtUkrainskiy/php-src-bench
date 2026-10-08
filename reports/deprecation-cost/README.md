@@ -1,5 +1,8 @@
 # What a deprecated call costs
 
+Background — how this came up, with the benchmark CI history that led to it:
+[php-benchmark-history](../php-benchmark-history/).
+
 php-src master `26e588f5637`, release build, `perf stat -e instructions:u` on a pinned P-core
 (i7-13700H), 100,000 iterations; the figure is the cost above the same loop making a plain call
 (`ReflectionProperty::getName()` or `strlen('')`). Callgrind on the same scripts gives the same
