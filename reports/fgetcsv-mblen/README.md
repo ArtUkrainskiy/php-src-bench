@@ -12,14 +12,13 @@ release build:
 | `php_fgetcsv` | 3% |
 
 When the locale uses ASCII characters as singletons — `CG(ascii_compatible_locale)`, the flag
-`php_basename()` already relies on: C, single-byte and UTF-8 locales — and the encoding has no
-shift states (`mblen(NULL, 0)`, C99 7.20.7.1; glibc reports 1 for BIG5-HKSCS, CP1255,
-EUC/SHIFT_JISX0213, TCVN5712-1, CP1258 and TSCII, decoders that buffer output), a byte below
-0x80 is one character and `php_mblen()` returns 1 for it without calling `mbrlen()`. That is
-read once per string, in `php_mb_reset()`. Everything else — CJK locales, ISO-2022 where a libc
-offers it, the buffering decoders — keeps going through `mbrlen()` with the state held across
-the string, as ZTS builds always did; a decoder that flushes a buffered character without
-consuming input is retried from the initial state, since every caller reads a 0 as end of input.
+`php_basename()` already relies on: C, single-byte and UTF-8 locales — a byte below 0x80 is one
+character and `php_mblen()` returns 1 for it without calling `mbrlen()`. That is read once per
+string, in `php_mb_reset()`. Other locales — CJK, ISO-2022 where a libc offers it — keep going
+through `mbrlen()` with the state held across the string, as ZTS builds always did. A decoder
+that flushes a buffered character without consuming input (glibc's BIG5-HKSCS, CP1255,
+JIS X 0213 and TSCII return 0 for a non-NUL byte there; TSCII up to three times for one byte) is
+called again for the same byte, since every caller reads a 0 as end of input.
 
 ## Numbers
 
@@ -56,11 +55,12 @@ of every result. Output is compared between master NTS, patched NTS and patched 
 locales: `C`, `C.UTF-8`, `en_US.UTF-8`, `ja_JP.SJIS`, `zh_CN.GBK`, `ja_JP.EUC-JP`, `zh_TW.BIG5`,
 `zh_CN.GB18030`, `zh_TW.EUC-TW`, `ko_KR.EUC-KR`, `zh_HK.BIG5-HKSCS`, `yi_US.CP1255`,
 `ja_JP.EUC-JISX0213`, `ja_JP.SHIFT_JISX0213`, `ta_IN.TSCII`, `en_US.IBM1047`, `vi_VN.TCVN`,
-`vi_VN.CP1258`, `en_US.EBCDIC-US`. Identical in the first sixteen. TCVN5712-1 and CP1258 are
-state-dependent in glibc (an ASCII letter is buffered to merge with a following tone mark);
-master NTS decoded them with a fresh state per character and ZTS with the state kept, the patch
-keeps it on both, so 230 and 508 of the ~6,500 inputs (a letter directly before a metacharacter)
-now give the ZTS result on NTS. EBCDIC-US is not ASCII-compatible and undefined bytes below
+`vi_VN.CP1258`, `en_US.EBCDIC-US`. Identical in the first sixteen. glibc's TCVN5712-1 and CP1258
+decoders buffer an ASCII letter to merge it with a following tone mark, so master counted `a|`
+as one character and `escapeshellcmd()` copied the `|` through: CP1258 is single-byte, so the
+letter is now counted on its own and the `|` escaped (2,544 of the ~6,500 inputs); TCVN is
+two-byte, so it keeps the slow path with the state held across the string, as ZTS did (230
+inputs). EBCDIC-US is not ASCII-compatible and undefined bytes below
 0x80 were invalid before; nothing runs PHP in it. The locales are built without root:
 
 ```
