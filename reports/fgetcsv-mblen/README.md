@@ -11,9 +11,14 @@ release build:
 | `php_fgetcsv_lookup_trailing_spaces` | 5% |
 | `php_fgetcsv` | 3% |
 
-In the initial shift state a byte below 0x80 is a complete character in every multibyte charset
-a locale can use — UTF-8, EUC-*, Shift_JIS, GBK, GB18030 and Big5 all have their lead bytes at
-0x80 and above — so `php_mblen()` returns 1 for such a byte without calling `mbrlen()`.
+Every charset a libc can use for `LC_CTYPE` is ASCII-compatible, so in an encoding without shift
+states a byte below 0x80 is one character and `php_mblen()` returns 1 for it without calling
+`mbrlen()`. Whether the encoding has shift states is read once per string, in `php_mb_reset()`,
+with `mblen(NULL, 0)` (C99 7.20.7.1); glibc reports 1 for BIG5-HKSCS, CP1255, EUC/SHIFT_JISX0213,
+TCVN5712-1, CP1258 and TSCII (decoders that buffer output), 0 for everything else. State-dependent
+encodings keep going through `mbrlen()` with the state held across the string, as ZTS builds
+always did, and a decoder that flushes a buffered character without consuming input is retried
+from the initial state, since every caller reads a 0 as end of input.
 
 ## Numbers
 
@@ -22,23 +27,24 @@ Release build, `mblen-bench.php`, best of 5, ns per row or per call. Data from `
 
 | | master | patched |
 |---|---|---|
-| `fgetcsv()` plain | 4,196 | 449 |
-| `fgetcsv()` quoted | 2,561 | 325 |
-| `fgetcsv()` wide | 20,664 | 1,968 |
-| `str_getcsv()` plain | 4,093 | 408 |
-| `str_getcsv()` wide | 20,513 | 1,854 |
-| `escapeshellarg()` 24-byte path | 311 | 33 |
-| `escapeshellarg()` 128 bytes | 1,512 | 77 |
-| `escapeshellarg()` 26 bytes of UTF-8 Cyrillic | 233 | 149 |
+| `fgetcsv()` plain | 4,222 | 483 |
+| `fgetcsv()` quoted | 2,557 | 348 |
+| `fgetcsv()` wide | 20,753 | 2,142 |
+| `str_getcsv()` plain | 4,094 | 445 |
+| `str_getcsv()` wide | 20,508 | 2,040 |
+| `escapeshellarg()` 24-byte path | 311 | 49 |
+| `escapeshellarg()` 128 bytes | 1,573 | 114 |
+| `escapeshellarg()` 26 bytes of UTF-8 Cyrillic | 234 | 160 |
 | `basename()` | 19 | 19 |
 
 `basename()` has its own ASCII path when the locale is `C` and is not affected.
 
 ## State between calls
 
-`php_mblen()` starts every call from the initial shift state, as glibc's `mblen()` did for NTS
-builds; the `mbstate_t` in the basic globals and the `php_mb_reset()` calls are gone, and ZTS
-builds behave like NTS.
+NTS builds used glibc's `mblen()`, which starts from the initial state on every call; ZTS and
+Windows builds used `mbrlen()` with `BG(mblen_state)`. Both now use `BG(mblen_state)`, reset by
+`php_mb_reset()` at the start of every string in every caller (`escapeshellarg()`/
+`escapeshellcmd()` did not reset it before) and after an invalid sequence.
 
 ## Verification
 
@@ -49,10 +55,11 @@ of every result. Output is compared between master NTS, patched NTS and patched 
 locales: `C`, `C.UTF-8`, `en_US.UTF-8`, `ja_JP.SJIS`, `zh_CN.GBK`, `ja_JP.EUC-JP`, `zh_TW.BIG5`,
 `zh_CN.GB18030`, `zh_TW.EUC-TW`, `ko_KR.EUC-KR`, `zh_HK.BIG5-HKSCS`, `yi_US.CP1255`,
 `ja_JP.EUC-JISX0213`, `ja_JP.SHIFT_JISX0213`, `ta_IN.TSCII`, `en_US.IBM1047`, `vi_VN.TCVN`,
-`vi_VN.CP1258`, `en_US.EBCDIC-US`. Identical in the first sixteen. In TCVN5712-1 and CP1258
-glibc's decoder buffers an ASCII letter to merge it with a following tone mark into one
-precomposed character; the patch counts the letter on its own, which changes where
-`escapeshellcmd()` looks for metacharacters in such input. EBCDIC-US is not ASCII-compatible and undefined bytes below
+`vi_VN.CP1258`, `en_US.EBCDIC-US`. Identical in the first sixteen. TCVN5712-1 and CP1258 are
+state-dependent in glibc (an ASCII letter is buffered to merge with a following tone mark);
+master NTS decoded them with a fresh state per character and ZTS with the state kept, the patch
+keeps it on both, so 230 and 508 of the ~6,500 inputs (a letter directly before a metacharacter)
+now give the ZTS result on NTS. EBCDIC-US is not ASCII-compatible and undefined bytes below
 0x80 were invalid before; nothing runs PHP in it. The locales are built without root:
 
 ```
