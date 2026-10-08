@@ -49,42 +49,44 @@ callgrind_annotate cg.out | head -60
 `noop` (handler returning false), `framework` (handler that formats and stores the message).
 `null-deprecation.php MODE N`: the classic deprecation for comparison.
 
-## The patch: build the suffix once
+## The patch: read string arguments without constructing the attribute
 
-Branch `deprecated-suffix-cache`: the suffix a persistent `#[\Deprecated]` or `#[\NoDiscard]`
-attribute produces (" since 8.5, as it has no effect since PHP 8.1") is built on the first use
-and kept in the attribute, as an immutable persistent string; later calls take it from there
-instead of constructing the attribute object again. A call to
-`ReflectionProperty::setAccessible()` goes from 5,010 to 1,807 instructions, reported or
-filtered alike; the message is byte for byte the same.
+php-src PR #24198: when the arguments of a `#[\Deprecated]` (`message`, `since`) or
+`#[\NoDiscard]` (`message`) attribute are strings or null, positional or named, each bound
+once, the suffix is built straight from them; anything else — a constant expression, another
+type, a duplicate or unknown name — goes through the constructor as before and gets its errors
+from it, and so does a call made while an exception is pending (opcache preloading relies on
+the constructor not running there, so nothing is emitted). The message is byte for byte the
+same.
 
-Why the cache lives in the attribute and not in the function: closures and reflection copy
-`zend_internal_function` with `memcpy` and never free the copy, so a cache field there would
-be filled in copies and leak. The attribute is one per declaration, shared by every copy of
-the function and by every thread, and freed exactly once with the attribute.
+| instructions per call | master | patched |
+|---|---|---|
+| `ReflectionProperty::setAccessible()` (`#[\Deprecated]`), `E_DEPRECATED` filtered | 5,010 | 2,772 |
+| the same, reported | 5,016 | 2,778 |
+| the same, logged to `error_log` | 11,467 | 9,231 |
+| a deprecated user function, literal arguments | 4,641 | 2,516 |
+| the same, a class constant folded at compile time | 4,590 | 2,501 |
+| the same, a runtime constant (constructor path) | 4,831 | 4,976 |
 
-What it does per environment:
+The last row is the cost of trying the fast path and falling back: about 145 instructions.
+What is left on the fast path is the deprecation machinery itself: formatting the message,
+`php_error_cb()`, file and line, `last_error`.
 
-- **php-fpm, php-cgi, CLI (NTS).** The function tables and their attributes are built in the
-  master process; FPM workers inherit them copy-on-write. Each process fills the cache lazily
-  on the first call of each deprecated function (one `malloc`'d string, the attribute's page
-  copied on write) and frees it at shutdown. Nothing goes through shared memory and nothing
-  needs to: at most 196 strings of a few dozen bytes per process.
-- **ZTS (Apache worker/event with mod_php, FrankenPHP, parallel).** The attribute structs are
-  shared by all threads. The first call in any thread builds the string and publishes it with
-  a compare-and-swap; two threads racing both build it and the loser frees its copy. Readers do
-  an acquire load of the pointer; the string is immutable (interned flag, so no refcount
-  traffic; hash computed before publishing), so there is nothing to race on. Freed once at
-  process shutdown.
-- **opcache.** Not involved for internal functions, which are not in shared memory. Userland
-  `#[\Deprecated]` and `#[\NoDiscard]` are not cached: their attribute structs live in
-  opcache's shared memory, common to all workers, where a process-heap pointer cannot go, and
-  their arguments may be constant expressions. Those calls keep the old path (~5,000); a cache
-  for them needs a per-process table keyed by the attribute and is a separate change.
-- **`dl()` in the CLI.** The extension's attributes are persistent too; same behaviour.
+This is the string bypass discussed in the review of the attribute's implementation
+(php-src #11293): both authors wanted the object construction avoided for the plain-string
+case, and the bypass announced there never reached the merge.
 
-What does not depend on the environment: the saving applies regardless of `error_reporting`,
-of an error handler and of logging, since all of it happened before any of those were
-consulted. The one case that could behave differently doesn't: an extension registering a
-`#[\Deprecated]` with invalid arguments made the constructor throw on every call before, and
-still does, because a failed build is not cached.
+A first version cached the built suffix in the attribute instead (one atomic field in
+`zend_attribute`, a persistent string published with a compare-and-swap, freed with the
+attribute). It was ~950 instructions cheaper per internal call (1,807) but did not cover
+user-code attributes, whose structs live in opcache shared memory, added 8 bytes to every
+attribute and an atomic to a public header; the direct read is simpler and covers everything.
+
+What changes for observers (`zend_execute_internal`): `Deprecated::__construct()` and
+`NoDiscard::__construct()` are no longer called for literal arguments, so they are no longer
+observed; two tests that recorded those frames were updated, and `nodiscard/007.phpt` now
+shows both paths. Everything else — the deprecation path after the suffix, the constructor
+path for non-literal arguments with its errors — is unchanged: 98 scripts covering every
+argument form, declaration kind, context and error configuration give identical output on
+master and the patch, with and without opcache and the JITs; the full test suite on a debug
+ZTS build with 45 extensions passes.
