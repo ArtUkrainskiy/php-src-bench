@@ -17,8 +17,8 @@ character and `php_mblen()` returns 1 for it without calling `mbrlen()`. That is
 string, in `php_mb_reset()`. Other locales — CJK, ISO-2022 where a libc offers it — keep going
 through `mbrlen()` with the state held across the string, as ZTS builds always did. A decoder
 that flushes a buffered character without consuming input (glibc's BIG5-HKSCS, CP1255,
-JIS X 0213 and TSCII return 0 for a non-NUL byte there; TSCII up to three times for one byte) is
-called again for the same byte, since every caller reads a 0 as end of input.
+JIS X 0213 and TSCII return 0 for a non-NUL byte there) is decoded again from the initial
+state, since every caller reads a 0 as end of input.
 
 ## Numbers
 
