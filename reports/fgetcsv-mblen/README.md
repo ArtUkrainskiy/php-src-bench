@@ -2,7 +2,7 @@
 
 `fgetcsv()`, `str_getcsv()`, `escapeshellarg()` and `escapeshellcmd()` walk their input with
 `php_mblen()`, one call per byte. On glibc that is `mblen()`/`mbrlen()` → `mbrtowc` → gconv.
-Callgrind on a `fgetcsv()` loop over 20,000 rows of 10 ASCII fields, master `1d397fcd57f`,
+Callgrind on a `fgetcsv()` loop over 20,000 rows of 10 ASCII fields, master [`1d397fcd57f`](https://github.com/php/php-src/commit/1d397fcd57f09f69b515e275723c5d7f269148f8),
 release build:
 
 | function | share of instructions |

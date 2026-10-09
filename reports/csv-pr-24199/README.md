@@ -2,9 +2,9 @@
 
 Review material for [php/php-src#24199](https://github.com/php/php-src/pull/24199), the
 `csv_extension` RFC: a port of [girgias/csv](https://gitlab.com/Girgias/csv-php-extension)
-0.6.0 plus a new stream mode. Everything below was run on the PR head `38e463a9641`
+0.6.0 plus a new stream mode. Everything below was run on the PR head [`38e463a9641`](https://github.com/php/php-src/pull/24199/commits/38e463a9641d347d9ed648f3e308f864852dc30d)
 (2026-10-09), built with `--enable-csv --enable-werror`; the built-ins on master
-`0dcfd997990` and on the same master with [#24207](https://github.com/php/php-src/pull/24207).
+[`0dcfd997990`](https://github.com/php/php-src/commit/0dcfd99799044492f6c61ab67ceb634ea11354bf) and on the same master with [#24207](https://github.com/php/php-src/pull/24207).
 
 ## Findings
 
@@ -97,7 +97,7 @@ Reproducers in `probes/`.
 
 ## Bugs of the original fixed by the PR
 
-`probes/bugs.php` against a `.so` built from the GitLab tree at `d312915` (0.6.0):
+`probes/bugs.php` against a `.so` built from the GitLab tree at [`d312915`](https://gitlab.com/Girgias/csv-php-extension/-/commit/d312915) (0.6.0):
 `collection_to_buffer()` with a hole in the array loops forever; `row_to_array('')` returns
 `[" "]` (read past the buffer); enclosure `aa` with field `aaa` gives `["aaa\n"]` (the enclosure
 is re-matched against its own tail). The PR's "six upstream bugs" — these three are the ones I
