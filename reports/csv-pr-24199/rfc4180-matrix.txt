@@ -1,7 +1,7 @@
 case                         | fgetcsv escape=""                        | ext/csv
 R1 CRLF records              | [["a","b"],["c","d"]]                    | [["a","b"],["c","d"]]
 R2 no trailing CRLF          | [["a","b"],["c","d"]]                    | [["a","b"],["c","d"]]
-LF only (common, not RFC)    | [["a","b"],["c","d"]]                    | [["a","b\nc","d\n"]]
+LF only (common, not RFC)    | [["a","b"],["c","d"]]                    | ValueError: A non escaped field must not contain CR or LF characters that are not part of the EOL sequence
 R4 spaces are data           | [["a "," b"]]                            | [["a "," b"]]
 R4 trailing comma = empty    | [["a","b",""]]                           | [["a","b",""]]
 R5 quoted field              | [["a","b"]]                              | [["a","b"]]
@@ -9,10 +9,10 @@ R5 DQUOTE in unquoted        | [["a\"b","c"]]                           | ValueE
 R6 CRLF inside quotes        | [["a\r\nb","c"]]                         | [["a\r\nb","c"]]
 R6 comma inside quotes       | [["a,b","c"]]                            | [["a,b","c"]]
 R7 doubled quote             | [["a\"b","c"]]                           | [["a\"b","c"]]
-junk after closing quote     | [["ab","c"]]                             | [["ab","c"]]
+junk after closing quote     | [["ab","c"]]                             | ValueError: Closing enclosure sequence must be followed by the delimiter or the EOL sequence
 space before opening quote   | [["a","b"]]                              | ValueError: Enclosure sequence is used in a non escaped field
-space after closing quote    | [["a ","b"]]                             | [["a ","b"]]
-unterminated quote           | [["a,b\r\nc,d\r\n"]]                     | [["a,b\r\nc,d\r\n"]]
+space after closing quote    | [["a ","b"]]                             | ValueError: Closing enclosure sequence must be followed by the delimiter or the EOL sequence
+unterminated quote           | [["a,b\r\nc,d\r\n"]]                     | ValueError: Enclosure sequence is not closed
 empty line between           | [["a","b"],[null],["c","d"]]             | ValueError: Buffer row 2 contains 1 fields compared to 2 fields on previous rows
 empty field quoted           | [["","b"]]                               | [["","b"]]
 non-ASCII (not TEXTDATA)     | [["\u00e9","\u00fc"]]                    | [["\u00e9","\u00fc"]]

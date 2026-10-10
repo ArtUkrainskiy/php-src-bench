@@ -2,28 +2,45 @@
 
 Review material for [php/php-src#24199](https://github.com/php/php-src/pull/24199), the
 `csv_extension` RFC: a port of [girgias/csv](https://gitlab.com/Girgias/csv-php-extension)
-0.6.0 plus a new stream mode. Everything below was run on the PR head [`38e463a9641`](https://github.com/php/php-src/pull/24199/commits/38e463a9641d347d9ed648f3e308f864852dc30d)
-(2026-10-09), built with `--enable-csv --enable-werror`; the built-ins on master
-[`0dcfd997990`](https://github.com/php/php-src/commit/0dcfd99799044492f6c61ab67ceb634ea11354bf) and on the same master with [#24207](https://github.com/php/php-src/pull/24207).
+0.6.0 plus a new stream mode. Two rounds: the first on PR head
+[`38e463a9641`](https://github.com/php/php-src/pull/24199/commits/38e463a9641d347d9ed648f3e308f864852dc30d)
+(2026-10-09 morning), the second on
+[`121c02fc62d`](https://github.com/php/php-src/pull/24199/commits/121c02fc62da8bed0e53b29541bdecee43892614)
+after the author's fixes the same evening. Built with `--enable-csv --enable-werror`; the
+built-ins on master
+[`0dcfd997990`](https://github.com/php/php-src/commit/0dcfd99799044492f6c61ab67ceb634ea11354bf)
+and on the same master with [#24207](https://github.com/php/php-src/pull/24207).
 
-## Findings
+## Findings (as of 121c02fc62d)
 
-1. `fgetcsv()` is slower than ext/csv for one reason: `php_mblen()` calls `mbrlen()` on
-   every byte, 83% of its instructions. With #24207 the built-ins read 2–4× faster than
-   ext/csv on the same files; `fputcsv()` writes faster than ext/csv as it is.
+1. The RFC's claim that the built-ins "cannot be fixed without breaking compatibility" does not
+   hold: `$escape` is fixed by the 8.4 deprecation; the locale dependence goes away for ASCII
+   bytes with #24207 (`fgetcsv()` 4,210 → 500 ns per row, the rest is `isspace()` and CJK
+   trail-byte protection); multibyte tokens and `str_putcsv()` are additions; `[null]` and the
+   dropped space before an enclosure are documented lenient parsing, enclosing fields with
+   spaces on output is allowed by RFC 4180 §2.5.
 2. On every input that follows RFC 4180 section 2, `fgetcsv(escape: '')` and
-   `Csv\buffer_to_collection()` return the same result. They differ only on input that
-   doesn't, and ext/csv is not the stricter one there: it rejects `a"b` and a BOM before a
-   quoted field, accepts `"a"b` and an unterminated quote like `fgetcsv()` does, and parses
-   an LF-only file into one row without an error.
-3. Two defects in the PR that I'd consider blockers: a use-after-free in
-   `collection_to_buffer()`/`collection_to_file()` with a generator (inherited from the
-   original), and a quadratic rescan in `createFromFile()` (new code; 8 MB quoted field 5.4 s,
-   an unterminated quote at the start of a large file never finishes).
-4. The PR fixes three real bugs of the original (sparse array loops forever, `row_to_array('')`
+   `Csv\buffer_to_collection()` return the same result. They differ only on malformed input:
+   since `121c02fc62d` ext/csv rejects all of it (including LF-only files with the default
+   dialect), `fgetcsv()` is lenient. Table below, full output in `rfc4180-matrix.txt`.
+3. ext/csv at `121c02fc62d`: every defect from the first round is fixed (use-after-free with a
+   generator, quadratic rescan, six smaller ones), the rewritten parser passes a 4,000-row
+   round-trip fuzz and valgrind, and reads faster than `fgetcsv()` with #24207 (plain file
+   468 vs 500 ns per row, buffer 272 vs 505); writing stays 7–20% slower than `fputcsv()`.
+4. What remains is a property of the "multibyte delimiters" feature, present in the original
+   too: dialects whose tokens overlap with field content don't round-trip
+   (`['-', 'z']` with delimiter `--` → `---z` → `["", "-z"]`). RFC v1.1 lists it as an open issue.
+5. The PR fixes three real bugs of the original (sparse array loops forever, `row_to_array('')`
    reads past the buffer, enclosure re-matched against its own tail).
 
-## Speed
+## First round: PR head 38e463a9641
+
+Findings at the time, superseded where the follow-up says so: `fgetcsv()` was slower than
+ext/csv only because of `php_mblen()`; with #24207 the built-ins read 2–4× faster than that
+head; ext/csv accepted `"a"b` and an unterminated quote and parsed LF-only files into one row
+silently; two blockers (use-after-free, quadratic rescan).
+
+## Speed (38e463a9641)
 
 `bench.php`, best of 5, ns per row, release builds, i7-13700H. Data from `gen.php`: 20,000
 rows; "plain" 10 unquoted fields, "quoted" 10 fields with ~30% needing enclosure (commas,
@@ -46,20 +63,21 @@ Where the time goes (callgrind, plain file, instructions per row): `fgetcsv()` o
 `memcmp` (once per byte for the delimiter/enclosure/EOL checks) and 37% in its two parse
 functions.
 
-## RFC 4180
+## RFC 4180 (matrix regenerated on 121c02fc62d)
 
 `probes/rfc4180.php` feeds the same inputs to `fgetcsv()` with `escape: ''` and to
 `Csv\buffer_to_collection()`; `rfc4180-matrix.txt` is the full output. The differences:
 
 | input | `fgetcsv()` | ext/csv |
 |---|---|---|
-| LF-only `a,b\nc,d\n` | `[[a,b],[c,d]]` | `[[a,"b\nc","d\n"]]`, no error |
+| LF-only `a,b\nc,d\n` | `[[a,b],[c,d]]` | ValueError (was `[[a,"b\nc","d\n"]]` silently before 121c02fc62d) |
 | `a"b,c` (quote in an unquoted field) | `[a"b, c]` | ValueError |
 | BOM then `"a",b` (Excel "CSV UTF-8") | `[BOM"a", b]`, quotes kept | ValueError |
 | `a\"b,c` | literal | ValueError |
 | ` "a",b` (space before the quote) | `[a, b]` | ValueError |
-| `"a"b,c` (junk after the quote) | `[ab, c]` | `[ab, c]` |
-| `"a,b\r\nc,d\r\n` (unterminated) | one field | one field |
+| `"a" ,b` (space after the quote) | `[a , b]` | ValueError (was `[a , b]`) |
+| `"a"b,c` (junk after the quote) | `[ab, c]` | ValueError (was `[ab, c]`) |
+| `"a,b\r\nc,d\r\n` (unterminated) | one field | ValueError (was one field) |
 | empty line between rows | `[null]` | ValueError (field count) |
 | writer, `['a b','c']` | `"a b",c\n` | `a b,c\r\n` |
 
@@ -67,7 +85,7 @@ Both writers are compliant: section 2.5 allows enclosing any field, and `fputcsv
 CRLF when `$eol` says so. RFC 4180 (Informational) quotes Postel in section 2: be liberal in
 what you accept.
 
-## Defects in the PR
+## Defects in the PR (38e463a9641, all fixed in 121c02fc62d)
 
 Reproducers in `probes/`.
 
@@ -109,3 +127,34 @@ could identify; gl14–16 in the tracker were reported by someone else and fixed
 - `probes/rfc4180.php` — the conformance matrix; `rfc4180-matrix.txt` is its output on the PR build
 - `probes/uaf.php`, `probes/bugs.php` — reproducers
 - `probes/t1..t6_*.php` — parser edge cases, streams, user wrappers, close at shutdown, legacy comparison
+
+## Follow-up: PR head 121c02fc62d (2026-10-09)
+
+The author's [reply](https://github.com/php/php-src/pull/24199#issuecomment-6087825865) came with a 541-line
+change to csv.c. Re-checked on that head, same builds and data:
+
+- Use-after-free: valgrind clean on `probes/uaf.php` and `probes/t2_uaf.php`.
+- Rescan: 4 MB quoted field 0.01 s, 8 MB 0.03 s, 32 MB 0.06 s; an unterminated `"` in 8 MB
+  raises `ValueError` in 0.01 s.
+- Every smaller item fixed as described (`probes/verify_claims.php` equivalent in `t1`–`t6`).
+- Parser now rejects everything that doesn't follow RFC 4180 section 2, LF-only files with the
+  default dialect included; `rfc4180-matrix.txt` is its output on this head.
+- Speed, same `bench.php`, ns per row: read a file plain 468 (`fgetcsv()` + #24207: 500),
+  quoted 576 (700), wide 2,003 (2,145); read a buffer plain 272 (`str_getcsv()` + #24207: 505);
+  write plain 358 (`fputcsv()` 336).
+- `probes/csvfuzz.php`: 4,000 random rows (NUL, CR/LF, `\xC3`, token bytes in the fields) through
+  `collection_to_buffer` → `buffer_to_collection` / `createFromBuffer` / `createFromFile` /
+  `row_to_array`: 0 mismatches and 0 exceptions in the seven dialects whose tokens don't overlap;
+  valgrind clean on 600 of them; multibyte tokens across the 8 KiB read boundary (field lengths
+  8180–8200) fine.
+
+What remains, and predates the port (girgias/csv 0.6.0 does the same): dialects whose tokens
+overlap with field content don't round-trip, because the writer doesn't enclose a field when a
+token appears across the field/delimiter boundary (`probes/minimal.php`, `probes/minimal2.php`):
+
+```
+['-', 'z']  delimiter "--" enclosure "aa"  -> "---z\r\n"  -> ["", "-z"]
+['x', 'x']  delimiter "xy" enclosure "xyx" -> "xxyx\n"    -> ValueError (was: parsed as ["yx"])
+```
+
+In the fuzz: `xy`/`xyx` 365 of 560 cases, `--`/`aa` 43 of 549.
