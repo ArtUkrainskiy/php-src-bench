@@ -11,7 +11,7 @@ built-ins on master
 [`0dcfd997990`](https://github.com/php/php-src/commit/0dcfd99799044492f6c61ab67ceb634ea11354bf)
 and on the same master with [#24207](https://github.com/php/php-src/pull/24207).
 
-## Findings (as of 121c02fc62d)
+## Findings (as of [`121c02fc62d`](https://github.com/php/php-src/pull/24199/commits/121c02fc62da8bed0e53b29541bdecee43892614))
 
 1. The RFC's claim that the built-ins "cannot be fixed without breaking compatibility" does not
    hold: `$escape` is fixed by the 8.4 deprecation; the locale dependence goes away for ASCII
@@ -21,9 +21,9 @@ and on the same master with [#24207](https://github.com/php/php-src/pull/24207).
    spaces on output is allowed by RFC 4180 §2.5.
 2. On every input that follows RFC 4180 section 2, `fgetcsv(escape: '')` and
    `Csv\buffer_to_collection()` return the same result. They differ only on malformed input:
-   since `121c02fc62d` ext/csv rejects all of it (including LF-only files with the default
+   since [`121c02fc62d`](https://github.com/php/php-src/pull/24199/commits/121c02fc62da8bed0e53b29541bdecee43892614) ext/csv rejects all of it (including LF-only files with the default
    dialect), `fgetcsv()` is lenient. Table below, full output in `rfc4180-matrix.txt`.
-3. ext/csv at `121c02fc62d`: every defect from the first round is fixed (use-after-free with a
+3. ext/csv at [`121c02fc62d`](https://github.com/php/php-src/pull/24199/commits/121c02fc62da8bed0e53b29541bdecee43892614): every defect from the first round is fixed (use-after-free with a
    generator, quadratic rescan, six smaller ones), the rewritten parser passes a 4,000-row
    round-trip fuzz and valgrind, and reads faster than `fgetcsv()` with #24207 (plain file
    468 vs 500 ns per row, buffer 272 vs 505); writing stays 7–20% slower than `fputcsv()`.
@@ -33,14 +33,14 @@ and on the same master with [#24207](https://github.com/php/php-src/pull/24207).
 5. The PR fixes three real bugs of the original (sparse array loops forever, `row_to_array('')`
    reads past the buffer, enclosure re-matched against its own tail).
 
-## First round: PR head 38e463a9641
+## First round: PR head [`38e463a9641`](https://github.com/php/php-src/pull/24199/commits/38e463a9641d347d9ed648f3e308f864852dc30d)
 
 Findings at the time, superseded where the follow-up says so: `fgetcsv()` was slower than
 ext/csv only because of `php_mblen()`; with #24207 the built-ins read 2–4× faster than that
 head; ext/csv accepted `"a"b` and an unterminated quote and parsed LF-only files into one row
 silently; two blockers (use-after-free, quadratic rescan).
 
-## Speed (38e463a9641)
+## Speed ([`38e463a9641`](https://github.com/php/php-src/pull/24199/commits/38e463a9641d347d9ed648f3e308f864852dc30d))
 
 `bench.php`, best of 5, ns per row, release builds, i7-13700H. Data from `gen.php`: 20,000
 rows; "plain" 10 unquoted fields, "quoted" 10 fields with ~30% needing enclosure (commas,
@@ -63,14 +63,14 @@ Where the time goes (callgrind, plain file, instructions per row): `fgetcsv()` o
 `memcmp` (once per byte for the delimiter/enclosure/EOL checks) and 37% in its two parse
 functions.
 
-## RFC 4180 (matrix regenerated on 121c02fc62d)
+## RFC 4180 (matrix regenerated on [`121c02fc62d`](https://github.com/php/php-src/pull/24199/commits/121c02fc62da8bed0e53b29541bdecee43892614))
 
 `probes/rfc4180.php` feeds the same inputs to `fgetcsv()` with `escape: ''` and to
 `Csv\buffer_to_collection()`; `rfc4180-matrix.txt` is the full output. The differences:
 
 | input | `fgetcsv()` | ext/csv |
 |---|---|---|
-| LF-only `a,b\nc,d\n` | `[[a,b],[c,d]]` | ValueError (was `[[a,"b\nc","d\n"]]` silently before 121c02fc62d) |
+| LF-only `a,b\nc,d\n` | `[[a,b],[c,d]]` | ValueError (was `[[a,"b\nc","d\n"]]` silently before the second round) |
 | `a"b,c` (quote in an unquoted field) | `[a"b, c]` | ValueError |
 | BOM then `"a",b` (Excel "CSV UTF-8") | `[BOM"a", b]`, quotes kept | ValueError |
 | `a\"b,c` | literal | ValueError |
@@ -85,7 +85,7 @@ Both writers are compliant: section 2.5 allows enclosing any field, and `fputcsv
 CRLF when `$eol` says so. RFC 4180 (Informational) quotes Postel in section 2: be liberal in
 what you accept.
 
-## Defects in the PR (38e463a9641, all fixed in 121c02fc62d)
+## Defects in the PR ([`38e463a9641`](https://github.com/php/php-src/pull/24199/commits/38e463a9641d347d9ed648f3e308f864852dc30d), all fixed in [`121c02fc62d`](https://github.com/php/php-src/pull/24199/commits/121c02fc62da8bed0e53b29541bdecee43892614))
 
 Reproducers in `probes/`.
 
@@ -128,7 +128,7 @@ could identify; gl14–16 in the tracker were reported by someone else and fixed
 - `probes/uaf.php`, `probes/bugs.php` — reproducers
 - `probes/t1..t6_*.php` — parser edge cases, streams, user wrappers, close at shutdown, legacy comparison
 
-## Follow-up: PR head 121c02fc62d (2026-10-09)
+## Follow-up: PR head [`121c02fc62d`](https://github.com/php/php-src/pull/24199/commits/121c02fc62da8bed0e53b29541bdecee43892614) (2026-10-09)
 
 The author's [reply](https://github.com/php/php-src/pull/24199#issuecomment-6087825865) came with a 541-line
 change to csv.c. Re-checked on that head, same builds and data:
