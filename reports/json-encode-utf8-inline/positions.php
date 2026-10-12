@@ -11,7 +11,7 @@ foreach ($flagSets as $f) {
 				$s = str_repeat('a', $len);
 				$s[$p] = chr($b);
 				$r = json_encode($s, $f);
-				$h = md5($h . ($r === false ? 'F' . json_last_error() : $r));
+				$h = md5($h . ($r === false ? 'F' : $r) . ':e' . json_last_error());
 			}
 		}
 	}

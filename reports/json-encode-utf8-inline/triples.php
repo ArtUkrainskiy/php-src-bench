@@ -10,9 +10,9 @@ foreach ($flagSets as $f) {
 			for ($c = 0; $c < 256; $c++) {
 				$t = chr($a) . chr($b) . chr($c);
 				$r = json_encode($t, $f);
-				$h = md5($h . ($r === false ? 'F' . json_last_error() : $r));
+				$h = md5($h . ($r === false ? 'F' : $r) . ':e' . json_last_error());
 				$r = json_encode('x' . $t . 'y', $f);
-				$h = md5($h . ($r === false ? 'F' . json_last_error() : $r));
+				$h = md5($h . ($r === false ? 'F' : $r) . ':e' . json_last_error());
 			}
 		}
 	}

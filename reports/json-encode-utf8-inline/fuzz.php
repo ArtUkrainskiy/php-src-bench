@@ -27,9 +27,9 @@ for ($i = 0; $i < $iterations; $i++) {
 	$s = substr($s, 0, $len);
 	foreach ($flagSets as $f) {
 		$r = json_encode($s, $f);
-		$h[$f] = md5($h[$f] . ($r === false ? 'false:' . json_last_error() : $r));
+		$h[$f] = md5($h[$f] . ($r === false ? 'false' : $r) . ':error=' . json_last_error());
 		$r = json_encode(['k' . $s => [$s]], $f);
-		$h[$f] = md5($h[$f] . ($r === false ? 'false:' . json_last_error() : $r));
+		$h[$f] = md5($h[$f] . ($r === false ? 'false' : $r) . ':error=' . json_last_error());
 	}
 }
 foreach ($h as $f => $hash) {

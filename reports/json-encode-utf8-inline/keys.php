@@ -29,6 +29,6 @@ $flagSets = [0, JSON_UNESCAPED_SLASHES, JSON_UNESCAPED_UNICODE, JSON_HEX_TAG | J
 	JSON_FORCE_OBJECT | JSON_INVALID_UTF8_SUBSTITUTE];
 foreach ($flagSets as $f) {
 	$r = json_encode(rows(), $f);
-	echo "flags $f ", $r === false ? 'false ' . json_last_error() : md5($r), "\n";
+	echo "flags $f ", $r === false ? 'false' : md5($r), ' error=', json_last_error(), "\n";
 }
 echo json_encode(rows()[0], JSON_INVALID_UTF8_SUBSTITUTE), "\n";

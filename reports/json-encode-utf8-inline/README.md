@@ -1,71 +1,104 @@
 # json_encode(): inline UTF-8 decoding, scan position in a register
 
-php-src change: branch [`json-utf8-2byte`](https://github.com/ArtUkrainskiy/php-src/commits/json-utf8-2byte), two commits on master [`897d2091cb4`](https://github.com/php/php-src/commit/897d2091cb4):
+php-src change: branch [`json-utf8-2byte`](https://github.com/ArtUkrainskiy/php-src/commits/json-utf8-2byte), two commits on master [`bd6c637d071`](https://github.com/php/php-src/commit/bd6c637d071):
 
-1. [`89659558c3c`](https://github.com/ArtUkrainskiy/php-src/commit/89659558c3c) "ext/standard: Decode common UTF-8 inline in php_next_utf8_char()". `php_next_utf8_char()` becomes a static inline function in `ext/standard/html.h` that decodes ASCII and valid two- and three-byte sequences itself; everything else, including every invalid sequence, goes to the former function, renamed `php_next_utf8_char_slow()`. Callers are `json_encode()`, `utf8_decode()` and the xml extension's decoder.
-2. [`00ef789b361`](https://github.com/ArtUkrainskiy/php-src/commit/00ef789b361) "ext/json: Keep the scan position of json_encode() in a register". `json_encode()` decodes into a separate variable, so `&pos` no longer escapes and the loop over plain bytes keeps `pos` in a register instead of storing and reloading it per byte.
-
-## Machine and method
-
-i7-13700H laptop, pinned to P-core 2 (`taskset -c 2`), governor powersave. Release builds from commits with `bench build` (`-O2 -g -falign-functions=64 -falign-loops=32`, GCC 13.3, `--enable-werror --with-libxml --enable-xml`).
-
-Each number is per `json_encode()` call: `perf stat` (`cpu_core` counters) over N calls minus the same process with 0 calls, divided by N, so start-up and input preparation cancel out. Three passes per case in alternating build order, median taken. N is chosen so a run takes about 50 ms. Cycles rather than nanoseconds: the laptop heats up to 86–91 °C in long runs and its clock moves, while cycle counts stay within a few percent.
-
-Builds in the data files:
-
-| name | commit |
-|---|---|
-| `final-base` | master `897d2091cb4` |
-| `v2c1` | commit 1 only, `89659558c3c` |
-| `v2` | both commits, `00ef789b361` |
-| `hsc-only` | master + php-src #24145 (`get_next_char()` always inline, ASCII fast path in `htmlspecialchars()`) |
-| `hsc-both` | this branch + #24145 |
+1. [`ca35c079a1f`](https://github.com/ArtUkrainskiy/php-src/commit/ca35c079a1f) "ext/standard: Add php_next_utf8_char_inline()".
+2. [`9813f798db9`](https://github.com/ArtUkrainskiy/php-src/commit/9813f798db9) "ext/json: Keep the scan position of json_encode() in a register".
 
 ## Summary
 
-Relative to master, lower is better.
+Relative to master, lower is better: Cyrillic 0.63 of master's cycles, CJK 0.78, French 0.70, HTML 0.57, a quote every 16 bytes 0.44, ASCII 0.89–0.93, 1,000 records 0.94. Slower: a string in which every byte needs escaping, 1.08. Output does not change.
 
-- **Non-ASCII text:** Cyrillic 0.63 of master's cycles, CJK 0.79, French 0.68; with `JSON_UNESCAPED_UNICODE` 0.65, 0.79, 0.80. Commit 1 gives this in instructions (the generic `get_next_char()` call was about 43 instructions per character in callgrind), commit 2 adds the register.
-- **ASCII and escapes:** HTML 0.56, URLs 0.71, a quote every 16 bytes 0.44, every 8 bytes 0.50, plain ASCII 0.90–0.96. This is commit 2.
-- **Records:** 1,000 arrays of 10 fields 0.95, 1,000 objects with 10 declared properties 0.94.
-- **Slower:** a string in which every byte needs escaping, 1.09 (1.05 instructions): `pos` has to be reset to 0 in a register on the way back into the loop, where master reloaded it from the stack.
-- **Each commit alone regresses something:** commit 1 alone has unchanged instructions on ASCII but cycles that move with code placement (0.60–1.12 on rows with identical instruction counts); commit 2 alone, measured earlier on `cd383dcc377`, made Cyrillic and the every-byte row 10% slower and a 100-key array 6% slower.
-- **With #24145:** #24145 alone takes Cyrillic and CJK to 0.82 and 0.90 (it inlines `get_next_char()`, so `php_next_utf8_char_slow()` loses its charset switch). This branch on top of it: 0.77 and 0.87 of #24145. The two merge without conflicts.
-- **`utf8_decode()`:** 2.2–2.8× fewer instructions on 4 KiB of Latin-1, Cyrillic or ASCII text (`udecode-bench.php`).
+## What changes and why it is faster
 
-Rows where the two runs of a build differ by more than 5% (see the spread column) are rough; the instruction columns are not affected by that.
+### 1. Common UTF-8 is decoded inline
+
+**Before.** Every non-ASCII character in `json_encode()` went through two calls. `php_next_utf8_char()` lives in `html.c`, so it cannot be inlined into ext/json. Inside it, `get_next_char()` handles 14 charsets and was not inlined either, so each character also paid a `switch` on the charset, and the value, the new position and the status came back through memory: about 43 instructions per character (callgrind: 36 in `get_next_char()`, 7 in the wrapper).
+
+**After.** `php_next_utf8_char_inline()`, a new static inline function in `ext/standard/html.h`, has the same contract as `php_next_utf8_char()`. At the call site it decodes ASCII and valid two- and three-byte sequences, with no call. Everything else (four-byte characters, every invalid or truncated sequence) goes to `php_next_utf8_char()`, unchanged and still exported. `json_encode()`, `utf8_decode()` and the xml extension's decoder use the new function.
+
+**Why the shortcut is exact.** A lead byte C2..DF followed by a continuation byte 80..BF is always a valid shortest-form character: C0 and C1 are the only overlong two-byte leads. For three bytes the inline path checks the same two conditions as `get_next_char()`: the result is at least U+0800 (not overlong) and outside U+D800..U+DFFF (not a surrogate). Any other input runs the old code, so which bytes are rejected or skipped and the returned status stay exactly as before.
+
+**Code layout.** `EXPECTED(c < 0xe0)` keeps the two-byte case on the straight path. Without it GCC 13 placed that case behind two extra taken jumps: Cyrillic ran the same instructions but took 20% more cycles.
+
+### 2. `pos` moves from the stack to a register
+
+`pos` is the length of the current run of bytes that need no escaping; the scan loop adds 1 for every such byte.
+
+**Before.** `&pos` was passed to the UTF-8 decoder (after commit 1 it still reaches the out-of-line `php_next_utf8_char()`). A variable whose address goes to a function the compiler cannot see must have a place in memory, so GCC kept `pos` in a stack slot for the whole function. The loop over plain bytes stored `pos` and loaded it back on every byte, and the address of the next byte depended on that load:
+
+    add  $1, %rdx            ; pos++
+    mov  %rdx, 0x38(%rsp)    ; store pos to the stack
+    ...
+    mov  0x38(%rsp), %rdx    ; load it back
+    movzbl (%r14,%rdx), %ecx ; next byte
+
+**After.** The decoder writes the character length into a separate local, `char_len`. Nothing takes the address of `pos` any more, so it stays in a register: 11 instructions per plain byte instead of 12, and no memory round trip on the path from one byte to the next. The gain is largest where runs of plain bytes are short and broken by escapes (HTML 0.57, a quote every 16 bytes 0.44), smaller on long clean ASCII (0.89).
+
+## Side effects
+
+- **Slower:** a string in which every byte needs escaping, 1.08× cycles and +2 instructions per escaped byte. On the way back into the loop the compiler now resets the `pos` register to 0 and takes an extra jump, where master reloaded `pos` from the stack.
+- **Each commit alone regresses something.** The first alone runs the same instructions on ASCII and gives the non-ASCII gains (Cyrillic 0.76, CJK 0.78 in instructions); its cycles on ASCII rows move with code placement. The second alone (measured on `cd383dcc377`) gives most of the ASCII and escaping gains but made Cyrillic and the every-byte case 10% slower and a 100-key array 6% slower.
+- **API.** `php_next_utf8_char()` and its exported symbol are unchanged; `php_next_utf8_char_inline()` is new (UPGRADING.INTERNALS).
+- **Other callers.** `utf8_decode()` (deprecated, still shipped) runs 2.2–2.8× fewer instructions on 4 KiB of Latin-1, Cyrillic or ASCII text (`udecode-bench.php`). The xml decoder uses the same path; not measured.
+- **Size.** +704 bytes of code: `php_json_escape_string()` +260, `utf8_decode()` +224, the xml decoder +249.
+
+## Machine and method
+
+i7-13700H laptop, P-core 2 (`taskset -c 2`), governor powersave. Release builds from commits with `bench build` (`-O2 -g -falign-functions=64 -falign-loops=32`, GCC 13.3, `--enable-werror --with-libxml --enable-xml`).
+
+Each number is per `json_encode()` call: `perf stat` (`cpu_core` counters) over N calls minus the same process with 0 calls, divided by N. Cycles are the median over alternating runs: 3, then 5 more for rows whose first 3 differed by more than 5%. Cycles rather than nanoseconds: the laptop heats up to 86–91 °C in long runs and its clock moves, while cycle counts stay within a few percent.
+
+Builds in `cycles.txt` and `instructions.txt`: `v3-base` = master `bd6c637d071`, `v3c1` = commit 1, `v3` = both commits.
 
 ## Full table
 
-| case | master instr | master cycles | commit 1 instr / cycles | both instr / cycles | spread master / both | #24145 instr / cycles | #24145 + this vs #24145, instr / cycles |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| ascii-16 | 766 | 135 | 1.00 / 1.01 | 0.98 / 0.96 | 5% / 6% | 1.00 / 0.98 | 0.98 / 0.95 |
-| ascii-256 | 3,918 | 703 | 1.00 / 1.04 | 0.93 / 0.92 | 3% / 32% | 1.00 / 1.10 | 0.93 / 0.83 |
-| ascii-4k | 49,876 | 8,550 | 1.00 / 1.01 | 0.92 / 0.91 | 1% / 1% | 1.00 / 1.01 | 0.92 / 0.90 |
-| ascii-64k | 787,681 | 137,393 | 1.00 / 1.00 | 0.92 / 0.90 | 1% / 2% | 1.00 / 1.00 | 0.92 / 0.90 |
-| html-4k | 83,398 | 29,432 | 0.99 / 0.99 | 0.97 / 0.56 | 3% / 1% | 1.00 / 0.99 | 0.98 / 0.57 |
-| url-4k | 91,022 | 27,362 | 0.99 / 1.11 | 0.98 / 0.71 | 1% / 1% | 1.00 / 1.00 | 0.98 / 0.71 |
-| url-4k-unescaped-slashes | 89,556 | 30,435 | 0.99 / 0.99 | 0.98 / 0.56 | 4% / 3% | 1.00 / 0.99 | 0.98 / 0.56 |
-| esc-every-16 | 65,002 | 24,845 | 1.00 / 0.83 | 0.95 / 0.44 | 3% / 3% | 1.00 / 0.99 | 0.95 / 0.44 |
-| esc-every-8 | 81,104 | 24,816 | 0.99 / 0.60 | 0.97 / 0.50 | 4% / 2% | 1.00 / 0.85 | 0.97 / 0.59 |
-| esc-every-byte | 165,030 | 23,538 | 1.00 / 0.99 | 1.05 / 1.09 | 0% / 1% | 1.00 / 0.99 | 1.05 / 1.09 |
-| newlines-every-40 | 55,588 | 15,513 | 1.00 / 1.12 | 0.93 / 0.60 | 4% / 10% | 1.00 / 1.01 | 0.93 / 0.60 |
-| cyrillic-4k | 224,687 | 38,961 | 0.76 / 0.80 | 0.71 / 0.63 | 10% / 1% | 0.88 / 0.82 | 0.80 / 0.77 |
-| cyrillic-4k-unescaped | 239,213 | 59,440 | 0.71 / 0.74 | 0.67 / 0.65 | 1% / 1% | 0.89 / 0.92 | 0.75 / 0.71 |
-| cjk-4k | 170,497 | 25,261 | 0.78 / 0.78 | 0.74 / 0.79 | 2% / 4% | 0.89 / 0.90 | 0.84 / 0.87 |
-| cjk-4k-unescaped | 180,907 | 26,608 | 0.81 / 0.84 | 0.76 / 0.79 | 1% / 2% | 0.89 / 0.89 | 0.85 / 0.89 |
-| french-4k | 126,432 | 25,772 | 0.84 / 0.95 | 0.80 / 0.68 | 2% / 2% | 0.93 / 0.98 | 0.86 / 0.70 |
-| french-4k-unescaped | 131,548 | 29,473 | 0.81 / 0.92 | 0.77 / 0.80 | 3% / 1% | 0.93 / 0.94 | 0.83 / 0.84 |
-| ascii-rare-utf8-unescaped | 65,728 | 20,388 | 0.92 / 0.98 | 0.86 / 0.52 | 12% / 5% | 0.97 / 1.08 | 0.88 / 0.47 |
-| api-1000-records | 4,849,120 | 892,452 | 1.00 / 1.02 | 0.97 / 0.95 | 1% / 1% | 1.00 / 1.03 | 0.97 / 0.93 |
-| objects-1000-records | 4,684,706 | 863,951 | 1.00 / 0.98 | 0.97 / 0.94 | 4% / 0% | 1.00 / 0.99 | 0.97 / 0.94 |
-| object-100-keys | 36,722 | 7,158 | 1.00 / 0.94 | 0.98 / 0.89 | 41% / 3% | 1.00 / 0.97 | 0.98 / 0.93 |
+Spread: the largest difference between runs of either build; rows above 5% are rough. Instructions are not affected by it.
 
-Cases are defined in [`cases.php`](cases.php); 4 KiB strings unless the name says otherwise. Raw per-run data: [`cycles.txt`](cycles.txt) (`<build> <case> <cycles per call>`) and [`instructions.txt`](instructions.txt) (`<case>` then one column per build in the order of the table above).
+| case | master instructions | master cycles | commit 1: instr. / cycles | both: instr. / cycles | spread | runs |
+|---|---:|---:|---:|---:|---:|---:|
+| ascii-16 | 766 | 142 | 1.00 / 0.94 | 0.98 / 0.89 | 6% | 3 |
+| ascii-256 | 3,918 | 700 | 1.00 / 0.99 | 0.93 / 0.93 | 2% | 3 |
+| ascii-4k | 49,876 | 8,596 | 1.00 / 1.00 | 0.92 / 0.89 | 3% | 3 |
+| ascii-64k | 787,375 | 138,058 | 1.00 / 0.99 | 0.92 / 0.89 | 4% | 3 |
+| html-4k | 83,386 | 29,221 | 0.99 / 1.01 | 0.98 / 0.57 | 6% | 3 |
+| url-4k | 91,039 | 27,452 | 0.99 / 1.14 | 0.98 / 0.71 | 55% | 8 |
+| url-4k-unescaped-slashes | 89,473 | 30,210 | 0.99 / 0.98 | 0.98 / 0.55 | 1% | 3 |
+| esc-every-16 | 65,004 | 24,697 | 1.00 / 0.84 | 0.95 / 0.44 | 6% | 3 |
+| esc-every-8 | 81,135 | 19,796 | 0.99 / 0.75 | 0.97 / 0.64 | 14% | 8 |
+| esc-every-byte | 165,046 | 23,321 | 1.00 / 1.00 | 1.05 / 1.08 | 12% | 8 |
+| newlines-every-40 | 55,593 | 15,502 | 1.00 / 1.12 | 0.93 / 0.61 | 4% | 3 |
+| cyrillic-4k | 224,770 | 38,507 | 0.76 / 0.80 | 0.71 / 0.63 | 3% | 3 |
+| cyrillic-4k-unescaped | 239,185 | 59,156 | 0.71 / 0.73 | 0.67 / 0.66 | 1% | 3 |
+| cjk-4k | 170,494 | 25,259 | 0.78 / 0.79 | 0.74 / 0.78 | 12% | 8 |
+| cjk-4k-unescaped | 180,892 | 26,352 | 0.81 / 0.86 | 0.76 / 0.80 | 3% | 3 |
+| french-4k | 126,516 | 25,164 | 0.84 / 0.97 | 0.80 / 0.70 | 5% | 3 |
+| french-4k-unescaped | 131,625 | 29,184 | 0.81 / 0.91 | 0.77 / 0.80 | 13% | 8 |
+| ascii-rare-utf8-unescaped | 65,720 | 19,985 | 0.92 / 1.02 | 0.86 / 0.53 | 6% | 3 |
+| api-1000-records | 4,850,224 | 900,022 | 1.00 / 0.98 | 0.97 / 0.94 | 7% | 3 |
+| objects-1000-records | 4,684,610 | 857,853 | 1.00 / 0.99 | 0.97 / 0.94 | 2% | 3 |
+| object-100-keys | 36,710 | 7,090 | 1.00 / 0.95 | 0.98 / 0.91 | 82% | 8 |
+
+Cases are defined in [`cases.php`](cases.php), 4 KiB strings unless the name says otherwise. Raw data: [`cycles.txt`](cycles.txt) (`<build> <case> <cycles per call>`), [`instructions.txt`](instructions.txt) (`<case> <v3-base> <v3c1> <v3>`).
 
 ## Together with other open PRs
 
-Measured on master `cd383dcc377` with the same method and code that runs the same instructions as the commits above (within 0.1%). Raw data: [`cycles-with-23682.txt`](cycles-with-23682.txt), [`cycles-with-23675.txt`](cycles-with-23675.txt). In those files `master2` is master, `utf8h` this change, `23682` / `23675` the other PR alone and `23682mine` / `23675mine` the combination. #23675 there was merged onto `80d2b997192`, slightly older than the other builds; it needs `ZEND_STATIC_ASSERT()` replaced by `static_assert()` to build on current master.
+Measured with the previous revision of this branch, which runs the same instructions (within 0.1%).
+
+**php-src #24145** inlines `get_next_char()`, which also speeds up the out-of-line `php_next_utf8_char()`. The two merge without conflicts. Data: [`cycles-with-24145.txt`](cycles-with-24145.txt), [`instructions-with-24145.txt`](instructions-with-24145.txt) (`final-base` = master `897d2091cb4`, `v2` = this change, `hsc-only` = #24145, `hsc-both` = both).
+
+| case | #24145 vs master, cycles | #24145 + this vs #24145, cycles |
+|---|---:|---:|
+| cyrillic-4k | 0.82 | 0.77 |
+| cyrillic-4k-unescaped | 0.92 | 0.71 |
+| cjk-4k | 0.90 | 0.87 |
+| cjk-4k-unescaped | 0.89 | 0.89 |
+| french-4k | 0.98 | 0.70 |
+| ascii-4k | 1.01 | 0.90 |
+| html-4k | 0.99 | 0.57 |
+| api-1000-records | 1.03 | 0.93 |
+
+**php-src #23682** (byte table for the scan) merges cleanly. **#23675** (SIMD scan) has one conflict: it moves the loop body into `php_json_escape_dirty_char()`, where this change applies unchanged; it was merged onto `80d2b997192`, slightly older than the other builds, and needs `ZEND_STATIC_ASSERT()` replaced by `static_assert()` to build on current master. Data: [`cycles-with-23682.txt`](cycles-with-23682.txt), [`cycles-with-23675.txt`](cycles-with-23675.txt) (`master2` = master, `utf8h` = this change, `23682` / `23675` the other PR, `23682mine` / `23675mine` the combination).
 
 | cycles vs master | #23682 | this | both | #23675 | both |
 |---|---:|---:|---:|---:|---:|
@@ -77,25 +110,27 @@ Measured on master `cd383dcc377` with the same method and code that runs the sam
 | French | 0.98 | 0.70 | 0.63 | 0.77 | 0.66 |
 | 1,000 arrays | 0.99 | 0.95 | 0.90 | 0.93 | 1.02 |
 
-#23682 merges cleanly; with #23675 the only conflict is that it moves the loop body into `php_json_escape_dirty_char()`, where this change applies unchanged.
-
 ## In an application
 
 Symfony Demo's `/en/api/posts` (140 KB of JSON), CLI with opcache, kernel booted once, 30 warm-up requests, then `perf stat` over 200 requests minus 0, three alternating runs on `cd383dcc377`: `json_encode()` is 2.0M of 67.5M instructions per request (callgrind). With this change a request runs 0.2% fewer instructions and 1.0% fewer cycles by median; runs of the same build differ by up to 1.2%, so the cycle gain is within noise.
 
 ## Output verification
 
-All against master, byte for byte, on the release builds and on a debug build with ASan and UBSan (`--enable-debug --enable-address-sanitizer --enable-undefined-sanitizer`, `USE_ZEND_ALLOC=0`), where no sanitizer report appeared:
+Against master, byte for byte and including `json_last_error()`, on the release builds and on a debug build with ASan and UBSan (`--enable-debug --enable-address-sanitizer --enable-undefined-sanitizer`, `USE_ZEND_ALLOC=0`), where no sanitizer report appeared:
 
 - [`pairs.php`](pairs.php): every pair of bytes, alone, inside ASCII and after 20 ASCII bytes, six flag sets;
 - [`triples.php`](triples.php): every three-byte sequence with an E0..EF lead byte, alone and inside ASCII, six flag sets;
 - [`positions.php`](positions.php): every byte value at every position of ASCII strings 1–24 bytes long, four flag sets;
-- [`fuzz.php`](fuzz.php): 1,000,000 random strings (5 seeds × 200,000) of 0–300 bytes, as values and as keys, mixing escapes, two-, three- and four-byte characters, U+2028/2029, overlong and invalid sequences, 11 flag sets;
+- [`fuzz.php`](fuzz.php): 1,000,000 random strings (5 seeds × 200,000) of 0–300 bytes, as values and as keys, 11 flag sets;
 - [`keys.php`](keys.php): literal keys, also ones that need escaping, through arrays, `stdClass` and declared properties, 10 flag sets;
 - [`udecode.php`](udecode.php): `utf8_decode()` on all pairs and E0..EF triples;
-- php-src tests: `ext/json`, `ext/xml`, `ext/standard/tests/strings` (838 passed on the release build, 833 on the sanitizer build, none failed).
+- php-src tests `ext/json`, `ext/xml`, `ext/standard/tests/strings`: 838 passed on the release build, 833 on the sanitizer build, none failed.
 
-Each script prints one hash per flag set; the two builds must print the same lines. A separate review compared the inline decoder with `get_next_char(cs_utf_8)` over every 3-byte prefix, buffer lengths 0–6 and start cursors 0 and 1 (285 million calls): no difference in return value, cursor or status.
+The new test `json_encode_utf8_sequences.phpt` fails if the overlong checks of the inline path are removed. A separate review compared the inline decoder with `get_next_char(cs_utf_8)` on every three-byte prefix, buffer lengths 0–6 and start cursors 0 and 1 (285 million calls): no difference in value, cursor or status.
+
+## Not tested
+
+clang, aarch64 and 32-bit builds. The change has no width-dependent arithmetic.
 
 ## Reproduce
 
@@ -104,16 +139,16 @@ From the repository root, with php-src checked out next to it:
 ```sh
 git -C ../php-src fetch https://github.com/ArtUkrainskiy/php-src.git json-utf8-2byte
 E="--enable-werror --with-libxml --enable-xml"
-BENCH_CONFIGURE_EXTRA="$E" ./bench build json-final-base 897d2091cb4
-BENCH_CONFIGURE_EXTRA="$E" ./bench build json-v2c1 89659558c3c
-BENCH_CONFIGURE_EXTRA="$E" ./bench build json-v2 00ef789b361
+BENCH_CONFIGURE_EXTRA="$E" ./bench build json-v3-base bd6c637d071
+BENCH_CONFIGURE_EXTRA="$E" ./bench build json-v3c1 ca35c079a1f
+BENCH_CONFIGURE_EXTRA="$E" ./bench build json-v3 9813f798db9
 cd reports/json-encode-utf8-inline
-./instructions.sh final-base v2c1 v2          # instructions per call, one line per case
-./cycles.sh out.txt final-base v2c1 v2        # cycles, 3 alternating passes, prints ratios
+./instructions.sh v3-base v3c1 v3           # instructions per call, one line per case
+./cycles.sh out.txt v3-base v3c1 v3         # cycles, 3 alternating passes, prints ratios
 for t in pairs triples positions udecode keys; do
-  for b in final-base v2; do echo "$b $t $(../../../php-builds/json-$b/sapi/cli/php -n $t.php | md5sum)"; done
+  for b in v3-base v3; do echo "$b $t $(../../../php-builds/json-$b/sapi/cli/php -n $t.php | md5sum)"; done
 done
-../../../php-builds/json-v2/sapi/cli/php -n fuzz.php 200000 1   # compare with the same seed on final-base
+../../../php-builds/json-v3/sapi/cli/php -n fuzz.php 200000 1   # compare with the same seed on v3-base
 ```
 
 The scripts look for builds in `../php-builds/json-<name>` next to the repository, or in `$BENCH_BUILDS/json-<name>`.
