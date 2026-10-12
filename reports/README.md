@@ -7,6 +7,7 @@ run it again.
 | Report | php-src change |
 |---|---|
 | [htmlspecialchars-ascii-fast-path](htmlspecialchars-ascii-fast-path/) | ext/standard: Add a fast path for ASCII in htmlspecialchars() |
+| [json-encode-utf8-inline](json-encode-utf8-inline/) | json_encode(): Inline common UTF-8 decoding, keep scan position in a register |
 
 ## Adding a report
 
