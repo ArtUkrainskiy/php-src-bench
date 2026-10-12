@@ -4,9 +4,9 @@ php-src change: [`ca35c079a1f`](https://github.com/ArtUkrainskiy/php-src/commit/
 
 ## Summary
 
-`json_encode()`, `utf8_decode()` and the xml extension decode one character at a time with `php_next_utf8_char()`. This adds `php_next_utf8_char_inline()`, which decodes the common cases at the call site. Non-ASCII text in `json_encode()` gets faster with all six compiler and CPU combinations I tried: Cyrillic 0.73–0.80 of master's cycles, CJK 0.70–0.78. The URL and newline slowdowns that GCC shows on one machine for ASCII-heavy input do not reproduce with clang 18, clang 20 or on AMD.
+`json_encode()`, `utf8_decode()` and the xml extension decode one character at a time with `php_next_utf8_char()`. This adds `php_next_utf8_char_inline()`, which decodes the common cases at the call site. Non-ASCII text in `json_encode()` gets faster with all six compiler and CPU combinations I tried: Cyrillic 0.73–0.80 of master's cycles, CJK 0.70–0.78. Two ASCII-heavy inputs are 10–14% slower with GCC 13 and 14 on the Intel machine; that does not reproduce with clang or on AMD (see Trade-offs).
 
-ASCII runs the same instructions as master. Some ASCII-heavy inputs are slower in cycles with GCC on the Intel machine (URLs 1.10–1.14); the URL and newline slowdowns do not reproduce with clang 18, clang 20 or on AMD (see Trade-offs).
+ASCII runs the same instructions as master. With GCC 13 and 14 on the Intel machine, URLs and ASCII with an occasional escaped é are 10–14% slower in cycles; this does not reproduce with clang 18, clang 20 or on AMD, and it comes from code layout that a follow-up removes (see Trade-offs).
 
 ## What changes and why it is faster
 
@@ -20,11 +20,9 @@ ASCII runs the same instructions as master. Some ASCII-heavy inputs are slower i
 
 ## Trade-offs
 
-- **Some ASCII-heavy inputs are slower, depending on compiler and CPU.** They run the same instructions as master (the é row fewer):
-  - URLs: 1.10 with GCC 13 and 1.14 with GCC 14 on the Intel machine, with runs within 5%; 1.01–1.06 with clang 18/20 and with GCC 15 and clang 21 on AMD. Branch and front-end counters show no difference.
-  - A newline every 40 bytes: 1.07 with GCC 13 and 1.28 with GCC 14, with runs differing by up to 30%; 1.00–1.04 elsewhere. With plain `-O2` instead of the aligned functions and loops of my builds this row is at 0.97–1.02 with GCC 13 and 14, so it is code placement.
-  - ASCII with an é every 31 bytes: 1.03 with GCC 13 and 1.15 with GCC 14. With clang 20 it changes from one process to the next between 0.92 and 1.27 while master stays within 4%; 0.92–0.94 with clang 18, GCC 15 and clang 21. On this input the branch of the inline path adds about 80 mispredictions per call (GCC 14).
-  - HTML is at 1.06 with GCC 15 on AMD and 0.99–1.03 elsewhere.
+- **Two inputs are slower with GCC 13 and 14 on the Intel machine:** URLs (1.10 and 1.14) and ASCII with an occasional é escaped as `\u00e9` (1.12 and 1.13). Neither shows with clang 18/20 or on AMD (URLs 1.01–1.06, the é input 0.90–0.96). The loop over plain bytes is byte-for-byte the same as in master, at the same address; what changes is the layout GCC picks for the path that handles a special character: the flush of the pending plain run moved out of line, which adds a taken jump per special character. Hinting that branch in the source moves the slowdown to other inputs (a quote every 16 bytes 1.23 with GCC, a quote in every byte 1.33 with clang). Splitting the scan out of the loop and using a byte table removes it (see the appendix of the report).
+- **A newline every 40 bytes** is at 1.07 and 1.28 with GCC 13 and 14 in my builds, and at 0.97–1.02 when built with plain `-O2` instead of the aligned functions and loops I use: code placement.
+- **An é exactly every 31 bytes** measures between 0.92 and 1.27 depending on compiler and, with clang 20, on the process: branch predictors learn the period of that input. With the é at random positions and the same density it is 0.87–0.96 with `JSON_UNESCAPED_UNICODE` on all six builds.
 - **#24145** makes `get_next_char()` always inline, which also speeds up the out-of-line `php_next_utf8_char()`. On top of it this PR still removes 14–20% of the instructions on non-ASCII text, but with GCC 13 the cycles change less: Cyrillic 0.98, Cyrillic with `JSON_UNESCAPED_UNICODE` 0.79, CJK 0.88 of #24145's cycles. Both together: Cyrillic 0.80, CJK 0.78 of master. The two merge without conflicts.
 - **API.** `php_next_utf8_char()` and its exported symbol are unchanged; `php_next_utf8_char_inline()` is new (UPGRADING.INTERNALS).
 - **Other callers.** `utf8_decode()` (deprecated, still shipped) runs 2.2–2.8× fewer instructions on 4 KiB of Latin-1, Cyrillic or ASCII text. The xml extension's decoder uses the same path; not measured.
@@ -49,7 +47,9 @@ Each number is per `json_encode()` call: `perf stat` over N calls minus the same
 | CJK, `JSON_UNESCAPED_UNICODE` | 0.79–0.82 | 0.84 | 0.77 | 0.83 | 0.81 | 0.84 | 0.67 |
 | French | 0.83–0.86 | 0.96 | 0.90 | 0.83 | 0.80 | 0.82 | 0.85 |
 | French, `JSON_UNESCAPED_UNICODE` | 0.80–0.87 | 0.91 | 0.85 | 0.83 | 0.81 | 0.88 | 0.83 |
-| ASCII with an é every 31 bytes, `JSON_UNESCAPED_UNICODE` | 0.92–0.94 | 1.03 | 1.15 | 0.92 | 1.11 | 0.92 | 0.94 |
+| ASCII with an é every 31 bytes on average | 0.93–0.94 | 1.12 | 1.13 | 0.90 | 0.92 | 0.95 | 0.96 |
+| ASCII with an é every 31 bytes on average, `JSON_UNESCAPED_UNICODE` | 0.92–0.94 | 0.94 | 0.96 | 0.91 | 0.87 | 0.93 | 0.90 |
+| ASCII with an é exactly every 31 bytes, `JSON_UNESCAPED_UNICODE` | 0.92–0.94 | 1.03 | 1.15 | 0.92 | 1.11 | 0.92 | 0.94 |
 | ASCII, 16 bytes | 1.00 | 0.99 | 1.03 | 0.99 | 1.00 | 1.00 | 0.99 |
 | ASCII, 256 bytes | 1.00 | 0.99 | 1.00 | 1.05 | 1.01 | 1.02 | 0.99 |
 | ASCII, 4 KiB | 1.00 | 0.99 | 1.00 | 0.96 | 1.00 | 1.00 | 1.00 |
@@ -75,6 +75,8 @@ Instructions per compiler, cycles and the spread between runs (the largest diffe
 | cjk-4k-unescaped | 0.81 / 0.84 / 2% | 0.79 / 0.77 / 10% | 0.82 / 0.83 / 9% | 0.81 / 0.81 / 8% | 0.80 / 0.84 / 2% | 0.81 / 0.67 / 1% |
 | french-4k | 0.84 / 0.96 / 5% | 0.84 / 0.90 / 7% | 0.86 / 0.83 / 8% | 0.86 / 0.80 / 4% | 0.83 / 0.82 / 1% | 0.86 / 0.85 / 2% |
 | french-4k-unescaped | 0.81 / 0.91 / 2% | 0.80 / 0.85 / 13% | 0.87 / 0.83 / 6% | 0.87 / 0.81 / 7% | 0.80 / 0.88 / 7% | 0.87 / 0.83 / 2% |
+| ascii-random-utf8 | 0.94 / 1.12 / 8% | 0.94 / 1.13 / 2% | 0.94 / 0.90 / 5% | 0.94 / 0.92 / 4% | 0.93 / 0.95 / 6% | 0.94 / 0.96 / 4% |
+| ascii-random-utf8-unescaped | 0.92 / 0.94 / 32% | 0.92 / 0.96 / 7% | 0.94 / 0.91 / 3% | 0.94 / 0.87 / 4% | 0.92 / 0.93 / 3% | 0.94 / 0.90 / 5% |
 | ascii-rare-utf8-unescaped | 0.92 / 1.03 / 11% | 0.92 / 1.15 / 17% | 0.94 / 0.92 / 4% | 0.94 / 1.11 / 31% | 0.92 / 0.92 / 7% | 0.94 / 0.94 / 2% |
 | ascii-16 | 1.00 / 0.99 / 4% | 1.00 / 1.03 / 2% | 1.00 / 0.99 / 5% | 1.00 / 1.00 / 9% | 1.00 / 1.00 / 3% | 1.00 / 0.99 / 8% |
 | ascii-256 | 1.00 / 0.99 / 2% | 1.00 / 1.00 / 1% | 1.00 / 1.05 / 4% | 1.00 / 1.01 / 2% | 1.00 / 1.02 / 2% | 1.00 / 0.99 / 13% |
@@ -113,20 +115,22 @@ aarch64, 32-bit and MSVC builds. The change has no width-dependent arithmetic.
 
 ## Appendix: the scan loop, a possible follow-up
 
-Not part of this change. The scan for plain bytes in `php_json_escape_string()` is inside a large loop body, and how the compilers build it depends on the rest of the function. Moving it into a small always-inline function that returns the length of the plain run, with a 256-byte lookup table instead of `ZEND_BIT_TEST` (the table that php-src #23682 adds), gives these cycles relative to master together with this change ([`scan-split-cycles.txt`](scan-split-cycles.txt), builds `*-slut`); output identical under the same checks:
+Not part of this change. The scan for plain bytes in `php_json_escape_string()` is inside a large loop body, and how the compilers build it depends on the rest of the function. Moving it into a small always-inline function that returns the length of the plain run, with a 256-byte lookup table instead of `ZEND_BIT_TEST` (the table that php-src #23682 adds), gives these cycles relative to master together with this change ([`scan-split-cycles.txt`](scan-split-cycles.txt), [`scan-split-random-cycles.txt`](scan-split-random-cycles.txt), builds `*-slut`); output identical under the same checks. It also removes the GCC slowdowns described under Trade-offs:
 
 | | GCC 13.3 | GCC 14.2 | clang 18.1 | clang 20.1 |
 |---|---:|---:|---:|---:|
 | ASCII, 4 KiB | 0.59 | 0.54 | 0.53 | 0.53 |
 | HTML | 0.70 | 0.63 | 1.01 | 1.02 |
-| a quote every 16 bytes | 0.30 | 0.29 | 0.81 | 0.69 |
-| a newline every 40 bytes | 0.39 | 0.31 | 0.67 | 0.63 |
+| URLs | 0.78 | 0.78 | 1.01 | 1.05 |
+| ASCII with an é every 31 bytes on average | 0.31 | 0.31 | 0.69 | 0.59 |
+| ASCII with an é every 31 bytes on average, `JSON_UNESCAPED_UNICODE` | 0.34 | 0.34 | 0.78 | 0.60 |
+| a newline every 40 bytes | 0.39 | 0.34 | 0.67 | 0.62 |
 | Cyrillic | 0.65 | 0.70 | 0.66 | 0.61 |
 | CJK | 0.78 | 0.73 | 0.59 | 0.58 |
-| a quote in every byte | 1.00 | 1.03 | 0.85 | 0.84 |
+| a quote in every byte | 1.01 | 1.01 | 0.84 | 0.85 |
 | 1,000 arrays of 10 fields | 0.89 | 0.92 | 0.97 | 0.91 |
 
-Without the table the same split is slower on GCC 13 (1.27 on ASCII): there GCC compiles the bit test to `shr %cl` + `test` instead of `bt`.
+Without the table the same split is slower on GCC 13 (1.27 on ASCII): there GCC compiles the bit test to `shr %cl` + `test` instead of `bt`. Every other change to the loop I tried (hints, a different loop exit, a loop over consecutive non-ASCII characters) moved slowdowns between inputs and compilers; the table is the part that makes the result independent of the compiler. php-src #23682 adds such a table, so this follow-up would use it.
 
 ## Reproduce
 

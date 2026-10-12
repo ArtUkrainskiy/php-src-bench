@@ -42,6 +42,15 @@ final class JsonCaseOrder
 	}
 }
 
+function mb_substr_safe(string $s): string
+{
+	$s = substr($s, 0, 4096);
+	while ($s !== '' && !preg_match('//u', $s)) {
+		$s = substr($s, 0, -1);
+	}
+	return $s;
+}
+
 $words = static fn ($i) => ['lorem ', 'ipsum ', 'dolor ', 'sit ', 'amet, ', 'consectetur ', 'adipiscing ', 'elit ', "1234 "][$i % 9];
 
 $cases = [
@@ -62,6 +71,22 @@ $cases = [
 	'cjk-4k-unescaped' => [text(4095, static fn ($i) => ['漢字', '中文', '日本語'][$i % 3]), JSON_UNESCAPED_UNICODE],
 	'french-4k' => [text(4096, static fn ($i) => ['élève ', 'à ', 'été ', 'garçon ', 'Noël ', 'le ', 'chat ', 'mange '][$i % 8]), 0],
 	'french-4k-unescaped' => [text(4096, static fn ($i) => ['élève ', 'à ', 'été ', 'garçon ', 'Noël ', 'le ', 'chat ', 'mange '][$i % 8]), JSON_UNESCAPED_UNICODE],
+	'ascii-random-utf8-unescaped' => [(static function () {
+		mt_srand(42);
+		$s = '';
+		while (strlen($s) < 4096) {
+			$s .= str_repeat('a', mt_rand(0, 60)) . 'é';
+		}
+		return mb_substr_safe($s);
+	})(), JSON_UNESCAPED_UNICODE],
+	'ascii-random-utf8' => [(static function () {
+		mt_srand(42);
+		$s = '';
+		while (strlen($s) < 4096) {
+			$s .= str_repeat('a', mt_rand(0, 60)) . 'é';
+		}
+		return mb_substr_safe($s);
+	})(), 0],
 	'ascii-rare-utf8-unescaped' => [text(4096, static fn ($i) => str_repeat('a', 30) . 'é'), JSON_UNESCAPED_UNICODE],
 	'api-1000-records' => [array_map(static fn ($i) => [
 		'id' => $i, 'user_id' => $i * 7, 'status' => 'paid', 'title' => "Order number $i", 'amount_cents' => $i * 1531,
