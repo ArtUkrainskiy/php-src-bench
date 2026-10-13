@@ -69,6 +69,9 @@ $cases = [
 	'cyrillic-4k-unescaped' => [text(4096, static fn ($i) => ['привет ', 'мир ', 'текст '][$i % 3]), JSON_UNESCAPED_UNICODE],
 	'cjk-4k' => [text(4095, static fn ($i) => ['漢字', '中文', '日本語'][$i % 3]), 0],
 	'cjk-4k-unescaped' => [text(4095, static fn ($i) => ['漢字', '中文', '日本語'][$i % 3]), JSON_UNESCAPED_UNICODE],
+	'emoji-4k' => [text(4096, static fn ($i) => ['😀', '🎉', '👍', '🚀'][$i % 4]), 0],
+	'emoji-4k-unescaped' => [text(4096, static fn ($i) => ['😀', '🎉', '👍', '🚀'][$i % 4]), JSON_UNESCAPED_UNICODE],
+	'emoji-text-4k' => [text(4096, static fn ($i) => ['see you ', 'tomorrow 😀 ', 'thanks 👍 ', 'ok '][$i % 4]), 0],
 	'french-4k' => [text(4096, static fn ($i) => ['élève ', 'à ', 'été ', 'garçon ', 'Noël ', 'le ', 'chat ', 'mange '][$i % 8]), 0],
 	'french-4k-unescaped' => [text(4096, static fn ($i) => ['élève ', 'à ', 'été ', 'garçon ', 'Noël ', 'le ', 'chat ', 'mange '][$i % 8]), JSON_UNESCAPED_UNICODE],
 	'ascii-random-utf8-unescaped' => [(static function () {
