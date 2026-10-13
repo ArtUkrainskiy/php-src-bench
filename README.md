@@ -1,5 +1,8 @@
 # php-src-bench
 
+[![tests](https://github.com/ArtUkrainskiy/php-src-bench/actions/workflows/ci.yml/badge.svg)](https://github.com/ArtUkrainskiy/php-src-bench/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 A/B micro-benchmarks for [php-src](https://github.com/php/php-src).
 
 You changed a C function in PHP and want to know three things before opening a pull request:
@@ -59,14 +62,20 @@ Ubuntu: `sudo apt install git curl build-essential autoconf bison re2c pkg-confi
 
 ## Quick start
 
-Clone this repository next to php-src (or point `PHP_SRC` at your checkout):
+Clone this repository next to php-src:
+
+```sh
+git clone https://github.com/ArtUkrainskiy/php-src-bench.git
+```
 
 ```
 projects/
-├── php-src/       your checkout, with your change on a branch or in the working tree
-├── php-src-bench/     this repository
-└── php-builds/    created by `bench build`, one git worktree per build
+├── php-src/         your checkout, with your change on a branch or in the working tree
+├── php-src-bench/   this repository
+└── php-builds/      created by `bench build`, one git worktree per build
 ```
+
+Elsewhere, point `PHP_SRC` at the php-src checkout and `BENCH_BUILDS` at the directory for builds.
 
 ```sh
 cd php-src-bench
@@ -156,6 +165,7 @@ Results worth keeping, together with the commands that produced them, live in
 | `bench difftest <generator> <A> <B> [--seed N] [--count N]` | compare outputs of two builds on generated inputs |
 | `bench check [--cpu N]` | report noise sources on this machine and whether `--perf` can work |
 | `bench tune on\|off\|status` | `on`: performance governor, no turbo boost; `off`: back to what it was (both need sudo) |
+| `bench php` | print the php binary that runs the tool itself |
 
 `--a` and `--b` take a build name or a path to any `php` binary. Options you will use most:
 `--filter RE` (cases matching a regular expression), `--quick` (fast and rough), `--perf`

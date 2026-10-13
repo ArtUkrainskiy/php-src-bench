@@ -4,10 +4,17 @@ Results that are cited somewhere, usually in a php-src pull request, with everyt
 check them: what was compared, the full tables, how the output was verified and the commands to
 run it again.
 
-| Report | php-src change |
-|---|---|
-| [htmlspecialchars-ascii-fast-path](htmlspecialchars-ascii-fast-path/) | ext/standard: Add a fast path for ASCII in htmlspecialchars() |
-| [json-encode-utf8-inline](json-encode-utf8-inline/) | json_encode(): Inline common UTF-8 decoding, keep scan position in a register |
+| Report | Subject | php-src PR |
+|---|---|---|
+| [json-encode-utf8-inline](json-encode-utf8-inline/) | `json_encode()`: decode valid UTF-8 inline | [#24283](https://github.com/php/php-src/pull/24283) |
+| [fgetcsv-mblen](fgetcsv-mblen/) | `php_mblen()`: skip `mbrlen()` for ASCII bytes (`fgetcsv()`, `str_getcsv()`, `escapeshell*()`) | [#24207](https://github.com/php/php-src/pull/24207) |
+| [deprecation-cost](deprecation-cost/) | What a deprecated call costs, and `#[\Deprecated]` without constructing the attribute | [#24198](https://github.com/php/php-src/pull/24198) |
+| [list-assign-from-array-literal](list-assign-from-array-literal/) | `[$a, $b] = [$b, $a]` compiled without the array | [#24180](https://github.com/php/php-src/pull/24180) |
+| [htmlspecialchars-ascii-fast-path](htmlspecialchars-ascii-fast-path/) | A fast path for ASCII in `htmlspecialchars()` | [#24145](https://github.com/php/php-src/pull/24145) |
+| [htmlspecialchars-vs-23957](htmlspecialchars-vs-23957/) | `htmlspecialchars()`: #23957 and #24145 together | [#23957](https://github.com/php/php-src/pull/23957), [#24145](https://github.com/php/php-src/pull/24145) |
+| [csv-pr-24199](csv-pr-24199/) | ext/csv (the `csv_extension` RFC) against the built-in CSV functions | [#24199](https://github.com/php/php-src/pull/24199) (review) |
+| [base64-decode-quads](base64-decode-quads/) | `base64_decode()`: four characters at a time in the character loop | not opened yet |
+| [php-benchmark-history](php-benchmark-history/) | php-src's benchmark CI, read as a history | — |
 
 ## Adding a report
 
