@@ -1,0 +1,9 @@
+# mutate.py on binhex-mut (master + PR, GCC 13.3, -O2 -g -falign-functions=64 -falign-loops=32), 2026-10-13T21:29:43Z
+accept 'G' (hi_bound_upper 0x48)       CAUGHT: hex2bin byte, hex2bin pairs, fuzz hex2bin, warnings 534720
+accept '/' (lo_bound_digit 0x2e)       CAUGHT: hex2bin byte, hex2bin pairs, fuzz hex2bin, warnings 534729
+validate only the first half           CAUGHT: hex2bin byte, hex2bin pairs, fuzz hex2bin, warnings 329275
+no restart: skip failed chunk          CAUGHT: hex2bin byte, hex2bin pairs, fuzz hex2bin, warnings 125158
+letter offset 10 instead of 9          CAUGHT: hex2bin lengths, hex2bin byte, hex2bin pairs, fuzz hex2bin
+bin2hex: '9' < c threshold 8           CAUGHT: bin2hex lengths, bin2hex byte, hex2bin lengths, hex2bin byte, hex2bin pairs, fuzz hex2bin, fuzz bin2hex
+bin2hex: tail skipped                  CAUGHT: bin2hex lengths, bin2hex byte, fuzz bin2hex
+unmutated: same as master

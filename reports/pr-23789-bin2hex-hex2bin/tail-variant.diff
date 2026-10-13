@@ -1,0 +1,88 @@
+diff --git a/ext/standard/string.c b/ext/standard/string.c
+index 3ff5bab74c6..6dc9c06f85b 100644
+--- a/ext/standard/string.c
++++ b/ext/standard/string.c
+@@ -109,22 +109,8 @@ static zend_never_inline bool php_hex2bin_simd_chunk(unsigned char *out16, const
+ #endif
+ 
+ /* {{{ php_hex2bin */
+-static zend_string *php_hex2bin(const unsigned char *old, const size_t oldlen)
++static zend_always_inline bool php_hex2bin_scalar(unsigned char *ret, const unsigned char *old, size_t i, size_t j, size_t target_length)
+ {
+-	size_t target_length = oldlen >> 1;
+-	zend_string *str = zend_string_alloc(target_length, 0);
+-	unsigned char *ret = (unsigned char *)ZSTR_VAL(str);
+-	size_t i, j;
+-
+-	i = j = 0;
+-#ifdef XSSE2
+-	for (; j + 2 * sizeof(__m128i) <= oldlen; j += 2 * sizeof(__m128i), i += sizeof(__m128i)) {
+-		if (!php_hex2bin_simd_chunk(ret + i, old + j)) {
+-			break;
+-		}
+-	}
+-#endif
+-
+ 	for (; i < target_length; i++) {
+ 		unsigned char c = old[j++];
+ 		unsigned char l = c & ~0x20;
+@@ -135,8 +121,7 @@ static zend_string *php_hex2bin(const unsigned char *old, const size_t oldlen)
+ 		if (EXPECTED((((c ^ '0') - 10) >> (8 * sizeof(unsigned int) - 1)) | is_letter)) {
+ 			d = (l - 0x10 - 0x27 * is_letter) << 4;
+ 		} else {
+-			zend_string_efree(str);
+-			return NULL;
++			return false;
+ 		}
+ 		c = old[j++];
+ 		l = c & ~0x20;
+@@ -144,12 +129,46 @@ static zend_string *php_hex2bin(const unsigned char *old, const size_t oldlen)
+ 		if (EXPECTED((((c ^ '0') - 10) >> (8 * sizeof(unsigned int) - 1)) | is_letter)) {
+ 			d |= l - 0x10 - 0x27 * is_letter;
+ 		} else {
+-			zend_string_efree(str);
+-			return NULL;
++			return false;
+ 		}
+ 		ret[i] = d;
+ 	}
+-	ret[i] = '\0';
++	return true;
++}
++
++#ifdef XSSE2
++static zend_never_inline bool php_hex2bin_simd(unsigned char *ret, const unsigned char *old, size_t oldlen)
++{
++	size_t i = 0, j = 0;
++
++	for (; j + 2 * sizeof(__m128i) <= oldlen; j += 2 * sizeof(__m128i), i += sizeof(__m128i)) {
++		if (!php_hex2bin_simd_chunk(ret + i, old + j)) {
++			break;
++		}
++	}
++	return php_hex2bin_scalar(ret, old, i, j, oldlen >> 1);
++}
++#endif
++
++static zend_string *php_hex2bin(const unsigned char *old, const size_t oldlen)
++{
++	size_t target_length = oldlen >> 1;
++	zend_string *str = zend_string_alloc(target_length, 0);
++	unsigned char *ret = (unsigned char *)ZSTR_VAL(str);
++	bool ok;
++
++#ifdef XSSE2
++	if (oldlen >= 2 * sizeof(__m128i)) {
++		ok = php_hex2bin_simd(ret, old, oldlen);
++	} else
++#endif
++	ok = php_hex2bin_scalar(ret, old, 0, 0, target_length);
++
++	if (!ok) {
++		zend_string_efree(str);
++		return NULL;
++	}
++	ret[target_length] = '\0';
+ 
+ 	return str;
+ }

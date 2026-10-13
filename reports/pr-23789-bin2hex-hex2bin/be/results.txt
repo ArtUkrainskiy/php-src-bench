@@ -1,0 +1,15 @@
+== x86-64 clang 18.1 -O2
+hex2bin valid chunks: ok 50000, wrong 0 (all 16 bytes zero: 0), rejected 0; invalid chunks: 50000, accepted 0
+bin2hex inputs (first: all 256 byte values): ok 2000, wrong 0
+== aarch64 LE clang 18.1 -O2
+hex2bin valid chunks: ok 50000, wrong 0 (all 16 bytes zero: 0), rejected 0; invalid chunks: 50000, accepted 0
+bin2hex inputs (first: all 256 byte values): ok 2000, wrong 0
+== aarch64_be clang 18.1 -O2
+hex2bin valid chunks: ok 0, wrong 50000 (all 16 bytes zero: 50000), rejected 0; invalid chunks: 50000, accepted 0
+bin2hex inputs (first: all 256 byte values): ok 2000, wrong 0
+== aarch64_be clang 18.1 -O0
+hex2bin valid chunks: ok 0, wrong 50000 (all 16 bytes zero: 50000), rejected 0; invalid chunks: 50000, accepted 0
+bin2hex inputs (first: all 256 byte values): ok 2000, wrong 0
+== aarch64_be clang 20.1 -O2
+hex2bin valid chunks: ok 0, wrong 50000 (all 16 bytes zero: 50000), rejected 0; invalid chunks: 50000, accepted 0
+bin2hex inputs (first: all 256 byte values): ok 2000, wrong 0
