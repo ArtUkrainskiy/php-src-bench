@@ -1,102 +1,68 @@
 # bin2hex() and hex2bin() with SSE2/NEON (php-src PR #23789)
 
-Review material for [php/php-src#23789](https://github.com/php/php-src/pull/23789) by adapik, "ext/standard: Add SSE2/NEON fast path for bin2hex()/hex2bin()". PR head [`c4c2ad73ee4`](https://github.com/php/php-src/pull/23789/commits/c4c2ad73ee495ef60483c168204d254ddb5899db), merged without conflicts onto master [`c65321c70f7`](https://github.com/php/php-src/commit/c65321c70f7); nothing had to be changed to build it. All measurements and checks on 13–14 October 2026.
+Review material for [php/php-src#23789](https://github.com/php/php-src/pull/23789) by adapik, "ext/standard: Add SSE2/NEON fast path for bin2hex()/hex2bin()". PR head [`c4c2ad73ee4`](https://github.com/php/php-src/pull/23789/commits/c4c2ad73ee495ef60483c168204d254ddb5899db), merged without conflicts onto master [`c65321c70f7`](https://github.com/php/php-src/commit/c65321c70f7); nothing had to be changed to build it. Measured and checked on 13–14 October 2026.
 
-The PR adds `zend_bin2hex_simd()` (16 input bytes per iteration, used by `bin2hex()` and every other caller of `zend_bin2hex()`: `md5()`, `sha1()`, `hash()`, openssl, opcache) and `php_hex2bin_simd_chunk()` (32 hex characters per call, with the existing scalar loop restarting at the first chunk that holds anything but a hex digit).
+The PR adds `zend_bin2hex_simd()`, 16 input bytes per iteration, used by `bin2hex()` and every other caller of `zend_bin2hex()` (`md5()`, `sha1()`, `hash()`, openssl, opcache), and `php_hex2bin_simd_chunk()`, 32 hex characters per call, with the existing scalar loop restarting at the first chunk that holds anything but a hex digit.
 
 ## Summary
 
-Intel i7-13700H, cycles per call relative to master, four compilers (GCC 13.3, GCC 14.2, clang 18.1, clang 20.1), official Docker image flags:
+- **Big-endian AArch64: `hex2bin()` returns wrong bytes.** `zend_simd.h` enables the NEON path on every `__aarch64__` target. Built for `aarch64_be` with clang 18.1 and 20.1 and run under QEMU, `php_hex2bin_simd_chunk()` accepts every valid chunk and writes zeros instead of the decoded bytes. `#if defined(XSSE2) && !defined(WORDS_BIGENDIAN)` avoids it. [Details](#big-endian-aarch64).
+- **Long inputs:** from 256 bytes (512 hex characters) up both functions take 76–89% fewer cycles than master on all four compilers, 4.1–8.8× faster.
+- **Short `hex2bin()` inputs pay for the SIMD call.** Below 32 hex characters the SIMD path never runs, yet `hex2bin()` executes 3–5% more instructions and takes 1–4% more cycles. Moving the SIMD loop and the scalar tail after it into one non-inlined function, as `zend_bin2hex()` does, removes it. [Details](#short-hex2bin-inputs).
+- **Digests** reach the new `bin2hex()` path through `zend_bin2hex()`: `md5()` of 32 bytes takes 9–11% fewer cycles, `hash('sha256')` 12–17% fewer.
+- **Output** is byte for byte the same as master on x86-64 with all four compilers and under ASan/UBSan.
+- **Not measured:** AMD and ARM hardware (the PR description has numbers for a Ryzen 5 7500F and an Apple M2), GCC for big-endian AArch64, a full php-src build for big-endian AArch64.
 
-| input | `bin2hex()` | `hex2bin()` (size of the binary side) |
-|---|--:|--:|
-| 4–15 bytes (no SIMD) | 0.99–1.13, instructions 1.00–1.03 | 1.01–1.04, instructions 1.03–1.05 |
-| 16 bytes | 0.69–0.78 | 0.45–0.52 |
-| 32 bytes | 0.56–0.64 | 0.33–0.36 |
-| 64 bytes | 0.38–0.51 | 0.25–0.27 |
-| 256 bytes | 0.21–0.24 | 0.17–0.23 |
-| 1 KB | 0.16–0.17 | 0.13–0.21 |
-| 64 KB | 0.14–0.15 | 0.11–0.21 |
+## Results
 
-| digest of a 32-byte input (hex output through `zend_bin2hex()`) | cycles |
-|---|--:|
-| `md5()` | 0.89–0.91 |
-| `sha1()` | 0.95–0.98 |
-| `hash('sha256')` | 0.83–0.88 |
-| `hash('xxh128')` | 0.86–0.92 |
+Change in CPU cycles per call with the PR, relative to master (negative = fewer cycles, faster). Intel i7-13700H, one column per compiler, median of five alternating runs; the second column is master's cost for scale:
 
-- **Big-endian AArch64: `hex2bin()` returns wrong bytes.** `zend_simd.h` enables the NEON path on every `__aarch64__` target. Built for `aarch64_be` with clang 18.1 and 20.1 and run under QEMU, `php_hex2bin_simd_chunk()` from the PR accepts every valid chunk and writes zeros instead of the decoded bytes (50,000 of 50,000 random valid chunks). Invalid chunks are still rejected, and `zend_bin2hex_simd()` is correct there. The same program built for little-endian AArch64 is correct. Details below.
-- **Short `hex2bin()` inputs pay for the SIMD call.** Below 32 hex characters the SIMD loop never runs, yet `hex2bin()` executes 3–5% more instructions (1.01–1.04 of the cycles). The non-inlined call to `php_hex2bin_simd_chunk()` inside `zif_hex2bin()` makes the compiler save two more callee-saved registers and keep three values on the stack for every call. With `-falign-functions=64 -falign-loops=32` builds, the same change costs 1.13–1.20 of the cycles with clang 20.1 (+26 instructions, +20 cycles for 4 bytes). Moving the SIMD loop and the scalar tail after it into one non-inlined function, the way `zend_bin2hex()` already does it, removes this: 1.01–1.02 of the instructions and 0.98–1.03 of the cycles for 4–15 bytes, with the same gains on long inputs ([`tail-variant.diff`](tail-variant.diff)).
-- **Invalid input** costs one wasted chunk at most: `hex2bin()` of 1 KB with one bad character at a random position takes 0.37–0.40 of master's cycles, since the SIMD path reaches the bad chunk sooner than the scalar loop.
-- Output is byte for byte the same as master on x86-64 with all four compilers and under ASan/UBSan.
+| call | master, CPU cycles per call (GCC 13.3) | GCC 13.3 | GCC 14.2 | clang 18.1 | clang 20.1 |
+|---|--:|--:|--:|--:|--:|
+| `bin2hex()`, 8 bytes | 82 | +4% | +1% | 0% | +3% |
+| `bin2hex()`, 16 bytes | 97 | −25% | −27% | −22% | −31% |
+| `bin2hex()`, 32 bytes | 129 | −41% | −36% | −37% | −44% |
+| `bin2hex()`, 256 bytes | 618 | −79% | −78% | −76% | −76% |
+| `bin2hex()`, 64 KB | 133,748 | −86% | −85% | −85% | −85% |
+| `hex2bin()`, 16 hex characters | 124 | +2% | +2% | +3% | +2% |
+| `hex2bin()`, 32 hex characters | 182 | −52% | −53% | −48% | −55% |
+| `hex2bin()`, 64 hex characters | 307 | −65% | −67% | −64% | −67% |
+| `hex2bin()`, 512 hex characters | 1,985 | −80% | −77% | −83% | −83% |
+| `hex2bin()`, 128 KB of hex | 473,088 | −84% | −79% | −89% | −87% |
+| `md5()` of 32 bytes | 443 | −9% | −10% | −11% | −11% |
+| `hash('sha256')` of 32 bytes | 440 | −14% | −12% | −17% | −12% |
 
-Not measured: AMD and ARM hardware (the PR description has numbers for a Ryzen 5 7500F and an Apple M2), GCC for big-endian AArch64, a full php-src build for big-endian AArch64.
+All 37 cases, with the spread of the runs and the change in instructions: [full table](#full-table).
 
-## Full table
+## Short `hex2bin()` inputs
 
-i7-13700H, P-core CPU 2, governor `powersave`, turbo on, kernel 7.0.0-34; cycles and instructions from `perf stat` over N calls minus the same process with 0 calls, divided by N. Five passes per case, master and the PR alternating (A B, B A, …); the value is the median ratio, in brackets the range over the passes. The second column is master's cycles per call with GCC 13.3, for scale. Short inputs come from a pool of 256 random strings of the same length (fixed seed), so that the branch predictor does not see one string repeated.
+Below 32 hex characters `hex2bin()` never reaches the SIMD loop, but it still executes 3–5% more instructions and takes 1–4% more cycles than master. The non-inlined call to `php_hex2bin_simd_chunk()` inside `zif_hex2bin()` makes every compiler save two more callee-saved registers (6 pushes instead of 4) and keep three values on the stack for the whole call, short inputs included. With `-falign-functions=64 -falign-loops=32` the same code costs 13–20% more cycles with clang 20.1 (+26 instructions and +20 cycles for 8 hex characters), so how much it shows depends on code placement.
 
-Builds: `bench build` with `BENCH_CFLAGS='-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64'`, `LDFLAGS='-Wl,-O1 -pie'` (the flags of the official Docker image, plus `-g`) and `--enable-werror`. Compilers: GCC 13.3.0, GCC 14.2.0, clang 18.1.3, clang 20.1.2. Raw data: [`intel-docker-20261014.txt`](intel-docker-20261014.txt).
+`bin2hex()` has no such cost: `zend_bin2hex()` calls `zend_bin2hex_simd()` last, and that function finishes the tail itself. [`tail-variant.diff`](tail-variant.diff) gives `hex2bin()` the same shape — one non-inlined function runs the SIMD loop and the scalar tail, `php_hex2bin()` calls it only for 32 characters and more. Output identical to master; change in cycles relative to master:
 
-### master → PR
-
-| case | master, cycles (GCC 13) | GCC 13.3 | GCC 14.2 | clang 18.1 | clang 20.1 | instructions |
+| call | master, CPU cycles per call (GCC 13.3) | GCC 13.3 | GCC 14.2 | clang 18.1 | clang 20.1 | instructions |
 |---|--:|--:|--:|--:|--:|--:|
-| bin2hex-4 | 73 | 1.05 [1.04–1.07] | 1.01 [1.01–1.03] | 1.01 [0.99–1.06] | 1.01 [1.00–1.01] | 1.00–1.03 |
-| bin2hex-8 | 82 | 1.04 [1.02–1.06] | 1.01 [1.00–1.01] | 1.00 [1.00–1.02] | 1.03 [1.02–1.04] | 1.00–1.02 |
-| bin2hex-15 | 95 | 1.06 [1.04–1.11] | 0.99 [0.98–1.49] | 1.13 [1.00–1.25] | 1.02 [1.01–1.03] | 1.00–1.02 |
-| bin2hex-16 | 97 | 0.75 [0.74–0.79] | 0.73 [0.73–0.79] | 0.78 [0.78–0.78] | 0.69 [0.69–0.70] | 0.73–0.77 |
-| bin2hex-20 | 105 | 0.80 [0.77–0.83] | 0.78 [0.78–0.80] | 0.79 [0.78–0.80] | 0.73 [0.73–0.74] | 0.77–0.79 |
-| bin2hex-31 | 127 | 0.83 [0.83–0.92] | 0.84 [0.81–0.89] | 0.83 [0.81–0.84] | 0.82 [0.82–0.82] | 0.81–0.84 |
-| bin2hex-32 | 129 | 0.59 [0.58–0.60] | 0.64 [0.59–0.69] | 0.63 [0.61–0.65] | 0.56 [0.55–0.56] | 0.57–0.63 |
-| bin2hex-33 | 129 | 0.61 [0.60–0.61] | 0.62 [0.60–0.62] | 0.69 [0.65–0.83] | 0.54 [0.53–0.54] | 0.59–0.64 |
-| bin2hex-48 | 158 | 0.51 [0.51–0.51] | 0.51 [0.49–0.53] | 0.59 [0.58–0.60] | 0.49 [0.49–0.50] | 0.48–0.54 |
-| bin2hex-64 | 189 | 0.45 [0.44–0.46] | 0.38 [0.37–0.39] | 0.51 [0.50–0.52] | 0.44 [0.44–0.45] | 0.42–0.48 |
-| bin2hex-100 | 269 | 0.38 [0.36–0.39] | 0.34 [0.33–0.34] | 0.43 [0.43–0.44] | 0.39 [0.39–0.39] | 0.37–0.41 |
-| bin2hex-256 | 618 | 0.21 [0.21–0.22] | 0.22 [0.21–0.28] | 0.24 [0.23–0.28] | 0.24 [0.24–0.26] | 0.22–0.26 |
-| bin2hex-1024 | 2,204 | 0.16 [0.16–0.17] | 0.16 [0.16–0.17] | 0.17 [0.17–0.19] | 0.16 [0.16–0.17] | 0.15–0.17 |
-| bin2hex-64k | 133,748 | 0.14 [0.08–0.19] | 0.15 [0.13–0.17] | 0.15 [0.14–0.19] | 0.15 [0.14–0.15] | 0.12–0.14 |
-| hex2bin-4 | 94 | 1.04 [1.03–1.07] | 1.02 [1.00–1.03] | 1.02 [1.01–1.03] | 1.02 [1.01–1.03] | 1.05–1.05 |
-| hex2bin-8 | 124 | 1.02 [1.01–1.02] | 1.02 [1.02–1.04] | 1.03 [1.01–1.04] | 1.02 [1.02–1.04] | 1.04–1.05 |
-| hex2bin-15 | 171 | 1.04 [1.02–1.04] | 1.02 [0.99–1.19] | 1.01 [1.00–1.03] | 1.02 [1.01–1.02] | 1.03–1.05 |
-| hex2bin-16 | 182 | 0.48 [0.47–0.52] | 0.47 [0.47–0.48] | 0.52 [0.51–0.55] | 0.45 [0.45–0.46] | 0.43–0.49 |
-| hex2bin-20 | 210 | 0.55 [0.54–0.56] | 0.53 [0.52–0.54] | 0.58 [0.56–0.58] | 0.55 [0.55–0.56] | 0.52–0.57 |
-| hex2bin-31 | 313 | 0.64 [0.58–0.75] | 0.62 [0.61–0.64] | 0.67 [0.64–0.75] | 0.66 [0.65–0.66] | 0.66–0.70 |
-| hex2bin-32 | 307 | 0.35 [0.35–0.38] | 0.33 [0.33–0.34] | 0.36 [0.35–0.42] | 0.33 [0.32–0.33] | 0.31–0.37 |
-| hex2bin-33 | 320 | 0.36 [0.35–0.40] | 0.34 [0.34–0.36] | 0.38 [0.38–0.39] | 0.35 [0.35–0.36] | 0.33–0.39 |
-| hex2bin-48 | 430 | 0.29 [0.28–0.30] | 0.28 [0.28–0.29] | 0.29 [0.28–0.29] | 0.28 [0.27–0.28] | 0.25–0.33 |
-| hex2bin-64 | 550 | 0.27 [0.26–0.27] | 0.26 [0.26–0.27] | 0.26 [0.26–0.27] | 0.25 [0.24–0.25] | 0.22–0.30 |
-| hex2bin-100 | 834 | 0.26 [0.25–0.27] | 0.27 [0.25–0.29] | 0.25 [0.25–0.26] | 0.25 [0.24–0.25] | 0.22–0.30 |
-| hex2bin-256 | 1,985 | 0.20 [0.20–0.22] | 0.23 [0.22–0.23] | 0.17 [0.13–0.19] | 0.17 [0.17–0.18] | 0.15–0.23 |
-| hex2bin-1024 | 7,527 | 0.17 [0.17–0.23] | 0.21 [0.20–0.22] | 0.13 [0.13–0.13] | 0.14 [0.14–0.14] | 0.13–0.21 |
-| hex2bin-64k | 473,088 | 0.16 [0.15–0.18] | 0.21 [0.20–0.23] | 0.11 [0.11–0.12] | 0.13 [0.12–0.13] | 0.12–0.21 |
-| hex2bin-upper-32 | 313 | 0.35 [0.34–0.37] | 0.33 [0.31–0.34] | 0.36 [0.36–0.37] | 0.33 [0.33–0.35] | 0.31–0.37 |
-| hex2bin-mixed-32 | 312 | 0.34 [0.34–0.35] | 0.33 [0.32–0.33] | 0.36 [0.36–0.36] | 0.33 [0.32–0.33] | 0.31–0.37 |
-| hex2bin-mixed-1024 | 7,419 | 0.17 [0.16–0.18] | 0.20 [0.19–0.22] | 0.13 [0.13–0.13] | 0.13 [0.13–0.15] | 0.13–0.21 |
-| hex2bin-invalid-32 | 1,171 | 0.96 [0.95–0.96] | 1.02 [1.00–1.02] | 1.03 [1.00–1.03] | 1.00 [1.00–1.28] | 0.95–0.97 |
-| hex2bin-invalid-1024 | 4,812 | 0.37 [0.36–0.38] | 0.40 [0.40–0.42] | 0.38 [0.37–0.38] | 0.39 [0.28–0.48] | 0.28–0.34 |
-| md5-32 | 443 | 0.91 [0.90–0.98] | 0.90 [0.90–0.93] | 0.89 [0.89–0.91] | 0.89 [0.88–0.92] | 0.89–0.90 |
-| sha1-32 | 484 | 0.98 [0.97–1.11] | 0.98 [0.96–1.02] | 0.95 [0.95–0.96] | 0.95 [0.94–0.95] | 0.94–0.95 |
-| hash-xxh128-32 | 292 | 0.92 [0.92–0.92] | 0.92 [0.91–0.93] | 0.86 [0.86–0.87] | 0.88 [0.88–0.89] | 0.88–0.89 |
-| hash-sha256-32 | 440 | 0.86 [0.86–0.89] | 0.88 [0.88–0.89] | 0.83 [0.83–0.83] | 0.88 [0.87–0.93] | 0.82–0.83 |
+| `hex2bin()`, 8 hex characters | 94 | +2% (+1 … +5) | +2% (+1 … +3) | +1% (−1 … +7) | 0% (−1 … +2) | +1% … +2% |
+| `hex2bin()`, 16 hex characters | 122 | +1% (0 … +8) | +2% (+2 … +2) | −1% (−1 … 0) | −2% (−2 … +2) | +1% … +2% |
+| `hex2bin()`, 30 hex characters | 172 | +3% (−1 … +6) | 0% (−1 … +4) | −1% (−1 … +71) | 0% (0 … +1) | +1% |
+| `hex2bin()`, 32 hex characters | 178 | −51% (−51 … −50) | −52% (−53 … −49) | −48% (−48 … −46) | −53% (−53 … −53) | −55% … −49% |
+| `hex2bin()`, 40 hex characters | 207 | −44% (−44 … −43) | −44% (−45 … −44) | −40% (−41 … −40) | −43% (−44 … −43) | −47% … −42% |
+| `hex2bin()`, 62 hex characters | 297 | −34% (−34 … −27) | −39% (−39 … −37) | −30% (−30 … −29) | −34% (−34 … −25) | −34% … −29% |
+| `hex2bin()`, 64 hex characters | 310 | −65% (−65 … −64) | −66% (−66 … −66) | −63% (−64 … −61) | −67% (−67 … −66) | −68% … −61% |
+| `hex2bin()`, 66 hex characters | 320 | −65% (−65 … −61) | −65% (−65 … −65) | −61% (−61 … −60) | −64% (−64 … −64) | −66% … −60% |
+| `hex2bin()`, 96 hex characters | 435 | −70% (−70 … −69) | −71% (−71 … −71) | −70% (−71 … −70) | −72% (−72 … −72) | −74% … −66% |
+| `hex2bin()`, 128 hex characters | 550 | −73% (−74 … −72) | −73% (−73 … −73) | −73% (−73 … −73) | −75% (−75 … −75) | −77% … −69% |
+| `hex2bin()`, 200 hex characters | 806 | −74% (−74 … −73) | −72% (−72 … −72) | −74% (−75 … −74) | −75% (−76 … −75) | −77% … −69% |
+| `hex2bin()`, 512 hex characters | 1,946 | −80% (−82 … −80) | −76% (−77 … −76) | −82% (−83 … −82) | −83% (−83 … −82) | −85% … −76% |
+| `hex2bin()`, 2,048 hex characters | 7,423 | −83% (−87 … −83) | −80% (−80 … −79) | −86% (−86 … −85) | −86% (−87 … −85) | −87% … −78% |
+| `hex2bin()`, 128 KB of hex | 469,634 | −84% (−84 … −83) | −79% (−79 … −78) | −88% (−88 … −87) | −87% (−87 … −86) | −88% … −79% |
+| `hex2bin()`, 64 hex characters, upper case | 311 | −65% (−65 … −57) | −67% (−67 … −66) | −62% (−63 … −62) | −67% (−67 … −66) | −68% … −61% |
+| `hex2bin()`, 64 hex characters, mixed case | 313 | −65% (−65 … −65) | −66% (−67 … −66) | −63% (−63 … −63) | −67% (−67 … −56) | −68% … −61% |
+| `hex2bin()`, 2,048 hex characters, mixed case | 7,422 | −83% (−83 … −82) | −80% (−80 … −79) | −86% (−101 … −83) | −86% (−86 … −82) | −87% … −78% |
+| `hex2bin()`, 64 characters, one invalid | 1,168 | +1% (0 … +5) | +1% (0 … +2) | −1% (−2 … +1) | −1% (−2 … 0) | −4% … −3% |
+| `hex2bin()`, 2,048 characters, one invalid | 4,841 | −63% (−64 … −63) | −61% (−62 … −61) | −64% (−64 … −62) | −62% (−62 … −61) | −72% … −66% |
 
-### master → PR with the SIMD loop and its scalar tail in one function ([`tail-variant.diff`](tail-variant.diff)), `hex2bin()` rows
-
-| case | master, cycles (GCC 13) | GCC 13.3 | GCC 14.2 | clang 18.1 | clang 20.1 | instructions |
-|---|--:|--:|--:|--:|--:|--:|
-| hex2bin-4 | 94 | 1.02 [1.01–1.05] | 1.02 [1.01–1.03] | 1.01 [0.99–1.07] | 1.00 [0.99–1.02] | 1.01–1.02 |
-| hex2bin-8 | 122 | 1.01 [1.00–1.08] | 1.02 [1.02–1.02] | 0.99 [0.99–1.00] | 0.98 [0.98–1.02] | 1.01–1.02 |
-| hex2bin-15 | 172 | 1.03 [0.99–1.06] | 1.00 [0.99–1.04] | 0.99 [0.99–1.71] | 1.00 [1.00–1.01] | 1.01–1.01 |
-| hex2bin-16 | 178 | 0.49 [0.49–0.50] | 0.48 [0.47–0.51] | 0.52 [0.52–0.54] | 0.47 [0.47–0.47] | 0.45–0.51 |
-| hex2bin-32 | 310 | 0.35 [0.35–0.36] | 0.34 [0.34–0.34] | 0.37 [0.36–0.39] | 0.33 [0.33–0.34] | 0.32–0.39 |
-| hex2bin-1024 | 7,423 | 0.17 [0.13–0.17] | 0.20 [0.20–0.21] | 0.14 [0.14–0.15] | 0.14 [0.13–0.15] | 0.13–0.22 |
-| hex2bin-64k | 469,634 | 0.16 [0.16–0.17] | 0.21 [0.21–0.22] | 0.12 [0.12–0.13] | 0.13 [0.13–0.14] | 0.12–0.21 |
-
-The rows of `bin2hex()` and the other `hex2bin()` rows are in the raw data (groups `g13t` … `c20t`); `bin2hex()` is not touched by the variant. One sample in the raw data is negative (`c18t change hex2bin-mixed-1024`, −104 cycles: the 0-call process took longer than the N-call one); it is one of five passes and does not move the median.
-
-### Control
-
-Master against master (GCC 13.3) in the same series: median ratios 0.98–1.02 over all 37 cases. One pass of one case was disturbed (spread up to 0.97 of the median); medians are used everywhere.
+The short inputs are within 2% of master's instructions and 3% of its cycles, the long ones keep the gains of the PR.
 
 ## Big-endian AArch64
 
@@ -142,6 +108,59 @@ The helper returns `true` for these chunks, so `hex2bin()` would return a string
 - `hex2bin_simd_boundary.phpt` lists a length of 2000, but the source string is `str_repeat('0123456789abcdefABCDEF', 10)`, 220 characters, so that case tests 220.
 - Invalid characters are placed at offsets 0–63 of a 64-character string and at offsets 5 and 20 of the third chunk of a 160-character string, all inside SIMD chunks; the other two test files have no invalid input. No case puts one in the scalar tail after a completed SIMD loop, such as offsets 32 and 33 of a 34-character string or 64 and 65 of a 66-character one.
 
+## Method
+
+- Machine: Intel i7-13700H, P-core CPU 2, governor `powersave`, turbo on, kernel 7.0.0-34. Compilers GCC 13.3.0, GCC 14.2.0, clang 18.1.3, clang 20.1.2.
+- Builds: `bench build` with the flags of the official Docker image plus `-g`: `BENCH_CFLAGS='-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64'`, `LDFLAGS='-Wl,-O1 -pie'`, `--enable-werror`.
+- Metric: CPU cycles and instructions per call from `perf stat`, N calls minus the same process with 0 calls, divided by N ([`pairs-run.sh`](pairs-run.sh), cases in [`cases.php`](cases.php)). Five runs per case, master and the PR alternating (A B, B A, …); the value is the median over runs of the PR's cycles divided by master's, written as a change in percent.
+- Inputs: short ones come from a pool of 256 random strings of the same length (fixed seed), so that the branch predictor does not see one string repeated.
+- Control: master against master in the same series, −2 … +2% over all 37 cases. One sample is negative (`c18t change hex2bin-mixed-1024`, −104 cycles: the 0-call process took longer than the N-call one); it is one run of five and does not move the median.
+- Raw data: [`intel-docker-20261014.txt`](intel-docker-20261014.txt). Tables: [`speedup-table.py`](speedup-table.py) with the row labels in [`rows-review.txt`](rows-review.txt) and [`rows-full.txt`](rows-full.txt).
+
+## Full table
+
+Change in CPU cycles per call relative to master (negative = fewer cycles, faster), median of five runs, in brackets the lowest and the highest run; last column: change in instructions, lowest and highest over the four compilers.
+
+| call | master, CPU cycles per call (GCC 13.3) | GCC 13.3 | GCC 14.2 | clang 18.1 | clang 20.1 | instructions |
+|---|--:|--:|--:|--:|--:|--:|
+| `bin2hex()`, 4 bytes | 73 | +5% (+4 … +7) | +1% (+1 … +3) | +1% (−1 … +6) | +1% (0 … +1) | 0% … +3% |
+| `bin2hex()`, 8 bytes | 82 | +4% (+2 … +6) | +1% (0 … +1) | 0% (0 … +2) | +3% (+2 … +4) | 0% … +2% |
+| `bin2hex()`, 15 bytes | 95 | +6% (+4 … +11) | −1% (−2 … +49) | +13% (0 … +25) | +2% (+1 … +3) | 0% … +2% |
+| `bin2hex()`, 16 bytes | 97 | −25% (−26 … −21) | −27% (−27 … −21) | −22% (−22 … −22) | −31% (−31 … −30) | −27% … −23% |
+| `bin2hex()`, 20 bytes | 105 | −20% (−23 … −17) | −22% (−22 … −20) | −21% (−22 … −20) | −27% (−27 … −26) | −23% … −21% |
+| `bin2hex()`, 31 bytes | 127 | −17% (−17 … −8) | −16% (−19 … −11) | −17% (−19 … −16) | −18% (−18 … −18) | −19% … −16% |
+| `bin2hex()`, 32 bytes | 129 | −41% (−42 … −40) | −36% (−41 … −31) | −37% (−39 … −35) | −44% (−45 … −44) | −43% … −37% |
+| `bin2hex()`, 33 bytes | 129 | −39% (−40 … −39) | −38% (−40 … −38) | −31% (−35 … −17) | −46% (−47 … −46) | −41% … −36% |
+| `bin2hex()`, 48 bytes | 158 | −49% (−49 … −49) | −49% (−51 … −47) | −41% (−42 … −40) | −51% (−51 … −50) | −52% … −46% |
+| `bin2hex()`, 64 bytes | 189 | −55% (−56 … −54) | −62% (−63 … −61) | −49% (−50 … −48) | −56% (−56 … −55) | −58% … −52% |
+| `bin2hex()`, 100 bytes | 269 | −62% (−64 … −61) | −66% (−67 … −66) | −57% (−57 … −56) | −61% (−61 … −61) | −63% … −59% |
+| `bin2hex()`, 256 bytes | 618 | −79% (−79 … −78) | −78% (−79 … −72) | −76% (−77 … −72) | −76% (−76 … −74) | −78% … −74% |
+| `bin2hex()`, 1 KB | 2,204 | −84% (−84 … −83) | −84% (−84 … −83) | −83% (−83 … −81) | −84% (−84 … −83) | −85% … −83% |
+| `bin2hex()`, 64 KB | 133,748 | −86% (−92 … −81) | −85% (−87 … −83) | −85% (−86 … −81) | −85% (−86 … −85) | −88% … −86% |
+| `hex2bin()`, 8 hex characters | 94 | +4% (+3 … +7) | +2% (0 … +3) | +2% (+1 … +3) | +2% (+1 … +3) | +5% |
+| `hex2bin()`, 16 hex characters | 124 | +2% (+1 … +2) | +2% (+2 … +4) | +3% (+1 … +4) | +2% (+2 … +4) | +4% … +5% |
+| `hex2bin()`, 30 hex characters | 171 | +4% (+2 … +4) | +2% (−1 … +19) | +1% (0 … +3) | +2% (+1 … +2) | +3% … +5% |
+| `hex2bin()`, 32 hex characters | 182 | −52% (−53 … −48) | −53% (−53 … −52) | −48% (−49 … −45) | −55% (−55 … −54) | −57% … −51% |
+| `hex2bin()`, 40 hex characters | 210 | −45% (−46 … −44) | −47% (−48 … −46) | −42% (−44 … −42) | −45% (−45 … −44) | −48% … −43% |
+| `hex2bin()`, 62 hex characters | 313 | −36% (−42 … −25) | −38% (−39 … −36) | −33% (−36 … −25) | −34% (−35 … −34) | −34% … −30% |
+| `hex2bin()`, 64 hex characters | 307 | −65% (−65 … −62) | −67% (−67 … −66) | −64% (−65 … −58) | −67% (−68 … −67) | −69% … −63% |
+| `hex2bin()`, 66 hex characters | 320 | −64% (−65 … −60) | −66% (−66 … −64) | −62% (−62 … −61) | −65% (−65 … −64) | −67% … −61% |
+| `hex2bin()`, 96 hex characters | 430 | −71% (−72 … −70) | −72% (−72 … −71) | −71% (−72 … −71) | −72% (−73 … −72) | −75% … −67% |
+| `hex2bin()`, 128 hex characters | 550 | −73% (−74 … −73) | −74% (−74 … −73) | −74% (−74 … −73) | −75% (−76 … −75) | −78% … −70% |
+| `hex2bin()`, 200 hex characters | 834 | −74% (−75 … −73) | −73% (−75 … −71) | −75% (−75 … −74) | −75% (−76 … −75) | −78% … −70% |
+| `hex2bin()`, 512 hex characters | 1,985 | −80% (−80 … −78) | −77% (−78 … −77) | −83% (−87 … −81) | −83% (−83 … −82) | −85% … −77% |
+| `hex2bin()`, 2,048 hex characters | 7,527 | −83% (−83 … −77) | −79% (−80 … −78) | −87% (−87 … −87) | −86% (−86 … −86) | −87% … −79% |
+| `hex2bin()`, 128 KB of hex | 473,088 | −84% (−85 … −82) | −79% (−80 … −77) | −89% (−89 … −88) | −87% (−88 … −87) | −88% … −79% |
+| `hex2bin()`, 64 hex characters, upper case | 313 | −65% (−66 … −63) | −67% (−69 … −66) | −64% (−64 … −63) | −67% (−67 … −65) | −69% … −63% |
+| `hex2bin()`, 64 hex characters, mixed case | 312 | −66% (−66 … −65) | −67% (−68 … −67) | −64% (−64 … −64) | −67% (−68 … −67) | −69% … −63% |
+| `hex2bin()`, 2,048 hex characters, mixed case | 7,419 | −83% (−84 … −82) | −80% (−81 … −78) | −87% (−87 … −87) | −87% (−87 … −85) | −87% … −79% |
+| `hex2bin()`, 64 characters, one invalid | 1,171 | −4% (−5 … −4) | +2% (0 … +2) | +3% (0 … +3) | 0% (0 … +28) | −5% … −3% |
+| `hex2bin()`, 2,048 characters, one invalid | 4,812 | −63% (−64 … −62) | −60% (−60 … −58) | −62% (−63 … −62) | −61% (−72 … −52) | −72% … −66% |
+| `md5()` of 32 bytes | 443 | −9% (−10 … −2) | −10% (−10 … −7) | −11% (−11 … −9) | −11% (−12 … −8) | −11% … −10% |
+| `sha1()` of 32 bytes | 484 | −2% (−3 … +11) | −2% (−4 … +2) | −5% (−5 … −4) | −5% (−6 … −5) | −6% … −5% |
+| `hash('xxh128')` of 32 bytes | 292 | −8% (−8 … −8) | −8% (−9 … −7) | −14% (−14 … −13) | −12% (−12 … −11) | −12% … −11% |
+| `hash('sha256')` of 32 bytes | 440 | −14% (−14 … −11) | −12% (−12 … −11) | −17% (−17 … −17) | −12% (−13 … −7) | −18% … −17% |
+
 ## Reproduce
 
 From the root of php-src-bench, with `PHP_SRC` pointing at a php-src clone:
@@ -159,5 +178,6 @@ cd reports/pr-23789-bin2hex-hex2bin
 B=${BENCH_BUILDS:-../../../php-builds}
 for b in g13-base g13-pr; do $B/binhex-$b/sapi/cli/php -n difftest.php 200000 7 | diff - difftest-master.txt && echo "$b ok"; done
 CPU=2 PASSES=5 ./pairs-run.sh out.txt g13:g13-base:g13-pr g14:g14-base:g14-pr c18:c18-base:c18-pr c20:c20-base:c20-pr aa:g13-base:g13-base
-./table.py out.txt g13,g14,c18,c20
+mapfile -t ROWS < rows-full.txt
+./speedup-table.py --full out.txt 'g13:GCC 13.3,g14:GCC 14.2,c18:clang 18.1,c20:clang 20.1' "${ROWS[@]}"
 ```
