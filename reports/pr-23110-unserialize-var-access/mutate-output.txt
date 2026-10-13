@@ -1,0 +1,8 @@
+# mutate.py on unser-mut (master + PR, GCC 13.3, -O2 -g -falign-functions=64 -falign-loops=32), 2026-10-13T22:57:04Z
+last slot of a chunk accepted    CAUGHT: exit -11
+chunk index off by one           CAUGHT: R single, R all ids, r objects, R objects, fuzz
+slot off by one                  CAUGHT: R single, R all ids, r objects, R objects, nested, nested unserialize, fuzz
+last base slot sent to overflow path CAUGHT: exit -11
+overflow chunk not recorded      CAUGHT: R single, R all ids, r objects, R objects, nested, nested unserialize, fuzz
+unused base slot accepted        CAUGHT: exit -11
+unmutated: same as master

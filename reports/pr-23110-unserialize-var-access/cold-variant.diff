@@ -1,0 +1,57 @@
+diff --git a/ext/standard/var_unserializer.re b/ext/standard/var_unserializer.re
+index 217d33277a9..0f05e73807c 100644
+--- a/ext/standard/var_unserializer.re
++++ b/ext/standard/var_unserializer.re
+@@ -123,6 +123,24 @@ PHPAPI zend_long php_var_unserialize_get_cur_depth(php_unserialize_data_t d) {
+ 	return d->cur_depth;
+ }
+ 
++static zend_never_inline var_entries *var_push_new_chunk(php_unserialize_data_t d)
++{
++	var_entries *var_hash = emalloc(sizeof(var_entries));
++	var_hash->used_slots = 0;
++	var_hash->next = 0;
++
++	d->last->next = var_hash;
++	d->last = var_hash;
++
++	if (d->num_chunks == d->chunk_list_capacity) {
++		zend_long new_capacity = d->chunk_list_capacity ? d->chunk_list_capacity * 2 : 4;
++		d->chunk_list = erealloc(d->chunk_list, new_capacity * sizeof(var_entries *));
++		d->chunk_list_capacity = new_capacity;
++	}
++	d->chunk_list[d->num_chunks++] = var_hash;
++	return var_hash;
++}
++
+ static inline void var_push(php_unserialize_data_t *var_hashx, zval *rval)
+ {
+ 	var_entries *var_hash = (*var_hashx)->last;
+@@ -130,25 +148,8 @@ static inline void var_push(php_unserialize_data_t *var_hashx, zval *rval)
+ 	fprintf(stderr, "var_push(" ZEND_LONG_FMT "): %d\n", var_hash?var_hash->used_slots:-1L, Z_TYPE_P(rval));
+ #endif
+ 
+-	if (var_hash->used_slots == VAR_ENTRIES_MAX) {
+-		var_hash = emalloc(sizeof(var_entries));
+-		var_hash->used_slots = 0;
+-		var_hash->next = 0;
+-
+-		(*var_hashx)->last->next = var_hash;
+-		(*var_hashx)->last = var_hash;
+-
+-		/* Record the new overflow chunk in the O(1) jump table used by
+-		 * var_access(). This runs exactly once per VAR_ENTRIES_MAX (1018)
+-		 * pushes, so the amortized cost is negligible. */
+-		if ((*var_hashx)->num_chunks == (*var_hashx)->chunk_list_capacity) {
+-			zend_long new_capacity = (*var_hashx)->chunk_list_capacity
+-				? (*var_hashx)->chunk_list_capacity * 2 : 4;
+-			(*var_hashx)->chunk_list = erealloc(
+-				(*var_hashx)->chunk_list, new_capacity * sizeof(var_entries *));
+-			(*var_hashx)->chunk_list_capacity = new_capacity;
+-		}
+-		(*var_hashx)->chunk_list[(*var_hashx)->num_chunks++] = var_hash;
++	if (UNEXPECTED(var_hash->used_slots == VAR_ENTRIES_MAX)) {
++		var_hash = var_push_new_chunk(*var_hashx);
+ 	}
+ 
+ 	var_hash->data[var_hash->used_slots++] = rval;
