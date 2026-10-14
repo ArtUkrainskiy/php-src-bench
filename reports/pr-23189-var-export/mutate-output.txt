@@ -1,0 +1,8 @@
+# mutate.py on vx-mut (master + PR #23189, GCC 13.3, -O2 -g -falign-functions=64 -falign-loops=32), 2026-10-14T01:00:40Z
+NUL counted as 10 extra bytes    CAUGHT: exit -6
+NUL in array keys not escaped    CAUGHT: byte key, escape key, fuzz
+quote not escaped when written   CAUGHT: byte value, byte key, escape value, escape key, escape property, long, structure, fuzz
+length not counted (always bulk copy) CAUGHT: byte value, byte key, escape value, escape key, escape property, long, structure, fuzz
+one space less                   CAUGHT: byte key, escape key, escape property, structure, fuzz
+NUL escaped in property names    CAUGHT: escape property, fuzz
+unmutated: same as master

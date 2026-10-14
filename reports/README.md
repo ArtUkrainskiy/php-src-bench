@@ -13,6 +13,7 @@ run it again.
 | [htmlspecialchars-ascii-fast-path](htmlspecialchars-ascii-fast-path/) | A fast path for ASCII in `htmlspecialchars()` | [#24145](https://github.com/php/php-src/pull/24145) |
 | [htmlspecialchars-vs-23957](htmlspecialchars-vs-23957/) | `htmlspecialchars()`: #23957 and #24145 together | [#23957](https://github.com/php/php-src/pull/23957), [#24145](https://github.com/php/php-src/pull/24145) |
 | [csv-pr-24199](csv-pr-24199/) | ext/csv (the `csv_extension` RFC) against the built-in CSV functions | [#24199](https://github.com/php/php-src/pull/24199) (review) |
+| [pr-23189-var-export](pr-23189-var-export/) | `var_export()` without temporary strings: 32-bit overflow, long-string regression, a one-pass variant | [#23189](https://github.com/php/php-src/pull/23189) (review) |
 | [pr-23961-html-charset](pr-23961-html-charset/) | html functions: UTF-8 first when resolving the charset; alone and with #23957 and #24145 | [#23961](https://github.com/php/php-src/pull/23961) (review) |
 | [pr-23110-unserialize-var-access](pr-23110-unserialize-var-access/) | `unserialize()`: back-references found by chunk index instead of a list walk; measurements, correctness, a variant without the GCC per-value cost | [#23110](https://github.com/php/php-src/pull/23110) (review) |
 | [pr-23789-bin2hex-hex2bin](pr-23789-bin2hex-hex2bin/) | `bin2hex()`/`hex2bin()` with SSE2/NEON: measurements, big-endian AArch64 result, a variant without the short-input cost | [#23789](https://github.com/php/php-src/pull/23789) (review) |

@@ -1,0 +1,20 @@
+# 32-bit builds (gcc -m32 -O2 -g, --disable-all), master c65321c70f7 (vx32-base), master + PR #23189 (vx32-pr), one-pass variant (vx32-one2).
+# PHP_INT_SIZE = 4. 357,913,942 NUL bytes: 12 * 357,913,942 = 4,294,967,304 = 8 modulo 2^32.
+
+== vx32-base: php -n -d memory_limit=-1 -r '$s = str_repeat("\0", 357913942); $r = var_export($s, true); echo "returned ", strlen($r), " bytes\n";'
+Fatal error: Possible integer overflow in memory allocation (357913942 * 11 + 357913960) in Command line code on line 1
+Stack trace:
+#0 Command line code(1): var_export('\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00...', true)
+#1 {main}
+
+== vx32-pr: php -n -d memory_limit=-1 -r '$s = str_repeat("\0", 357913942); $r = var_export($s, true); echo "returned ", strlen($r), " bytes\n";'
+timeout: the monitored command dumped core
+exit status of vx32-pr: 139 (Segmentation fault, core dumped)
+
+== vx32-one2: php -n -d memory_limit=-1 -r '$s = str_repeat("\0", 357913942); var_export($s, true);'
+mmap() failed: [12] Cannot allocate memory
+mmap() failed: [12] Cannot allocate memory
+Fatal error: Out of memory (allocated 2012569600 bytes) (tried to allocate 1650462720 bytes) in Command line code on line 1
+Stack trace:
+#0 Command line code(1): var_export('\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00...', true)
+#1 {main}

@@ -1,0 +1,7 @@
+# How the published series was run (from results/varexp-23189, 2026-10-14):
+#   PREFIX= CPU=2 PASSES=5 ./pairs-run.sh intel-docker-20261014.txt \
+#     g13:binhex-d-g13-base:vx-g13-pr g13o:binhex-d-g13-base:vx-g13-one2  (same for g14, c18, c20) \
+#     aa:binhex-d-g13-base:binhex-d-g13-base
+# binhex-d-<cc>-base = master c65321c70f7, vx-<cc>-pr = master + PR (a348d6b3f08), vx-<cc>-one2 = variant (2562b938601).
+# intel-v12-20261014.txt (intermediate variant 4f251395bdb, groups <cc>o = vx-<cc>-one) was run the same way.
+# ASan tests: run-tests.php -q -j8 --offline --asan ext/standard/tests/general_functions ext/standard/tests/array, USE_ZEND_ALLOC=0.
