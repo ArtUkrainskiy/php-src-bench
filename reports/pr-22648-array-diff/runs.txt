@@ -4,3 +4,9 @@
 #     aa:binhex-d-g13-base:binhex-d-g13-base
 # binhex-d-<cc>-base = master c65321c70f7, ad-<cc>-pr = master + PR #22648 (merge 64e4aede086, UPGRADING from master).
 # ASan tests: run-tests.php -q -j8 --offline --asan ext/standard/tests/array, USE_ZEND_ALLOC=0.
+#
+# Second series (variants), 14 October 2026:
+#   PREFIX= CPU=2 PASSES=5 ./pairs-run.sh intel-variants-20261014.txt \
+#     <cc>-pr:binhex-d-<cc>-base:ad-<cc>-pr <cc>-peek:binhex-d-<cc>-base:ad-<cc>-peek <cc>-reord:binhex-d-<cc>-base:ad-<cc>-reord  (for cc in g13 g14 c18 c20) \
+#     aa:binhex-d-g13-base:binhex-d-g13-base
+# ad-<cc>-peek = 64e4aede086 + variant-peek.diff (dc0159bc375), ad-<cc>-reord = + variant-reorder.diff (65d28e033d1).

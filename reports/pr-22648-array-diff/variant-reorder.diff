@@ -1,0 +1,30 @@
+diff --git a/ext/standard/array.c b/ext/standard/array.c
+index be3a8c7e980..98c628ccdc5 100644
+--- a/ext/standard/array.c
++++ b/ext/standard/array.c
+@@ -6095,12 +6095,6 @@ static zend_never_inline bool php_array_diff_long(zval *args, uint32_t argc, uin
+ 	uint32_t range, bitset_len;
+ 	uint32_t i;
+ 
+-	/* The copy loop below cannot cheaply undo a partially built result, so
+-	 * the first array must be checked upfront. */
+-	if (!php_array_values_are_all_long(Z_ARRVAL(args[0]))) {
+-		return false;
+-	}
+-
+ 	/* Check the value types and determine whether the values are dense enough
+ 	 * for a bitset. Limiting the range to eight bits per exclude element keeps
+ 	 * bitset memory proportional to the input, apart from word alignment. */
+@@ -6123,6 +6117,12 @@ static zend_never_inline bool php_array_diff_long(zval *args, uint32_t argc, uin
+ 		} ZEND_HASH_FOREACH_END();
+ 	}
+ 
++	/* The copy loop below cannot undo a partially built result, so the first
++	 * array is checked before it. */
++	if (!php_array_values_are_all_long(Z_ARRVAL(args[0]))) {
++		return false;
++	}
++
+ 	range = (uint32_t) span + 1;
+ 	bitset_len = zend_bitset_len(range);
+ 	exclude = safe_emalloc(bitset_len, ZEND_BITSET_ELM_SIZE, 0);

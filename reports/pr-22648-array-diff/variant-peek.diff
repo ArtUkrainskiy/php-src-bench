@@ -1,0 +1,33 @@
+diff --git a/ext/standard/array.c b/ext/standard/array.c
+index 547e1fead44..be3a8c7e980 100644
+--- a/ext/standard/array.c
++++ b/ext/standard/array.c
+@@ -6072,6 +6072,18 @@ static zend_always_inline bool php_array_values_are_all_long(HashTable *ht)
+ 	return true;
+ }
+ 
++static zend_always_inline bool php_array_first_value_is_long(HashTable *ht)
++{
++	zval *value;
++
++	ZEND_HASH_FOREACH_VAL(ht, value) {
++		ZVAL_DEREF(value);
++		return Z_TYPE_P(value) == IS_LONG;
++	} ZEND_HASH_FOREACH_END();
++
++	return false;
++}
++
+ static zend_never_inline bool php_array_diff_long(zval *args, uint32_t argc, uint32_t exclude_count, zval *return_value)
+ {
+ 	zend_bitset exclude;
+@@ -6244,7 +6256,8 @@ PHP_FUNCTION(array_diff)
+ 		RETURN_THROWS();
+ 	}
+ 
+-	if (php_array_diff_long(args, argc, (uint32_t)num, return_value)) {
++	if (php_array_first_value_is_long(Z_ARRVAL(args[0]))
++			&& php_array_diff_long(args, argc, (uint32_t)num, return_value)) {
+ 		return;
+ 	}
+ 
