@@ -8,7 +8,7 @@ After removing the first element of a packed array, `array_shift()` on master mo
 
 - **Faster wherever the tail is long:** a queue of 100–10,000 elements (shift one, append one) takes 66–84% fewer cycles, draining a copy of 100–10,000 ints 57–83% fewer (2.3–6.0× faster; the description reports 2.7–4.3×), one shift of a fresh copy of 1,000 ints 45–49% fewer, on all four compilers.
 - **No cost elsewhere:** two elements −4 … −1%; an array with a hole and a hash array, which keep the old paths, −6 … +2% with instructions within 0.1%, next to −3 … +2% for master against master.
-- **No correctness issue found:** output, references, the shifted object and destructor order are the same as master on 500,000 random operation sequences and targeted cases, on all four compilers and under ASan/UBSan; the check catches four of five deliberate mutations, the fifth (not clearing the vacated last slot) changes nothing observable.
+- **No correctness issue found:** return values, the resulting arrays with their references, and the lifetime and destructor order of objects in the tail are the same as master on 500,000 random operation sequences and targeted cases, on all four compilers and under ASan/UBSan; the check catches four of five deliberate mutations, the fifth (not clearing the vacated last slot) changes nothing observable.
 - **Not measured:** AMD; ZTS builds.
 
 ## Results
@@ -29,16 +29,16 @@ Change in CPU cycles per operation with the PR, relative to master (negative = f
 | one shift of a fresh copy of 1,000 ints with a hole (old path) | 6,646 | +2% | +1% | −1% | −6% |
 | one shift of a fresh copy of 100 string keys (hash, old path) | 1,394 | 0% | 0% | −1% | 0% |
 
-A queue of 10,000 gains less than a queue of 1,000 (−75 … −72% against −84 … −82%) while executing 92–93% fewer instructions (1,000: 90–91% fewer): moving 160 KB per shift is bound by memory, not by the per-slot test.
+A queue of 10,000 gains less than a queue of 1,000 (−75 … −72% against −84 … −82%) while executing 92–93% fewer instructions (1,000: 90–91% fewer). Moving 160 KB per shift makes copy and cache bandwidth the likely limit; these counters alone do not prove it.
 
 ## Correctness
 
-- [`difftest.php`](difftest.php) hashes, for every operation, the return value and the array after it (`serialize()` keeps references; keys separately), and the order of destructor calls:
+- [`difftest.php`](difftest.php) hashes return values, array states (`serialize()` keeps references; keys separately) and the order of destructor calls:
   - draining packed arrays of every size from 0 to 40, with an append and a pop after every shift (41);
-  - one or two holes at every position of arrays of 1–12 elements, then three shifts with appends: the old path, then the fast path once the array is compact again (156);
-  - references to one variable and objects with destructors in the tail, with a copy-on-write copy of the array kept (8);
+  - one or two holes at every position of arrays of 1–12 elements, then three shifts with appends, with the array state after every step: the old path, then the fast path once the array is compact again (156);
+  - references to one variable and objects with destructors in the tail (the shifted element itself is an int), with a copy-on-write copy of the array kept: values, references and destructor order (8);
   - `array_shift()` inside `foreach` by value and by reference (8); a self-referencing array and nested arrays (2);
-  - 500,000 random sequences of shifts, unsets, appends, appended references, shifts of copies, string keys (turning the array into a hash) and `array_unshift()`, on arrays starting at up to 300 elements, seed 7.
+  - 500,000 random sequences of shifts, unsets, appends, appended references, shifts of copies, string keys (turning the array into a hash) and `array_unshift()`, on arrays starting at 0 to 300 elements, seed 7: every return value and the final array state.
 - Identical output ([`difftest-master.txt`](difftest-master.txt)) on master and the PR with all four compilers, and on the PR built with `--enable-debug --enable-address-sanitizer --enable-undefined-sanitizer` (clang 18.1, `USE_ZEND_ALLOC=0`, nothing on stderr): [`difftest-builds.txt`](difftest-builds.txt).
 - [`mutate.py`](mutate.py) applies five mutations to the PR: the fast path also for arrays with holes, one slot too many, the two-element case copying the wrong slot, a wrong `nNextFreeElement` — each changes the output or crashes — and not clearing the vacated last slot, which changes nothing: that slot lies beyond `nNumUsed`, and I found no code that reads it before overwriting it. [`mutate-output.txt`](mutate-output.txt).
 - `ext/standard/tests/array` and `Zend/tests/foreach` under ASan: 876 passed, 0 failed, 17 skipped ([`asan-tests.txt`](asan-tests.txt)).

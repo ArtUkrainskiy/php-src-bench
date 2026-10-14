@@ -1,7 +1,7 @@
-# mutate.py on as-mut (master + PR #23517, GCC 13.3, -O2 -g -falign-functions=64 -falign-loops=32), 2026-10-14T02:48:33Z
+# mutate.py on as-mut (master + PR #23517, GCC 13.3, -O2 -g -falign-functions=64 -falign-loops=32), 2026-10-14T03:23:34Z
 fast path also for arrays with holes CAUGHT: holes, fuzz
 one slot too many                CAUGHT: exit -11
-two-element case copies slot 2   CAUGHT: exit -11
+two-element case copies slot 2   CAUGHT: exit 255
 vacated last slot not cleared    missed
 next free index one too high     CAUGHT: drain, holes, fuzz
 unmutated: same as master

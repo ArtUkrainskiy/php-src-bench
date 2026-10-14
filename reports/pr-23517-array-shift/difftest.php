@@ -21,7 +21,7 @@ $state = static fn (array $a): string => serialize($a) . '|' . json_encode(array
 
 // 1. drain packed arrays of every size 0..40, with an append after every shift
 for ($n = 0; $n <= 40; $n++) {
-	$a = range(100, 99 + $n);
+	$a = $n ? range(100, 99 + $n) : [];
 	$out = [];
 	while ($a) { $out[] = array_shift($a); $a[] = 'x'; array_pop($a); }
 	$a[] = 'end';
@@ -79,7 +79,7 @@ $rec('self', serialize(array_shift($a)) . ';' . $state($a));
 mt_srand($seed);
 for ($k = 0; $k < $fuzzCount; $k++) {
 	$n = mt_rand(0, 3) ? mt_rand(0, 20) : mt_rand(0, 300);
-	$a = range(1, $n) ?: [];
+	$a = $n ? range(1, $n) : []; // range(1, 0) is [1, 0]
 	$x = 'r';
 	$s = '';
 	for ($op = mt_rand(1, 12); $op > 0; $op--) {
