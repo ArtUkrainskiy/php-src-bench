@@ -1,0 +1,8 @@
+# mutate.py on hcs-mut (master + #23961, GCC 13.3, -O2 -g -falign-functions=64 -falign-loops=32), 2026-10-14T00:03:13Z
+accept "utf-8" + anything        CAUGHT: prefixes, suffixes, mutations
+accept "utf_8"                   CAUGHT: prefixes, suffixes, mutations
+first letter case-sensitive      CAUGHT: aliases, prefixes, suffixes, mutations, defaults
+second character not compared    CAUGHT: mutations
+prefix of a codeset accepted     CAUGHT: prefixes, suffixes, mutations, two bytes, random
+no default: lookup of NULL       CAUGHT: defaults
+unmutated: same as master
