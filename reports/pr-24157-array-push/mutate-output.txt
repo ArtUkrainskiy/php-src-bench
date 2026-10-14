@@ -1,0 +1,8 @@
+internal pointer not restored            CAUGHT: 2708 lines differ, first: push2 ptr-mid/0/ints, push2 ptr-mid/0/strings, push2 ptr-mid/0/mixed
+holes allowed to grow                    CAUGHT: 285 lines differ, first: push2 holes-many-ptr/0/ints, push2 holes-many-ptr/0/strings, push2 holes-many-ptr/0/mixed
+next index not checked                   CAUGHT: 464 lines differ, first: push2 unset-last/0/ints, push2 unset-last/0/strings, push2 unset-last/0/mixed
+room one too large                       CAUGHT by ASan/UBSan/assert: ==26792==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x50d0000130a8 at pc 0x5d48012e463c bp 0x7ffd13595db0 
+table one slot short                     CAUGHT by ASan/UBSan/assert: ==27518==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x50d0000130a8 at pc 0x5df2e10e463a bp 0x7ffe2973f530 
+value refcount not added                 CAUGHT by ASan/UBSan/assert: ==28273==ERROR: AddressSanitizer: heap-use-after-free on address 0x50300004afb0 at pc 0x635e07e897b9 bp 0x7ffdd3773230 s
+uninitialized array not initialized      CAUGHT by ASan/UBSan/assert: php: <builds>/ap-c18-mut/ext/standard/array.c:3499: void zif_array_push(zend_execute_data *,
+unmutated: same as before

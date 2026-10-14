@@ -1,0 +1,11 @@
+build-1-int=`array_push($a, $i)`, one int; `$a` starts again from `[]` every 1,024 calls
+build-1-string=`array_push($a, $s)`, one string; same
+build-3-ints=`array_push($a, $i, $i, $i)`; same
+build-16-spread=`array_push($a, ...$v)`, 16 ints; same
+build-1-holes=`array_push($a, $i)`, list with a hole (`unset($a[3])`)
+build-1-hash=`array_push($a, $i)` onto `['k' => 0]` (hash, old code path)
+build-3-hash=`array_push($a, $i, $i, $i)` onto `['k' => 0]`
+new-1=`$a = []; array_push($a, $i);`
+new-2=`$a = []; array_push($a, $i, $i);`
+new-16-spread=`$a = []; array_push($a, ...$v);`, 16 ints
+new-1000-spread=`$a = []; array_push($a, ...$v);`, 1,000 ints

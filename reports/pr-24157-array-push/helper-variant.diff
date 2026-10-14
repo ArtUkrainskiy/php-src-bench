@@ -1,0 +1,83 @@
+diff --git a/ext/standard/array.c b/ext/standard/array.c
+index fae8b70895c..e73b6d936b8 100644
+--- a/ext/standard/array.c
++++ b/ext/standard/array.c
+@@ -3463,6 +3463,40 @@ static void php_splice(HashTable *in_hash, zend_long offset, zend_long length, H
+ }
+ /* }}} */
+ 
++/* Appends the values after the last used slot of a packed or uninitialized
++ * array. Returns false and leaves the array untouched if they cannot be
++ * stored there. */
++static zend_never_inline bool php_array_push_packed(HashTable *ht, zval *args, uint32_t argc)
++{
++	zend_long next_index = ht->nNextFreeElement == ZEND_LONG_MIN ? 0 : ht->nNextFreeElement;
++	uint32_t room = ht->nTableSize - ht->nNumUsed;
++
++	/* Growing an array with holes may turn it into a hash, so it must already have room. */
++	if (next_index != (zend_long) ht->nNumUsed
++	 || argc > HT_MAX_SIZE - ht->nNumUsed /* nNumUsed + argc must not wrap */
++	 || (argc > room && !HT_IS_WITHOUT_HOLES(ht))) {
++		return false;
++	}
++
++	if (UNEXPECTED(argc > room)) {
++		zend_hash_extend(ht, ht->nNumUsed + argc, true);
++	} else if (HT_FLAGS(ht) & HASH_FLAG_UNINITIALIZED) {
++		zend_hash_real_init_packed(ht);
++	}
++
++	/* ZEND_HASH_FILL_END() resets the internal pointer, array_push() keeps it. */
++	uint32_t pos = ht->nInternalPointer;
++	ZEND_HASH_FILL_PACKED(ht) {
++		for (uint32_t i = 0; i < argc; i++) {
++			Z_TRY_ADDREF(args[i]);
++			ZEND_HASH_FILL_ADD(&args[i]);
++		}
++	} ZEND_HASH_FILL_END();
++	ht->nInternalPointer = pos;
++
++	return true;
++}
++
+ /* {{{ Pushes elements onto the end of the array */
+ PHP_FUNCTION(array_push)
+ {
+@@ -3480,34 +3514,9 @@ PHP_FUNCTION(array_push)
+ 
+ 	/* Pushing nothing must leave the array untouched. A single value is added
+ 	 * to an uninitialized array more cheaply by zend_hash_next_index_insert(). */
+-	if (argc > 0 && (HT_IS_PACKED(ht) || (argc > 1 && (HT_FLAGS(ht) & HASH_FLAG_UNINITIALIZED)))) {
+-		zend_long next_index = ht->nNextFreeElement == ZEND_LONG_MIN ? 0 : ht->nNextFreeElement;
+-		bool appends_after_last = next_index == (zend_long) ht->nNumUsed;
+-		uint32_t room = ht->nTableSize - ht->nNumUsed;
+-
+-		/* The values can be stored after the last used slot. Growing an array
+-		 * with holes may turn it into a hash, so it must already have room. */
+-		if (appends_after_last
+-		 && argc <= HT_MAX_SIZE - ht->nNumUsed /* nNumUsed + argc must not wrap */
+-		 && (argc <= room || HT_IS_WITHOUT_HOLES(ht))) {
+-			if (UNEXPECTED(argc > room)) {
+-				zend_hash_extend(ht, ht->nNumUsed + argc, true);
+-			} else if (HT_FLAGS(ht) & HASH_FLAG_UNINITIALIZED) {
+-				zend_hash_real_init_packed(ht);
+-			}
+-
+-			/* ZEND_HASH_FILL_END() resets the internal pointer, array_push() keeps it. */
+-			uint32_t pos = ht->nInternalPointer;
+-			ZEND_HASH_FILL_PACKED(ht) {
+-				for (uint32_t i = 0; i < argc; i++) {
+-					Z_TRY_ADDREF(args[i]);
+-					ZEND_HASH_FILL_ADD(&args[i]);
+-				}
+-			} ZEND_HASH_FILL_END();
+-			ht->nInternalPointer = pos;
+-
+-			RETURN_LONG(zend_hash_num_elements(ht));
+-		}
++	if (argc > 0 && (HT_IS_PACKED(ht) || (argc > 1 && (HT_FLAGS(ht) & HASH_FLAG_UNINITIALIZED)))
++	 && php_array_push_packed(ht, args, argc)) {
++		RETURN_LONG(zend_hash_num_elements(ht));
+ 	}
+ 
+ 	/* Otherwise, insert the values one by one. */

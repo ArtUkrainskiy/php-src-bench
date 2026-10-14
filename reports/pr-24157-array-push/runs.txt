@@ -1,0 +1,5 @@
+# ap-<cc>-pr = master c65321c70f7 + PR #24157 head d8ef5ef635f (merge 5dc5247103b); master builds = os-<cc>-base (c65321c70f7), same flags, --with-openssl
+series intel-docker-20261014.txt: NSCALE=3e8 PASSES=5 CPU=2; pairs g13 g14 c18 c20 + aa (os-g13-base vs itself)
+intel-docker-20261014-noisy.txt: discarded, A/A build-1-hash +10% (passes 86/89/102 against 77-78) at the end of the series (master runs 77-83, median 78)
+series intel-docker-20261014.txt (rerun 2): NSCALE=3e8 PASSES=5 CPU=2; aa first and last; mutate-phpt.py on E-cores in parallel
+series intel-docker-helper-20261014.txt: NSCALE=3e8 PASSES=5 CPU=2; aa first and aa2 last; per compiler g* = master vs PR, h* = master vs helper variant (ap-<cc>-helper, branch apush-helper 2a9f2645c49 on top of merge 5dc5247103b); no other load

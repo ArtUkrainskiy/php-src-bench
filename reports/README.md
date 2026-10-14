@@ -15,6 +15,7 @@ run it again.
 | [csv-pr-24199](csv-pr-24199/) | ext/csv (the `csv_extension` RFC) against the built-in CSV functions | [#24199](https://github.com/php/php-src/pull/24199) (review) |
 | [pr-23517-array-shift](pr-23517-array-shift/) | `array_shift()`: one `memmove()` for hole-free packed arrays | [#23517](https://github.com/php/php-src/pull/23517) (review) |
 | [pr-22648-array-diff](pr-22648-array-diff/) | `array_diff()` of ints through a bitset | [#22648](https://github.com/php/php-src/pull/22648) (review) |
+| [pr-24157-array-push](pr-24157-array-push/) | `array_push()` appending to packed arrays in bulk | [#24157](https://github.com/php/php-src/pull/24157) (review) |
 | [pr-23189-var-export](pr-23189-var-export/) | `var_export()` without temporary strings: 32-bit overflow, long-string regression, a one-pass variant | [#23189](https://github.com/php/php-src/pull/23189) (review) |
 | [pr-23961-html-charset](pr-23961-html-charset/) | html functions: UTF-8 first when resolving the charset; alone and with #23957 and #24145 | [#23961](https://github.com/php/php-src/pull/23961) (review) |
 | [pr-23110-unserialize-var-access](pr-23110-unserialize-var-access/) | `unserialize()`: back-references found by chunk index instead of a list walk; measurements, correctness, a variant without the GCC per-value cost | [#23110](https://github.com/php/php-src/pull/23110) (review) |
