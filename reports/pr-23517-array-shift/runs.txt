@@ -1,0 +1,6 @@
+# How the published series was run (from results/ashift-23517, 2026-10-14):
+#   PREFIX= CPU=2 PASSES=5 ./pairs-run.sh intel-docker-20261014.txt \
+#     g13:binhex-d-g13-base:as-g13-pr g14:binhex-d-g14-base:as-g14-pr c18:binhex-d-c18-base:as-c18-pr c20:binhex-d-c20-base:as-c20-pr \
+#     aa:binhex-d-g13-base:binhex-d-g13-base
+# binhex-d-<cc>-base = master c65321c70f7, as-<cc>-pr = master + PR #23517 (merge 657902a1b11).
+# ASan tests: run-tests.php -q -j8 --offline --asan ext/standard/tests/array Zend/tests/foreach, USE_ZEND_ALLOC=0.
