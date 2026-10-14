@@ -1,0 +1,8 @@
+# mutate.py on ad-mut (master + PR #22648, GCC 13.3, -O2 -g -falign-functions=64 -falign-loops=32), 2026-10-14T03:49:26Z
+no out-of-range check            CAUGHT: exit -11
+minimum never updated            CAUGHT: extremes
+no addref on copied values       CAUGHT: exit -6
+string keys dropped              CAUGHT: refs keys, fuzz
+first array type not checked     CAUGHT: mixed, fuzz
+references not dereferenced in the copy loop CAUGHT: refs keys, fuzz
+unmutated: same as master

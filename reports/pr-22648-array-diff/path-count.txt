@@ -1,0 +1,6 @@
+# Calls of difftest.php 200000 7 that return through the PR's bitset path.
+# ad-mut build (master + PR) with one line added before 'efree(exclude); return true;' in php_array_diff_long():
+#   if (getenv("ADIFF_COUNT")) fprintf(stderr, "F %u\n", range);
+# Output on stdout identical to difftest-master.txt.
+targeted sections (fuzz count 0): 84 calls on the bitset path, largest bitset 8004 bits
+fuzz: 73022 of 200000 calls (36.51%) on the bitset path

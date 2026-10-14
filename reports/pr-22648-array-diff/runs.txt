@@ -1,0 +1,6 @@
+# How the published series was run (14 October 2026), with BENCH_BUILDS set to the build directory:
+#   PREFIX= CPU=2 PASSES=5 ./pairs-run.sh intel-docker-20261014.txt \
+#     g13:binhex-d-g13-base:ad-g13-pr g14:binhex-d-g14-base:ad-g14-pr c18:binhex-d-c18-base:ad-c18-pr c20:binhex-d-c20-base:ad-c20-pr \
+#     aa:binhex-d-g13-base:binhex-d-g13-base
+# binhex-d-<cc>-base = master c65321c70f7, ad-<cc>-pr = master + PR #22648 (merge 64e4aede086, UPGRADING from master).
+# ASan tests: run-tests.php -q -j8 --offline --asan ext/standard/tests/array, USE_ZEND_ALLOC=0.
