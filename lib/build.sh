@@ -281,6 +281,10 @@ step() {
 	if ! (cd "$dir" && "$@") >>"$log" 2>&1; then
 		tail -30 "$log" >&2
 		echo "bench build: failed, full log: $log" >&2
+		# Old release branches often do not pass -Werror on newer compilers.
+		if grep -qE 'all warnings being treated as errors|\[-Werror' "$log"; then
+			echo "bench build: a warning stopped the build (-Werror); if it is not in the code you review, build again with --no-werror and say so in the review" >&2
+		fi
 		exit 1
 	fi
 }
