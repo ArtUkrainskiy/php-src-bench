@@ -64,8 +64,10 @@ Run a suite that is not in `suites/` by path: `bench run path/to/suite.php --a b
 | `Corpus::slice($name, $bytes)` | exactly `$bytes` bytes of the file; for files without useful lines, such as minified code |
 | `Corpus::entities($share, $bytes, $pool = 'mixed')` | English words mixed with HTML entities so that about `$share` of the bytes are entities; pools are listed in `Corpus::ENTITY_POOLS` |
 
-Generated files, committed: `en`, `html`, `entities`, `ru`, `zh`, `ja`, `emoji` in UTF-8, and
-`ru-cp1251`, `ja-sjis`, `zh-big5`. `corpus/generate.py` produces them deterministically, so
+Generated files, committed: `en`, `es`, `ru`, `ar`, `hi`, `zh`, `ja`, `ko`, `emoji`, `html`,
+`entities` in UTF-8, and `ru-cp1251`, `ja-sjis`, `zh-big5`. The languages cover the main scripts and
+UTF-8 widths (bytes per character in the files: en 1.00, es 1.03, emoji mix 1.42, ar 1.76, ru 1.77,
+ko 2.25, hi 2.54, ja 2.88, zh 2.89); give each the same cases rather than favouring one. `corpus/generate.py` produces them deterministically, so
 everybody measures the same bytes; `tests/run.sh` checks that.
 
 Real documents (`real/<name>`) are downloaded by `corpus/real/fetch.sh` and not committed, see
