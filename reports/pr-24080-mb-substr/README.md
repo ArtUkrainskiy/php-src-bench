@@ -265,4 +265,16 @@ BENCH_BUILDS=<builds> CPU=2 PASSES=5 CASES="$CASES" ./pairs-run.sh chunk.txt g13
 BENCH_BUILDS=<builds> CPU=2 PASSES=5 CASES="$CASES" ./pairs-run.sh chunk64.txt g13:g13-pr:g13-chunk64 g14:g14-pr:g14-chunk64 c18:c18-pr:c18-chunk64 c20:c20-pr:c20-chunk64
 ```
 
+The same measurement with the tool's own commands, without the scripts above (added after the review; same machine, 16 October 2026, on battery with a load average of 5.9 at the start): [`suite.php`](suite.php) marks each copy of the input as valid UTF-8 with `setup`, and
+
+```
+BENCH_CONFIGURE_EXTRA="--enable-mbstring --disable-mbregex" ./bench build --slim --cc gcc,gcc-14,clang,clang-20 mbc-base 1c9242e7fec
+BENCH_CONFIGURE_EXTRA="--enable-mbstring --disable-mbregex" ./bench build --slim --cc gcc,gcc-14,clang,clang-20 mbc-head <head merged onto 1c9242e7fec>
+./bench compare reports/pr-24080-mb-substr/suite.php gcc13=mbc-base-gcc13:mbc-head-gcc13 gcc14=mbc-base-gcc14:mbc-head-gcc14 \
+    clang18=mbc-base-clang18:mbc-head-clang18 clang20=mbc-base-clang20:mbc-head-clang20
+./bench table <series> --labels reports/pr-24080-mb-substr/labels-compare.txt --header
+```
+
+gave [`compare-head.json`](compare-head.json) in 193 seconds. Its cells are within 5 percentage points of the table above (the largest difference: the Russian title with GCC 13.3, −42% against −37%), computed per pass and with the empty loop subtracted instead of zero calls.
+
 The series in this report: [`intel-docker-20261016-head.txt`](intel-docker-20261016-head.txt) (master against the current head), [`intel-docker-20261016-langs.txt`](intel-docker-20261016-langs.txt) (master against the first version, same calls), [`intel-docker-20261016-chunk.txt`](intel-docker-20261016-chunk.txt) and [`intel-docker-20261016-chunk64.txt`](intel-docker-20261016-chunk64.txt) (the first version against the variants); lines: group, side, case, cycles, instructions per call.
