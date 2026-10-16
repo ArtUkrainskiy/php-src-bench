@@ -13,6 +13,7 @@ require BENCH_ROOT . '/lib/environment.php';
 require BENCH_ROOT . '/lib/process.php';
 require BENCH_ROOT . '/lib/stats.php';
 require BENCH_ROOT . '/lib/render.php';
+require BENCH_ROOT . '/lib/compare.php';
 require BENCH_ROOT . '/lib/Corpus.php';
 
 $failed = 0;
@@ -138,6 +139,22 @@ same(2.5, float_option(['target-ms' => '2.5'], 'target-ms', 10.0), 'float option
 
 same([0, 1, 2, 3, 8], parse_cpu_list('0-3,8'), 'cpu list with a range');
 same([], parse_cpu_list(null), 'missing cpu list');
+
+/* ---- bench compare and bench table */
+
+same('−25', percent_change(0.75), 'percent_change: fewer cycles');
+same('+4', percent_change(1.04), 'percent_change: more cycles');
+same('0', percent_change(0.996), 'percent_change: rounds to 0, never "−0"');
+same('−12', percent_change(0.875), 'percent_change: half rounds up, towards +');
+same('−1', percent_change(0.9949), 'percent_change: below half rounds down');
+same('GCC 13.3', compiler_name(['cc' => 'gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0']), 'compiler_name: gcc');
+same('GCC 14.2', compiler_name(['cc' => 'gcc-14 (Ubuntu 14.2.0-4ubuntu2~24.04) 14.2.0']), 'compiler_name: gcc-14');
+same('GCC 13.3', compiler_name(['cc' => 'cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0']), 'compiler_name: cc');
+same('clang 20.1', compiler_name(['cc' => 'Ubuntu clang version 20.1.2 (0ubuntu1~24.04.3)']), 'compiler_name: clang');
+same(null, compiler_name(null), 'compiler_name: foreign binary');
+same([52345678.0, 123456789.0], perf_parse_cycles("52345678,,cpu_core/cycles/,51234567,100.00,,\n123456789,,cpu_core/instructions/,51234567,100.00,,\n", 'x'), 'perf_parse_cycles: hybrid CPU');
+same([5.0, 7.0], perf_parse_cycles("1,,cpu_atom/cycles/,0,0.00,,\n5,,cycles,9,100.00,,\n7,,instructions,9,100.00,,\n", 'x'), 'perf_parse_cycles: skips E-core counters');
+throws('BenchError', static fn () => perf_parse_cycles("<not counted>,,cpu_core/cycles/,0,0.00,,\n", 'x'), 'perf_parse_cycles: no count');
 
 /* ---- corpus: generated inputs are the same on every machine and PHP version */
 

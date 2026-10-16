@@ -27,6 +27,12 @@ Usage:
   bench suites                       List the suites
   bench run <suite> --a <build|php> [--b <build|php>] [options]
                                      Measure a suite and compare B against A, see `bench run --help`
+  bench compare <suite> <group>=<A>:<B>... [options]
+                                     CPU cycles and instructions per call for pairs of builds, one
+                                     group per compiler, alternating passes, A/A control; see
+                                     `bench compare --help`
+  bench table <series.json> [--full] [--labels FILE]
+                                     The change in cycles relative to A, in percent, as Markdown
   bench show <result.json> [--md]    Render a saved result again
   bench difftest <generator> <A> <B> [--seed N] [--count N]
                                      Check that two builds give identical output on generated inputs
@@ -96,7 +102,7 @@ case "$cmd" in
 	build) shift; exec "$BENCH_ROOT/lib/build.sh" "$@" ;;
 	tune) shift; exec "$BENCH_ROOT/lib/tune.sh" "$@" ;;
 	difftest) shift; exec "$BENCH_ROOT/lib/difftest.sh" "$@" ;;
-	run|show|check|builds|suites)
+	run|compare|table|show|check|builds|suites)
 		php="$(runner_php)"
 		exec "$php" -n -d memory_limit=-1 "$BENCH_ROOT/lib/runner.php" "$@"
 		;;

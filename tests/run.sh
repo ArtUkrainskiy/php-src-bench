@@ -68,7 +68,17 @@ for fixture in tests/fixtures/*.json; do
 	done
 done
 expect_output "is not a result saved by bench run" ./bench show README.md
-group "render: $(ls tests/fixtures/*.json | wc -l) fixtures"
+for variant in "" --full; do
+	expected="tests/expected/table${variant:+-full}.md"
+	actual="$(./bench table tests/fixtures/series/compare.json --labels tests/fixtures/series/compare-labels.txt $variant 2>&1)"
+	if $update; then
+		printf '%s\n' "$actual" >"$expected"
+	elif [[ "$actual" != "$(cat "$expected")" ]]; then
+		fail "bench table $variant (see: diff <(./bench table tests/fixtures/series/compare.json --labels tests/fixtures/series/compare-labels.txt $variant) $expected)"
+	fi
+done
+expect_output "not a series from \`bench compare\`" ./bench table tests/fixtures/single.json
+group "render: $(ls tests/fixtures/*.json | wc -l) fixtures, bench table"
 
 # 4. Every suite loads; inputs from corpus/real may be absent, a suite without any case is a bug
 for suite in suites/*.php; do
@@ -109,6 +119,13 @@ expect_output "case 'raises a warning @ text'" ./bench run "$tmp/bad.php" --a "$
 expect_output "does a case of the suite print something" ./bench run "$tmp/bad.php" --a "$php" --filter prints --quick --no-save
 expect_output "--rounds and --samples must be at least 1" ./bench run html --a "$php" --rounds 0
 expect_output "suite not found" ./bench run no-such-suite --a "$php"
+expect_output "a group is <name>=<A>:<B>" ./bench compare html "$php"
+expect_output "reserved or used twice" ./bench compare html aa="$php":"$php"
+# A second process on a locked CPU is refused
+cpu="$("$php" -n -r 'require "lib/environment.php"; echo default_cpu();')"
+exec {lockfd}>"${TMPDIR:-/tmp}/php-src-bench-cpu$cpu.lock"
+flock -n "$lockfd" && expect_output "CPU $cpu is in use by another bench process" ./bench run html --a "$php" --quick --no-save
+exec {lockfd}>&-
 group "bad suites and options are refused"
 
 # 7. A real, tiny run; what it saves renders again; the read-only commands work

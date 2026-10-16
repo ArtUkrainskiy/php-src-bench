@@ -43,6 +43,7 @@ require __DIR__ . '/environment.php';
 require __DIR__ . '/process.php';
 require __DIR__ . '/stats.php';
 require __DIR__ . '/render.php';
+require __DIR__ . '/compare.php';
 
 exit(main($argv));
 
@@ -52,6 +53,8 @@ function main(array $argv): int
         [$positional, $options] = parse_args(array_slice($argv, 2));
         return match ($argv[1] ?? '') {
             'run' => cmd_run($positional, $options),
+            'compare' => cmd_compare($positional, $options),
+            'table' => cmd_table($positional, $options),
             'show' => cmd_show($positional, $options),
             'check' => cmd_check($options),
             'builds' => cmd_builds(),
@@ -106,6 +109,7 @@ function cmd_run(array $positional, array $options): int
         $sides['B'] = resolve_side((string) $options['b']);
     }
     $config = run_config($options);
+    $lock = lock_cpu($config['cpu']);
     $env = system_info($config['cpu']);
     if ($config['perf']) {
         perf_probe($config['cpu']); // fail now rather than after the timed rounds
@@ -385,7 +389,7 @@ function cmd_builds(): int
         if (!is_array($build)) {
             continue; // a build that was interrupted
         }
-        $cc = preg_match('/(clang|g?cc)\D*?(\d+\.\d+)/', $build['cc'] ?? '', $m) ? ($m[1] === 'clang' ? 'clang' : 'gcc') . " $m[2]" : '?';
+        $cc = compiler_name($build) ?? '?';
         $profile = preg_replace('/ \(.*/', '+', $build['profile'] ?? '-');
         printf("%-20s %-12s %-12s %-7s %s%s\n", $build['name'], $build['version'], $cc, $profile, build_source($build), $build['debug'] ? '  [debug build]' : '');
         $found = true;
