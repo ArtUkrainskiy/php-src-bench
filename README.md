@@ -49,7 +49,13 @@ What it takes care of, so that you do not have to:
   built with several compilers, with a master-against-master control, and `bench table` turns
   that into the Markdown table of "−25%" cells that goes into a PR comment.
 - **Correctness.** For every case the value the expression returns is compared between A and B.
-  `bench difftest` goes further and compares the two builds on thousands of generated inputs.
+  `bench difftest` goes further and compares the builds on thousands of generated inputs, and
+  `bench mutate` checks that those checks catch a wrong version of the change.
+- **The cause of a difference.** `bench why` counts branch misses, cache misses and front-end
+  stalls of both builds and shows where the functions sit, for a change in time without a change
+  in work.
+- **Someone else's pull request.** `bench pr <N>` fetches it, merges it onto master and builds
+  both sides; `bench report` turns a series into a report directory a review can link to.
 - **A record.** Each run is saved as JSON and can be rendered again as a terminal or Markdown table.
 
 ## Requirements
@@ -80,13 +86,14 @@ git clone https://github.com/ArtUkrainskiy/php-src-bench.git
 projects/
 ├── php-src/         your checkout, with your change on a branch or in the working tree
 ├── php-src-bench/   this repository
-└── php-builds/      created by `bench build`, one git worktree per build
+└── php-builds/      created by `bench build`: a git worktree per build, or only the binary (--slim)
 ```
 
 Elsewhere, point `PHP_SRC` at the php-src checkout and `BENCH_BUILDS` at the directory for builds.
 
 ```sh
 cd php-src-bench
+./bench doctor                      # what this machine has and lacks (before the first build: PHP 8.0+ in PATH)
 ./bench build base "$(git -C ../php-src merge-base master HEAD)"   # the commit your branch starts from
 ./bench build dev .                 # your php-src working tree, as it is right now
 corpus/real/fetch.sh                # once: real HTML, Markdown and JS used as inputs
@@ -282,14 +289,14 @@ snapshots that nobody else can check out. `update` also removes such paths from 
 | `bench rm <name>...` | delete builds |
 | `bench gc [--older-than DAYS] [--yes] [<pattern>...]` | list builds with size and age; remove the matching ones with `--yes` |
 | `bench suites` | list suites |
-| `bench run <suite> --a <build> [--b <build>] [options]` | measure; `bench run --help` lists the options |
-| `bench compare <suite> <group>=<A>:<B>... [options]` | cycles and instructions per call for pairs of builds, one group per compiler; `bench compare --help` |
-| `bench table <series.json> [--full] [--labels FILE] [--header]` | the change in cycles relative to A as a Markdown table |
+| `bench run <suite> --a <build> [--b <build>] [options]` | measure; `--code EXPR --inputs SPEC` instead of a suite; `bench run --help` lists the options |
+| `bench compare <suite> <group>=<A>:<B>... [options]` | cycles and instructions per call for pairs of builds, one group per compiler; `--code` instead of a suite, `--resume` an interrupted series; `bench compare --help` |
+| `bench table <series.json> [--full] [--labels FILE] [--header] [--bpc] [--base-name NAME]` | the change in cycles relative to A as a Markdown table |
 | `bench report new\|update\|check <dir>` | a report directory from a series, its generated tables, the checks before committing it |
 | `bench show <result.json> [--md]` | render a saved result again |
 | `bench difftest <generator> <A> <B> [<C>...] [--seed N] [--count N]` | compare outputs of builds on generated inputs; `code --code EXPR` for any expression |
 | `bench mutate <build> <mutations.php> [--only RE]` | put mistakes into the change one at a time and see whether the differential test and the tests catch them |
-| `bench why <suite> <A> <B> --filter RE [--functions f,g]` | branch misses, front-end stalls and function addresses of two builds, for a case whose cycles changed and instructions did not |
+| `bench why <suite> <A> <B> --filter RE [--functions f,g]` (or `--code`) | branch misses, front-end stalls and function addresses of two builds, for a case whose cycles changed and instructions did not |
 | `bench check [--cpu N]` | report noise sources on this machine and whether `--perf` can work |
 | `bench tune on\|off\|status` | `on`: performance governor, no turbo boost; `off`: back to what it was (both need sudo) |
 | `bench php` | print the php binary that runs the tool itself |
@@ -313,14 +320,17 @@ A suite is a PHP file in `suites/` that returns inputs and expressions:
 
 | Suite | |
 |---|---|
-| `html` | the four functions of `ext/standard/html.c` on small inputs, a quick overview |
-| `htmlspecialchars` | `htmlspecialchars()` and `htmlentities()`: short strings, text, markup, non-Latin scripts, legacy charsets |
+| `html` | the four functions of `ext/standard/html.c` on small inputs and 1 KB of every language, a quick overview |
+| `htmlspecialchars` | `htmlspecialchars()` and `htmlentities()`: short strings, titles, 1 KB and 64 KB of every language, markup, legacy charsets |
 | `entities` | entity decoding with a growing share of entities, from none to entities only |
 | `entity-period` | `html_entity_decode()` with one entity every N bytes |
 | `realdata` | entity decoding on real HTML pages, Markdown and JavaScript |
-| `json` | `json_encode()` and `json_decode()` of strings |
+| `json` | `json_encode()` and `json_decode()` of strings: 1 KB and 64 KB of every language, escaped and raw Unicode |
 
-Writing your own takes a few lines, see [docs/suites.md](docs/suites.md).
+"Every language" is the nine of the corpus (`Corpus::LANGUAGES`: English, Spanish, Russian,
+Arabic, Hindi, Chinese, Japanese, Korean, emoji in English), from 1.00 to 2.89 bytes per
+character. Writing your own takes a few lines, see [docs/suites.md](docs/suites.md); for one
+expression, `--code` and `--inputs` need no file.
 
 ## More
 
