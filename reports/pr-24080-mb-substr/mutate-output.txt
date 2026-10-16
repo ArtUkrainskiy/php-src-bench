@@ -1,0 +1,9 @@
+mobile variants take the fast path                 difftest: CAUGHT (11089 lines differ)  phpt: missed
+invalid strings take the fast path                 difftest: CAUGHT (1081 lines differ)   phpt: CAUGHT by 2
+chunk loop runs down to offset 0                   difftest: CAUGHT (12302 lines differ)  phpt: missed
+chunk step one byte short                          difftest: CAUGHT (6146 lines differ)   phpt: missed
+only ASCII bytes counted as characters             difftest: CAUGHT (18377 lines differ)  phpt: CAUGHT by 5
+offset past the end returns the end                difftest: CAUGHT (6420 lines differ)   phpt: CAUGHT by 1
+strpos uses the fast path for unchecked strings    difftest: missed                       phpt: missed
+result length one character short                  difftest: CAUGHT (10531 lines differ)  phpt: CAUGHT by 5
+unmutated difftest: missed (no difference from master)

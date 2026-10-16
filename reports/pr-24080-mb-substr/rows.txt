@@ -1,0 +1,15 @@
+head10@en-title=`mb_substr($s, 0, 10)`, 31-byte English title
+head10@ru-title=`mb_substr($s, 0, 10)`, 49-byte Russian title
+mid20@en-1k=`mb_substr($s, $half, 20)`, English text, 1 KB
+mid20@ru-1k=`mb_substr($s, $half, 20)`, Russian text, 1 KB
+mid20@zh-1k=`mb_substr($s, $half, 20)`, Chinese text, 1 KB
+mid20@emoji-1k=`mb_substr($s, $half, 20)`, text with emoji, 1 KB
+tail20@ru-1k=`mb_substr($s, -20)`, Russian text, 1 KB
+firsthalf@ru-1k=`mb_substr($s, 0, $half)`, Russian text, 1 KB
+strpos-mid@ru-1k=`mb_strpos($s, $needle, $half)`, Russian text, 1 KB
+mid20@en-64k=`mb_substr($s, $half, 20)`, English text, 64 KB
+mid20@ru-64k=`mb_substr($s, $half, 20)`, Russian text, 64 KB
+tail20@ru-64k=`mb_substr($s, -20)`, Russian text, 64 KB
+strpos-mid@ru-64k=`mb_strpos($s, $needle, $half)`, Russian text, 64 KB
+mid20@ru-1k-plain=`mb_substr($s, $half, 20)`, Russian text, 1 KB, not checked
+head10@ru-title-plain=`mb_substr($s, 0, 10)`, 49-byte Russian title, not checked
