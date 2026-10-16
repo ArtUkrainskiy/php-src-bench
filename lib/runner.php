@@ -39,6 +39,7 @@ define('HARNESS', BENCH_ROOT . '/lib/harness.php');
 const RESULT_FORMAT = 1;
 
 require __DIR__ . '/console.php';
+require __DIR__ . '/Corpus.php';
 require __DIR__ . '/environment.php';
 require __DIR__ . '/process.php';
 require __DIR__ . '/stats.php';
@@ -175,7 +176,17 @@ function suite_names(): array
 function inline_suite(array $options): string
 {
     $inputs = [];
-    foreach (explode(',', (string) ($options['inputs'] ?? 'lang:1k')) as $spec) {
+    $specs = array_map('trim', explode(',', (string) ($options['inputs'] ?? 'lang:1k')));
+    $names = [];
+    foreach ($specs as $spec) {
+        foreach (preg_match('/^lang:(.+)$/i', $spec, $m) ? array_map(static fn (string $l): string => "$l-" . strtolower($m[1]), Corpus::LANGUAGES) : [str_replace(':', '-', strtolower($spec))] as $name) {
+            if (isset($names[$name])) {
+                throw new BenchError("--inputs: '$name' comes twice ($spec and {$names[$name]})");
+            }
+            $names[$name] = $spec;
+        }
+    }
+    foreach ($specs as $spec) {
         if (!preg_match('/^([a-z][a-z0-9\/_-]*):(title|\d+k?)$/i', trim($spec), $m)) {
             throw new BenchError("--inputs: '$spec' is not <corpus>:<size> (lang:1k, en:64k, lang:title)");
         }
@@ -189,7 +200,8 @@ function inline_suite(array $options): string
     if (isset($options['setup'])) {
         $case['setup'] = (string) $options['setup'];
     }
-    $php = "<?php\n// Made by --code: " . str_replace("\n", ' ', (string) $options['code']) . "\n"
+    // The expression goes in only as an exported string: in a // comment, a closing PHP tag in it would end the file.
+    $php = "<?php\n"
         . 'return [' . "\n    'inputs' => array_merge(" . implode(', ', $inputs) . "),\n"
         . '    \'cases\' => [' . var_export((string) $options['code'], true) . ' => ' . var_export($case, true) . "],\n];\n";
     $dir = BENCH_ROOT . '/results';

@@ -102,7 +102,7 @@ function cmd_mutate(array $positional, array $options): int
                     'failed' => $newFailures,
                 ];
             } finally {
-                rename("$path.bench-orig", $path);
+                mutate_restore($path);
             }
         }
     } finally {
@@ -114,6 +114,7 @@ function cmd_mutate(array $positional, array $options): int
     $out = sprintf("%s\n\n| mutation | difftest | tests |\n|---|---|---|\n", "Mutations of $buildName ($file)");
     $caught = 0;
     foreach ($rows as $name => $r) {
+        $name = str_replace('|', '\|', $name);
         if (isset($r['build'])) {
             $out .= "| $name | {$r['build']} | |\n";
             continue;
@@ -136,9 +137,20 @@ function mutate_restore_all(string $dir): void
 {
     $found = (string) shell_exec('find ' . escapeshellarg($dir) . ' -name "*.bench-orig" -not -path "*/.git/*" 2>/dev/null');
     foreach (array_filter(explode("\n", $found)) as $orig) {
-        rename($orig, substr($orig, 0, -strlen('.bench-orig')));
+        mutate_restore(substr($orig, 0, -strlen('.bench-orig')));
         warn('restored ' . substr($orig, strlen($dir) + 1, -strlen('.bench-orig')) . ' from an interrupted run');
     }
+}
+
+/**
+ * Puts the original back from <file>.bench-orig. It is written, not renamed: a rename keeps the
+ * old modification time, older than the mutated object file, and make would not rebuild it.
+ */
+function mutate_restore(string $path): void
+{
+    file_put_contents($path, (string) file_get_contents("$path.bench-orig"));
+    touch($path);
+    unlink("$path.bench-orig");
 }
 
 function mutate_make(string $dir): bool
@@ -180,11 +192,18 @@ function mutate_checks(string $dir, array $spec): array
         $cmd = array_merge([$php, '-n', 'run-tests.php', '-q', "-j$jobs", '--no-color', '-p', $php], array_map('strval', $spec['tests']));
         $proc = proc_open($cmd, [1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $pipes, $dir, ['TEST_PHP_EXECUTABLE' => $php, 'NO_INTERACTION' => '1'] + getenv());
         $out = (string) stream_get_contents($pipes[1]);
-        stream_get_contents($pipes[2]);
-        proc_close($proc);
+        $err = (string) stream_get_contents($pipes[2]);
+        $status = proc_close($proc);
+        // run-tests.php exits with 1 when tests fail; anything else, or no tests at all, is a broken check.
+        if (($status !== 0 && $status !== 1) || !preg_match('/^Number of tests\s*:\s*(\d+)/m', $out, $n) || (int) $n[1] === 0) {
+            throw new BenchError("run-tests.php did not run the tests (exit status $status):\n" . substr($out . $err, -1500));
+        }
         $failed = [];
         if (($pos = strpos($out, 'FAILED TEST SUMMARY')) !== false) {
-            preg_match_all('/\[([^\]\s]+\.phpt)\]\s*$/m', substr($out, $pos), $m);
+            // the section ends at the next line of "=" (WARNED and LEAKED sections follow it)
+            $section = substr($out, $pos + strlen('FAILED TEST SUMMARY'));
+            $section = preg_split('/^=+\s*$/m', ltrim(preg_replace('/^-+\s*$/m', '', $section, 1)), 2)[0];
+            preg_match_all('/\[([^\]\s]+\.phpt)\]/', $section, $m);
             $failed = $m[1];
         }
         $result['failed'] = array_values(array_unique($failed));

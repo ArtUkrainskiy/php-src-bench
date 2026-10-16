@@ -33,6 +33,9 @@ declare(strict_types=1);
 
 const SERIES_FORMAT = 2;
 
+/** How cases are run: 2 since every case gets its own, never interned, copy of its input. */
+const HARNESS_VERSION = 2;
+
 /** Below this many cycles per call of A, the change is not shown in percent: compare instructions. */
 const MIN_TABLE_CYCLES = 20;
 
@@ -188,6 +191,7 @@ function cmd_compare(array $positional, array $options): int
     $series = [
         'format' => SERIES_FORMAT,
         'kind' => 'compare',
+        'harness' => HARNESS_VERSION,
         'date' => date('c'),
         'suite' => $suite,
         'elapsed_s' => 0,
@@ -557,7 +561,9 @@ function series_table(array $series, array $labels, bool $full, string $baseName
                     $insRatio = median($ins[$id][$g]['b']) / $insA;
                     $insRatios[] = $insRatio;
                     // Same work, different time: code placement or branch behaviour, see `bench why`.
-                    if (abs($insRatio - 1) < LAYOUT_MAX_INSTRUCTIONS && abs(median($ratios) - 1) >= LAYOUT_MIN_CYCLES) {
+                    // Only for a change, not the control, and only when every pass agrees on the direction.
+                    $oneSide = $ratios[0] > 1 || end($ratios) < 1;
+                    if ($isMain && $oneSide && abs($insRatio - 1) < LAYOUT_MAX_INSTRUCTIONS && abs(median($ratios) - 1) >= LAYOUT_MIN_CYCLES) {
                         $mark .= ' layout?';
                         $layout = true;
                     }
@@ -578,7 +584,7 @@ function series_table(array $series, array $labels, bool $full, string $baseName
         }
     }
     if ($layout) {
-        $out .= sprintf("\nlayout?: the cycles changed by %d%% or more, the instructions by less than %.1f%%: the work is the same, so look for the cause (code placement, branch prediction) with `bench why` before reporting the row.\n",
+        $out .= sprintf("\nlayout?: in every pass the cycles changed in the same direction, by %d%% or more in the median, the instructions by less than %.1f%%: the work is the same, so look for the cause (code placement, branch prediction) with `bench why` before reporting the row.\n",
             LAYOUT_MIN_CYCLES * 100, LAYOUT_MAX_INSTRUCTIONS * 100);
     }
     if ($tooSmall) {

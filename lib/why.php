@@ -7,7 +7,10 @@
  */
 declare(strict_types=1);
 
-/** Events tried, in the order shown; the ones this CPU cannot count are left out. */
+/**
+ * Events tried, in the order shown; the ones this CPU cannot count are left out. The first six
+ * count user space only, as `bench compare` does; the top-down slots cannot be restricted so.
+ */
 const WHY_EVENTS = [
     'cycles', 'instructions', 'branches', 'branch-misses',
     'L1-icache-load-misses', 'iTLB-load-misses',
@@ -69,7 +72,7 @@ function cmd_why(array $positional, array $options): int
                 continue;
             }
             [$va, $vb] = [median($counts['a'][$e]), median($counts['b'][$e])];
-            $out .= sprintf("| %s | %s | %s | %s |\n", $e, why_number($va), why_number($vb), abs($va) >= 20 && abs($vb) >= 20 ? percent_change($vb / $va) . '%' : '');
+            $out .= sprintf("| %s | %s | %s | %s |\n", $e, why_number($va), why_number($vb), $va >= 20 && $vb >= 20 ? percent_change($vb / $va) . '%' : '');
         }
     }
     flock($lock, LOCK_UN);
@@ -81,12 +84,18 @@ function cmd_why(array $positional, array $options): int
 }
 
 /** The events of WHY_EVENTS that perf can count on this CPU, probed one by one. */
+/** The perf name of an event: on the P-core PMU of a hybrid CPU, user space only where possible. */
+function why_event_name(string $e): string
+{
+    $user = !str_starts_with($e, 'topdown-') && $e !== 'slots';
+    return is_dir('/sys/devices/cpu_core') ? "cpu_core/$e/" . ($user ? 'u' : '') : $e . ($user ? ':u' : '');
+}
+
 function why_events(string $perf, int $cpu): array
 {
-    $pmu = is_dir('/sys/devices/cpu_core') ? 'cpu_core/%s/' : '%s';
     $ok = [];
     foreach (WHY_EVENTS as $e) {
-        $event = sprintf($pmu, $e);
+        $event = why_event_name($e);
         $proc = proc_open(array_merge(taskset_prefix($cpu), [$perf, 'stat', '-x', ',', '-e', $event, '--', 'true']),
             [1 => ['file', '/dev/null', 'w'], 2 => ['pipe', 'w']], $pipes, null, ['LC_ALL' => 'C'] + getenv());
         $report = (string) stream_get_contents($pipes[2]);
@@ -101,8 +110,7 @@ function why_events(string $perf, int $cpu): array
 /** @return array<string, float> event => count for one harness process */
 function why_count(string $perf, array $events, string $php, string $suite, string $id, int $n, bool $empty, int $cpu): array
 {
-    $pmu = is_dir('/sys/devices/cpu_core') ? 'cpu_core/%s/' : '%s';
-    $list = implode(',', array_map(static fn (string $e): string => sprintf($pmu, $e), $events));
+    $list = implode(',', array_map('why_event_name', $events));
     $command = array_merge(taskset_prefix($cpu), [$perf, 'stat', '-x', ',', '-e', $list, '--'],
         php_command($php, $suite, ['mode' => 'fixed', 'case' => $id, 'n' => $n, 'empty' => (int) $empty]));
     $proc = proc_open($command, [1 => ['file', '/dev/null', 'w'], 2 => ['pipe', 'w']], $pipes, null, ['LC_ALL' => 'C'] + getenv());
@@ -114,7 +122,16 @@ function why_count(string $perf, array $events, string $php, string $suite, stri
     foreach (explode("\n", $report) as $line) {
         $f = explode(',', $line);
         if (isset($f[2]) && preg_match('/^\d+$/', $f[0]) && !str_contains($f[2], 'cpu_atom')) {
-            $counts[trim(str_replace('cpu_core/', '', $f[2]), '/')] = (float) $f[0];
+            $name = preg_replace('#^cpu_core/|/u?$|:u$#', '', $f[2]);
+            $counts[$name] = (float) $f[0];
+            // More events than counters: perf time-shares them and scales the counts up.
+            if (isset($f[4]) && is_numeric($f[4]) && (float) $f[4] < 100) {
+                static $warned = [];
+                if (!isset($warned[$name])) {
+                    warn("perf counted $name only {$f[4]}% of the time (more events than counters): its row is an estimate");
+                    $warned[$name] = true;
+                }
+            }
         }
     }
     return $counts;

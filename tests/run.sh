@@ -48,6 +48,10 @@ done
 for file in lib/*.php suites/*.php difftests/*.php tests/*.php; do
 	"$php" -n -l "$file" >/dev/null || fail "php syntax: $file"
 done
+# The tool runs on builds made with --disable-all: no mbstring, ctype, iconv or posix in lib/
+if grep -nE '\b(mb_[a-z_]+|ctype_[a-z]+|iconv[a-z_]*|posix_[a-z_]+)\(' lib/*.php difftests/code.php | grep -v '^\S*:[0-9]*:\s*[/*]' | grep -v 'function ' | grep -v "'mb_\|\"mb_"; then
+	fail "lib/ calls a function of an extension that --disable-all builds lack (see above)"
+fi
 group "syntax"
 
 # 2. Unit checks
@@ -122,9 +126,12 @@ SUITE
 out="$(./bench run "$tmp/patterns.php" --a "$php" --filter '^(c|setup) ' --quick --no-save --cpu "$cpu" 2>&1)"
 grep -q 'c @ a-1' <<<"$out" && grep -q 'c @ a-2' <<<"$out" && ! grep -q 'c @ b-1' <<<"$out" || fail "input patterns: $out"
 grep -qE 'setup @ b-1 +5 ' <<<"$out" || fail "setup runs before measuring (5 bytes expected): $out"
-out="$(./bench run --code 'strtoupper($s)' --inputs lang:title,en:1k --a "$php" --quick --no-save --cpu "$cpu" 2>&1)"
-grep -q 'strtoupper($s) @ emoji-title' <<<"$out" && grep -q 'strtoupper($s) @ en-1k' <<<"$out" || fail "--code: $out"
-rm -f results/inline-*.php
+inline_before="$(ls results/inline-*.php 2>/dev/null || true)"
+out="$(./bench run --code 'strpos($s, "?>")' --inputs lang:title,en:1k --a "$php" --quick --no-save --cpu "$cpu" 2>&1)"
+grep -qF 'strpos($s, "?>") @ emoji-title' <<<"$out" && grep -qF 'strpos($s, "?>") @ en-1k' <<<"$out" || fail "--code: $out"
+expect_output "'en-1k' comes twice" ./bench run --code 'strlen($s)' --inputs lang:1k,en:1k --a "$php"
+# only the suite this test wrote: the others belong to saved results
+for f in $(ls results/inline-*.php 2>/dev/null); do grep -qxF "$f" <<<"$inline_before" || rm -f "$f"; done
 group "input patterns, setup, --code"
 
 # 6b. bench report: a new report, its checks, update of its tables

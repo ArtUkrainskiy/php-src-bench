@@ -183,7 +183,9 @@ function report_reproduce(array $series, string $dir, string $seriesName, string
             $sets["?$name"] = ['line' => "# $name: not made by `bench build`, build it the same way by hand"];
             continue;
         }
-        $prefix = preg_match('/^(.+)-(?:gcc|clang)\d+$/', $name, $m) ? $m[1] : $name;
+        // Built with --cc: <prefix>-gcc13 and so on; otherwise one build with CC=...
+        $multi = (bool) preg_match('/^(.+)-(?:gcc|clang)\d+$/', $name, $m);
+        $prefix = $multi ? $m[1] : $name;
         $key = $prefix . ' ' . $build['commit'];
         $sets[$key]['prefix'] = $prefix;
         $sets[$key]['commit'] = substr($build['commit'], 0, 11);
@@ -193,6 +195,12 @@ function report_reproduce(array $series, string $dir, string $seriesName, string
         $sets[$key]['profile'] = $profile;
         $sets[$key]['extra'] = $build['configure_extra'] ?? report_configure_extra((string) $build['configure'], $profile);
         $sets[$key]['slim'] = !empty($build['slim']);
+        $sets[$key]['multi'] = $multi;
+        $sets[$key]['werror'] = str_contains((string) $build['configure'], '--enable-werror');
+        // Flags given by hand instead of the profile's
+        $sets[$key]['flags'] = str_contains((string) ($build['profile'] ?? ''), 'overridden')
+            ? sprintf('BENCH_CFLAGS=%s BENCH_LDFLAGS=%s ', escapeshellarg((string) $build['cflags_user']), escapeshellarg((string) ($build['ldflags'] ?? '')))
+            : '';
         if (!empty($build['snapshot'])) {
             $snapshots[] = substr($build['commit'], 0, 11);
         }
@@ -203,9 +211,12 @@ function report_reproduce(array $series, string $dir, string $seriesName, string
             $lines[] = $set['line'];
             continue;
         }
-        $env = $set['extra'] ? 'BENCH_CONFIGURE_EXTRA="' . $set['extra'] . '" ' : '';
-        $lines[] = sprintf('%s./bench build%s --profile %s --cc %s %s %s', $env, $set['slim'] ? ' --slim' : '', $set['profile'],
-            implode(',', array_unique($set['cc'])), $set['prefix'], $set['commit']);
+        $env = ($set['extra'] ? 'BENCH_CONFIGURE_EXTRA=' . escapeshellarg($set['extra']) . ' ' : '') . $set['flags'];
+        $noWerror = $set['profile'] === 'docker' && !$set['werror'] ? ' --no-werror' : '';
+        $compilers = implode(',', array_unique($set['cc']));
+        $lines[] = $set['multi']
+            ? sprintf('%s./bench build%s --profile %s%s --cc %s %s %s', $env, $set['slim'] ? ' --slim' : '', $set['profile'], $noWerror, $compilers, $set['prefix'], $set['commit'])
+            : sprintf('%sCC=%s ./bench build%s --profile %s%s %s %s', $env, $compilers, $set['slim'] ? ' --slim' : '', $set['profile'], $noWerror, $set['prefix'], $set['commit']);
     }
     $groups = [];
     foreach ($series['groups'] as $g) {
@@ -221,7 +232,7 @@ function report_reproduce(array $series, string $dir, string $seriesName, string
         }
     }
     if (!empty($c['filter'])) {
-        $opts .= " --filter '{$c['filter']}'";
+        $opts .= ' --filter ' . escapeshellarg((string) $c['filter']);
     }
     if (isset($c['control']) && !$c['control']) {
         $opts .= ' --no-control';
@@ -281,7 +292,12 @@ function report_table(string $args, string $baseDir): string
     for ($i = 0; $i < count($words); $i++) {
         $w = $words[$i];
         if ($w === '--labels') {
-            foreach (file("$baseDir/" . ($words[++$i] ?? ''), FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [] as $line) {
+            $labelsFile = "$baseDir/" . ($words[++$i] ?? '');
+            $lines = is_file($labelsFile) ? file($labelsFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) : false;
+            if (!$lines) {
+                throw new BenchError("bench-table block: cannot read the labels $labelsFile");
+            }
+            foreach ($lines as $line) {
                 [$id, $label] = array_pad(explode('=', $line, 2), 2, null);
                 $labels[$id] = $label ?? $id;
             }
@@ -378,8 +394,13 @@ function report_check_links(string $file, string $text): array
     $prose = (string) preg_replace('/^```.*?^```/ms', '', $text); // links in code blocks are not links
     $anchors = static function (string $md): array {
         $slugs = [];
+        $md = (string) preg_replace('/^```.*?^```/ms', '', $md); // a "#" line in a code block is no heading
+        $seen = [];
         foreach (preg_match_all('/^#{1,6} (.+)$/m', $md, $m) ? $m[1] : [] as $heading) {
-            $slugs[] = str_replace(' ', '-', (string) preg_replace('/[^\p{L}\p{N} _-]/u', '', mb_strtolower_ascii(trim($heading))));
+            // GitHub: lower case, punctuation dropped, spaces to "-", "-1", "-2" for repeats
+            $slug = str_replace(' ', '-', (string) preg_replace('/[^\p{L}\p{N} _-]/u', '', ascii_lower(trim($heading))));
+            $slugs[] = isset($seen[$slug]) ? $slug . '-' . $seen[$slug] : $slug;
+            $seen[$slug] = ($seen[$slug] ?? 0) + 1;
         }
         return $slugs;
     };
@@ -401,7 +422,7 @@ function report_check_links(string $file, string $text): array
 }
 
 /** Lowercase of ASCII letters only: the tool must run without mbstring. */
-function mb_strtolower_ascii(string $s): string
+function ascii_lower(string $s): string
 {
     return strtr($s, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz');
 }

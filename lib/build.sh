@@ -193,6 +193,11 @@ cc_version="$("$cc" --version | head -1)"
 config_key="$(printf '%s\n' "${configure_args[@]}" "CFLAGS=$cflags" "LDFLAGS=$ldflags" "CPPFLAGS=${CPPFLAGS:-}" "LIBS=${LIBS:-}" "CC=$cc" "$cc_version" | sha1sum | cut -d' ' -f1)"
 
 dir="$BENCH_BUILDS/$name"
+# A run of `bench mutate` that was interrupted leaves mutated sources behind.
+if [[ -d "$dir" ]] && [[ -n "$(find "$dir" -name '*.bench-orig' -not -path '*/.git/*' -print -quit 2>/dev/null)" ]]; then
+	echo "bench build: $dir has sources mutated by an interrupted 'bench mutate'; run it again to restore them, or 'bench rm $name'" >&2
+	exit 1
+fi
 # Nothing to do when the build already has this commit with this configuration (shared bases).
 if [[ -f "$dir/.bench-build.json" ]] \
 	&& grep -q "\"commit\": \"$commit\"" "$dir/.bench-build.json" \

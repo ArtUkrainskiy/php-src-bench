@@ -69,6 +69,13 @@ for i in "${!binaries[@]}"; do
 	fi
 done
 ((failed)) && exit 1
+# A sanitizer that is set to recover reports on stderr and exits 0: show what was printed.
+for i in "${!binaries[@]}"; do
+	if [[ -s "$tmp/$i.err" ]]; then
+		echo "stderr of ${binaries[$i]}:" >&2
+		head -20 "$tmp/$i.err" >&2
+	fi
+done
 if [[ ! -s "$tmp/0" ]]; then
 	echo "FAILED: $name generated no inputs" >&2
 	exit 1

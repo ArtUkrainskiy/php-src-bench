@@ -121,8 +121,13 @@ function bench_load_cases(string $file, ?string $filter, ?string $only): array
             // strings as checked UTF-8, mbstring caches lengths) must not reach the next one.
             $value = bench_copy($values[$input]);
             if (isset($case['setup'])) {
-                $setup = eval('return static function (&$s): void { ' . rtrim($case['setup'], "; \n") . '; };');
-                $setup($value);
+                // the newline ends a trailing // comment in the setup before the closing brace
+                $setup = eval('return static function (&$s): void { ' . rtrim($case['setup'], "; \n") . ";\n};");
+                try {
+                    $setup($value);
+                } catch (Throwable $e) {
+                    throw new RuntimeException("setup of case '$id': " . $e->getMessage(), 0, $e);
+                }
             }
             $cases[] = ['id' => $id, 'code' => $case['code'], 'value' => $value, 'setup' => $case['setup'] ?? null];
         }
