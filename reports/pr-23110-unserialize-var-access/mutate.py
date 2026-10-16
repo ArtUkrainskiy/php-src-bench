@@ -3,7 +3,7 @@
 # (a `bench build` of master + PR), rebuild (re2c regenerates the scanner), compare difftest with master's output.
 import os, subprocess
 
-B = os.path.join(os.environ.get("BENCH_BUILDS", os.path.expanduser("~/CLionProjects/php-builds")), "unser-mut")
+B = os.path.join(os.environ["BENCH_BUILDS"], "unser-mut")
 HERE = os.path.dirname(os.path.abspath(__file__))
 REF = open(os.path.join(HERE, "difftest-master.txt")).read()
 F = "ext/standard/var_unserializer.re"

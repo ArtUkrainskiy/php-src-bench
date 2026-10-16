@@ -3,7 +3,7 @@
 # (a `bench build` of master + #23961), rebuild, compare difftest with master's output.
 import os, subprocess
 
-B = os.path.join(os.environ.get("BENCH_BUILDS", os.path.expanduser("~/CLionProjects/php-builds")), "hcs-mut")
+B = os.path.join(os.environ["BENCH_BUILDS"], "hcs-mut")
 HERE = os.path.dirname(os.path.abspath(__file__))
 REF = open(os.path.join(HERE, "difftest-master.txt")).read()
 F = "ext/standard/html.c"

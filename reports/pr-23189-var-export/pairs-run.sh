@@ -3,7 +3,7 @@
 # PASSES alternating passes per case, one fresh series. Pinned to CPU $CPU.
 #   CPU=2 PASSES=5 [CASES='a b'] ./pairs-run.sh out.txt name:base:change [name:base:change ...]
 # Output lines: <name> <base|change> <case> <cycles> <instructions>
-B=${BENCH_BUILDS:-$HOME/CLionProjects/php-builds}
+B=${BENCH_BUILDS:?set BENCH_BUILDS to the directory with the builds}
 CPU=${CPU:-2}
 PASSES=${PASSES:-5}
 PREFIX=${PREFIX-}

@@ -3,7 +3,7 @@
 # rebuild, and see whether difftest output differs from master's.
 import subprocess, os
 
-B = os.path.join(os.environ.get("BENCH_BUILDS", os.path.expanduser("~/CLionProjects/php-builds")), "binhex-mut")
+B = os.path.join(os.environ["BENCH_BUILDS"], "binhex-mut")
 HERE = os.path.dirname(os.path.abspath(__file__))
 REF = open(os.path.join(HERE, "difftest-master.txt")).read()
 
