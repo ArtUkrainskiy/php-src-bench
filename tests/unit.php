@@ -146,6 +146,18 @@ same('−25', percent_change(0.75), 'percent_change: fewer cycles');
 same('+4', percent_change(1.04), 'percent_change: more cycles');
 same('0', percent_change(0.996), 'percent_change: rounds to 0, never "−0"');
 same('−12', percent_change(0.875), 'percent_change: half rounds up, towards +');
+same('+1', percent_change(1.005), 'percent_change: 1.005 is +0.5%, rounds up');
+same('0', percent_change(0.995), 'percent_change: 0.995 is −0.5%, rounds up to 0');
+same('+3', percent_change(1.025), 'percent_change: +2.5% rounds up');
+same('−2', percent_change(0.975), 'percent_change: −2.5% rounds up');
+same('GCC 14.2', compiler_name(['cc' => 'gcc (GCC) 14.2.1 20240912 (Red Hat 14.2.1-3)']), 'compiler_name: Fedora gcc');
+$tiny = ['groups' => [['name' => 'g', 'a' => 'x', 'b' => 'y']], 'builds' => [], 'cases' => ['c1' => ['n' => 10], 'c2' => ['n' => 10]],
+    'marks' => ['g' => ['c2' => '≠out']],
+    'rows' => [['g', 'a', 'c1', 150, 300, 0, 0], ['g', 'b', 'c1', 120, 300, 0, 0], ['g', 'a', 'c2', 5000, 9000, 1000, 2000], ['g', 'b', 'c2', 2500, 9000, 1000, 2000]]];
+$table = series_table($tiny, [], false, 'master');
+same(true, str_contains($table, '| c1 | 15 | n/a |'), 'series_table: under 20 cycles per call is n/a');
+same(true, str_contains($table, '| c2 | 400 | −62% ≠out |'), 'series_table: format 2 totals minus the empty loop, with the ≠out mark');
+same(true, str_contains($table, 'n/a: under 20 cycles'), 'series_table: n/a is explained');
 same('−1', percent_change(0.9949), 'percent_change: below half rounds down');
 same('GCC 13.3', compiler_name(['cc' => 'gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0']), 'compiler_name: gcc');
 same('GCC 14.2', compiler_name(['cc' => 'gcc-14 (Ubuntu 14.2.0-4ubuntu2~24.04) 14.2.0']), 'compiler_name: gcc-14');

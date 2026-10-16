@@ -51,7 +51,8 @@ Environment:
   BENCH_BUILDS           where the builds live (default: ../php-builds)
   BENCH_PHP              php that runs the orchestrator (default: one of the builds, then php in PATH)
   BENCH_CONFIGURE_EXTRA  extra ./configure options for `bench build`
-  BENCH_CFLAGS, LDFLAGS  override the flags of the `bench build` profile
+  BENCH_CFLAGS, BENCH_LDFLAGS
+                         override the flags of the `bench build` profile
   BENCH_SLIM             1 = every `bench build` is --slim
   BENCH_MIN_FREE_GB      `bench build` refuses to start with less free space (default: 10)
 USAGE
@@ -71,6 +72,7 @@ remove_build() {
 		echo "bench rm: no such build: $name" >&2
 		exit 1
 	fi
+	git -C "$PHP_SRC" update-ref -d "refs/bench/$name" 2>/dev/null || true
 	echo "removed $name"
 }
 
@@ -82,8 +84,12 @@ runner_php() {
 		return
 	fi
 	local candidate
+	# not a debug or sanitizer build: slow, and LeakSanitizer changes exit codes
 	for candidate in "$BENCH_BUILDS"/*/sapi/cli/php; do
-		[[ -x "$candidate" ]] && { echo "$candidate"; return; }
+		[[ -x "$candidate" ]] || continue
+		grep -q '"debug": true' "${candidate%/sapi/cli/php}/.bench-build.json" 2>/dev/null && continue
+		echo "$candidate"
+		return
 	done
 	if command -v php >/dev/null; then
 		command -v php

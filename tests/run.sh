@@ -16,6 +16,8 @@ export BENCH_PHP="$php" NO_COLOR=1
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
+# The CPU the measuring checks pin to: BENCH_TEST_CPU, or the one `bench run` would pick.
+cpu="${BENCH_TEST_CPU:-$("$php" -n -r 'require "lib/environment.php"; echo default_cpu();')}"
 failed=0
 failed_before=0
 fail() { echo "FAIL  $*"; failed=$((failed + 1)); }
@@ -114,22 +116,22 @@ return ['inputs' => ['list' => [3, 1, 2], 'text' => 'abc'], 'cases' => [
     'prints' => ['code' => 'print($s)', 'inputs' => ['text']],
 ]];
 SUITE
-expect_output "case 'sorts its input @ list': the expression modifies its input" ./bench run "$tmp/bad.php" --a "$php" --filter sorts --quick --no-save
-expect_output "case 'raises a warning @ text'" ./bench run "$tmp/bad.php" --a "$php" --filter warning --quick --no-save
-expect_output "does a case of the suite print something" ./bench run "$tmp/bad.php" --a "$php" --filter prints --quick --no-save
-expect_output "--rounds and --samples must be at least 1" ./bench run html --a "$php" --rounds 0
+expect_output "case 'sorts its input @ list': the expression modifies its input" ./bench run "$tmp/bad.php" --a "$php" --filter sorts --quick --no-save --cpu "$cpu"
+expect_output "case 'raises a warning @ text'" ./bench run "$tmp/bad.php" --a "$php" --filter warning --quick --no-save --cpu "$cpu"
+expect_output "does a case of the suite print something" ./bench run "$tmp/bad.php" --a "$php" --filter prints --quick --no-save --cpu "$cpu"
+expect_output "--rounds and --samples must be at least 1" ./bench run html --a "$php" --rounds 0 --cpu "$cpu"
 expect_output "suite not found" ./bench run no-such-suite --a "$php"
 expect_output "a group is <name>=<A>:<B>" ./bench compare html "$php"
 expect_output "reserved or used twice" ./bench compare html aa="$php":"$php"
-# A second process on a locked CPU is refused
-cpu="$("$php" -n -r 'require "lib/environment.php"; echo default_cpu();')"
-exec {lockfd}>"${TMPDIR:-/tmp}/php-src-bench-cpu$cpu.lock"
-flock -n "$lockfd" && expect_output "CPU $cpu is in use by another bench process" ./bench run html --a "$php" --quick --no-save
+# A second process on a locked core is refused
+core="$("$php" -n -r 'require "lib/environment.php"; echo min(cpu_siblings((int) $argv[1]));' "$cpu")"
+exec {lockfd}>"/tmp/php-src-bench-core$core.lock"
+flock -n "$lockfd" && expect_output "CPU $cpu (or its SMT sibling) is in use by another bench process" ./bench run html --a "$php" --quick --no-save --cpu "$cpu"
 exec {lockfd}>&-
 group "bad suites and options are refused"
 
 # 7. A real, tiny run; what it saves renders again; the read-only commands work
-out="$(./bench run html --a "$php" --b "$php" --filter 'htmlspecialchars @ (empty|word-8)$' --quick 2>&1)"
+out="$(./bench run html --a "$php" --b "$php" --filter 'htmlspecialchars @ (empty|word-8)$' --quick --cpu "$cpu" 2>&1)"
 saved="$(sed -n 's/^saved //p' <<<"$out")"
 if grep -q 'htmlspecialchars @ word-8' <<<"$out" && [[ -f "$saved" ]]; then
 	expect_output 'htmlspecialchars @ word-8' ./bench show "$saved"

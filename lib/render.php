@@ -135,7 +135,11 @@ function check_sides(array $sides): array
         return $problems;
     }
     // cflags are the effective ones from the Makefile, cflags_user what was asked for
-    foreach (['configure', 'cflags', 'cc'] as $key) {
+    // ldflags and profile are recorded since builds have profiles; older builds lack them
+    foreach (['configure', 'cflags', 'cc', 'ldflags', 'profile'] as $key) {
+        if (!isset($sides['A']['build'][$key], $sides['B']['build'][$key])) {
+            continue;
+        }
         if ($sides['A']['build'][$key] !== $sides['B']['build'][$key]) {
             $problems[] = "A and B differ in $key: '{$sides['A']['build'][$key]}' vs '{$sides['B']['build'][$key]}'";
         }

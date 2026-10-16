@@ -50,6 +50,16 @@ if [[ ! "$name" =~ ^[A-Za-z0-9._-]+$ ]]; then
 	exit 2
 fi
 
+case "$profile" in
+	docker|align|plain|asan) ;;
+	*) echo "bench build: unknown profile '$profile' (docker, align, plain, asan)" >&2; exit 2 ;;
+esac
+
+IFS=, read -r -a compilers <<<"${cc_list// /}"
+for c in "${compilers[@]}"; do
+	command -v "$c" >/dev/null || { echo "bench build: no such compiler: $c" >&2; exit 1; }
+done
+
 # The tag of a compiler in build names: family and major version, e.g. gcc13, clang20.
 cc_tag() {
 	local v
@@ -61,19 +71,66 @@ cc_tag() {
 	fi
 }
 
+src() { git -C "$PHP_SRC" "$@"; }
+
+if ! src rev-parse --git-dir >/dev/null 2>&1; then
+	echo "bench build: php-src not found at $PHP_SRC (set PHP_SRC)" >&2
+	exit 1
+fi
+
+# Resolve the commit to build into $commit, $base_commit and $snapshot. '.' turns the working tree
+# (tracked and untracked, non-ignored files) into a commit object through a temporary index; no
+# branch, index or file is touched. The snapshot gets HEAD's date, so the same tree on the same
+# HEAD is the same commit, and an up-to-date build of it is recognised.
+resolve_ref() {
+	snapshot=false
+	if [[ -n "${BENCH_SNAPSHOT_OF:-}" ]]; then
+		# a child of --cc: the parent made the snapshot
+		commit="$1"
+		base_commit="$BENCH_SNAPSHOT_OF"
+		snapshot=true
+	elif [[ "$1" == "." ]]; then
+		local idx tree date
+		idx="$(mktemp)"
+		cp "$(src rev-parse --absolute-git-dir)/index" "$idx"
+		GIT_INDEX_FILE="$idx" src add -A
+		tree="$(GIT_INDEX_FILE="$idx" src write-tree)"
+		rm -f "$idx"
+		commit="$(src rev-parse HEAD)"
+		base_commit="$commit"
+		if [[ "$tree" != "$(src rev-parse 'HEAD^{tree}')" ]]; then
+			snapshot=true
+			date="$(src log -1 --format=%cI HEAD)"
+			commit="$(GIT_AUTHOR_NAME=php-src-bench GIT_AUTHOR_EMAIL=php-src-bench@localhost GIT_AUTHOR_DATE="$date" \
+				GIT_COMMITTER_NAME=php-src-bench GIT_COMMITTER_EMAIL=php-src-bench@localhost GIT_COMMITTER_DATE="$date" \
+				src commit-tree "$tree" -p "$commit" -m "php-src-bench snapshot of the working tree")"
+		fi
+	else
+		commit="$(src rev-parse --verify --quiet "$1^{commit}")" || {
+			echo "bench build: not a commit in $PHP_SRC: $1" >&2
+			exit 1
+		}
+		base_commit="$commit"
+	fi
+}
+resolve_ref "$ref"
+
 # One build per compiler: run this script again for each, so that each build is checked,
-# configured and recorded the same way as a single one.
+# configured and recorded the same way as a single one. A snapshot of the working tree is made
+# once here, so that every compiler builds the same sources.
 if [[ -n "$cc_list" ]]; then
-	IFS=, read -r -a compilers <<<"$cc_list"
 	opts=(--profile "$profile")
 	[[ "$slim" == 1 ]] && opts+=(--slim)
 	[[ "$werror" == 0 ]] && opts+=(--no-werror)
 	failed=()
 	for c in "${compilers[@]}"; do
-		command -v "$c" >/dev/null || { echo "bench build: no such compiler: $c" >&2; exit 1; }
 		tag="$(cc_tag "$c")" || true
 		[[ -n "$tag" ]] || { echo "bench build: cannot tell the version of $c" >&2; exit 1; }
-		CC="$c" "$0" "${opts[@]}" "$name-$tag" "$ref" || failed+=("$name-$tag")
+		if $snapshot; then
+			CC="$c" BENCH_SNAPSHOT_OF="$base_commit" "$0" "${opts[@]}" "$name-$tag" "$commit" || failed+=("$name-$tag")
+		else
+			CC="$c" "$0" "${opts[@]}" "$name-$tag" "$commit" || failed+=("$name-$tag")
+		fi
 	done
 	if ((${#failed[@]})); then
 		echo "bench build: failed: ${failed[*]}" >&2
@@ -100,7 +157,7 @@ case "$profile" in
 		profile_configure=()
 		;;
 	asan)
-		profile_cflags='-O1 -g -fno-omit-frame-pointer'
+		profile_cflags='-g -fno-omit-frame-pointer' # --enable-debug builds with -O0
 		profile_ldflags=''
 		profile_configure=(--enable-debug --enable-address-sanitizer --enable-undefined-sanitizer)
 		;;
@@ -119,6 +176,31 @@ if ((${#missing[@]})); then
 	exit 1
 fi
 
+configure_args=(--disable-all --disable-cgi --disable-phpdbg --enable-cli "${profile_configure[@]}")
+if [[ -n "${BENCH_CONFIGURE_EXTRA:-}" ]]; then
+	read -r -a extra <<<"$BENCH_CONFIGURE_EXTRA"
+	configure_args+=("${extra[@]}")
+fi
+cflags="${BENCH_CFLAGS:-$profile_cflags}"
+ldflags="${BENCH_LDFLAGS-$profile_ldflags}"
+# An LDFLAGS from the shell (dev shells, conda, nix) would silently replace the profile's flags.
+if [[ -n "${LDFLAGS:-}" && "$LDFLAGS" != "$ldflags" ]]; then
+	echo "bench build: ignoring LDFLAGS='$LDFLAGS' from the environment, using '$ldflags' (set BENCH_LDFLAGS to change it)" >&2
+fi
+
+cc_version="$("$cc" --version | head -1)"
+# CPPFLAGS and LIBS from the environment reach configure too, so they are part of the key.
+config_key="$(printf '%s\n' "${configure_args[@]}" "CFLAGS=$cflags" "LDFLAGS=$ldflags" "CPPFLAGS=${CPPFLAGS:-}" "LIBS=${LIBS:-}" "CC=$cc" "$cc_version" | sha1sum | cut -d' ' -f1)"
+
+dir="$BENCH_BUILDS/$name"
+# Nothing to do when the build already has this commit with this configuration (shared bases).
+if [[ -f "$dir/.bench-build.json" ]] \
+	&& grep -q "\"commit\": \"$commit\"" "$dir/.bench-build.json" \
+	&& grep -q "\"config_key\": \"$config_key\"" "$dir/.bench-build.json"; then
+	echo "up to date: $name ($(git -C "$PHP_SRC" log -1 --format='%h %s' "$commit"))" >&2
+	exit 0
+fi
+
 # A full build takes about 400 MB, a failed one can leave a full disk behind.
 min_free_gb="${BENCH_MIN_FREE_GB:-10}"
 mkdir -p "$BENCH_BUILDS"
@@ -129,57 +211,6 @@ if (( free_gb < min_free_gb )); then
 	exit 1
 fi
 
-if ! git -C "$PHP_SRC" rev-parse --git-dir >/dev/null 2>&1; then
-	echo "bench build: php-src not found at $PHP_SRC (set PHP_SRC)" >&2
-	exit 1
-fi
-
-configure_args=(--disable-all --disable-cgi --disable-phpdbg --enable-cli "${profile_configure[@]}")
-if [[ -n "${BENCH_CONFIGURE_EXTRA:-}" ]]; then
-	read -r -a extra <<<"$BENCH_CONFIGURE_EXTRA"
-	configure_args+=("${extra[@]}")
-fi
-cflags="${BENCH_CFLAGS:-$profile_cflags}"
-ldflags="${LDFLAGS-$profile_ldflags}"
-
-src() { git -C "$PHP_SRC" "$@"; }
-
-# Resolve the commit to build. '.' turns the working tree (tracked and untracked, non-ignored
-# files) into a commit object through a temporary index; no branch, index or file is touched.
-snapshot=false
-if [[ "$ref" == "." ]]; then
-	idx="$(mktemp)"
-	trap 'rm -f "$idx"' EXIT
-	cp "$(src rev-parse --absolute-git-dir)/index" "$idx"
-	GIT_INDEX_FILE="$idx" src add -A
-	tree="$(GIT_INDEX_FILE="$idx" src write-tree)"
-	commit="$(src rev-parse HEAD)"
-	base_commit="$commit"
-	if [[ "$tree" != "$(src rev-parse 'HEAD^{tree}')" ]]; then
-		snapshot=true
-		commit="$(GIT_AUTHOR_NAME=php-src-bench GIT_AUTHOR_EMAIL=php-src-bench@localhost \
-			GIT_COMMITTER_NAME=php-src-bench GIT_COMMITTER_EMAIL=php-src-bench@localhost \
-			src commit-tree "$tree" -p "$commit" -m "php-src-bench snapshot of the working tree")"
-	fi
-else
-	commit="$(src rev-parse --verify --quiet "$ref^{commit}")" || {
-		echo "bench build: not a commit in $PHP_SRC: $ref" >&2
-		exit 1
-	}
-	base_commit="$commit"
-fi
-
-cc_version="$("$cc" --version | head -1)"
-config_key="$(printf '%s\n' "${configure_args[@]}" "CFLAGS=$cflags" "LDFLAGS=$ldflags" "CC=$cc" "$cc_version" | sha1sum | cut -d' ' -f1)"
-
-dir="$BENCH_BUILDS/$name"
-# Nothing to do when the build already has this commit with this configuration (shared bases).
-if [[ -f "$dir/.bench-build.json" ]] \
-	&& grep -q "\"commit\": \"$commit\"" "$dir/.bench-build.json" \
-	&& grep -q "\"config_key\": \"$config_key\"" "$dir/.bench-build.json"; then
-	echo "up to date: $name ($(git -C "$PHP_SRC" log -1 --format='%h %s' "$commit"))" >&2
-	exit 0
-fi
 # A slim build keeps nothing to build on: replace it.
 if [[ -f "$dir/.bench-build.json" && ! -e "$dir/.git" ]]; then
 	rm -rf -- "$dir"
@@ -248,7 +279,7 @@ BM_CONFIGURE="${configure_args[*]}" \
 BM_CFLAGS="$(sed -n 's/^CFLAGS_CLEAN = //p' "$dir/Makefile")" \
 BM_CFLAGS_USER="$cflags" \
 BM_LDFLAGS="$ldflags" \
-BM_PROFILE="$profile$([[ -n "${BENCH_CFLAGS:-}" || -n "${LDFLAGS+x}" ]] && echo ' (flags overridden)')" \
+BM_PROFILE="$profile$([[ "$cflags" != "$profile_cflags" || "$ldflags" != "$profile_ldflags" ]] && echo ' (flags overridden)')" \
 BM_CONFIG_KEY="$config_key" \
 BM_CC="$cc_version" \
 BM_SLIM="$slim" \
@@ -274,6 +305,14 @@ BM_SLIM="$slim" \
 		"slim" => getenv("BM_SLIM") === "1",
 	], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES), "\n";
 ' >"$dir/.bench-build.json"
+
+# A snapshot commit is referenced by nothing else: keep it reachable while the build exists,
+# so that `git gc` does not prune the sources of a slim build.
+if $snapshot; then
+	src update-ref "refs/bench/$name" "$commit"
+else
+	src update-ref -d "refs/bench/$name" 2>/dev/null || true
+fi
 
 # --slim keeps only the binary (with its debug info) and the metadata, about 55 MB instead of
 # 400: the worktree, the sources and the objects go. Sources stay available from the commit.

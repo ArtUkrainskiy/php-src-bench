@@ -162,7 +162,18 @@ Results worth keeping, together with the commands that produced them, live in
 
 A change in a hot loop can measure differently with GCC and clang, because each compiler places
 code differently. For the numbers you publish, build both sides with every compiler you have and
-compare cycles per call:
+compare CPU cycles per call. With one compiler first:
+
+```sh
+./bench build --slim --cc gcc base "$(git -C ../php-src merge-base master HEAD)"   # -> base-gcc13
+./bench build --slim --cc gcc dev .                                                # -> dev-gcc13
+./bench compare htmlspecialchars gcc13=base-gcc13:dev-gcc13
+```
+
+`bench build --cc` names a build `<name>-<compiler><major version>` (`bench builds` lists them);
+a build that already exists at the same commit with the same configuration is kept, so a shared
+`base` is built once. Suites that need an extension need it on both sides:
+`BENCH_CONFIGURE_EXTRA="--enable-mbstring" ./bench build ...`. With four compilers:
 
 ```sh
 CCS=(--cc gcc,gcc-14,clang,clang-20)       # whatever compilers are installed
@@ -170,14 +181,22 @@ CCS=(--cc gcc,gcc-14,clang,clang-20)       # whatever compilers are installed
 ./bench build --slim "${CCS[@]}" dev .
 ./bench compare htmlspecialchars gcc13=base-gcc13:dev-gcc13 gcc14=base-gcc14:dev-gcc14 \
     clang18=base-clang18:dev-clang18 clang20=base-clang20:dev-clang20
-./bench table results/<date>-compare-htmlspecialchars.json --full
+./bench table results/<date>-compare-htmlspecialchars.json --header --full
 ```
 
-Builds are named `<name>-<compiler><major version>`; one that already exists at the same commit
-with the same configuration is kept, so a shared `base` is built once. `bench compare` runs every
-case in five passes that alternate A and B, on one CPU, with A against A at the start and the end
-of the series. `bench table` prints the change in cycles relative to A (`--labels FILE` sets the
-rows and their names, `--base-name` what A is called):
+`bench compare` needs `perf` with access to hardware counters (`bench check` says whether it
+works here) and, on a hybrid CPU, a performance core. Before measuring, every build runs every
+case once: a case whose result differs between A and B of a group is marked `≠out`, and a group
+whose builds differ in compiler, flags or configure options is reported. Then every case runs in
+five passes that alternate A and B, on one CPU, with A of the first group against itself at the
+start and the end of the series. Each pass of each side is two processes, the case for about
+`--target-ms` (50 ms) and the empty loop, so a series takes roughly
+(groups + 2) × cases × passes × 2 × 75 ms.
+
+`bench table` prints the change in cycles relative to A (`--labels FILE` sets the rows and their
+names, `--base-name` what A is called, `--header` the machine, builds and method), like this table
+from [reports/pr-24080-mb-substr](reports/pr-24080-mb-substr/), measured with that report's
+`pairs-run.sh`, from which `bench compare` grew:
 
 ```
 | call | master, CPU cycles per call (GCC 13.3) | GCC 13.3 | GCC 14.2 | clang 18.1 | clang 20.1 |
@@ -188,9 +207,9 @@ rows and their names, `--base-name` what A is called):
 | `mb_substr($s, 0, 10)`, English (1.00 B/char), 31-byte title, without the flag | 199 | +4% | +3% | 0% | +1% |
 ```
 
-(From [reports/pr-24080-mb-substr](reports/pr-24080-mb-substr/); negative = fewer cycles,
-faster. Say so above the table where you publish it.) A series of 35 cases on four compilers
-takes about 40 minutes on an i7-13700H. How it is measured: [docs/methodology.md](docs/methodology.md).
+Negative means fewer cycles, faster; say so above the table where you publish it. Under 20
+cycles per call a cell shows `n/a`: compare instructions there. How it is measured:
+[docs/methodology.md](docs/methodology.md).
 
 ## Commands
 
@@ -203,7 +222,7 @@ takes about 40 minutes on an i7-13700H. How it is measured: [docs/methodology.md
 | `bench suites` | list suites |
 | `bench run <suite> --a <build> [--b <build>] [options]` | measure; `bench run --help` lists the options |
 | `bench compare <suite> <group>=<A>:<B>... [options]` | cycles and instructions per call for pairs of builds, one group per compiler; `bench compare --help` |
-| `bench table <series.json> [--full] [--labels FILE]` | the change in cycles relative to A as a Markdown table |
+| `bench table <series.json> [--full] [--labels FILE] [--header]` | the change in cycles relative to A as a Markdown table |
 | `bench show <result.json> [--md]` | render a saved result again |
 | `bench difftest <generator> <A> <B> [--seed N] [--count N]` | compare outputs of two builds on generated inputs |
 | `bench check [--cpu N]` | report noise sources on this machine and whether `--perf` can work |
@@ -221,7 +240,7 @@ default, the compiler and linker flags of the official Docker image plus `-g` an
 for finding out whether a difference is code placement, `plain` is `-O2 -g`, `asan` a debug build
 with sanitizers; see the methodology notes. Add extensions with
 `BENCH_CONFIGURE_EXTRA="--enable-mbstring" ./bench build ...`, change flags with `BENCH_CFLAGS`
-and `LDFLAGS`.
+and `BENCH_LDFLAGS` (an `LDFLAGS` from your shell is ignored, with a warning).
 
 ## Suites
 

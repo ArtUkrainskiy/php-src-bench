@@ -4,25 +4,37 @@
  * of builds (A = the reference, B = the change), one pair per group, usually one group per
  * compiler, and the table of the change in cycles relative to A that goes into PR comments.
  *
- * Each count is `perf stat -e cycles,instructions` over a harness process that runs one case a
- * fixed number of times, minus the same process running the empty loop as many times: what is
- * left is the cost of the expression alone, with start-up and loop overhead cancelled. All
+ * Each count is `perf stat` of user-space cycles and instructions over a harness process that
+ * runs one case a fixed number of times, minus the same process running the empty loop as many
+ * times: what is left is the cost of the expression alone, with start-up and loop overhead
+ * cancelled. All
  * processes run one after another on one CPU, in passes that alternate the order of A and B.
  * Unless --no-control is given, the series starts and ends with A of the first group against
  * itself (groups "aa" and "aa2"): the spread of that control is the noise floor of the series.
  *
- * A series (format 1), saved after every case so that an interrupted one still has its data:
+ * Before measuring, every build evaluates every case once: a case whose result or input differs
+ * between A and B of a group is marked (≠out, ≠in), and builds made with different compilers'
+ * options, flags or profiles within a group are reported, as `bench run` does.
+ *
+ * A series (format 2), saved after every case so that an interrupted one still has its data:
  *   format, kind ("compare"), date, suite, elapsed_s, complete
- *   config   passes, cpu, target_ms, filter, control
- *   env      the machine, see system_info()
- *   groups   list of {name, a, b}, in the order measured
- *   builds   by name: {php, build (.bench-build.json or null), info}
- *   cases    by case id: {input_len, n (iterations per count)}
- *   rows     list of [group, "a"|"b", case id, cycles per call, instructions per call]
+ *   config    passes, cpu, target_ms, filter, control, events
+ *   env       the machine, see system_info()
+ *   groups    list of {name, a, b}, in the order measured
+ *   builds    by name: {php, build (.bench-build.json or null), info}
+ *   cases     by case id: {input_len, n (iterations per count)}
+ *   warnings  list of strings: unfair groups, differing results
+ *   marks     by group, by case id: "≠out" or "≠in"
+ *   rows      list of [group, "a"|"b", case id, cycles, instructions, empty-loop cycles,
+ *             empty-loop instructions], totals of the n-iteration processes
+ * Format 1 had [group, side, case id, cycles per call, instructions per call] rows.
  */
 declare(strict_types=1);
 
-const SERIES_FORMAT = 1;
+const SERIES_FORMAT = 2;
+
+/** Below this many cycles per call of A, the change is not shown in percent: compare instructions. */
+const MIN_TABLE_CYCLES = 20;
 
 function usage_compare(): void
 {
@@ -39,7 +51,9 @@ function usage_compare(): void
       --no-control     no A-against-A control at the start and the end
       --out FILE       where to save the series (default: results/<date>-compare-<suite>.json)
 
-    Then: bench table <series.json> [--full] [--labels FILE] [--base-name NAME]
+    Needs perf with access to hardware counters (`bench check`); on a hybrid CPU, a P-core.
+    The A/A control uses one binary: it shows run-to-run noise, not code placement.
+    Then: bench table <series.json> [--full] [--labels FILE] [--base-name NAME] [--header]
 
     USAGE;
 }
@@ -47,7 +61,7 @@ function usage_compare(): void
 function usage_table(): void
 {
     echo <<<'USAGE'
-    Usage: bench table <series.json> [--full] [--labels FILE] [--base-name NAME]
+    Usage: bench table <series.json> [--full] [--labels FILE] [--base-name NAME] [--header]
 
       Markdown table of the change in CPU cycles per call relative to A, one column per group;
       the control groups follow in a table of their own. Say "negative = fewer cycles (faster)"
@@ -57,6 +71,7 @@ function usage_table(): void
       --labels FILE  rows to show and their labels, one "<case id>=<label>" per line, in order
                      (default: every case, labelled by its id)
       --base-name N  what A is called in the second column (default: master)
+      --header       first print how the series was measured (machine, builds, passes)
 
     USAGE;
 }
@@ -103,30 +118,59 @@ function cmd_compare(array $positional, array $options): int
     $lock = lock_cpu($config['cpu']);
     $env = system_info($config['cpu']);
     [$perf, $events] = perf_cycles_probe($config['cpu']);
+    $config['events'] = $events;
 
-    // Which cases every build can run, and their input lengths.
+    // Every build evaluates every case once: which cases it has, and what they return.
     $lengths = null;
+    $hashes = [];
     foreach ($builds as $name => $side) {
+        progress("checking $name");
         $list = harness($side['php'], $suite, ['mode' => 'list', 'filter' => $config['filter']], $config['cpu']);
         $builds[$name]['info'] = $list['php'];
         $ids = array_column($list['cases'], 'input_len', 'id');
+        if ($lengths !== null && ($only = array_diff_key($ids, $lengths) + array_diff_key($lengths, $ids))) {
+            warn('cases not in every build, skipped: ' . implode(', ', array_keys($only)));
+        }
         $lengths = $lengths === null ? $ids : array_intersect_key($lengths, $ids);
+        $run = harness($side['php'], $suite, ['mode' => 'run', 'samples' => 3, 'target_ms' => 5, 'warmup_ms' => 2, 'filter' => $config['filter'], 'known_n' => []], $config['cpu']);
+        foreach ($run['cases'] as $c) {
+            $hashes[$name][$c['id']] = $c;
+        }
     }
     if (!$lengths) {
         throw new BenchError('no cases match');
     }
-    foreach (check_machine($env) as $warning) {
+    $warnings = [];
+    $marks = [];
+    foreach ($order as $g) {
+        $sides = ['A' => $builds[$g['a']] + ['name' => $g['a']], 'B' => $builds[$g['b']] + ['name' => $g['b']]];
+        foreach (check_sides($sides) as $problem) {
+            $warnings[] = "group {$g['name']}: $problem";
+        }
+        foreach (array_keys($lengths) as $id) {
+            $a = $hashes[$g['a']][$id];
+            $b = $hashes[$g['b']][$id];
+            if ($a['input_hash'] !== $b['input_hash']) {
+                $marks[$g['name']][$id] = '≠in';
+            } elseif ($a['output_hash'] !== $b['output_hash']) {
+                $marks[$g['name']][$id] = '≠out';
+            }
+        }
+        if (isset($marks[$g['name']])) {
+            $warnings[] = "group {$g['name']}: A and B give different results or inputs in " . count($marks[$g['name']]) . ' case(s): '
+                . implode(', ', array_map(static fn ($id, $m) => "$id ($m)", array_keys($marks[$g['name']]), $marks[$g['name']]));
+        }
+    }
+    foreach (array_merge(check_machine($env), $warnings) as $warning) {
         warn($warning);
     }
 
     // Iterations per case: enough for the reference to run about target_ms, the same for every build.
-    progress('calibrating on ' . $first['a']);
-    $timing = harness($builds[$first['a']]['php'], $suite, ['mode' => 'run', 'samples' => 3, 'target_ms' => 5, 'warmup_ms' => 2, 'filter' => $config['filter'], 'known_n' => []], $config['cpu']);
     $cases = [];
-    foreach ($timing['cases'] as $c) {
-        if (isset($lengths[$c['id']])) {
+    foreach ($hashes[$first['a']] as $id => $c) {
+        if (isset($lengths[$id])) {
             $ns = max(1.0, median($c['samples_ns']) - $c['loop_ns']);
-            $cases[$c['id']] = ['input_len' => $lengths[$c['id']], 'n' => max(20, (int) ($config['target_ms'] * 1e6 / $ns))];
+            $cases[$id] = ['input_len' => $lengths[$id], 'n' => max(20, (int) ($config['target_ms'] * 1e6 / $ns))];
         }
     }
 
@@ -143,6 +187,8 @@ function cmd_compare(array $positional, array $options): int
         'groups' => $order,
         'builds' => array_map(static fn (array $s): array => ['php' => $s['php'], 'build' => $s['build'], 'info' => $s['info']], $builds),
         'cases' => $cases,
+        'warnings' => $warnings,
+        'marks' => $marks,
         'rows' => [],
     ];
 
@@ -160,8 +206,7 @@ function cmd_compare(array $positional, array $options): int
                     $php = $builds[$g[$side]]['php'];
                     $body = perf_cycles($perf, $events, $php, $suite, $id, $case['n'], false, $config['cpu']);
                     $empty = perf_cycles($perf, $events, $php, $suite, $id, $case['n'], true, $config['cpu']);
-                    $series['rows'][] = [$g['name'], $side, $id,
-                        (int) round(($body[0] - $empty[0]) / $case['n']), (int) round(($body[1] - $empty[1]) / $case['n'])];
+                    $series['rows'][] = [$g['name'], $side, $id, $body[0], $body[1], $empty[0], $empty[1]];
                     $done++;
                 }
             }
@@ -190,8 +235,10 @@ function cmd_table(array $positional, array $options): int
     }
     $labels = [];
     if (isset($options['labels'])) {
-        $lines = @file((string) $options['labels'], FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES)
-            ?: throw new BenchError("cannot read {$options['labels']}");
+        $lines = @file((string) $options['labels'], FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        if ($lines === false || !$lines) {
+            throw new BenchError("cannot read {$options['labels']}, or it has no rows");
+        }
         foreach ($lines as $line) {
             [$id, $label] = array_pad(explode('=', $line, 2), 2, null);
             $labels[$id] = $label ?? $id;
@@ -199,6 +246,12 @@ function cmd_table(array $positional, array $options): int
     }
     if (empty($series['complete'])) {
         warn('the series is incomplete (interrupted?): the table has the cases measured so far');
+    }
+    foreach ($series['warnings'] ?? [] as $warning) {
+        warn($warning);
+    }
+    if (isset($options['header'])) {
+        echo series_header($series), "\n";
     }
     echo series_table($series, $labels, isset($options['full']), (string) ($options['base-name'] ?? 'master'));
     return 0;
@@ -214,11 +267,15 @@ function cmd_table(array $positional, array $options): int
  */
 function lock_cpu(int $cpu)
 {
-    $file = sys_get_temp_dir() . "/php-src-bench-cpu$cpu.lock";
-    $lock = fopen($file, 'c+') ?: throw new BenchError("cannot open $file");
+    // One lock per physical core (SMT siblings share it), in /tmp whatever TMPDIR says, so that
+    // every shell and every user finds the same file.
+    $core = min(cpu_siblings($cpu));
+    $file = "/tmp/php-src-bench-core$core.lock";
+    $lock = @fopen($file, 'c+') ?: throw new BenchError("cannot open $file");
+    @chmod($file, 0666);
     if (!flock($lock, LOCK_EX | LOCK_NB)) {
         $holder = trim((string) stream_get_contents($lock));
-        throw new BenchError("CPU $cpu is in use by another bench process" . ($holder !== '' ? " ($holder)" : '') . '; wait for it or pick another CPU with --cpu');
+        throw new BenchError("CPU $cpu (or its SMT sibling) is in use by another bench process" . ($holder !== '' ? " ($holder)" : '') . '; wait for it or pick another CPU with --cpu');
     }
     ftruncate($lock, 0);
     fwrite($lock, 'pid ' . getmypid() . ', since ' . date('H:i'));
@@ -227,15 +284,26 @@ function lock_cpu(int $cpu)
 }
 
 /**
- * The perf binary and the events that count cycles and instructions of the pinned process
- * (all privilege levels: start-up in the kernel cancels out with the empty run).
+ * The perf binary and the events that count user-space cycles and instructions of the pinned
+ * process, checked by counting them once. On a hybrid CPU the counters are those of the P-cores.
  *
  * @return array{string, string}
  */
 function perf_cycles_probe(int $cpu): array
 {
+    $pcores = parse_cpu_list(read_sys('/sys/devices/cpu_core/cpus'));
+    if ($pcores && !in_array($cpu, $pcores, true)) {
+        throw new BenchError("CPU $cpu is not a performance core; pick one of " . read_sys('/sys/devices/cpu_core/cpus') . ' with --cpu');
+    }
     $perf = perf_probe($cpu);
-    $events = is_dir('/sys/devices/cpu_core') ? 'cpu_core/cycles/,cpu_core/instructions/' : 'cycles,instructions';
+    $events = $pcores ? 'cpu_core/cycles/u,cpu_core/instructions/u' : 'cycles:u,instructions:u';
+    $proc = proc_open(array_merge(taskset_prefix($cpu), [$perf, 'stat', '-x', ',', '-e', $events, '--', 'true']),
+        [1 => ['file', '/dev/null', 'w'], 2 => ['pipe', 'w']], $pipes, null, ['LC_ALL' => 'C'] + getenv());
+    $report = is_resource($proc) ? (string) stream_get_contents($pipes[2]) : '';
+    if (is_resource($proc)) {
+        proc_close($proc);
+    }
+    perf_parse_cycles($report, 'a probe of the counters');
     return [$perf, $events];
 }
 
@@ -306,7 +374,8 @@ function save_series(string $file, array $series): void
 /** A change as a signed whole percent, rounded half up: "−25", "+4", "0" (ratio 0.75 → "−25"). */
 function percent_change(float $ratio): string
 {
-    $v = (int) floor(($ratio - 1) * 100 + 0.5);
+    // Rounded to 9 decimals first, so that 1.005 is +0.5% and rounds up, as on paper.
+    $v = (int) floor(round(($ratio - 1) * 100, 9) + 0.5);
     return $v > 0 ? "+$v" : ($v < 0 ? '−' . -$v : '0');
 }
 
@@ -317,28 +386,79 @@ function compiler_name(?array $build): ?string
     if (preg_match('/clang version (\d+\.\d+)/', $cc, $m)) {
         return "clang $m[1]";
     }
-    // "gcc-14 (Ubuntu 14.2.0-4ubuntu2~24.04) 14.2.0": the version is the last word.
-    if (preg_match('/^(?:\S*-)?g?cc\b.*\s(\d+\.\d+)\.\d+$/', $cc, $m)) {
+    // "gcc-14 (Ubuntu 14.2.0-4ubuntu2~24.04) 14.2.0", "gcc (GCC) 14.2.1 20240912 (Red Hat 14.2.1-3)"
+    if (preg_match('/^(?:\S*-)?g?cc\b.*?\)\s+(\d+\.\d+)\.\d+/', $cc, $m)) {
         return "GCC $m[1]";
     }
     return null;
 }
 
+/** What the series is about: machine, builds of every group, passes; the lines above a published table. */
+function series_header(array $series): string
+{
+    $env = $series['env'] ?? [];
+    $lines = [];
+    if (!empty($env['cpu_model'])) {
+        $lines[] = sprintf('Machine: %s, CPU %s, kernel %s.', $env['cpu_model'], $env['cpu'] ?? '?', $env['kernel'] ?? '?');
+    }
+    foreach ($series['groups'] as $g) {
+        if (in_array($g['name'], ['aa', 'aa2'], true)) {
+            continue;
+        }
+        $describe = static function (string $name) use ($series): string {
+            $b = $series['builds'][$name]['build'] ?? null;
+            if ($b === null) {
+                return $name;
+            }
+            return sprintf('%s (%s %s%s)', $name, substr($b['commit'] ?? '', 0, 11), compiler_name($b) ?? '?',
+                isset($b['profile']) ? ", profile {$b['profile']}" : '');
+        };
+        $lines[] = "Group {$g['name']}: A = {$describe($g['a'])}, B = {$describe($g['b'])}.";
+    }
+    $c = $series['config'] ?? [];
+    if ($c) {
+        $lines[] = sprintf('%d alternating passes per case, user-space cycles per call (perf stat, minus the empty loop)%s.',
+            $c['passes'] ?? 0, !empty($c['control']) ? ', A against A at the start and the end' : '');
+    }
+    $lines[] = 'negative = fewer cycles (faster)';
+    return implode("\n", $lines) . "\n";
+}
+
+/**
+ * Per call cycles and instructions of each row: format 2 rows hold the totals of the n-iteration
+ * processes, format 1 rows the per-call values.
+ *
+ * @return array{array, array} cycles and instructions by case id, group, side: lists over passes
+ */
+function series_per_call(array $series): array
+{
+    $cyc = [];
+    $ins = [];
+    foreach ($series['rows'] as $row) {
+        [$g, $side, $id] = $row;
+        if (count($row) === 5) {
+            [$c, $i] = [(float) $row[3], (float) $row[4]];
+        } else {
+            $n = $series['cases'][$id]['n'];
+            [$c, $i] = [($row[3] - $row[5]) / $n, ($row[4] - $row[6]) / $n];
+        }
+        $cyc[$id][$g][$side][] = $c;
+        $ins[$id][$g][$side][] = $i;
+    }
+    return [$cyc, $ins];
+}
+
 /**
  * The Markdown table of a series: per row, A's median cycles in the first group, then per group
  * the median over passes of (B cycles / median A cycles − 1). Control groups get a table of
- * their own after the main one.
+ * their own after the main one. A cell gets "≠out" or "≠in" when A and B of its group gave
+ * different results or inputs; below MIN_TABLE_CYCLES of A it shows "n/a".
  *
  * @param array<string, string> $labels case id => label, in display order; empty: every case
  */
 function series_table(array $series, array $labels, bool $full, string $baseName): string
 {
-    $cyc = [];
-    $ins = [];
-    foreach ($series['rows'] as [$g, $side, $id, $c, $i]) {
-        $cyc[$id][$g][$side][] = $c;
-        $ins[$id][$g][$side][] = $i;
-    }
+    [$cyc, $ins] = series_per_call($series);
     if (!$labels) {
         foreach (array_keys($series['cases']) as $id) {
             $labels[$id] = $id;
@@ -346,9 +466,11 @@ function series_table(array $series, array $labels, bool $full, string $baseName
     }
     $main = [];
     $control = [];
+    $controlCompiler = null;
     foreach ($series['groups'] as $g) {
         if (in_array($g['name'], ['aa', 'aa2'], true)) {
             $control[$g['name']] = $g['name'] === 'aa' ? 'A/A start' : 'A/A end';
+            $controlCompiler ??= compiler_name($series['builds'][$g['a']]['build'] ?? null);
         } else {
             $main[$g['name']] = compiler_name($series['builds'][$g['b']]['build'] ?? null) ?? $g['name'];
         }
@@ -360,16 +482,18 @@ function series_table(array $series, array $labels, bool $full, string $baseName
         }
     }
     $out = '';
+    $tooSmall = false;
     foreach ([[$main, true], [$control, false]] as [$groups, $isMain]) {
         if (!$groups) {
             continue;
         }
         $first = array_key_first($groups);
         $withIns = $full && $isMain;
+        $scale = $isMain ? $groups[$first] : ($controlCompiler ?? $groups[$first]);
         if (!$isMain) {
             $out .= "\nControl: $baseName against itself.\n\n";
         }
-        $out .= "| call | $baseName, CPU cycles per call ({$groups[$first]}) | " . implode(' | ', $groups) . ' |' . ($withIns ? ' instructions |' : '') . "\n";
+        $out .= "| call | $baseName, CPU cycles per call ($scale) | " . implode(' | ', $groups) . ' |' . ($withIns ? ' instructions |' : '') . "\n";
         $out .= '|---|--:|' . str_repeat('--:|', count($groups)) . ($withIns ? '--:|' : '') . "\n";
         foreach ($labels as $id => $label) {
             if (!isset($cyc[$id][$first]['a'])) {
@@ -386,23 +510,39 @@ function series_table(array $series, array $labels, bool $full, string $baseName
                     continue;
                 }
                 $a = median($cyc[$id][$g]['a']);
-                $ratios = array_map(static fn (int $b): float => $b / $a, $cyc[$id][$g]['b']);
+                $mark = isset($series['marks'][$g][$id]) ? ' ' . $series['marks'][$g][$id] : '';
+                if ($a < MIN_TABLE_CYCLES) {
+                    $cells[] = 'n/a' . $mark;
+                    $tooSmall = true;
+                    continue;
+                }
+                $ratios = array_map(static fn ($b): float => $b / $a, $cyc[$id][$g]['b']);
                 sort($ratios);
                 $cell = percent_change(median($ratios)) . '%';
                 if ($full) {
                     $cell .= ' (' . percent_change($ratios[0]) . ' … ' . percent_change(end($ratios)) . ')';
                 }
-                $cells[] = $cell;
-                $insRatios[] = median($ins[$id][$g]['b']) / median($ins[$id][$g]['a']);
+                $cells[] = $cell . $mark;
+                $insA = median($ins[$id][$g]['a']);
+                if ($insA > 0) {
+                    $insRatios[] = median($ins[$id][$g]['b']) / $insA;
+                }
             }
             $line = "| $label | " . number_format(median($cyc[$id][$first]['a'])) . ' | ' . implode(' | ', $cells) . ' |';
-            if ($withIns && $insRatios) {
-                $lo = percent_change(min($insRatios));
-                $hi = percent_change(max($insRatios));
-                $line .= " $lo%" . ($lo === $hi ? '' : " … $hi%") . ' |';
+            if ($withIns) {
+                if ($insRatios) {
+                    $lo = percent_change(min($insRatios));
+                    $hi = percent_change(max($insRatios));
+                    $line .= " $lo%" . ($lo === $hi ? '' : " … $hi%") . ' |';
+                } else {
+                    $line .= ' |';
+                }
             }
             $out .= $line . "\n";
         }
+    }
+    if ($tooSmall) {
+        $out .= "\nn/a: under " . MIN_TABLE_CYCLES . " cycles per call, the subtraction of the empty loop dominates; compare instructions.\n";
     }
     return $out;
 }

@@ -60,15 +60,24 @@ evidence of anything.
 
 **Cycles per call, several compilers (`bench compare`).** For numbers that go into a pull
 request, `bench compare` measures CPU cycles and instructions per call of pairs of builds, one
-group per compiler. Each count is `perf stat -e cycles,instructions` over a process that runs one
-case a fixed number of times, minus the same process running the empty loop as often, so start-up
-and loop overhead cancel out. The iteration count is calibrated once, on A of the first group, to
-about `--target-ms` (50 ms) and used for every build. Cycles do not move with the clock frequency
-the way nanoseconds do, so turbo and temperature affect them much less; unlike instruction counts
-they still include what the CPU waits for (branch misses, cache misses). All processes run one
+group per compiler. Each count is `perf stat` of user-space cycles and instructions over a process
+that runs one case a fixed number of times, minus the same process running the empty loop as
+often, so start-up and loop overhead cancel out. The iteration count is calibrated once, on A of the first group, to
+about `--target-ms` (50 ms) and used for every build. For code that stays in the caches, cycles
+do not move with the clock frequency the way nanoseconds do, so turbo and temperature affect them
+much less; loops that wait for main memory take more cycles at a higher clock. Unlike instruction
+counts, cycles include what the CPU waits for (branch misses, cache misses). All processes run one
 after another on one CPU, never in parallel, in `--passes` (5) passes that alternate the order of
 A and B. The series starts and ends with A of the first group against itself; `bench table`
-shows that control under the main table, and a difference within its range is not evidence.
+shows that control under the main table, and a difference within its range is not evidence. The
+control runs one binary, so it shows run-to-run noise only: a difference outside it can still be
+code placement, which is what the other compilers and `--profile align` are for.
+
+Before the passes, every build evaluates every case once, as `bench run` does: a case whose
+result or input differs between A and B of a group gets `≠out` or `≠in` in the table, and a group
+whose builds differ in compiler, configure options, flags or profile is reported, in the terminal
+and again by `bench table`. Below 20 cycles per call of A the subtraction of the empty loop
+dominates, and the table shows `n/a`.
 
 `bench table` prints, per row, A's median cycles in the first group and, per group, the median
 over passes of (B / median of A − 1) as a signed whole percent, rounded half up: "−25%" is 25%
@@ -112,16 +121,20 @@ profile and flags, and a comparison of two builds made differently says so.
 - **`docker`** (the default): the flags of the official Docker image
   (`docker-library/php`: `-fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE
   -D_FILE_OFFSET_BITS=64`, linked with `-Wl,-O1 -pie`) plus `-g` for `perf`, and
-  `--enable-werror` as in php-src's CI. Numbers made this way describe the PHP that people run,
-  which is what reviewers ask about. `--no-werror` drops `-Werror` for a branch that does not build
-  with it on a newer compiler.
+  `--enable-werror` as in php-src's CI. Reviewers ask for numbers on a build like the ones people
+  run, and the official image is one that anyone can reproduce; distribution packages use flags of
+  their own (Ubuntu, for example, adds LTO and control-flow protection). `--no-werror` drops
+  `-Werror` (only this profile sets it), for a branch that does not build with it on a newer
+  compiler, which is common for old release branches.
 - **`align`**: `-O2 -g -falign-functions=64 -falign-loops=32`, for finding out whether a
   difference is code placement (below).
 - **`plain`**: `-O2 -g`, what `./configure` uses without CFLAGS.
 - **`asan`**: a debug build with AddressSanitizer and UndefinedBehaviorSanitizer, for
-  `bench difftest`; run it with `USE_ZEND_ALLOC=0`.
+  `bench difftest`; php-src's `--enable-debug` builds it with `-O0`. Run it with
+  `USE_ZEND_ALLOC=0`.
 
-`BENCH_CFLAGS` and `LDFLAGS` override the flags of a profile, `BENCH_CONFIGURE_EXTRA` adds
+`BENCH_CFLAGS` and `BENCH_LDFLAGS` override the flags of a profile (an `LDFLAGS` from the
+shell is ignored, with a warning), `BENCH_CONFIGURE_EXTRA` adds
 configure options (extensions).
 
 ### Code placement and the `align` profile

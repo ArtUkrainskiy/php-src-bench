@@ -9,7 +9,7 @@
 
 Control: master against itself.
 
-| call | master, CPU cycles per call (A/A start) | A/A start | A/A end |
+| call | master, CPU cycles per call (GCC 13.3) | A/A start | A/A end |
 |---|--:|--:|--:|
 | `mb_substr($s, 0, 10)`, English (1.00 B/char), 31-byte title | 200 | 0% | +1% |
 | `mb_substr($s, $half, 20)`, English (1.00 B/char), 64 KB | 64,474 | −2% | +1% |
