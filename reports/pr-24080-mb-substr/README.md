@@ -245,6 +245,8 @@ The PR adds no tests. `ext/mbstring/tests` (427 tests: 339 passed, 88 skipped, 8
 
 The last one changes the end of the `mb_strrpos()` search range only for invalid strings with a negative offset; the differential test does not catch it, and I did not look for an input where the result changes.
 
+The same eight mutations with the tool's own `bench mutate` (added after the review), on a full GCC 13.3 build of the fix, with `difftests/code.php` on 11 calls and `ext/mbstring/tests` as the checks ([`mutations.php`](mutations.php)), give the same verdicts: the differential test catches seven, the tests the same four with the same numbers of failing tests ([`mutate-bench.md`](mutate-bench.md)).
+
 [`mb_substr_valid_utf8.phpt`](mb_substr_valid_utf8.phpt) compares flagged and unflagged strings around 256-byte chunks and checks the UTF-8-Mobile result before and after the flag; it fails with the first version and passes on master and with the current head ([`proposed-test-builds.txt`](proposed-test-builds.txt)), and it catches the three mutations the existing tests miss ([`mutate-proposed-output.txt`](mutate-proposed-output.txt)).
 
 ## Reproduce
