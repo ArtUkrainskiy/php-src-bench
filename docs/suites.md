@@ -134,7 +134,8 @@ For expressions that take a string, no generator has to be written:
 combining sequence is several code points), about 10% of them with invalid sequences, and
 separately 3% truncated at the very end (`--input ascii` or `bytes` for other inputs). Lengths are in bytes,
 up to `--max` (2100), half of them on or next to 16, 32, 64, 256, 512, 1024 or 2048, the sizes
-block loops work in. Each `--code`
+block loops work in; `--boundaries 64,72,104,128,136,144` sets other ones (here the block sizes of
+hash functions), and boundaries above `--max` are left out. Each `--code`
 runs on a fresh copy of the input, and with `--setup` once more on a copy that went through the
 setup; warnings and exceptions are part of the output. Every build after the first is compared
 with the first.

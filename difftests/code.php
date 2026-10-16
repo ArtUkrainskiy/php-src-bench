@@ -8,7 +8,9 @@
  * Inputs (--input): utf8 (default) is 1- to 4-byte characters and combining sequences, about 10%
  * of the strings with invalid sequences, among them 3% with a truncated sequence at the very end;
  * ascii is printable ASCII; bytes is any byte. Lengths are in bytes, up to --max N (default 2100),
- * half of them on or next to 16, 32, 64, 256, 512, 1024 or 2048: the sizes block loops work in.
+ * half of them on or next to a boundary: 16, 32, 64, 256, 512, 1024, 2048 (the sizes block loops
+ * work in), or the list given with --boundaries, e.g. the block sizes of hash functions
+ * (--boundaries 64,72,104,128,136,144). Boundaries above --max are left out.
  * Every expression runs on a fresh copy of the input; with --setup it runs a second time on a
  * copy that went through the setup first. A warning or an exception is part of the output.
  */
@@ -18,6 +20,7 @@ $codes = [];
 $setup = null;
 $kind = 'utf8';
 $max = 2100;
+$boundaries = [16, 32, 64, 256, 512, 1024, 2048];
 $rest = [$argv[0]];
 for ($i = 1; $i < count($argv); $i++) {
     $arg = $argv[$i];
@@ -30,6 +33,9 @@ for ($i = 1; $i < count($argv); $i++) {
         $kind = $value;
     } elseif ($arg === '--max' && $value !== null && ctype_digit_ascii($value)) {
         $max = (int) $value;
+    } elseif ($arg === '--boundaries' && $value !== null
+        && array_filter(explode(',', $value), 'ctype_digit_ascii') === explode(',', $value)) {
+        $boundaries = array_map('intval', explode(',', $value));
     } else {
         $rest[] = $arg;
         continue;
@@ -37,7 +43,7 @@ for ($i = 1; $i < count($argv); $i++) {
     $i++;
 }
 if (!$codes) {
-    fwrite(STDERR, "usage: bench difftest code <A> <B> --code EXPR [--code EXPR...] [--setup CODE] [--input utf8|ascii|bytes] [--max N] [--seed N] [--count N]\n");
+    fwrite(STDERR, "usage: bench difftest code <A> <B> --code EXPR [--code EXPR...] [--setup CODE] [--input utf8|ascii|bytes] [--max N] [--boundaries N,N,...] [--seed N] [--count N]\n");
     exit(2);
 }
 
@@ -47,6 +53,13 @@ function ctype_digit_ascii(string $s): bool
 }
 
 // The newline ends a trailing // comment before the closing brace.
+// A boundary above the longest input would only make inputs of exactly --max bytes.
+$boundaries = array_values(array_filter($boundaries, static fn (int $b): bool => $b <= $max));
+if (!$boundaries) {
+    fwrite(STDERR, "--boundaries: none of them is within --max $max\n");
+    exit(2);
+}
+
 $compile = static fn (string $code): Closure => eval('return static function ($s) { return ' . rtrim($code, "; \n") . "\n;\n};");
 $functions = array_combine($codes, array_map($compile, $codes));
 $prepare = $setup === null ? null : eval('return static function (&$s): void { ' . rtrim($setup, "; \n") . "\n;\n};");
@@ -65,8 +78,8 @@ foreach ($functions + ($prepare ? ['setup' => $prepare] : []) as $code => $f) {
     }
 }
 
-$generate = static function (DifftestRng $rng) use ($kind, $max): string {
-    $bytes = $rng->length($max, [16, 32, 64, 256, 512, 1024, 2048]);
+$generate = static function (DifftestRng $rng) use ($kind, $max, $boundaries): string {
+    $bytes = $rng->length($max, $boundaries);
     if ($kind !== 'utf8') {
         $out = '';
         for ($i = 0; $i < $bytes; $i++) {
