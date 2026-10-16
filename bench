@@ -13,10 +13,13 @@ usage() {
 php-src-bench: A/B micro-benchmarks for php-src.
 
 Usage:
-  bench build [--slim] <name> [<git-ref>|.]
+  bench build [--slim] [--profile P] [--cc LIST] [--no-werror] <name> [<git-ref>|.]
                                      Build a release php CLI of a php-src ref in $BENCH_BUILDS/<name>
                                      ('.' = the php-src working tree as it is now; default: HEAD);
-                                     --slim keeps only the binary and its metadata (~55 MB, not ~400)
+                                     --slim keeps only the binary and its metadata (~55 MB, not ~400);
+                                     --profile docker (default: the official Docker image's flags,
+                                     -Werror), align, plain or asan; --cc gcc,clang-20 builds
+                                     <name>-gcc13, <name>-clang20; an up-to-date build is kept
   bench builds                       List the builds
   bench rm <name>...                 Delete builds
   bench gc [--older-than DAYS] [--yes] [<pattern>...]
@@ -42,7 +45,7 @@ Environment:
   BENCH_BUILDS           where the builds live (default: ../php-builds)
   BENCH_PHP              php that runs the orchestrator (default: one of the builds, then php in PATH)
   BENCH_CONFIGURE_EXTRA  extra ./configure options for `bench build`
-  BENCH_CFLAGS           CFLAGS for `bench build` (default: -O2 -g -falign-functions=64 -falign-loops=32)
+  BENCH_CFLAGS, LDFLAGS  override the flags of the `bench build` profile
   BENCH_SLIM             1 = every `bench build` is --slim
   BENCH_MIN_FREE_GB      `bench build` refuses to start with less free space (default: 10)
 USAGE

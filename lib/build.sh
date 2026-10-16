@@ -1,28 +1,111 @@
 #!/usr/bin/env bash
-# bench build <name> [<git-ref>|.]
+# bench build [--slim] [--profile P] [--cc LIST] [--no-werror] <name> [<git-ref>|.]
 #
 # Builds a release php CLI of a php-src commit in its own git worktree, $BENCH_BUILDS/<name>.
 # The php-src working tree is never modified: "." builds a snapshot of it (tracked and untracked
 # files) through a temporary index. A build of an existing name is incremental; configure runs
-# again only when the options, the compiler or the build system files changed.
+# again only when the options, the flags or the compiler changed, and a build that already has
+# this commit and configuration is left as it is.
+#
+# Profiles (compiler flags and configure options):
+#   docker  the flags of the official Docker image (docker-library/php) plus -g, --enable-werror;
+#           the default, for numbers you publish
+#   align   -O2 -g -falign-functions=64 -falign-loops=32: fixed code placement, for finding causes
+#   plain   -O2 -g, what a plain ./configure uses
+#   asan    a debug build with AddressSanitizer and UndefinedBehaviorSanitizer
+# BENCH_CFLAGS and LDFLAGS override the profile's flags, BENCH_CONFIGURE_EXTRA adds options.
+#
+# --cc gcc,gcc-14,clang builds one build per compiler, named <name>-<tag>, where the tag comes from
+# the compiler's version: gcc13, gcc14, clang18, ...
 set -euo pipefail
 : "${BENCH_ROOT:?run this through ./bench}" "${PHP_SRC:?}" "${BENCH_BUILDS:?}"
 
+usage="usage: bench build [--slim] [--profile docker|align|plain|asan] [--cc LIST] [--no-werror] <name> [<git-ref>|.]"
 slim="${BENCH_SLIM:-0}"
-if [[ "${1:-}" == "--slim" ]]; then
-	slim=1
-	shift
-fi
-name="${1:-}"
-ref="${2:-HEAD}"
-if [[ -z "$name" || "$name" == -* ]]; then
-	echo "usage: bench build [--slim] <name> [<git-ref>|.]" >&2
+profile=docker
+cc_list=""
+werror=1
+args=()
+while (($#)); do
+	case "$1" in
+		--slim) slim=1; shift ;;
+		--profile) profile="${2:-}"; shift 2 || { echo "$usage" >&2; exit 2; } ;;
+		--profile=*) profile="${1#*=}"; shift ;;
+		--cc) cc_list="${2:-}"; shift 2 || { echo "$usage" >&2; exit 2; } ;;
+		--cc=*) cc_list="${1#*=}"; shift ;;
+		--no-werror) werror=0; shift ;;
+		-h|--help) echo "$usage"; exit 0 ;;
+		-*) echo "bench build: unknown option $1" >&2; echo "$usage" >&2; exit 2 ;;
+		*) args+=("$1"); shift ;;
+	esac
+done
+name="${args[0]:-}"
+ref="${args[1]:-HEAD}"
+if [[ -z "$name" || ${#args[@]} -gt 2 ]]; then
+	echo "$usage" >&2
 	exit 2
 fi
 if [[ ! "$name" =~ ^[A-Za-z0-9._-]+$ ]]; then
 	echo "bench build: name must match [A-Za-z0-9._-]+" >&2
 	exit 2
 fi
+
+# The tag of a compiler in build names: family and major version, e.g. gcc13, clang20.
+cc_tag() {
+	local v
+	v="$("$1" --version 2>/dev/null | head -1)" || return 1
+	if [[ "$v" == *clang* ]]; then
+		[[ "$v" =~ version\ ([0-9]+) ]] && echo "clang${BASH_REMATCH[1]}"
+	elif [[ "$v" =~ \)\ ([0-9]+)\.[0-9]+ || "$v" =~ ^gcc.*\ ([0-9]+)\.[0-9]+\.[0-9]+ ]]; then
+		echo "gcc${BASH_REMATCH[1]}"
+	fi
+}
+
+# One build per compiler: run this script again for each, so that each build is checked,
+# configured and recorded the same way as a single one.
+if [[ -n "$cc_list" ]]; then
+	IFS=, read -r -a compilers <<<"$cc_list"
+	opts=(--profile "$profile")
+	[[ "$slim" == 1 ]] && opts+=(--slim)
+	[[ "$werror" == 0 ]] && opts+=(--no-werror)
+	failed=()
+	for c in "${compilers[@]}"; do
+		command -v "$c" >/dev/null || { echo "bench build: no such compiler: $c" >&2; exit 1; }
+		tag="$(cc_tag "$c")" || true
+		[[ -n "$tag" ]] || { echo "bench build: cannot tell the version of $c" >&2; exit 1; }
+		CC="$c" "$0" "${opts[@]}" "$name-$tag" "$ref" || failed+=("$name-$tag")
+	done
+	if ((${#failed[@]})); then
+		echo "bench build: failed: ${failed[*]}" >&2
+		exit 1
+	fi
+	exit 0
+fi
+
+case "$profile" in
+	docker)
+		profile_cflags='-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64'
+		profile_ldflags='-Wl,-O1 -pie'
+		profile_configure=()
+		[[ "$werror" == 1 ]] && profile_configure+=(--enable-werror)
+		;;
+	align)
+		profile_cflags='-O2 -g -falign-functions=64 -falign-loops=32'
+		profile_ldflags=''
+		profile_configure=()
+		;;
+	plain)
+		profile_cflags='-O2 -g'
+		profile_ldflags=''
+		profile_configure=()
+		;;
+	asan)
+		profile_cflags='-O1 -g'
+		profile_ldflags=''
+		profile_configure=(--enable-debug --enable-address-sanitizer --enable-undefined-sanitizer)
+		;;
+	*) echo "bench build: unknown profile '$profile' (docker, align, plain, asan)" >&2; exit 2 ;;
+esac
 
 # ./configure uses $CC when it is set, so that is the compiler to check and to record.
 cc="${CC:-cc}"
@@ -51,14 +134,13 @@ if ! git -C "$PHP_SRC" rev-parse --git-dir >/dev/null 2>&1; then
 	exit 1
 fi
 
-configure_args=(--disable-all --disable-cgi --disable-phpdbg --enable-cli)
+configure_args=(--disable-all --disable-cgi --disable-phpdbg --enable-cli "${profile_configure[@]}")
 if [[ -n "${BENCH_CONFIGURE_EXTRA:-}" ]]; then
 	read -r -a extra <<<"$BENCH_CONFIGURE_EXTRA"
 	configure_args+=("${extra[@]}")
 fi
-# Fixed function/loop alignment keeps code placement shifts in unrelated code from showing up
-# as 3-15% wall-time differences in untouched functions (see docs/methodology.md).
-cflags="${BENCH_CFLAGS:--O2 -g -falign-functions=64 -falign-loops=32}"
+cflags="${BENCH_CFLAGS:-$profile_cflags}"
+ldflags="${LDFLAGS-$profile_ldflags}"
 
 src() { git -C "$PHP_SRC" "$@"; }
 
@@ -87,7 +169,17 @@ else
 	base_commit="$commit"
 fi
 
+cc_version="$("$cc" --version | head -1)"
+config_key="$(printf '%s\n' "${configure_args[@]}" "CFLAGS=$cflags" "LDFLAGS=$ldflags" "CC=$cc" "$cc_version" | sha1sum | cut -d' ' -f1)"
+
 dir="$BENCH_BUILDS/$name"
+# Nothing to do when the build already has this commit with this configuration (shared bases).
+if [[ -f "$dir/.bench-build.json" ]] \
+	&& grep -q "\"commit\": \"$commit\"" "$dir/.bench-build.json" \
+	&& grep -q "\"config_key\": \"$config_key\"" "$dir/.bench-build.json"; then
+	echo "up to date: $name ($(git -C "$PHP_SRC" log -1 --format='%h %s' "$commit"))" >&2
+	exit 0
+fi
 # A slim build keeps nothing to build on: replace it.
 if [[ -f "$dir/.bench-build.json" && ! -e "$dir/.git" ]]; then
 	rm -rf -- "$dir"
@@ -104,8 +196,6 @@ else
 	src worktree add -q --detach "$dir" "$commit"
 fi
 
-cc_version="$("$cc" --version | head -1)"
-config_key="$(printf '%s\n' "${configure_args[@]}" "CFLAGS=$cflags" "CC=$cc" "$cc_version" | sha1sum | cut -d' ' -f1)"
 need_configure=false
 need_clean=false
 if [[ ! -f "$dir/Makefile" || "$config_key" != "$(cat "$dir/.bench-config-key" 2>/dev/null || true)" ]]; then
@@ -139,7 +229,7 @@ echo "building '$name' at $(git -C "$dir" log -1 --format='%h %s')$($snapshot &&
 if $need_configure; then
 	rm -f "$dir/.bench-config-key"
 	step "buildconf" ./buildconf --force
-	step "configure ${configure_args[*]} CFLAGS='$cflags'" env CC="$cc" CFLAGS="$cflags" ./configure "${configure_args[@]}"
+	step "configure ${configure_args[*]} CFLAGS='$cflags' LDFLAGS='$ldflags'" env CC="$cc" CFLAGS="$cflags" LDFLAGS="$ldflags" ./configure "${configure_args[@]}"
 	need_clean=true
 fi
 if $need_clean; then
@@ -157,6 +247,9 @@ BM_BASE_COMMIT="$base_commit" BM_BASE_SUBJECT="$(src log -1 --format=%s "$base_c
 BM_CONFIGURE="${configure_args[*]}" \
 BM_CFLAGS="$(sed -n 's/^CFLAGS_CLEAN = //p' "$dir/Makefile")" \
 BM_CFLAGS_USER="$cflags" \
+BM_LDFLAGS="$ldflags" \
+BM_PROFILE="$profile$([[ -n "${BENCH_CFLAGS:-}" || -n "${LDFLAGS+x}" ]] && echo ' (flags overridden)')" \
+BM_CONFIG_KEY="$config_key" \
 BM_CC="$cc_version" \
 BM_SLIM="$slim" \
 "$php" -n -r '
@@ -172,6 +265,9 @@ BM_SLIM="$slim" \
 		"configure" => getenv("BM_CONFIGURE"),
 		"cflags" => getenv("BM_CFLAGS"),
 		"cflags_user" => getenv("BM_CFLAGS_USER"),
+		"ldflags" => getenv("BM_LDFLAGS"),
+		"profile" => getenv("BM_PROFILE"),
+		"config_key" => getenv("BM_CONFIG_KEY"),
 		"cc" => getenv("BM_CC"),
 		"version" => PHP_VERSION,
 		"debug" => (bool) PHP_DEBUG,

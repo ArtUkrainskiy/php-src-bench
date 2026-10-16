@@ -385,7 +385,9 @@ function cmd_builds(): int
         if (!is_array($build)) {
             continue; // a build that was interrupted
         }
-        printf("%-20s %-12s %s%s\n", $build['name'], $build['version'], build_source($build), $build['debug'] ? '  [debug build]' : '');
+        $cc = preg_match('/(clang|g?cc)\D*?(\d+\.\d+)/', $build['cc'] ?? '', $m) ? ($m[1] === 'clang' ? 'clang' : 'gcc') . " $m[2]" : '?';
+        $profile = preg_replace('/ \(.*/', '+', $build['profile'] ?? '-');
+        printf("%-20s %-12s %-12s %-7s %s%s\n", $build['name'], $build['version'], $cc, $profile, build_source($build), $build['debug'] ? '  [debug build]' : '');
         $found = true;
     }
     if (!$found) {

@@ -32,6 +32,13 @@ expect_output() {
 	grep -qF -- "$text" <<<"$out" || { fail "expected \"$text\" from: $*"; echo "$out" | head -5; }
 }
 
+# 0. bench build: options are checked before anything is built
+expect_output "unknown profile 'foo'" ./bench build --profile foo x
+expect_output "unknown option --bogus" ./bench build --bogus x
+expect_output "usage: bench build" ./bench build
+expect_output "no such compiler: no-such-cc" ./bench build --cc no-such-cc x
+group "bench build options"
+
 # 1. Syntax
 for file in bench lib/*.sh corpus/real/fetch.sh tests/run.sh; do
 	bash -n "$file" || fail "bash syntax: $file"
