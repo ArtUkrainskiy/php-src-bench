@@ -80,8 +80,11 @@ and again by `bench table`. Below 20 cycles per call of A the subtraction of the
 dominates, and the table shows `n/a`.
 
 `bench table` prints, per row, A's median cycles in the first group and, per group, the median
-over passes of (B / median of A − 1) as a signed whole percent, rounded half up: "−25%" is 25%
-fewer cycles. `--full` adds the range over the passes and the change in instructions. While a
+over passes of (B / A of the same pass − 1) as a signed whole percent, rounded half up: "−25%"
+is 25% fewer cycles. A and B of one pass run seconds apart, so slow drift cancels out, and the
+range that `--full` adds (with the change in instructions) shows the noise of both sides.
+Tables in reports made before 16 October 2026 divide by A's median over all passes instead,
+which gives about the same cells and a range that hides A's noise. While a
 `bench compare` or `bench run` measures on a CPU, it holds a lock on it, and a second one refuses
 to start there.
 

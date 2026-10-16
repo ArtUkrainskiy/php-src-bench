@@ -450,7 +450,7 @@ function series_per_call(array $series): array
 
 /**
  * The Markdown table of a series: per row, A's median cycles in the first group, then per group
- * the median over passes of (B cycles / median A cycles − 1). Control groups get a table of
+ * the median over passes of (B cycles / A cycles of the same pass − 1). Control groups get a table of
  * their own after the main one. A cell gets "≠out" or "≠in" when A and B of its group gave
  * different results or inputs; below MIN_TABLE_CYCLES of A it shows "n/a".
  *
@@ -516,7 +516,18 @@ function series_table(array $series, array $labels, bool $full, string $baseName
                     $tooSmall = true;
                     continue;
                 }
-                $ratios = array_map(static fn ($b): float => $b / $a, $cyc[$id][$g]['b']);
+                // Pass by pass: A and B of one pass ran seconds apart, so drift cancels out and the
+                // range shows the noise of both sides.
+                $ratios = [];
+                foreach ($cyc[$id][$g]['b'] as $p => $b) {
+                    if (isset($cyc[$id][$g]['a'][$p]) && $cyc[$id][$g]['a'][$p] > 0) {
+                        $ratios[] = $b / $cyc[$id][$g]['a'][$p];
+                    }
+                }
+                if (!$ratios) {
+                    $cells[] = 'n/a' . $mark;
+                    continue;
+                }
                 sort($ratios);
                 $cell = percent_change(median($ratios)) . '%';
                 if ($full) {
