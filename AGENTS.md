@@ -56,6 +56,9 @@ rules below exist.
    ./bench difftest html-encode base dev --count 20000
    ```
 
+   Then check that the checks can fail: `./bench mutate dev mutations.php` with the mistakes a
+   reviewer would worry about (`docs/suites.md`, "Do the checks catch a wrong change?").
+
 6. Run the relevant php-src tests with the built binary, from the build's worktree:
 
    ```sh
@@ -85,7 +88,7 @@ rules below exist.
 - **Two metrics, both reported.** Wall time is what users feel; instruction counts are what
   php-src CI measures and what stays stable. When they disagree, report the disagreement and find
   out why (`perf stat -e branch-misses`, `objdump -d`) instead of quoting the nicer one.
-- **`layout?` is not a result.** It marks a wall-time difference with unchanged instruction
+- **`layout?` is not a result** (in `bench run` and `bench table`); `bench why` shows the cause. It marks a wall-time difference with unchanged instruction
   counts: the amount of work is the same, so something else changed (code placement, cache or
   branch behaviour). Find out which before reporting the row, in either direction.
 - **A disturbed round means run again.** When the runner says that a round is more than 10%

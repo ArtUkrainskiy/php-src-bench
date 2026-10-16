@@ -157,7 +157,7 @@ $tiny = ['groups' => [['name' => 'g', 'a' => 'x', 'b' => 'y']], 'builds' => [], 
     'rows' => [['g', 'a', 'c1', 150, 300, 0, 0], ['g', 'b', 'c1', 120, 300, 0, 0], ['g', 'a', 'c2', 5000, 9000, 1000, 2000], ['g', 'b', 'c2', 2500, 9000, 1000, 2000]]];
 $table = series_table($tiny, [], false, 'master');
 same(true, str_contains($table, '| c1 | 15 | n/a |'), 'series_table: under 20 cycles per call is n/a');
-same(true, str_contains($table, '| c2 | 400 | −62% ≠out |'), 'series_table: format 2 totals minus the empty loop, with the ≠out mark');
+same(true, str_contains($table, '| c2 | 400 | −62% ≠out layout? |'), 'series_table: format 2 totals minus the empty loop, with the ≠out mark');
 same(true, str_contains($table, 'n/a: under 20 cycles'), 'series_table: n/a is explained');
 $tiny['cases']['c2'] += ['input_len' => 1030, 'input_chars' => 579];
 same(true, str_contains(series_table($tiny, [], false, 'master', true), '| c2 (1.78 B/char) | 400 |'), 'series_table: --bpc adds bytes per character');

@@ -149,6 +149,13 @@ for text in "broken link (missing.json)" "no heading for the anchor" "Cyrillic t
 done
 group "bench report new, check, update"
 
+# 6c. bench mutate and bench why: argument errors (a real run needs a full php-src build)
+mkdir -p "$tmp/notabuild"
+expect_output "is not a full build" ./bench mutate "$tmp/notabuild" "$tmp/patterns.php"
+expect_output "Usage: bench mutate" ./bench mutate
+expect_output "Usage: bench why" ./bench why html
+group "bench mutate, bench why: arguments"
+
 # 7. Suites the harness must refuse, with a message that names the case
 cat >"$tmp/bad.php" <<'SUITE'
 <?php

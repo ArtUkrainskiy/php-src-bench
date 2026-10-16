@@ -36,6 +36,10 @@ const SERIES_FORMAT = 2;
 /** Below this many cycles per call of A, the change is not shown in percent: compare instructions. */
 const MIN_TABLE_CYCLES = 20;
 
+/** A cell is marked "layout?" when cycles change at least this much while instructions change less than that. */
+const LAYOUT_MIN_CYCLES = 0.03;
+const LAYOUT_MAX_INSTRUCTIONS = 0.005;
+
 function usage_compare(): void
 {
     echo <<<'USAGE'
@@ -497,6 +501,7 @@ function series_table(array $series, array $labels, bool $full, string $baseName
     }
     $out = '';
     $tooSmall = false;
+    $layout = false;
     foreach ([[$main, true], [$control, false]] as [$groups, $isMain]) {
         if (!$groups) {
             continue;
@@ -547,11 +552,17 @@ function series_table(array $series, array $labels, bool $full, string $baseName
                 if ($full) {
                     $cell .= ' (' . percent_change($ratios[0]) . ' … ' . percent_change(end($ratios)) . ')';
                 }
-                $cells[] = $cell . $mark;
                 $insA = median($ins[$id][$g]['a']);
                 if ($insA > 0) {
-                    $insRatios[] = median($ins[$id][$g]['b']) / $insA;
+                    $insRatio = median($ins[$id][$g]['b']) / $insA;
+                    $insRatios[] = $insRatio;
+                    // Same work, different time: code placement or branch behaviour, see `bench why`.
+                    if (abs($insRatio - 1) < LAYOUT_MAX_INSTRUCTIONS && abs(median($ratios) - 1) >= LAYOUT_MIN_CYCLES) {
+                        $mark .= ' layout?';
+                        $layout = true;
+                    }
                 }
+                $cells[] = $cell . $mark;
             }
             $line = "| $label | " . number_format(median($cyc[$id][$first]['a'])) . ' | ' . implode(' | ', $cells) . ' |';
             if ($withIns) {
@@ -565,6 +576,10 @@ function series_table(array $series, array $labels, bool $full, string $baseName
             }
             $out .= $line . "\n";
         }
+    }
+    if ($layout) {
+        $out .= sprintf("\nlayout?: the cycles changed by %d%% or more, the instructions by less than %.1f%%: the work is the same, so look for the cause (code placement, branch prediction) with `bench why` before reporting the row.\n",
+            LAYOUT_MIN_CYCLES * 100, LAYOUT_MAX_INSTRUCTIONS * 100);
     }
     if ($tooSmall) {
         $out .= "\nn/a: under " . MIN_TABLE_CYCLES . " cycles per call, the subtraction of the empty loop dominates; compare instructions.\n";

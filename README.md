@@ -247,7 +247,9 @@ snapshots that nobody else can check out. `update` also removes such paths from 
 | `bench table <series.json> [--full] [--labels FILE] [--header]` | the change in cycles relative to A as a Markdown table |
 | `bench report new\|update\|check <dir>` | a report directory from a series, its generated tables, the checks before committing it |
 | `bench show <result.json> [--md]` | render a saved result again |
-| `bench difftest <generator> <A> <B> [--seed N] [--count N]` | compare outputs of two builds on generated inputs |
+| `bench difftest <generator> <A> <B> [<C>...] [--seed N] [--count N]` | compare outputs of builds on generated inputs; `code --code EXPR` for any expression |
+| `bench mutate <build> <mutations.php>` | put mistakes into the change one at a time and see whether the differential test and the tests catch them |
+| `bench why <suite> <A> <B> --filter RE [--functions f,g]` | branch misses, front-end stalls and function addresses of two builds, for a case whose cycles changed and instructions did not |
 | `bench check [--cpu N]` | report noise sources on this machine and whether `--perf` can work |
 | `bench tune on\|off\|status` | `on`: performance governor, no turbo boost; `off`: back to what it was (both need sudo) |
 | `bench php` | print the php binary that runs the tool itself |

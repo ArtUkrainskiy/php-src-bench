@@ -39,6 +39,12 @@ Usage:
   bench show <result.json> [--md]    Render a saved result again
   bench difftest <generator> <A> <B> [--seed N] [--count N]
                                      Check that two builds give identical output on generated inputs
+  bench mutate <build> <mutations.php> [--only RE]
+                                     Mutate the change, rebuild, and see whether the differential
+                                     test and the tests catch each mutation
+  bench why <suite> <A> <B> --filter RE [--functions f1,f2]
+                                     Branch misses, front-end stalls and function addresses of
+                                     A and B, for a case whose cycles changed and instructions not
   bench check [--cpu N]              Report sources of benchmark noise on this machine
   bench tune on|off|status           on: performance governor and no turbo boost, off: back to what
                                      it was (both need sudo), status: show the current settings
@@ -111,7 +117,7 @@ case "$cmd" in
 	build) shift; exec "$BENCH_ROOT/lib/build.sh" "$@" ;;
 	tune) shift; exec "$BENCH_ROOT/lib/tune.sh" "$@" ;;
 	difftest) shift; exec "$BENCH_ROOT/lib/difftest.sh" "$@" ;;
-	run|compare|table|report|show|check|builds|suites)
+	run|compare|table|report|mutate|why|show|check|builds|suites)
 		php="$(runner_php)"
 		exec "$php" -n -d memory_limit=-1 "$BENCH_ROOT/lib/runner.php" "$@"
 		;;

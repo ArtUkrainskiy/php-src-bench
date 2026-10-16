@@ -73,6 +73,12 @@ shows that control under the main table, and a difference within its range is no
 control runs one binary, so it shows run-to-run noise only: a difference outside it can still be
 code placement, which is what the other compilers and `--profile align` are for.
 
+A cell gets `layout?` when the cycles changed by 3% or more and the instructions by less than
+0.5%: the same work took a different time. `bench why <suite> <A> <B> --filter <case>
+--functions <hot functions>` then counts branch misses, instruction cache misses and the
+top-down slots of both builds and shows where the functions sit in each binary; a function that
+moved, with more front-end stalls or branch misses, is placement, not the change.
+
 Before the passes, every build evaluates every case once, as `bench run` does: a case whose
 result or input differs between A and B of a group gets `≠out` or `≠in` in the table, and a group
 whose builds differ in compiler, configure options, flags or profile is reported, in the terminal

@@ -116,6 +116,20 @@ compare the two builds on thousands of generated ones:
 ./bench difftest html-encode base dev --seed 1 --count 20000
 ```
 
+For expressions that take a string, no generator has to be written:
+
+```sh
+./bench difftest code base dev dev-asan --code 'mb_substr($s, 257, 300)' --code 'mb_strpos($s, "a", 300)' \
+    --setup 'mb_check_encoding($s, "UTF-8")' --seed 1 --count 20000
+```
+
+`difftests/code.php` makes strings of 1- to 4-byte characters and combining sequences, 10% of
+them with invalid sequences (`--input ascii` or `bytes` for other inputs), up to `--max`
+characters (1100), half of the lengths on or next to 16, 32, 64, 256, 512 or 1024. Each `--code`
+runs on a fresh copy of the input, and with `--setup` once more on a copy that went through the
+setup; warnings and exceptions are part of the output. Every build after the first is compared
+with the first.
+
 A generator is a PHP script in `difftests/` with two functions and one call:
 
 ```php
@@ -146,6 +160,7 @@ crashes or aborts under a sanitizer is reported with its exit status.
 | Generator | Covers |
 |---|---|
 | `html-encode` | `htmlspecialchars()`, `htmlentities()`: 13 flag sets × 14 charsets × `double_encode` on/off, inputs mixing plain runs, special characters, valid and broken multibyte sequences, entities |
+| `code` | any `--code` expressions on generated UTF-8, ASCII or bytes, with and without `--setup` |
 | `html-decode` | `html_entity_decode()`, `htmlspecialchars_decode()`: 10 flag sets × 12 charsets, valid, truncated and malformed entities, dense and long inputs |
 
 Rules for a generator:
@@ -153,7 +168,9 @@ Rules for a generator:
 - Take all randomness from `$rng`, not from `mt_rand()`: inputs must be identical on both PHP
   versions being compared.
 - Aim the inputs at the code you changed: lengths around block sizes, the boundary between a fast
-  and a slow path, buffer growth, truncated sequences at the very end.
+  and a slow path, buffer growth, truncated sequences at the very end. `$rng->length($max,
+  $boundaries)` lands on or next to the boundaries half of the time, `$rng->utf8($chars,
+  $classes, $invalidPercent)` draws characters by UTF-8 width (`DIFFTEST_UTF8`).
 
 For memory errors, run the same generator on a build with sanitizers:
 
@@ -164,3 +181,33 @@ USE_ZEND_ALLOC=0 ASAN_OPTIONS=detect_leaks=0 ./bench difftest html-encode base d
 
 `USE_ZEND_ALLOC=0` makes PHP use `malloc()` directly; without it the Zend allocator hides buffer
 overflows from the sanitizer.
+
+## Do the checks catch a wrong change?
+
+A differential test that passes proves little until it has failed on a wrong version of the
+code. `bench mutate` puts plausible mistakes into a full build of the change, one at a time,
+rebuilds it and runs the checks:
+
+```php
+<?php // mutations.php
+return [
+    'difftest' => ['generator' => 'code', 'against' => 'base', 'args' => ['--code', 'mb_substr($s, 257, 300)', '--count', '2000']],
+    'tests' => ['ext/mbstring/tests'],
+    'mutations' => [
+        'chunk loop runs down to offset 0' => ['file' => 'ext/mbstring/mbstring.c',
+            'from' => 'while (offset > 256 && (size_t)(end - pos) >= 256) {',
+            'to' => 'while (offset > 0 && (size_t)(end - pos) >= 256) {'],
+    ],
+];
+```
+
+```sh
+./bench build dev .                       # a full build: run-tests.php needs the tree
+./bench mutate dev mutations.php
+```
+
+It first runs the checks on the unchanged build (the differential test must agree with the
+reference; tests that already fail are not counted), then prints a table of which check caught
+which mutation. `from` must occur exactly once in its file; the build is restored at the end,
+and a run that was interrupted is undone by the next one. Good mutations are the ones a reviewer
+worries about: an off-by-one in a bound, a check left out, a condition widened.
