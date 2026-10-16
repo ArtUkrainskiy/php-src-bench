@@ -58,6 +58,24 @@ and where the linker places constant data (up to 0.3% between two builds of the 
 different directories). Differences below about 0.5% in instruction counts are therefore not
 evidence of anything.
 
+**Cycles per call, several compilers (`bench compare`).** For numbers that go into a pull
+request, `bench compare` measures CPU cycles and instructions per call of pairs of builds, one
+group per compiler. Each count is `perf stat -e cycles,instructions` over a process that runs one
+case a fixed number of times, minus the same process running the empty loop as often, so start-up
+and loop overhead cancel out. The iteration count is calibrated once, on A of the first group, to
+about `--target-ms` (50 ms) and used for every build. Cycles do not move with the clock frequency
+the way nanoseconds do, so turbo and temperature affect them much less; unlike instruction counts
+they still include what the CPU waits for (branch misses, cache misses). All processes run one
+after another on one CPU, never in parallel, in `--passes` (5) passes that alternate the order of
+A and B. The series starts and ends with A of the first group against itself; `bench table`
+shows that control under the main table, and a difference within its range is not evidence.
+
+`bench table` prints, per row, A's median cycles in the first group and, per group, the median
+over passes of (B / median of A − 1) as a signed whole percent, rounded half up: "−25%" is 25%
+fewer cycles. `--full` adds the range over the passes and the change in instructions. While a
+`bench compare` or `bench run` measures on a CPU, it holds a lock on it, and a second one refuses
+to start there.
+
 **Output comparison.** In every process each case is evaluated once before it is timed, and the
 value it returns is hashed, as is the input. If the hashes of A and B differ, the row is marked
 `≠out`: the change altered behavior, and its timing is beside the point until that is explained.
@@ -86,7 +104,27 @@ the pinned core is idle. S is the waiting budget of the whole run; when it is sp
 says so and measures anyway. Instruction counts are not affected by load either way, which is the
 main reason to always pass `--perf` for numbers you intend to publish.
 
-## Why builds use `-falign-functions=64 -falign-loops=32`
+## Build profiles
+
+`bench build --profile` sets the compiler flags and configure options; every build records its
+profile and flags, and a comparison of two builds made differently says so.
+
+- **`docker`** (the default): the flags of the official Docker image
+  (`docker-library/php`: `-fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE
+  -D_FILE_OFFSET_BITS=64`, linked with `-Wl,-O1 -pie`) plus `-g` for `perf`, and
+  `--enable-werror` as in php-src's CI. Numbers made this way describe the PHP that people run,
+  which is what reviewers ask about. `--no-werror` drops `-Werror` for a branch that does not build
+  with it on a newer compiler.
+- **`align`**: `-O2 -g -falign-functions=64 -falign-loops=32`, for finding out whether a
+  difference is code placement (below).
+- **`plain`**: `-O2 -g`, what `./configure` uses without CFLAGS.
+- **`asan`**: a debug build with AddressSanitizer and UndefinedBehaviorSanitizer, for
+  `bench difftest`; run it with `USE_ZEND_ALLOC=0`.
+
+`BENCH_CFLAGS` and `LDFLAGS` override the flags of a profile, `BENCH_CONFIGURE_EXTRA` adds
+configure options (extensions).
+
+### Code placement and the `align` profile
 
 With plain `-O2`, changing one function shifts the address of everything linked after it, and the
 speed of untouched code changes with its alignment. In a calibration run for php-src commit
@@ -96,15 +134,13 @@ identical instruction counts: the function had moved by 240 bytes. With 64-byte 
 32-byte loop alignment the phantom regression disappeared (within ±1.2%), while the real changes
 in `html_entity_decode()` measured the same. Binaries are about 5% larger.
 
-These are not the flags distributions build PHP with. Absolute times differ slightly from a
-stock build; what the flags protect is the comparison. To check a result under plain flags, build
-both sides with `BENCH_CFLAGS="-O2 -g"`.
-
-Alignment does not remove placement effects *inside* the function you changed. The `layout?` mark
-points at rows where that may have happened: the time changed, the instruction count did not. The
-mark does not prove that code placement is the cause. A change in memory access or branch
-behaviour looks the same, so compare `objdump -d` of the function in both builds and
-`perf stat -e branch-misses,cache-misses` before deciding what the row means.
+Each set of flags and each compiler gives its own placement, so the same change can measure
+differently under `docker` and `align`, or with GCC and clang. In
+[reports/pr-24080-mb-substr](../reports/pr-24080-mb-substr/), the first version of the PR made
+calls whose code it did not change 3–25% faster with GCC 13.3 and within 3% of master with the
+three other compilers; the build had moved the unchanged decoder. A result that holds on several compilers (`bench compare` with one group
+per compiler) is not a placement accident; one that appears on a single compiler is suspect
+until branch misses and the disassembly say otherwise.
 
 ## Traps
 

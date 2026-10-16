@@ -33,6 +33,18 @@ rules below exist.
    ./bench run htmlspecialchars --a base --b dev --perf --wait-idle 600
    ```
 
+   For numbers that go into a pull request, measure cycles per call with every compiler at
+   hand, each with its own pair of builds (`--cc` names them `<name>-gcc13`, `<name>-clang20`, ...):
+
+   ```sh
+   ./bench build --slim --cc gcc,clang base master && ./bench build --slim --cc gcc,clang dev .
+   ./bench compare htmlspecialchars gcc13=base-gcc13:dev-gcc13 clang18=base-clang18:dev-clang18
+   ./bench table results/<date>-compare-htmlspecialchars.json --full
+   ```
+
+   Report the change on every compiler, and the A/A control under the table. A change seen with
+   one compiler only is a placement suspect until branch misses and `objdump -d` explain it.
+
 5. Check the output on generated inputs, and under sanitizers if the change touches buffers or
    pointer arithmetic (`docs/suites.md`, "Differential tests").
 
@@ -52,6 +64,8 @@ rules below exist.
   `--enable-debug`. Measure builds made by `bench build`, never `php-src/sapi/cli/php` directly.
   A result with a debug side has `DEBUG` in its header and a line starting with `!`; treat that
   run as void. Any other `!` line (different compiler, configure options or CFLAGS) voids it too.
+- **Publish numbers from the `docker` profile** (the default of `bench build`). `align` builds
+  are for finding causes; say so when you quote one.
 - **Rebuild after every edit, then re-measure.** Do not carry numbers over from an earlier
   version of the patch: in a large function an equivalent rewrite can change the generated code
   by several percent. The one exception is an edit that provably leaves the machine code alone
@@ -94,6 +108,7 @@ rules below exist.
 |---|---|
 | `bench` | entry point: dispatches to the scripts in `lib/` |
 | `lib/runner.php` | orchestrator: `run`, `show`, `check`, `builds`, `suites` |
+| `lib/compare.php` | `compare` and `table`: cycles per call for pairs of builds, the percent table |
 | `lib/harness.php` | runs inside the PHP binary under test: loads a suite, times its cases |
 | `lib/process.php`, `environment.php`, `stats.php`, `render.php`, `console.php` | parts of the orchestrator |
 | `lib/Corpus.php` | builds inputs from `corpus/` |

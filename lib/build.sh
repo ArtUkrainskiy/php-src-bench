@@ -100,7 +100,7 @@ case "$profile" in
 		profile_configure=()
 		;;
 	asan)
-		profile_cflags='-O1 -g'
+		profile_cflags='-O1 -g -fno-omit-frame-pointer'
 		profile_ldflags=''
 		profile_configure=(--enable-debug --enable-address-sanitizer --enable-undefined-sanitizer)
 		;;

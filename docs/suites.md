@@ -125,8 +125,7 @@ Rules for a generator:
 For memory errors, run the same generator on a build with sanitizers:
 
 ```sh
-BENCH_CONFIGURE_EXTRA="--enable-debug --enable-address-sanitizer --enable-undefined-sanitizer" \
-BENCH_CFLAGS="-O1 -g -fno-omit-frame-pointer" ./bench build dev-asan .
+./bench build --profile asan dev-asan .
 USE_ZEND_ALLOC=0 ASAN_OPTIONS=detect_leaks=0 ./bench difftest html-encode base dev-asan --count 2000
 ```
 

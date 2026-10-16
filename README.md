@@ -43,6 +43,9 @@ What it takes care of, so that you do not have to:
 - **Instruction counts** (`--perf`), the metric php-src's own CI benchmark uses. They do not
   depend on how busy the machine is, and they expose wall-time differences that are only code
   placement.
+- **Numbers for a pull request.** `bench compare` measures CPU cycles per call of the same change
+  built with several compilers, with a master-against-master control, and `bench table` turns
+  that into the Markdown table of "−25%" cells that goes into a PR comment.
 - **Correctness.** For every case the value the expression returns is compared between A and B.
   `bench difftest` goes further and compares the two builds on thousands of generated inputs.
 - **A record.** Each run is saved as JSON and can be rendered again as a terminal or Markdown table.
@@ -155,16 +158,52 @@ replace php-src's own tests: run them with the built binary before you send the 
 Results worth keeping, together with the commands that produced them, live in
 [reports/](reports/), so that a PR can link to them.
 
+## Numbers for a pull request: several compilers
+
+A change in a hot loop can measure differently with GCC and clang, because each compiler places
+code differently. For the numbers you publish, build both sides with every compiler you have and
+compare cycles per call:
+
+```sh
+CCS=(--cc gcc,gcc-14,clang,clang-20)       # whatever compilers are installed
+./bench build --slim "${CCS[@]}" base "$(git -C ../php-src merge-base master HEAD)"
+./bench build --slim "${CCS[@]}" dev .
+./bench compare htmlspecialchars gcc13=base-gcc13:dev-gcc13 gcc14=base-gcc14:dev-gcc14 \
+    clang18=base-clang18:dev-clang18 clang20=base-clang20:dev-clang20
+./bench table results/<date>-compare-htmlspecialchars.json --full
+```
+
+Builds are named `<name>-<compiler><major version>`; one that already exists at the same commit
+with the same configuration is kept, so a shared `base` is built once. `bench compare` runs every
+case in five passes that alternate A and B, on one CPU, with A against A at the start and the end
+of the series. `bench table` prints the change in cycles relative to A (`--labels FILE` sets the
+rows and their names, `--base-name` what A is called):
+
+```
+| call | master, CPU cycles per call (GCC 13.3) | GCC 13.3 | GCC 14.2 | clang 18.1 | clang 20.1 |
+|---|--:|--:|--:|--:|--:|
+| `mb_substr($s, 0, 10)`, English (1.00 B/char), 31-byte title | 200 | −33% | −21% | −46% | −47% |
+| `mb_substr($s, $half, 20)`, English (1.00 B/char), 64 KB | 63,324 | −92% | −90% | −95% | −95% |
+| `mb_substr($s, $half, 20)`, Hindi (2.54 B/char), 1 KB | 2,191 | −18% | −10% | −43% | −43% |
+| `mb_substr($s, 0, 10)`, English (1.00 B/char), 31-byte title, without the flag | 199 | +4% | +3% | 0% | +1% |
+```
+
+(From [reports/pr-24080-mb-substr](reports/pr-24080-mb-substr/); negative = fewer cycles,
+faster. Say so above the table where you publish it.) A series of 35 cases on four compilers
+takes about 40 minutes on an i7-13700H. How it is measured: [docs/methodology.md](docs/methodology.md).
+
 ## Commands
 
 | Command | |
 |---|---|
-| `bench build [--slim] <name> [<ref>\|.]` | build a php-src ref (or `.`, the working tree) as `<name>`; `--slim`: binary only |
+| `bench build [--slim] [--profile P] [--cc LIST] <name> [<ref>\|.]` | build a php-src ref (or `.`, the working tree) as `<name>`; `--slim`: binary only; `--profile docker` (default), `align`, `plain`, `asan`; `--cc gcc,clang-20`: one build per compiler |
 | `bench builds` | list builds |
 | `bench rm <name>...` | delete builds |
 | `bench gc [--older-than DAYS] [--yes] [<pattern>...]` | list builds with size and age; remove the matching ones with `--yes` |
 | `bench suites` | list suites |
 | `bench run <suite> --a <build> [--b <build>] [options]` | measure; `bench run --help` lists the options |
+| `bench compare <suite> <group>=<A>:<B>... [options]` | cycles and instructions per call for pairs of builds, one group per compiler; `bench compare --help` |
+| `bench table <series.json> [--full] [--labels FILE]` | the change in cycles relative to A as a Markdown table |
 | `bench show <result.json> [--md]` | render a saved result again |
 | `bench difftest <generator> <A> <B> [--seed N] [--count N]` | compare outputs of two builds on generated inputs |
 | `bench check [--cpu N]` | report noise sources on this machine and whether `--perf` can work |
@@ -176,10 +215,13 @@ Results worth keeping, together with the commands that produced them, live in
 (instruction counts), `--wait-idle S` (wait for a quiet machine before each process, up to S
 seconds in total; after that it measures anyway and says so), `--md`.
 
-Builds are configured with `--disable-all --disable-cgi --disable-phpdbg --enable-cli` and
-`CFLAGS="-O2 -g -falign-functions=64 -falign-loops=32"`. Add extensions with
-`BENCH_CONFIGURE_EXTRA="--enable-mbstring" ./bench build ...`, change flags with `BENCH_CFLAGS`.
-Why the alignment flags are there is explained in the methodology notes.
+Builds are configured with `--disable-all --disable-cgi --disable-phpdbg --enable-cli` and, by
+default, the compiler and linker flags of the official Docker image plus `-g` and
+`--enable-werror` (`--profile docker`). `--profile align` adds fixed function and loop alignment
+for finding out whether a difference is code placement, `plain` is `-O2 -g`, `asan` a debug build
+with sanitizers; see the methodology notes. Add extensions with
+`BENCH_CONFIGURE_EXTRA="--enable-mbstring" ./bench build ...`, change flags with `BENCH_CFLAGS`
+and `LDFLAGS`.
 
 ## Suites
 
@@ -214,8 +256,8 @@ Writing your own takes a few lines, see [docs/suites.md](docs/suites.md).
   for changes to the VM, opcache or the JIT.
 - Times of a few nanoseconds are mostly the remainder of subtracting the loop overhead: below
   about 10 ns per call, compare instruction counts.
-- The builds use alignment flags that distributions do not use (see the methodology notes); to
-  check a result under plain flags, build both sides with `BENCH_CFLAGS="-O2 -g"`.
+- One machine and one set of flags give one code placement. Check a result on several compilers
+  (`bench compare`) and, when a single compiler disagrees, with `--profile align`.
 - Linux only: CPU pinning, noise detection and `perf` rely on `/proc`, `/sys` and `taskset`.
   Developed with GCC on x86-64; the PHP being measured must be 8.0 or newer.
 - Suites so far cover string functions of `ext/standard` and `ext/json`. Others are easy to add.
