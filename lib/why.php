@@ -66,13 +66,15 @@ function cmd_why(array $positional, array $options): int
             }
         }
         progress('');
-        $out .= "\n{$c['id']} (per call, median of $passes passes)\n\n| event | A | B | B vs A |\n|---|--:|--:|--:|\n";
+        $out .= "\n{$c['id']} (per call, median of $passes passes; user space only, except the top-down slots)\n\n| event | A | B | B vs A |\n|---|--:|--:|--:|\n";
         foreach ($events as $e) {
             if (!isset($counts['a'][$e], $counts['b'][$e])) {
                 continue;
             }
             [$va, $vb] = [median($counts['a'][$e]), median($counts['b'][$e])];
-            $out .= sprintf("| %s | %s | %s | %s |\n", $e, why_number($va), why_number($vb), $va >= 20 && $vb >= 20 ? percent_change($vb / $va) . '%' : '');
+            // small counts (misses per call) as an absolute change, large ones in percent
+            $change = $va >= 20 && $vb >= 20 ? percent_change($vb / $va) . '%' : sprintf('%+.2f', $vb - $va);
+            $out .= sprintf("| %s | %s | %s | %s |\n", $e, why_number($va), why_number($vb), $change);
         }
     }
     flock($lock, LOCK_UN);
@@ -107,10 +109,35 @@ function why_events(string $perf, int $cpu): array
     return $ok;
 }
 
-/** @return array<string, float> event => count for one harness process */
+/**
+ * Events in groups that fit the counters without time-sharing: four general events per process,
+ * and the top-down slots in one group of their own, as the CPU computes them together.
+ *
+ * @return list<string> perf -e arguments
+ */
+function why_groups(array $events): array
+{
+    $topdown = array_values(array_filter($events, static fn (string $e): bool => $e === 'slots' || str_starts_with($e, 'topdown-')));
+    $groups = array_map(static fn (array $g): string => implode(',', array_map('why_event_name', $g)), array_chunk(array_values(array_diff($events, $topdown)), 4));
+    if ($topdown) {
+        $groups[] = '{' . implode(',', array_map('why_event_name', $topdown)) . '}';
+    }
+    return $groups;
+}
+
+/** @return array<string, float> event => count for the harness processes of one side */
 function why_count(string $perf, array $events, string $php, string $suite, string $id, int $n, bool $empty, int $cpu): array
 {
-    $list = implode(',', array_map('why_event_name', $events));
+    $counts = [];
+    foreach (why_groups($events) as $group) {
+        $counts += why_count_group($perf, $group, $php, $suite, $id, $n, $empty, $cpu);
+    }
+    return $counts;
+}
+
+/** @return array<string, float> */
+function why_count_group(string $perf, string $list, string $php, string $suite, string $id, int $n, bool $empty, int $cpu): array
+{
     $command = array_merge(taskset_prefix($cpu), [$perf, 'stat', '-x', ',', '-e', $list, '--'],
         php_command($php, $suite, ['mode' => 'fixed', 'case' => $id, 'n' => $n, 'empty' => (int) $empty]));
     $proc = proc_open($command, [1 => ['file', '/dev/null', 'w'], 2 => ['pipe', 'w']], $pipes, null, ['LC_ALL' => 'C'] + getenv());

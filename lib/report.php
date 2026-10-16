@@ -191,11 +191,12 @@ function report_reproduce(array $series, string $dir, string $seriesName, string
         $sets[$key]['commit'] = substr($build['commit'], 0, 11);
         // Builds made before the compiler command was recorded only know the version.
         $sets[$key]['cc'][] = $build['cc_command'] ?? 'TODO(' . (compiler_name($build) ?? $build['cc']) . ')';
-        $profile = preg_replace('/ \(.*$/', '', $build['profile'] ?? 'align');
+        $profile = preg_replace('/ \(.*$/', '', $build['profile'] ?? report_profile_of((string) ($build['cflags_user'] ?? '')));
         $sets[$key]['profile'] = $profile;
         $sets[$key]['extra'] = $build['configure_extra'] ?? report_configure_extra((string) $build['configure'], $profile);
         $sets[$key]['slim'] = !empty($build['slim']);
         $sets[$key]['multi'] = $multi;
+        $sets[$key]['pr'] = $build['pr'] ?? null;
         $sets[$key]['werror'] = str_contains((string) $build['configure'], '--enable-werror');
         // Flags given by hand instead of the profile's
         $sets[$key]['flags'] = str_contains((string) ($build['profile'] ?? ''), 'overridden')
@@ -206,9 +207,21 @@ function report_reproduce(array $series, string $dir, string $seriesName, string
         }
     }
     $lines = [];
+    $prDone = [];
     foreach ($sets as $set) {
         if (isset($set['line'])) {
             $lines[] = $set['line'];
+            continue;
+        }
+        // Builds made by bench pr: the merge commit exists only here, bench pr makes it again.
+        if (!empty($set['pr'])) {
+            $pr = $set['pr'];
+            if (!isset($prDone[$pr['number']])) {
+                $env = $set['extra'] ? 'BENCH_CONFIGURE_EXTRA=' . escapeshellarg($set['extra']) . ' ' : '';
+                $lines[] = sprintf('%s./bench pr %s --base %s%s%s --profile %s --cc %s   # head %s', $env, $pr['number'], $pr['base'],
+                    $pr['merged'] === '1' ? '' : ' --no-merge', $set['slim'] ? ' --slim' : '', $set['profile'], implode(',', array_unique($set['cc'])), $pr['head']);
+                $prDone[$pr['number']] = true;
+            }
             continue;
         }
         $env = ($set['extra'] ? 'BENCH_CONFIGURE_EXTRA=' . escapeshellarg($set['extra']) . ' ' : '') . $set['flags'];
@@ -249,6 +262,18 @@ function report_reproduce(array $series, string $dir, string $seriesName, string
     return $text;
 }
 
+/** The profile whose flags a build without a recorded profile used, or "align" (the old default). */
+function report_profile_of(string $cflags): string
+{
+    if (str_contains($cflags, '-fstack-protector-strong')) {
+        return 'docker';
+    }
+    if (str_contains($cflags, '-falign-functions')) {
+        return 'align';
+    }
+    return $cflags === '-O2 -g' ? 'plain' : 'align';
+}
+
 /** The options BENCH_CONFIGURE_EXTRA added: the configure line without the fixed ones and the profile's. */
 function report_configure_extra(string $configure, string $profile): string
 {
@@ -286,6 +311,9 @@ function report_table(string $args, string $baseDir): string
     if (!is_array($series) || ($series['kind'] ?? '') !== 'compare') {
         throw new BenchError("bench-table block: not a series: $file");
     }
+    if (array_key_exists('complete', $series) && !$series['complete']) {
+        throw new BenchError("bench-table block: $file is incomplete (interrupted); finish it with bench compare --resume");
+    }
     $labels = [];
     $flags = [];
     $baseName = 'master';
@@ -309,8 +337,18 @@ function report_table(string $args, string $baseDir): string
             throw new BenchError("bench-table block: unknown argument '$w'");
         }
     }
+    foreach (array_keys($labels) as $id) {
+        if (!isset($series['cases'][$id])) {
+            throw new BenchError("bench-table block: the labels name '$id', which the series does not have");
+        }
+    }
     $out = isset($flags['--header']) ? series_header($series) . "\n" : '';
-    return $out . series_table($series, $labels, isset($flags['--full']), $baseName, isset($flags['--bpc']));
+    $out .= series_table($series, $labels, isset($flags['--full']), $baseName, isset($flags['--bpc']));
+    // What was wrong with the builds or results stays with the numbers.
+    foreach ($series['warnings'] ?? [] as $warning) {
+        $out .= "\nWarning: $warning\n";
+    }
+    return $out;
 }
 
 /* ---------------------------------------------------------------- check */
@@ -358,6 +396,11 @@ function report_check(string $dir): array
             $errors[] = "$file:" . (substr_count($text, "\n", 0, $all[0][0][1]) + 1) . ': ' . count($all[0]) . ' TODO left';
         }
         $errors = array_merge($errors, report_check_links($file, $text));
+        // A marker spelled differently is not a block: the table in it would never be checked.
+        $blocks = preg_match_all(TABLE_BLOCK, $text);
+        if (substr_count($text, 'bench-table') !== 2 * $blocks) {
+            $errors[] = "$file: a bench-table marker that is not a complete block (" . substr_count($text, 'bench-table') . " markers, $blocks blocks)";
+        }
         try {
             if (report_render_blocks($text, dirname($file)) !== $text) {
                 $errors[] = "$file: a bench-table block differs from its series (bench report update)";

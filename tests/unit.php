@@ -8,6 +8,7 @@
 declare(strict_types=1);
 
 define('BENCH_ROOT', dirname(__DIR__));
+define('BENCH_RESULTS', sys_get_temp_dir());
 require BENCH_ROOT . '/lib/console.php';
 require BENCH_ROOT . '/lib/environment.php';
 require BENCH_ROOT . '/lib/process.php';
@@ -156,11 +157,15 @@ $tiny = ['groups' => [['name' => 'g', 'a' => 'x', 'b' => 'y']], 'builds' => [], 
     'marks' => ['g' => ['c2' => '≠out']],
     'rows' => [['g', 'a', 'c1', 150, 300, 0, 0], ['g', 'b', 'c1', 120, 300, 0, 0], ['g', 'a', 'c2', 5000, 9000, 1000, 2000], ['g', 'b', 'c2', 2500, 9000, 1000, 2000]]];
 $table = series_table($tiny, [], false, 'master');
-same(true, str_contains($table, '| c1 | 15 | n/a |'), 'series_table: under 20 cycles per call is n/a');
 same(true, str_contains($table, '| c2 | 400 | −62% ≠out layout? |'), 'series_table: format 2 totals minus the empty loop, with the ≠out mark');
 same(true, str_contains($table, 'n/a: under 20 cycles'), 'series_table: n/a is explained');
 $tiny['cases']['c2'] += ['input_len' => 1030, 'input_chars' => 579];
 same(true, str_contains(series_table($tiny, [], false, 'master', true), '| c2 (1.78 B/char) | 400 |'), 'series_table: --bpc adds bytes per character');
+same(true, str_contains($table, '| c1 | 15 | n/a (instructions 0%) |'), 'series_table: n/a shows the change in instructions');
+same([0.5, 2], series_pass_ratios([100, 50], [50, 100]), 'series_pass_ratios pairs passes by order');
+$ctl = ['groups' => [['name' => 'aa', 'a' => 'x', 'b' => 'x'], ['name' => 'g', 'a' => 'x', 'b' => 'y']], 'builds' => [], 'cases' => ['c' => ['n' => 1]],
+    'rows' => [['aa', 'a', 'c', 1000, 9, 0, 0], ['aa', 'b', 'c', 1030, 9, 0, 0], ['g', 'a', 'c', 1000, 9, 0, 0], ['g', 'b', 'c', 1020, 10, 0, 0]]];
+same(true, str_contains(series_table($ctl, [], false, 'master'), '| c | 1,000 | +2% ~ |'), 'series_table: a change within the A/A control is marked ~');
 same('−1', percent_change(0.9949), 'percent_change: below half rounds down');
 same('GCC 13.3', compiler_name(['cc' => 'gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0']), 'compiler_name: gcc');
 same('GCC 14.2', compiler_name(['cc' => 'gcc-14 (Ubuntu 14.2.0-4ubuntu2~24.04) 14.2.0']), 'compiler_name: gcc-14');

@@ -107,8 +107,12 @@ function cmd_mutate(array $positional, array $options): int
         }
     } finally {
         progress('restoring the build: make');
-        mutate_make($dir);
+        $restored = mutate_make($dir);
         progress('');
+        if (!$restored) {
+            // the sources are back, the binary may still be the last mutation's
+            throw new BenchError("$dir does not build after restoring its sources: its binary may be a mutant; see $dir/.bench-mutate-make.log, then make it or bench rm it");
+        }
     }
 
     $out = sprintf("%s\n\n| mutation | difftest | tests |\n|---|---|---|\n", "Mutations of $buildName ($file)");
@@ -124,12 +128,19 @@ function cmd_mutate(array $positional, array $options): int
     }
     $out .= sprintf("\nCaught by at least one check: %d of %d mutations that build.\n", $caught, count(array_filter($rows, static fn (array $r): bool => !isset($r['build']))));
     echo $out;
-    $saved = sprintf('%s/results/%s-mutate-%s.json', BENCH_ROOT, date('Ymd-His'), basename($dir));
+    $saved = sprintf('%s/%s-mutate-%s.json', BENCH_RESULTS, date('Ymd-His'), basename($dir));
     @mkdir(dirname($saved), 0777, true);
     @file_put_contents($saved, json_encode(['date' => date('c'), 'build' => $buildName, 'spec' => $spec, 'rows' => $rows],
         JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . "\n");
     fwrite(STDERR, "saved $saved\n");
     return 0;
+}
+
+/** A check gets 30 minutes (BENCH_MUTATE_TIMEOUT seconds): a mutation can make a loop endless. */
+function mutate_timeout(array $cmd): array
+{
+    $timeout = find_executable('timeout');
+    return $timeout ? array_merge([$timeout, (string) (int) (getenv('BENCH_MUTATE_TIMEOUT') ?: 1800)], $cmd) : $cmd;
 }
 
 /** Puts back every source file that an interrupted run left mutated. */
@@ -173,11 +184,20 @@ function mutate_checks(string $dir, array $spec): array
     if (!empty($spec['difftest'])) {
         $d = $spec['difftest'];
         $cmd = array_merge([BENCH_ROOT . '/bench', 'difftest', (string) $d['generator'], (string) $d['against'], $php], array_map('strval', $d['args'] ?? []));
-        $proc = proc_open($cmd, [1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $pipes);
+        // stderr into a file: reading two pipes one after the other can deadlock on a full one
+        $errFile = tempnam(sys_get_temp_dir(), 'bench-mutate');
+        $proc = proc_open(mutate_timeout($cmd), [1 => ['pipe', 'w'], 2 => ['file', $errFile, 'w']], $pipes);
         $stdout = (string) stream_get_contents($pipes[1]);
-        $stderr = (string) stream_get_contents($pipes[2]);
         $status = proc_close($proc);
-        if ($status === 0) {
+        $stderr = (string) file_get_contents($errFile);
+        unlink($errFile);
+        if ($status === 124) {
+            $result['difftest'] = 'timeout';
+            $status = -1;
+        }
+        if ($status === -1) {
+            // timed out: a mutation that loops forever is caught
+        } elseif ($status === 0) {
             $result['difftest'] = 'same';
         } elseif (preg_match('/MISMATCH: (\d+) of (\d+) inputs differ/', $stderr, $m)) {
             $result['difftest'] = "$m[1] of $m[2] inputs differ";
@@ -190,10 +210,16 @@ function mutate_checks(string $dir, array $spec): array
     if (!empty($spec['tests'])) {
         $jobs = max(1, (int) trim((string) shell_exec('nproc 2>/dev/null')));
         $cmd = array_merge([$php, '-n', 'run-tests.php', '-q', "-j$jobs", '--no-color', '-p', $php], array_map('strval', $spec['tests']));
-        $proc = proc_open($cmd, [1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $pipes, $dir, ['TEST_PHP_EXECUTABLE' => $php, 'NO_INTERACTION' => '1'] + getenv());
+        $errFile = tempnam(sys_get_temp_dir(), 'bench-mutate');
+        $proc = proc_open(mutate_timeout($cmd), [1 => ['pipe', 'w'], 2 => ['file', $errFile, 'w']], $pipes, $dir, ['TEST_PHP_EXECUTABLE' => $php, 'NO_INTERACTION' => '1'] + getenv());
         $out = (string) stream_get_contents($pipes[1]);
-        $err = (string) stream_get_contents($pipes[2]);
         $status = proc_close($proc);
+        $err = (string) file_get_contents($errFile);
+        unlink($errFile);
+        if ($status === 124) {
+            $result['failed'] = ['(timeout)'];
+            return $result;
+        }
         // run-tests.php exits with 1 when tests fail; anything else, or no tests at all, is a broken check.
         if (($status !== 0 && $status !== 1) || !preg_match('/^Number of tests\s*:\s*(\d+)/m', $out, $n) || (int) $n[1] === 0) {
             throw new BenchError("run-tests.php did not run the tests (exit status $status):\n" . substr($out . $err, -1500));

@@ -35,6 +35,8 @@ declare(strict_types=1);
 define('BENCH_ROOT', getenv('BENCH_ROOT') ?: dirname(__DIR__));
 define('BENCH_BUILDS', getenv('BENCH_BUILDS') ?: dirname(BENCH_ROOT) . '/php-builds');
 define('HARNESS', BENCH_ROOT . '/lib/harness.php');
+// Saved results, series and inline suites; the self-tests point it at a temporary directory.
+define('BENCH_RESULTS', rtrim(getenv('BENCH_RESULTS') ?: BENCH_ROOT . '/results', '/'));
 
 const RESULT_FORMAT = 1;
 
@@ -158,7 +160,7 @@ function cmd_run(array $positional, array $options): int
     ];
     if (!isset($options['no-save'])) {
         $file = save_result($result);
-        $file === null ? warn('cannot write the result to ' . BENCH_ROOT . '/results') : fwrite(STDERR, "saved $file\n");
+        $file === null ? warn('cannot write the result to ' . BENCH_RESULTS) : fwrite(STDERR, "saved $file\n");
     }
     render($result, isset($options['md']));
     return 0;
@@ -205,7 +207,7 @@ function inline_suite(array $options): string
     $php = "<?php\n"
         . 'return [' . "\n    'inputs' => array_merge(" . implode(', ', $inputs) . "),\n"
         . '    \'cases\' => [' . var_export((string) $options['code'], true) . ' => ' . var_export($case, true) . "],\n];\n";
-    $dir = BENCH_ROOT . '/results';
+    $dir = BENCH_RESULTS;
     @mkdir($dir, 0777, true);
     $file = "$dir/inline-" . substr(md5($php), 0, 12) . '.php';
     if (@file_put_contents($file, $php) === false) {
@@ -394,7 +396,7 @@ function measure_instructions(array $cases, array $sides, string $suite, array $
 /** Writes the result to results/<date>-<time>-<suite>.json and returns the file name, or null on failure. */
 function save_result(array $result): ?string
 {
-    $dir = BENCH_ROOT . '/results';
+    $dir = BENCH_RESULTS;
     @mkdir($dir, 0777, true);
     $file = sprintf('%s/%s-%s.json', $dir, date('Ymd-His'), basename($result['suite'], '.php'));
     $json = json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
@@ -434,7 +436,8 @@ function cmd_doctor(array $options): int
         $path = find_executable($tool);
         $line($path ? 'ok' : 'missing', $tool, $path ?? 'Debian/Ubuntu: sudo apt install git make autoconf bison re2c pkg-config util-linux binutils');
     }
-    // gcc and gcc-13 are often the same binary: one name per binary, the shortest
+    // gcc and gcc-13 are often the same binary: one name per compiler version, the shortest.
+    // The version line, not the path, tells them apart: ccache wrappers all point at one binary.
     $found = [];
     foreach (explode(':', (string) getenv('PATH')) as $dir) {
         foreach (array_merge(glob("$dir/gcc*") ?: [], glob("$dir/clang*") ?: []) as $cc) {
@@ -446,8 +449,15 @@ function cmd_doctor(array $options): int
     }
     uksort($found, static fn (string $x, string $y): int => [strlen($x), $x] <=> [strlen($y), $y]);
     $compilers = [];
-    foreach (array_unique($found) as $name => $path) {
-        $compilers[$name] = compiler_name(['cc' => trim((string) shell_exec(escapeshellarg($path) . ' --version 2>/dev/null | head -1'))]) ?? '?';
+    $seen = [];
+    foreach ($found as $name => $path) {
+        $version = trim((string) shell_exec(escapeshellarg($name) . ' --version 2>/dev/null | head -1'));
+        $key = preg_replace('/^\S+/', '', $version); // without the program name: gcc and gcc-13
+        if ($version === '' || isset($seen[$key])) {
+            continue;
+        }
+        $seen[$key] = true;
+        $compilers[$name] = compiler_name(['cc' => $version]) ?? $version;
     }
     ksort($compilers);
     $line($compilers ? 'ok' : 'missing', 'C compilers', $compilers
@@ -461,15 +471,24 @@ function cmd_doctor(array $options): int
         $line('missing', 'php-src', "not at $src: clone https://github.com/php/php-src there or set PHP_SRC");
     }
     $min = (int) (getenv('BENCH_MIN_FREE_GB') ?: 10);
-    @mkdir(BENCH_BUILDS, 0777, true);
-    $free = (int) (@disk_free_space(BENCH_BUILDS) / 1024 ** 3);
+    $where = is_dir(BENCH_BUILDS) ? BENCH_BUILDS : dirname(BENCH_BUILDS);
+    $free = (int) (@disk_free_space($where) / 1024 ** 3);
     $line($free >= $min ? 'ok' : 'warn', 'disk', sprintf('%d GB free in %s (a full build takes ~400 MB, --slim ~50 MB; bench build needs %d GB)', $free, BENCH_BUILDS, $min));
     $cpu = cpu_option($options);
-    try {
-        perf_cycles_probe($cpu);
-        $line('ok', 'perf counters', "cycles and instructions on CPU $cpu: bench compare, bench run --perf and bench why work");
-    } catch (BenchError $e) {
-        $line('warn', 'perf counters', $e->getMessage() . ' (bench run without --perf still works)');
+    // A series measuring on that core would be disturbed by the probe.
+    $lockFile = '/tmp/php-src-bench-core' . min(cpu_siblings($cpu)) . '.lock';
+    $lock = is_file($lockFile) ? @fopen($lockFile, 'r') : false;
+    if ($lock && !flock($lock, LOCK_SH | LOCK_NB)) {
+        $line('warn', 'perf counters', "not probed: a series is measuring on CPU $cpu; pass another --cpu");
+    } else {
+        try {
+            perf_cycles_probe($cpu);
+            $line('ok', 'perf counters', "cycles and instructions on CPU $cpu: bench compare, bench run --perf and bench why work");
+        } catch (BenchError $e) {
+            // a wrong --cpu is not a missing counter
+            $line(str_contains($e->getMessage(), 'not a performance core') ? 'warn' : 'missing', 'perf counters',
+                $e->getMessage() . ' (needed for bench compare and bench why; bench run without --perf still works)');
+        }
     }
     $real = glob(BENCH_ROOT . '/corpus/real/*.txt') ?: [];
     $line($real ? 'ok' : 'warn', 'real documents', $real ? count($real) . ' files in corpus/real' : 'not fetched: corpus/real/fetch.sh (the realdata suite and some inputs need them)');

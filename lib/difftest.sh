@@ -51,9 +51,21 @@ tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
 # All binaries run at the same time. A crash or a sanitizer abort of any one is a finding.
+# A debug build (the asan profile) runs without the Zend allocator, which would hide heap
+# overflows inside its chunks from the sanitizer.
+run_php() {
+	local php="$1" meta
+	shift
+	meta="$(dirname "$(dirname "$(dirname "$php")")")/.bench-build.json"
+	if grep -q '"debug": true' "$meta" 2>/dev/null; then
+		USE_ZEND_ALLOC=0 "$php" "$@"
+	else
+		"$php" "$@"
+	fi
+}
 pids=()
 for i in "${!binaries[@]}"; do
-	"${binaries[$i]}" -n "$generator" "$@" >"$tmp/$i" 2>"$tmp/$i.err" &
+	run_php "${binaries[$i]}" -n "$generator" "$@" >"$tmp/$i" 2>"$tmp/$i.err" &
 	pids+=($!)
 done
 name="$(basename "$generator" .php)"
@@ -93,11 +105,11 @@ for ((i = 1; i < ${#binaries[@]}; i++)); do
 	# diff exits with 1 when the files differ, which is the case here
 	diff "$tmp/0" "$tmp/$i" >"$tmp/diff" || true
 	index="$(grep -m1 '^[<>]' "$tmp/diff" | cut -f1 | tr -d '<> ')"
-	echo "${label}MISMATCH: $(grep -c '^<' "$tmp/diff" || true) of $(wc -l <"$tmp/0") inputs differ; the first is input $index" >&2
+	echo "${label}MISMATCH: $(grep -c '^[<>]' "$tmp/diff" | awk '{print int(($1 + 1) / 2)}') of $(wc -l <"$tmp/0") inputs differ; the first is input $index" >&2
 	echo "--- A: $a" >&2
-	echo "+++ B: $b" >&2
-	"$a" -n "$generator" "$@" --dump "$index" >"$tmp/dump-a" || true
-	"$b" -n "$generator" "$@" --dump "$index" >"$tmp/dump-b" || true
+	echo "+++ $(printf "\\x$(printf %x $((65 + i)))"): $b" >&2
+	run_php "$a" -n "$generator" "$@" --dump "$index" >"$tmp/dump-a" || true
+	run_php "$b" -n "$generator" "$@" --dump "$index" >"$tmp/dump-b" || true
 	grep '^input' "$tmp/dump-a" >&2 || true
 	diff "$tmp/dump-a" "$tmp/dump-b" | head -20 >&2 || true
 done

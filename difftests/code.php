@@ -46,9 +46,24 @@ function ctype_digit_ascii(string $s): bool
     return $s !== '' && strspn($s, '0123456789') === strlen($s);
 }
 
-$compile = static fn (string $code): Closure => eval('return static function ($s) { return ' . rtrim($code, "; \n") . '; };');
+// The newline ends a trailing // comment before the closing brace.
+$compile = static fn (string $code): Closure => eval('return static function ($s) { return ' . rtrim($code, "; \n") . "\n;\n};");
 $functions = array_combine($codes, array_map($compile, $codes));
-$prepare = $setup === null ? null : eval('return static function (&$s): void { ' . rtrim($setup, "; \n") . '; };');
+$prepare = $setup === null ? null : eval('return static function (&$s): void { ' . rtrim($setup, "; \n") . "\n;\n};");
+
+// A function this build does not have (an extension left out) would be the same exception on
+// every build, and the test would pass without testing anything.
+foreach ($functions + ($prepare ? ['setup' => $prepare] : []) as $code => $f) {
+    try {
+        $probe = 'abc';
+        $f($probe);
+    } catch (Error $e) {
+        if (str_contains($e->getMessage(), 'undefined function') || str_contains($e->getMessage(), 'not found')) {
+            fwrite(STDERR, "$code: " . $e->getMessage() . " (build PHP with the extension, BENCH_CONFIGURE_EXTRA)\n");
+            exit(3);
+        }
+    }
+}
 
 $generate = static function (DifftestRng $rng) use ($kind, $max): string {
     $bytes = $rng->length($max, [16, 32, 64, 256, 512, 1024, 2048]);

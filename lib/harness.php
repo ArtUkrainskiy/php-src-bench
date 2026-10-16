@@ -122,7 +122,7 @@ function bench_load_cases(string $file, ?string $filter, ?string $only): array
             $value = bench_copy($values[$input]);
             if (isset($case['setup'])) {
                 // the newline ends a trailing // comment in the setup before the closing brace
-                $setup = eval('return static function (&$s): void { ' . rtrim($case['setup'], "; \n") . ";\n};");
+                $setup = eval('return static function (&$s): void { ' . rtrim($case['setup'], "; \n") . "\n;\n};");
                 try {
                     $setup($value);
                 } catch (Throwable $e) {

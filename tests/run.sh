@@ -15,6 +15,8 @@ php="$(./bench php)" || exit 1
 export BENCH_PHP="$php" NO_COLOR=1
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
+# what the tests save goes there, not into the results/ of the user
+export BENCH_RESULTS="$tmp/results"
 
 # The CPU the measuring checks pin to: BENCH_TEST_CPU, or the one `bench run` would pick.
 cpu="${BENCH_TEST_CPU:-$("$php" -n -r 'require "lib/environment.php"; echo default_cpu();')}"
@@ -126,12 +128,10 @@ SUITE
 out="$(./bench run "$tmp/patterns.php" --a "$php" --filter '^(c|setup) ' --quick --no-save --cpu "$cpu" 2>&1)"
 grep -q 'c @ a-1' <<<"$out" && grep -q 'c @ a-2' <<<"$out" && ! grep -q 'c @ b-1' <<<"$out" || fail "input patterns: $out"
 grep -qE 'setup @ b-1 +5 ' <<<"$out" || fail "setup runs before measuring (5 bytes expected): $out"
-inline_before="$(ls results/inline-*.php 2>/dev/null || true)"
 out="$(./bench run --code 'strpos($s, "?>")' --inputs lang:title,en:1k --a "$php" --quick --no-save --cpu "$cpu" 2>&1)"
 grep -qF 'strpos($s, "?>") @ emoji-title' <<<"$out" && grep -qF 'strpos($s, "?>") @ en-1k' <<<"$out" || fail "--code: $out"
 expect_output "'en-1k' comes twice" ./bench run --code 'strlen($s)' --inputs lang:1k,en:1k --a "$php"
-# only the suite this test wrote: the others belong to saved results
-for f in $(ls results/inline-*.php 2>/dev/null); do grep -qxF "$f" <<<"$inline_before" || rm -f "$f"; done
+ls "$BENCH_RESULTS"/inline-*.php >/dev/null 2>&1 || fail "--code writes its suite to BENCH_RESULTS"
 group "input patterns, setup, --code"
 
 # 6b. bench report: a new report, its checks, update of its tables
@@ -164,7 +164,7 @@ expect_output "Usage: bench why" ./bench why html
 expect_output "usage: bench pr" ./bench pr
 expect_output "unknown option --bogus" ./bench pr 1 --bogus
 expect_output "to resume" ./bench compare --resume tests/fixtures/single.json
-expect_output "C compilers" ./bench doctor
+expect_output "C compilers" ./bench doctor --cpu "$cpu"
 group "bench mutate, why, pr, doctor, compare --resume: arguments"
 
 # 7. Suites the harness must refuse, with a message that names the case
@@ -202,7 +202,7 @@ else
 	echo "$out"
 	fail "bench run"
 fi
-expect_output "kernel" ./bench check
+expect_output "kernel" ./bench check --cpu "$cpu"
 expect_output "governor" ./bench tune status
 group "bench run, show, check, tune status"
 

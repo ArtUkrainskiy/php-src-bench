@@ -102,6 +102,9 @@ runner_php() {
 	for candidate in "$BENCH_BUILDS"/*/sapi/cli/php; do
 		[[ -x "$candidate" ]] || continue
 		grep -q '"debug": true' "${candidate%/sapi/cli/php}/.bench-build.json" 2>/dev/null && continue
+		# not the code under review, and not a build that bench mutate is changing
+		[[ "$(basename "${candidate%/sapi/cli/php}")" == pr[0-9]* ]] && continue
+		[[ -n "$(find "${candidate%/sapi/cli/php}" -maxdepth 3 -name '*.bench-orig' -print -quit 2>/dev/null)" ]] && continue
 		echo "$candidate"
 		return
 	done

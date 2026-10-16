@@ -14,11 +14,16 @@ while (($#)); do
 	case "$1" in
 		--older-than) older="${2:?--older-than needs a number of days}"; shift 2 ;;
 		--yes) yes=true; shift ;;
-		-h|--help) sed -n '2,7p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
+		-h|--help) sed -n '2,6p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
 		-*) echo "bench gc: unknown option $1" >&2; exit 2 ;;
 		*) patterns+=("$1"); shift ;;
 	esac
 done
+# A bad number would make the age test fail and select every build.
+if [[ -n "$older" && ! "$older" =~ ^[0-9]+$ ]]; then
+	echo "bench gc: --older-than needs a whole number of days, got '$older'" >&2
+	exit 2
+fi
 select=false
 [[ -n "$older" || ${#patterns[@]} -gt 0 ]] && select=true
 

@@ -103,7 +103,7 @@ resolve_ref() {
 			date="$(src log -1 --format=%cI HEAD)"
 			commit="$(GIT_AUTHOR_NAME=php-src-bench GIT_AUTHOR_EMAIL=php-src-bench@localhost GIT_AUTHOR_DATE="$date" \
 				GIT_COMMITTER_NAME=php-src-bench GIT_COMMITTER_EMAIL=php-src-bench@localhost GIT_COMMITTER_DATE="$date" \
-				src commit-tree "$tree" -p "$commit" -m "php-src-bench snapshot of the working tree")"
+				src -c commit.gpgSign=false commit-tree "$tree" -p "$commit" -m "php-src-bench snapshot of the working tree")"
 		fi
 	else
 		commit="$(src rev-parse --verify --quiet "$1^{commit}")" || {
@@ -193,16 +193,38 @@ cc_version="$("$cc" --version | head -1)"
 config_key="$(printf '%s\n' "${configure_args[@]}" "CFLAGS=$cflags" "LDFLAGS=$ldflags" "CPPFLAGS=${CPPFLAGS:-}" "LIBS=${LIBS:-}" "CC=$cc" "$cc_version" | sha1sum | cut -d' ' -f1)"
 
 dir="$BENCH_BUILDS/$name"
+
+# --slim keeps only the binary (with its debug info) and the metadata, about 50 MB instead of
+# 400: the worktree, the sources and the objects go. Sources stay available from the commit.
+make_slim() {
+	local tmp
+	tmp="$(mktemp -d "$BENCH_BUILDS/.slim-$name.XXXXXX")"
+	chmod 755 "$tmp"
+	mkdir -p "$tmp/sapi/cli"
+	cp -p "$dir/sapi/cli/php" "$tmp/sapi/cli/php"
+	cp -p "$dir/.bench-build.json" "$tmp/"
+	cp -p "$dir/.bench-build.log" "$tmp/" 2>/dev/null || true
+	src worktree remove --force "$dir"
+	mv "$tmp" "$dir"
+}
 # A run of `bench mutate` that was interrupted leaves mutated sources behind.
 if [[ -d "$dir" ]] && [[ -n "$(find "$dir" -name '*.bench-orig' -not -path '*/.git/*' -print -quit 2>/dev/null)" ]]; then
 	echo "bench build: $dir has sources mutated by an interrupted 'bench mutate'; run it again to restore them, or 'bench rm $name'" >&2
 	exit 1
 fi
 # Nothing to do when the build already has this commit with this configuration (shared bases).
+# A full build is kept for a --slim request too (it is made slim below), a slim one is not
+# kept when a full build is wanted (mutate and run-tests need the tree).
 if [[ -f "$dir/.bench-build.json" ]] \
 	&& grep -q "\"commit\": \"$commit\"" "$dir/.bench-build.json" \
-	&& grep -q "\"config_key\": \"$config_key\"" "$dir/.bench-build.json"; then
+	&& grep -q "\"config_key\": \"$config_key\"" "$dir/.bench-build.json" \
+	&& { [[ "$slim" == 1 ]] || [[ -e "$dir/.git" ]]; }; then
 	echo "up to date: $name ($(git -C "$PHP_SRC" log -1 --format='%h %s' "$commit"))" >&2
+	if [[ "$slim" == 1 && -e "$dir/.git" ]]; then
+		sed -i 's/"slim": false/"slim": true/' "$dir/.bench-build.json"
+		make_slim
+		echo "made slim: $name" >&2
+	fi
 	exit 0
 fi
 
@@ -220,6 +242,8 @@ fi
 if [[ -f "$dir/.bench-build.json" && ! -e "$dir/.git" ]]; then
 	rm -rf -- "$dir"
 fi
+# The metadata describes a finished build: a failed or interrupted one must not look up to date.
+rm -f "$dir/.bench-build.json"
 prev_commit=""
 if [[ -e "$dir/.git" ]]; then
 	prev_commit="$(git -C "$dir" rev-parse HEAD)"
@@ -289,6 +313,7 @@ BM_CONFIG_KEY="$config_key" \
 BM_CC="$cc_version" \
 BM_CC_COMMAND="$cc" \
 BM_CONFIGURE_EXTRA="${BENCH_CONFIGURE_EXTRA:-}" \
+BM_PR="${BENCH_PR:-}" \
 BM_SLIM="$slim" \
 "$php" -n -r '
 	echo json_encode([
@@ -309,6 +334,8 @@ BM_SLIM="$slim" \
 		"cc" => getenv("BM_CC"),
 		"cc_command" => getenv("BM_CC_COMMAND"),
 		"configure_extra" => getenv("BM_CONFIGURE_EXTRA"),
+		// bench pr: number, base, head, merged (1) or the head as it is (0)
+		"pr" => getenv("BM_PR") !== "" ? array_combine(["number", "base", "head", "merged"], explode(" ", getenv("BM_PR"))) : null,
 		"version" => PHP_VERSION,
 		"debug" => (bool) PHP_DEBUG,
 		"slim" => getenv("BM_SLIM") === "1",
@@ -323,16 +350,8 @@ else
 	src update-ref -d "refs/bench/$name" 2>/dev/null || true
 fi
 
-# --slim keeps only the binary (with its debug info) and the metadata, about 55 MB instead of
-# 400: the worktree, the sources and the objects go. Sources stay available from the commit.
 if [[ "$slim" == 1 ]]; then
-	tmp="$(mktemp -d "$BENCH_BUILDS/.slim-$name.XXXXXX")"
-	chmod 755 "$tmp"
-	mkdir -p "$tmp/sapi/cli"
-	cp -p "$php" "$tmp/sapi/cli/php"
-	cp -p "$dir/.bench-build.json" "$dir/.bench-build.log" "$tmp/"
-	src worktree remove --force "$dir"
-	mv "$tmp" "$dir"
+	make_slim
 fi
 
 echo "ok: $php ($("$php" -n -r 'echo PHP_VERSION;'))$([[ "$slim" == 1 ]] && echo ', slim')" >&2

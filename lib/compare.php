@@ -178,7 +178,8 @@ function cmd_compare(array $positional, array $options): int
                 . implode(', ', array_map(static fn ($id, $m) => "$id ($m)", array_keys($marks[$g['name']]), $marks[$g['name']]));
         }
     }
-    foreach (array_merge(check_machine($env), $warnings) as $warning) {
+    $machineWarnings = check_machine($env);
+    foreach (array_merge($machineWarnings, $warnings) as $warning) {
         warn($warning);
     }
 
@@ -191,7 +192,7 @@ function cmd_compare(array $positional, array $options): int
         }
     }
 
-    $file = $options['out'] ?? sprintf('%s/results/%s-compare-%s.json', BENCH_ROOT, date('Ymd-His'), basename($suite, '.php'));
+    $file = $options['out'] ?? sprintf('%s/%s-compare-%s.json', BENCH_RESULTS, date('Ymd-His'), basename($suite, '.php'));
     $series = [
         'format' => SERIES_FORMAT,
         'kind' => 'compare',
@@ -203,7 +204,10 @@ function cmd_compare(array $positional, array $options): int
         'config' => $config,
         'env' => $env,
         'groups' => $order,
-        'builds' => array_map(static fn (array $s): array => ['php' => $s['php'], 'build' => $s['build'], 'info' => $s['info']], $builds),
+        // the binaries themselves, so that a resumed series can tell that they did not change
+        'builds' => array_map(static fn (array $s): array => ['php' => $s['php'], 'build' => $s['build'], 'info' => $s['info'], 'sha1' => sha1_file($s['php'])], $builds),
+        'sources' => compare_sources($suite),
+        'machine_warnings' => $machineWarnings,
         'cases' => $cases,
         'warnings' => $warnings,
         'marks' => $marks,
@@ -267,6 +271,13 @@ function compare_measure(array &$series, string $file, array $builds, string $pe
     fwrite(STDERR, "saved $file\n");
 }
 
+/** Hashes of what decides the iterations and the results besides the builds. */
+function compare_sources(string $suite): array
+{
+    $files = ['suite' => $suite, 'harness' => HARNESS, 'corpus' => BENCH_ROOT . '/lib/Corpus.php'];
+    return array_map(static fn (string $f): ?string => is_file($f) ? sha1_file($f) : null, $files);
+}
+
 /**
  * `bench compare --resume <series>`: the same builds (checked by commit and configuration), the
  * same CPU, events and iteration counts; only what is missing is measured.
@@ -281,16 +292,29 @@ function compare_resume(string $file, array $options): int
         echo "$file is complete\n";
         return 0;
     }
+    foreach (['passes', 'out', 'filter', 'code', 'inputs', 'setup', 'cpu', 'target-ms', 'no-control'] as $o) {
+        if (isset($options[$o])) {
+            throw new BenchError("--resume takes the settings of the series; --$o cannot change them");
+        }
+    }
     $builds = [];
     foreach ($series['builds'] as $name => $recorded) {
         $side = resolve_side($name);
-        foreach (['commit', 'config_key'] as $key) {
-            if (($side['build'][$key] ?? null) !== ($recorded['build'][$key] ?? null)) {
-                throw new BenchError("build $name has changed since the series started ($key): measure a new series");
-            }
+        if (!isset($recorded['sha1']) || sha1_file($side['php']) !== $recorded['sha1']) {
+            throw new BenchError("the binary of $name is not the one the series started with: measure a new series");
         }
         $builds[$name] = $side + ['info' => $recorded['info']];
     }
+    if (($series['sources'] ?? null) !== compare_sources($series['suite'])) {
+        throw new BenchError('the suite, the harness or the corpus changed since the series started: measure a new series');
+    }
+    $env = system_info($series['config']['cpu']);
+    foreach (['cpu_model', 'kernel'] as $key) {
+        if (($env[$key] ?? null) !== ($series['env'][$key] ?? null)) {
+            throw new BenchError("$key is not the one the series started with: measure a new series");
+        }
+    }
+    $series['machine_warnings'] = array_values(array_unique(array_merge($series['machine_warnings'] ?? [], check_machine($env))));
     $config = $series['config'];
     $lock = lock_cpu($config['cpu']);
     [$perf, $events] = perf_cycles_probe($config['cpu']);
@@ -501,6 +525,12 @@ function series_header(array $series): string
         $lines[] = sprintf('%d alternating passes per case, user-space cycles per call (perf stat, minus the empty loop)%s.',
             $c['passes'] ?? 0, !empty($c['control']) ? ', A against A at the start and the end' : '');
     }
+    if (!empty($series['resumed'])) {
+        $lines[] = 'Started ' . $series['date'] . ', resumed ' . implode(', ', $series['resumed']) . '.';
+    }
+    foreach ($series['machine_warnings'] ?? [] as $w) {
+        $lines[] = "Machine: $w.";
+    }
     $lines[] = 'negative = fewer cycles (faster)';
     return implode("\n", $lines) . "\n";
 }
@@ -527,6 +557,19 @@ function series_per_call(array $series): array
         $ins[$id][$g][$side][] = $i;
     }
     return [$cyc, $ins];
+}
+
+/** B / A per pass, sorted; passes are paired by their order in the series. */
+function series_pass_ratios(array $a, array $b): array
+{
+    $ratios = [];
+    foreach ($b as $p => $vb) {
+        if (isset($a[$p]) && $a[$p] > 0) {
+            $ratios[] = $vb / $a[$p];
+        }
+    }
+    sort($ratios);
+    return $ratios;
 }
 
 /**
@@ -570,9 +613,22 @@ function series_table(array $series, array $labels, bool $full, string $baseName
             $main[$name] = "$title ($name)";
         }
     }
+    // The noise of a row: the largest median change of the A/A control groups.
+    $noise = [];
+    foreach (array_keys($control) as $g) {
+        foreach ($cyc as $id => $byGroup) {
+            if (isset($byGroup[$g]['a'], $byGroup[$g]['b'])) {
+                $r = series_pass_ratios($byGroup[$g]['a'], $byGroup[$g]['b']);
+                if ($r) {
+                    $noise[$id] = max($noise[$id] ?? 0, abs(median($r) - 1));
+                }
+            }
+        }
+    }
     $out = '';
     $tooSmall = false;
     $layout = false;
+    $withinNoise = false;
     foreach ([[$main, true], [$control, false]] as [$groups, $isMain]) {
         if (!$groups) {
             continue;
@@ -601,31 +657,30 @@ function series_table(array $series, array $labels, bool $full, string $baseName
                 }
                 $a = median($cyc[$id][$g]['a']);
                 $mark = isset($series['marks'][$g][$id]) ? ' ' . $series['marks'][$g][$id] : '';
-                if ($a < MIN_TABLE_CYCLES) {
-                    $cells[] = 'n/a' . $mark;
+                $insA = median($ins[$id][$g]['a']);
+                $insRatio = $insA > 0 ? median($ins[$id][$g]['b']) / $insA : null;
+                // Under the floor on either side the subtraction of the empty loop dominates.
+                if ($a < MIN_TABLE_CYCLES || min($cyc[$id][$g]['b']) < MIN_TABLE_CYCLES) {
+                    $cells[] = 'n/a' . ($insRatio !== null ? ' (instructions ' . percent_change($insRatio) . '%)' : '') . $mark;
                     $tooSmall = true;
                     continue;
                 }
                 // Pass by pass: A and B of one pass ran seconds apart, so drift cancels out and the
                 // range shows the noise of both sides.
-                $ratios = [];
-                foreach ($cyc[$id][$g]['b'] as $p => $b) {
-                    if (isset($cyc[$id][$g]['a'][$p]) && $cyc[$id][$g]['a'][$p] > 0) {
-                        $ratios[] = $b / $cyc[$id][$g]['a'][$p];
-                    }
-                }
+                $ratios = series_pass_ratios($cyc[$id][$g]['a'], $cyc[$id][$g]['b']);
                 if (!$ratios) {
                     $cells[] = 'n/a' . $mark;
                     continue;
                 }
-                sort($ratios);
                 $cell = percent_change(median($ratios)) . '%';
                 if ($full) {
                     $cell .= ' (' . percent_change($ratios[0]) . ' … ' . percent_change(end($ratios)) . ')';
                 }
-                $insA = median($ins[$id][$g]['a']);
-                if ($insA > 0) {
-                    $insRatio = median($ins[$id][$g]['b']) / $insA;
+                if ($isMain && isset($noise[$id]) && abs(median($ratios) - 1) <= $noise[$id]) {
+                    $mark .= ' ~';
+                    $withinNoise = true;
+                }
+                if ($insRatio !== null) {
                     $insRatios[] = $insRatio;
                     // Same work, different time: code placement or branch behaviour, see `bench why`.
                     // Only for a change, not the control, and only when every pass agrees on the direction.
@@ -649,6 +704,9 @@ function series_table(array $series, array $labels, bool $full, string $baseName
             }
             $out .= $line . "\n";
         }
+    }
+    if ($withinNoise) {
+        $out .= "\n~: the change is not larger than the A/A control of the same row: not evidence of a difference.\n";
     }
     if ($layout) {
         $out .= sprintf("\nlayout?: in every pass the cycles changed in the same direction, by %d%% or more in the median, the instructions by less than %.1f%%: the work is the same, so look for the cause (code placement, branch prediction) with `bench why` before reporting the row.\n",
