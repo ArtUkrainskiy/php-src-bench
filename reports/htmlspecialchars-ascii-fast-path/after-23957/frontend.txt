@@ -1,0 +1,37 @@
+# perf stat, CPU 2, hsc@word-8, 4,000,000 calls (plus process start-up), hr-c20-base vs hr-c20-pr, three alternating passes, 2026-10-16T10:04:19Z
+== hr-c20-base pass 1
+225559544,cpu_core/cycles/
+1174608705,cpu_core/instructions/
+76864,cpu_core/branch-misses/
+239008587,cpu_core/idq_uops_not_delivered.core/
+591382,cpu_core/frontend_retired.dsb_miss/
+== hr-c20-pr pass 1
+260368968,cpu_core/cycles/
+1175084528,cpu_core/instructions/
+78026,cpu_core/branch-misses/
+447279039,cpu_core/idq_uops_not_delivered.core/
+778905,cpu_core/frontend_retired.dsb_miss/
+== hr-c20-base pass 2
+225664290,cpu_core/cycles/
+1173571633,cpu_core/instructions/
+75488,cpu_core/branch-misses/
+243218273,cpu_core/idq_uops_not_delivered.core/
+521411,cpu_core/frontend_retired.dsb_miss/
+== hr-c20-pr pass 2
+258179858,cpu_core/cycles/
+1173544748,cpu_core/instructions/
+74790,cpu_core/branch-misses/
+445777153,cpu_core/idq_uops_not_delivered.core/
+529978,cpu_core/frontend_retired.dsb_miss/
+== hr-c20-base pass 3
+222092883,cpu_core/cycles/
+1173390740,cpu_core/instructions/
+74565,cpu_core/branch-misses/
+228151518,cpu_core/idq_uops_not_delivered.core/
+498059,cpu_core/frontend_retired.dsb_miss/
+== hr-c20-pr pass 3
+262366525,cpu_core/cycles/
+1173571992,cpu_core/instructions/
+76017,cpu_core/branch-misses/
+461805177,cpu_core/idq_uops_not_delivered.core/
+1065370,cpu_core/frontend_retired.dsb_miss/

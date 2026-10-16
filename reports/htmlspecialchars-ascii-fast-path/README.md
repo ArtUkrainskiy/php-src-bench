@@ -1,10 +1,14 @@
 # A fast path for ASCII in htmlspecialchars()
 
-php-src change: [`0e4d8e73a21`](https://github.com/ArtUkrainskiy/php-src/commit/0e4d8e73a21742064828f0ea098e2d3011b7d666)
-"ext/standard: Add a fast path for ASCII in htmlspecialchars()", compared with its parent on
-master, [`100e8f353ea`](https://github.com/php/php-src/commit/100e8f353ea8ef841339ba4c74a0966a7eea5157).
+php-src change "ext/standard: Add a fast path for ASCII in htmlspecialchars()"
+([php/php-src#24145](https://github.com/php/php-src/pull/24145)): currently
+[`df365c9ae93`](https://github.com/ArtUkrainskiy/php-src/commit/df365c9ae93) on master
+[`1c9242e7fec`](https://github.com/php/php-src/commit/1c9242e7fec), after #23957 (next section);
+first measured as [`0e4d8e73a21`](https://github.com/ArtUkrainskiy/php-src/commit/0e4d8e73a21742064828f0ea098e2d3011b7d666)
+against its parent on master,
+[`100e8f353ea`](https://github.com/php/php-src/commit/100e8f353ea8ef841339ba4c74a0966a7eea5157) (the sections after it).
 
-The change, in the loop of `php_escape_html_entities_ex()`:
+The change, in the per-character loop (`php_escape_html_entities_ex()`, since #23957 `escape_html_entities_from()`):
 
 - ASCII bytes no longer go through `get_next_char()`;
 - runs of ASCII other than `& " ' < >` are copied in a loop of their own (`htmlspecialchars()`
@@ -12,7 +16,131 @@ The change, in the loop of `php_escape_html_entities_ex()`:
 - `get_next_char()` is always inlined, which also gives `php_next_utf8_char()`, used by
   `json_encode()`, a copy without the charset switch.
 
-## Summary
+## After #23957 (16 October 2026)
+
+[php/php-src#23957](https://github.com/php/php-src/pull/23957) (merged as [`5b765f4b68c`](https://github.com/php/php-src/commit/5b765f4b68c)) returns the input of `htmlspecialchars()` when nothing needs encoding and copies the verbatim prefix before the first character to encode in one go; the per-character loop runs from there. The change was rebased onto master [`1c9242e7fec`](https://github.com/php/php-src/commit/1c9242e7fec) as [`df365c9ae93`](https://github.com/ArtUkrainskiy/php-src/commit/df365c9ae93) (same lines as before, now in `escape_html_entities_from()`). This section is measured against that master; the sections after it are against `100e8f353ea`, before #23957, and were built with `-falign-functions=64 -falign-loops=32`.
+
+Change in CPU cycles per call with the change, relative to master (negative = fewer cycles, faster). Intel i7-13700H, CPU 2, flags of the official Docker image, median of five alternating runs:
+
+| call | master, CPU cycles per call (GCC 13.3) | GCC 13.3 | GCC 14.2 | clang 18.1 | clang 20.1 |
+|---|--:|--:|--:|--:|--:|
+| `htmlspecialchars()`, 8-byte word | 62 | −2% | +3% | −4% | +15% |
+| `htmlspecialchars()`, 40-byte title, nothing to encode | 56 | +7% | +5% | −2% | +6% |
+| `htmlspecialchars()`, English text, 314 bytes | 118 | +13% | −6% | 0% | 0% |
+| `htmlspecialchars()`, 40-byte title with `& " < >` | 640 | −41% | −42% | −63% | −65% |
+| `htmlspecialchars()`, English text, 1 KB | 5,008 | −52% | −51% | −83% | −84% |
+| `htmlspecialchars()`, English text, 64 KB | 1,243,144 | −46% | −45% | −64% | −68% |
+| `htmlspecialchars()`, HTML, 1 KB | 16,407 | −50% | −50% | −79% | −80% |
+| `htmlspecialchars()`, HTML page, 64 KB | 1,140,066 | −41% | −47% | −64% | −74% |
+| `htmlspecialchars()`, Markdown, 4 KB | 73,156 | −64% | −64% | −89% | −89% |
+| `htmlspecialchars()`, 1 KB of `&` | 9,115 | −26% | −20% | −27% | −25% |
+| `htmlspecialchars()`, 1 KB of `"` | 16,660 | −13% | −7% | −8% | −8% |
+| `htmlspecialchars()`, Russian text (UTF-8), 1 KB | 10,090 | +1% | 0% | 0% | +1% |
+| `htmlspecialchars(…, ENT_DISALLOWED)`, English text, 1 KB | 22,866 | −30% | −8% | −21% | −41% |
+| `htmlspecialchars(…, 'Shift_JIS')`, Japanese text, 1 KB | 10,188 | −20% | −14% | −3% | −8% |
+| `htmlentities()`, English text, 1 KB | 13,590 | −20% | −16% | −16% | −26% |
+| `htmlentities()`, Russian text (UTF-8), 1 KB | 16,080 | −9% | −5% | +3% | −17% |
+
+- Where something has to be encoded the loop is what runs, and it takes 41–89% fewer cycles on English text, HTML, Markdown and JavaScript, 7–27% fewer on only `&` or `"`, 6–42% fewer with `ENT_DISALLOWED`, 3–38% fewer in Shift_JIS and Big5 text.
+- Strings with nothing to encode are returned as they are: the same instructions as master. Their cycles change by −8 … +15% (empty string to 314 bytes), because the code moves: in the clang 20.1 build `php_escape_html_entities_ex()` is unchanged and moves by 0x320 bytes, and on the 8-byte word the front-end stalls (`idq_uops_not_delivered.core`) go from 228–243 M to 446–462 M per 4 M calls, with the same instructions and 75–78 K branch misses in both ([`frontend.txt`](after-23957/frontend.txt), three runs each).
+- UTF-8 Russian and Chinese text and emoji with nothing to encode: −2 … +1% (below 0 only with clang 18.1 on Chinese text). Before #23957 this change made them faster (Russian 1.2–1.5×, Chinese 1.2×, emoji 1.9×, measured with `-falign-functions=64 -falign-loops=32`); now #23957's scan returns them as they are before this loop is reached.
+- `htmlentities()`: 12–26% fewer cycles on titles and English text, from 3% more (Russian, clang 18.1) to 23% fewer on HTML and Russian text.
+- Symfony Demo, measured on 6 October 2026 on #23957's head `384fbd6447a` with the same change ([htmlspecialchars-vs-23957](../htmlspecialchars-vs-23957/README.md), callgrind, instructions per request): #23957 39,050,852, with this change 38,998,576 (−0.13%); `zif_htmlspecialchars()` inclusive 177,814 → 81,405.
+- Not measured again after the rebase: AMD, `json_encode()` (the `php_next_utf8_char()` part of the change is the same).
+
+Correctness after the rebase: output identical to master on 60,000 random inputs of `bench difftest html-encode` (13 flag sets, 14 charsets, both functions, both values of `double_encode`; seeds 1 and 2 with GCC 13.3, seed 3 with the three other compilers) and on 5,000 inputs with an ASan/UBSan build (`USE_ZEND_ALLOC=0`, stderr empty); `ext/standard/tests/strings` and `ext/json/tests` pass, also under ASan ([`difftest.txt`](after-23957/difftest.txt), [`tests.txt`](after-23957/tests.txt)).
+
+Method: `perf stat` cycles and instructions for N calls minus the same process with 0 calls, divided by N ([`pairs-run.sh`](after-23957/pairs-run.sh), [`cases.php`](after-23957/cases.php) with the inputs of [suites/htmlspecialchars.php](../../suites/htmlspecialchars.php)); master and the change alternate, five runs per case; master against master at the start and at the end of the series. Builds: CLI, `--enable-werror`, `CFLAGS='-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64'`, `LDFLAGS='-Wl,-O1 -pie'`; GCC 13.3.0, GCC 14.2.0, clang 18.1.3, clang 20.1.2. Raw data [`intel-docker-20261016.txt`](after-23957/intel-docker-20261016.txt), tables [`speedup-table.py`](after-23957/speedup-table.py) with [`rows.txt`](after-23957/rows.txt), how it was run [`runs.txt`](after-23957/runs.txt).
+
+<details><summary>Full table: every case, range of the five runs, instructions</summary>
+
+| call | master, CPU cycles per call (GCC 13.3) | GCC 13.3 | GCC 14.2 | clang 18.1 | clang 20.1 | instructions |
+|---|--:|--:|--:|--:|--:|--:|
+| `htmlspecialchars()`, empty string | 36 | −8% (−8 … −8) | 0% (0 … +3) | −6% (−6 … −6) | +9% (+9 … +9) | 0% |
+| `htmlspecialchars()`, 8-byte word | 62 | −2% (−2 … 0) | +3% (+3 … +3) | −4% (−6 … −3) | +15% (+15 … +17) | 0% |
+| `htmlspecialchars()`, 16-byte name | 49 | +2% (0 … +4) | +4% (+2 … +4) | +4% (+4 … +5) | +9% (+9 … +11) | 0% |
+| `htmlspecialchars()`, 40-byte title, nothing to encode | 56 | +7% (+7 … +9) | +5% (+5 … +8) | −2% (−2 … −2) | +6% (+6 … +8) | 0% |
+| `htmlspecialchars()`, 40-byte title with `& " < >` | 640 | −41% (−41 … −40) | −42% (−42 … −42) | −63% (−63 … −62) | −65% (−65 … −65) | −54% … −52% |
+| `htmlspecialchars()`, 30-byte Russian title | 203 | +1% (0 … +2) | 0% (−1 … +1) | 0% (0 … 0) | 0% (0 … +1) | 0% |
+| `htmlspecialchars()`, English text, 86 bytes | 66 | +11% (+11 … +47) | +1% (+1 … +1) | 0% (0 … +1) | +2% (+2 … +2) | 0% |
+| `htmlspecialchars()`, English text, 314 bytes | 118 | +13% (+13 … +13) | −6% (−6 … −6) | 0% (0 … +1) | 0% (0 … +1) | 0% |
+| `htmlspecialchars()`, English text, 1 KB | 5,008 | −52% (−52 … −52) | −51% (−51 … −50) | −83% (−83 … −83) | −84% (−84 … −83) | −77% … −73% |
+| `htmlspecialchars()`, English text, 64 KB | 1,243,144 | −46% (−46 … −46) | −45% (−45 … −44) | −64% (−64 … −61) | −68% (−68 … −67) | −84% … −79% |
+| `htmlspecialchars()`, HTML, 1 KB | 16,407 | −50% (−50 … −49) | −50% (−50 … −49) | −79% (−79 … −79) | −80% (−80 … −80) | −71% … −67% |
+| `htmlspecialchars()`, HTML page, 4 KB | 62,202 | −50% (−51 … −37) | −51% (−51 … −50) | −79% (−79 … −78) | −80% (−80 … −80) | −72% … −68% |
+| `htmlspecialchars()`, HTML page, 64 KB | 1,140,066 | −41% (−41 … −41) | −47% (−47 … −47) | −64% (−64 … −64) | −74% (−75 … −74) | −70% … −66% |
+| `htmlspecialchars()`, Markdown, 4 KB | 73,156 | −64% (−64 … −64) | −64% (−64 … −64) | −89% (−89 … −88) | −89% (−89 … −88) | −84% … −79% |
+| `htmlspecialchars()`, JavaScript, 4 KB | 74,710 | −66% (−66 … −66) | −66% (−66 … −66) | −87% (−88 … −87) | −88% (−88 … −87) | −82% … −77% |
+| `htmlspecialchars()`, minified JavaScript, 4 KB | 78,087 | −66% (−66 … −66) | −66% (−66 … −66) | −88% (−88 … −87) | −87% (−87 … −87) | −81% … −76% |
+| `htmlspecialchars()`, 1 KB of `&` | 9,115 | −26% (−26 … −26) | −20% (−20 … −19) | −27% (−27 … −26) | −25% (−25 … −25) | −25% … −15% |
+| `htmlspecialchars()`, 1 KB of `"` | 16,660 | −13% (−13 … −11) | −7% (−8 … +78) | −8% (−8 … −6) | −8% (−9 … −8) | −12% … −2% |
+| `htmlspecialchars()`, Russian text (UTF-8), 1 KB | 10,090 | +1% (+1 … +1) | 0% (0 … +1) | 0% (0 … +1) | +1% (+1 … +1) | 0% |
+| `htmlspecialchars()`, Russian text (UTF-8), 64 KB | 640,844 | +1% (+1 … +1) | +1% (0 … +1) | +1% (+1 … +1) | +1% (+1 … +1) | 0% |
+| `htmlspecialchars()`, Chinese text (UTF-8), 1 KB | 8,294 | 0% (0 … 0) | 0% (0 … 0) | −1% (−2 … −1) | 0% (0 … 0) | 0% |
+| `htmlspecialchars()`, Chinese text (UTF-8), 64 KB | 523,561 | 0% (0 … 0) | 0% (0 … 0) | −2% (−2 … −2) | 0% (0 … 0) | 0% |
+| `htmlspecialchars()`, emoji, 1 KB | 2,739 | 0% (0 … 0) | 0% (0 … 0) | 0% (0 … 0) | 0% (0 … 0) | 0% |
+| `htmlspecialchars(…, double_encode: false)`, HTML, 1 KB | 16,504 | −50% (−50 … −49) | −49% (−50 … −49) | −79% (−79 … −79) | −79% (−79 … −79) | −70% … −66% |
+| `htmlspecialchars(…, double_encode: false)`, text with entities, 1 KB | 13,442 | −44% (−44 … −44) | −44% (−44 … −43) | −70% (−70 … −69) | −72% (−72 … −72) | −63% … −61% |
+| `htmlspecialchars(…, double_encode: false)`, 1 KB of `&` | 11,418 | −22% (−22 … −16) | −11% (−11 … −7) | −19% (−20 … −19) | −21% (−21 … −20) | −20% … −11% |
+| `htmlspecialchars(…, ENT_DISALLOWED)`, English text, 1 KB | 22,866 | −30% (−30 … −30) | −8% (−8 … −8) | −21% (−22 … −21) | −41% (−41 … −40) | −23% … −16% |
+| `htmlspecialchars(…, ENT_DISALLOWED)`, HTML, 1 KB | 22,037 | −27% (−27 … −26) | −6% (−6 … −6) | −23% (−24 … −23) | −42% (−42 … −42) | −21% … −16% |
+| `htmlspecialchars(…, 'cp1251')`, English text, 1 KB | 4,548 | −46% (−46 … −45) | −41% (−42 … −41) | −82% (−82 … −82) | −83% (−83 … −83) | −75% … −72% |
+| `htmlspecialchars(…, 'cp1251')`, Russian text, 1 KB | 369 | +2% (+2 … +3) | −1% (−2 … −1) | 0% (−1 … 0) | −4% (−4 … −3) | 0% |
+| `htmlspecialchars(…, 'cp1251')`, Russian text, 64 KB | 13,941 | 0% (0 … +1) | 0% (0 … 0) | 0% (0 … 0) | 0% (0 … 0) | 0% |
+| `htmlspecialchars(…, 'Shift_JIS')`, Japanese text, 1 KB | 10,188 | −20% (−21 … −20) | −14% (−14 … −14) | −3% (−4 … −3) | −8% (−8 … −8) | −15% … −3% |
+| `htmlspecialchars(…, 'BIG5')`, Chinese text, 1 KB | 12,894 | −21% (−22 … −20) | −16% (−17 … −16) | −38% (−38 … −37) | −4% (−4 … −3) | −13% … −2% |
+| `htmlentities()`, 40-byte title | 617 | −12% (−12 … −12) | −12% (−12 … −12) | −14% (−15 … −14) | −21% (−21 … −20) | −17% … −15% |
+| `htmlentities()`, English text, 1 KB | 13,590 | −20% (−20 … −14) | −16% (−17 … −16) | −16% (−18 … −15) | −26% (−27 … −22) | −19% … −17% |
+| `htmlentities()`, HTML, 1 KB | 17,961 | −8% (−8 … +35) | 0% (−1 … +2) | −15% (−15 … −14) | −23% (−23 … −22) | −18% … −17% |
+| `htmlentities()`, Russian text (UTF-8), 1 KB | 16,080 | −9% (−9 … −9) | −5% (−6 … −5) | +3% (+3 … +4) | −17% (−18 … −17) | −14% … −5% |
+
+Master against master (GCC 13.3), same series:
+
+| call | master, CPU cycles per call (A/A first) | A/A first | A/A last |
+|---|--:|--:|--:|
+| `htmlspecialchars()`, empty string | 36 | 0% (0 … 0) | 0% (0 … 0) |
+| `htmlspecialchars()`, 8-byte word | 63 | +2% (0 … +2) | +2% (0 … +2) |
+| `htmlspecialchars()`, 16-byte name | 51 | −2% (−4 … −2) | 0% (−2 … 0) |
+| `htmlspecialchars()`, 40-byte title, nothing to encode | 57 | 0% (0 … +4) | −2% (−2 … +2) |
+| `htmlspecialchars()`, 40-byte title with `& " < >` | 641 | 0% (0 … +1) | 0% (0 … +1) |
+| `htmlspecialchars()`, 30-byte Russian title | 203 | 0% (0 … +1) | 0% (0 … 0) |
+| `htmlspecialchars()`, English text, 86 bytes | 66 | +2% (0 … +2) | 0% (0 … +2) |
+| `htmlspecialchars()`, English text, 314 bytes | 117 | +1% (−1 … +3) | +1% (+1 … +2) |
+| `htmlspecialchars()`, English text, 1 KB | 5,035 | 0% (−1 … 0) | +1% (0 … +1) |
+| `htmlspecialchars()`, English text, 64 KB | 1,241,219 | 0% (0 … 0) | 0% (0 … +1) |
+| `htmlspecialchars()`, HTML, 1 KB | 16,324 | 0% (0 … 0) | 0% (0 … 0) |
+| `htmlspecialchars()`, HTML page, 4 KB | 62,295 | 0% (−1 … +2) | 0% (−1 … 0) |
+| `htmlspecialchars()`, HTML page, 64 KB | 1,140,587 | 0% (0 … 0) | 0% (0 … 0) |
+| `htmlspecialchars()`, Markdown, 4 KB | 73,159 | 0% (−1 … 0) | 0% (0 … 0) |
+| `htmlspecialchars()`, JavaScript, 4 KB | 75,206 | 0% (0 … +1) | 0% (−1 … 0) |
+| `htmlspecialchars()`, minified JavaScript, 4 KB | 78,137 | 0% (0 … +4) | 0% (0 … 0) |
+| `htmlspecialchars()`, 1 KB of `&` | 9,080 | 0% (0 … 0) | 0% (−1 … +3) |
+| `htmlspecialchars()`, 1 KB of `"` | 16,679 | +1% (0 … +1) | 0% (0 … 0) |
+| `htmlspecialchars()`, Russian text (UTF-8), 1 KB | 10,087 | 0% (0 … 0) | 0% (0 … 0) |
+| `htmlspecialchars()`, Russian text (UTF-8), 64 KB | 640,260 | 0% (0 … 0) | 0% (0 … 0) |
+| `htmlspecialchars()`, Chinese text (UTF-8), 1 KB | 8,311 | 0% (0 … 0) | 0% (0 … +1) |
+| `htmlspecialchars()`, Chinese text (UTF-8), 64 KB | 523,286 | 0% (0 … +2) | 0% (0 … 0) |
+| `htmlspecialchars()`, emoji, 1 KB | 2,740 | 0% (0 … 0) | 0% (0 … 0) |
+| `htmlspecialchars(…, double_encode: false)`, HTML, 1 KB | 16,486 | 0% (0 … 0) | 0% (−1 … 0) |
+| `htmlspecialchars(…, double_encode: false)`, text with entities, 1 KB | 13,488 | 0% (0 … 0) | 0% (0 … +1) |
+| `htmlspecialchars(…, double_encode: false)`, 1 KB of `&` | 11,407 | 0% (0 … 0) | 0% (−1 … +51) |
+| `htmlspecialchars(…, ENT_DISALLOWED)`, English text, 1 KB | 22,854 | 0% (0 … 0) | −4% (−5 … −3) |
+| `htmlspecialchars(…, ENT_DISALLOWED)`, HTML, 1 KB | 22,143 | 0% (−1 … +1) | 0% (0 … +29) |
+| `htmlspecialchars(…, 'cp1251')`, English text, 1 KB | 4,630 | +1% (−1 … +1) | 0% (−2 … +6) |
+| `htmlspecialchars(…, 'cp1251')`, Russian text, 1 KB | 374 | −1% (−1 … +4) | −1% (−1 … +1) |
+| `htmlspecialchars(…, 'cp1251')`, Russian text, 64 KB | 14,011 | 0% (0 … 0) | 0% (0 … +3) |
+| `htmlspecialchars(…, 'Shift_JIS')`, Japanese text, 1 KB | 10,129 | 0% (0 … +1) | 0% (−1 … +2) |
+| `htmlspecialchars(…, 'BIG5')`, Chinese text, 1 KB | 12,861 | 0% (0 … 0) | 0% (−1 … 0) |
+| `htmlentities()`, 40-byte title | 619 | 0% (0 … 0) | 0% (0 … 0) |
+| `htmlentities()`, English text, 1 KB | 13,560 | +1% (0 … +4) | 0% (−1 … 0) |
+| `htmlentities()`, HTML, 1 KB | 18,013 | 0% (0 … 0) | 0% (0 … 0) |
+| `htmlentities()`, Russian text (UTF-8), 1 KB | 16,190 | 0% (0 … +1) | +1% (0 … +1) |
+
+</details>
+
+## Before #23957 (6 October 2026)
+
+### Summary
 
 | | time | instructions |
 |---|---|---|
@@ -43,7 +171,7 @@ Two things to know when reading it:
 
 ## How it was measured
 
-A laptop in normal use: governor powersave, turbo on, on battery, load average below 2, run
+A machine in normal use: governor powersave, turbo on, on battery, load average below 2, run
 with `--wait-idle 600`. Samples scatter by less than 2.5% in every row except the empty string
 (4.6%). The runner flagged one row of each suite as having a disturbed round
 (`htmlspecialchars @ ru-title-30` and `json_encode @ en-1k`); in both, time and instruction
