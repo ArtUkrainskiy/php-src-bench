@@ -5,16 +5,13 @@
 // "flagged" strings went through mb_check_encoding() first (valid-UTF-8 flag set), as after preg_*() with /u.
 require dirname(__DIR__, 2) . '/lib/Corpus.php';
 
-$texts = [
-	'en-title' => fn() => substr(Corpus::text('en', 60), 0, strpos(Corpus::text('en', 60), "\n")),
-	'ru-title' => fn() => substr(Corpus::text('ru', 60), 0, strpos(Corpus::text('ru', 60), "\n")),
-	'en-1k' => fn() => Corpus::text('en', 1024),
-	'ru-1k' => fn() => Corpus::text('ru', 1024),
-	'zh-1k' => fn() => Corpus::text('zh', 1024),
-	'emoji-1k' => fn() => Corpus::text('emoji', 1024),
-	'en-64k' => fn() => Corpus::text('en', 65536),
-	'ru-64k' => fn() => Corpus::text('ru', 65536),
-];
+$langs = ['en', 'es', 'ru', 'ar', 'hi', 'zh', 'ja', 'ko', 'emoji'];
+$texts = [];
+foreach ($langs as $l) {
+	$texts["$l-title"] = fn() => strstr(Corpus::text($l, 200), "\n", true); // first sentence
+	$texts["$l-1k"] = fn() => Corpus::text($l, 1024);
+	$texts["$l-64k"] = fn() => Corpus::text($l, 65536);
+}
 $calls = [
 	'head10' => 'mb_substr($s, 0, 10)',
 	'mid20' => 'mb_substr($s, $half, 20)',
@@ -22,19 +19,21 @@ $calls = [
 	'firsthalf' => 'mb_substr($s, 0, $half)',
 	'strpos-mid' => 'mb_strpos($s, $needle, $half)',
 ];
-$plan = [
-	'en-title' => ['head10'], 'ru-title' => ['head10'],
-	'en-1k' => ['mid20'], 'ru-1k' => ['mid20', 'tail20', 'firsthalf', 'strpos-mid'], 'zh-1k' => ['mid20'], 'emoji-1k' => ['mid20'],
-	'en-64k' => ['mid20'], 'ru-64k' => ['mid20', 'tail20', 'strpos-mid'],
-];
+// The same calls for every language; the other call shapes on English.
 $cases = [];
-foreach ($plan as $text => $list) {
-	foreach ($list as $call) {
-		$cases["$call@$text"] = [$calls[$call], $text, true];
-	}
+foreach ($langs as $l) {
+	$cases["head10@$l-title"] = [$calls['head10'], "$l-title", true];
+	$cases["mid20@$l-1k"] = [$calls['mid20'], "$l-1k", true];
+	$cases["mid20@$l-64k"] = [$calls['mid20'], "$l-64k", true];
 }
-$cases['mid20@ru-1k-plain'] = [$calls['mid20'], 'ru-1k', false];
-$cases['head10@ru-title-plain'] = [$calls['head10'], 'ru-title', false];
+foreach (['tail20', 'firsthalf', 'strpos-mid'] as $c) {
+	$cases["$c@en-1k"] = [$calls[$c], 'en-1k', true];
+}
+$cases['tail20@en-64k'] = [$calls['tail20'], 'en-64k', true];
+$cases['strpos-mid@en-64k'] = [$calls['strpos-mid'], 'en-64k', true];
+$cases['head10@en-title-plain'] = [$calls['head10'], 'en-title', false];
+$cases['mid20@en-1k-plain'] = [$calls['mid20'], 'en-1k', false];
+$cases['mid20@zh-1k-plain'] = [$calls['mid20'], 'zh-1k', false];
 
 $name = $argv[1] ?? 'list';
 if ($name === 'list') { echo implode(' ', array_keys($cases)), "\n"; exit; }

@@ -1,0 +1,19 @@
+diff --git a/ext/mbstring/mbstring.c b/ext/mbstring/mbstring.c
+index b54db0ddccf..bb4a0d5675a 100644
+--- a/ext/mbstring/mbstring.c
++++ b/ext/mbstring/mbstring.c
+@@ -1899,8 +1899,12 @@ static unsigned char* offset_to_pointer_utf8(unsigned char *str, unsigned char *
+ 		const unsigned char *u8_tbl = mbfl_encoding_utf8.mblen_table;
+ 		unsigned char *pos = str;
+ 		if (is_valid_utf8) {
+-			while (offset > 256 && (size_t)(end - pos) >= 256) {
+-				offset -= mb_fast_strlen_utf8(pos, 256);
++			while ((size_t)(end - pos) >= 256) {
++				size_t n = mb_fast_strlen_utf8(pos, 256);
++				if ((size_t)offset < n) {
++					break;
++				}
++				offset -= n;
+ 				pos += 256;
+ 			}
+ 			for (; pos < end; pos++) {
