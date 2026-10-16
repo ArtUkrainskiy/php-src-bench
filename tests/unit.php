@@ -15,6 +15,7 @@ require BENCH_ROOT . '/lib/stats.php';
 require BENCH_ROOT . '/lib/render.php';
 require BENCH_ROOT . '/lib/compare.php';
 require BENCH_ROOT . '/lib/Corpus.php';
+require BENCH_ROOT . '/lib/difftest.php';
 
 $failed = 0;
 $checks = 0;
@@ -175,6 +176,20 @@ throws('BenchError', static fn () => perf_parse_cycles("<not counted>,,cpu_core/
 same(['en-1k', 'es-1k', 'ru-1k', 'ar-1k', 'hi-1k', 'zh-1k', 'ja-1k', 'ko-1k', 'emoji-1k'], array_keys(Corpus::languages('1k', 1024)), 'Corpus::languages names');
 same(Corpus::text('ru', 1024), (Corpus::languages('1k', 1024)['ru-1k'])(), 'Corpus::languages is Corpus::text');
 same(31, strlen((Corpus::languages('title', 0)['en-title'])()), 'a title is the first line (31 bytes in English)');
+
+/* ---- difftest generators */
+
+$rng = new DifftestRng(3);
+$invalid = 0;
+$onBoundary = 0;
+for ($i = 0; $i < 2000; $i++) {
+    $len = $rng->length(1000);
+    $onBoundary += in_array($len, [15, 16, 17, 31, 32, 33, 63, 64, 65, 255, 256, 257, 511, 512, 513, 1000], true) ? 1 : 0;
+    $invalid += preg_match('//u', $rng->utf8(max(1, $len), ['1', '2', '3', '4'], 10)) ? 0 : 1;
+}
+same(true, $invalid > 150 && $invalid < 250, "DifftestRng::utf8: about 10% invalid strings (got $invalid of 2000)");
+same(true, $onBoundary > 800, "DifftestRng::length: about half on a boundary (got $onBoundary of 2000)");
+same((new DifftestRng(5))->utf8(50, ['1', '2', '3', '4', 'combining'], 10), (new DifftestRng(5))->utf8(50, ['1', '2', '3', '4', 'combining'], 10), 'DifftestRng::utf8 is deterministic');
 
 /* ---- corpus: generated inputs are the same on every machine and PHP version */
 

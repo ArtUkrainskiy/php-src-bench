@@ -211,7 +211,9 @@ expect_output "MISMATCH: 1 of 3 inputs differ; the first is input 1" ./bench dif
 expect_output "FAILED: generator exited with status 139 on B" ./bench difftest "$tmp/generator.php" "$tmp/php-a" "$tmp/php-crashes"
 expect_output "FAILED: generator exited with status 139 on A" ./bench difftest "$tmp/generator.php" "$tmp/php-crashes" "$tmp/php-a"
 expect_output "no such generator" ./bench difftest no-such-generator "$php" "$php"
-group "bench difftest: identical, mismatch, crash"
+out="$(./bench difftest code "$php" "$tmp/php-a" "$php" --code 'strrev($s)' --code 'substr_count($s, "a")' --setup '$s .= ""' --count 50 2>&1)"
+[[ "$(grep -c 'OK: 50 inputs' <<<"$out")" == 2 ]] || fail "bench difftest code with three builds: $out"
+group "bench difftest: identical, mismatch, crash, three builds, --code"
 
 if ((failed)); then
 	echo "$failed failed"

@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
-# bench difftest <generator> <buildA|php> <buildB|php> [generator args...]
+# bench difftest <generator> <buildA|php> <buildB|php> [<buildC|php>...] [generator args...]
 #
-# Differential test: runs a generator script with two PHP binaries and compares what they print.
+# Differential test: runs a generator script with PHP binaries and compares what they print; every
+# binary after the first is compared with the first.
 # A generator (difftests/<name>.php, or any path) prints one line per generated input,
 # "<index>\t<hash of all outputs>". On a mismatch the first differing input is run again on both
 # binaries with "--dump <index>", which makes the generator print the input and every output.
 set -euo pipefail
 : "${BENCH_ROOT:?run this through ./bench}" "${BENCH_BUILDS:?run this through ./bench}"
 
-usage="usage: bench difftest <generator> <buildA|php> <buildB|php> [--seed N] [--count N]"
+usage="usage: bench difftest <generator> <A> <B> [<C>...] [--seed N] [--count N] [generator options]"
 generators="$(cd "$BENCH_ROOT/difftests" && ls ./*.php | sed 's|^\./||; s|\.php$||' | xargs)"
 if [[ $# -lt 3 || "$1" == -* ]]; then
 	echo "$usage" >&2
@@ -33,47 +34,64 @@ resolve() {
 		exit 2
 	fi
 }
-a="$(resolve "$2")"
-b="$(resolve "$3")"
-shift 3
+generator_name="$1"
+shift
+binaries=()
+while (($#)) && [[ "$1" != -* ]]; do
+	binaries+=("$(resolve "$1")")
+	shift
+done
+if ((${#binaries[@]} < 2)); then
+	echo "$usage" >&2
+	exit 2
+fi
+a="${binaries[0]}"
 
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
-# Both sides run at the same time. A crash or a sanitizer abort of either one is a finding.
-"$a" -n "$generator" "$@" >"$tmp/a" &
-pid_a=$!
-status_b=0
-"$b" -n "$generator" "$@" >"$tmp/b" || status_b=$?
-status_a=0
-wait "$pid_a" || status_a=$?
+# All binaries run at the same time. A crash or a sanitizer abort of any one is a finding.
+pids=()
+for i in "${!binaries[@]}"; do
+	"${binaries[$i]}" -n "$generator" "$@" >"$tmp/$i" 2>"$tmp/$i.err" &
+	pids+=($!)
+done
 name="$(basename "$generator" .php)"
-if ((status_a != 0)); then
-	echo "FAILED: $name exited with status $status_a on A ($a) after $(wc -l <"$tmp/a") inputs" >&2
-	exit 1
-fi
-if ((status_b != 0)); then
-	echo "FAILED: $name exited with status $status_b on B ($b) after $(wc -l <"$tmp/b") inputs" >&2
-	exit 1
-fi
-if [[ ! -s "$tmp/a" ]]; then
+failed=0
+for i in "${!binaries[@]}"; do
+	status=0
+	wait "${pids[$i]}" || status=$?
+	if ((status != 0)); then
+		letter="$(printf "\\x$(printf %x $((65 + i)))")"
+		echo "FAILED: $name exited with status $status on $letter (${binaries[$i]}) after $(wc -l <"$tmp/$i") inputs" >&2
+		head -5 "$tmp/$i.err" >&2
+		failed=1
+	fi
+done
+((failed)) && exit 1
+if [[ ! -s "$tmp/0" ]]; then
 	echo "FAILED: $name generated no inputs" >&2
 	exit 1
 fi
 
-if cmp -s "$tmp/a" "$tmp/b"; then
-	echo "OK: $(wc -l <"$tmp/a") inputs, identical output ($name $*)"
-	exit 0
-fi
-
-# diff exits with 1 when the files differ, which is the case here
-diff "$tmp/a" "$tmp/b" >"$tmp/diff" || true
-index="$(grep -m1 '^[<>]' "$tmp/diff" | cut -f1 | tr -d '<> ')"
-echo "MISMATCH: $(grep -c '^<' "$tmp/diff" || true) of $(wc -l <"$tmp/a") inputs differ; the first is input $index" >&2
-echo "--- A: $a" >&2
-echo "+++ B: $b" >&2
-"$a" -n "$generator" "$@" --dump "$index" >"$tmp/dump-a" || true
-"$b" -n "$generator" "$@" --dump "$index" >"$tmp/dump-b" || true
-grep '^input' "$tmp/dump-a" >&2 || true
-diff "$tmp/dump-a" "$tmp/dump-b" | head -20 >&2 || true
-exit 1
+result=0
+for ((i = 1; i < ${#binaries[@]}; i++)); do
+	b="${binaries[$i]}"
+	label="$( ((${#binaries[@]} > 2)) && echo "${binaries[$i]}: " || true)"
+	if cmp -s "$tmp/0" "$tmp/$i"; then
+		echo "${label}OK: $(wc -l <"$tmp/0") inputs, identical output ($name $*)"
+		continue
+	fi
+	result=1
+	# diff exits with 1 when the files differ, which is the case here
+	diff "$tmp/0" "$tmp/$i" >"$tmp/diff" || true
+	index="$(grep -m1 '^[<>]' "$tmp/diff" | cut -f1 | tr -d '<> ')"
+	echo "${label}MISMATCH: $(grep -c '^<' "$tmp/diff" || true) of $(wc -l <"$tmp/0") inputs differ; the first is input $index" >&2
+	echo "--- A: $a" >&2
+	echo "+++ B: $b" >&2
+	"$a" -n "$generator" "$@" --dump "$index" >"$tmp/dump-a" || true
+	"$b" -n "$generator" "$@" --dump "$index" >"$tmp/dump-b" || true
+	grep '^input' "$tmp/dump-a" >&2 || true
+	diff "$tmp/dump-a" "$tmp/dump-b" | head -20 >&2 || true
+done
+exit "$result"
