@@ -94,7 +94,10 @@ What to expect:
 - **Your php-src checkout.** `bench build` does not touch its files, index or branches. It adds a
   git worktree per build (`git worktree list` shows them) and, for `.`, a commit object holding
   the snapshot, uncommitted and untracked files included. A build takes about 370 MB;
-  `./bench rm <name>` deletes one.
+  `bench build --slim` keeps only the binary and its metadata (about 50 MB, no incremental
+  rebuild). `./bench rm <name>` deletes a build, `./bench gc` lists them with size and age and
+  removes the ones matching a pattern or `--older-than DAYS` with `--yes`. `bench build` refuses
+  to start with less than 10 GB free (`BENCH_MIN_FREE_GB`).
 - **Warnings.** On a laptop every run starts with warnings about the CPU governor and turbo
   boost. Those are advice: `sudo ./bench tune on` removes them until `tune off` or a reboot. The
   ones that make wall times unusable are a busy pinned CPU, a high load and, after the run, a
@@ -156,9 +159,10 @@ Results worth keeping, together with the commands that produced them, live in
 
 | Command | |
 |---|---|
-| `bench build <name> [<ref>\|.]` | build a php-src ref (or `.`, the working tree) as `<name>` |
+| `bench build [--slim] <name> [<ref>\|.]` | build a php-src ref (or `.`, the working tree) as `<name>`; `--slim`: binary only |
 | `bench builds` | list builds |
-| `bench rm <name>` | delete a build |
+| `bench rm <name>...` | delete builds |
+| `bench gc [--older-than DAYS] [--yes] [<pattern>...]` | list builds with size and age; remove the matching ones with `--yes` |
 | `bench suites` | list suites |
 | `bench run <suite> --a <build> [--b <build>] [options]` | measure; `bench run --help` lists the options |
 | `bench show <result.json> [--md]` | render a saved result again |

@@ -8,10 +8,15 @@
 set -euo pipefail
 : "${BENCH_ROOT:?run this through ./bench}" "${PHP_SRC:?}" "${BENCH_BUILDS:?}"
 
+slim="${BENCH_SLIM:-0}"
+if [[ "${1:-}" == "--slim" ]]; then
+	slim=1
+	shift
+fi
 name="${1:-}"
 ref="${2:-HEAD}"
 if [[ -z "$name" || "$name" == -* ]]; then
-	echo "usage: bench build <name> [<git-ref>|.]" >&2
+	echo "usage: bench build [--slim] <name> [<git-ref>|.]" >&2
 	exit 2
 fi
 if [[ ! "$name" =~ ^[A-Za-z0-9._-]+$ ]]; then
@@ -28,6 +33,16 @@ done
 if ((${#missing[@]})); then
 	echo "bench build: missing tools: ${missing[*]}" >&2
 	echo "  Ubuntu/Debian: sudo apt install autoconf bison re2c build-essential pkg-config" >&2
+	exit 1
+fi
+
+# A full build takes about 400 MB, a failed one can leave a full disk behind.
+min_free_gb="${BENCH_MIN_FREE_GB:-10}"
+mkdir -p "$BENCH_BUILDS"
+free_gb=$(( $(df -Pk "$BENCH_BUILDS" | awk 'NR == 2 {print $4}') / 1024 / 1024 ))
+if (( free_gb < min_free_gb )); then
+	echo "bench build: only ${free_gb} GB free in $BENCH_BUILDS (minimum ${min_free_gb} GB, BENCH_MIN_FREE_GB);" >&2
+	echo "  see 'bench gc' for the builds that can go" >&2
 	exit 1
 fi
 
@@ -73,7 +88,10 @@ else
 fi
 
 dir="$BENCH_BUILDS/$name"
-mkdir -p "$BENCH_BUILDS"
+# A slim build keeps nothing to build on: replace it.
+if [[ -f "$dir/.bench-build.json" && ! -e "$dir/.git" ]]; then
+	rm -rf -- "$dir"
+fi
 prev_commit=""
 if [[ -e "$dir/.git" ]]; then
 	prev_commit="$(git -C "$dir" rev-parse HEAD)"
@@ -140,6 +158,7 @@ BM_CONFIGURE="${configure_args[*]}" \
 BM_CFLAGS="$(sed -n 's/^CFLAGS_CLEAN = //p' "$dir/Makefile")" \
 BM_CFLAGS_USER="$cflags" \
 BM_CC="$cc_version" \
+BM_SLIM="$slim" \
 "$php" -n -r '
 	echo json_encode([
 		"name" => getenv("BM_NAME"),
@@ -156,7 +175,20 @@ BM_CC="$cc_version" \
 		"cc" => getenv("BM_CC"),
 		"version" => PHP_VERSION,
 		"debug" => (bool) PHP_DEBUG,
+		"slim" => getenv("BM_SLIM") === "1",
 	], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES), "\n";
 ' >"$dir/.bench-build.json"
 
-echo "ok: $php ($("$php" -n -r 'echo PHP_VERSION;'))" >&2
+# --slim keeps only the binary (with its debug info) and the metadata, about 55 MB instead of
+# 400: the worktree, the sources and the objects go. Sources stay available from the commit.
+if [[ "$slim" == 1 ]]; then
+	tmp="$(mktemp -d "$BENCH_BUILDS/.slim-$name.XXXXXX")"
+	chmod 755 "$tmp"
+	mkdir -p "$tmp/sapi/cli"
+	cp -p "$php" "$tmp/sapi/cli/php"
+	cp -p "$dir/.bench-build.json" "$dir/.bench-build.log" "$tmp/"
+	src worktree remove --force "$dir"
+	mv "$tmp" "$dir"
+fi
+
+echo "ok: $php ($("$php" -n -r 'echo PHP_VERSION;'))$([[ "$slim" == 1 ]] && echo ', slim')" >&2

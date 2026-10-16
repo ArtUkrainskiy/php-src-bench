@@ -13,10 +13,14 @@ usage() {
 php-src-bench: A/B micro-benchmarks for php-src.
 
 Usage:
-  bench build <name> [<git-ref>|.]   Build a release php CLI of a php-src ref in $BENCH_BUILDS/<name>
-                                     ('.' = the php-src working tree as it is now; default: HEAD)
+  bench build [--slim] <name> [<git-ref>|.]
+                                     Build a release php CLI of a php-src ref in $BENCH_BUILDS/<name>
+                                     ('.' = the php-src working tree as it is now; default: HEAD);
+                                     --slim keeps only the binary and its metadata (~55 MB, not ~400)
   bench builds                       List the builds
-  bench rm <name>                    Delete a build
+  bench rm <name>...                 Delete builds
+  bench gc [--older-than DAYS] [--yes] [<pattern>...]
+                                     List builds with size and age; remove the matching ones with --yes
   bench suites                       List the suites
   bench run <suite> --a <build|php> [--b <build|php>] [options]
                                      Measure a suite and compare B against A, see `bench run --help`
@@ -39,14 +43,25 @@ Environment:
   BENCH_PHP              php that runs the orchestrator (default: one of the builds, then php in PATH)
   BENCH_CONFIGURE_EXTRA  extra ./configure options for `bench build`
   BENCH_CFLAGS           CFLAGS for `bench build` (default: -O2 -g -falign-functions=64 -falign-loops=32)
+  BENCH_SLIM             1 = every `bench build` is --slim
+  BENCH_MIN_FREE_GB      `bench build` refuses to start with less free space (default: 10)
 USAGE
 }
 
-# bench rm <name>: a build is a git worktree of php-src, so git has to forget it too.
+# bench rm <name>: a full build is a git worktree of php-src, so git has to forget it too;
+# a slim build is a plain directory with the binary and its metadata.
 remove_build() {
 	local name="${1:?usage: bench rm <name>}"
-	[[ -e "$BENCH_BUILDS/$name/.git" ]] || { echo "bench rm: no such build: $name" >&2; exit 1; }
-	git -C "$PHP_SRC" worktree remove --force "$BENCH_BUILDS/$name"
+	[[ "$name" =~ ^[A-Za-z0-9._-]+$ ]] || { echo "bench rm: bad build name: $name" >&2; exit 2; }
+	local dir="$BENCH_BUILDS/$name"
+	if [[ -e "$dir/.git" ]]; then
+		git -C "$PHP_SRC" worktree remove --force "$dir"
+	elif [[ -f "$dir/.bench-build.json" ]]; then
+		rm -rf -- "$dir"
+	else
+		echo "bench rm: no such build: $name" >&2
+		exit 1
+	fi
 	echo "removed $name"
 }
 
@@ -82,7 +97,8 @@ case "$cmd" in
 		php="$(runner_php)"
 		exec "$php" -n -d memory_limit=-1 "$BENCH_ROOT/lib/runner.php" "$@"
 		;;
-	rm) shift; remove_build "$@" ;;
+	rm) shift; for b in "$@"; do remove_build "$b"; done ;;
+	gc) shift; exec "$BENCH_ROOT/lib/gc.sh" "$@" ;;
 	php) runner_php ;;
 	help|-h|--help) usage ;;
 	*) usage >&2; exit 2 ;;
