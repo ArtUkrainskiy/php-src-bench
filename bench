@@ -20,6 +20,9 @@ Usage:
                                      --profile docker (default: the official Docker image's flags,
                                      -Werror), align, plain or asan; --cc gcc,clang-20 builds
                                      <name>-gcc13, <name>-clang20; an up-to-date build is kept
+  bench pr <N> [--cc LIST] [--slim] [--base REF] [--no-merge]
+                                     Fetch php-src PR N, merge it onto master and build both
+                                     sides as pr<N>-base and pr<N>-head
   bench builds                       List the builds
   bench rm <name>...                 Delete builds
   bench gc [--older-than DAYS] [--yes] [<pattern>...]
@@ -45,6 +48,8 @@ Usage:
   bench why <suite> <A> <B> --filter RE [--functions f1,f2]
                                      Branch misses, front-end stalls and function addresses of
                                      A and B, for a case whose cycles changed and instructions not
+  bench doctor                       What this machine has and lacks for the tool: compilers,
+                                     php-src, perf counters, disk, corpus, noise
   bench check [--cpu N]              Report sources of benchmark noise on this machine
   bench tune on|off|status           on: performance governor and no turbo boost, off: back to what
                                      it was (both need sudo), status: show the current settings
@@ -117,7 +122,8 @@ case "$cmd" in
 	build) shift; exec "$BENCH_ROOT/lib/build.sh" "$@" ;;
 	tune) shift; exec "$BENCH_ROOT/lib/tune.sh" "$@" ;;
 	difftest) shift; exec "$BENCH_ROOT/lib/difftest.sh" "$@" ;;
-	run|compare|table|report|mutate|why|show|check|builds|suites)
+	pr) shift; exec "$BENCH_ROOT/lib/pr.sh" "$@" ;;
+	run|compare|table|report|mutate|why|show|check|doctor|builds|suites)
 		php="$(runner_php)"
 		exec "$php" -n -d memory_limit=-1 "$BENCH_ROOT/lib/runner.php" "$@"
 		;;

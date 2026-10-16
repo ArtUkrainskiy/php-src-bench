@@ -158,6 +158,22 @@ replace php-src's own tests: run them with the built binary before you send the 
 Results worth keeping, together with the commands that produced them, live in
 [reports/](reports/), so that a PR can link to them.
 
+## Reviewing someone else's pull request
+
+```sh
+./bench doctor                                   # once: what this machine has and lacks
+./bench pr 24080 --slim --cc gcc,clang-20        # fetch, merge onto master, build both sides
+./bench difftest code pr24080-base-gcc13 pr24080-head-gcc13 --code 'mb_substr($s, 257, 300)'
+./bench compare --code 'mb_substr($s, 0, 10)' --inputs lang:title,lang:1k \
+    gcc13=pr24080-base-gcc13:pr24080-head-gcc13 clang20=pr24080-base-clang20:pr24080-head-clang20
+```
+
+`bench pr` fetches the PR head and master from the remote of your php-src checkout that points at
+php/php-src into `refs/bench/pr/<N>/`, merges them the way GitHub would (without touching your
+working tree or branches) and builds `pr<N>-base` and `pr<N>-head`; `--base REF` merges onto
+another commit, `--no-merge` builds the head as it is. A series that was interrupted continues
+with `bench compare --resume <series.json>`.
+
 ## Numbers for a pull request: several compilers
 
 A change in a hot loop can measure differently with GCC and clang, because each compiler places
@@ -238,6 +254,8 @@ snapshots that nobody else can check out. `update` also removes such paths from 
 | Command | |
 |---|---|
 | `bench build [--slim] [--profile P] [--cc LIST] <name> [<ref>\|.]` | build a php-src ref (or `.`, the working tree) as `<name>`; `--slim`: binary only; `--profile docker` (default), `align`, `plain`, `asan`; `--cc gcc,clang-20`: one build per compiler |
+| `bench pr <N> [--cc LIST] [--slim] [--base REF] [--no-merge]` | fetch php-src PR N, merge it onto master, build both sides |
+| `bench doctor` | what the machine has and lacks: tools, compilers, php-src, perf counters, disk, corpus, noise |
 | `bench builds` | list builds |
 | `bench rm <name>...` | delete builds |
 | `bench gc [--older-than DAYS] [--yes] [<pattern>...]` | list builds with size and age; remove the matching ones with `--yes` |

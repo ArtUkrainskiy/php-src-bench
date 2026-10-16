@@ -9,6 +9,9 @@ rules below exist.
 
 ### Procedure
 
+0. On a new machine: `./bench doctor`. To review a php-src PR, `./bench pr <N> --cc ...` builds
+   `pr<N>-base` and `pr<N>-head`.
+
 1. Build the reference and the candidate. `.` snapshots the php-src working tree without touching
    it; a build of the same name is incremental.
 

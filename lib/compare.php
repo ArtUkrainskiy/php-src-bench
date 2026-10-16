@@ -58,6 +58,7 @@ function usage_compare(): void
       --wait-idle S    wait for a quiet machine before each process, as in `bench run`
       --no-control     no A-against-A control at the start and the end
       --out FILE       where to save the series (default: results/<date>-compare-<suite>.json)
+      --resume FILE    continue an interrupted series with the same builds, CPU and settings
       --code, --inputs, --setup
                        one expression instead of a suite, as in `bench run --help`
 
@@ -89,6 +90,9 @@ function usage_table(): void
 
 function cmd_compare(array $positional, array $options): int
 {
+    if (isset($options['resume'])) {
+        return compare_resume((string) $options['resume'], $options);
+    }
     if (isset($options['help']) || count($positional) < (isset($options['code']) ? 1 : 2)) {
         usage_compare();
         return isset($options['help']) ? 0 : 2;
@@ -206,11 +210,40 @@ function cmd_compare(array $positional, array $options): int
         'rows' => [],
     ];
 
+    compare_measure($series, $file, $builds, $perf, $events);
+    flock($lock, LOCK_UN);
+    echo series_table($series, [], false, 'master');
+    return 0;
+}
+
+/**
+ * The passes of every (group, case) that the series does not have complete yet, saved after
+ * every case; rows of an incomplete case (an interrupted run) are measured again.
+ */
+function compare_measure(array &$series, string $file, array $builds, string $perf, string $events): void
+{
+    $config = $series['config'];
+    $have = [];
+    foreach ($series['rows'] as $row) {
+        $have[$row[0]][$row[2]] = ($have[$row[0]][$row[2]] ?? 0) + 1;
+    }
+    $complete = static fn (string $g, string $id): bool => ($have[$g][$id] ?? 0) === $config['passes'] * 2;
+    $series['rows'] = array_values(array_filter($series['rows'], static fn (array $r): bool => $complete($r[0], $r[2])));
+    $todo = 0;
+    foreach ($series['groups'] as $g) {
+        foreach (array_keys($series['cases']) as $id) {
+            $todo += $complete($g['name'], $id) ? 0 : 1;
+        }
+    }
     $started = microtime(true);
-    $total = count($order) * count($cases) * $config['passes'] * 2;
+    $elapsedBefore = (float) ($series['elapsed_s'] ?? 0); // of the run that was interrupted
+    $total = $todo * $config['passes'] * 2;
     $done = 0;
-    foreach ($order as $g) {
-        foreach ($cases as $id => $case) {
+    foreach ($series['groups'] as $g) {
+        foreach ($series['cases'] as $id => $case) {
+            if ($complete($g['name'], $id)) {
+                continue;
+            }
             for ($pass = 1; $pass <= $config['passes']; $pass++) {
                 foreach ($pass % 2 ? ['a', 'b'] : ['b', 'a'] as $side) {
                     $eta = $done ? (microtime(true) - $started) / $done * ($total - $done) : 0;
@@ -218,13 +251,13 @@ function cmd_compare(array $positional, array $options): int
                         $done ? sprintf(', ~%d min left', (int) ceil($eta / 60)) : ''));
                     wait_idle($config, $id);
                     $php = $builds[$g[$side]]['php'];
-                    $body = perf_cycles($perf, $events, $php, $suite, $id, $case['n'], false, $config['cpu']);
-                    $empty = perf_cycles($perf, $events, $php, $suite, $id, $case['n'], true, $config['cpu']);
+                    $body = perf_cycles($perf, $events, $php, $series['suite'], $id, $case['n'], false, $config['cpu']);
+                    $empty = perf_cycles($perf, $events, $php, $series['suite'], $id, $case['n'], true, $config['cpu']);
                     $series['rows'][] = [$g['name'], $side, $id, $body[0], $body[1], $empty[0], $empty[1]];
                     $done++;
                 }
             }
-            $series['elapsed_s'] = round(microtime(true) - $started, 1);
+            $series['elapsed_s'] = round($elapsedBefore + microtime(true) - $started, 1);
             save_series($file, $series);
         }
     }
@@ -232,6 +265,40 @@ function cmd_compare(array $positional, array $options): int
     $series['complete'] = true;
     save_series($file, $series);
     fwrite(STDERR, "saved $file\n");
+}
+
+/**
+ * `bench compare --resume <series>`: the same builds (checked by commit and configuration), the
+ * same CPU, events and iteration counts; only what is missing is measured.
+ */
+function compare_resume(string $file, array $options): int
+{
+    $series = json_decode((string) @file_get_contents($file), true);
+    if (!is_array($series) || ($series['kind'] ?? '') !== 'compare' || ($series['format'] ?? 0) < 2) {
+        throw new BenchError("not a series of bench compare (format 2) to resume: $file");
+    }
+    if (!empty($series['complete'])) {
+        echo "$file is complete\n";
+        return 0;
+    }
+    $builds = [];
+    foreach ($series['builds'] as $name => $recorded) {
+        $side = resolve_side($name);
+        foreach (['commit', 'config_key'] as $key) {
+            if (($side['build'][$key] ?? null) !== ($recorded['build'][$key] ?? null)) {
+                throw new BenchError("build $name has changed since the series started ($key): measure a new series");
+            }
+        }
+        $builds[$name] = $side + ['info' => $recorded['info']];
+    }
+    $config = $series['config'];
+    $lock = lock_cpu($config['cpu']);
+    [$perf, $events] = perf_cycles_probe($config['cpu']);
+    if ($events !== $config['events']) {
+        throw new BenchError("this machine counts '$events', the series '{$config['events']}': measure a new series");
+    }
+    $series['resumed'][] = date('c');
+    compare_measure($series, $file, $builds, $perf, $events);
     flock($lock, LOCK_UN);
     echo series_table($series, [], false, 'master');
     return 0;

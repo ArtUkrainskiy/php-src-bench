@@ -161,7 +161,11 @@ mkdir -p "$tmp/notabuild"
 expect_output "is not a full build" ./bench mutate "$tmp/notabuild" "$tmp/patterns.php"
 expect_output "Usage: bench mutate" ./bench mutate
 expect_output "Usage: bench why" ./bench why html
-group "bench mutate, bench why: arguments"
+expect_output "usage: bench pr" ./bench pr
+expect_output "unknown option --bogus" ./bench pr 1 --bogus
+expect_output "to resume" ./bench compare --resume tests/fixtures/single.json
+expect_output "C compilers" ./bench doctor
+group "bench mutate, why, pr, doctor, compare --resume: arguments"
 
 # 7. Suites the harness must refuse, with a message that names the case
 cat >"$tmp/bad.php" <<'SUITE'

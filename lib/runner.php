@@ -64,6 +64,7 @@ function main(array $argv): int
             'why' => cmd_why($positional, $options),
             'show' => cmd_show($positional, $options),
             'check' => cmd_check($options),
+            'doctor' => cmd_doctor($options),
             'builds' => cmd_builds(),
             'suites' => cmd_suites(),
             default => throw new BenchError('unknown command, see `bench help`'),
@@ -415,6 +416,66 @@ function cmd_show(array $positional, array $options): int
     }
     render($result, isset($options['md']));
     return 0;
+}
+
+/**
+ * Everything a first session needs, one line each: tools, compilers, php-src, perf, disk, corpus,
+ * then the noise check of `bench check`. Exits with 1 when something required is missing.
+ */
+function cmd_doctor(array $options): int
+{
+    $missing = 0;
+    $line = static function (string $status, string $what, string $detail = '') use (&$missing): void {
+        $missing += $status === 'missing' ? 1 : 0;
+        printf("%-8s %-28s %s\n", $status, $what, $detail);
+    };
+    $line('ok', 'PHP for the tool', PHP_VERSION . ' (' . PHP_BINARY . ')');
+    foreach (['git', 'make', 'autoconf', 'bison', 're2c', 'pkg-config', 'taskset', 'nm'] as $tool) {
+        $path = find_executable($tool);
+        $line($path ? 'ok' : 'missing', $tool, $path ?? 'Debian/Ubuntu: sudo apt install git make autoconf bison re2c pkg-config util-linux binutils');
+    }
+    // gcc and gcc-13 are often the same binary: one name per binary, the shortest
+    $found = [];
+    foreach (explode(':', (string) getenv('PATH')) as $dir) {
+        foreach (array_merge(glob("$dir/gcc*") ?: [], glob("$dir/clang*") ?: []) as $cc) {
+            $name = basename($cc);
+            if (preg_match('/^(gcc|clang)(-\d+)?$/', $name) && is_executable($cc) && !isset($found[$name])) {
+                $found[$name] = realpath($cc) ?: $cc;
+            }
+        }
+    }
+    uksort($found, static fn (string $x, string $y): int => [strlen($x), $x] <=> [strlen($y), $y]);
+    $compilers = [];
+    foreach (array_unique($found) as $name => $path) {
+        $compilers[$name] = compiler_name(['cc' => trim((string) shell_exec(escapeshellarg($path) . ' --version 2>/dev/null | head -1'))]) ?? '?';
+    }
+    ksort($compilers);
+    $line($compilers ? 'ok' : 'missing', 'C compilers', $compilers
+        ? implode(', ', array_map(static fn ($n, $v) => "$n ($v)", array_keys($compilers), $compilers)) . '; use them with bench build --cc ' . implode(',', array_keys($compilers))
+        : 'install gcc or clang');
+    $src = getenv('PHP_SRC') ?: dirname(BENCH_ROOT) . '/php-src';
+    if (is_dir("$src/.git") || is_file("$src/.git")) {
+        $remotes = (string) shell_exec('git -C ' . escapeshellarg($src) . ' remote -v 2>/dev/null');
+        $line('ok', 'php-src', $src . (preg_match('#github\.com[:/]php/php-src#', $remotes) ? '' : ' (no remote points at php/php-src: bench pr needs one)'));
+    } else {
+        $line('missing', 'php-src', "not at $src: clone https://github.com/php/php-src there or set PHP_SRC");
+    }
+    $min = (int) (getenv('BENCH_MIN_FREE_GB') ?: 10);
+    @mkdir(BENCH_BUILDS, 0777, true);
+    $free = (int) (@disk_free_space(BENCH_BUILDS) / 1024 ** 3);
+    $line($free >= $min ? 'ok' : 'warn', 'disk', sprintf('%d GB free in %s (a full build takes ~400 MB, --slim ~50 MB; bench build needs %d GB)', $free, BENCH_BUILDS, $min));
+    $cpu = cpu_option($options);
+    try {
+        perf_cycles_probe($cpu);
+        $line('ok', 'perf counters', "cycles and instructions on CPU $cpu: bench compare, bench run --perf and bench why work");
+    } catch (BenchError $e) {
+        $line('warn', 'perf counters', $e->getMessage() . ' (bench run without --perf still works)');
+    }
+    $real = glob(BENCH_ROOT . '/corpus/real/*.txt') ?: [];
+    $line($real ? 'ok' : 'warn', 'real documents', $real ? count($real) . ' files in corpus/real' : 'not fetched: corpus/real/fetch.sh (the realdata suite and some inputs need them)');
+    echo "\n";
+    cmd_check($options);
+    return $missing ? 1 : 0;
 }
 
 function cmd_check(array $options): int
