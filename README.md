@@ -29,7 +29,9 @@ htmlentities @ ru-1k                            1030     4550  1.0%     3539  0.
 …
 ```
 
-(An excerpt; the whole table and how it was made are in
+(An excerpt of a run made on 5 October 2026 with the alignment flags that are now
+`--profile align`; numbers for a PR come from `bench compare`, below. The whole table and how it
+was made are in
 [reports/htmlspecialchars-ascii-fast-path](reports/htmlspecialchars-ascii-fast-path/).)
 
 What it takes care of, so that you do not have to:
@@ -55,6 +57,9 @@ What it takes care of, so that you do not have to:
 - Linux. Developed and used on x86-64 (Ubuntu 24.04, an Intel hybrid CPU); other systems are untested.
 - A php-src checkout and what php-src needs to build: a C compiler, `make`, `autoconf`, `bison`,
   `re2c`, `pkg-config`.
+- Some PHP 8.0+ in `PATH` (or `BENCH_PHP`) for the tool itself until the first build exists:
+  `bench build` does not need it, `bench doctor`, `run` and the others do.
+- git 2.38 or newer for `bench pr` (`git merge-tree --write-tree`).
 - `git`, `taskset` (util-linux) for CPU pinning, `curl` for the real-document corpus.
 - For `--perf`: the `perf` tool, hardware performance counters (most virtual machines have none)
   and permission to use them. Ubuntu forbids that by default; `sudo sysctl kernel.perf_event_paranoid=1`
@@ -89,14 +94,18 @@ corpus/real/fetch.sh                # once: real HTML, Markdown and JS used as i
 ./bench run html --a base --b dev --perf
 ```
 
+Where `bench check` says that instruction counts are not available (most virtual machines, the
+efficiency cores of a hybrid CPU), drop `--perf`; `bench compare` and `bench why` need those
+counters and do not work there.
+
 What to expect:
 
 - **Time.** The first build of a name takes 1–6 minutes depending on the machine, later builds of
-  the same name are incremental (seconds). A suite of 40 cases with `--perf` runs for about half a
+  the same name are incremental (seconds; a changed header rebuilds everything). A suite of 40 cases with `--perf` runs for about half a
   minute, a filtered `--quick` run for a second or two.
 - **Your php-src checkout.** `bench build` does not touch its files, index or branches. It adds a
   git worktree per build (`git worktree list` shows them) and, for `.`, a commit object holding
-  the snapshot, uncommitted and untracked files included. A build takes about 370 MB;
+  the snapshot, uncommitted and untracked files included. A build takes about 400 MB;
   `bench build --slim` keeps only the binary and its metadata (about 50 MB, no incremental
   rebuild). `./bench rm <name>` deletes a build, `./bench gc` lists them with size and age and
   removes the ones matching a pattern or `--older-than DAYS` with `--yes`. `bench build` refuses
@@ -147,10 +156,12 @@ counts. When both columns are clean and still disagree, neither is wrong: report
 ./bench run htmlspecialchars --a base --b dev --filter 'en-|html-' --quick   # iterate on a few cases
 ./bench run htmlspecialchars --a base --b dev --perf        # the full table, 4 rounds
 ./bench difftest html-encode base dev --count 20000         # same output on random inputs?
-./bench show results/<file>.json --md                       # Markdown for the PR description
+./bench show results/<file>.json --md                       # Markdown, while iterating
 ```
 
 Every run prints `saved results/<date>-<time>-<suite>.json`; that is the file `bench show` takes.
+`bench run` is for iterating; the numbers that go into a PR come from `bench compare` and
+`bench table` (cycles per call, in percent, on several compilers), described below.
 `--filter` matches case ids, which are the names in `suites/<suite>.php`. The tool does not
 replace php-src's own tests: run them with the built binary before you send the change
 (`cd ../php-builds/dev && sapi/cli/php run-tests.php -q -p "$PWD/sapi/cli/php" ext/standard/tests/strings`).
@@ -162,16 +173,22 @@ Results worth keeping, together with the commands that produced them, live in
 
 ```sh
 ./bench doctor                                   # once: what this machine has and lacks
+export BENCH_CONFIGURE_EXTRA="--enable-mbstring --disable-mbregex"   # the PR changes mbstring
 ./bench pr 24080 --slim --cc gcc,clang-20        # fetch, merge onto master, build both sides
-./bench difftest code pr24080-base-gcc13 pr24080-head-gcc13 --code 'mb_substr($s, 257, 300)'
-./bench compare --code 'mb_substr($s, 0, 10)' --inputs lang:title,lang:1k \
+./bench difftest code pr24080-base-gcc13 pr24080-head-gcc13 --code 'mb_substr($s, 257, 300)' \
+    --setup 'mb_check_encoding($s, "UTF-8")'
+./bench compare --code 'mb_substr($s, 0, 10)' --inputs lang:title,lang:1k --setup 'mb_check_encoding($s, "UTF-8")' \
     gcc13=pr24080-base-gcc13:pr24080-head-gcc13 clang20=pr24080-base-clang20:pr24080-head-clang20
 ```
 
 `bench pr` fetches the PR head and master from the remote of your php-src checkout that points at
 php/php-src into `refs/bench/pr/<N>/`, merges them the way GitHub would (without touching your
-working tree or branches) and builds `pr<N>-base` and `pr<N>-head`; `--base REF` merges onto
-another commit, `--no-merge` builds the head as it is. A series that was interrupted continues
+working tree or branches; `git for-each-ref refs/bench` lists what it keeps) and builds
+`pr<N>-base` and `pr<N>-head`; `--base REF` merges onto another commit, `--no-merge` builds the
+head as it is, and a later run reuses the master it fetched unless `--update`. The builds have
+only the extensions `BENCH_CONFIGURE_EXTRA` adds: the difference test stops when a function is
+missing. That PR changes only strings marked as valid UTF-8, so `--setup` marks the input first;
+without it the table would show the unchanged path. A series that was interrupted continues
 with `bench compare --resume <series.json>`.
 
 ## Numbers for a pull request: several compilers
@@ -193,7 +210,8 @@ input first (see [docs/suites.md](docs/suites.md)).
 `bench build --cc` names a build `<name>-<compiler><major version>` (`bench builds` lists them);
 a build that already exists at the same commit with the same configuration is kept, so a shared
 `base` is built once. Suites that need an extension need it on both sides:
-`BENCH_CONFIGURE_EXTRA="--enable-mbstring" ./bench build ...`. With four compilers:
+`BENCH_CONFIGURE_EXTRA="--enable-mbstring --disable-mbregex" ./bench build ...` (mbregex needs
+oniguruma). With four compilers:
 
 ```sh
 CCS=(--cc gcc,gcc-14,clang,clang-20)       # whatever compilers are installed
@@ -211,24 +229,28 @@ whose builds differ in compiler, flags or configure options is reported. Then ev
 five passes that alternate A and B, on one CPU, with A of the first group against itself at the
 start and the end of the series. Each pass of each side is two processes, the case for about
 `--target-ms` (50 ms) and the empty loop, so a series takes roughly
-(groups + 2) × cases × passes × 2 × 75 ms.
+(groups + 2) × cases × passes × 2 × 90 ms of measuring, plus one run of every build to check
+results and calibrate; the 35 cases on four compilers below took 193 s of measuring. It needs
+hardware counters: not in most virtual machines, and on a hybrid CPU only on a performance core.
 
 `bench table` prints the change in cycles relative to A (`--labels FILE` sets the rows and their
-names, `--base-name` what A is called, `--header` the machine, builds and method), like this table
-from [reports/pr-24080-mb-substr](reports/pr-24080-mb-substr/), measured with that report's
-`pairs-run.sh`, from which `bench compare` grew:
+names, `--base-name` what A is called, `--header` the machine, builds and method). For
+[reports/pr-24080-mb-substr](reports/pr-24080-mb-substr/), `bench table compare-head.json
+--labels labels-compare.txt` prints, among its 35 rows:
 
 ```
 | call | master, CPU cycles per call (GCC 13.3) | GCC 13.3 | GCC 14.2 | clang 18.1 | clang 20.1 |
 |---|--:|--:|--:|--:|--:|
-| `mb_substr($s, 0, 10)`, English (1.00 B/char), 31-byte title | 200 | −33% | −21% | −46% | −47% |
-| `mb_substr($s, $half, 20)`, English (1.00 B/char), 64 KB | 63,324 | −92% | −90% | −95% | −95% |
-| `mb_substr($s, $half, 20)`, Hindi (2.54 B/char), 1 KB | 2,191 | −18% | −10% | −43% | −43% |
-| `mb_substr($s, 0, 10)`, English (1.00 B/char), 31-byte title, without the flag | 199 | +4% | +3% | 0% | +1% |
+| `mb_substr($s, 0, 10)`, English (1.00 B/char), 31-byte title | 188 | −33% | −21% | −48% | −49% |
+| `mb_substr($s, $half, 20)`, English (1.00 B/char), 64 KB | 62,919 | −92% | −90% | −96% | −95% |
+| `mb_substr($s, $half, 20)`, Hindi (2.54 B/char), 1 KB | 2,320 | −21% | −10% | −40% | −43% |
+| `mb_substr($s, 0, 10)`, English (1.00 B/char), 31-byte title, without the flag | 189 | +4% | +4% | +1% | +1% |
 ```
 
 Negative means fewer cycles, faster; say so above the table where you publish it. Under 20
-cycles per call a cell shows `n/a`: compare instructions there. How it is measured:
+cycles per call a cell shows `n/a` with the change in instructions; a cell whose change is not
+larger than the A/A control of its row gets `~`, and `layout?` marks a change in cycles without
+a change in instructions (see `bench why`). How it is measured:
 [docs/methodology.md](docs/methodology.md).
 
 ## A report a pull request can link to
@@ -253,8 +275,8 @@ snapshots that nobody else can check out. `update` also removes such paths from 
 
 | Command | |
 |---|---|
-| `bench build [--slim] [--profile P] [--cc LIST] <name> [<ref>\|.]` | build a php-src ref (or `.`, the working tree) as `<name>`; `--slim`: binary only; `--profile docker` (default), `align`, `plain`, `asan`; `--cc gcc,clang-20`: one build per compiler |
-| `bench pr <N> [--cc LIST] [--slim] [--base REF] [--no-merge]` | fetch php-src PR N, merge it onto master, build both sides |
+| `bench build [--slim] [--profile P] [--cc LIST] [--no-werror] <name> [<ref>\|.]` | build a php-src ref (or `.`, the working tree) as `<name>`; `--slim`: binary only; `--profile docker` (default), `align`, `plain`, `asan`; `--cc gcc,clang-20`: one build per compiler |
+| `bench pr <N> [--cc LIST] [--profile P] [--slim] [--no-werror] [--base REF] [--update] [--no-merge]` | fetch php-src PR N, merge it onto master, build both sides |
 | `bench doctor` | what the machine has and lacks: tools, compilers, php-src, perf counters, disk, corpus, noise |
 | `bench builds` | list builds |
 | `bench rm <name>...` | delete builds |
@@ -266,7 +288,7 @@ snapshots that nobody else can check out. `update` also removes such paths from 
 | `bench report new\|update\|check <dir>` | a report directory from a series, its generated tables, the checks before committing it |
 | `bench show <result.json> [--md]` | render a saved result again |
 | `bench difftest <generator> <A> <B> [<C>...] [--seed N] [--count N]` | compare outputs of builds on generated inputs; `code --code EXPR` for any expression |
-| `bench mutate <build> <mutations.php>` | put mistakes into the change one at a time and see whether the differential test and the tests catch them |
+| `bench mutate <build> <mutations.php> [--only RE]` | put mistakes into the change one at a time and see whether the differential test and the tests catch them |
 | `bench why <suite> <A> <B> --filter RE [--functions f,g]` | branch misses, front-end stalls and function addresses of two builds, for a case whose cycles changed and instructions did not |
 | `bench check [--cpu N]` | report noise sources on this machine and whether `--perf` can work |
 | `bench tune on\|off\|status` | `on`: performance governor, no turbo boost; `off`: back to what it was (both need sudo) |
@@ -282,7 +304,7 @@ default, the compiler and linker flags of the official Docker image plus `-g` an
 `--enable-werror` (`--profile docker`). `--profile align` adds fixed function and loop alignment
 for finding out whether a difference is code placement, `plain` is `-O2 -g`, `asan` a debug build
 with sanitizers; see the methodology notes. Add extensions with
-`BENCH_CONFIGURE_EXTRA="--enable-mbstring" ./bench build ...`, change flags with `BENCH_CFLAGS`
+`BENCH_CONFIGURE_EXTRA="--enable-mbstring --disable-mbregex" ./bench build ...`, change flags with `BENCH_CFLAGS`
 and `BENCH_LDFLAGS` (an `LDFLAGS` from your shell is ignored, with a warning).
 
 ## Suites

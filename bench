@@ -16,11 +16,11 @@ Usage:
   bench build [--slim] [--profile P] [--cc LIST] [--no-werror] <name> [<git-ref>|.]
                                      Build a release php CLI of a php-src ref in $BENCH_BUILDS/<name>
                                      ('.' = the php-src working tree as it is now; default: HEAD);
-                                     --slim keeps only the binary and its metadata (~55 MB, not ~400);
+                                     --slim keeps only the binary and its metadata (~50 MB, not ~400);
                                      --profile docker (default: the official Docker image's flags,
                                      -Werror), align, plain or asan; --cc gcc,clang-20 builds
                                      <name>-gcc13, <name>-clang20; an up-to-date build is kept
-  bench pr <N> [--cc LIST] [--slim] [--base REF] [--no-merge]
+  bench pr <N> [--cc LIST] [--profile P] [--slim] [--no-werror] [--base REF] [--update] [--no-merge]
                                      Fetch php-src PR N, merge it onto master and build both
                                      sides as pr<N>-base and pr<N>-head
   bench builds                       List the builds
@@ -34,18 +34,19 @@ Usage:
                                      CPU cycles and instructions per call for pairs of builds, one
                                      group per compiler, alternating passes, A/A control; see
                                      `bench compare --help`
-  bench table <series.json> [--full] [--labels FILE]
+  bench table <series.json> [--full] [--labels FILE] [--header] [--bpc] [--base-name NAME]
                                      The change in cycles relative to A, in percent, as Markdown
-  bench report new|update|check <dir> [--series S.json]
+  bench report new|update|check <dir> [--series S.json] [--labels FILE] [--title T] [--force]
                                      A report directory for reports/ made from a series, its
                                      generated tables, and the checks before committing it
   bench show <result.json> [--md]    Render a saved result again
-  bench difftest <generator> <A> <B> [--seed N] [--count N]
+  bench difftest <generator> <A> <B> [<C>...] [--seed N] [--count N]
+                                     (generator "code": --code EXPR [--setup CODE])
                                      Check that two builds give identical output on generated inputs
   bench mutate <build> <mutations.php> [--only RE]
                                      Mutate the change, rebuild, and see whether the differential
                                      test and the tests catch each mutation
-  bench why <suite> <A> <B> --filter RE [--functions f1,f2]
+  bench why <suite> <A> <B> --filter RE [--functions f1,f2] [--passes N] [--cpu N]
                                      Branch misses, front-end stalls and function addresses of
                                      A and B, for a case whose cycles changed and instructions not
   bench doctor                       What this machine has and lacks for the tool: compilers,
@@ -56,7 +57,7 @@ Usage:
   bench php                          Print the php binary that runs the orchestrator
 
 A typical session:
-  bench build base master            # the reference
+  bench build base "$(git -C ../php-src merge-base master HEAD)"   # where your branch starts
   bench build dev .                  # your working tree
   bench run html --a base --b dev --perf
 

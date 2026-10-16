@@ -36,7 +36,8 @@ return [
   one `$s`, and the expression runs once before the timing, so `mb_strpos()`, `preg_match()`
   with `/u` and others that check the string measure the marked string from then on. Setup may
   change `$s`; the `bytes` column shows the result.
-- The copy is never an interned string, also for a literal input such as `'abcdefgh'`. Results
+- The copy is never an interned string (except the empty string), also for a literal input such
+  as `'abcdefgh'`. Results
   saved before 16 October 2026 (commit d5d4886) measured literal inputs interned; short cases may
   differ by a few cycles from new ones. Series record the harness version (`harness`).
 - `'inputs'` of a case may contain patterns with `*` and `?`: `'*-1k'` is every input whose
@@ -130,8 +131,8 @@ For expressions that take a string, no generator has to be written:
 ```
 
 `difftests/code.php` makes strings of 1- to 4-byte characters and combining sequences (one
-combining sequence is several code points), about 10% of them with invalid sequences, among them
-3% truncated at the very end (`--input ascii` or `bytes` for other inputs). Lengths are in bytes,
+combining sequence is several code points), about 10% of them with invalid sequences, and
+separately 3% truncated at the very end (`--input ascii` or `bytes` for other inputs). Lengths are in bytes,
 up to `--max` (2100), half of them on or next to 16, 32, 64, 256, 512, 1024 or 2048, the sizes
 block loops work in. Each `--code`
 runs on a fresh copy of the input, and with `--setup` once more on a copy that went through the
@@ -215,7 +216,8 @@ return [
 ```
 
 It runs `make` and `run-tests.php` with as many jobs as there are CPUs; keep them off a core
-you measure on with `taskset` (`taskset -c 8-15 ./bench mutate ...`). It first runs the checks
+you measure on with `taskset` (`taskset -c <other cores> ./bench mutate ...`, any cores but the
+one `bench check` prints). It first runs the checks
 on the unchanged build (the differential test must agree with the
 reference; tests that already fail are not counted), then prints a table of which check caught
 which mutation. `from` must occur exactly once in its file; the build is restored at the end,

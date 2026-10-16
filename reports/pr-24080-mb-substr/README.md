@@ -241,7 +241,7 @@ The PR adds no tests. `ext/mbstring/tests` (427 tests: 339 passed, 88 skipped, 8
 | only ASCII bytes counted as characters | caught | caught (5) |
 | offset past the end returns the end | caught | caught (1) |
 | result one character short | caught | caught (5) |
-| reverse search with a negative offset uses the fast path for unflagged strings | missed | missed |
+| strpos uses the fast path for unchecked strings (the reverse search with a negative offset, on unflagged strings) | missed | missed |
 
 The last one changes the end of the `mb_strrpos()` search range only for invalid strings with a negative offset; the differential test does not catch it, and I did not look for an input where the result changes.
 
@@ -251,6 +251,8 @@ The same eight mutations with the tool's own `bench mutate` (added after the rev
 
 ## Reproduce
 
+The scripts of this section are those of the review (16 October 2026); the tool's own commands for the same series and mutations are further down. `<core>` is the CPU that `bench check` prints; `build.sh` passes `LDFLAGS`, which `bench build` now ignores in favour of its docker profile (the same flags); for the ASan builds use `./bench build --profile asan` instead, since `build.sh asan` would now also get the docker profile's `--enable-werror` and `-pie`.
+
 From the repository root, with a php-src checkout that has master `1c9242e7fec`, the first version merged onto it and the fix on top (`git fetch origin pull/24080/head`, merge `b218ba6b8d2`, apply [`fix.diff`](fix.diff); or merge the current head `6d9250e8b74`, which gives the same tree as the fix):
 
 ```
@@ -258,13 +260,13 @@ cd reports/pr-24080-mb-substr
 PHP_SRC=<php-src> ./build.sh gcc g13 base 1c9242e7fec          # and pr, fix; gcc-14 g14, clang c18, clang-20 c20
 PHP_SRC=<php-src> ./build.sh clang c18 asan <pr commit> asan     # and fixasan
 BENCH_BUILDS=<builds> ./difftest-run.sh
-BENCH_BUILDS=<builds> CPU=2 PASSES=5 ./pairs-run.sh out.txt aa:g13-base:g13-base g13:g13-base:g13-fix g14:g14-base:g14-fix c18:c18-base:c18-fix c20:c20-base:c20-fix aa2:g13-base:g13-base
+BENCH_BUILDS=<builds> CPU=<core> PASSES=5 ./pairs-run.sh out.txt aa:g13-base:g13-base g13:g13-base:g13-fix g14:g14-base:g14-fix c18:c18-base:c18-fix c20:c20-base:c20-fix aa2:g13-base:g13-base
 mapfile -t R < rows.txt; python3 speedup-table.py out.txt 'g13:GCC 13.3,g14:GCC 14.2,c18:clang 18.1,c20:clang 20.1' "${R[@]}"
-BENCH_BUILDS=<builds> CPU=2 ./placement-run.sh placement.txt g13-base g13-fix
+BENCH_BUILDS=<builds> CPU=<core> ./placement-run.sh placement.txt g13-base g13-fix
 # variants: build them as chunk / chunk64 (fix + chunk-variant.diff / chunk64-variant.diff), then
 CASES="$(php cases.php list | tr ' ' '\n' | grep -v plain)"
-BENCH_BUILDS=<builds> CPU=2 PASSES=5 CASES="$CASES" ./pairs-run.sh chunk.txt g13:g13-pr:g13-chunk g14:g14-pr:g14-chunk c18:c18-pr:c18-chunk c20:c20-pr:c20-chunk
-BENCH_BUILDS=<builds> CPU=2 PASSES=5 CASES="$CASES" ./pairs-run.sh chunk64.txt g13:g13-pr:g13-chunk64 g14:g14-pr:g14-chunk64 c18:c18-pr:c18-chunk64 c20:c20-pr:c20-chunk64
+BENCH_BUILDS=<builds> CPU=<core> PASSES=5 CASES="$CASES" ./pairs-run.sh chunk.txt g13:g13-pr:g13-chunk g14:g14-pr:g14-chunk c18:c18-pr:c18-chunk c20:c20-pr:c20-chunk
+BENCH_BUILDS=<builds> CPU=<core> PASSES=5 CASES="$CASES" ./pairs-run.sh chunk64.txt g13:g13-pr:g13-chunk64 g14:g14-pr:g14-chunk64 c18:c18-pr:c18-chunk64 c20:c20-pr:c20-chunk64
 ```
 
 The same measurement with the tool's own commands, without the scripts above (added after the review; same machine, 16 October 2026, on battery with a load average of 5.9 at the start): [`suite.php`](suite.php) marks each copy of the input as valid UTF-8 with `setup`, and

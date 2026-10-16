@@ -16,7 +16,7 @@ rules below exist.
    it; a build of the same name is incremental.
 
    ```sh
-   ./bench build base master
+   ./bench build base "$(git -C ../php-src merge-base master HEAD)"   # where the branch starts
    ./bench build dev .
    ```
 
@@ -31,7 +31,7 @@ rules below exist.
 3. Iterate with a filter and `--quick`. Quick runs give no verdict (`?`), only a direction.
 
    ```sh
-   ./bench run htmlspecialchars --a base --b dev --filter 'en-|ru-' --quick --perf --no-save
+   ./bench run htmlspecialchars --a base --b dev --filter '@ (en|zh)-1k' --quick --perf --no-save
    ```
 
 4. Measure for real: the whole suite, default rounds, with instruction counts.
@@ -44,7 +44,8 @@ rules below exist.
    hand, each with its own pair of builds (`--cc` names them `<name>-gcc13`, `<name>-clang20`, ...):
 
    ```sh
-   ./bench build --slim --cc gcc,clang base master && ./bench build --slim --cc gcc,clang dev .
+   ./bench build --slim --cc gcc,clang base "$(git -C ../php-src merge-base master HEAD)"
+   ./bench build --slim --cc gcc,clang dev .
    ./bench compare htmlspecialchars gcc13=base-gcc13:dev-gcc13 clang18=base-clang18:dev-clang18
    ./bench table results/<date>-compare-htmlspecialchars.json --full
    ```
@@ -107,13 +108,14 @@ rules below exist.
 
 ### Reporting
 
-- Give ranges per kind of input ("English text 1.7–2.5× faster"), not one headline number, and
-  always list the rows that got slower or did not change.
+- Give ranges per kind of input ("76–89% fewer cycles from the middle of 1 KB in English"), not one
+  headline number, and always list the rows that got slower or did not change.
 - State what the comparison is: the two commits, the suite, whether the machine was quiet.
 - Say how the output was verified: which generator, how many inputs, which test directories.
 - A number that was estimated rather than measured must be labelled as an estimate.
-- For a pull request, `./bench show <result.json> --md` gives the table; the full table of a run
-  worth citing goes to `reports/` (see `reports/README.md`).
+- For a pull request, the table comes from `bench compare` and `bench table` (cycles per call in
+  percent, one column per compiler); `bench run` and `bench show --md` are for iterating. The full
+  table of a series worth citing goes to `reports/` through `bench report new`.
 
 ## Changing php-src-bench itself
 
@@ -122,13 +124,14 @@ rules below exist.
 | Path | Role |
 |---|---|
 | `bench` | entry point: dispatches to the scripts in `lib/` |
-| `lib/runner.php` | orchestrator: `run`, `show`, `check`, `builds`, `suites` |
+| `lib/runner.php` | orchestrator: `run`, `show`, `check`, `doctor`, `builds`, `suites` |
+| `lib/mutate.php`, `lib/why.php` | `mutate`, `why` |
 | `lib/report.php` | `report new`, `update`, `check`: report directories under `reports/` |
 | `lib/compare.php` | `compare` and `table`: cycles per call for pairs of builds, the percent table |
 | `lib/harness.php` | runs inside the PHP binary under test: loads a suite, times its cases |
 | `lib/process.php`, `environment.php`, `stats.php`, `render.php`, `console.php` | parts of the orchestrator |
 | `lib/Corpus.php` | builds inputs from `corpus/` |
-| `lib/build.sh`, `tune.sh`, `difftest.sh` | `bench build`, `bench tune`, `bench difftest` |
+| `lib/build.sh`, `tune.sh`, `difftest.sh`, `pr.sh`, `gc.sh` | `bench build`, `tune`, `difftest`, `pr`, `gc` |
 | `lib/difftest.php` | what every generator in `difftests/` shares |
 | `suites/` | benchmark suites |
 | `difftests/` | generators for differential tests |

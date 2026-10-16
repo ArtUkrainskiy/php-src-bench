@@ -13,7 +13,9 @@ binary is not used: it changes the binary under test.
 (`lib/harness.php`, running inside the binary under test) compiles it into the body of a `for`
 loop, calibrates the iteration count so that one sample takes `--target-ms` (10 ms), and times
 whole loops with `hrtime()`. The same number of iterations of an empty loop is timed too and
-subtracted, so `ns/op` is the cost of the expression alone.
+subtracted, so `ns/op` is the cost of the expression alone. The garbage collector is off during
+the measurement (`gc_disable()`): a case that creates cyclic garbage would otherwise pay for a
+collection at a point that depends on the iteration count.
 
 **Interleaved rounds.** One process measures all cases of one side; a pair of processes, one per
 side, is a round. There are four rounds by default (`--rounds`), in the order A B, B A, A B, B A,
@@ -32,7 +34,8 @@ the runner warn that wall times are unreliable.
 **The verdict.** B gets `✓` (or `✗`) only if the median of *every* round of B is below (above) the
 median of *every* round of A, and the difference is at least 1%. With 4 rounds per side, two
 builds that do not differ separate this cleanly in at most 2 of 70 orderings, about 3% of cases;
-measured on 251 cases of one build against itself it was 1 case. So an occasional false mark in a
+measured on 251 cases of one build against itself it was 1 case (a calibration run, not
+published). So an occasional false mark in a
 large suite is expected, always with a tiny difference; a real effect shows up in a group of
 related cases. With fewer than 4 rounds (`--quick`) no verdict is given, because clean separation
 by chance is then too common.
@@ -49,8 +52,8 @@ not depend on load, so these runs are done in parallel on spare cores. `perf` it
 too: on hybrid CPUs a process that starts on an efficiency core leaves the P-core counter running
 only part of the time, and a count scaled up from that is several percent off.
 
-How exact they are: repeated runs of one binary agree to a few instructions per call, under
-0.001%, and the values match callgrind (937 against 937.03, 63,144 against 63,145.6 instructions
+How exact they are: repeated runs of one binary agree to a few instructions per call (under
+0.001% of a 63,144-instruction case), and the values match callgrind (937 against 937.03, 63,144 against 63,145.6 instructions
 per call for two cases of the htmlspecialchars suite). Two things other than the code under test
 can still move a count by a fraction of a percent: where the allocator places blocks, which
 depends on the length of paths and arguments (seen as 0.5–0.7% in cases that reallocate a lot),
@@ -73,8 +76,8 @@ shows that control under the main table, and a difference within its range is no
 control runs one binary, so it shows run-to-run noise only: a difference outside it can still be
 code placement, which is what the other compilers and `--profile align` are for.
 
-A cell gets `layout?` when the cycles changed by 3% or more and the instructions by less than
-0.5%: the same work took a different time. `bench why <suite> <A> <B> --filter <case>
+A cell gets `layout?` when the cycles changed by 3% or more in the median, in the same
+direction in every pass, and the instructions by less than 0.5%: the same work took a different time. `bench why <suite> <A> <B> --filter <case>
 --functions <hot functions>` then counts branch misses, instruction cache misses and the
 top-down slots of both builds and shows where the functions sit in each binary; a function that
 moved, with more front-end stalls or branch misses, is placement, not the change.
@@ -117,8 +120,8 @@ battery power, load average, other processes on the pinned core or its SMT sibli
 was there.
 
 On a machine where builds or indexing start on their own, use `--wait-idle S`: before every
-measured process the runner waits until no compiler is running, the load average is below 4 and
-the pinned core is idle. S is the waiting budget of the whole run; when it is spent, the runner
+measured process the runner waits until no compiler is running, the load average is below 4, all
+CPUs together are less than 30% busy and the pinned core and its sibling less than 15%. S is the waiting budget of the whole run; when it is spent, the runner
 says so and measures anyway. Instruction counts are not affected by load either way, which is the
 main reason to always pass `--perf` for numbers you intend to publish.
 
@@ -154,7 +157,8 @@ speed of untouched code changes with its alignment. In a calibration run for php
 `double_encode: false` came out 3–15% slower in every round, with identical disassembly and
 identical instruction counts: the function had moved by 240 bytes. With 64-byte function and
 32-byte loop alignment the phantom regression disappeared (within ±1.2%), while the real changes
-in `html_entity_decode()` measured the same. Binaries are about 5% larger.
+in `html_entity_decode()` measured the same. Binaries are about 5% larger. (A calibration run of
+October 2026, not published.)
 
 Each set of flags and each compiler gives its own placement, so the same change can measure
 differently under `docker` and `align`, or with GCC and clang. In
@@ -172,7 +176,8 @@ byte a space? does it need escaping?), which never happens in production, where 
 new. Measured on `htmlspecialchars()` over English text: 0.2 branch misses per byte at 64 KB
 in every build, 0.05 to 0.15 at 1 KB depending on the build. The effect can even invert a result: inlining a decoder cut instructions by
 1.35× and made a 1 KB cp1251 input 1.2× *slower*, while 64 KB of the same text got 1.1× faster —
-the old code layout happened to be easier to memorize. For byte loops, always include inputs of
+the old code layout happened to be easier to memorize (measurements of October 2026, not
+published). For byte loops, always include inputs of
 64 KB or more next to the short ones, and look at `branch-misses` before believing a wall time:
 
 ```sh
@@ -187,7 +192,7 @@ This runs the expression of one case exactly 3000 times and prints nothing; the 
 
 **Fewer instructions is not less time.** The byte loop of `htmlspecialchars()` went from 60 to 45
 instructions per byte with no change in wall time, because it was limited by taken branches and
-mispredictions, not by the number of instructions. Report both columns; when they disagree, say so.
+mispredictions, not by the number of instructions (not published). Report both columns; when they disagree, say so.
 
 **The same logic compiles differently.** In a large function, rewriting a condition in an
 equivalent form, or adding one more live variable, can change register allocation of the whole
@@ -205,7 +210,9 @@ the table; treat the whole run as void.
 **Micro is not macro.** A function that is 3× faster matters only as much as the application
 spends in it. `htmlspecialchars()` is 1.2% of a Symfony Demo request and 0.01% of a WordPress
 request; the change in the example at the top of the README made Symfony Demo 0.87% cheaper in
-instructions and left WordPress untouched. To learn where an application spends its time, use
+instructions on the master of its day and 0.13% cheaper on top of php-src #23957, which changes
+the same function, and left WordPress untouched
+([reports/htmlspecialchars-ascii-fast-path](../reports/htmlspecialchars-ascii-fast-path/README.md)). To learn where an application spends its time, use
 `benchmark/benchmark.php` from php-src, which runs these applications under callgrind.
 
 ## What a result file contains

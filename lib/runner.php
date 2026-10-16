@@ -57,6 +57,17 @@ function main(array $argv): int
 {
     try {
         [$positional, $options] = parse_args(array_slice($argv, 2));
+        $short = [
+            'show' => 'bench show <result.json> [--md]: render a result saved by bench run again',
+            'check' => 'bench check [--cpu N]: report noise sources on this machine and whether perf counters work',
+            'doctor' => 'bench doctor [--cpu N]: what this machine has and lacks for the tool',
+            'builds' => 'bench builds: list the builds',
+            'suites' => 'bench suites: list the suites',
+        ];
+        if (isset($options['help'], $short[$argv[1] ?? ''])) {
+            echo 'Usage: ', $short[$argv[1]], "\n";
+            return 0;
+        }
         return match ($argv[1] ?? '') {
             'run' => cmd_run($positional, $options),
             'compare' => cmd_compare($positional, $options),
