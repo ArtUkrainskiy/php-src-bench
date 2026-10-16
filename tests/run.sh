@@ -127,6 +127,28 @@ grep -q 'strtoupper($s) @ emoji-title' <<<"$out" && grep -q 'strtoupper($s) @ en
 rm -f results/inline-*.php
 group "input patterns, setup, --code"
 
+# 6b. bench report: a new report, its checks, update of its tables
+rep="$tmp/report"
+./bench report new "$rep" --series tests/fixtures/series/compare.json --labels tests/fixtures/series/compare-labels.txt --title 'A report' >/dev/null 2>&1 \
+	|| fail "bench report new"
+grep -q '^<!-- bench-table compare.json --labels compare-labels.txt --full -->' "$rep/README.md" || fail "bench report new: table block"
+grep -q 'mb_substr' "$rep/README.md" || fail "bench report new: the table is filled in"
+expect_output "TODO left" ./bench report check "$rep"
+sed -i '/TODO/d' "$rep/README.md"
+expect_output "no problems found" ./bench report check "$rep"
+sed -i '0,/| −35% |/s//| −99% |/' "$rep/README.md"
+grep -q -- '−99%' "$rep/README.md" || fail "test setup: no cell to change"
+expect_output "differs from its series" ./bench report check "$rep"
+expect_output "updated" ./bench report update "$rep"
+expect_output "no problems found" ./bench report check "$rep"
+printf 'See [the data](missing.json) and [this](#no-such-heading).\nПривет\n' >>"$rep/README.md"
+printf 'B=/home/someone/builds\n' >"$rep/run.sh"
+out="$(./bench report check "$rep" 2>&1)"
+for text in "broken link (missing.json)" "no heading for the anchor" "Cyrillic text" "a path of this machine: /home/someone/"; do
+	grep -qF "$text" <<<"$out" || fail "bench report check does not report: $text"
+done
+group "bench report new, check, update"
+
 # 7. Suites the harness must refuse, with a message that names the case
 cat >"$tmp/bad.php" <<'SUITE'
 <?php

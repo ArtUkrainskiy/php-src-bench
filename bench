@@ -33,6 +33,9 @@ Usage:
                                      `bench compare --help`
   bench table <series.json> [--full] [--labels FILE]
                                      The change in cycles relative to A, in percent, as Markdown
+  bench report new|update|check <dir> [--series S.json]
+                                     A report directory for reports/ made from a series, its
+                                     generated tables, and the checks before committing it
   bench show <result.json> [--md]    Render a saved result again
   bench difftest <generator> <A> <B> [--seed N] [--count N]
                                      Check that two builds give identical output on generated inputs
@@ -108,7 +111,7 @@ case "$cmd" in
 	build) shift; exec "$BENCH_ROOT/lib/build.sh" "$@" ;;
 	tune) shift; exec "$BENCH_ROOT/lib/tune.sh" "$@" ;;
 	difftest) shift; exec "$BENCH_ROOT/lib/difftest.sh" "$@" ;;
-	run|compare|table|show|check|builds|suites)
+	run|compare|table|report|show|check|builds|suites)
 		php="$(runner_php)"
 		exec "$php" -n -d memory_limit=-1 "$BENCH_ROOT/lib/runner.php" "$@"
 		;;

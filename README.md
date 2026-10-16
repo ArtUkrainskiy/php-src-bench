@@ -215,6 +215,24 @@ Negative means fewer cycles, faster; say so above the table where you publish it
 cycles per call a cell shows `n/a`: compare instructions there. How it is measured:
 [docs/methodology.md](docs/methodology.md).
 
+## A report a pull request can link to
+
+```sh
+./bench report new reports/my-change --series results/<date>-compare-<suite>.json --labels labels.txt
+# fill in the TODOs of reports/my-change/README.md
+./bench report check reports/my-change     # before every commit
+./bench report update reports/my-change    # after a new series: regenerate the tables
+```
+
+`new` writes a README with the sections a review needs (Summary, Results, Code, Tests,
+Reproduce), the tables of the series and a Reproduce section made from what the series recorded
+about its builds, and copies the series, its suite and the labels without the paths of your
+machine. Tables live between `<!-- bench-table <series> [options] -->` and
+`<!-- /bench-table -->` and are never typed by hand. `check` fails on paths of your machine
+(including `~/...` spellings of the tool's directory), Cyrillic in Markdown, broken relative links
+and anchors, tables that differ from their series, TODOs, and warns about builds of working-tree
+snapshots that nobody else can check out. `update` also removes such paths from JSON files.
+
 ## Commands
 
 | Command | |
@@ -227,6 +245,7 @@ cycles per call a cell shows `n/a`: compare instructions there. How it is measur
 | `bench run <suite> --a <build> [--b <build>] [options]` | measure; `bench run --help` lists the options |
 | `bench compare <suite> <group>=<A>:<B>... [options]` | cycles and instructions per call for pairs of builds, one group per compiler; `bench compare --help` |
 | `bench table <series.json> [--full] [--labels FILE] [--header]` | the change in cycles relative to A as a Markdown table |
+| `bench report new\|update\|check <dir>` | a report directory from a series, its generated tables, the checks before committing it |
 | `bench show <result.json> [--md]` | render a saved result again |
 | `bench difftest <generator> <A> <B> [--seed N] [--count N]` | compare outputs of two builds on generated inputs |
 | `bench check [--cpu N]` | report noise sources on this machine and whether `--perf` can work |

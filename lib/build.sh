@@ -282,6 +282,8 @@ BM_LDFLAGS="$ldflags" \
 BM_PROFILE="$profile$([[ "$cflags" != "$profile_cflags" || "$ldflags" != "$profile_ldflags" ]] && echo ' (flags overridden)')" \
 BM_CONFIG_KEY="$config_key" \
 BM_CC="$cc_version" \
+BM_CC_COMMAND="$cc" \
+BM_CONFIGURE_EXTRA="${BENCH_CONFIGURE_EXTRA:-}" \
 BM_SLIM="$slim" \
 "$php" -n -r '
 	echo json_encode([
@@ -300,6 +302,8 @@ BM_SLIM="$slim" \
 		"profile" => getenv("BM_PROFILE"),
 		"config_key" => getenv("BM_CONFIG_KEY"),
 		"cc" => getenv("BM_CC"),
+		"cc_command" => getenv("BM_CC_COMMAND"),
+		"configure_extra" => getenv("BM_CONFIGURE_EXTRA"),
 		"version" => PHP_VERSION,
 		"debug" => (bool) PHP_DEBUG,
 		"slim" => getenv("BM_SLIM") === "1",

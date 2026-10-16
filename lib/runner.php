@@ -44,6 +44,7 @@ require __DIR__ . '/process.php';
 require __DIR__ . '/stats.php';
 require __DIR__ . '/render.php';
 require __DIR__ . '/compare.php';
+require __DIR__ . '/report.php';
 
 exit(main($argv));
 
@@ -55,6 +56,7 @@ function main(array $argv): int
             'run' => cmd_run($positional, $options),
             'compare' => cmd_compare($positional, $options),
             'table' => cmd_table($positional, $options),
+            'report' => cmd_report($positional, $options),
             'show' => cmd_show($positional, $options),
             'check' => cmd_check($options),
             'builds' => cmd_builds(),

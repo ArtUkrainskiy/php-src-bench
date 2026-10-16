@@ -62,6 +62,11 @@ rules below exist.
    cd ../php-builds/dev && sapi/cli/php run-tests.php -q -j8 -p "$PWD/sapi/cli/php" ext/standard/tests/strings
    ```
 
+7. To publish, make a report directory from the series and check it before every commit:
+   `./bench report new reports/<topic> --series <series.json>`, fill in the TODOs,
+   `./bench report check reports/<topic>`. Tables in it are generated; never type numbers into a
+   table by hand.
+
 ### Rules
 
 - **Never benchmark a debug build.** A php-src tree used for development is often configured with
@@ -112,6 +117,7 @@ rules below exist.
 |---|---|
 | `bench` | entry point: dispatches to the scripts in `lib/` |
 | `lib/runner.php` | orchestrator: `run`, `show`, `check`, `builds`, `suites` |
+| `lib/report.php` | `report new`, `update`, `check`: report directories under `reports/` |
 | `lib/compare.php` | `compare` and `table`: cycles per call for pairs of builds, the percent table |
 | `lib/harness.php` | runs inside the PHP binary under test: loads a suite, times its cases |
 | `lib/process.php`, `environment.php`, `stats.php`, `render.php`, `console.php` | parts of the orchestrator |
