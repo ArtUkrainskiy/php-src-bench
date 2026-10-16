@@ -17,8 +17,39 @@ final class Corpus
         'invalid' => ['&unknown;', '&#xZZ;', '&foo', '&;', '& ', '&#;', '&amp', '&notanentity;'],
     ];
 
+    /**
+     * The generated languages, one per script and UTF-8 width: give every one the same cases.
+     * Bytes per character in the files: en 1.00, es 1.03, emoji 1.42, ar 1.76, ru 1.77, ko 2.25,
+     * hi 2.54, ja 2.88, zh 2.89.
+     */
+    public const LANGUAGES = ['en', 'es', 'ru', 'ar', 'hi', 'zh', 'ja', 'ko', 'emoji'];
+
     /** @var array<string, list<string>> */
     private static array $lines = [];
+
+    /**
+     * Inputs for every language in LANGUAGES, named "<language>-<suffix>": Corpus::text() of
+     * $bytes, or with $bytes = 0 the first line alone (a title or a short label).
+     *
+     * @return array<string, Closure(): string>
+     */
+    public static function languages(string $suffix, int $bytes): array
+    {
+        $inputs = [];
+        foreach (self::LANGUAGES as $language) {
+            $inputs["$language-$suffix"] = $bytes > 0
+                ? static fn (): string => self::text($language, $bytes)
+                : static fn (): string => self::line($language, 0);
+        }
+        return $inputs;
+    }
+
+    /** Line $index of corpus/<name>.txt, without the newline. */
+    public static function line(string $name, int $index): string
+    {
+        $lines = self::lines($name);
+        return $lines[$index % count($lines)];
+    }
 
     /** @var list<string>|null English words for entities() */
     private static ?array $words = null;

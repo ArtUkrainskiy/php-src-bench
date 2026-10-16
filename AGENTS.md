@@ -18,8 +18,12 @@ rules below exist.
    ```
 
 2. Pick the suite (`./bench suites`), or write one (`docs/suites.md`) when no suite calls the
-   function you changed. Include short inputs, inputs of 64 KB or more, the worst case of the new
-   code and the neighbouring code paths you did not intend to change.
+   function you changed, or use `--code`/`--inputs` for a single expression. Include short inputs,
+   inputs of 64 KB or more, the worst case of the new code and the neighbouring code paths you did
+   not intend to change. Give every language of the corpus the same cases
+   (`Corpus::languages()`, `--inputs lang:1k`), not one favourite. When the change depends on
+   state of the input (a string already checked as UTF-8, a packed array), set it with `setup`
+   and measure the case without it too.
 
 3. Iterate with a filter and `--quick`. Quick runs give no verdict (`?`), only a direction.
 

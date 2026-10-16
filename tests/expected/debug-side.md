@@ -8,8 +8,8 @@ CPU 2 (13th Gen Intel(R) Core(TM) i7-13700H), governor powersave, turbo on, kern
 
 | case | bytes | A ns/op | ± | B ns/op | ± | B vs A | A instr/op | B instr/op | instr B vs A |
 |---|--:|--:|--:|--:|--:|--:|--:|--:|--:|
-| htmlspecialchars @ empty | 0 | 6.1 | 4.9% | 6.2 | 4.4% | 1.02× slower ~ | 120 | 120 | 1.00× |
-| htmlspecialchars @ word-8 | 8 | 52.8 | 1.0% | 32.6 | 1.4% | 1.62× faster ✅ | 937 | 564 | 1.66× fewer |
-| htmlspecialchars @ en-1k | 1042 | 4308 | 0.9% | 1757 | 0.4% | 2.45× faster ✅ | 63144 | 10027 | 6.30× fewer |
+| htmlspecialchars @ empty | 0 | 6.1 | 4.9% | 6.2 | 4.4% | +2% ~ | 120 | 120 | 0% |
+| htmlspecialchars @ word-8 | 8 | 52.8 | 1.0% | 32.6 | 1.4% | −38% ✅ | 937 | 564 | −40% |
+| htmlspecialchars @ en-1k | 1042 | 4308 | 0.9% | 1757 | 0.4% | −59% ✅ | 63144 | 10027 | −84% |
 
-<sub>ns/op: median time of one evaluation, loop overhead subtracted; ±: spread of the samples (1.4826·MAD/median); B vs A: A time / B time; ✅/❌: every round of B was faster/slower than every round of A, by at least 1%; ~: rounds overlap, no clear difference; instr/op: instructions per evaluation</sub>
+<sub>ns/op: median time of one evaluation, loop overhead subtracted; ±: spread of the samples (1.4826·MAD/median); B vs A: change of B relative to A, negative = less time (faster); ✅/❌: every round of B was faster/slower than every round of A, by at least 1%; ~: rounds overlap, no clear difference; instr/op: instructions per evaluation</sub>

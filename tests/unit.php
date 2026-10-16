@@ -158,6 +158,8 @@ $table = series_table($tiny, [], false, 'master');
 same(true, str_contains($table, '| c1 | 15 | n/a |'), 'series_table: under 20 cycles per call is n/a');
 same(true, str_contains($table, '| c2 | 400 | −62% ≠out |'), 'series_table: format 2 totals minus the empty loop, with the ≠out mark');
 same(true, str_contains($table, 'n/a: under 20 cycles'), 'series_table: n/a is explained');
+$tiny['cases']['c2'] += ['input_len' => 1030, 'input_chars' => 579];
+same(true, str_contains(series_table($tiny, [], false, 'master', true), '| c2 (1.78 B/char) | 400 |'), 'series_table: --bpc adds bytes per character');
 same('−1', percent_change(0.9949), 'percent_change: below half rounds down');
 same('GCC 13.3', compiler_name(['cc' => 'gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0']), 'compiler_name: gcc');
 same('GCC 14.2', compiler_name(['cc' => 'gcc-14 (Ubuntu 14.2.0-4ubuntu2~24.04) 14.2.0']), 'compiler_name: gcc-14');
@@ -167,6 +169,12 @@ same(null, compiler_name(null), 'compiler_name: foreign binary');
 same([52345678.0, 123456789.0], perf_parse_cycles("52345678,,cpu_core/cycles/,51234567,100.00,,\n123456789,,cpu_core/instructions/,51234567,100.00,,\n", 'x'), 'perf_parse_cycles: hybrid CPU');
 same([5.0, 7.0], perf_parse_cycles("1,,cpu_atom/cycles/,0,0.00,,\n5,,cycles,9,100.00,,\n7,,instructions,9,100.00,,\n", 'x'), 'perf_parse_cycles: skips E-core counters');
 throws('BenchError', static fn () => perf_parse_cycles("<not counted>,,cpu_core/cycles/,0,0.00,,\n", 'x'), 'perf_parse_cycles: no count');
+
+/* ---- languages */
+
+same(['en-1k', 'es-1k', 'ru-1k', 'ar-1k', 'hi-1k', 'zh-1k', 'ja-1k', 'ko-1k', 'emoji-1k'], array_keys(Corpus::languages('1k', 1024)), 'Corpus::languages names');
+same(Corpus::text('ru', 1024), (Corpus::languages('1k', 1024)['ru-1k'])(), 'Corpus::languages is Corpus::text');
+same(31, strlen((Corpus::languages('title', 0)['en-title'])()), 'a title is the first line (31 bytes in English)');
 
 /* ---- corpus: generated inputs are the same on every machine and PHP version */
 

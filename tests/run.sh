@@ -107,7 +107,27 @@ else
 	echo "skip  corpus check (no python3)"
 fi
 
-# 6. Suites the harness must refuse, with a message that names the case
+# 6. Input patterns, setup and --code
+cat >"$tmp/patterns.php" <<'SUITE'
+<?php
+return ['inputs' => ['a-1' => 'x', 'a-2' => 'yy', 'b-1' => 'zzz'], 'cases' => [
+    'c' => ['code' => 'strlen($s)', 'inputs' => ['a-*']],
+    'setup' => ['code' => 'strlen($s)', 'inputs' => ['b-1'], 'setup' => '$s .= "!!"'],
+]];
+SUITE
+cat >"$tmp/nope.php" <<'SUITE'
+<?php
+return ['inputs' => ['a-1' => 'x'], 'cases' => ['nope' => ['code' => 'strlen($s)', 'inputs' => ['nope-*']]]];
+SUITE
+out="$(./bench run "$tmp/patterns.php" --a "$php" --filter '^(c|setup) ' --quick --no-save --cpu "$cpu" 2>&1)"
+grep -q 'c @ a-1' <<<"$out" && grep -q 'c @ a-2' <<<"$out" && ! grep -q 'c @ b-1' <<<"$out" || fail "input patterns: $out"
+grep -qE 'setup @ b-1 +5 ' <<<"$out" || fail "setup runs before measuring (5 bytes expected): $out"
+out="$(./bench run --code 'strtoupper($s)' --inputs lang:title,en:1k --a "$php" --quick --no-save --cpu "$cpu" 2>&1)"
+grep -q 'strtoupper($s) @ emoji-title' <<<"$out" && grep -q 'strtoupper($s) @ en-1k' <<<"$out" || fail "--code: $out"
+rm -f results/inline-*.php
+group "input patterns, setup, --code"
+
+# 7. Suites the harness must refuse, with a message that names the case
 cat >"$tmp/bad.php" <<'SUITE'
 <?php
 return ['inputs' => ['list' => [3, 1, 2], 'text' => 'abc'], 'cases' => [
@@ -121,6 +141,8 @@ expect_output "case 'raises a warning @ text'" ./bench run "$tmp/bad.php" --a "$
 expect_output "does a case of the suite print something" ./bench run "$tmp/bad.php" --a "$php" --filter prints --quick --no-save --cpu "$cpu"
 expect_output "--rounds and --samples must be at least 1" ./bench run html --a "$php" --rounds 0 --cpu "$cpu"
 expect_output "suite not found" ./bench run no-such-suite --a "$php"
+expect_output "case 'nope' uses unknown input 'nope-*'" ./bench run "$tmp/nope.php" --a "$php" --quick --no-save --cpu "$cpu"
+expect_output "is not <corpus>:<size>" ./bench run --code 'strlen($s)' --inputs 'lang' --a "$php"
 expect_output "a group is <name>=<A>:<B>" ./bench compare html "$php"
 expect_output "reserved or used twice" ./bench compare html aa="$php":"$php"
 # A second process on a locked core is refused
@@ -130,7 +152,7 @@ flock -n "$lockfd" && expect_output "CPU $cpu (or its SMT sibling) is in use by 
 exec {lockfd}>&-
 group "bad suites and options are refused"
 
-# 7. A real, tiny run; what it saves renders again; the read-only commands work
+# 8. A real, tiny run; what it saves renders again; the read-only commands work
 out="$(./bench run html --a "$php" --b "$php" --filter 'htmlspecialchars @ (empty|word-8)$' --quick --cpu "$cpu" 2>&1)"
 saved="$(sed -n 's/^saved //p' <<<"$out")"
 if grep -q 'htmlspecialchars @ word-8' <<<"$out" && [[ -f "$saved" ]]; then
@@ -144,7 +166,7 @@ expect_output "kernel" ./bench check
 expect_output "governor" ./bench tune status
 group "bench run, show, check, tune status"
 
-# 8. Differential test: identical output, a mismatch and a crash, with wrappers around one php
+# 9. Differential test: identical output, a mismatch and a crash, with wrappers around one php
 printf '#!/bin/sh\nexec "%s" "$@"\n' "$php" >"$tmp/php-a"
 printf '#!/bin/sh\nDIFFERENT=1 exec "%s" "$@"\n' "$php" >"$tmp/php-differs"
 printf '#!/bin/sh\nCRASH=1 exec "%s" "$@"\n' "$php" >"$tmp/php-crashes"

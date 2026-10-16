@@ -4,8 +4,8 @@
  */
 declare(strict_types=1);
 
-const FLAGS = ['perf', 'md', 'quick', 'no-save', 'help', 'full', 'no-control', 'header'];
-const VALUE_OPTIONS = ['a', 'b', 'filter', 'rounds', 'samples', 'target-ms', 'warmup-ms', 'cpu', 'wait-idle', 'passes', 'out', 'labels', 'base-name'];
+const FLAGS = ['perf', 'md', 'quick', 'no-save', 'help', 'full', 'no-control', 'header', 'bpc'];
+const VALUE_OPTIONS = ['a', 'b', 'filter', 'rounds', 'samples', 'target-ms', 'warmup-ms', 'cpu', 'wait-idle', 'passes', 'out', 'labels', 'base-name', 'code', 'inputs', 'setup'];
 
 /** An error the user can fix: reported as one line, without a stack trace. */
 final class BenchError extends RuntimeException

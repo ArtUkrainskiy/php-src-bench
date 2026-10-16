@@ -71,8 +71,14 @@ function usage_run(): void
 {
     echo <<<'TXT'
     Usage: bench run <suite> --a <build|php> [--b <build|php>] [options]
+           bench run --code EXPR [--inputs SPEC] [--setup CODE] --a <build|php> [--b ...] [options]
 
       <suite>          suites/<suite>.php or a path to a suite file (`bench suites` lists them)
+      --code EXPR      instead of a suite: one expression on $s, e.g. 'mb_substr($s, 0, 10)'
+      --inputs SPEC    its inputs, comma-separated (default lang:1k): lang:1k is every language
+                       at 1 KB, lang:title their first line, en:64k one corpus file at 64 KB
+      --setup CODE     run on each copy of the input before measuring, e.g.
+                       'mb_check_encoding($s, "UTF-8")' (marks the string as checked UTF-8)
       --a, --b         build name in $BENCH_BUILDS or path to a php binary;
                        with --b, results read as "B is N× faster/slower than A"
       --filter RE      only cases whose id ("name @ input") matches RE (case-insensitive)
@@ -96,11 +102,11 @@ function usage_run(): void
 
 function cmd_run(array $positional, array $options): int
 {
-    if (isset($options['help']) || !$positional) {
+    if (isset($options['help']) || (!$positional && !isset($options['code']))) {
         usage_run();
         return isset($options['help']) ? 0 : 2;
     }
-    $suite = resolve_suite($positional[0]);
+    $suite = isset($options['code']) ? inline_suite($options) : resolve_suite($positional[0]);
     if (!isset($options['a'])) {
         throw new BenchError('--a <build|php> is required');
     }
@@ -154,6 +160,39 @@ function cmd_run(array $positional, array $options): int
 function suite_names(): array
 {
     return array_map(static fn (string $file): string => basename($file, '.php'), glob(BENCH_ROOT . '/suites/*.php') ?: []);
+}
+
+/**
+ * A suite file for --code/--inputs/--setup, written to results/ under a name derived from its
+ * content, so that a saved result or series keeps pointing at what was measured.
+ */
+function inline_suite(array $options): string
+{
+    $inputs = [];
+    foreach (explode(',', (string) ($options['inputs'] ?? 'lang:1k')) as $spec) {
+        if (!preg_match('/^([a-z][a-z0-9\/_-]*):(title|\d+k?)$/i', trim($spec), $m)) {
+            throw new BenchError("--inputs: '$spec' is not <corpus>:<size> (lang:1k, en:64k, lang:title)");
+        }
+        $bytes = $m[2] === 'title' ? 0 : (int) $m[2] * (str_ends_with(strtolower($m[2]), 'k') ? 1024 : 1);
+        $inputs[] = $m[1] === 'lang'
+            ? sprintf('Corpus::languages(%s, %d)', var_export(strtolower($m[2]), true), $bytes)
+            : sprintf('[%s => static fn (): string => %s]', var_export("{$m[1]}-" . strtolower($m[2]), true),
+                $bytes ? sprintf('Corpus::text(%s, %d)', var_export($m[1], true), $bytes) : sprintf('Corpus::line(%s, 0)', var_export($m[1], true)));
+    }
+    $case = ['code' => (string) $options['code']];
+    if (isset($options['setup'])) {
+        $case['setup'] = (string) $options['setup'];
+    }
+    $php = "<?php\n// Made by --code: " . str_replace("\n", ' ', (string) $options['code']) . "\n"
+        . 'return [' . "\n    'inputs' => array_merge(" . implode(', ', $inputs) . "),\n"
+        . '    \'cases\' => [' . var_export((string) $options['code'], true) . ' => ' . var_export($case, true) . "],\n];\n";
+    $dir = BENCH_ROOT . '/results';
+    @mkdir($dir, 0777, true);
+    $file = "$dir/inline-" . substr(md5($php), 0, 12) . '.php';
+    if (@file_put_contents($file, $php) === false) {
+        throw new BenchError("cannot write $file");
+    }
+    return $file;
 }
 
 /** Resolves a suite name or path to the absolute path of the suite file. */

@@ -40,6 +40,7 @@ function usage_compare(): void
 {
     echo <<<'USAGE'
     Usage: bench compare <suite> <group>=<A>:<B> [<group>=<A>:<B> ...] [options]
+           bench compare --code EXPR [--inputs SPEC] [--setup CODE] <group>=<A>:<B> ... [options]
 
       <group>=<A>:<B>  a pair of builds (names in $BENCH_BUILDS or paths to php binaries);
                        usually one group per compiler, e.g. gcc13=base-gcc13:pr-gcc13
@@ -50,6 +51,8 @@ function usage_compare(): void
       --wait-idle S    wait for a quiet machine before each process, as in `bench run`
       --no-control     no A-against-A control at the start and the end
       --out FILE       where to save the series (default: results/<date>-compare-<suite>.json)
+      --code, --inputs, --setup
+                       one expression instead of a suite, as in `bench run --help`
 
     Needs perf with access to hardware counters (`bench check`); on a hybrid CPU, a P-core.
     The A/A control uses one binary: it shows run-to-run noise, not code placement.
@@ -61,7 +64,7 @@ function usage_compare(): void
 function usage_table(): void
 {
     echo <<<'USAGE'
-    Usage: bench table <series.json> [--full] [--labels FILE] [--base-name NAME] [--header]
+    Usage: bench table <series.json> [--full] [--labels FILE] [--base-name NAME] [--header] [--bpc]
 
       Markdown table of the change in CPU cycles per call relative to A, one column per group;
       the control groups follow in a table of their own. Say "negative = fewer cycles (faster)"
@@ -72,17 +75,18 @@ function usage_table(): void
                      (default: every case, labelled by its id)
       --base-name N  what A is called in the second column (default: master)
       --header       first print how the series was measured (machine, builds, passes)
+      --bpc          add the bytes per character of each input to the labels
 
     USAGE;
 }
 
 function cmd_compare(array $positional, array $options): int
 {
-    if (isset($options['help']) || count($positional) < 2) {
+    if (isset($options['help']) || count($positional) < (isset($options['code']) ? 1 : 2)) {
         usage_compare();
         return isset($options['help']) ? 0 : 2;
     }
-    $suite = resolve_suite(array_shift($positional));
+    $suite = isset($options['code']) ? inline_suite($options) : resolve_suite(array_shift($positional));
     $groups = [];
     $builds = [];
     foreach ($positional as $spec) {
@@ -122,12 +126,14 @@ function cmd_compare(array $positional, array $options): int
 
     // Every build evaluates every case once: which cases it has, and what they return.
     $lengths = null;
+    $chars = null;
     $hashes = [];
     foreach ($builds as $name => $side) {
         progress("checking $name");
         $list = harness($side['php'], $suite, ['mode' => 'list', 'filter' => $config['filter']], $config['cpu']);
         $builds[$name]['info'] = $list['php'];
         $ids = array_column($list['cases'], 'input_len', 'id');
+        $chars ??= array_column($list['cases'], 'input_chars', 'id');
         if ($lengths !== null && ($only = array_diff_key($ids, $lengths) + array_diff_key($lengths, $ids))) {
             warn('cases not in every build, skipped: ' . implode(', ', array_keys($only)));
         }
@@ -170,7 +176,7 @@ function cmd_compare(array $positional, array $options): int
     foreach ($hashes[$first['a']] as $id => $c) {
         if (isset($lengths[$id])) {
             $ns = max(1.0, median($c['samples_ns']) - $c['loop_ns']);
-            $cases[$id] = ['input_len' => $lengths[$id], 'n' => max(20, (int) ($config['target_ms'] * 1e6 / $ns))];
+            $cases[$id] = ['input_len' => $lengths[$id], 'input_chars' => $chars[$id] ?? null, 'n' => max(20, (int) ($config['target_ms'] * 1e6 / $ns))];
         }
     }
 
@@ -253,7 +259,7 @@ function cmd_table(array $positional, array $options): int
     if (isset($options['header'])) {
         echo series_header($series), "\n";
     }
-    echo series_table($series, $labels, isset($options['full']), (string) ($options['base-name'] ?? 'master'));
+    echo series_table($series, $labels, isset($options['full']), (string) ($options['base-name'] ?? 'master'), isset($options['bpc']));
     return 0;
 }
 
@@ -456,12 +462,20 @@ function series_per_call(array $series): array
  *
  * @param array<string, string> $labels case id => label, in display order; empty: every case
  */
-function series_table(array $series, array $labels, bool $full, string $baseName): string
+function series_table(array $series, array $labels, bool $full, string $baseName, bool $bytesPerChar = false): string
 {
     [$cyc, $ins] = series_per_call($series);
     if (!$labels) {
         foreach (array_keys($series['cases']) as $id) {
             $labels[$id] = $id;
+        }
+    }
+    if ($bytesPerChar) {
+        foreach ($labels as $id => $label) {
+            $c = $series['cases'][$id] ?? [];
+            if (!empty($c['input_chars'])) {
+                $labels[$id] = sprintf('%s (%.2f B/char)', $label, $c['input_len'] / $c['input_chars']);
+            }
         }
     }
     $main = [];

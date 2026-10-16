@@ -37,7 +37,7 @@ try {
     if ($mode === 'list') {
         $list = [];
         foreach ($cases as $case) {
-            $list[] = ['id' => $case['id'], 'input_len' => bench_len($case['value'])];
+            $list[] = ['id' => $case['id'], 'input_len' => bench_len($case['value']), 'input_chars' => bench_utf8_chars($case['value'])];
         }
         echo json_encode(['php' => bench_php_info(), 'cases' => $list, 'skipped' => $skipped], JSON_THROW_ON_ERROR);
     } elseif ($mode === 'run') {
@@ -96,10 +96,7 @@ function bench_load_cases(string $file, ?string $filter, ?string $only): array
         if (is_string($case)) {
             $case = ['code' => $case];
         }
-        foreach ($case['inputs'] ?? array_keys($suite['inputs']) as $input) {
-            if (!array_key_exists($input, $suite['inputs'])) {
-                throw new RuntimeException("case '$name' uses unknown input '$input'");
-            }
+        foreach (bench_case_inputs($name, $case['inputs'] ?? null, array_keys($suite['inputs'])) as $input) {
             $id = "$name @ $input";
             if ($only !== null && $id !== $only) {
                 continue;
@@ -120,10 +117,70 @@ function bench_load_cases(string $file, ?string $filter, ?string $only): array
                     continue;
                 }
             }
-            $cases[] = ['id' => $id, 'code' => $case['code'], 'value' => $values[$input]];
+            // Every case gets its own copy of the input: what one case does to a string (PHP marks
+            // strings as checked UTF-8, mbstring caches lengths) must not reach the next one.
+            $value = bench_copy($values[$input]);
+            if (isset($case['setup'])) {
+                $setup = eval('return static function (&$s): void { ' . rtrim($case['setup'], "; \n") . '; };');
+                $setup($value);
+            }
+            $cases[] = ['id' => $id, 'code' => $case['code'], 'value' => $value, 'setup' => $case['setup'] ?? null];
         }
     }
     return [$cases, array_values($skipped)];
+}
+
+/**
+ * The inputs of a case: all of the suite's when it lists none, otherwise its list, where an entry
+ * may be a pattern with * and ? ("*-1k": every language at 1 KB). The order is the suite's.
+ *
+ * @param list<string>|null $wanted
+ * @param list<string> $available
+ * @return list<string>
+ */
+function bench_case_inputs(string $name, ?array $wanted, array $available): array
+{
+    if ($wanted === null) {
+        return $available;
+    }
+    $result = [];
+    foreach ($wanted as $pattern) {
+        $pattern = (string) $pattern;
+        $matched = strpbrk($pattern, '*?') === false
+            ? (in_array($pattern, $available, true) ? [$pattern] : [])
+            : array_values(array_filter($available, static fn (string $input): bool => fnmatch($pattern, $input)));
+        if (!$matched) {
+            throw new RuntimeException("case '$name' uses unknown input '$pattern'");
+        }
+        foreach ($matched as $input) {
+            if (!in_array($input, $result, true)) {
+                $result[] = $input;
+            }
+        }
+    }
+    return $result;
+}
+
+/** A copy that shares no string with $value, so flags PHP sets on one do not show on the other. */
+function bench_copy($value)
+{
+    if (is_string($value)) {
+        return $value === '' ? '' : strrev(strrev($value));
+    }
+    if (is_array($value)) {
+        return array_map('bench_copy', $value);
+    }
+    return $value;
+}
+
+/** Characters of a valid UTF-8 string, or null; counted on a copy, because /u marks the string as checked. */
+function bench_utf8_chars($value): ?int
+{
+    if (!is_string($value)) {
+        return null;
+    }
+    $copy = bench_copy($value);
+    return preg_match('//u', $copy) === 1 ? (int) preg_match_all('/[^\x80-\xBF]/', $copy) : null;
 }
 
 /**

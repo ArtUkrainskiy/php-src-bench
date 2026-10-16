@@ -5,35 +5,35 @@ $text = static fn (string $name, int $bytes): Closure => static fn (): string =>
 $json = static fn (string $name, int $bytes, int $flags = 0): Closure
     => static fn (): string => json_encode(Corpus::text($name, $bytes), $flags | JSON_THROW_ON_ERROR);
 
+// Every language of the corpus gets the same calls at 1 KB and 64 KB.
+$lang1k = Corpus::languages('1k', 1024);
+$lang64k = Corpus::languages('64k', 65536);
+$nonAscii = array_values(array_filter(array_merge(array_keys($lang1k), array_keys($lang64k)), static fn (string $id): bool => !str_starts_with($id, 'en-')));
+// JSON documents for json_decode(): one string, with \uXXXX escapes or raw UTF-8. They are made
+// by the json_encode() of the binary under test: if a change alters json_encode(), A and B get
+// different documents and the rows are marked ≠in.
+$documents = [];
+foreach (Corpus::LANGUAGES as $language) {
+    $documents["json-$language-64k"] = $json($language, 65536);
+    if ($language !== 'en') {
+        $documents["json-$language-raw-64k"] = $json($language, 65536, JSON_UNESCAPED_UNICODE);
+    }
+}
+
 return [
-    'inputs' => [
-        'en-1k' => $text('en', 1024),
-        'en-64k' => $text('en', 65536),
-        'html-1k' => $text('html', 1024),
-        'ru-1k' => $text('ru', 1024),
-        'ru-64k' => $text('ru', 65536),
-        'zh-1k' => $text('zh', 1024),
-        'zh-64k' => $text('zh', 65536),
-        'emoji-1k' => $text('emoji', 1024),
-        // JSON documents for json_decode(): one string, with \uXXXX escapes or raw UTF-8. They are made
-        // by the json_encode() of the binary under test: if a change alters json_encode(), A and B
-        // get different documents and the rows are marked ≠in.
-        'json-en-64k' => $json('en', 65536),
-        'json-ru-64k' => $json('ru', 65536),
-        'json-ru-raw-64k' => $json('ru', 65536, JSON_UNESCAPED_UNICODE),
-    ],
+    'inputs' => $lang1k + $lang64k + ['html-1k' => $text('html', 1024)] + $documents,
     'cases' => [
         'json_encode' => [
             'code' => 'json_encode($s)',
-            'inputs' => ['en-1k', 'en-64k', 'html-1k', 'ru-1k', 'ru-64k', 'zh-1k', 'zh-64k', 'emoji-1k'],
+            'inputs' => array_merge(array_keys($lang1k), array_keys($lang64k), ['html-1k']),
         ],
         'json_encode UNESCAPED_UNICODE' => [
             'code' => 'json_encode($s, JSON_UNESCAPED_UNICODE)',
-            'inputs' => ['ru-1k', 'ru-64k', 'zh-1k', 'zh-64k', 'emoji-1k'],
+            'inputs' => $nonAscii,
         ],
         'json_decode' => [
             'code' => 'json_decode($s)',
-            'inputs' => ['json-en-64k', 'json-ru-64k', 'json-ru-raw-64k'],
+            'inputs' => array_keys($documents),
         ],
     ],
 ];

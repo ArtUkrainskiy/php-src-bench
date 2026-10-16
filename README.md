@@ -170,6 +170,10 @@ compare CPU cycles per call. With one compiler first:
 ./bench compare htmlspecialchars gcc13=base-gcc13:dev-gcc13
 ```
 
+For a single expression no suite file is needed: `--code 'mb_substr($s, 0, 10)' --inputs
+lang:title,lang:1k` measures it on every language of the corpus, and `--setup` prepares each
+input first (see [docs/suites.md](docs/suites.md)).
+
 `bench build --cc` names a build `<name>-<compiler><major version>` (`bench builds` lists them);
 a build that already exists at the same commit with the same configuration is kept, so a shared
 `base` is built once. Suites that need an extension need it on both sides:

@@ -10,8 +10,13 @@
 $text = static fn (string $name, int $bytes): Closure => static fn (): string => Corpus::text($name, $bytes);
 $real = static fn (string $name, int $bytes): Closure => static fn (): string => Corpus::slice("real/$name", $bytes);
 
+// Every language of the corpus gets the same calls: its first line as a title, 1 KB and 64 KB.
+$titles = Corpus::languages('title', 0);
+$lang1k = Corpus::languages('1k', 1024);
+$lang64k = Corpus::languages('64k', 65536);
+
 return [
-    'inputs' => [
+    'inputs' => $titles + $lang1k + $lang64k + [
         'empty' => '',
         'word-8' => 'abcdefgh',
         'name-16' => 'Niklaus E. Wirth',
@@ -20,8 +25,6 @@ return [
         'ru-title-30' => 'Что нового в PHP 8.5',
         'en-64' => $text('en', 64),
         'en-256' => $text('en', 256),
-        'en-1k' => $text('en', 1024),
-        'en-64k' => $text('en', 65536),
         'html-1k' => $text('html', 1024),
         'html-page-4k' => $real('html-phpnet', 4096),
         'html-wiki-64k' => $real('html-wikipedia', 65536),
@@ -31,11 +34,6 @@ return [
         'entities-1k' => $text('entities', 1024),
         'amp-1k' => str_repeat('&', 1024),
         'quot-1k' => str_repeat('"', 1024),
-        'ru-1k' => $text('ru', 1024),
-        'zh-1k' => $text('zh', 1024),
-        'emoji-1k' => $text('emoji', 1024),
-        'ru-64k' => $text('ru', 65536),
-        'zh-64k' => $text('zh', 65536),
         'cp1251-64k' => $text('ru-cp1251', 65536),
         'cp1251-1k' => $text('ru-cp1251', 1024),
         'sjis-1k' => $text('ja-sjis', 1024),
@@ -44,10 +42,14 @@ return [
     'cases' => [
         'htmlspecialchars' => [
             'code' => 'htmlspecialchars($s)',
-            'inputs' => [
-                'empty', 'word-8', 'name-16', 'title-40', 'title-amp-40', 'ru-title-30', 'en-64', 'en-256', 'en-1k', 'en-64k',
-                'html-1k', 'html-page-4k', 'html-wiki-64k', 'md-4k', 'js-4k', 'js-min-4k', 'amp-1k', 'quot-1k', 'ru-1k', 'ru-64k', 'zh-1k', 'zh-64k', 'emoji-1k',
-            ],
+            'inputs' => array_merge(
+                ['empty', 'word-8', 'name-16', 'title-40', 'title-amp-40', 'ru-title-30'],
+                array_keys($titles),
+                ['en-64', 'en-256'],
+                array_keys($lang1k),
+                array_keys($lang64k),
+                ['html-1k', 'html-page-4k', 'html-wiki-64k', 'md-4k', 'js-4k', 'js-min-4k', 'amp-1k', 'quot-1k'],
+            ),
         ],
         'htmlspecialchars !double_encode' => [
             'code' => 'htmlspecialchars($s, ENT_QUOTES | ENT_SUBSTITUTE, null, false)',
@@ -71,7 +73,7 @@ return [
         ],
         'htmlentities' => [
             'code' => 'htmlentities($s)',
-            'inputs' => ['title-40', 'en-1k', 'html-1k', 'ru-1k'],
+            'inputs' => array_merge(['title-40'], array_keys($lang1k), ['html-1k']),
         ],
     ],
 ];

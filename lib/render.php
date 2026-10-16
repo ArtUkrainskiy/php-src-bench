@@ -208,7 +208,9 @@ function table_cells(array $rows, array $labels, bool $ab, bool $hasPerf, bool $
             $cells[] = sprintf('%.1f%%', $row['stats'][$label]['spread_pct']);
         }
         if ($ab) {
-            $cells[] = ($row['ratio'] === null ? '≈0' : format_ratio($row['ratio'], 'faster', 'slower')) . " {$marks[$row['verdict']]}"
+            // Markdown goes into PRs: the change of B relative to A in percent, as `bench table` prints it.
+            $change = $markdown ? static fn (float $r): string => percent_change(1 / $r) . '%' : static fn (float $r): string => format_ratio($r, 'faster', 'slower');
+            $cells[] = ($row['ratio'] === null ? '≈0' : $change($row['ratio'])) . " {$marks[$row['verdict']]}"
                 . (isset($row['same_instructions']) ? ' layout?' : '')
                 . (isset($row['out_diff']) ? ' ≠out' : '') . (isset($row['in_diff']) ? ' ≠in' : '');
         }
@@ -217,7 +219,8 @@ function table_cells(array $rows, array $labels, bool $ab, bool $hasPerf, bool $
                 $cells[] = sprintf('%.0f', $row['stats'][$label]['instructions']);
             }
             if ($ab) {
-                $cells[] = $row['instr_ratio'] === null ? 'n/a' : format_ratio($row['instr_ratio'], 'fewer', 'more');
+                $cells[] = $row['instr_ratio'] === null ? 'n/a'
+                    : ($markdown ? percent_change(1 / $row['instr_ratio']) . '%' : format_ratio($row['instr_ratio'], 'fewer', 'more'));
             }
         }
         $table[] = ['cells' => $cells, 'verdict' => $row['verdict'] ?? '~'];
@@ -231,7 +234,7 @@ function legend(array $rows, bool $ab, bool $hasPerf, bool $markdown): string
     $has = static fn (string $key, $value = true): bool => in_array($value, array_column($rows, $key), true);
     $parts = ['ns/op: median time of one evaluation, loop overhead subtracted', '±: spread of the samples (1.4826·MAD/median)'];
     if ($ab) {
-        $parts[] = 'B vs A: A time / B time';
+        $parts[] = $markdown ? 'B vs A: change of B relative to A, negative = less time (faster)' : 'B vs A: A time / B time';
         $parts[] = ($markdown ? '✅/❌' : '✓/✗') . ': every round of B was faster/slower than every round of A, by at least 1%';
         $parts[] = '~: rounds overlap, no clear difference';
         if ($has('verdict', '?')) {
