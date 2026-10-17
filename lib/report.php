@@ -326,10 +326,7 @@ function report_table(string $args, string $baseDir): string
             if (!$lines) {
                 throw new BenchError("bench-table block: cannot read the labels $labelsFile");
             }
-            foreach ($lines as $line) {
-                [$id, $label] = array_pad(explode('=', $line, 2), 2, null);
-                $labels[$id] = $label ?? $id;
-            }
+            $labels = parse_labels($lines, array_keys($series['cases'] ?? []));
         } elseif ($w === '--base-name') {
             $baseName = $words[++$i] ?? 'master';
         } elseif (in_array($w, ['--full', '--bpc', '--header'], true)) {

@@ -196,6 +196,15 @@ same(true, $invalid > 150 && $invalid < 250, "DifftestRng::utf8: about 10% inval
 same(true, $onBoundary > 800, "DifftestRng::length: about half on a boundary (got $onBoundary of 2000)");
 same((new DifftestRng(5))->utf8(50, ['1', '2', '3', '4', 'combining'], 10), (new DifftestRng(5))->utf8(50, ['1', '2', '3', '4', 'combining'], 10), 'DifftestRng::utf8 is deterministic');
 
+/* ---- labels: a case id may contain "=" */
+
+$ids = ['swap [$a, $b] = [$b, $a] @ ints', 'swap @ ints', 'plain'];
+same(
+    ['swap [$a, $b] = [$b, $a] @ ints' => '`[$a, $b] = [$b, $a]`, ints', 'swap @ ints' => 'swap', 'plain' => 'plain', 'other' => 'x=y'],
+    parse_labels(['swap [$a, $b] = [$b, $a] @ ints=`[$a, $b] = [$b, $a]`, ints', 'swap @ ints=swap', 'plain', 'other=x=y'], $ids),
+    'parse_labels: the longest case id the line starts with, else the first "="'
+);
+
 /* ---- corpus: generated inputs are the same on every machine and PHP version */
 
 same('4a642ea9db7259853dbbfe507132ec1c', md5(Corpus::text('en', 4096)), 'Corpus::text(en) changed: published results use these bytes');

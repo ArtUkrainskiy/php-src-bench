@@ -344,10 +344,7 @@ function cmd_table(array $positional, array $options): int
         if ($lines === false || !$lines) {
             throw new BenchError("cannot read {$options['labels']}, or it has no rows");
         }
-        foreach ($lines as $line) {
-            [$id, $label] = array_pad(explode('=', $line, 2), 2, null);
-            $labels[$id] = $label ?? $id;
-        }
+        $labels = parse_labels($lines, array_keys($series['cases'] ?? []));
     }
     if (empty($series['complete'])) {
         warn('the series is incomplete (interrupted?): the table has the cases measured so far');
@@ -570,6 +567,32 @@ function series_pass_ratios(array $a, array $b): array
     }
     sort($ratios);
     return $ratios;
+}
+
+/**
+ * Lines of a labels file, "case id=label", as case id => label in file order. A case id may itself
+ * contain "=" ("swap [$a, $b] = [$b, $a] @ ints"): the longest id of the series that the line
+ * starts with wins; other lines split at their first "=", and a line without one labels itself.
+ *
+ * @param list<string> $lines
+ * @param list<string> $caseIds the case ids of the series
+ * @return array<string, string>
+ */
+function parse_labels(array $lines, array $caseIds): array
+{
+    usort($caseIds, static fn (string $x, string $y): int => strlen($y) <=> strlen($x));
+    $labels = [];
+    foreach ($lines as $line) {
+        foreach ($caseIds as $id) {
+            if (str_starts_with($line, "$id=")) {
+                $labels[$id] = substr($line, strlen($id) + 1);
+                continue 2;
+            }
+        }
+        [$id, $label] = array_pad(explode('=', $line, 2), 2, null);
+        $labels[$id] = $label ?? $id;
+    }
+    return $labels;
 }
 
 /**
