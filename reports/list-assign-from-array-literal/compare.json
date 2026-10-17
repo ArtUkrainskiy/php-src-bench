@@ -1,0 +1,5089 @@
+{
+    "format": 2,
+    "kind": "compare",
+    "harness": 2,
+    "date": "2026-10-17T15:43:20+00:00",
+    "suite": "swap-suite.php",
+    "elapsed_s": 60.9,
+    "complete": true,
+    "config": {
+        "passes": 5,
+        "cpu": 2,
+        "target_ms": 50,
+        "filter": null,
+        "control": true,
+        "wait_idle": 1,
+        "events": "cpu_core/cycles/u,cpu_core/instructions/u"
+    },
+    "env": {
+        "cpu_model": "13th Gen Intel(R) Core(TM) i7-13700H",
+        "kernel": "7.0.0-34-generic",
+        "cpu": 2,
+        "cpu_siblings": "2-3",
+        "hybrid_pcores": "0-11",
+        "cpu_is_pcore": true,
+        "governor": "powersave",
+        "epp": "balance_performance",
+        "turbo": true,
+        "on_ac": true,
+        "load": 15.572265625,
+        "busy_pct": {
+            "2": 6.7,
+            "3": 6.5
+        },
+        "idle_cpu": 2
+    },
+    "groups": [
+        {
+            "name": "aa",
+            "a": "gh23048-master",
+            "b": "gh23048-master"
+        },
+        {
+            "name": "gcc13",
+            "a": "gh23048-master",
+            "b": "gh23048-head"
+        },
+        {
+            "name": "aa2",
+            "a": "gh23048-master",
+            "b": "gh23048-master"
+        }
+    ],
+    "builds": {
+        "gh23048-master": {
+            "php": "<builds>/gh23048-master/sapi/cli/php",
+            "build": {
+                "name": "gh23048-master",
+                "ref": "5ccc56b1e43",
+                "commit": "5ccc56b1e43fa1849a4d56fef23bf65e7b54ca7a",
+                "subject": "ext/pdo_pgsql: Speed up the SQL scanner",
+                "snapshot": false,
+                "base_commit": "5ccc56b1e43fa1849a4d56fef23bf65e7b54ca7a",
+                "base_subject": "ext/pdo_pgsql: Speed up the SQL scanner",
+                "built_at": "2026-10-17T15:07:19+00:00",
+                "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+                "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+                "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+                "ldflags": "-Wl,-O1 -pie",
+                "profile": "docker",
+                "config_key": "498b05351e0f27d0eb7ec1618cf6fe980bd831c6",
+                "cc": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+                "cc_command": "cc",
+                "configure_extra": "",
+                "pr": null,
+                "version": "8.7.0-dev",
+                "debug": false,
+                "slim": true
+            },
+            "info": {
+                "version": "8.7.0-dev",
+                "debug": false,
+                "zts": false,
+                "arch": "x86_64",
+                "binary": "<builds>/gh23048-master/sapi/cli/php"
+            },
+            "sha1": "f759dc46acf66034230c870d955d331692cbd1e8"
+        },
+        "gh23048-head": {
+            "php": "<builds>/gh23048-head/sapi/cli/php",
+            "build": {
+                "name": "gh23048-head",
+                "ref": "86a9f1ed916",
+                "commit": "86a9f1ed916c25e386b24017e80625bc4b6755ea",
+                "subject": "Zend: Compile a list assignment from an array literal without the array",
+                "snapshot": false,
+                "base_commit": "86a9f1ed916c25e386b24017e80625bc4b6755ea",
+                "base_subject": "Zend: Compile a list assignment from an array literal without the array",
+                "built_at": "2026-10-17T15:43:18+00:00",
+                "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+                "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+                "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+                "ldflags": "-Wl,-O1 -pie",
+                "profile": "docker",
+                "config_key": "498b05351e0f27d0eb7ec1618cf6fe980bd831c6",
+                "cc": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+                "cc_command": "cc",
+                "configure_extra": "",
+                "pr": null,
+                "version": "8.7.0-dev",
+                "debug": false,
+                "slim": true
+            },
+            "info": {
+                "version": "8.7.0-dev",
+                "debug": false,
+                "zts": false,
+                "arch": "x86_64",
+                "binary": "<builds>/gh23048-head/sapi/cli/php"
+            },
+            "sha1": "2ff3fc1c52a3fceb4c057c647c22576190e91402"
+        }
+    },
+    "sources": {
+        "suite": "fe1da477caf659e8ead8a911d886f4ba1fdfd29d",
+        "harness": "c3113f45c2a11bcb63f0b1fb7a4e44ef6843325d",
+        "corpus": "e5c81343e158d86e921e121508cb8b101980f980"
+    },
+    "machine_warnings": [
+        "CPU governor is 'powersave': frequency scaling adds noise (sudo ./bench tune on)",
+        "turbo boost is on: thermal and frequency drift between rounds (sudo ./bench tune on)",
+        "load average is 15.6: other programs are competing for the CPU"
+    ],
+    "cases": {
+        "call only @ ints": {
+            "input_len": 22,
+            "input_chars": null,
+            "n": 1360576
+        },
+        "call only @ strings": {
+            "input_len": 39,
+            "input_chars": null,
+            "n": 1127346
+        },
+        "call only @ arrays": {
+            "input_len": 66,
+            "input_chars": null,
+            "n": 1126111
+        },
+        "swap [$a, $b] = [$b, $a] @ ints": {
+            "input_len": 22,
+            "input_chars": null,
+            "n": 574108
+        },
+        "swap [$a, $b] = [$b, $a] @ strings": {
+            "input_len": 39,
+            "input_chars": null,
+            "n": 527873
+        },
+        "swap [$a, $b] = [$b, $a] @ arrays": {
+            "input_len": 66,
+            "input_chars": null,
+            "n": 502798
+        },
+        "swap via temporary @ ints": {
+            "input_len": 22,
+            "input_chars": null,
+            "n": 637231
+        },
+        "swap via temporary @ strings": {
+            "input_len": 39,
+            "input_chars": null,
+            "n": 494991
+        },
+        "swap via temporary @ arrays": {
+            "input_len": 66,
+            "input_chars": null,
+            "n": 505562
+        },
+        "rotate three @ ints": {
+            "input_len": 22,
+            "input_chars": null,
+            "n": 406658
+        },
+        "fibonacci step x10 @ ints": {
+            "input_len": 22,
+            "input_chars": null,
+            "n": 79805
+        },
+        "fibonacci step x10 in for list @ ints": {
+            "input_len": 22,
+            "input_chars": null,
+            "n": 81421
+        },
+        "swap array elements @ ints": {
+            "input_len": 22,
+            "input_chars": null,
+            "n": 409945
+        },
+        "swap array elements via temporary @ ints": {
+            "input_len": 22,
+            "input_chars": null,
+            "n": 614253
+        },
+        "swap properties @ ints": {
+            "input_len": 22,
+            "input_chars": null,
+            "n": 286297
+        },
+        "init [$a, $b] = [1, 2] @ ints": {
+            "input_len": 22,
+            "input_chars": null,
+            "n": 1349301
+        },
+        "from a variable (not covered) @ ints": {
+            "input_len": 22,
+            "input_chars": null,
+            "n": 1138914
+        },
+        "keyed (not covered) @ ints": {
+            "input_len": 22,
+            "input_chars": null,
+            "n": 509961
+        }
+    },
+    "warnings": [],
+    "marks": [],
+    "rows": [
+        [
+            "aa",
+            "a",
+            "call only @ ints",
+            116412716,
+            588949653,
+            19655952,
+            51502911
+        ],
+        [
+            "aa",
+            "b",
+            "call only @ ints",
+            118408273,
+            588949816,
+            19400142,
+            51502662
+        ],
+        [
+            "aa",
+            "b",
+            "call only @ ints",
+            117882117,
+            588950148,
+            19580225,
+            51500533
+        ],
+        [
+            "aa",
+            "a",
+            "call only @ ints",
+            118444702,
+            588949858,
+            19379410,
+            51500594
+        ],
+        [
+            "aa",
+            "a",
+            "call only @ ints",
+            117585580,
+            588949720,
+            19322808,
+            51503074
+        ],
+        [
+            "aa",
+            "b",
+            "call only @ ints",
+            116108948,
+            588949578,
+            19409385,
+            51499586
+        ],
+        [
+            "aa",
+            "b",
+            "call only @ ints",
+            117733562,
+            588950564,
+            19460833,
+            51500683
+        ],
+        [
+            "aa",
+            "a",
+            "call only @ ints",
+            118308895,
+            588949173,
+            19431322,
+            51499834
+        ],
+        [
+            "aa",
+            "a",
+            "call only @ ints",
+            118093889,
+            588949740,
+            20037780,
+            51500843
+        ],
+        [
+            "aa",
+            "b",
+            "call only @ ints",
+            116770323,
+            588949523,
+            19484782,
+            51501156
+        ],
+        [
+            "aa",
+            "a",
+            "call only @ strings",
+            112074402,
+            514863126,
+            17659519,
+            44740480
+        ],
+        [
+            "aa",
+            "b",
+            "call only @ strings",
+            110982784,
+            514862587,
+            17633138,
+            44737864
+        ],
+        [
+            "aa",
+            "b",
+            "call only @ strings",
+            115638772,
+            514862537,
+            17269205,
+            44740185
+        ],
+        [
+            "aa",
+            "a",
+            "call only @ strings",
+            111648966,
+            514865314,
+            18463106,
+            44740380
+        ],
+        [
+            "aa",
+            "a",
+            "call only @ strings",
+            111971123,
+            514863998,
+            17489831,
+            44737847
+        ],
+        [
+            "aa",
+            "b",
+            "call only @ strings",
+            111710568,
+            514866203,
+            17299492,
+            44738467
+        ],
+        [
+            "aa",
+            "b",
+            "call only @ strings",
+            111407821,
+            514862701,
+            17401608,
+            44738500
+        ],
+        [
+            "aa",
+            "a",
+            "call only @ strings",
+            111496479,
+            514865776,
+            17392903,
+            44738600
+        ],
+        [
+            "aa",
+            "a",
+            "call only @ strings",
+            110738886,
+            514863295,
+            17243137,
+            44738803
+        ],
+        [
+            "aa",
+            "b",
+            "call only @ strings",
+            111827778,
+            514862734,
+            17286190,
+            44738071
+        ],
+        [
+            "aa",
+            "a",
+            "call only @ arrays",
+            122569705,
+            514316246,
+            17258004,
+            44706096
+        ],
+        [
+            "aa",
+            "b",
+            "call only @ arrays",
+            111892929,
+            514315898,
+            17466339,
+            44705646
+        ],
+        [
+            "aa",
+            "b",
+            "call only @ arrays",
+            111503338,
+            514315613,
+            18666194,
+            44705319
+        ],
+        [
+            "aa",
+            "a",
+            "call only @ arrays",
+            110595248,
+            514316344,
+            17359745,
+            44706093
+        ],
+        [
+            "aa",
+            "a",
+            "call only @ arrays",
+            111374484,
+            514315637,
+            17251566,
+            44706465
+        ],
+        [
+            "aa",
+            "b",
+            "call only @ arrays",
+            111411239,
+            514315773,
+            17338517,
+            44706531
+        ],
+        [
+            "aa",
+            "b",
+            "call only @ arrays",
+            116236589,
+            514318766,
+            17448240,
+            44708689
+        ],
+        [
+            "aa",
+            "a",
+            "call only @ arrays",
+            116528250,
+            514315416,
+            17280392,
+            44707124
+        ],
+        [
+            "aa",
+            "a",
+            "call only @ arrays",
+            112456098,
+            514315984,
+            17455521,
+            44708815
+        ],
+        [
+            "aa",
+            "b",
+            "call only @ arrays",
+            111658835,
+            514316393,
+            17416461,
+            44706042
+        ],
+        [
+            "aa",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ ints",
+            109857043,
+            558064247,
+            12308385,
+            28704306
+        ],
+        [
+            "aa",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ ints",
+            113638294,
+            558064089,
+            12307317,
+            28705003
+        ],
+        [
+            "aa",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ ints",
+            110631181,
+            558063474,
+            12246051,
+            28704753
+        ],
+        [
+            "aa",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ ints",
+            110381045,
+            558063934,
+            12244684,
+            28705008
+        ],
+        [
+            "aa",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ ints",
+            119301891,
+            558063886,
+            12371297,
+            28706537
+        ],
+        [
+            "aa",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ ints",
+            111433579,
+            558064150,
+            13095494,
+            28704695
+        ],
+        [
+            "aa",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ ints",
+            110135344,
+            558063782,
+            12284133,
+            28703997
+        ],
+        [
+            "aa",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ ints",
+            111678564,
+            558066040,
+            12499117,
+            28704247
+        ],
+        [
+            "aa",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ ints",
+            111009436,
+            558064244,
+            12504690,
+            28703884
+        ],
+        [
+            "aa",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ ints",
+            112704958,
+            558064315,
+            12287218,
+            28704416
+        ],
+        [
+            "aa",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ strings",
+            115800221,
+            553158006,
+            12363125,
+            27366261
+        ],
+        [
+            "aa",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ strings",
+            116017067,
+            553156944,
+            12314252,
+            27363579
+        ],
+        [
+            "aa",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ strings",
+            120637132,
+            553159374,
+            11752658,
+            27364067
+        ],
+        [
+            "aa",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ strings",
+            115219848,
+            553157282,
+            11954314,
+            27363532
+        ],
+        [
+            "aa",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ strings",
+            117037996,
+            553157262,
+            12050863,
+            27367331
+        ],
+        [
+            "aa",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ strings",
+            115519294,
+            553156992,
+            11860402,
+            27363654
+        ],
+        [
+            "aa",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ strings",
+            117097988,
+            553157469,
+            11849737,
+            27364370
+        ],
+        [
+            "aa",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ strings",
+            118277645,
+            553157267,
+            12144920,
+            27366326
+        ],
+        [
+            "aa",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ strings",
+            118347110,
+            553157292,
+            11777286,
+            27364698
+        ],
+        [
+            "aa",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ strings",
+            116475317,
+            553157437,
+            11876711,
+            27366618
+        ],
+        [
+            "aa",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ arrays",
+            112891017,
+            527461892,
+            11611898,
+            26642626
+        ],
+        [
+            "aa",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ arrays",
+            110410486,
+            527460928,
+            11893977,
+            26640076
+        ],
+        [
+            "aa",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ arrays",
+            111959893,
+            527461571,
+            11576862,
+            26640949
+        ],
+        [
+            "aa",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ arrays",
+            111442833,
+            527459038,
+            11737194,
+            26639822
+        ],
+        [
+            "aa",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ arrays",
+            110564948,
+            527459188,
+            11607560,
+            26640199
+        ],
+        [
+            "aa",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ arrays",
+            112032455,
+            527459596,
+            11797428,
+            26640362
+        ],
+        [
+            "aa",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ arrays",
+            109255552,
+            527458357,
+            11582216,
+            26639649
+        ],
+        [
+            "aa",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ arrays",
+            108630663,
+            527459540,
+            11686285,
+            26639744
+        ],
+        [
+            "aa",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ arrays",
+            109420244,
+            527459544,
+            11558722,
+            26640047
+        ],
+        [
+            "aa",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ arrays",
+            111531791,
+            527461447,
+            11745462,
+            26639930
+        ],
+        [
+            "aa",
+            "a",
+            "swap via temporary @ ints",
+            73353890,
+            344718021,
+            12823180,
+            30532850
+        ],
+        [
+            "aa",
+            "b",
+            "swap via temporary @ ints",
+            73209296,
+            344720479,
+            12913977,
+            30532177
+        ],
+        [
+            "aa",
+            "b",
+            "swap via temporary @ ints",
+            73815637,
+            344719847,
+            12838326,
+            30532660
+        ],
+        [
+            "aa",
+            "a",
+            "swap via temporary @ ints",
+            74577515,
+            344717655,
+            13487414,
+            30533015
+        ],
+        [
+            "aa",
+            "a",
+            "swap via temporary @ ints",
+            76272174,
+            344718051,
+            12946782,
+            30532055
+        ],
+        [
+            "aa",
+            "b",
+            "swap via temporary @ ints",
+            74314645,
+            344717951,
+            13447628,
+            30532106
+        ],
+        [
+            "aa",
+            "b",
+            "swap via temporary @ ints",
+            72129667,
+            344717135,
+            12862866,
+            30532912
+        ],
+        [
+            "aa",
+            "a",
+            "swap via temporary @ ints",
+            73769024,
+            344717786,
+            12817594,
+            30532682
+        ],
+        [
+            "aa",
+            "a",
+            "swap via temporary @ ints",
+            72602542,
+            344716799,
+            13935079,
+            30532423
+        ],
+        [
+            "aa",
+            "b",
+            "swap via temporary @ ints",
+            73769877,
+            344717455,
+            12910752,
+            30532095
+        ],
+        [
+            "aa",
+            "a",
+            "swap via temporary @ strings",
+            70513811,
+            294228777,
+            11669731,
+            26408287
+        ],
+        [
+            "aa",
+            "b",
+            "swap via temporary @ strings",
+            67773315,
+            294228761,
+            11639210,
+            26409094
+        ],
+        [
+            "aa",
+            "b",
+            "swap via temporary @ strings",
+            68565010,
+            294231382,
+            11455139,
+            26409367
+        ],
+        [
+            "aa",
+            "a",
+            "swap via temporary @ strings",
+            68522837,
+            294229673,
+            11932920,
+            26409551
+        ],
+        [
+            "aa",
+            "a",
+            "swap via temporary @ strings",
+            68937471,
+            294229532,
+            11614749,
+            26408791
+        ],
+        [
+            "aa",
+            "b",
+            "swap via temporary @ strings",
+            69080894,
+            294231703,
+            12215372,
+            26408551
+        ],
+        [
+            "aa",
+            "b",
+            "swap via temporary @ strings",
+            69263310,
+            294231246,
+            12481807,
+            26407894
+        ],
+        [
+            "aa",
+            "a",
+            "swap via temporary @ strings",
+            68165844,
+            294228358,
+            11591752,
+            26409135
+        ],
+        [
+            "aa",
+            "a",
+            "swap via temporary @ strings",
+            69079563,
+            294228570,
+            11584234,
+            26408770
+        ],
+        [
+            "aa",
+            "b",
+            "swap via temporary @ strings",
+            69328341,
+            294229602,
+            11531372,
+            26409598
+        ],
+        [
+            "aa",
+            "a",
+            "swap via temporary @ arrays",
+            69551233,
+            300257576,
+            11799254,
+            26717938
+        ],
+        [
+            "aa",
+            "b",
+            "swap via temporary @ arrays",
+            69307960,
+            300257526,
+            11652615,
+            26720025
+        ],
+        [
+            "aa",
+            "b",
+            "swap via temporary @ arrays",
+            69948586,
+            300257293,
+            11930601,
+            26718250
+        ],
+        [
+            "aa",
+            "a",
+            "swap via temporary @ arrays",
+            70485014,
+            300260197,
+            11608482,
+            26720208
+        ],
+        [
+            "aa",
+            "a",
+            "swap via temporary @ arrays",
+            71945127,
+            300256705,
+            11590605,
+            26718948
+        ],
+        [
+            "aa",
+            "b",
+            "swap via temporary @ arrays",
+            69735019,
+            300256646,
+            11657593,
+            26717927
+        ],
+        [
+            "aa",
+            "b",
+            "swap via temporary @ arrays",
+            70197446,
+            300256828,
+            11565366,
+            26718779
+        ],
+        [
+            "aa",
+            "a",
+            "swap via temporary @ arrays",
+            69876483,
+            300257143,
+            11743528,
+            26717707
+        ],
+        [
+            "aa",
+            "a",
+            "swap via temporary @ arrays",
+            70274355,
+            300257367,
+            11735165,
+            26718587
+        ],
+        [
+            "aa",
+            "b",
+            "swap via temporary @ arrays",
+            70664094,
+            300257529,
+            11620503,
+            26718687
+        ],
+        [
+            "aa",
+            "a",
+            "rotate three @ ints",
+            95714127,
+            478943017,
+            10829539,
+            23854816
+        ],
+        [
+            "aa",
+            "b",
+            "rotate three @ ints",
+            95475157,
+            478946015,
+            11155765,
+            23854996
+        ],
+        [
+            "aa",
+            "b",
+            "rotate three @ ints",
+            95716463,
+            478943494,
+            10962409,
+            23854477
+        ],
+        [
+            "aa",
+            "a",
+            "rotate three @ ints",
+            106019178,
+            478946570,
+            12082960,
+            23854349
+        ],
+        [
+            "aa",
+            "a",
+            "rotate three @ ints",
+            101581468,
+            478943407,
+            10838784,
+            23857054
+        ],
+        [
+            "aa",
+            "b",
+            "rotate three @ ints",
+            97122152,
+            478943567,
+            11209338,
+            23854363
+        ],
+        [
+            "aa",
+            "b",
+            "rotate three @ ints",
+            100832727,
+            478943947,
+            10866436,
+            23857272
+        ],
+        [
+            "aa",
+            "a",
+            "rotate three @ ints",
+            95632719,
+            478947058,
+            10740065,
+            23857194
+        ],
+        [
+            "aa",
+            "a",
+            "rotate three @ ints",
+            95757488,
+            478943535,
+            11571257,
+            23855118
+        ],
+        [
+            "aa",
+            "b",
+            "rotate three @ ints",
+            95294677,
+            478944213,
+            12227136,
+            23854358
+        ],
+        [
+            "aa",
+            "a",
+            "fibonacci step x10 @ ints",
+            104583128,
+            502357110,
+            8992533,
+            14386348
+        ],
+        [
+            "aa",
+            "b",
+            "fibonacci step x10 @ ints",
+            103321173,
+            502356638,
+            7802075,
+            14386793
+        ],
+        [
+            "aa",
+            "b",
+            "fibonacci step x10 @ ints",
+            103666811,
+            502356648,
+            7929185,
+            14386839
+        ],
+        [
+            "aa",
+            "a",
+            "fibonacci step x10 @ ints",
+            103679304,
+            502357232,
+            7848153,
+            14385868
+        ],
+        [
+            "aa",
+            "a",
+            "fibonacci step x10 @ ints",
+            107554088,
+            502357243,
+            7825526,
+            14386856
+        ],
+        [
+            "aa",
+            "b",
+            "fibonacci step x10 @ ints",
+            104965873,
+            502357687,
+            7949389,
+            14386208
+        ],
+        [
+            "aa",
+            "b",
+            "fibonacci step x10 @ ints",
+            109508135,
+            502357239,
+            7739787,
+            14389256
+        ],
+        [
+            "aa",
+            "a",
+            "fibonacci step x10 @ ints",
+            103584905,
+            502357083,
+            7961506,
+            14386236
+        ],
+        [
+            "aa",
+            "a",
+            "fibonacci step x10 @ ints",
+            103897717,
+            502359456,
+            7875475,
+            14386200
+        ],
+        [
+            "aa",
+            "b",
+            "fibonacci step x10 @ ints",
+            103948771,
+            502361072,
+            7987803,
+            14386741
+        ],
+        [
+            "aa",
+            "a",
+            "fibonacci step x10 in for list @ ints",
+            105539433,
+            512281241,
+            7931711,
+            14431202
+        ],
+        [
+            "aa",
+            "b",
+            "fibonacci step x10 in for list @ ints",
+            105478329,
+            512281537,
+            7983481,
+            14431120
+        ],
+        [
+            "aa",
+            "b",
+            "fibonacci step x10 in for list @ ints",
+            107115185,
+            512281871,
+            7856247,
+            14434351
+        ],
+        [
+            "aa",
+            "a",
+            "fibonacci step x10 in for list @ ints",
+            106464706,
+            512281299,
+            7793583,
+            14431112
+        ],
+        [
+            "aa",
+            "a",
+            "fibonacci step x10 in for list @ ints",
+            108534835,
+            512282086,
+            7757330,
+            14430517
+        ],
+        [
+            "aa",
+            "b",
+            "fibonacci step x10 in for list @ ints",
+            188230799,
+            512284168,
+            10391684,
+            14430814
+        ],
+        [
+            "aa",
+            "b",
+            "fibonacci step x10 in for list @ ints",
+            192303621,
+            512281827,
+            11477087,
+            14434539
+        ],
+        [
+            "aa",
+            "a",
+            "fibonacci step x10 in for list @ ints",
+            188233137,
+            512284115,
+            11829271,
+            14433063
+        ],
+        [
+            "aa",
+            "a",
+            "fibonacci step x10 in for list @ ints",
+            177308148,
+            512285281,
+            10941666,
+            14431851
+        ],
+        [
+            "aa",
+            "b",
+            "fibonacci step x10 in for list @ ints",
+            145245646,
+            512281236,
+            8166829,
+            14431529
+        ],
+        [
+            "aa",
+            "a",
+            "swap array elements @ ints",
+            107718699,
+            552809850,
+            10746285,
+            23945628
+        ],
+        [
+            "aa",
+            "b",
+            "swap array elements @ ints",
+            110064020,
+            552812161,
+            10935668,
+            23945979
+        ],
+        [
+            "aa",
+            "b",
+            "swap array elements @ ints",
+            105824081,
+            552808387,
+            10920061,
+            23945780
+        ],
+        [
+            "aa",
+            "a",
+            "swap array elements @ ints",
+            106236500,
+            552808801,
+            10841545,
+            23948884
+        ],
+        [
+            "aa",
+            "a",
+            "swap array elements @ ints",
+            109975946,
+            552808344,
+            11524920,
+            23945166
+        ],
+        [
+            "aa",
+            "b",
+            "swap array elements @ ints",
+            108648185,
+            552811480,
+            10898570,
+            23946197
+        ],
+        [
+            "aa",
+            "b",
+            "swap array elements @ ints",
+            109050509,
+            552809440,
+            10870606,
+            23945433
+        ],
+        [
+            "aa",
+            "a",
+            "swap array elements @ ints",
+            106300760,
+            552808969,
+            11187707,
+            23945659
+        ],
+        [
+            "aa",
+            "a",
+            "swap array elements @ ints",
+            107078680,
+            552808323,
+            10874290,
+            23946548
+        ],
+        [
+            "aa",
+            "b",
+            "swap array elements @ ints",
+            112336290,
+            552809007,
+            11056866,
+            23945574
+        ],
+        [
+            "aa",
+            "a",
+            "swap array elements via temporary @ ints",
+            110676402,
+            560614740,
+            13031869,
+            29870434
+        ],
+        [
+            "aa",
+            "b",
+            "swap array elements via temporary @ ints",
+            114004720,
+            560614356,
+            12755500,
+            29868063
+        ],
+        [
+            "aa",
+            "b",
+            "swap array elements via temporary @ ints",
+            111735847,
+            560617419,
+            12684169,
+            29867815
+        ],
+        [
+            "aa",
+            "a",
+            "swap array elements via temporary @ ints",
+            113764087,
+            560616731,
+            12636691,
+            29867388
+        ],
+        [
+            "aa",
+            "a",
+            "swap array elements via temporary @ ints",
+            110095062,
+            560615122,
+            12716169,
+            29867920
+        ],
+        [
+            "aa",
+            "b",
+            "swap array elements via temporary @ ints",
+            109835140,
+            560614343,
+            12605474,
+            29868539
+        ],
+        [
+            "aa",
+            "b",
+            "swap array elements via temporary @ ints",
+            109963321,
+            560614217,
+            12777034,
+            29867898
+        ],
+        [
+            "aa",
+            "a",
+            "swap array elements via temporary @ ints",
+            110841886,
+            560615172,
+            12978244,
+            29867537
+        ],
+        [
+            "aa",
+            "a",
+            "swap array elements via temporary @ ints",
+            112285947,
+            560614763,
+            12728912,
+            29868217
+        ],
+        [
+            "aa",
+            "b",
+            "swap array elements via temporary @ ints",
+            113779347,
+            560615314,
+            12568935,
+            29868111
+        ],
+        [
+            "aa",
+            "a",
+            "swap properties @ ints",
+            113644731,
+            518603019,
+            9880571,
+            20386028
+        ],
+        [
+            "aa",
+            "b",
+            "swap properties @ ints",
+            110869597,
+            518603369,
+            9755586,
+            20386511
+        ],
+        [
+            "aa",
+            "b",
+            "swap properties @ ints",
+            107937542,
+            518602393,
+            9858542,
+            20386157
+        ],
+        [
+            "aa",
+            "a",
+            "swap properties @ ints",
+            107620154,
+            518603077,
+            9802707,
+            20386329
+        ],
+        [
+            "aa",
+            "a",
+            "swap properties @ ints",
+            110176695,
+            518602036,
+            9745335,
+            20386507
+        ],
+        [
+            "aa",
+            "b",
+            "swap properties @ ints",
+            115936253,
+            518602940,
+            9667488,
+            20385801
+        ],
+        [
+            "aa",
+            "b",
+            "swap properties @ ints",
+            109489102,
+            518602763,
+            9827842,
+            20385990
+        ],
+        [
+            "aa",
+            "a",
+            "swap properties @ ints",
+            108782301,
+            518602631,
+            9710740,
+            20385845
+        ],
+        [
+            "aa",
+            "a",
+            "swap properties @ ints",
+            109415559,
+            518603278,
+            9820834,
+            20388495
+        ],
+        [
+            "aa",
+            "b",
+            "swap properties @ ints",
+            109634989,
+            518602401,
+            9758558,
+            20389023
+        ],
+        [
+            "aa",
+            "a",
+            "init [$a, $b] = [1, 2] @ ints",
+            117826202,
+            585516187,
+            19481741,
+            51172460
+        ],
+        [
+            "aa",
+            "b",
+            "init [$a, $b] = [1, 2] @ ints",
+            117503811,
+            585516692,
+            19354473,
+            51172697
+        ],
+        [
+            "aa",
+            "b",
+            "init [$a, $b] = [1, 2] @ ints",
+            117998425,
+            585516995,
+            19349286,
+            51173063
+        ],
+        [
+            "aa",
+            "a",
+            "init [$a, $b] = [1, 2] @ ints",
+            118934447,
+            585516623,
+            19504571,
+            51173095
+        ],
+        [
+            "aa",
+            "a",
+            "init [$a, $b] = [1, 2] @ ints",
+            118628097,
+            585517097,
+            19355243,
+            51176053
+        ],
+        [
+            "aa",
+            "b",
+            "init [$a, $b] = [1, 2] @ ints",
+            118801561,
+            585519438,
+            19235634,
+            51172799
+        ],
+        [
+            "aa",
+            "b",
+            "init [$a, $b] = [1, 2] @ ints",
+            120495832,
+            585516680,
+            19443286,
+            51172394
+        ],
+        [
+            "aa",
+            "a",
+            "init [$a, $b] = [1, 2] @ ints",
+            120995181,
+            585518943,
+            19517642,
+            51173124
+        ],
+        [
+            "aa",
+            "a",
+            "init [$a, $b] = [1, 2] @ ints",
+            124142545,
+            585515680,
+            19463135,
+            51174694
+        ],
+        [
+            "aa",
+            "b",
+            "init [$a, $b] = [1, 2] @ ints",
+            118191411,
+            585515880,
+            19682362,
+            51172934
+        ],
+        [
+            "aa",
+            "a",
+            "from a variable (not covered) @ ints",
+            122538189,
+            581525572,
+            17486759,
+            45072289
+        ],
+        [
+            "aa",
+            "b",
+            "from a variable (not covered) @ ints",
+            121590895,
+            581523145,
+            17580104,
+            45075136
+        ],
+        [
+            "aa",
+            "b",
+            "from a variable (not covered) @ ints",
+            121601210,
+            581525033,
+            17293293,
+            45074839
+        ],
+        [
+            "aa",
+            "a",
+            "from a variable (not covered) @ ints",
+            121716772,
+            581523083,
+            17401521,
+            45072622
+        ],
+        [
+            "aa",
+            "a",
+            "from a variable (not covered) @ ints",
+            120936440,
+            581524389,
+            17971693,
+            45072442
+        ],
+        [
+            "aa",
+            "b",
+            "from a variable (not covered) @ ints",
+            121019644,
+            581524049,
+            17394062,
+            45072503
+        ],
+        [
+            "aa",
+            "b",
+            "from a variable (not covered) @ ints",
+            122421098,
+            581523161,
+            17495270,
+            45072031
+        ],
+        [
+            "aa",
+            "a",
+            "from a variable (not covered) @ ints",
+            121931732,
+            581522212,
+            17285138,
+            45072602
+        ],
+        [
+            "aa",
+            "a",
+            "from a variable (not covered) @ ints",
+            120276181,
+            581522463,
+            17372082,
+            45073071
+        ],
+        [
+            "aa",
+            "b",
+            "from a variable (not covered) @ ints",
+            121590577,
+            581526481,
+            18426740,
+            45072995
+        ],
+        [
+            "aa",
+            "a",
+            "keyed (not covered) @ ints",
+            106908661,
+            551632205,
+            11720241,
+            26847550
+        ],
+        [
+            "aa",
+            "b",
+            "keyed (not covered) @ ints",
+            107077225,
+            551631907,
+            11640906,
+            26847393
+        ],
+        [
+            "aa",
+            "b",
+            "keyed (not covered) @ ints",
+            110647153,
+            551631921,
+            11653182,
+            26846200
+        ],
+        [
+            "aa",
+            "a",
+            "keyed (not covered) @ ints",
+            106747371,
+            551631357,
+            11729017,
+            26847659
+        ],
+        [
+            "aa",
+            "a",
+            "keyed (not covered) @ ints",
+            106252136,
+            551635036,
+            11742130,
+            26846232
+        ],
+        [
+            "aa",
+            "b",
+            "keyed (not covered) @ ints",
+            107304300,
+            551632535,
+            11904216,
+            26849085
+        ],
+        [
+            "aa",
+            "b",
+            "keyed (not covered) @ ints",
+            107443885,
+            551631854,
+            11653229,
+            26846810
+        ],
+        [
+            "aa",
+            "a",
+            "keyed (not covered) @ ints",
+            107549942,
+            551634853,
+            11682646,
+            26847108
+        ],
+        [
+            "aa",
+            "a",
+            "keyed (not covered) @ ints",
+            107058799,
+            551632271,
+            11767383,
+            26846860
+        ],
+        [
+            "aa",
+            "b",
+            "keyed (not covered) @ ints",
+            107903013,
+            551631677,
+            14128785,
+            26847443
+        ],
+        [
+            "gcc13",
+            "a",
+            "call only @ ints",
+            117138879,
+            588949914,
+            19929114,
+            51503437
+        ],
+        [
+            "gcc13",
+            "b",
+            "call only @ ints",
+            124844147,
+            588949592,
+            19862887,
+            51499531
+        ],
+        [
+            "gcc13",
+            "b",
+            "call only @ ints",
+            118598785,
+            588948335,
+            19558665,
+            51500483
+        ],
+        [
+            "gcc13",
+            "a",
+            "call only @ ints",
+            116880956,
+            588952269,
+            19900287,
+            51501089
+        ],
+        [
+            "gcc13",
+            "a",
+            "call only @ ints",
+            116857527,
+            588949693,
+            19968735,
+            51501244
+        ],
+        [
+            "gcc13",
+            "b",
+            "call only @ ints",
+            116180854,
+            588949277,
+            19545989,
+            51501994
+        ],
+        [
+            "gcc13",
+            "b",
+            "call only @ ints",
+            116783969,
+            588951667,
+            19753306,
+            51500655
+        ],
+        [
+            "gcc13",
+            "a",
+            "call only @ ints",
+            118801438,
+            588949612,
+            19302582,
+            51504076
+        ],
+        [
+            "gcc13",
+            "a",
+            "call only @ ints",
+            115335261,
+            588949599,
+            20338647,
+            51500441
+        ],
+        [
+            "gcc13",
+            "b",
+            "call only @ ints",
+            115798216,
+            588952867,
+            20829124,
+            51500246
+        ],
+        [
+            "gcc13",
+            "a",
+            "call only @ strings",
+            112821362,
+            514863693,
+            18947659,
+            44737984
+        ],
+        [
+            "gcc13",
+            "b",
+            "call only @ strings",
+            111980742,
+            514862224,
+            17358557,
+            44737250
+        ],
+        [
+            "gcc13",
+            "b",
+            "call only @ strings",
+            111726760,
+            514862928,
+            17761511,
+            44737887
+        ],
+        [
+            "gcc13",
+            "a",
+            "call only @ strings",
+            111535678,
+            514863369,
+            17559693,
+            44739053
+        ],
+        [
+            "gcc13",
+            "a",
+            "call only @ strings",
+            111779187,
+            514863269,
+            17510381,
+            44737737
+        ],
+        [
+            "gcc13",
+            "b",
+            "call only @ strings",
+            113864281,
+            514862269,
+            17662583,
+            44737795
+        ],
+        [
+            "gcc13",
+            "b",
+            "call only @ strings",
+            116410089,
+            514862382,
+            17955434,
+            44736752
+        ],
+        [
+            "gcc13",
+            "a",
+            "call only @ strings",
+            114438650,
+            514863637,
+            17443600,
+            44737334
+        ],
+        [
+            "gcc13",
+            "a",
+            "call only @ strings",
+            113250550,
+            514865906,
+            17191140,
+            44738746
+        ],
+        [
+            "gcc13",
+            "b",
+            "call only @ strings",
+            112475656,
+            514865568,
+            17380308,
+            44737095
+        ],
+        [
+            "gcc13",
+            "a",
+            "call only @ arrays",
+            110919608,
+            514316232,
+            17378879,
+            44705800
+        ],
+        [
+            "gcc13",
+            "b",
+            "call only @ arrays",
+            112294791,
+            514314847,
+            17261833,
+            44705497
+        ],
+        [
+            "gcc13",
+            "b",
+            "call only @ arrays",
+            113250047,
+            514318243,
+            17241935,
+            44705013
+        ],
+        [
+            "gcc13",
+            "a",
+            "call only @ arrays",
+            113040592,
+            514315678,
+            17317727,
+            44705876
+        ],
+        [
+            "gcc13",
+            "a",
+            "call only @ arrays",
+            111647925,
+            514315132,
+            19327274,
+            44705747
+        ],
+        [
+            "gcc13",
+            "b",
+            "call only @ arrays",
+            112196691,
+            514315286,
+            17574492,
+            44705504
+        ],
+        [
+            "gcc13",
+            "b",
+            "call only @ arrays",
+            112474661,
+            514314917,
+            17258486,
+            44707532
+        ],
+        [
+            "gcc13",
+            "a",
+            "call only @ arrays",
+            112239533,
+            514315943,
+            17220091,
+            44706828
+        ],
+        [
+            "gcc13",
+            "a",
+            "call only @ arrays",
+            112878841,
+            514316678,
+            17749763,
+            44705729
+        ],
+        [
+            "gcc13",
+            "b",
+            "call only @ arrays",
+            112269292,
+            514315188,
+            17278115,
+            44707900
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ ints",
+            109687518,
+            558064747,
+            12327784,
+            28704160
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ ints",
+            66383166,
+            296841505,
+            12243027,
+            28704781
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ ints",
+            63748393,
+            296842249,
+            12266014,
+            28701516
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ ints",
+            111717956,
+            558064071,
+            12268021,
+            28706917
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ ints",
+            111480395,
+            558063697,
+            12305350,
+            28704255
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ ints",
+            65277527,
+            296842003,
+            12300565,
+            28702424
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ ints",
+            64081732,
+            296841120,
+            12294537,
+            28702237
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ ints",
+            114128834,
+            558065153,
+            12861573,
+            28705176
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ ints",
+            110915100,
+            558063377,
+            12419262,
+            28704972
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ ints",
+            66054163,
+            296844260,
+            12257014,
+            28702420
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ strings",
+            115804626,
+            553157555,
+            13357642,
+            27363474
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ strings",
+            71366870,
+            302414865,
+            12119069,
+            27364401
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ strings",
+            71416124,
+            302414696,
+            13031885,
+            27361301
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ strings",
+            114419144,
+            553160670,
+            11883671,
+            27364052
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ strings",
+            114594599,
+            553159668,
+            11864570,
+            27363905
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ strings",
+            71823491,
+            302417861,
+            12046722,
+            27361614
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ strings",
+            70834276,
+            302415203,
+            11978304,
+            27361456
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ strings",
+            115886412,
+            553157192,
+            11887561,
+            27363650
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ strings",
+            123425787,
+            553156759,
+            12224064,
+            27363103
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ strings",
+            73017635,
+            302414503,
+            12289560,
+            27361995
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ arrays",
+            110833685,
+            527458498,
+            11786810,
+            26640560
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ arrays",
+            68195781,
+            288627367,
+            12854319,
+            26638629
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ arrays",
+            70472757,
+            288627030,
+            11825877,
+            26640793
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ arrays",
+            109784867,
+            527458693,
+            12891735,
+            26641316
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ arrays",
+            111261145,
+            527459235,
+            11828219,
+            26639742
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ arrays",
+            68482171,
+            288627190,
+            11818582,
+            26639166
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ arrays",
+            68711163,
+            288627032,
+            12085213,
+            26640707
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ arrays",
+            110189161,
+            527458673,
+            11733608,
+            26640034
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ arrays",
+            111370872,
+            527463180,
+            12487165,
+            26640323
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ arrays",
+            70048544,
+            288627191,
+            11726391,
+            26637758
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap via temporary @ ints",
+            73331390,
+            344717753,
+            12973299,
+            30535372
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap via temporary @ ints",
+            73500764,
+            344717408,
+            12909627,
+            30531405
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap via temporary @ ints",
+            72143810,
+            344717021,
+            12988770,
+            30532556
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap via temporary @ ints",
+            74275284,
+            344720447,
+            13051116,
+            30532726
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap via temporary @ ints",
+            72340662,
+            344718429,
+            12990418,
+            30532922
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap via temporary @ ints",
+            73475410,
+            344716796,
+            13190809,
+            30532704
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap via temporary @ ints",
+            72472910,
+            344717142,
+            13534224,
+            30531942
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap via temporary @ ints",
+            72258404,
+            344717435,
+            13051156,
+            30531704
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap via temporary @ ints",
+            75272140,
+            344717535,
+            12975318,
+            30532566
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap via temporary @ ints",
+            72161104,
+            344717144,
+            12872333,
+            30532236
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap via temporary @ strings",
+            68186628,
+            294229271,
+            11603938,
+            26408215
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap via temporary @ strings",
+            68710134,
+            294228163,
+            11838683,
+            26408496
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap via temporary @ strings",
+            68411493,
+            294227935,
+            11612725,
+            26409302
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap via temporary @ strings",
+            69406054,
+            294228663,
+            11605176,
+            26407916
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap via temporary @ strings",
+            71311338,
+            294228642,
+            12959617,
+            26408871
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap via temporary @ strings",
+            69453677,
+            294228258,
+            11490697,
+            26408744
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap via temporary @ strings",
+            69483709,
+            294228061,
+            11549557,
+            26409193
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap via temporary @ strings",
+            68184056,
+            294229420,
+            11784111,
+            26408191
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap via temporary @ strings",
+            68285642,
+            294229118,
+            12049420,
+            26410718
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap via temporary @ strings",
+            68858105,
+            294228711,
+            12601558,
+            26407803
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap via temporary @ arrays",
+            70711152,
+            300257580,
+            11569951,
+            26717800
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap via temporary @ arrays",
+            71142031,
+            300256923,
+            11907088,
+            26720679
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap via temporary @ arrays",
+            70440859,
+            300256402,
+            12463678,
+            26717652
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap via temporary @ arrays",
+            70998266,
+            300257229,
+            11772673,
+            26717762
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap via temporary @ arrays",
+            73230323,
+            300257456,
+            12045066,
+            26718047
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap via temporary @ arrays",
+            70831760,
+            300256004,
+            11816130,
+            26717270
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap via temporary @ arrays",
+            69435499,
+            300258703,
+            11600052,
+            26717753
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap via temporary @ arrays",
+            71208902,
+            300259999,
+            11808313,
+            26718083
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap via temporary @ arrays",
+            69755073,
+            300259376,
+            11653075,
+            26720893
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap via temporary @ arrays",
+            69504217,
+            300259360,
+            12023029,
+            26720857
+        ],
+        [
+            "gcc13",
+            "a",
+            "rotate three @ ints",
+            96215544,
+            478944214,
+            11026374,
+            23855066
+        ],
+        [
+            "gcc13",
+            "b",
+            "rotate three @ ints",
+            54385999,
+            245519628,
+            11192281,
+            23854812
+        ],
+        [
+            "gcc13",
+            "b",
+            "rotate three @ ints",
+            54109889,
+            245519878,
+            10936838,
+            23852747
+        ],
+        [
+            "gcc13",
+            "a",
+            "rotate three @ ints",
+            95207774,
+            478946617,
+            10943214,
+            23854417
+        ],
+        [
+            "gcc13",
+            "a",
+            "rotate three @ ints",
+            97107644,
+            478947274,
+            11037456,
+            23853988
+        ],
+        [
+            "gcc13",
+            "b",
+            "rotate three @ ints",
+            54358062,
+            245518466,
+            10847448,
+            23852645
+        ],
+        [
+            "gcc13",
+            "b",
+            "rotate three @ ints",
+            54508554,
+            245518979,
+            10859459,
+            23851989
+        ],
+        [
+            "gcc13",
+            "a",
+            "rotate three @ ints",
+            95552133,
+            478944666,
+            11276339,
+            23854965
+        ],
+        [
+            "gcc13",
+            "a",
+            "rotate three @ ints",
+            97728265,
+            478944149,
+            10809268,
+            23855247
+        ],
+        [
+            "gcc13",
+            "b",
+            "rotate three @ ints",
+            55233469,
+            245521611,
+            10733596,
+            23852548
+        ],
+        [
+            "gcc13",
+            "a",
+            "fibonacci step x10 @ ints",
+            106395180,
+            502357665,
+            7868241,
+            14386139
+        ],
+        [
+            "gcc13",
+            "b",
+            "fibonacci step x10 @ ints",
+            35446865,
+            134448097,
+            7886834,
+            14379832
+        ],
+        [
+            "gcc13",
+            "b",
+            "fibonacci step x10 @ ints",
+            37556580,
+            134450695,
+            8099993,
+            14380736
+        ],
+        [
+            "gcc13",
+            "a",
+            "fibonacci step x10 @ ints",
+            104291103,
+            502357194,
+            7915030,
+            14386549
+        ],
+        [
+            "gcc13",
+            "a",
+            "fibonacci step x10 @ ints",
+            104758185,
+            502357042,
+            8063917,
+            14386333
+        ],
+        [
+            "gcc13",
+            "b",
+            "fibonacci step x10 @ ints",
+            36172331,
+            134448239,
+            7787335,
+            14378875
+        ],
+        [
+            "gcc13",
+            "b",
+            "fibonacci step x10 @ ints",
+            35565497,
+            134448031,
+            7944028,
+            14379508
+        ],
+        [
+            "gcc13",
+            "a",
+            "fibonacci step x10 @ ints",
+            106626776,
+            502357402,
+            7972863,
+            14386326
+        ],
+        [
+            "gcc13",
+            "a",
+            "fibonacci step x10 @ ints",
+            103887136,
+            502358176,
+            7797740,
+            14385735
+        ],
+        [
+            "gcc13",
+            "b",
+            "fibonacci step x10 @ ints",
+            36926624,
+            134448418,
+            7851348,
+            14382264
+        ],
+        [
+            "gcc13",
+            "a",
+            "fibonacci step x10 in for list @ ints",
+            107638708,
+            512285055,
+            7994407,
+            14431392
+        ],
+        [
+            "gcc13",
+            "b",
+            "fibonacci step x10 in for list @ ints",
+            35666692,
+            136923934,
+            7780029,
+            14425352
+        ],
+        [
+            "gcc13",
+            "b",
+            "fibonacci step x10 in for list @ ints",
+            36521287,
+            136923721,
+            7966373,
+            14424390
+        ],
+        [
+            "gcc13",
+            "a",
+            "fibonacci step x10 in for list @ ints",
+            106095886,
+            512281378,
+            7849911,
+            14433207
+        ],
+        [
+            "gcc13",
+            "a",
+            "fibonacci step x10 in for list @ ints",
+            108656704,
+            512284085,
+            7760685,
+            14431200
+        ],
+        [
+            "gcc13",
+            "b",
+            "fibonacci step x10 in for list @ ints",
+            36086332,
+            136923355,
+            8949543,
+            14424772
+        ],
+        [
+            "gcc13",
+            "b",
+            "fibonacci step x10 in for list @ ints",
+            36074338,
+            136925927,
+            7846254,
+            14425164
+        ],
+        [
+            "gcc13",
+            "a",
+            "fibonacci step x10 in for list @ ints",
+            107609887,
+            512281452,
+            7935371,
+            14431982
+        ],
+        [
+            "gcc13",
+            "a",
+            "fibonacci step x10 in for list @ ints",
+            105842661,
+            512281044,
+            8414405,
+            14430955
+        ],
+        [
+            "gcc13",
+            "b",
+            "fibonacci step x10 in for list @ ints",
+            36253372,
+            136922927,
+            7780561,
+            14424331
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap array elements @ ints",
+            107179873,
+            552808707,
+            11275091,
+            23945628
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap array elements @ ints",
+            72144003,
+            361361612,
+            10874425,
+            23944025
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap array elements @ ints",
+            73358845,
+            361360728,
+            10762760,
+            23946491
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap array elements @ ints",
+            106202576,
+            552809104,
+            11301243,
+            23946184
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap array elements @ ints",
+            106483418,
+            552808459,
+            10953488,
+            23945681
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap array elements @ ints",
+            73614479,
+            361360969,
+            11471231,
+            23943529
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap array elements @ ints",
+            72165066,
+            361363446,
+            12246232,
+            23943381
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap array elements @ ints",
+            108020068,
+            552808602,
+            11222676,
+            23946633
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap array elements @ ints",
+            107758158,
+            552808987,
+            10934206,
+            23945576
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap array elements @ ints",
+            72431861,
+            361361373,
+            10814549,
+            23943555
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap array elements via temporary @ ints",
+            109751801,
+            560614799,
+            12985443,
+            29867531
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap array elements via temporary @ ints",
+            113455871,
+            560614128,
+            12828644,
+            29867046
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap array elements via temporary @ ints",
+            111178832,
+            560614019,
+            12766076,
+            29867393
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap array elements via temporary @ ints",
+            110455726,
+            560614385,
+            12845647,
+            29868694
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap array elements via temporary @ ints",
+            112406499,
+            560615066,
+            12598617,
+            29867479
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap array elements via temporary @ ints",
+            110512661,
+            560614560,
+            12697547,
+            29867436
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap array elements via temporary @ ints",
+            110003984,
+            560614163,
+            13336467,
+            29867361
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap array elements via temporary @ ints",
+            111554005,
+            560614144,
+            12695735,
+            29868209
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap array elements via temporary @ ints",
+            110836225,
+            560614295,
+            12725940,
+            29867765
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap array elements via temporary @ ints",
+            115982651,
+            560614683,
+            12733280,
+            29867986
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap properties @ ints",
+            109399603,
+            518602257,
+            9951608,
+            20386049
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap properties @ ints",
+            82579442,
+            384897647,
+            10723320,
+            20383992
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap properties @ ints",
+            83679895,
+            384898179,
+            9711275,
+            20383146
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap properties @ ints",
+            109154169,
+            518602895,
+            9659005,
+            20385945
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap properties @ ints",
+            107827779,
+            518603247,
+            9746858,
+            20386284
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap properties @ ints",
+            81568196,
+            384898170,
+            9752456,
+            20383286
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap properties @ ints",
+            83436809,
+            384898090,
+            9802538,
+            20384088
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap properties @ ints",
+            108156832,
+            518603211,
+            9649815,
+            20386300
+        ],
+        [
+            "gcc13",
+            "a",
+            "swap properties @ ints",
+            110076749,
+            518602320,
+            9815699,
+            20386304
+        ],
+        [
+            "gcc13",
+            "b",
+            "swap properties @ ints",
+            83331389,
+            384898038,
+            9981959,
+            20386106
+        ],
+        [
+            "gcc13",
+            "a",
+            "init [$a, $b] = [1, 2] @ ints",
+            118343269,
+            585516780,
+            19426173,
+            51175029
+        ],
+        [
+            "gcc13",
+            "b",
+            "init [$a, $b] = [1, 2] @ ints",
+            90402408,
+            437090503,
+            19309042,
+            51171224
+        ],
+        [
+            "gcc13",
+            "b",
+            "init [$a, $b] = [1, 2] @ ints",
+            91581655,
+            437091408,
+            19813624,
+            51170993
+        ],
+        [
+            "gcc13",
+            "a",
+            "init [$a, $b] = [1, 2] @ ints",
+            120230276,
+            585516904,
+            19289332,
+            51172021
+        ],
+        [
+            "gcc13",
+            "a",
+            "init [$a, $b] = [1, 2] @ ints",
+            118182570,
+            585516847,
+            20154734,
+            51173605
+        ],
+        [
+            "gcc13",
+            "b",
+            "init [$a, $b] = [1, 2] @ ints",
+            92121014,
+            437090940,
+            19620265,
+            51170998
+        ],
+        [
+            "gcc13",
+            "b",
+            "init [$a, $b] = [1, 2] @ ints",
+            92100405,
+            437090823,
+            19372903,
+            51170529
+        ],
+        [
+            "gcc13",
+            "a",
+            "init [$a, $b] = [1, 2] @ ints",
+            118778463,
+            585517453,
+            19384372,
+            51173149
+        ],
+        [
+            "gcc13",
+            "a",
+            "init [$a, $b] = [1, 2] @ ints",
+            121090271,
+            585516518,
+            19403736,
+            51172324
+        ],
+        [
+            "gcc13",
+            "b",
+            "init [$a, $b] = [1, 2] @ ints",
+            90647038,
+            437091714,
+            20287682,
+            51171118
+        ],
+        [
+            "gcc13",
+            "a",
+            "from a variable (not covered) @ ints",
+            121008603,
+            581523930,
+            17825066,
+            45072914
+        ],
+        [
+            "gcc13",
+            "b",
+            "from a variable (not covered) @ ints",
+            122966462,
+            581522491,
+            17529528,
+            45072656
+        ],
+        [
+            "gcc13",
+            "b",
+            "from a variable (not covered) @ ints",
+            122452412,
+            581523344,
+            18190357,
+            45071956
+        ],
+        [
+            "gcc13",
+            "a",
+            "from a variable (not covered) @ ints",
+            121828833,
+            581525267,
+            17456294,
+            45072140
+        ],
+        [
+            "gcc13",
+            "a",
+            "from a variable (not covered) @ ints",
+            121350055,
+            581522608,
+            17417995,
+            45071978
+        ],
+        [
+            "gcc13",
+            "b",
+            "from a variable (not covered) @ ints",
+            122459789,
+            581522713,
+            17456614,
+            45072079
+        ],
+        [
+            "gcc13",
+            "b",
+            "from a variable (not covered) @ ints",
+            121536721,
+            581524851,
+            18122111,
+            45071833
+        ],
+        [
+            "gcc13",
+            "a",
+            "from a variable (not covered) @ ints",
+            122523481,
+            581523772,
+            18870120,
+            45074630
+        ],
+        [
+            "gcc13",
+            "a",
+            "from a variable (not covered) @ ints",
+            126318242,
+            581522911,
+            17519679,
+            45072309
+        ],
+        [
+            "gcc13",
+            "b",
+            "from a variable (not covered) @ ints",
+            121894690,
+            581522652,
+            17395361,
+            45072550
+        ],
+        [
+            "gcc13",
+            "a",
+            "keyed (not covered) @ ints",
+            108244887,
+            551631759,
+            11932218,
+            26847388
+        ],
+        [
+            "gcc13",
+            "b",
+            "keyed (not covered) @ ints",
+            108203277,
+            551631877,
+            12474937,
+            26846556
+        ],
+        [
+            "gcc13",
+            "b",
+            "keyed (not covered) @ ints",
+            109121669,
+            551631738,
+            11655630,
+            26849604
+        ],
+        [
+            "gcc13",
+            "a",
+            "keyed (not covered) @ ints",
+            118541123,
+            551632114,
+            11745375,
+            26846643
+        ],
+        [
+            "gcc13",
+            "a",
+            "keyed (not covered) @ ints",
+            109272395,
+            551632434,
+            11705259,
+            26850428
+        ],
+        [
+            "gcc13",
+            "b",
+            "keyed (not covered) @ ints",
+            107628281,
+            551632161,
+            12361539,
+            26845875
+        ],
+        [
+            "gcc13",
+            "b",
+            "keyed (not covered) @ ints",
+            108730155,
+            551631282,
+            11820693,
+            26845622
+        ],
+        [
+            "gcc13",
+            "a",
+            "keyed (not covered) @ ints",
+            108542124,
+            551631618,
+            11962382,
+            26846683
+        ],
+        [
+            "gcc13",
+            "a",
+            "keyed (not covered) @ ints",
+            113790589,
+            551632196,
+            13364526,
+            26846848
+        ],
+        [
+            "gcc13",
+            "b",
+            "keyed (not covered) @ ints",
+            107997937,
+            551633620,
+            11757494,
+            26847035
+        ],
+        [
+            "aa2",
+            "a",
+            "call only @ ints",
+            116581337,
+            588949882,
+            19303900,
+            51500384
+        ],
+        [
+            "aa2",
+            "b",
+            "call only @ ints",
+            117365717,
+            588949367,
+            19269753,
+            51503496
+        ],
+        [
+            "aa2",
+            "b",
+            "call only @ ints",
+            118722757,
+            588949843,
+            20011696,
+            51500107
+        ],
+        [
+            "aa2",
+            "a",
+            "call only @ ints",
+            117035389,
+            588949940,
+            19986259,
+            51500041
+        ],
+        [
+            "aa2",
+            "a",
+            "call only @ ints",
+            117456273,
+            588952611,
+            19838508,
+            51502953
+        ],
+        [
+            "aa2",
+            "b",
+            "call only @ ints",
+            117674121,
+            588950209,
+            20678486,
+            51501012
+        ],
+        [
+            "aa2",
+            "b",
+            "call only @ ints",
+            118338160,
+            588952699,
+            19353978,
+            51500730
+        ],
+        [
+            "aa2",
+            "a",
+            "call only @ ints",
+            117716088,
+            588949373,
+            19864672,
+            51500693
+        ],
+        [
+            "aa2",
+            "a",
+            "call only @ ints",
+            121493953,
+            588949691,
+            21166929,
+            51500999
+        ],
+        [
+            "aa2",
+            "b",
+            "call only @ ints",
+            117962620,
+            588950423,
+            19584948,
+            51500416
+        ],
+        [
+            "aa2",
+            "a",
+            "call only @ strings",
+            112380290,
+            514863567,
+            17665044,
+            44738374
+        ],
+        [
+            "aa2",
+            "b",
+            "call only @ strings",
+            113770363,
+            514863355,
+            17276692,
+            44740782
+        ],
+        [
+            "aa2",
+            "b",
+            "call only @ strings",
+            111199621,
+            514863038,
+            17531292,
+            44738099
+        ],
+        [
+            "aa2",
+            "a",
+            "call only @ strings",
+            111901459,
+            514863390,
+            21470878,
+            44738183
+        ],
+        [
+            "aa2",
+            "a",
+            "call only @ strings",
+            111640204,
+            514863328,
+            17291301,
+            44741234
+        ],
+        [
+            "aa2",
+            "b",
+            "call only @ strings",
+            112086856,
+            514862660,
+            17397715,
+            44737105
+        ],
+        [
+            "aa2",
+            "b",
+            "call only @ strings",
+            112925700,
+            514862789,
+            17386582,
+            44738160
+        ],
+        [
+            "aa2",
+            "a",
+            "call only @ strings",
+            110374884,
+            514863514,
+            18335716,
+            44738383
+        ],
+        [
+            "aa2",
+            "a",
+            "call only @ strings",
+            111934830,
+            514864048,
+            17221997,
+            44738503
+        ],
+        [
+            "aa2",
+            "b",
+            "call only @ strings",
+            115420001,
+            514862398,
+            17323459,
+            44738743
+        ],
+        [
+            "aa2",
+            "a",
+            "call only @ arrays",
+            114320550,
+            514315136,
+            17454649,
+            44705768
+        ],
+        [
+            "aa2",
+            "b",
+            "call only @ arrays",
+            111523339,
+            514319064,
+            18581462,
+            44709339
+        ],
+        [
+            "aa2",
+            "b",
+            "call only @ arrays",
+            114267948,
+            514316127,
+            17426096,
+            44705934
+        ],
+        [
+            "aa2",
+            "a",
+            "call only @ arrays",
+            111834005,
+            514315690,
+            17685044,
+            44705524
+        ],
+        [
+            "aa2",
+            "a",
+            "call only @ arrays",
+            111250402,
+            514315362,
+            17551102,
+            44709135
+        ],
+        [
+            "aa2",
+            "b",
+            "call only @ arrays",
+            110623973,
+            514316906,
+            17354355,
+            44705564
+        ],
+        [
+            "aa2",
+            "b",
+            "call only @ arrays",
+            113831394,
+            514315461,
+            17616289,
+            44706103
+        ],
+        [
+            "aa2",
+            "a",
+            "call only @ arrays",
+            119883045,
+            514316143,
+            17888635,
+            44709290
+        ],
+        [
+            "aa2",
+            "a",
+            "call only @ arrays",
+            115839996,
+            514315953,
+            17313258,
+            44706023
+        ],
+        [
+            "aa2",
+            "b",
+            "call only @ arrays",
+            111499323,
+            514315909,
+            17339869,
+            44708886
+        ],
+        [
+            "aa2",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ ints",
+            110292446,
+            558063655,
+            12371758,
+            28707655
+        ],
+        [
+            "aa2",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ ints",
+            110349347,
+            558064092,
+            12462603,
+            28704302
+        ],
+        [
+            "aa2",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ ints",
+            110789077,
+            558063444,
+            12591769,
+            28706449
+        ],
+        [
+            "aa2",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ ints",
+            111276486,
+            558064200,
+            12398630,
+            28707547
+        ],
+        [
+            "aa2",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ ints",
+            110077388,
+            558064627,
+            15904999,
+            28704608
+        ],
+        [
+            "aa2",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ ints",
+            110533199,
+            558063154,
+            12253794,
+            28707265
+        ],
+        [
+            "aa2",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ ints",
+            110834356,
+            558064338,
+            12415885,
+            28704165
+        ],
+        [
+            "aa2",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ ints",
+            109576141,
+            558063931,
+            12436561,
+            28705101
+        ],
+        [
+            "aa2",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ ints",
+            111720946,
+            558063067,
+            12541601,
+            28705019
+        ],
+        [
+            "aa2",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ ints",
+            111306901,
+            558064546,
+            12400875,
+            28707044
+        ],
+        [
+            "aa2",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ strings",
+            113687767,
+            553159846,
+            11976771,
+            27363638
+        ],
+        [
+            "aa2",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ strings",
+            115796145,
+            553156938,
+            11938388,
+            27364021
+        ],
+        [
+            "aa2",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ strings",
+            116244652,
+            553156809,
+            12022157,
+            27364006
+        ],
+        [
+            "aa2",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ strings",
+            114964927,
+            553157370,
+            12099653,
+            27364183
+        ],
+        [
+            "aa2",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ strings",
+            114121732,
+            553157277,
+            11961893,
+            27364166
+        ],
+        [
+            "aa2",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ strings",
+            115125609,
+            553157449,
+            12245163,
+            27364658
+        ],
+        [
+            "aa2",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ strings",
+            113707722,
+            553156608,
+            11858578,
+            27364420
+        ],
+        [
+            "aa2",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ strings",
+            115808005,
+            553160314,
+            11860053,
+            27364084
+        ],
+        [
+            "aa2",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ strings",
+            115926519,
+            553156720,
+            11895153,
+            27366214
+        ],
+        [
+            "aa2",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ strings",
+            117914221,
+            553157752,
+            13087625,
+            27364685
+        ],
+        [
+            "aa2",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ arrays",
+            108089703,
+            527459195,
+            11619989,
+            26639434
+        ],
+        [
+            "aa2",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ arrays",
+            109266337,
+            527458341,
+            11801507,
+            26640115
+        ],
+        [
+            "aa2",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ arrays",
+            108873223,
+            527458579,
+            11726499,
+            26640798
+        ],
+        [
+            "aa2",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ arrays",
+            108952058,
+            527461125,
+            11587888,
+            26639751
+        ],
+        [
+            "aa2",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ arrays",
+            111989827,
+            527459957,
+            12168176,
+            26642956
+        ],
+        [
+            "aa2",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ arrays",
+            108174686,
+            527458247,
+            11797434,
+            26639232
+        ],
+        [
+            "aa2",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ arrays",
+            109076276,
+            527458408,
+            11694994,
+            26640099
+        ],
+        [
+            "aa2",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ arrays",
+            108910088,
+            527459352,
+            11822313,
+            26640892
+        ],
+        [
+            "aa2",
+            "a",
+            "swap [$a, $b] = [$b, $a] @ arrays",
+            109457516,
+            527459428,
+            11668823,
+            26639638
+        ],
+        [
+            "aa2",
+            "b",
+            "swap [$a, $b] = [$b, $a] @ arrays",
+            110170266,
+            527458381,
+            11846044,
+            26640623
+        ],
+        [
+            "aa2",
+            "a",
+            "swap via temporary @ ints",
+            72551778,
+            344716994,
+            12844135,
+            30532124
+        ],
+        [
+            "aa2",
+            "b",
+            "swap via temporary @ ints",
+            72317418,
+            344717969,
+            12843560,
+            30533318
+        ],
+        [
+            "aa2",
+            "b",
+            "swap via temporary @ ints",
+            74182277,
+            344717925,
+            12830515,
+            30535334
+        ],
+        [
+            "aa2",
+            "a",
+            "swap via temporary @ ints",
+            72421518,
+            344716674,
+            12765536,
+            30532172
+        ],
+        [
+            "aa2",
+            "a",
+            "swap via temporary @ ints",
+            72442823,
+            344717750,
+            12851689,
+            30535446
+        ],
+        [
+            "aa2",
+            "b",
+            "swap via temporary @ ints",
+            73369489,
+            344717335,
+            12829904,
+            30531739
+        ],
+        [
+            "aa2",
+            "b",
+            "swap via temporary @ ints",
+            72479398,
+            344717544,
+            12829840,
+            30532301
+        ],
+        [
+            "aa2",
+            "a",
+            "swap via temporary @ ints",
+            73459177,
+            344718190,
+            13306102,
+            30536077
+        ],
+        [
+            "aa2",
+            "a",
+            "swap via temporary @ ints",
+            72157420,
+            344717591,
+            12937516,
+            30532821
+        ],
+        [
+            "aa2",
+            "b",
+            "swap via temporary @ ints",
+            74999912,
+            344718327,
+            12941398,
+            30532376
+        ],
+        [
+            "aa2",
+            "a",
+            "swap via temporary @ strings",
+            68053007,
+            294231458,
+            12385588,
+            26408241
+        ],
+        [
+            "aa2",
+            "b",
+            "swap via temporary @ strings",
+            68645344,
+            294228811,
+            11656135,
+            26412195
+        ],
+        [
+            "aa2",
+            "b",
+            "swap via temporary @ strings",
+            69655078,
+            294228900,
+            11592604,
+            26408708
+        ],
+        [
+            "aa2",
+            "a",
+            "swap via temporary @ strings",
+            69941697,
+            294229753,
+            12122279,
+            26411288
+        ],
+        [
+            "aa2",
+            "a",
+            "swap via temporary @ strings",
+            70173025,
+            294229086,
+            12086673,
+            26408645
+        ],
+        [
+            "aa2",
+            "b",
+            "swap via temporary @ strings",
+            69749013,
+            294228404,
+            12089998,
+            26408666
+        ],
+        [
+            "aa2",
+            "b",
+            "swap via temporary @ strings",
+            70329502,
+            294229652,
+            12477989,
+            26407914
+        ],
+        [
+            "aa2",
+            "a",
+            "swap via temporary @ strings",
+            68633500,
+            294228823,
+            12798899,
+            26408761
+        ],
+        [
+            "aa2",
+            "a",
+            "swap via temporary @ strings",
+            68380807,
+            294228936,
+            12180195,
+            26408948
+        ],
+        [
+            "aa2",
+            "b",
+            "swap via temporary @ strings",
+            68916466,
+            294229230,
+            11476335,
+            26411108
+        ],
+        [
+            "aa2",
+            "a",
+            "swap via temporary @ arrays",
+            69792806,
+            300258329,
+            11667581,
+            26718227
+        ],
+        [
+            "aa2",
+            "b",
+            "swap via temporary @ arrays",
+            71875732,
+            300257409,
+            11746815,
+            26717526
+        ],
+        [
+            "aa2",
+            "b",
+            "swap via temporary @ arrays",
+            69642634,
+            300257302,
+            11829989,
+            26718157
+        ],
+        [
+            "aa2",
+            "a",
+            "swap via temporary @ arrays",
+            78839365,
+            300257134,
+            11883999,
+            26718395
+        ],
+        [
+            "aa2",
+            "a",
+            "swap via temporary @ arrays",
+            70678017,
+            300257585,
+            11737135,
+            26717131
+        ],
+        [
+            "aa2",
+            "b",
+            "swap via temporary @ arrays",
+            69695922,
+            300257633,
+            11973351,
+            26717790
+        ],
+        [
+            "aa2",
+            "b",
+            "swap via temporary @ arrays",
+            69996424,
+            300259576,
+            11827903,
+            26718200
+        ],
+        [
+            "aa2",
+            "a",
+            "swap via temporary @ arrays",
+            69263762,
+            300256954,
+            11747517,
+            26717790
+        ],
+        [
+            "aa2",
+            "a",
+            "swap via temporary @ arrays",
+            70567916,
+            300256850,
+            11653405,
+            26717382
+        ],
+        [
+            "aa2",
+            "b",
+            "swap via temporary @ arrays",
+            69739076,
+            300257020,
+            11676962,
+            26717766
+        ],
+        [
+            "aa2",
+            "a",
+            "rotate three @ ints",
+            97637186,
+            478943884,
+            10743335,
+            23856473
+        ],
+        [
+            "aa2",
+            "b",
+            "rotate three @ ints",
+            95139032,
+            478943818,
+            10711976,
+            23855297
+        ],
+        [
+            "aa2",
+            "b",
+            "rotate three @ ints",
+            95762624,
+            478944119,
+            10989889,
+            23855680
+        ],
+        [
+            "aa2",
+            "a",
+            "rotate three @ ints",
+            96704657,
+            478943969,
+            10878175,
+            23857481
+        ],
+        [
+            "aa2",
+            "a",
+            "rotate three @ ints",
+            95411161,
+            478943964,
+            14039867,
+            23853952
+        ],
+        [
+            "aa2",
+            "b",
+            "rotate three @ ints",
+            96278985,
+            478945659,
+            10752051,
+            23854154
+        ],
+        [
+            "aa2",
+            "b",
+            "rotate three @ ints",
+            98247807,
+            478946712,
+            11371716,
+            23854696
+        ],
+        [
+            "aa2",
+            "a",
+            "rotate three @ ints",
+            100498216,
+            478944465,
+            10901158,
+            23858520
+        ],
+        [
+            "aa2",
+            "a",
+            "rotate three @ ints",
+            95491874,
+            478943012,
+            11075871,
+            23854550
+        ],
+        [
+            "aa2",
+            "b",
+            "rotate three @ ints",
+            95509160,
+            478943630,
+            10960173,
+            23854954
+        ],
+        [
+            "aa2",
+            "a",
+            "fibonacci step x10 @ ints",
+            104332643,
+            502357300,
+            7862508,
+            14386911
+        ],
+        [
+            "aa2",
+            "b",
+            "fibonacci step x10 @ ints",
+            106411838,
+            502356522,
+            7937990,
+            14386284
+        ],
+        [
+            "aa2",
+            "b",
+            "fibonacci step x10 @ ints",
+            104617854,
+            502357312,
+            8091126,
+            14385950
+        ],
+        [
+            "aa2",
+            "a",
+            "fibonacci step x10 @ ints",
+            105157182,
+            502356514,
+            7989401,
+            14386421
+        ],
+        [
+            "aa2",
+            "a",
+            "fibonacci step x10 @ ints",
+            105335296,
+            502357992,
+            8229056,
+            14385931
+        ],
+        [
+            "aa2",
+            "b",
+            "fibonacci step x10 @ ints",
+            104049034,
+            502357085,
+            7767814,
+            14386363
+        ],
+        [
+            "aa2",
+            "b",
+            "fibonacci step x10 @ ints",
+            109672639,
+            502357155,
+            7909795,
+            14386568
+        ],
+        [
+            "aa2",
+            "a",
+            "fibonacci step x10 @ ints",
+            104395334,
+            502358670,
+            8331247,
+            14387317
+        ],
+        [
+            "aa2",
+            "a",
+            "fibonacci step x10 @ ints",
+            103527175,
+            502357311,
+            7778057,
+            14385694
+        ],
+        [
+            "aa2",
+            "b",
+            "fibonacci step x10 @ ints",
+            106353774,
+            502357261,
+            7910040,
+            14387048
+        ],
+        [
+            "aa2",
+            "a",
+            "fibonacci step x10 in for list @ ints",
+            106487147,
+            512281796,
+            7821615,
+            14431168
+        ],
+        [
+            "aa2",
+            "b",
+            "fibonacci step x10 in for list @ ints",
+            105659100,
+            512281718,
+            9307471,
+            14431208
+        ],
+        [
+            "aa2",
+            "b",
+            "fibonacci step x10 in for list @ ints",
+            116541184,
+            512281007,
+            7870418,
+            14430750
+        ],
+        [
+            "aa2",
+            "a",
+            "fibonacci step x10 in for list @ ints",
+            113599885,
+            512281500,
+            7802693,
+            14431082
+        ],
+        [
+            "aa2",
+            "a",
+            "fibonacci step x10 in for list @ ints",
+            106712574,
+            512280976,
+            7875868,
+            14431445
+        ],
+        [
+            "aa2",
+            "b",
+            "fibonacci step x10 in for list @ ints",
+            107496033,
+            512280746,
+            8186130,
+            14431686
+        ],
+        [
+            "aa2",
+            "b",
+            "fibonacci step x10 in for list @ ints",
+            105301423,
+            512281760,
+            8053219,
+            14431289
+        ],
+        [
+            "aa2",
+            "a",
+            "fibonacci step x10 in for list @ ints",
+            110276793,
+            512282019,
+            7945957,
+            14431003
+        ],
+        [
+            "aa2",
+            "a",
+            "fibonacci step x10 in for list @ ints",
+            108248710,
+            512281234,
+            8194088,
+            14431571
+        ],
+        [
+            "aa2",
+            "b",
+            "fibonacci step x10 in for list @ ints",
+            105580215,
+            512281542,
+            8005248,
+            14431478
+        ],
+        [
+            "aa2",
+            "a",
+            "swap array elements @ ints",
+            108218292,
+            552809190,
+            10926699,
+            23946308
+        ],
+        [
+            "aa2",
+            "b",
+            "swap array elements @ ints",
+            115784221,
+            552809303,
+            11102045,
+            23945867
+        ],
+        [
+            "aa2",
+            "b",
+            "swap array elements @ ints",
+            106452224,
+            552808638,
+            10899541,
+            23944867
+        ],
+        [
+            "aa2",
+            "a",
+            "swap array elements @ ints",
+            106597045,
+            552808820,
+            10836685,
+            23945488
+        ],
+        [
+            "aa2",
+            "a",
+            "swap array elements @ ints",
+            109223754,
+            552810972,
+            10818237,
+            23945593
+        ],
+        [
+            "aa2",
+            "b",
+            "swap array elements @ ints",
+            108411891,
+            552809265,
+            10868141,
+            23947719
+        ],
+        [
+            "aa2",
+            "b",
+            "swap array elements @ ints",
+            106328544,
+            552808236,
+            10947693,
+            23945453
+        ],
+        [
+            "aa2",
+            "a",
+            "swap array elements @ ints",
+            107927120,
+            552809389,
+            11514465,
+            23946253
+        ],
+        [
+            "aa2",
+            "a",
+            "swap array elements @ ints",
+            107386196,
+            552808768,
+            13562691,
+            23945772
+        ],
+        [
+            "aa2",
+            "b",
+            "swap array elements @ ints",
+            106432000,
+            552808086,
+            10780631,
+            23945639
+        ],
+        [
+            "aa2",
+            "a",
+            "swap array elements via temporary @ ints",
+            111207187,
+            560615098,
+            12781184,
+            29868669
+        ],
+        [
+            "aa2",
+            "b",
+            "swap array elements via temporary @ ints",
+            110226629,
+            560617298,
+            14163998,
+            29868127
+        ],
+        [
+            "aa2",
+            "b",
+            "swap array elements via temporary @ ints",
+            110227455,
+            560614884,
+            12681162,
+            29869673
+        ],
+        [
+            "aa2",
+            "a",
+            "swap array elements via temporary @ ints",
+            112210855,
+            560614609,
+            12667908,
+            29871507
+        ],
+        [
+            "aa2",
+            "a",
+            "swap array elements via temporary @ ints",
+            109953815,
+            560618500,
+            12999308,
+            29868026
+        ],
+        [
+            "aa2",
+            "b",
+            "swap array elements via temporary @ ints",
+            110482204,
+            560614505,
+            12691563,
+            29868259
+        ],
+        [
+            "aa2",
+            "b",
+            "swap array elements via temporary @ ints",
+            110499403,
+            560614056,
+            12668610,
+            29868754
+        ],
+        [
+            "aa2",
+            "a",
+            "swap array elements via temporary @ ints",
+            111131793,
+            560614908,
+            12954431,
+            29868572
+        ],
+        [
+            "aa2",
+            "a",
+            "swap array elements via temporary @ ints",
+            110010419,
+            560614733,
+            12718569,
+            29868013
+        ],
+        [
+            "aa2",
+            "b",
+            "swap array elements via temporary @ ints",
+            110560969,
+            560614977,
+            12877872,
+            29868381
+        ],
+        [
+            "aa2",
+            "a",
+            "swap properties @ ints",
+            113904487,
+            518605250,
+            9781884,
+            20386470
+        ],
+        [
+            "aa2",
+            "b",
+            "swap properties @ ints",
+            109493771,
+            518603497,
+            9959039,
+            20385764
+        ],
+        [
+            "aa2",
+            "b",
+            "swap properties @ ints",
+            109295806,
+            518602585,
+            9840603,
+            20385819
+        ],
+        [
+            "aa2",
+            "a",
+            "swap properties @ ints",
+            110418823,
+            518602220,
+            9740343,
+            20386031
+        ],
+        [
+            "aa2",
+            "a",
+            "swap properties @ ints",
+            111673292,
+            518602167,
+            10247054,
+            20386808
+        ],
+        [
+            "aa2",
+            "b",
+            "swap properties @ ints",
+            108505393,
+            518602816,
+            9801291,
+            20386363
+        ],
+        [
+            "aa2",
+            "b",
+            "swap properties @ ints",
+            108380865,
+            518602502,
+            9867612,
+            20385997
+        ],
+        [
+            "aa2",
+            "a",
+            "swap properties @ ints",
+            110280430,
+            518602820,
+            10150208,
+            20386363
+        ],
+        [
+            "aa2",
+            "a",
+            "swap properties @ ints",
+            115363120,
+            518602889,
+            9908606,
+            20389206
+        ],
+        [
+            "aa2",
+            "b",
+            "swap properties @ ints",
+            107706219,
+            518602959,
+            9756204,
+            20388803
+        ],
+        [
+            "aa2",
+            "a",
+            "init [$a, $b] = [1, 2] @ ints",
+            118530277,
+            585516790,
+            19455838,
+            51173140
+        ],
+        [
+            "aa2",
+            "b",
+            "init [$a, $b] = [1, 2] @ ints",
+            120691581,
+            585516154,
+            19359727,
+            51173010
+        ],
+        [
+            "aa2",
+            "b",
+            "init [$a, $b] = [1, 2] @ ints",
+            117808471,
+            585519081,
+            19506957,
+            51172648
+        ],
+        [
+            "aa2",
+            "a",
+            "init [$a, $b] = [1, 2] @ ints",
+            119032762,
+            585516883,
+            19459541,
+            51172988
+        ],
+        [
+            "aa2",
+            "a",
+            "init [$a, $b] = [1, 2] @ ints",
+            119043547,
+            585516188,
+            19506219,
+            51173513
+        ],
+        [
+            "aa2",
+            "b",
+            "init [$a, $b] = [1, 2] @ ints",
+            118495848,
+            585517192,
+            19410410,
+            51175618
+        ],
+        [
+            "aa2",
+            "b",
+            "init [$a, $b] = [1, 2] @ ints",
+            117430568,
+            585516540,
+            20128221,
+            51172565
+        ],
+        [
+            "aa2",
+            "a",
+            "init [$a, $b] = [1, 2] @ ints",
+            118978090,
+            585517052,
+            19548265,
+            51172819
+        ],
+        [
+            "aa2",
+            "a",
+            "init [$a, $b] = [1, 2] @ ints",
+            120416920,
+            585518722,
+            19404758,
+            51175790
+        ],
+        [
+            "aa2",
+            "b",
+            "init [$a, $b] = [1, 2] @ ints",
+            119270030,
+            585517006,
+            19558565,
+            51173192
+        ],
+        [
+            "aa2",
+            "a",
+            "from a variable (not covered) @ ints",
+            120686046,
+            581522976,
+            17859615,
+            45072839
+        ],
+        [
+            "aa2",
+            "b",
+            "from a variable (not covered) @ ints",
+            121502776,
+            581525854,
+            17427183,
+            45072577
+        ],
+        [
+            "aa2",
+            "b",
+            "from a variable (not covered) @ ints",
+            120949138,
+            581523532,
+            17659018,
+            45073462
+        ],
+        [
+            "aa2",
+            "a",
+            "from a variable (not covered) @ ints",
+            124086309,
+            581523015,
+            17572289,
+            45075494
+        ],
+        [
+            "aa2",
+            "a",
+            "from a variable (not covered) @ ints",
+            125678992,
+            581522839,
+            17324818,
+            45072426
+        ],
+        [
+            "aa2",
+            "b",
+            "from a variable (not covered) @ ints",
+            121719285,
+            581522956,
+            17501517,
+            45072615
+        ],
+        [
+            "aa2",
+            "b",
+            "from a variable (not covered) @ ints",
+            121546374,
+            581525280,
+            17563404,
+            45072923
+        ],
+        [
+            "aa2",
+            "a",
+            "from a variable (not covered) @ ints",
+            121784770,
+            581522979,
+            17843706,
+            45072619
+        ],
+        [
+            "aa2",
+            "a",
+            "from a variable (not covered) @ ints",
+            120732771,
+            581525206,
+            17409651,
+            45072608
+        ],
+        [
+            "aa2",
+            "b",
+            "from a variable (not covered) @ ints",
+            120280787,
+            581523006,
+            17441371,
+            45071981
+        ],
+        [
+            "aa2",
+            "a",
+            "keyed (not covered) @ ints",
+            107916957,
+            551633207,
+            11676396,
+            26846456
+        ],
+        [
+            "aa2",
+            "b",
+            "keyed (not covered) @ ints",
+            108601647,
+            551635257,
+            11941533,
+            26846837
+        ],
+        [
+            "aa2",
+            "b",
+            "keyed (not covered) @ ints",
+            107003467,
+            551633095,
+            11639734,
+            26849546
+        ],
+        [
+            "aa2",
+            "a",
+            "keyed (not covered) @ ints",
+            106692386,
+            551632859,
+            11719421,
+            26846813
+        ],
+        [
+            "aa2",
+            "a",
+            "keyed (not covered) @ ints",
+            109136621,
+            551633037,
+            11927669,
+            26847214
+        ],
+        [
+            "aa2",
+            "b",
+            "keyed (not covered) @ ints",
+            115082308,
+            551634755,
+            11658665,
+            26846814
+        ],
+        [
+            "aa2",
+            "b",
+            "keyed (not covered) @ ints",
+            106687021,
+            551634873,
+            12641277,
+            26846873
+        ],
+        [
+            "aa2",
+            "a",
+            "keyed (not covered) @ ints",
+            106490690,
+            551632087,
+            11744578,
+            26847263
+        ],
+        [
+            "aa2",
+            "a",
+            "keyed (not covered) @ ints",
+            113005915,
+            551632689,
+            11739922,
+            26846828
+        ],
+        [
+            "aa2",
+            "b",
+            "keyed (not covered) @ ints",
+            106303149,
+            551632969,
+            11910178,
+            26846411
+        ]
+    ]
+}

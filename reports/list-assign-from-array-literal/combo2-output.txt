@@ -1,0 +1,1272 @@
+programs=3376 head-mode-diffs=0 master-diffs=273
+== targets typed-str,cv-old: 4 diffs
+  [new,new] [$ty->s, $old] = [new D("v1"), new D("v2")];
+    master: ~old ~v1 |after |end~v2 ~cv ~plain
+    head  : ~v1 ~old |after |end~v2 ~cv ~plain
+  [new,cv] [$ty->s, $old] = [new D("v1"), $cv];
+    master: ~old ~v1 |after |end~cv ~plain
+    head  : ~v1 ~old |after |end~cv ~plain
+  [new,nested] [$ty->s, $old] = [new D("v1"), [new D("n2")]];
+    master: ~old ~v1 |after |end~n2 ~cv ~plain
+    head  : ~v1 ~old |after |end~n2 ~cv ~plain
+  [new,int] [$ty->s, $old] = [new D("v1"), 2];
+    master: ~old ~v1 |after |end~cv ~plain
+    head  : ~v1 ~old |after |end~cv ~plain
+== targets typed-str,aa-discard: 4 diffs
+  [new,new] [$ty->s, $aa["k"]] = [new D("v1"), new D("v2")];
+    master: set(k) ~v1 ~v2 |after |end~old ~cv ~plain
+    head  : ~v1 set(k) ~v2 |after |end~old ~cv ~plain
+  [new,cv] [$ty->s, $aa["k"]] = [new D("v1"), $cv];
+    master: set(k) ~v1 |after |end~old ~cv ~plain
+    head  : ~v1 set(k) |after |end~old ~cv ~plain
+  [new,nested] [$ty->s, $aa["k"]] = [new D("v1"), [new D("n2")]];
+    master: set(k) ~v1 ~n2 |after |end~old ~cv ~plain
+    head  : ~v1 set(k) ~n2 |after |end~old ~cv ~plain
+  [new,int] [$ty->s, $aa["k"]] = [new D("v1"), 2];
+    master: set(k) ~v1 |after |end~old ~cv ~plain
+    head  : ~v1 set(k) |after |end~old ~cv ~plain
+== targets typed-str,aa-store: 4 diffs
+  [new,new] [$ty->s, $as["k"]] = [new D("v1"), new D("v2")];
+    master: store(k) ~v1 |after |end~old ~v2 ~cv ~plain
+    head  : ~v1 store(k) |after |end~old ~v2 ~cv ~plain
+  [new,cv] [$ty->s, $as["k"]] = [new D("v1"), $cv];
+    master: store(k) ~v1 |after |end~old ~cv ~plain
+    head  : ~v1 store(k) |after |end~old ~cv ~plain
+  [new,nested] [$ty->s, $as["k"]] = [new D("v1"), [new D("n2")]];
+    master: store(k) ~v1 |after |end~old ~n2 ~cv ~plain
+    head  : ~v1 store(k) |after |end~old ~n2 ~cv ~plain
+  [new,int] [$ty->s, $as["k"]] = [new D("v1"), 2];
+    master: store(k) ~v1 |after |end~old ~cv ~plain
+    head  : ~v1 store(k) |after |end~old ~cv ~plain
+== targets typed-str,magic: 4 diffs
+  [new,new] [$ty->s, $mg->m] = [new D("v1"), new D("v2")];
+    master: __set(m) ~v1 ~v2 |after |end~old ~cv ~plain
+    head  : ~v1 __set(m) ~v2 |after |end~old ~cv ~plain
+  [new,cv] [$ty->s, $mg->m] = [new D("v1"), $cv];
+    master: __set(m) ~v1 |after |end~old ~cv ~plain
+    head  : ~v1 __set(m) |after |end~old ~cv ~plain
+  [new,nested] [$ty->s, $mg->m] = [new D("v1"), [new D("n2")]];
+    master: __set(m) ~v1 ~n2 |after |end~old ~cv ~plain
+    head  : ~v1 __set(m) ~n2 |after |end~old ~cv ~plain
+  [new,int] [$ty->s, $mg->m] = [new D("v1"), 2];
+    master: __set(m) ~v1 |after |end~old ~cv ~plain
+    head  : ~v1 __set(m) |after |end~old ~cv ~plain
+== targets typed-str,hook-discard: 4 diffs
+  [new,new] [$ty->s, $hk->hd] = [new D("v1"), new D("v2")];
+    master: hook-discard ~v1 ~v2 |after |end~old ~cv ~plain
+    head  : ~v1 hook-discard ~v2 |after |end~old ~cv ~plain
+  [new,cv] [$ty->s, $hk->hd] = [new D("v1"), $cv];
+    master: hook-discard ~v1 |after |end~old ~cv ~plain
+    head  : ~v1 hook-discard |after |end~old ~cv ~plain
+  [new,nested] [$ty->s, $hk->hd] = [new D("v1"), [new D("n2")]];
+    master: hook-discard ~v1 ~n2 |after |end~old ~cv ~plain
+    head  : ~v1 hook-discard ~n2 |after |end~old ~cv ~plain
+  [new,int] [$ty->s, $hk->hd] = [new D("v1"), 2];
+    master: hook-discard ~v1 |after |end~old ~cv ~plain
+    head  : ~v1 hook-discard |after |end~old ~cv ~plain
+== targets typed-str,hook-store: 4 diffs
+  [new,new] [$ty->s, $hk->hs] = [new D("v1"), new D("v2")];
+    master: hook-store ~v1 |after |end~old ~v2 ~cv ~plain
+    head  : ~v1 hook-store |after |end~old ~v2 ~cv ~plain
+  [new,cv] [$ty->s, $hk->hs] = [new D("v1"), $cv];
+    master: hook-store ~v1 |after |end~old ~cv ~plain
+    head  : ~v1 hook-store |after |end~old ~cv ~plain
+  [new,nested] [$ty->s, $hk->hs] = [new D("v1"), [new D("n2")]];
+    master: hook-store ~v1 |after |end~old ~n2 ~cv ~plain
+    head  : ~v1 hook-store |after |end~old ~n2 ~cv ~plain
+  [new,int] [$ty->s, $hk->hs] = [new D("v1"), 2];
+    master: hook-store ~v1 |after |end~old ~cv ~plain
+    head  : ~v1 hook-store |after |end~old ~cv ~plain
+== targets typed-str,stroff: 3 diffs
+  [new,new] [$ty->s, $str[0]] = [new D("v1"), new D("v2")];
+    master: Warning: Only the first byte will be assigned to the string offset
+~v1 ~v2 |after |end~old ~cv ~plain
+    head  : ~v1 
+Warning: Only the first byte will be assigned to the string offset
+~v2 |after |end~old ~cv ~plain
+  [new,cv] [$ty->s, $str[0]] = [new D("v1"), $cv];
+    master: Warning: Only the first byte will be assigned to the string offset
+~v1 |after |end~old ~cv ~plain
+    head  : ~v1 
+Warning: Only the first byte will be assigned to the string offset
+|after |end~old ~cv ~plain
+  [new,nested] [$ty->s, $str[0]] = [new D("v1"), [new D("n2")]];
+    master: Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~v1 ~n2 |after |end~old ~cv ~plain
+    head  : ~v1 
+Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n2 |after |end~old ~cv ~plain
+== targets aa-discard,cv-same: 8 diffs
+  [new,new] [$aa["k"], $aa["k"]] = [new D("v1"), new D("v2")];
+    master: set(k) set(k) ~v1 ~v2 |after |end~old ~cv ~plain
+    head  : set(k) ~v1 set(k) ~v2 |after |end~old ~cv ~plain
+  [new,cv] [$aa["k"], $aa["k"]] = [new D("v1"), $cv];
+    master: set(k) set(k) ~v1 |after |end~old ~cv ~plain
+    head  : set(k) ~v1 set(k) |after |end~old ~cv ~plain
+  [new,nested] [$aa["k"], $aa["k"]] = [new D("v1"), [new D("n2")]];
+    master: set(k) set(k) ~v1 ~n2 |after |end~old ~cv ~plain
+    head  : set(k) ~v1 set(k) ~n2 |after |end~old ~cv ~plain
+  [new,int] [$aa["k"], $aa["k"]] = [new D("v1"), 2];
+    master: set(k) set(k) ~v1 |after |end~old ~cv ~plain
+    head  : set(k) ~v1 set(k) |after |end~old ~cv ~plain
+  [nested,new] [$aa["k"], $aa["k"]] = [[new D("n1")], new D("v2")];
+    master: set(k) set(k) ~n1 ~v2 |after |end~old ~cv ~plain
+    head  : set(k) ~n1 set(k) ~v2 |after |end~old ~cv ~plain
+  [nested,cv] [$aa["k"], $aa["k"]] = [[new D("n1")], $cv];
+    master: set(k) set(k) ~n1 |after |end~old ~cv ~plain
+    head  : set(k) ~n1 set(k) |after |end~old ~cv ~plain
+  [nested,nested] [$aa["k"], $aa["k"]] = [[new D("n1")], [new D("n2")]];
+    master: set(k) set(k) ~n1 ~n2 |after |end~old ~cv ~plain
+    head  : set(k) ~n1 set(k) ~n2 |after |end~old ~cv ~plain
+  [nested,int] [$aa["k"], $aa["k"]] = [[new D("n1")], 2];
+    master: set(k) set(k) ~n1 |after |end~old ~cv ~plain
+    head  : set(k) ~n1 set(k) |after |end~old ~cv ~plain
+== targets aa-discard,cv-old: 8 diffs
+  [new,new] [$aa["k"], $old] = [new D("v1"), new D("v2")];
+    master: set(k) ~old ~v1 |after |end~v2 ~cv ~plain
+    head  : set(k) ~v1 ~old |after |end~v2 ~cv ~plain
+  [new,cv] [$aa["k"], $old] = [new D("v1"), $cv];
+    master: set(k) ~old ~v1 |after |end~cv ~plain
+    head  : set(k) ~v1 ~old |after |end~cv ~plain
+  [new,nested] [$aa["k"], $old] = [new D("v1"), [new D("n2")]];
+    master: set(k) ~old ~v1 |after |end~n2 ~cv ~plain
+    head  : set(k) ~v1 ~old |after |end~n2 ~cv ~plain
+  [new,int] [$aa["k"], $old] = [new D("v1"), 2];
+    master: set(k) ~old ~v1 |after |end~cv ~plain
+    head  : set(k) ~v1 ~old |after |end~cv ~plain
+  [nested,new] [$aa["k"], $old] = [[new D("n1")], new D("v2")];
+    master: set(k) ~old ~n1 |after |end~v2 ~cv ~plain
+    head  : set(k) ~n1 ~old |after |end~v2 ~cv ~plain
+  [nested,cv] [$aa["k"], $old] = [[new D("n1")], $cv];
+    master: set(k) ~old ~n1 |after |end~cv ~plain
+    head  : set(k) ~n1 ~old |after |end~cv ~plain
+  [nested,nested] [$aa["k"], $old] = [[new D("n1")], [new D("n2")]];
+    master: set(k) ~old ~n1 |after |end~n2 ~cv ~plain
+    head  : set(k) ~n1 ~old |after |end~n2 ~cv ~plain
+  [nested,int] [$aa["k"], $old] = [[new D("n1")], 2];
+    master: set(k) ~old ~n1 |after |end~cv ~plain
+    head  : set(k) ~n1 ~old |after |end~cv ~plain
+== targets aa-discard,aa-discard: 8 diffs
+  [new,new] [$aa["k"], $aa["k"]] = [new D("v1"), new D("v2")];
+    master: set(k) set(k) ~v1 ~v2 |after |end~old ~cv ~plain
+    head  : set(k) ~v1 set(k) ~v2 |after |end~old ~cv ~plain
+  [new,cv] [$aa["k"], $aa["k"]] = [new D("v1"), $cv];
+    master: set(k) set(k) ~v1 |after |end~old ~cv ~plain
+    head  : set(k) ~v1 set(k) |after |end~old ~cv ~plain
+  [new,nested] [$aa["k"], $aa["k"]] = [new D("v1"), [new D("n2")]];
+    master: set(k) set(k) ~v1 ~n2 |after |end~old ~cv ~plain
+    head  : set(k) ~v1 set(k) ~n2 |after |end~old ~cv ~plain
+  [new,int] [$aa["k"], $aa["k"]] = [new D("v1"), 2];
+    master: set(k) set(k) ~v1 |after |end~old ~cv ~plain
+    head  : set(k) ~v1 set(k) |after |end~old ~cv ~plain
+  [nested,new] [$aa["k"], $aa["k"]] = [[new D("n1")], new D("v2")];
+    master: set(k) set(k) ~n1 ~v2 |after |end~old ~cv ~plain
+    head  : set(k) ~n1 set(k) ~v2 |after |end~old ~cv ~plain
+  [nested,cv] [$aa["k"], $aa["k"]] = [[new D("n1")], $cv];
+    master: set(k) set(k) ~n1 |after |end~old ~cv ~plain
+    head  : set(k) ~n1 set(k) |after |end~old ~cv ~plain
+  [nested,nested] [$aa["k"], $aa["k"]] = [[new D("n1")], [new D("n2")]];
+    master: set(k) set(k) ~n1 ~n2 |after |end~old ~cv ~plain
+    head  : set(k) ~n1 set(k) ~n2 |after |end~old ~cv ~plain
+  [nested,int] [$aa["k"], $aa["k"]] = [[new D("n1")], 2];
+    master: set(k) set(k) ~n1 |after |end~old ~cv ~plain
+    head  : set(k) ~n1 set(k) |after |end~old ~cv ~plain
+== targets aa-discard,aa-store: 8 diffs
+  [new,new] [$aa["k"], $as["k"]] = [new D("v1"), new D("v2")];
+    master: set(k) store(k) ~v1 |after |end~old ~v2 ~cv ~plain
+    head  : set(k) ~v1 store(k) |after |end~old ~v2 ~cv ~plain
+  [new,cv] [$aa["k"], $as["k"]] = [new D("v1"), $cv];
+    master: set(k) store(k) ~v1 |after |end~old ~cv ~plain
+    head  : set(k) ~v1 store(k) |after |end~old ~cv ~plain
+  [new,nested] [$aa["k"], $as["k"]] = [new D("v1"), [new D("n2")]];
+    master: set(k) store(k) ~v1 |after |end~old ~n2 ~cv ~plain
+    head  : set(k) ~v1 store(k) |after |end~old ~n2 ~cv ~plain
+  [new,int] [$aa["k"], $as["k"]] = [new D("v1"), 2];
+    master: set(k) store(k) ~v1 |after |end~old ~cv ~plain
+    head  : set(k) ~v1 store(k) |after |end~old ~cv ~plain
+  [nested,new] [$aa["k"], $as["k"]] = [[new D("n1")], new D("v2")];
+    master: set(k) store(k) ~n1 |after |end~old ~v2 ~cv ~plain
+    head  : set(k) ~n1 store(k) |after |end~old ~v2 ~cv ~plain
+  [nested,cv] [$aa["k"], $as["k"]] = [[new D("n1")], $cv];
+    master: set(k) store(k) ~n1 |after |end~old ~cv ~plain
+    head  : set(k) ~n1 store(k) |after |end~old ~cv ~plain
+  [nested,nested] [$aa["k"], $as["k"]] = [[new D("n1")], [new D("n2")]];
+    master: set(k) store(k) ~n1 |after |end~old ~n2 ~cv ~plain
+    head  : set(k) ~n1 store(k) |after |end~old ~n2 ~cv ~plain
+  [nested,int] [$aa["k"], $as["k"]] = [[new D("n1")], 2];
+    master: set(k) store(k) ~n1 |after |end~old ~cv ~plain
+    head  : set(k) ~n1 store(k) |after |end~old ~cv ~plain
+== targets aa-discard,magic: 8 diffs
+  [new,new] [$aa["k"], $mg->m] = [new D("v1"), new D("v2")];
+    master: set(k) __set(m) ~v1 ~v2 |after |end~old ~cv ~plain
+    head  : set(k) ~v1 __set(m) ~v2 |after |end~old ~cv ~plain
+  [new,cv] [$aa["k"], $mg->m] = [new D("v1"), $cv];
+    master: set(k) __set(m) ~v1 |after |end~old ~cv ~plain
+    head  : set(k) ~v1 __set(m) |after |end~old ~cv ~plain
+  [new,nested] [$aa["k"], $mg->m] = [new D("v1"), [new D("n2")]];
+    master: set(k) __set(m) ~v1 ~n2 |after |end~old ~cv ~plain
+    head  : set(k) ~v1 __set(m) ~n2 |after |end~old ~cv ~plain
+  [new,int] [$aa["k"], $mg->m] = [new D("v1"), 2];
+    master: set(k) __set(m) ~v1 |after |end~old ~cv ~plain
+    head  : set(k) ~v1 __set(m) |after |end~old ~cv ~plain
+  [nested,new] [$aa["k"], $mg->m] = [[new D("n1")], new D("v2")];
+    master: set(k) __set(m) ~n1 ~v2 |after |end~old ~cv ~plain
+    head  : set(k) ~n1 __set(m) ~v2 |after |end~old ~cv ~plain
+  [nested,cv] [$aa["k"], $mg->m] = [[new D("n1")], $cv];
+    master: set(k) __set(m) ~n1 |after |end~old ~cv ~plain
+    head  : set(k) ~n1 __set(m) |after |end~old ~cv ~plain
+  [nested,nested] [$aa["k"], $mg->m] = [[new D("n1")], [new D("n2")]];
+    master: set(k) __set(m) ~n1 ~n2 |after |end~old ~cv ~plain
+    head  : set(k) ~n1 __set(m) ~n2 |after |end~old ~cv ~plain
+  [nested,int] [$aa["k"], $mg->m] = [[new D("n1")], 2];
+    master: set(k) __set(m) ~n1 |after |end~old ~cv ~plain
+    head  : set(k) ~n1 __set(m) |after |end~old ~cv ~plain
+== targets aa-discard,hook-discard: 8 diffs
+  [new,new] [$aa["k"], $hk->hd] = [new D("v1"), new D("v2")];
+    master: set(k) hook-discard ~v1 ~v2 |after |end~old ~cv ~plain
+    head  : set(k) ~v1 hook-discard ~v2 |after |end~old ~cv ~plain
+  [new,cv] [$aa["k"], $hk->hd] = [new D("v1"), $cv];
+    master: set(k) hook-discard ~v1 |after |end~old ~cv ~plain
+    head  : set(k) ~v1 hook-discard |after |end~old ~cv ~plain
+  [new,nested] [$aa["k"], $hk->hd] = [new D("v1"), [new D("n2")]];
+    master: set(k) hook-discard ~v1 ~n2 |after |end~old ~cv ~plain
+    head  : set(k) ~v1 hook-discard ~n2 |after |end~old ~cv ~plain
+  [new,int] [$aa["k"], $hk->hd] = [new D("v1"), 2];
+    master: set(k) hook-discard ~v1 |after |end~old ~cv ~plain
+    head  : set(k) ~v1 hook-discard |after |end~old ~cv ~plain
+  [nested,new] [$aa["k"], $hk->hd] = [[new D("n1")], new D("v2")];
+    master: set(k) hook-discard ~n1 ~v2 |after |end~old ~cv ~plain
+    head  : set(k) ~n1 hook-discard ~v2 |after |end~old ~cv ~plain
+  [nested,cv] [$aa["k"], $hk->hd] = [[new D("n1")], $cv];
+    master: set(k) hook-discard ~n1 |after |end~old ~cv ~plain
+    head  : set(k) ~n1 hook-discard |after |end~old ~cv ~plain
+  [nested,nested] [$aa["k"], $hk->hd] = [[new D("n1")], [new D("n2")]];
+    master: set(k) hook-discard ~n1 ~n2 |after |end~old ~cv ~plain
+    head  : set(k) ~n1 hook-discard ~n2 |after |end~old ~cv ~plain
+  [nested,int] [$aa["k"], $hk->hd] = [[new D("n1")], 2];
+    master: set(k) hook-discard ~n1 |after |end~old ~cv ~plain
+    head  : set(k) ~n1 hook-discard |after |end~old ~cv ~plain
+== targets aa-discard,hook-store: 8 diffs
+  [new,new] [$aa["k"], $hk->hs] = [new D("v1"), new D("v2")];
+    master: set(k) hook-store ~v1 |after |end~old ~v2 ~cv ~plain
+    head  : set(k) ~v1 hook-store |after |end~old ~v2 ~cv ~plain
+  [new,cv] [$aa["k"], $hk->hs] = [new D("v1"), $cv];
+    master: set(k) hook-store ~v1 |after |end~old ~cv ~plain
+    head  : set(k) ~v1 hook-store |after |end~old ~cv ~plain
+  [new,nested] [$aa["k"], $hk->hs] = [new D("v1"), [new D("n2")]];
+    master: set(k) hook-store ~v1 |after |end~old ~n2 ~cv ~plain
+    head  : set(k) ~v1 hook-store |after |end~old ~n2 ~cv ~plain
+  [new,int] [$aa["k"], $hk->hs] = [new D("v1"), 2];
+    master: set(k) hook-store ~v1 |after |end~old ~cv ~plain
+    head  : set(k) ~v1 hook-store |after |end~old ~cv ~plain
+  [nested,new] [$aa["k"], $hk->hs] = [[new D("n1")], new D("v2")];
+    master: set(k) hook-store ~n1 |after |end~old ~v2 ~cv ~plain
+    head  : set(k) ~n1 hook-store |after |end~old ~v2 ~cv ~plain
+  [nested,cv] [$aa["k"], $hk->hs] = [[new D("n1")], $cv];
+    master: set(k) hook-store ~n1 |after |end~old ~cv ~plain
+    head  : set(k) ~n1 hook-store |after |end~old ~cv ~plain
+  [nested,nested] [$aa["k"], $hk->hs] = [[new D("n1")], [new D("n2")]];
+    master: set(k) hook-store ~n1 |after |end~old ~n2 ~cv ~plain
+    head  : set(k) ~n1 hook-store |after |end~old ~n2 ~cv ~plain
+  [nested,int] [$aa["k"], $hk->hs] = [[new D("n1")], 2];
+    master: set(k) hook-store ~n1 |after |end~old ~cv ~plain
+    head  : set(k) ~n1 hook-store |after |end~old ~cv ~plain
+== targets aa-discard,stroff: 6 diffs
+  [new,new] [$aa["k"], $str[0]] = [new D("v1"), new D("v2")];
+    master: set(k) 
+Warning: Only the first byte will be assigned to the string offset
+~v1 ~v2 |after |end~old ~cv ~plain
+    head  : set(k) ~v1 
+Warning: Only the first byte will be assigned to the string offset
+~v2 |after |end~old ~cv ~plain
+  [new,cv] [$aa["k"], $str[0]] = [new D("v1"), $cv];
+    master: set(k) 
+Warning: Only the first byte will be assigned to the string offset
+~v1 |after |end~old ~cv ~plain
+    head  : set(k) ~v1 
+Warning: Only the first byte will be assigned to the string offset
+|after |end~old ~cv ~plain
+  [new,nested] [$aa["k"], $str[0]] = [new D("v1"), [new D("n2")]];
+    master: set(k) 
+Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~v1 ~n2 |after |end~old ~cv ~plain
+    head  : set(k) ~v1 
+Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n2 |after |end~old ~cv ~plain
+  [nested,new] [$aa["k"], $str[0]] = [[new D("n1")], new D("v2")];
+    master: set(k) 
+Warning: Only the first byte will be assigned to the string offset
+~n1 ~v2 |after |end~old ~cv ~plain
+    head  : set(k) ~n1 
+Warning: Only the first byte will be assigned to the string offset
+~v2 |after |end~old ~cv ~plain
+  [nested,cv] [$aa["k"], $str[0]] = [[new D("n1")], $cv];
+    master: set(k) 
+Warning: Only the first byte will be assigned to the string offset
+~n1 |after |end~old ~cv ~plain
+    head  : set(k) ~n1 
+Warning: Only the first byte will be assigned to the string offset
+|after |end~old ~cv ~plain
+  [nested,nested] [$aa["k"], $str[0]] = [[new D("n1")], [new D("n2")]];
+    master: set(k) 
+Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 ~n2 |after |end~old ~cv ~plain
+    head  : set(k) ~n1 
+Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n2 |after |end~old ~cv ~plain
+== targets magic,cv-same: 8 diffs
+  [new,new] [$mg->m, $mg->m] = [new D("v1"), new D("v2")];
+    master: __set(m) __set(m) ~v1 ~v2 |after |end~old ~cv ~plain
+    head  : __set(m) ~v1 __set(m) ~v2 |after |end~old ~cv ~plain
+  [new,cv] [$mg->m, $mg->m] = [new D("v1"), $cv];
+    master: __set(m) __set(m) ~v1 |after |end~old ~cv ~plain
+    head  : __set(m) ~v1 __set(m) |after |end~old ~cv ~plain
+  [new,nested] [$mg->m, $mg->m] = [new D("v1"), [new D("n2")]];
+    master: __set(m) __set(m) ~v1 ~n2 |after |end~old ~cv ~plain
+    head  : __set(m) ~v1 __set(m) ~n2 |after |end~old ~cv ~plain
+  [new,int] [$mg->m, $mg->m] = [new D("v1"), 2];
+    master: __set(m) __set(m) ~v1 |after |end~old ~cv ~plain
+    head  : __set(m) ~v1 __set(m) |after |end~old ~cv ~plain
+  [nested,new] [$mg->m, $mg->m] = [[new D("n1")], new D("v2")];
+    master: __set(m) __set(m) ~n1 ~v2 |after |end~old ~cv ~plain
+    head  : __set(m) ~n1 __set(m) ~v2 |after |end~old ~cv ~plain
+  [nested,cv] [$mg->m, $mg->m] = [[new D("n1")], $cv];
+    master: __set(m) __set(m) ~n1 |after |end~old ~cv ~plain
+    head  : __set(m) ~n1 __set(m) |after |end~old ~cv ~plain
+  [nested,nested] [$mg->m, $mg->m] = [[new D("n1")], [new D("n2")]];
+    master: __set(m) __set(m) ~n1 ~n2 |after |end~old ~cv ~plain
+    head  : __set(m) ~n1 __set(m) ~n2 |after |end~old ~cv ~plain
+  [nested,int] [$mg->m, $mg->m] = [[new D("n1")], 2];
+    master: __set(m) __set(m) ~n1 |after |end~old ~cv ~plain
+    head  : __set(m) ~n1 __set(m) |after |end~old ~cv ~plain
+== targets magic,cv-old: 8 diffs
+  [new,new] [$mg->m, $old] = [new D("v1"), new D("v2")];
+    master: __set(m) ~old ~v1 |after |end~v2 ~cv ~plain
+    head  : __set(m) ~v1 ~old |after |end~v2 ~cv ~plain
+  [new,cv] [$mg->m, $old] = [new D("v1"), $cv];
+    master: __set(m) ~old ~v1 |after |end~cv ~plain
+    head  : __set(m) ~v1 ~old |after |end~cv ~plain
+  [new,nested] [$mg->m, $old] = [new D("v1"), [new D("n2")]];
+    master: __set(m) ~old ~v1 |after |end~n2 ~cv ~plain
+    head  : __set(m) ~v1 ~old |after |end~n2 ~cv ~plain
+  [new,int] [$mg->m, $old] = [new D("v1"), 2];
+    master: __set(m) ~old ~v1 |after |end~cv ~plain
+    head  : __set(m) ~v1 ~old |after |end~cv ~plain
+  [nested,new] [$mg->m, $old] = [[new D("n1")], new D("v2")];
+    master: __set(m) ~old ~n1 |after |end~v2 ~cv ~plain
+    head  : __set(m) ~n1 ~old |after |end~v2 ~cv ~plain
+  [nested,cv] [$mg->m, $old] = [[new D("n1")], $cv];
+    master: __set(m) ~old ~n1 |after |end~cv ~plain
+    head  : __set(m) ~n1 ~old |after |end~cv ~plain
+  [nested,nested] [$mg->m, $old] = [[new D("n1")], [new D("n2")]];
+    master: __set(m) ~old ~n1 |after |end~n2 ~cv ~plain
+    head  : __set(m) ~n1 ~old |after |end~n2 ~cv ~plain
+  [nested,int] [$mg->m, $old] = [[new D("n1")], 2];
+    master: __set(m) ~old ~n1 |after |end~cv ~plain
+    head  : __set(m) ~n1 ~old |after |end~cv ~plain
+== targets magic,aa-discard: 8 diffs
+  [new,new] [$mg->m, $aa["k"]] = [new D("v1"), new D("v2")];
+    master: __set(m) set(k) ~v1 ~v2 |after |end~old ~cv ~plain
+    head  : __set(m) ~v1 set(k) ~v2 |after |end~old ~cv ~plain
+  [new,cv] [$mg->m, $aa["k"]] = [new D("v1"), $cv];
+    master: __set(m) set(k) ~v1 |after |end~old ~cv ~plain
+    head  : __set(m) ~v1 set(k) |after |end~old ~cv ~plain
+  [new,nested] [$mg->m, $aa["k"]] = [new D("v1"), [new D("n2")]];
+    master: __set(m) set(k) ~v1 ~n2 |after |end~old ~cv ~plain
+    head  : __set(m) ~v1 set(k) ~n2 |after |end~old ~cv ~plain
+  [new,int] [$mg->m, $aa["k"]] = [new D("v1"), 2];
+    master: __set(m) set(k) ~v1 |after |end~old ~cv ~plain
+    head  : __set(m) ~v1 set(k) |after |end~old ~cv ~plain
+  [nested,new] [$mg->m, $aa["k"]] = [[new D("n1")], new D("v2")];
+    master: __set(m) set(k) ~n1 ~v2 |after |end~old ~cv ~plain
+    head  : __set(m) ~n1 set(k) ~v2 |after |end~old ~cv ~plain
+  [nested,cv] [$mg->m, $aa["k"]] = [[new D("n1")], $cv];
+    master: __set(m) set(k) ~n1 |after |end~old ~cv ~plain
+    head  : __set(m) ~n1 set(k) |after |end~old ~cv ~plain
+  [nested,nested] [$mg->m, $aa["k"]] = [[new D("n1")], [new D("n2")]];
+    master: __set(m) set(k) ~n1 ~n2 |after |end~old ~cv ~plain
+    head  : __set(m) ~n1 set(k) ~n2 |after |end~old ~cv ~plain
+  [nested,int] [$mg->m, $aa["k"]] = [[new D("n1")], 2];
+    master: __set(m) set(k) ~n1 |after |end~old ~cv ~plain
+    head  : __set(m) ~n1 set(k) |after |end~old ~cv ~plain
+== targets magic,aa-store: 8 diffs
+  [new,new] [$mg->m, $as["k"]] = [new D("v1"), new D("v2")];
+    master: __set(m) store(k) ~v1 |after |end~old ~v2 ~cv ~plain
+    head  : __set(m) ~v1 store(k) |after |end~old ~v2 ~cv ~plain
+  [new,cv] [$mg->m, $as["k"]] = [new D("v1"), $cv];
+    master: __set(m) store(k) ~v1 |after |end~old ~cv ~plain
+    head  : __set(m) ~v1 store(k) |after |end~old ~cv ~plain
+  [new,nested] [$mg->m, $as["k"]] = [new D("v1"), [new D("n2")]];
+    master: __set(m) store(k) ~v1 |after |end~old ~n2 ~cv ~plain
+    head  : __set(m) ~v1 store(k) |after |end~old ~n2 ~cv ~plain
+  [new,int] [$mg->m, $as["k"]] = [new D("v1"), 2];
+    master: __set(m) store(k) ~v1 |after |end~old ~cv ~plain
+    head  : __set(m) ~v1 store(k) |after |end~old ~cv ~plain
+  [nested,new] [$mg->m, $as["k"]] = [[new D("n1")], new D("v2")];
+    master: __set(m) store(k) ~n1 |after |end~old ~v2 ~cv ~plain
+    head  : __set(m) ~n1 store(k) |after |end~old ~v2 ~cv ~plain
+  [nested,cv] [$mg->m, $as["k"]] = [[new D("n1")], $cv];
+    master: __set(m) store(k) ~n1 |after |end~old ~cv ~plain
+    head  : __set(m) ~n1 store(k) |after |end~old ~cv ~plain
+  [nested,nested] [$mg->m, $as["k"]] = [[new D("n1")], [new D("n2")]];
+    master: __set(m) store(k) ~n1 |after |end~old ~n2 ~cv ~plain
+    head  : __set(m) ~n1 store(k) |after |end~old ~n2 ~cv ~plain
+  [nested,int] [$mg->m, $as["k"]] = [[new D("n1")], 2];
+    master: __set(m) store(k) ~n1 |after |end~old ~cv ~plain
+    head  : __set(m) ~n1 store(k) |after |end~old ~cv ~plain
+== targets magic,magic: 8 diffs
+  [new,new] [$mg->m, $mg->m] = [new D("v1"), new D("v2")];
+    master: __set(m) __set(m) ~v1 ~v2 |after |end~old ~cv ~plain
+    head  : __set(m) ~v1 __set(m) ~v2 |after |end~old ~cv ~plain
+  [new,cv] [$mg->m, $mg->m] = [new D("v1"), $cv];
+    master: __set(m) __set(m) ~v1 |after |end~old ~cv ~plain
+    head  : __set(m) ~v1 __set(m) |after |end~old ~cv ~plain
+  [new,nested] [$mg->m, $mg->m] = [new D("v1"), [new D("n2")]];
+    master: __set(m) __set(m) ~v1 ~n2 |after |end~old ~cv ~plain
+    head  : __set(m) ~v1 __set(m) ~n2 |after |end~old ~cv ~plain
+  [new,int] [$mg->m, $mg->m] = [new D("v1"), 2];
+    master: __set(m) __set(m) ~v1 |after |end~old ~cv ~plain
+    head  : __set(m) ~v1 __set(m) |after |end~old ~cv ~plain
+  [nested,new] [$mg->m, $mg->m] = [[new D("n1")], new D("v2")];
+    master: __set(m) __set(m) ~n1 ~v2 |after |end~old ~cv ~plain
+    head  : __set(m) ~n1 __set(m) ~v2 |after |end~old ~cv ~plain
+  [nested,cv] [$mg->m, $mg->m] = [[new D("n1")], $cv];
+    master: __set(m) __set(m) ~n1 |after |end~old ~cv ~plain
+    head  : __set(m) ~n1 __set(m) |after |end~old ~cv ~plain
+  [nested,nested] [$mg->m, $mg->m] = [[new D("n1")], [new D("n2")]];
+    master: __set(m) __set(m) ~n1 ~n2 |after |end~old ~cv ~plain
+    head  : __set(m) ~n1 __set(m) ~n2 |after |end~old ~cv ~plain
+  [nested,int] [$mg->m, $mg->m] = [[new D("n1")], 2];
+    master: __set(m) __set(m) ~n1 |after |end~old ~cv ~plain
+    head  : __set(m) ~n1 __set(m) |after |end~old ~cv ~plain
+== targets magic,hook-discard: 8 diffs
+  [new,new] [$mg->m, $hk->hd] = [new D("v1"), new D("v2")];
+    master: __set(m) hook-discard ~v1 ~v2 |after |end~old ~cv ~plain
+    head  : __set(m) ~v1 hook-discard ~v2 |after |end~old ~cv ~plain
+  [new,cv] [$mg->m, $hk->hd] = [new D("v1"), $cv];
+    master: __set(m) hook-discard ~v1 |after |end~old ~cv ~plain
+    head  : __set(m) ~v1 hook-discard |after |end~old ~cv ~plain
+  [new,nested] [$mg->m, $hk->hd] = [new D("v1"), [new D("n2")]];
+    master: __set(m) hook-discard ~v1 ~n2 |after |end~old ~cv ~plain
+    head  : __set(m) ~v1 hook-discard ~n2 |after |end~old ~cv ~plain
+  [new,int] [$mg->m, $hk->hd] = [new D("v1"), 2];
+    master: __set(m) hook-discard ~v1 |after |end~old ~cv ~plain
+    head  : __set(m) ~v1 hook-discard |after |end~old ~cv ~plain
+  [nested,new] [$mg->m, $hk->hd] = [[new D("n1")], new D("v2")];
+    master: __set(m) hook-discard ~n1 ~v2 |after |end~old ~cv ~plain
+    head  : __set(m) ~n1 hook-discard ~v2 |after |end~old ~cv ~plain
+  [nested,cv] [$mg->m, $hk->hd] = [[new D("n1")], $cv];
+    master: __set(m) hook-discard ~n1 |after |end~old ~cv ~plain
+    head  : __set(m) ~n1 hook-discard |after |end~old ~cv ~plain
+  [nested,nested] [$mg->m, $hk->hd] = [[new D("n1")], [new D("n2")]];
+    master: __set(m) hook-discard ~n1 ~n2 |after |end~old ~cv ~plain
+    head  : __set(m) ~n1 hook-discard ~n2 |after |end~old ~cv ~plain
+  [nested,int] [$mg->m, $hk->hd] = [[new D("n1")], 2];
+    master: __set(m) hook-discard ~n1 |after |end~old ~cv ~plain
+    head  : __set(m) ~n1 hook-discard |after |end~old ~cv ~plain
+== targets magic,hook-store: 8 diffs
+  [new,new] [$mg->m, $hk->hs] = [new D("v1"), new D("v2")];
+    master: __set(m) hook-store ~v1 |after |end~old ~v2 ~cv ~plain
+    head  : __set(m) ~v1 hook-store |after |end~old ~v2 ~cv ~plain
+  [new,cv] [$mg->m, $hk->hs] = [new D("v1"), $cv];
+    master: __set(m) hook-store ~v1 |after |end~old ~cv ~plain
+    head  : __set(m) ~v1 hook-store |after |end~old ~cv ~plain
+  [new,nested] [$mg->m, $hk->hs] = [new D("v1"), [new D("n2")]];
+    master: __set(m) hook-store ~v1 |after |end~old ~n2 ~cv ~plain
+    head  : __set(m) ~v1 hook-store |after |end~old ~n2 ~cv ~plain
+  [new,int] [$mg->m, $hk->hs] = [new D("v1"), 2];
+    master: __set(m) hook-store ~v1 |after |end~old ~cv ~plain
+    head  : __set(m) ~v1 hook-store |after |end~old ~cv ~plain
+  [nested,new] [$mg->m, $hk->hs] = [[new D("n1")], new D("v2")];
+    master: __set(m) hook-store ~n1 |after |end~old ~v2 ~cv ~plain
+    head  : __set(m) ~n1 hook-store |after |end~old ~v2 ~cv ~plain
+  [nested,cv] [$mg->m, $hk->hs] = [[new D("n1")], $cv];
+    master: __set(m) hook-store ~n1 |after |end~old ~cv ~plain
+    head  : __set(m) ~n1 hook-store |after |end~old ~cv ~plain
+  [nested,nested] [$mg->m, $hk->hs] = [[new D("n1")], [new D("n2")]];
+    master: __set(m) hook-store ~n1 |after |end~old ~n2 ~cv ~plain
+    head  : __set(m) ~n1 hook-store |after |end~old ~n2 ~cv ~plain
+  [nested,int] [$mg->m, $hk->hs] = [[new D("n1")], 2];
+    master: __set(m) hook-store ~n1 |after |end~old ~cv ~plain
+    head  : __set(m) ~n1 hook-store |after |end~old ~cv ~plain
+== targets magic,stroff: 6 diffs
+  [new,new] [$mg->m, $str[0]] = [new D("v1"), new D("v2")];
+    master: __set(m) 
+Warning: Only the first byte will be assigned to the string offset
+~v1 ~v2 |after |end~old ~cv ~plain
+    head  : __set(m) ~v1 
+Warning: Only the first byte will be assigned to the string offset
+~v2 |after |end~old ~cv ~plain
+  [new,cv] [$mg->m, $str[0]] = [new D("v1"), $cv];
+    master: __set(m) 
+Warning: Only the first byte will be assigned to the string offset
+~v1 |after |end~old ~cv ~plain
+    head  : __set(m) ~v1 
+Warning: Only the first byte will be assigned to the string offset
+|after |end~old ~cv ~plain
+  [new,nested] [$mg->m, $str[0]] = [new D("v1"), [new D("n2")]];
+    master: __set(m) 
+Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~v1 ~n2 |after |end~old ~cv ~plain
+    head  : __set(m) ~v1 
+Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n2 |after |end~old ~cv ~plain
+  [nested,new] [$mg->m, $str[0]] = [[new D("n1")], new D("v2")];
+    master: __set(m) 
+Warning: Only the first byte will be assigned to the string offset
+~n1 ~v2 |after |end~old ~cv ~plain
+    head  : __set(m) ~n1 
+Warning: Only the first byte will be assigned to the string offset
+~v2 |after |end~old ~cv ~plain
+  [nested,cv] [$mg->m, $str[0]] = [[new D("n1")], $cv];
+    master: __set(m) 
+Warning: Only the first byte will be assigned to the string offset
+~n1 |after |end~old ~cv ~plain
+    head  : __set(m) ~n1 
+Warning: Only the first byte will be assigned to the string offset
+|after |end~old ~cv ~plain
+  [nested,nested] [$mg->m, $str[0]] = [[new D("n1")], [new D("n2")]];
+    master: __set(m) 
+Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 ~n2 |after |end~old ~cv ~plain
+    head  : __set(m) ~n1 
+Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n2 |after |end~old ~cv ~plain
+== targets hook-discard,cv-same: 8 diffs
+  [new,new] [$hk->hd, $hk->hd] = [new D("v1"), new D("v2")];
+    master: hook-discard hook-discard ~v1 ~v2 |after |end~old ~cv ~plain
+    head  : hook-discard ~v1 hook-discard ~v2 |after |end~old ~cv ~plain
+  [new,cv] [$hk->hd, $hk->hd] = [new D("v1"), $cv];
+    master: hook-discard hook-discard ~v1 |after |end~old ~cv ~plain
+    head  : hook-discard ~v1 hook-discard |after |end~old ~cv ~plain
+  [new,nested] [$hk->hd, $hk->hd] = [new D("v1"), [new D("n2")]];
+    master: hook-discard hook-discard ~v1 ~n2 |after |end~old ~cv ~plain
+    head  : hook-discard ~v1 hook-discard ~n2 |after |end~old ~cv ~plain
+  [new,int] [$hk->hd, $hk->hd] = [new D("v1"), 2];
+    master: hook-discard hook-discard ~v1 |after |end~old ~cv ~plain
+    head  : hook-discard ~v1 hook-discard |after |end~old ~cv ~plain
+  [nested,new] [$hk->hd, $hk->hd] = [[new D("n1")], new D("v2")];
+    master: hook-discard hook-discard ~n1 ~v2 |after |end~old ~cv ~plain
+    head  : hook-discard ~n1 hook-discard ~v2 |after |end~old ~cv ~plain
+  [nested,cv] [$hk->hd, $hk->hd] = [[new D("n1")], $cv];
+    master: hook-discard hook-discard ~n1 |after |end~old ~cv ~plain
+    head  : hook-discard ~n1 hook-discard |after |end~old ~cv ~plain
+  [nested,nested] [$hk->hd, $hk->hd] = [[new D("n1")], [new D("n2")]];
+    master: hook-discard hook-discard ~n1 ~n2 |after |end~old ~cv ~plain
+    head  : hook-discard ~n1 hook-discard ~n2 |after |end~old ~cv ~plain
+  [nested,int] [$hk->hd, $hk->hd] = [[new D("n1")], 2];
+    master: hook-discard hook-discard ~n1 |after |end~old ~cv ~plain
+    head  : hook-discard ~n1 hook-discard |after |end~old ~cv ~plain
+== targets hook-discard,cv-old: 8 diffs
+  [new,new] [$hk->hd, $old] = [new D("v1"), new D("v2")];
+    master: hook-discard ~old ~v1 |after |end~v2 ~cv ~plain
+    head  : hook-discard ~v1 ~old |after |end~v2 ~cv ~plain
+  [new,cv] [$hk->hd, $old] = [new D("v1"), $cv];
+    master: hook-discard ~old ~v1 |after |end~cv ~plain
+    head  : hook-discard ~v1 ~old |after |end~cv ~plain
+  [new,nested] [$hk->hd, $old] = [new D("v1"), [new D("n2")]];
+    master: hook-discard ~old ~v1 |after |end~n2 ~cv ~plain
+    head  : hook-discard ~v1 ~old |after |end~n2 ~cv ~plain
+  [new,int] [$hk->hd, $old] = [new D("v1"), 2];
+    master: hook-discard ~old ~v1 |after |end~cv ~plain
+    head  : hook-discard ~v1 ~old |after |end~cv ~plain
+  [nested,new] [$hk->hd, $old] = [[new D("n1")], new D("v2")];
+    master: hook-discard ~old ~n1 |after |end~v2 ~cv ~plain
+    head  : hook-discard ~n1 ~old |after |end~v2 ~cv ~plain
+  [nested,cv] [$hk->hd, $old] = [[new D("n1")], $cv];
+    master: hook-discard ~old ~n1 |after |end~cv ~plain
+    head  : hook-discard ~n1 ~old |after |end~cv ~plain
+  [nested,nested] [$hk->hd, $old] = [[new D("n1")], [new D("n2")]];
+    master: hook-discard ~old ~n1 |after |end~n2 ~cv ~plain
+    head  : hook-discard ~n1 ~old |after |end~n2 ~cv ~plain
+  [nested,int] [$hk->hd, $old] = [[new D("n1")], 2];
+    master: hook-discard ~old ~n1 |after |end~cv ~plain
+    head  : hook-discard ~n1 ~old |after |end~cv ~plain
+== targets hook-discard,aa-discard: 8 diffs
+  [new,new] [$hk->hd, $aa["k"]] = [new D("v1"), new D("v2")];
+    master: hook-discard set(k) ~v1 ~v2 |after |end~old ~cv ~plain
+    head  : hook-discard ~v1 set(k) ~v2 |after |end~old ~cv ~plain
+  [new,cv] [$hk->hd, $aa["k"]] = [new D("v1"), $cv];
+    master: hook-discard set(k) ~v1 |after |end~old ~cv ~plain
+    head  : hook-discard ~v1 set(k) |after |end~old ~cv ~plain
+  [new,nested] [$hk->hd, $aa["k"]] = [new D("v1"), [new D("n2")]];
+    master: hook-discard set(k) ~v1 ~n2 |after |end~old ~cv ~plain
+    head  : hook-discard ~v1 set(k) ~n2 |after |end~old ~cv ~plain
+  [new,int] [$hk->hd, $aa["k"]] = [new D("v1"), 2];
+    master: hook-discard set(k) ~v1 |after |end~old ~cv ~plain
+    head  : hook-discard ~v1 set(k) |after |end~old ~cv ~plain
+  [nested,new] [$hk->hd, $aa["k"]] = [[new D("n1")], new D("v2")];
+    master: hook-discard set(k) ~n1 ~v2 |after |end~old ~cv ~plain
+    head  : hook-discard ~n1 set(k) ~v2 |after |end~old ~cv ~plain
+  [nested,cv] [$hk->hd, $aa["k"]] = [[new D("n1")], $cv];
+    master: hook-discard set(k) ~n1 |after |end~old ~cv ~plain
+    head  : hook-discard ~n1 set(k) |after |end~old ~cv ~plain
+  [nested,nested] [$hk->hd, $aa["k"]] = [[new D("n1")], [new D("n2")]];
+    master: hook-discard set(k) ~n1 ~n2 |after |end~old ~cv ~plain
+    head  : hook-discard ~n1 set(k) ~n2 |after |end~old ~cv ~plain
+  [nested,int] [$hk->hd, $aa["k"]] = [[new D("n1")], 2];
+    master: hook-discard set(k) ~n1 |after |end~old ~cv ~plain
+    head  : hook-discard ~n1 set(k) |after |end~old ~cv ~plain
+== targets hook-discard,aa-store: 8 diffs
+  [new,new] [$hk->hd, $as["k"]] = [new D("v1"), new D("v2")];
+    master: hook-discard store(k) ~v1 |after |end~old ~v2 ~cv ~plain
+    head  : hook-discard ~v1 store(k) |after |end~old ~v2 ~cv ~plain
+  [new,cv] [$hk->hd, $as["k"]] = [new D("v1"), $cv];
+    master: hook-discard store(k) ~v1 |after |end~old ~cv ~plain
+    head  : hook-discard ~v1 store(k) |after |end~old ~cv ~plain
+  [new,nested] [$hk->hd, $as["k"]] = [new D("v1"), [new D("n2")]];
+    master: hook-discard store(k) ~v1 |after |end~old ~n2 ~cv ~plain
+    head  : hook-discard ~v1 store(k) |after |end~old ~n2 ~cv ~plain
+  [new,int] [$hk->hd, $as["k"]] = [new D("v1"), 2];
+    master: hook-discard store(k) ~v1 |after |end~old ~cv ~plain
+    head  : hook-discard ~v1 store(k) |after |end~old ~cv ~plain
+  [nested,new] [$hk->hd, $as["k"]] = [[new D("n1")], new D("v2")];
+    master: hook-discard store(k) ~n1 |after |end~old ~v2 ~cv ~plain
+    head  : hook-discard ~n1 store(k) |after |end~old ~v2 ~cv ~plain
+  [nested,cv] [$hk->hd, $as["k"]] = [[new D("n1")], $cv];
+    master: hook-discard store(k) ~n1 |after |end~old ~cv ~plain
+    head  : hook-discard ~n1 store(k) |after |end~old ~cv ~plain
+  [nested,nested] [$hk->hd, $as["k"]] = [[new D("n1")], [new D("n2")]];
+    master: hook-discard store(k) ~n1 |after |end~old ~n2 ~cv ~plain
+    head  : hook-discard ~n1 store(k) |after |end~old ~n2 ~cv ~plain
+  [nested,int] [$hk->hd, $as["k"]] = [[new D("n1")], 2];
+    master: hook-discard store(k) ~n1 |after |end~old ~cv ~plain
+    head  : hook-discard ~n1 store(k) |after |end~old ~cv ~plain
+== targets hook-discard,magic: 8 diffs
+  [new,new] [$hk->hd, $mg->m] = [new D("v1"), new D("v2")];
+    master: hook-discard __set(m) ~v1 ~v2 |after |end~old ~cv ~plain
+    head  : hook-discard ~v1 __set(m) ~v2 |after |end~old ~cv ~plain
+  [new,cv] [$hk->hd, $mg->m] = [new D("v1"), $cv];
+    master: hook-discard __set(m) ~v1 |after |end~old ~cv ~plain
+    head  : hook-discard ~v1 __set(m) |after |end~old ~cv ~plain
+  [new,nested] [$hk->hd, $mg->m] = [new D("v1"), [new D("n2")]];
+    master: hook-discard __set(m) ~v1 ~n2 |after |end~old ~cv ~plain
+    head  : hook-discard ~v1 __set(m) ~n2 |after |end~old ~cv ~plain
+  [new,int] [$hk->hd, $mg->m] = [new D("v1"), 2];
+    master: hook-discard __set(m) ~v1 |after |end~old ~cv ~plain
+    head  : hook-discard ~v1 __set(m) |after |end~old ~cv ~plain
+  [nested,new] [$hk->hd, $mg->m] = [[new D("n1")], new D("v2")];
+    master: hook-discard __set(m) ~n1 ~v2 |after |end~old ~cv ~plain
+    head  : hook-discard ~n1 __set(m) ~v2 |after |end~old ~cv ~plain
+  [nested,cv] [$hk->hd, $mg->m] = [[new D("n1")], $cv];
+    master: hook-discard __set(m) ~n1 |after |end~old ~cv ~plain
+    head  : hook-discard ~n1 __set(m) |after |end~old ~cv ~plain
+  [nested,nested] [$hk->hd, $mg->m] = [[new D("n1")], [new D("n2")]];
+    master: hook-discard __set(m) ~n1 ~n2 |after |end~old ~cv ~plain
+    head  : hook-discard ~n1 __set(m) ~n2 |after |end~old ~cv ~plain
+  [nested,int] [$hk->hd, $mg->m] = [[new D("n1")], 2];
+    master: hook-discard __set(m) ~n1 |after |end~old ~cv ~plain
+    head  : hook-discard ~n1 __set(m) |after |end~old ~cv ~plain
+== targets hook-discard,hook-discard: 8 diffs
+  [new,new] [$hk->hd, $hk->hd] = [new D("v1"), new D("v2")];
+    master: hook-discard hook-discard ~v1 ~v2 |after |end~old ~cv ~plain
+    head  : hook-discard ~v1 hook-discard ~v2 |after |end~old ~cv ~plain
+  [new,cv] [$hk->hd, $hk->hd] = [new D("v1"), $cv];
+    master: hook-discard hook-discard ~v1 |after |end~old ~cv ~plain
+    head  : hook-discard ~v1 hook-discard |after |end~old ~cv ~plain
+  [new,nested] [$hk->hd, $hk->hd] = [new D("v1"), [new D("n2")]];
+    master: hook-discard hook-discard ~v1 ~n2 |after |end~old ~cv ~plain
+    head  : hook-discard ~v1 hook-discard ~n2 |after |end~old ~cv ~plain
+  [new,int] [$hk->hd, $hk->hd] = [new D("v1"), 2];
+    master: hook-discard hook-discard ~v1 |after |end~old ~cv ~plain
+    head  : hook-discard ~v1 hook-discard |after |end~old ~cv ~plain
+  [nested,new] [$hk->hd, $hk->hd] = [[new D("n1")], new D("v2")];
+    master: hook-discard hook-discard ~n1 ~v2 |after |end~old ~cv ~plain
+    head  : hook-discard ~n1 hook-discard ~v2 |after |end~old ~cv ~plain
+  [nested,cv] [$hk->hd, $hk->hd] = [[new D("n1")], $cv];
+    master: hook-discard hook-discard ~n1 |after |end~old ~cv ~plain
+    head  : hook-discard ~n1 hook-discard |after |end~old ~cv ~plain
+  [nested,nested] [$hk->hd, $hk->hd] = [[new D("n1")], [new D("n2")]];
+    master: hook-discard hook-discard ~n1 ~n2 |after |end~old ~cv ~plain
+    head  : hook-discard ~n1 hook-discard ~n2 |after |end~old ~cv ~plain
+  [nested,int] [$hk->hd, $hk->hd] = [[new D("n1")], 2];
+    master: hook-discard hook-discard ~n1 |after |end~old ~cv ~plain
+    head  : hook-discard ~n1 hook-discard |after |end~old ~cv ~plain
+== targets hook-discard,hook-store: 8 diffs
+  [new,new] [$hk->hd, $hk->hs] = [new D("v1"), new D("v2")];
+    master: hook-discard hook-store ~v1 |after |end~old ~v2 ~cv ~plain
+    head  : hook-discard ~v1 hook-store |after |end~old ~v2 ~cv ~plain
+  [new,cv] [$hk->hd, $hk->hs] = [new D("v1"), $cv];
+    master: hook-discard hook-store ~v1 |after |end~old ~cv ~plain
+    head  : hook-discard ~v1 hook-store |after |end~old ~cv ~plain
+  [new,nested] [$hk->hd, $hk->hs] = [new D("v1"), [new D("n2")]];
+    master: hook-discard hook-store ~v1 |after |end~old ~n2 ~cv ~plain
+    head  : hook-discard ~v1 hook-store |after |end~old ~n2 ~cv ~plain
+  [new,int] [$hk->hd, $hk->hs] = [new D("v1"), 2];
+    master: hook-discard hook-store ~v1 |after |end~old ~cv ~plain
+    head  : hook-discard ~v1 hook-store |after |end~old ~cv ~plain
+  [nested,new] [$hk->hd, $hk->hs] = [[new D("n1")], new D("v2")];
+    master: hook-discard hook-store ~n1 |after |end~old ~v2 ~cv ~plain
+    head  : hook-discard ~n1 hook-store |after |end~old ~v2 ~cv ~plain
+  [nested,cv] [$hk->hd, $hk->hs] = [[new D("n1")], $cv];
+    master: hook-discard hook-store ~n1 |after |end~old ~cv ~plain
+    head  : hook-discard ~n1 hook-store |after |end~old ~cv ~plain
+  [nested,nested] [$hk->hd, $hk->hs] = [[new D("n1")], [new D("n2")]];
+    master: hook-discard hook-store ~n1 |after |end~old ~n2 ~cv ~plain
+    head  : hook-discard ~n1 hook-store |after |end~old ~n2 ~cv ~plain
+  [nested,int] [$hk->hd, $hk->hs] = [[new D("n1")], 2];
+    master: hook-discard hook-store ~n1 |after |end~old ~cv ~plain
+    head  : hook-discard ~n1 hook-store |after |end~old ~cv ~plain
+== targets hook-discard,stroff: 6 diffs
+  [new,new] [$hk->hd, $str[0]] = [new D("v1"), new D("v2")];
+    master: hook-discard 
+Warning: Only the first byte will be assigned to the string offset
+~v1 ~v2 |after |end~old ~cv ~plain
+    head  : hook-discard ~v1 
+Warning: Only the first byte will be assigned to the string offset
+~v2 |after |end~old ~cv ~plain
+  [new,cv] [$hk->hd, $str[0]] = [new D("v1"), $cv];
+    master: hook-discard 
+Warning: Only the first byte will be assigned to the string offset
+~v1 |after |end~old ~cv ~plain
+    head  : hook-discard ~v1 
+Warning: Only the first byte will be assigned to the string offset
+|after |end~old ~cv ~plain
+  [new,nested] [$hk->hd, $str[0]] = [new D("v1"), [new D("n2")]];
+    master: hook-discard 
+Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~v1 ~n2 |after |end~old ~cv ~plain
+    head  : hook-discard ~v1 
+Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n2 |after |end~old ~cv ~plain
+  [nested,new] [$hk->hd, $str[0]] = [[new D("n1")], new D("v2")];
+    master: hook-discard 
+Warning: Only the first byte will be assigned to the string offset
+~n1 ~v2 |after |end~old ~cv ~plain
+    head  : hook-discard ~n1 
+Warning: Only the first byte will be assigned to the string offset
+~v2 |after |end~old ~cv ~plain
+  [nested,cv] [$hk->hd, $str[0]] = [[new D("n1")], $cv];
+    master: hook-discard 
+Warning: Only the first byte will be assigned to the string offset
+~n1 |after |end~old ~cv ~plain
+    head  : hook-discard ~n1 
+Warning: Only the first byte will be assigned to the string offset
+|after |end~old ~cv ~plain
+  [nested,nested] [$hk->hd, $str[0]] = [[new D("n1")], [new D("n2")]];
+    master: hook-discard 
+Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 ~n2 |after |end~old ~cv ~plain
+    head  : hook-discard ~n1 
+Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n2 |after |end~old ~cv ~plain
+== targets stroff,cv-same: 6 diffs
+  [new,new] [$str[0], $str[0]] = [new D("v1"), new D("v2")];
+    master: Warning: Only the first byte will be assigned to the string offset
+
+Warning: Only the first byte will be assigned to the string offset
+~v1 ~v2 |after |end~old ~cv ~plain
+    head  : Warning: Only the first byte will be assigned to the string offset
+~v1 
+Warning: Only the first byte will be assigned to the string offset
+~v2 |after |end~old ~cv ~plain
+  [new,cv] [$str[0], $str[0]] = [new D("v1"), $cv];
+    master: Warning: Only the first byte will be assigned to the string offset
+
+Warning: Only the first byte will be assigned to the string offset
+~v1 |after |end~old ~cv ~plain
+    head  : Warning: Only the first byte will be assigned to the string offset
+~v1 
+Warning: Only the first byte will be assigned to the string offset
+|after |end~old ~cv ~plain
+  [new,nested] [$str[0], $str[0]] = [new D("v1"), [new D("n2")]];
+    master: Warning: Only the first byte will be assigned to the string offset
+
+Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~v1 ~n2 |after |end~old ~cv ~plain
+    head  : Warning: Only the first byte will be assigned to the string offset
+~v1 
+Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n2 |after |end~old ~cv ~plain
+  [nested,new] [$str[0], $str[0]] = [[new D("n1")], new D("v2")];
+    master: Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 ~v2 |after |end~old ~cv ~plain
+    head  : Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 
+Warning: Only the first byte will be assigned to the string offset
+~v2 |after |end~old ~cv ~plain
+  [nested,cv] [$str[0], $str[0]] = [[new D("n1")], $cv];
+    master: Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 |after |end~old ~cv ~plain
+    head  : Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 
+Warning: Only the first byte will be assigned to the string offset
+|after |end~old ~cv ~plain
+  [nested,nested] [$str[0], $str[0]] = [[new D("n1")], [new D("n2")]];
+    master: Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+
+Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 ~n2 |after |end~old ~cv ~plain
+    head  : Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 
+Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n2 |after |end~old ~cv ~plain
+== targets stroff,cv-old: 8 diffs
+  [new,new] [$str[0], $old] = [new D("v1"), new D("v2")];
+    master: Warning: Only the first byte will be assigned to the string offset
+~old ~v1 |after |end~v2 ~cv ~plain
+    head  : Warning: Only the first byte will be assigned to the string offset
+~v1 ~old |after |end~v2 ~cv ~plain
+  [new,cv] [$str[0], $old] = [new D("v1"), $cv];
+    master: Warning: Only the first byte will be assigned to the string offset
+~old ~v1 |after |end~cv ~plain
+    head  : Warning: Only the first byte will be assigned to the string offset
+~v1 ~old |after |end~cv ~plain
+  [new,nested] [$str[0], $old] = [new D("v1"), [new D("n2")]];
+    master: Warning: Only the first byte will be assigned to the string offset
+~old ~v1 |after |end~n2 ~cv ~plain
+    head  : Warning: Only the first byte will be assigned to the string offset
+~v1 ~old |after |end~n2 ~cv ~plain
+  [new,int] [$str[0], $old] = [new D("v1"), 2];
+    master: Warning: Only the first byte will be assigned to the string offset
+~old ~v1 |after |end~cv ~plain
+    head  : Warning: Only the first byte will be assigned to the string offset
+~v1 ~old |after |end~cv ~plain
+  [nested,new] [$str[0], $old] = [[new D("n1")], new D("v2")];
+    master: Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~old ~n1 |after |end~v2 ~cv ~plain
+    head  : Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 ~old |after |end~v2 ~cv ~plain
+  [nested,cv] [$str[0], $old] = [[new D("n1")], $cv];
+    master: Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~old ~n1 |after |end~cv ~plain
+    head  : Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 ~old |after |end~cv ~plain
+  [nested,nested] [$str[0], $old] = [[new D("n1")], [new D("n2")]];
+    master: Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~old ~n1 |after |end~n2 ~cv ~plain
+    head  : Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 ~old |after |end~n2 ~cv ~plain
+  [nested,int] [$str[0], $old] = [[new D("n1")], 2];
+    master: Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~old ~n1 |after |end~cv ~plain
+    head  : Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 ~old |after |end~cv ~plain
+== targets stroff,aa-discard: 8 diffs
+  [new,new] [$str[0], $aa["k"]] = [new D("v1"), new D("v2")];
+    master: Warning: Only the first byte will be assigned to the string offset
+set(k) ~v1 ~v2 |after |end~old ~cv ~plain
+    head  : Warning: Only the first byte will be assigned to the string offset
+~v1 set(k) ~v2 |after |end~old ~cv ~plain
+  [new,cv] [$str[0], $aa["k"]] = [new D("v1"), $cv];
+    master: Warning: Only the first byte will be assigned to the string offset
+set(k) ~v1 |after |end~old ~cv ~plain
+    head  : Warning: Only the first byte will be assigned to the string offset
+~v1 set(k) |after |end~old ~cv ~plain
+  [new,nested] [$str[0], $aa["k"]] = [new D("v1"), [new D("n2")]];
+    master: Warning: Only the first byte will be assigned to the string offset
+set(k) ~v1 ~n2 |after |end~old ~cv ~plain
+    head  : Warning: Only the first byte will be assigned to the string offset
+~v1 set(k) ~n2 |after |end~old ~cv ~plain
+  [new,int] [$str[0], $aa["k"]] = [new D("v1"), 2];
+    master: Warning: Only the first byte will be assigned to the string offset
+set(k) ~v1 |after |end~old ~cv ~plain
+    head  : Warning: Only the first byte will be assigned to the string offset
+~v1 set(k) |after |end~old ~cv ~plain
+  [nested,new] [$str[0], $aa["k"]] = [[new D("n1")], new D("v2")];
+    master: Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+set(k) ~n1 ~v2 |after |end~old ~cv ~plain
+    head  : Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 set(k) ~v2 |after |end~old ~cv ~plain
+  [nested,cv] [$str[0], $aa["k"]] = [[new D("n1")], $cv];
+    master: Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+set(k) ~n1 |after |end~old ~cv ~plain
+    head  : Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 set(k) |after |end~old ~cv ~plain
+  [nested,nested] [$str[0], $aa["k"]] = [[new D("n1")], [new D("n2")]];
+    master: Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+set(k) ~n1 ~n2 |after |end~old ~cv ~plain
+    head  : Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 set(k) ~n2 |after |end~old ~cv ~plain
+  [nested,int] [$str[0], $aa["k"]] = [[new D("n1")], 2];
+    master: Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+set(k) ~n1 |after |end~old ~cv ~plain
+    head  : Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 set(k) |after |end~old ~cv ~plain
+== targets stroff,aa-store: 8 diffs
+  [new,new] [$str[0], $as["k"]] = [new D("v1"), new D("v2")];
+    master: Warning: Only the first byte will be assigned to the string offset
+store(k) ~v1 |after |end~old ~v2 ~cv ~plain
+    head  : Warning: Only the first byte will be assigned to the string offset
+~v1 store(k) |after |end~old ~v2 ~cv ~plain
+  [new,cv] [$str[0], $as["k"]] = [new D("v1"), $cv];
+    master: Warning: Only the first byte will be assigned to the string offset
+store(k) ~v1 |after |end~old ~cv ~plain
+    head  : Warning: Only the first byte will be assigned to the string offset
+~v1 store(k) |after |end~old ~cv ~plain
+  [new,nested] [$str[0], $as["k"]] = [new D("v1"), [new D("n2")]];
+    master: Warning: Only the first byte will be assigned to the string offset
+store(k) ~v1 |after |end~old ~n2 ~cv ~plain
+    head  : Warning: Only the first byte will be assigned to the string offset
+~v1 store(k) |after |end~old ~n2 ~cv ~plain
+  [new,int] [$str[0], $as["k"]] = [new D("v1"), 2];
+    master: Warning: Only the first byte will be assigned to the string offset
+store(k) ~v1 |after |end~old ~cv ~plain
+    head  : Warning: Only the first byte will be assigned to the string offset
+~v1 store(k) |after |end~old ~cv ~plain
+  [nested,new] [$str[0], $as["k"]] = [[new D("n1")], new D("v2")];
+    master: Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+store(k) ~n1 |after |end~old ~v2 ~cv ~plain
+    head  : Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 store(k) |after |end~old ~v2 ~cv ~plain
+  [nested,cv] [$str[0], $as["k"]] = [[new D("n1")], $cv];
+    master: Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+store(k) ~n1 |after |end~old ~cv ~plain
+    head  : Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 store(k) |after |end~old ~cv ~plain
+  [nested,nested] [$str[0], $as["k"]] = [[new D("n1")], [new D("n2")]];
+    master: Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+store(k) ~n1 |after |end~old ~n2 ~cv ~plain
+    head  : Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 store(k) |after |end~old ~n2 ~cv ~plain
+  [nested,int] [$str[0], $as["k"]] = [[new D("n1")], 2];
+    master: Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+store(k) ~n1 |after |end~old ~cv ~plain
+    head  : Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 store(k) |after |end~old ~cv ~plain
+== targets stroff,magic: 8 diffs
+  [new,new] [$str[0], $mg->m] = [new D("v1"), new D("v2")];
+    master: Warning: Only the first byte will be assigned to the string offset
+__set(m) ~v1 ~v2 |after |end~old ~cv ~plain
+    head  : Warning: Only the first byte will be assigned to the string offset
+~v1 __set(m) ~v2 |after |end~old ~cv ~plain
+  [new,cv] [$str[0], $mg->m] = [new D("v1"), $cv];
+    master: Warning: Only the first byte will be assigned to the string offset
+__set(m) ~v1 |after |end~old ~cv ~plain
+    head  : Warning: Only the first byte will be assigned to the string offset
+~v1 __set(m) |after |end~old ~cv ~plain
+  [new,nested] [$str[0], $mg->m] = [new D("v1"), [new D("n2")]];
+    master: Warning: Only the first byte will be assigned to the string offset
+__set(m) ~v1 ~n2 |after |end~old ~cv ~plain
+    head  : Warning: Only the first byte will be assigned to the string offset
+~v1 __set(m) ~n2 |after |end~old ~cv ~plain
+  [new,int] [$str[0], $mg->m] = [new D("v1"), 2];
+    master: Warning: Only the first byte will be assigned to the string offset
+__set(m) ~v1 |after |end~old ~cv ~plain
+    head  : Warning: Only the first byte will be assigned to the string offset
+~v1 __set(m) |after |end~old ~cv ~plain
+  [nested,new] [$str[0], $mg->m] = [[new D("n1")], new D("v2")];
+    master: Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+__set(m) ~n1 ~v2 |after |end~old ~cv ~plain
+    head  : Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 __set(m) ~v2 |after |end~old ~cv ~plain
+  [nested,cv] [$str[0], $mg->m] = [[new D("n1")], $cv];
+    master: Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+__set(m) ~n1 |after |end~old ~cv ~plain
+    head  : Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 __set(m) |after |end~old ~cv ~plain
+  [nested,nested] [$str[0], $mg->m] = [[new D("n1")], [new D("n2")]];
+    master: Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+__set(m) ~n1 ~n2 |after |end~old ~cv ~plain
+    head  : Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 __set(m) ~n2 |after |end~old ~cv ~plain
+  [nested,int] [$str[0], $mg->m] = [[new D("n1")], 2];
+    master: Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+__set(m) ~n1 |after |end~old ~cv ~plain
+    head  : Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 __set(m) |after |end~old ~cv ~plain
+== targets stroff,hook-discard: 8 diffs
+  [new,new] [$str[0], $hk->hd] = [new D("v1"), new D("v2")];
+    master: Warning: Only the first byte will be assigned to the string offset
+hook-discard ~v1 ~v2 |after |end~old ~cv ~plain
+    head  : Warning: Only the first byte will be assigned to the string offset
+~v1 hook-discard ~v2 |after |end~old ~cv ~plain
+  [new,cv] [$str[0], $hk->hd] = [new D("v1"), $cv];
+    master: Warning: Only the first byte will be assigned to the string offset
+hook-discard ~v1 |after |end~old ~cv ~plain
+    head  : Warning: Only the first byte will be assigned to the string offset
+~v1 hook-discard |after |end~old ~cv ~plain
+  [new,nested] [$str[0], $hk->hd] = [new D("v1"), [new D("n2")]];
+    master: Warning: Only the first byte will be assigned to the string offset
+hook-discard ~v1 ~n2 |after |end~old ~cv ~plain
+    head  : Warning: Only the first byte will be assigned to the string offset
+~v1 hook-discard ~n2 |after |end~old ~cv ~plain
+  [new,int] [$str[0], $hk->hd] = [new D("v1"), 2];
+    master: Warning: Only the first byte will be assigned to the string offset
+hook-discard ~v1 |after |end~old ~cv ~plain
+    head  : Warning: Only the first byte will be assigned to the string offset
+~v1 hook-discard |after |end~old ~cv ~plain
+  [nested,new] [$str[0], $hk->hd] = [[new D("n1")], new D("v2")];
+    master: Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+hook-discard ~n1 ~v2 |after |end~old ~cv ~plain
+    head  : Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 hook-discard ~v2 |after |end~old ~cv ~plain
+  [nested,cv] [$str[0], $hk->hd] = [[new D("n1")], $cv];
+    master: Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+hook-discard ~n1 |after |end~old ~cv ~plain
+    head  : Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 hook-discard |after |end~old ~cv ~plain
+  [nested,nested] [$str[0], $hk->hd] = [[new D("n1")], [new D("n2")]];
+    master: Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+hook-discard ~n1 ~n2 |after |end~old ~cv ~plain
+    head  : Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 hook-discard ~n2 |after |end~old ~cv ~plain
+  [nested,int] [$str[0], $hk->hd] = [[new D("n1")], 2];
+    master: Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+hook-discard ~n1 |after |end~old ~cv ~plain
+    head  : Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 hook-discard |after |end~old ~cv ~plain
+== targets stroff,hook-store: 8 diffs
+  [new,new] [$str[0], $hk->hs] = [new D("v1"), new D("v2")];
+    master: Warning: Only the first byte will be assigned to the string offset
+hook-store ~v1 |after |end~old ~v2 ~cv ~plain
+    head  : Warning: Only the first byte will be assigned to the string offset
+~v1 hook-store |after |end~old ~v2 ~cv ~plain
+  [new,cv] [$str[0], $hk->hs] = [new D("v1"), $cv];
+    master: Warning: Only the first byte will be assigned to the string offset
+hook-store ~v1 |after |end~old ~cv ~plain
+    head  : Warning: Only the first byte will be assigned to the string offset
+~v1 hook-store |after |end~old ~cv ~plain
+  [new,nested] [$str[0], $hk->hs] = [new D("v1"), [new D("n2")]];
+    master: Warning: Only the first byte will be assigned to the string offset
+hook-store ~v1 |after |end~old ~n2 ~cv ~plain
+    head  : Warning: Only the first byte will be assigned to the string offset
+~v1 hook-store |after |end~old ~n2 ~cv ~plain
+  [new,int] [$str[0], $hk->hs] = [new D("v1"), 2];
+    master: Warning: Only the first byte will be assigned to the string offset
+hook-store ~v1 |after |end~old ~cv ~plain
+    head  : Warning: Only the first byte will be assigned to the string offset
+~v1 hook-store |after |end~old ~cv ~plain
+  [nested,new] [$str[0], $hk->hs] = [[new D("n1")], new D("v2")];
+    master: Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+hook-store ~n1 |after |end~old ~v2 ~cv ~plain
+    head  : Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 hook-store |after |end~old ~v2 ~cv ~plain
+  [nested,cv] [$str[0], $hk->hs] = [[new D("n1")], $cv];
+    master: Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+hook-store ~n1 |after |end~old ~cv ~plain
+    head  : Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 hook-store |after |end~old ~cv ~plain
+  [nested,nested] [$str[0], $hk->hs] = [[new D("n1")], [new D("n2")]];
+    master: Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+hook-store ~n1 |after |end~old ~n2 ~cv ~plain
+    head  : Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 hook-store |after |end~old ~n2 ~cv ~plain
+  [nested,int] [$str[0], $hk->hs] = [[new D("n1")], 2];
+    master: Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+hook-store ~n1 |after |end~old ~cv ~plain
+    head  : Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 hook-store |after |end~old ~cv ~plain
+== targets stroff,stroff: 6 diffs
+  [new,new] [$str[0], $str[0]] = [new D("v1"), new D("v2")];
+    master: Warning: Only the first byte will be assigned to the string offset
+
+Warning: Only the first byte will be assigned to the string offset
+~v1 ~v2 |after |end~old ~cv ~plain
+    head  : Warning: Only the first byte will be assigned to the string offset
+~v1 
+Warning: Only the first byte will be assigned to the string offset
+~v2 |after |end~old ~cv ~plain
+  [new,cv] [$str[0], $str[0]] = [new D("v1"), $cv];
+    master: Warning: Only the first byte will be assigned to the string offset
+
+Warning: Only the first byte will be assigned to the string offset
+~v1 |after |end~old ~cv ~plain
+    head  : Warning: Only the first byte will be assigned to the string offset
+~v1 
+Warning: Only the first byte will be assigned to the string offset
+|after |end~old ~cv ~plain
+  [new,nested] [$str[0], $str[0]] = [new D("v1"), [new D("n2")]];
+    master: Warning: Only the first byte will be assigned to the string offset
+
+Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~v1 ~n2 |after |end~old ~cv ~plain
+    head  : Warning: Only the first byte will be assigned to the string offset
+~v1 
+Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n2 |after |end~old ~cv ~plain
+  [nested,new] [$str[0], $str[0]] = [[new D("n1")], new D("v2")];
+    master: Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 ~v2 |after |end~old ~cv ~plain
+    head  : Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 
+Warning: Only the first byte will be assigned to the string offset
+~v2 |after |end~old ~cv ~plain
+  [nested,cv] [$str[0], $str[0]] = [[new D("n1")], $cv];
+    master: Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 |after |end~old ~cv ~plain
+    head  : Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 
+Warning: Only the first byte will be assigned to the string offset
+|after |end~old ~cv ~plain
+  [nested,nested] [$str[0], $str[0]] = [[new D("n1")], [new D("n2")]];
+    master: Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+
+Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 ~n2 |after |end~old ~cv ~plain
+    head  : Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n1 
+Warning: Array to string conversion
+
+Warning: Only the first byte will be assigned to the string offset
+~n2 |after |end~old ~cv ~plain

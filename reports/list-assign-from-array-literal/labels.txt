@@ -1,0 +1,18 @@
+call only @ ints=empty call of the function, for reference (ints)
+call only @ strings=empty call of the function, for reference (strings)
+call only @ arrays=empty call of the function, for reference (arrays)
+swap [$a, $b] = [$b, $a] @ ints=`[$a, $b] = [$b, $a]`, ints
+swap [$a, $b] = [$b, $a] @ strings=`[$a, $b] = [$b, $a]`, strings
+swap [$a, $b] = [$b, $a] @ arrays=`[$a, $b] = [$b, $a]`, arrays
+swap via temporary @ ints=`$t = $a; $a = $b; $b = $t;`, ints (not changed)
+swap via temporary @ strings=`$t = $a; $a = $b; $b = $t;`, strings (not changed)
+swap via temporary @ arrays=`$t = $a; $a = $b; $b = $t;`, arrays (not changed)
+rotate three @ ints=`[$a, $b, $c] = [$b, $c, $a]`
+fibonacci step x10 @ ints=10 × `[$a, $b] = [$b, $a + $b]`
+fibonacci step x10 in for list @ ints=10 × the same in the step list of a `for`
+swap array elements @ ints=`[$p[0], $p[1]] = [$p[1], $p[0]]`
+swap array elements via temporary @ ints=the same through a temporary (not changed)
+swap properties @ ints=`[$o->a, $o->b] = [$o->b, $o->a]`
+init [$a, $b] = [1, 2] @ ints=`[$a, $b] = [1, 2]`
+from a variable (not covered) @ ints=`[$a, $b] = $pair` (not covered)
+keyed (not covered) @ ints=`['x' => $a, 'y' => $b] = ['x' => $b, 'y' => $a]` (not covered)
