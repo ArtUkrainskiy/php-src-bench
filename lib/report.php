@@ -218,8 +218,9 @@ function report_reproduce(array $series, string $dir, string $seriesName, string
             $pr = $set['pr'];
             if (!isset($prDone[$pr['number']])) {
                 $env = $set['extra'] ? 'BENCH_CONFIGURE_EXTRA=' . escapeshellarg($set['extra']) . ' ' : '';
-                $lines[] = sprintf('%s./bench pr %s --base %s%s%s --profile %s --cc %s   # head %s', $env, $pr['number'], $pr['base'],
-                    $pr['merged'] === '1' ? '' : ' --no-merge', $set['slim'] ? ' --slim' : '', $set['profile'], implode(',', array_unique($set['cc'])), $pr['head']);
+                $noWerror = $set['profile'] === 'docker' && !$set['werror'] ? ' --no-werror' : '';
+                $lines[] = sprintf('%s./bench pr %s --base %s%s%s --profile %s%s --cc %s   # head %s', $env, $pr['number'], $pr['base'],
+                    $pr['merged'] === '1' ? '' : ' --no-merge', $set['slim'] ? ' --slim' : '', $set['profile'], $noWerror, implode(',', array_unique($set['cc'])), $pr['head']);
                 $prDone[$pr['number']] = true;
             }
             continue;
