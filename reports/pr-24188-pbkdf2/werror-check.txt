@@ -1,0 +1,14 @@
+== gcc13
+<builds>/werrcheck-gcc13/ext/pcre/pcre2lib/pcre2_compile.c:8168:17: error: storing the address of local variable ‘capitem’ in ‘*cb.open_caps’ [-Werror=dangling-pointer=]
+<builds>/werrcheck-gcc13/ext/json/json_encoder.c:318:13: error: conflicting types for ‘php_json_escape_string’ due to enum/integer mismatch; have ‘zend_result(smart_str *, const char *, size_t,  int,  php_json_encoder *)’ {aka ‘ZEND_RESULT_CODE(smart_str *, const char *, long unsigned int,  int,  struct _php_json_encoder *)’} [-Werror=enum-int-mismatch]
+cc1: all warnings being treated as errors
+== gcc14
+<builds>/werrcheck-gcc14/ext/pcre/pcre2lib/pcre2_compile.c:8168:17: error: storing the address of local variable ‘capitem’ in ‘*cb.open_caps’ [-Werror=dangling-pointer=]
+<builds>/werrcheck-gcc14/ext/json/json_encoder.c:318:13: error: conflicting types for ‘php_json_escape_string’ due to enum/integer mismatch; have ‘zend_result(smart_str *, const char *, size_t,  int,  php_json_encoder *)’ {aka ‘ZEND_RESULT_CODE(smart_str *, const char *, long unsigned int,  int,  struct _php_json_encoder *)’} [-Werror=enum-int-mismatch]
+cc1: all warnings being treated as errors
+== clang18
+<builds>/werrcheck-clang18/Zend/Optimizer/zend_ssa.c:145:28: error: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Werror,-Wsingle-bit-bitfield-constant-conversion]
+make: *** [Makefile:1171: Zend/Optimizer/zend_ssa.lo] Error 1
+== clang20
+<builds>/werrcheck-clang20/Zend/Optimizer/zend_ssa.c:145:28: error: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Werror,-Wsingle-bit-bitfield-constant-conversion]
+make: *** [Makefile:1171: Zend/Optimizer/zend_ssa.lo] Error 1
