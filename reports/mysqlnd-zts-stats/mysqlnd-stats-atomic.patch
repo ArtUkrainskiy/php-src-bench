@@ -1,4 +1,4 @@
-From 757907bb42fcfd5487abe64ca6ad709fa591f96f Mon Sep 17 00:00:00 2001
+From a43cc05effb330fbcc1cb1fcbeb299b6cea50d13 Mon Sep 17 00:00:00 2001
 From: Artem Ukrainskiy <art.ukrainskiy@gmail.com>
 Date: Mon, 19 Oct 2026 02:26:49 +0300
 Subject: [PATCH] ext/mysqlnd: Use relaxed atomics for statistics in ZTS builds
@@ -22,10 +22,10 @@ Statistics on now cost 0.6-1.4% over statistics off, against 12%,
  UPGRADING.INTERNALS               |  7 +++++++
  ext/mysqlnd/mysqlnd_block_alloc.c |  1 -
  ext/mysqlnd/mysqlnd_driver.c      |  1 -
- ext/mysqlnd/mysqlnd_statistics.c  | 15 +++++++--------
+ ext/mysqlnd/mysqlnd_statistics.c  | 16 ++++++++++------
  ext/mysqlnd/mysqlnd_statistics.h  | 15 ++++-----------
  ext/mysqlnd/mysqlnd_structs.h     | 15 +++++++++++++--
- 6 files changed, 31 insertions(+), 23 deletions(-)
+ 6 files changed, 34 insertions(+), 21 deletions(-)
 
 diff --git a/UPGRADING.INTERNALS b/UPGRADING.INTERNALS
 index 4c5d74b49e9..6c885f40a69 100644
@@ -70,7 +70,7 @@ index 4c2d584e7ba..78a14845ff5 100644
  		mysqlnd_plugin_subsystem_init();
  		{
 diff --git a/ext/mysqlnd/mysqlnd_statistics.c b/ext/mysqlnd/mysqlnd_statistics.c
-index 33a47843c9c..9a73bff3175 100644
+index 33a47843c9c..ed5e068c459 100644
 --- a/ext/mysqlnd/mysqlnd_statistics.c
 +++ b/ext/mysqlnd/mysqlnd_statistics.c
 @@ -201,7 +201,12 @@ mysqlnd_fill_stats_hash(const MYSQLND_STATS * const stats, const MYSQLND_STRING
@@ -87,17 +87,18 @@ index 33a47843c9c..9a73bff3175 100644
  		add_assoc_string_ex(return_value, names[i].s, names[i].l, tmp);
  	}
  }
-@@ -215,9 +220,6 @@ mysqlnd_stats_init(MYSQLND_STATS ** stats, const size_t statistic_count, const b
- 	size_t size = zend_safe_address_guarded(statistic_count, sizeof(*(*stats)->values), sizeof(**stats));
+@@ -216,7 +221,9 @@ mysqlnd_stats_init(MYSQLND_STATS ** stats, const size_t statistic_count, const b
  	*stats = pecalloc(1, size, persistent);
  	(*stats)->count = statistic_count;
--#ifdef ZTS
+ #ifdef ZTS
 -	(*stats)->LOCK_access = tsrm_mutex_alloc();
--#endif
++	for (size_t i = 0; i < statistic_count; i++) {
++		atomic_init(&(*stats)->values[i], 0);
++	}
+ #endif
  }
  /* }}} */
- 
-@@ -226,10 +228,7 @@ mysqlnd_stats_init(MYSQLND_STATS ** stats, const size_t statistic_count, const b
+@@ -226,10 +233,7 @@ mysqlnd_stats_init(MYSQLND_STATS ** stats, const size_t statistic_count, const b
  PHPAPI void
  mysqlnd_stats_end(MYSQLND_STATS * stats, const bool persistent)
  {

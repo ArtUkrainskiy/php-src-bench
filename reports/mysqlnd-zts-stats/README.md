@@ -3,7 +3,7 @@
 In ZTS builds, every mysqlnd statistics update locks a mutex. The global statistics (`mysqlnd_global_stats`) are one object for the whole process, so all threads take the same mutex on every counted packet and row; the statistics are collected by default (`mysqlnd.collect_statistics=1`). [mysqlnd-stats-atomic.patch](mysqlnd-stats-atomic.patch) makes the counters `atomic_uint_least64_t` under ZTS, updated with `atomic_fetch_add_explicit(..., memory_order_relaxed)` and read with `atomic_load_explicit`, and removes the mutex. NTS builds are unchanged.
 
 - Base: php-src master [`b7256eee301`](https://github.com/php/php-src/commit/b7256eee3018928d265830e5f523dcc848dea2b6) (18 October 2026).
-- Change: the patch on top of it, commit `757907bb42f` (not yet in php-src). Earlier commits of the same tree, which differ only in the commit message, are `354bc4f4ce3`, on which the tests, the `--enable-werror` builds and the counts ran, and `f5b26235f2d`, after which the measured build is named `php-atomic-f5b2623`. The tests and the exact counts were run on `354bc4f4ce3` and, earlier, on `dc7779b2ae5`: the same C code without the `UPGRADING.INTERNALS` entry, with the C++ declarations in `Zend/zend_portability.h` instead of `ext/mysqlnd/mysqlnd_structs.h`, and with one more comment line in `mysqlnd_driver.c`.
+- Change: the patch on top of it, commit `a43cc05effb` (php/php-src#24448). It adds to `757907bb42f` only the `atomic_init()` of every counter in `mysqlnd_stats_init()` under ZTS, which runs once per statistics object, when it is created; the measurements, the counts and the objdump comparisons below ran on the tree of `757907bb42f`, the tests and the C/C++ test also on `a43cc05effb`. Earlier commits of the tree of `757907bb42f`, which differ only in the commit message, are `354bc4f4ce3`, on which the tests, the `--enable-werror` builds and the counts ran, and `f5b26235f2d`, after which the measured build is named `php-atomic-f5b2623`. The tests and the exact counts were run on `354bc4f4ce3` and, earlier, on `dc7779b2ae5`: the same C code without the `UPGRADING.INTERNALS` entry, with the C++ declarations in `Zend/zend_portability.h` instead of `ext/mysqlnd/mysqlnd_structs.h`, and with one more comment line in `mysqlnd_driver.c`.
 
 The same measurement on a full JSON API, with PHP 8.5.11 and a prototype of the change, is in [web-request-cost](https://github.com/ArtUkrainskiy/web-request-cost/tree/ba122ac9e4feae2d883d4a815720cd4d264b32cd/results/2026-10-mysqlnd).
 
@@ -110,10 +110,10 @@ Raw output in [data/](data):
 
   The racy variant loses about 1% of the updates, so the check can see lost updates. An earlier run on `dc7779b2ae5` gave the same exact counts, and 49,515 and 997,782 for the racy variant ([data/counts-dc7779b.txt](data/counts-dc7779b.txt)).
 - **Tests.** `ext/mysqlnd`, `ext/mysqli` and `ext/pdo_mysql` ran on ZTS debug builds against MySQL 8.4.11 ([scripts/run-tests.sh](scripts/run-tests.sh), [data/tests.txt](data/tests.txt)): 796 tests, 28 skipped.
-  - Master and `354bc4f4ce3`: 763 passed, 4 expected to fail, 1 failed.
+  - Master, `354bc4f4ce3` and `a43cc05effb`: 763 passed, 4 expected to fail, 1 failed ([data/tests-a43cc05.txt](data/tests-a43cc05.txt) for the last).
   - The failure on both is `pdo_mysql___construct.phpt`, because of the local DSN setup.
   - `--with-openssl` is needed for `caching_sha2_password`.
-- **`--enable-werror` builds of `354bc4f4ce3`.** GCC 13.3 and clang 18.1, ZTS and NTS ([data/](data), `werror-*.log`).
+- **`--enable-werror` builds.** `354bc4f4ce3`: GCC 13.3 and clang 18.1, ZTS and NTS; `a43cc05effb`: GCC 13.3 and clang 18.1, ZTS (its addition is ZTS-only) ([data/](data), `werror-*.log`).
 - **NTS is unchanged.** [scripts/nts-objdump.sh](scripts/nts-objdump.sh) compares the 455 functions whose debug information points into `ext/mysqlnd/`, with addresses normalized. NTS master and the patch: 0 differing lines (GCC 13.3, Docker flags). The same script on NTS master against the ZTS patch build finds 5,049 differing lines ([data/nts-objdump.txt](data/nts-objdump.txt)).
 - **Hot function.** `php_mysqlnd_rowp_read_text_protocol` has 4 `tsrm_mutex_lock` calls on master and 4 `lock`-prefixed instructions and no calls with the patch ([data/hot-function-objdump.txt](data/hot-function-objdump.txt)).
 - **C++.** [scripts/cxx-test.cpp](scripts/cxx-test.cpp) includes `php.h`, `mysqlnd.h` and `mysqlnd_statistics.h` and uses `MYSQLND_INC_STATISTIC`, `MYSQLND_INC_STATISTIC_W_VALUE2`, `MYSQLND_DEC_STATISTIC` and `MYSQLND_INC_GLOBAL_STATISTIC`. Under ZTS it compiles with g++ 13 and clang++ 18 and 20 in C++11, C++17 and C++20, and emits only `lock`-prefixed additions ([data/cxx-test.txt](data/cxx-test.txt)). The command, in a configured and built ZTS tree `<tree>` of the patch:
@@ -124,6 +124,8 @@ Raw output in [data/](data):
   ```
 
   mysql_xdevapi itself was not built against the patch.
+- **C and C++ share the struct.** [scripts/xlang-c.c](scripts/xlang-c.c) and [scripts/xlang-cxx.cpp](scripts/xlang-cxx.cpp), with the headers of `a43cc05effb` under ZTS: C and C++ see the same `sizeof(struct st_mysqlnd_stats)`, `offsetof(values)` and element size and alignment (all 8); counters allocated and initialized in C, updated with `MYSQLND_STATS_UPDATE_VALUE()` from 8 C++ threads 1,000,000 times each and read back in C are exact (8,000,000 and 24,000,000). GCC 13.3, clang 18.1 and 20.1, C++11, C++17 and C++20, 9 of 9 ([data/xlang-layout.txt](data/xlang-layout.txt)). With the C++ update made a non-atomic load and store, C reads 6,290,537 instead of 8,000,000. Built like the C++ test above: `gcc -std=c11 -O2 -DZTS <includes> -c xlang-c.c`, `g++ -std=c++17 -O2 -DZTS <includes> -c xlang-cxx.cpp`, linked with `g++ ... -pthread`.
+- clang++ warns `'counted_by' attribute ignored` on `values[]` when a C++ file includes `mysqlnd_structs.h`; it does so on master as well.
 
 ## Not tested
 
