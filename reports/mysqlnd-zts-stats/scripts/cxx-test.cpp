@@ -1,0 +1,12 @@
+extern "C" {
+#include "php.h"
+#include "ext/mysqlnd/mysqlnd.h"
+#include "ext/mysqlnd/mysqlnd_statistics.h"
+}
+void bump(MYSQLND_STATS *s)
+{
+	MYSQLND_INC_STATISTIC(1, s, STAT_BYTES_SENT);
+	MYSQLND_INC_STATISTIC_W_VALUE2(1, s, STAT_BYTES_SENT, 10, STAT_BYTES_RECEIVED, 20);
+	MYSQLND_DEC_STATISTIC(1, s, STAT_BYTES_SENT);
+	MYSQLND_INC_GLOBAL_STATISTIC(STAT_ROWS_FETCHED_FROM_CLIENT_NORMAL_BUF);
+}

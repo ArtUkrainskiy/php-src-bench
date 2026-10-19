@@ -1,0 +1,8 @@
+count-locks 2026-10-19T02:12:43+03:00 kernel=7.0.0-38-generic bpftrace=bpftrace v0.25.0
+threads=16 passes=2 duration=10s app_cpus=8-11,24-27 load_cpus=6-7,22-23 db_cpus=0-5,16-21
+image sha256:d891ef91ef515c6a8ef3f96af4d0dcad2922ddff4e9a8cffd734a2af05be5917
+pass 1 statistics on (collect_statistics=1): 44540 requests, 4452.72 req/s under tracing, 32190659 mutex locks (722.7 per request), 1626554 futex calls (36.52 per request)
+pass 1 statistics off (collect_statistics=0): 254220 requests, 25170.12 req/s under tracing,  mutex locks (0.0 per request), 1416464 futex calls (5.57 per request)
+pass 2 statistics on (collect_statistics=1): 44297 requests, 4426.86 req/s under tracing, 32017090 mutex locks (722.8 per request), 1790878 futex calls (40.43 per request)
+pass 2 statistics off (collect_statistics=0): 227912 requests, 22565.98 req/s under tracing,  mutex locks (0.0 per request), 1326545 futex calls (5.82 per request)
+raw bpftrace output: data/locks-raw

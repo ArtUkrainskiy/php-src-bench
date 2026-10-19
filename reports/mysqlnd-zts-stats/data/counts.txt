@@ -1,0 +1,22 @@
+counts 2026-10-19T20:20:30+03:00 threads=16 K=50000
+php-master-b7256ee-mysqli: responses:   50000 200 
+  com_query                                            50000  per request 1.0000
+  packets_received_rset_row                            50000  per request 1.0000
+  result_set_queries                                   50000  per request 1.0000
+  rows_buffered_from_client_normal                   1000000  per request 20.0000
+  rows_fetched_from_client_normal_buffered           1000000  per request 20.0000
+  rows_fetched_from_server_normal                    1000000  per request 20.0000
+php-atomic-f5b2623-mysqli: responses:   50000 200 
+  com_query                                            50000  per request 1.0000
+  packets_received_rset_row                            50000  per request 1.0000
+  result_set_queries                                   50000  per request 1.0000
+  rows_buffered_from_client_normal                   1000000  per request 20.0000
+  rows_fetched_from_client_normal_buffered           1000000  per request 20.0000
+  rows_fetched_from_server_normal                    1000000  per request 20.0000
+php-mutant-racy-mysqli: responses:   50000 200 
+  com_query                                            49460  per request 0.9892
+  packets_received_rset_row                            49884  per request 0.9977
+  result_set_queries                                   49958  per request 0.9992
+  rows_buffered_from_client_normal                    998740  per request 19.9748
+  rows_fetched_from_client_normal_buffered            998248  per request 19.9650
+  rows_fetched_from_server_normal                     997554  per request 19.9511

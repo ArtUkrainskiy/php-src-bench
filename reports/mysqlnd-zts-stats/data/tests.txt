@@ -1,0 +1,29 @@
+ext/mysqlnd, ext/mysqli, ext/pdo_mysql (scripts/run-tests.sh), ZTS debug builds (-O2 -g, --enable-debug --with-openssl), MySQL 8.4.11
+== master b7256eee301 (19 October 2026)
+Number of tests :   796               768
+Tests skipped   :    28 (  3.5%) --------
+Expected fail   :     4 (  0.5%) (  0.5%)
+Tests failed    :     1 (  0.1%) (  0.1%)
+Tests passed    :   763 ( 95.9%) ( 99.3%)
+failed: MySQL PDO->__construct() - Generic + DSN [ext/pdo_mysql/tests/pdo_mysql___construct.phpt]
+== earlier revision dc7779b2ae5, same C code (19 October 2026)
+Number of tests :   796               768
+Tests skipped   :    28 (  3.5%) --------
+Expected fail   :     4 (  0.5%) (  0.5%)
+Tests failed    :     3 (  0.4%) (  0.4%)
+Tests passed    :   761 ( 95.6%) ( 99.1%)
+failed: MySQL PDO->__construct() - Generic + DSN [ext/pdo_mysql/tests/pdo_mysql___construct.phpt]
+failed: MySQL PDO->exec(), native types wo ZEROFILL [ext/pdo_mysql/tests/pdo_mysql_types.phpt]
+failed: MySQL PDO->exec(), native types - ZEROFILL [ext/pdo_mysql/tests/pdo_mysql_types_zerofill.phpt]
+== patch 354bc4f4ce3 (19 October 2026, rerun)
+Number of tests :   796               768
+Tests skipped   :    28 (  3.5%) --------
+Expected fail   :     4 (  0.5%) (  0.5%)
+Tests failed    :     1 (  0.1%) (  0.1%)
+Tests passed    :   763 ( 95.9%) ( 99.3%)
+failed: MySQL PDO->__construct() - Generic + DSN [ext/pdo_mysql/tests/pdo_mysql___construct.phpt]
+== pdo_mysql_types.phpt and pdo_mysql_types_zerofill.phpt run again on master and dc7779b2ae5 (they timed out on dc7779b2ae5 while another build loaded the machine)
+PASS MySQL PDO->exec(), native types wo ZEROFILL [ext/pdo_mysql/tests/pdo_mysql_types.phpt] 
+PASS MySQL PDO->exec(), native types - ZEROFILL [ext/pdo_mysql/tests/pdo_mysql_types_zerofill.phpt] 
+PASS MySQL PDO->exec(), native types wo ZEROFILL [ext/pdo_mysql/tests/pdo_mysql_types.phpt] 
+PASS MySQL PDO->exec(), native types - ZEROFILL [ext/pdo_mysql/tests/pdo_mysql_types_zerofill.phpt] 

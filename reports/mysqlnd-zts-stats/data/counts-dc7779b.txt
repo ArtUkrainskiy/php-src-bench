@@ -1,0 +1,30 @@
+counts 2026-10-19T03:20:35+03:00 threads=16 K=200
+php-master-b7256ee-mysqli: responses:     200 200 
+  com_query                                              200  per request 1.0000
+  packets_received_rset_row                              200  per request 1.0000
+  result_set_queries                                     200  per request 1.0000
+  rows_buffered_from_client_normal                      4000  per request 20.0000
+  rows_fetched_from_client_normal_buffered              4000  per request 20.0000
+  rows_fetched_from_server_normal                       4000  per request 20.0000
+counts 2026-10-19T03:20:55+03:00 threads=16 K=50000
+php-master-b7256ee-mysqli: responses:   50000 200 
+  com_query                                            50000  per request 1.0000
+  packets_received_rset_row                            50000  per request 1.0000
+  result_set_queries                                   50000  per request 1.0000
+  rows_buffered_from_client_normal                   1000000  per request 20.0000
+  rows_fetched_from_client_normal_buffered           1000000  per request 20.0000
+  rows_fetched_from_server_normal                    1000000  per request 20.0000
+php-atomic-dc7779b-mysqli: responses:   50000 200 
+  com_query                                            50000  per request 1.0000
+  packets_received_rset_row                            50000  per request 1.0000
+  result_set_queries                                   50000  per request 1.0000
+  rows_buffered_from_client_normal                   1000000  per request 20.0000
+  rows_fetched_from_client_normal_buffered           1000000  per request 20.0000
+  rows_fetched_from_server_normal                    1000000  per request 20.0000
+php-mutant-racy-mysqli: responses:   50000 200 
+  com_query                                            49515  per request 0.9903
+  packets_received_rset_row                            49897  per request 0.9979
+  result_set_queries                                   49955  per request 0.9991
+  rows_buffered_from_client_normal                    998800  per request 19.9760
+  rows_fetched_from_client_normal_buffered            998579  per request 19.9716
+  rows_fetched_from_server_normal                     997782  per request 19.9556

@@ -1,0 +1,173 @@
+From 757907bb42fcfd5487abe64ca6ad709fa591f96f Mon Sep 17 00:00:00 2001
+From: Artem Ukrainskiy <art.ukrainskiy@gmail.com>
+Date: Mon, 19 Oct 2026 02:26:49 +0300
+Subject: [PATCH] ext/mysqlnd: Use relaxed atomics for statistics in ZTS builds
+
+In ZTS builds every statistics update locked a mutex, and the global
+statistics are one object shared by all threads of the process. The
+values are now atomic_uint_least64_t updated with relaxed atomic
+additions, and LOCK_access is removed. NTS builds are unchanged.
+
+FrankenPHP 1.13.1 in worker mode with 16 threads, one prepared SELECT
+of 20 rows per request, AMD Ryzen 9 5950X, GCC 15.2. CPU time per
+request with statistics on (the default), by the cores FrankenPHP
+runs on:
+- 4 cores of one CCD:       0.3029 -> 0.2722 ms (-10%)
+- 4 cores, two on each CCD: 0.3553 -> 0.2934 ms (-17%)
+- 8 cores of one CCD:       0.3810 -> 0.2739 ms (-28%)
+- 8 cores, four on each CCD: 0.5274 -> 0.2781 ms (-47%)
+Statistics on now cost 0.6-1.4% over statistics off, against 12%,
+23%, 41% and 91% before.
+---
+ UPGRADING.INTERNALS               |  7 +++++++
+ ext/mysqlnd/mysqlnd_block_alloc.c |  1 -
+ ext/mysqlnd/mysqlnd_driver.c      |  1 -
+ ext/mysqlnd/mysqlnd_statistics.c  | 15 +++++++--------
+ ext/mysqlnd/mysqlnd_statistics.h  | 15 ++++-----------
+ ext/mysqlnd/mysqlnd_structs.h     | 15 +++++++++++++--
+ 6 files changed, 31 insertions(+), 23 deletions(-)
+
+diff --git a/UPGRADING.INTERNALS b/UPGRADING.INTERNALS
+index 4c5d74b49e9..6c885f40a69 100644
+--- a/UPGRADING.INTERNALS
++++ b/UPGRADING.INTERNALS
+@@ -74,6 +74,13 @@ PHP 8.7 INTERNALS UPGRADE NOTES
+     mysqlnd_reverse_api_register_api() and mysqlnd_reverse_api_get_api_list()
+     no longer exist.
+ 
++- Mysqlnd:
++  . In ZTS builds the values of MYSQLND_STATS are atomic_uint_least64_t and
++    the LOCK_access member was removed. The MYSQLND_INC_STATISTIC*() and
++    MYSQLND_DEC_STATISTIC() macros update them with relaxed atomic additions.
++  . The MYSQLND_STATS_LOCK() and MYSQLND_STATS_UNLOCK() macros were removed.
++    MYSQLND_STATS_UPDATE_VALUE() is now an expression instead of a block.
++
+ - Standard:
+   . php_explode() now takes a HashTable* instead of a zval* to store the
+     resulting parts. It already expected the zval* to be IS_ARRAY.
+diff --git a/ext/mysqlnd/mysqlnd_block_alloc.c b/ext/mysqlnd/mysqlnd_block_alloc.c
+index db836d3f7b9..b75bbedabec 100644
+--- a/ext/mysqlnd/mysqlnd_block_alloc.c
++++ b/ext/mysqlnd/mysqlnd_block_alloc.c
+@@ -53,7 +53,6 @@ PHPAPI void
+ mysqlnd_mempool_destroy(MYSQLND_MEMORY_POOL * pool)
+ {
+ 	DBG_ENTER("mysqlnd_mempool_destroy");
+-	/* mnd_free will reference LOCK_access and might crash, depending on the caller...*/
+ 	zend_arena_destroy(pool->arena);
+ 	DBG_VOID_RETURN;
+ }
+diff --git a/ext/mysqlnd/mysqlnd_driver.c b/ext/mysqlnd/mysqlnd_driver.c
+index 4c2d584e7ba..78a14845ff5 100644
+--- a/ext/mysqlnd/mysqlnd_driver.c
++++ b/ext/mysqlnd/mysqlnd_driver.c
+@@ -69,7 +69,6 @@ PHPAPI void mysqlnd_library_init(void)
+ 		mysqlnd_conn_set_methods(&MYSQLND_CLASS_METHOD_TABLE_NAME(mysqlnd_conn));
+ 		mysqlnd_conn_data_set_methods(&MYSQLND_CLASS_METHOD_TABLE_NAME(mysqlnd_conn_data));
+ 		_mysqlnd_init_ps_subsystem();
+-		/* Should be calloc, as mnd_calloc will reference LOCK_access*/
+ 		mysqlnd_stats_init(&mysqlnd_global_stats, STAT_LAST, 1);
+ 		mysqlnd_plugin_subsystem_init();
+ 		{
+diff --git a/ext/mysqlnd/mysqlnd_statistics.c b/ext/mysqlnd/mysqlnd_statistics.c
+index 33a47843c9c..9a73bff3175 100644
+--- a/ext/mysqlnd/mysqlnd_statistics.c
++++ b/ext/mysqlnd/mysqlnd_statistics.c
+@@ -201,7 +201,12 @@ mysqlnd_fill_stats_hash(const MYSQLND_STATS * const stats, const MYSQLND_STRING
+ 	for (i = 0; i < stats->count; i++) {
+ 		char tmp[25];
+ 
+-		snprintf(tmp, sizeof(tmp), "%" PRIu64, stats->values[i]);
++#ifdef ZTS
++		uint64_t value = atomic_load_explicit(&stats->values[i], memory_order_relaxed);
++#else
++		uint64_t value = stats->values[i];
++#endif
++		snprintf(tmp, sizeof(tmp), "%" PRIu64, value);
+ 		add_assoc_string_ex(return_value, names[i].s, names[i].l, tmp);
+ 	}
+ }
+@@ -215,9 +220,6 @@ mysqlnd_stats_init(MYSQLND_STATS ** stats, const size_t statistic_count, const b
+ 	size_t size = zend_safe_address_guarded(statistic_count, sizeof(*(*stats)->values), sizeof(**stats));
+ 	*stats = pecalloc(1, size, persistent);
+ 	(*stats)->count = statistic_count;
+-#ifdef ZTS
+-	(*stats)->LOCK_access = tsrm_mutex_alloc();
+-#endif
+ }
+ /* }}} */
+ 
+@@ -226,10 +228,7 @@ mysqlnd_stats_init(MYSQLND_STATS ** stats, const size_t statistic_count, const b
+ PHPAPI void
+ mysqlnd_stats_end(MYSQLND_STATS * stats, const bool persistent)
+ {
+-#ifdef ZTS
+-	tsrm_mutex_free(stats->LOCK_access);
+-#endif
+-	/* mnd_free will reference LOCK_access and crash...*/
++	/* mnd_free would update the statistics being freed */
+ 	pefree(stats, persistent);
+ }
+ /* }}} */
+diff --git a/ext/mysqlnd/mysqlnd_statistics.h b/ext/mysqlnd/mysqlnd_statistics.h
+index a576f67ffdb..f4f2406b85e 100644
+--- a/ext/mysqlnd/mysqlnd_statistics.h
++++ b/ext/mysqlnd/mysqlnd_statistics.h
+@@ -17,19 +17,12 @@
+ #define MYSQLND_STATISTICS_H
+ 
+ #ifdef ZTS
+-#define MYSQLND_STATS_LOCK(stats) tsrm_mutex_lock((stats)->LOCK_access)
+-#define MYSQLND_STATS_UNLOCK(stats) tsrm_mutex_unlock((stats)->LOCK_access)
++#define MYSQLND_STATS_UPDATE_VALUE(stats, statistic, value) \
++	atomic_fetch_add_explicit(&(stats)->values[(statistic)], (value), memory_order_relaxed)
+ #else
+-#define MYSQLND_STATS_LOCK(stats)
+-#define MYSQLND_STATS_UNLOCK(stats)
+-#endif
+-
+ #define MYSQLND_STATS_UPDATE_VALUE(stats, statistic, value) \
+-	{ \
+-			MYSQLND_STATS_LOCK(stats); \
+-			(stats)->values[(statistic)] += (value); \
+-			MYSQLND_STATS_UNLOCK(_p_s); \
+-	}
++	((stats)->values[(statistic)] += (value))
++#endif
+ 
+ #define MYSQLND_DEC_STATISTIC(enabler, stats, statistic) \
+  { \
+diff --git a/ext/mysqlnd/mysqlnd_structs.h b/ext/mysqlnd/mysqlnd_structs.h
+index 80d0abfcae6..73c0e04a236 100644
+--- a/ext/mysqlnd/mysqlnd_structs.h
++++ b/ext/mysqlnd/mysqlnd_structs.h
+@@ -292,13 +292,24 @@ typedef enum_func_status  (*mysqlnd_fetch_row_func)(MYSQLND_RES *result,
+ 
+ typedef struct st_mysqlnd_stats MYSQLND_STATS;
+ 
++#if defined(ZTS) && defined(__cplusplus)
++/* The C11 atomics used by struct st_mysqlnd_stats and the MYSQLND_*_STATISTIC*() macros */
++extern "C++" {
++using std::atomic_uint_least64_t;
++using std::atomic_fetch_add_explicit;
++using std::atomic_load_explicit;
++using std::memory_order_relaxed;
++}
++#endif
++
+ struct st_mysqlnd_stats
+ {
+ 	size_t					count;
+ #ifdef ZTS
+-	MUTEX_T	LOCK_access;
+-#endif
++	atomic_uint_least64_t values[] ZEND_ELEMENT_COUNT(count);
++#else
+ 	uint64_t values[] ZEND_ELEMENT_COUNT(count);
++#endif
+ };
+ 
+ 
+-- 
+2.43.0
+

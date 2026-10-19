@@ -1,0 +1,6 @@
+building 'mysqlnd-werror2-clang-zts-clang18' at 354bc4f4ce3 ext/mysqlnd: Use relaxed atomics for statistics in ZTS builds
+  buildconf
+  configure --disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror --enable-zts --with-openssl --enable-mysqlnd --with-mysqli --enable-pdo --with-pdo-mysql CFLAGS='-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64' LDFLAGS='-Wl,-O1 -pie'
+  make clean
+  make -j8
+ok: builds/mysqlnd-werror2-clang-zts-clang18/sapi/cli/php (8.7.0-dev), slim

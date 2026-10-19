@@ -1,0 +1,14 @@
+Deliberately racy variant for the counting check (scripts/counts.sh): a relaxed load and a relaxed store
+instead of one atomic addition. Apply on top of mysqlnd-stats-atomic.patch.
+
+--- a/ext/mysqlnd/mysqlnd_statistics.h
++++ b/ext/mysqlnd/mysqlnd_statistics.h
+@@ -18,7 +18,7 @@
+ 
+ #ifdef ZTS
+ #define MYSQLND_STATS_UPDATE_VALUE(stats, statistic, value) \
+-	atomic_fetch_add_explicit(&(stats)->values[(statistic)], (value), memory_order_relaxed)
++	atomic_store_explicit(&(stats)->values[(statistic)], atomic_load_explicit(&(stats)->values[(statistic)], memory_order_relaxed) + (value), memory_order_relaxed)
+ #else
+ #define MYSQLND_STATS_UPDATE_VALUE(stats, statistic, value) \
+ 	((stats)->values[(statistic)] += (value))
