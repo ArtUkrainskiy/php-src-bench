@@ -20,9 +20,11 @@ $db = new PDO($dsn, null, null, $opt);
 $other = new PDO($dsn, null, null, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 $same = $db->query('SELECT pg_backend_pid()')->fetchColumn() === $pid;
 printf("same backend: %s\n", var_export($same, true));
+printf("second connection on another backend: %s\n", var_export($other->query('SELECT pg_backend_pid()')->fetchColumn() !== $pid, true));
 printf("application_name reset: %s\n", var_export($db->query('SHOW application_name')->fetchColumn() !== 'changed', true));
 printf("temp table dropped: %s\n", var_export($db->query("SELECT to_regclass('pg_temp.reset_check') IS NULL")->fetchColumn(), true));
 printf("advisory lock released: %s\n", var_export($other->query('SELECT pg_try_advisory_lock(4242)')->fetchColumn(), true));
 $other->query('SELECT pg_advisory_unlock_all()');
 printf("not listening: %s\n", var_export($db->query('SELECT count(*) = 0 FROM pg_listening_channels()')->fetchColumn(), true));
+// listed after the checks above, which prepare statements of their own
 printf("server statements: [%s]\n", implode(', ', $db->query('SELECT name FROM pg_prepared_statements ORDER BY name')->fetchAll(PDO::FETCH_COLUMN)));

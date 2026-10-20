@@ -1,0 +1,34 @@
+--- a/ext/pdo_pgsql/pgsql_driver.c
++++ b/ext/pdo_pgsql/pgsql_driver.c
+@@ -1347,6 +1347,22 @@
+ 	}
+ }
+ 
++static void pdo_pgsql_request_shutdown(pdo_dbh_t *dbh)
++{
++	PGresult *res;
++	pdo_pgsql_db_handle *H = (pdo_pgsql_db_handle *)dbh->driver_data;
++
++	if(H->server) {
++		/* DISCARD ALL without DEALLOCATE ALL: prepared statements stay, their cached plans are dropped */
++		res = PQexec(H->server, "CLOSE ALL; SET SESSION AUTHORIZATION DEFAULT; RESET ALL; UNLISTEN *; "
++			"SELECT pg_advisory_unlock_all(); DISCARD PLANS; DISCARD TEMP; DISCARD SEQUENCES");
++
++		if(res) {
++			PQclear(res);
++		}
++	}
++}
++
+ static bool pdo_pgsql_set_attr(pdo_dbh_t *dbh, zend_long attr, zval *val)
+ {
+ 	bool bval;
+@@ -1390,7 +1406,7 @@
+ 	pdo_pgsql_get_attribute,
+ 	pdo_pgsql_check_liveness,	/* check_liveness */
+ 	pdo_pgsql_get_driver_methods,  /* get_driver_methods */
+-	NULL,
++	pdo_pgsql_request_shutdown,
+ 	pgsql_handle_in_transaction,
+ 	NULL, /* get_gc */
+ 	pdo_pgsql_scanner
