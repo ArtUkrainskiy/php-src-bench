@@ -20,10 +20,14 @@ $db = new PDO($dsn, null, null, $opt);
 $other = new PDO($dsn, null, null, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 $same = $db->query('SELECT pg_backend_pid()')->fetchColumn() === $pid;
 printf("same backend: %s\n", var_export($same, true));
-printf("second connection on another backend: %s\n", var_export($other->query('SELECT pg_backend_pid()')->fetchColumn() !== $pid, true));
+$otherBackend = $other->query('SELECT pg_backend_pid()')->fetchColumn() !== $pid;
+printf("second connection on another backend: %s\n", var_export($otherBackend, true));
 printf("application_name reset: %s\n", var_export($db->query('SHOW application_name')->fetchColumn() !== 'changed', true));
 printf("temp table dropped: %s\n", var_export($db->query("SELECT to_regclass('pg_temp.reset_check') IS NULL")->fetchColumn(), true));
-printf("advisory lock released: %s\n", var_export($other->query('SELECT pg_try_advisory_lock(4242)')->fetchColumn(), true));
+// a backend can take its own session-level advisory lock again, so only another backend can tell
+printf("advisory lock released: %s\n", $otherBackend
+	? var_export($other->query('SELECT pg_try_advisory_lock(4242)')->fetchColumn(), true)
+	: 'not applicable (same backend)');
 $other->query('SELECT pg_advisory_unlock_all()');
 printf("not listening: %s\n", var_export($db->query('SELECT count(*) = 0 FROM pg_listening_channels()')->fetchColumn(), true));
 // listed after the checks above, which prepare statements of their own
