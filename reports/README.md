@@ -20,6 +20,7 @@ run it again.
 | [pr-23961-html-charset](pr-23961-html-charset/) | html functions: UTF-8 first when resolving the charset; alone and with #23957 and #24145 | [#23961](https://github.com/php/php-src/pull/23961) (review) |
 | [pr-23110-unserialize-var-access](pr-23110-unserialize-var-access/) | `unserialize()`: back-references found by chunk index instead of a list walk; measurements, correctness, a variant without the GCC per-value cost | [#23110](https://github.com/php/php-src/pull/23110) (review) |
 | [pr-23789-bin2hex-hex2bin](pr-23789-bin2hex-hex2bin/) | `bin2hex()`/`hex2bin()` with SSE2/NEON: measurements, big-endian AArch64 result, a variant without the short-input cost | [#23789](https://github.com/php/php-src/pull/23789) (review) |
+| [pdo-pgsql-stmt-cache](pdo-pgsql-stmt-cache/) | pdo_pgsql: a per-connection cache of prepared statements, measured on Drupal 11.4 | not opened yet |
 | [mysqlnd-zts-stats](mysqlnd-zts-stats/) | mysqlnd: relaxed atomics instead of a mutex for statistics in ZTS builds | not opened yet |
 | [base64-decode-quads](base64-decode-quads/) | `base64_decode()`: four characters at a time in the character loop | not opened yet |
 | [php-benchmark-history](php-benchmark-history/) | php-src's benchmark CI, read as a history | — |

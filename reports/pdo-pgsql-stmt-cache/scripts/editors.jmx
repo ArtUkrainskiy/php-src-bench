@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Drupal editors: each thread logs in as bench<N> (password bench), then requests the paths of urls.csv in turn;
+     every 20th iteration it posts a comment on the next article of nids.csv (open comments). Properties: host, port, threads (at most 20: users bench1..bench20), loops. -->
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.3">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="drupal editors">
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+    </TestPlan>
+    <hashTree>
+      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="defaults">
+        <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+          <collectionProp name="Arguments.arguments"/>
+        </elementProp>
+        <stringProp name="HTTPSampler.domain">${__P(host,127.0.0.1)}</stringProp>
+        <stringProp name="HTTPSampler.port">${__P(port,58090)}</stringProp>
+        <stringProp name="HTTPSampler.protocol">http</stringProp>
+      </ConfigTestElement>
+      <hashTree/>
+      <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="cookies">
+        <collectionProp name="CookieManager.cookies"/>
+        <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+      </CookieManager>
+      <hashTree/>
+      <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="urls">
+        <stringProp name="filename">urls.csv</stringProp>
+        <stringProp name="variableNames">path</stringProp>
+        <boolProp name="ignoreFirstLine">true</boolProp>
+        <stringProp name="delimiter">,</stringProp>
+        <boolProp name="recycle">false</boolProp>
+        <boolProp name="stopThread">true</boolProp>
+        <stringProp name="shareMode">shareMode.all</stringProp>
+      </CSVDataSet>
+      <hashTree/>
+      <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="articles with open comments">
+        <stringProp name="filename">nids.csv</stringProp>
+        <stringProp name="variableNames">nid</stringProp>
+        <boolProp name="ignoreFirstLine">true</boolProp>
+        <stringProp name="delimiter">,</stringProp>
+        <boolProp name="recycle">true</boolProp>
+        <boolProp name="stopThread">false</boolProp>
+        <stringProp name="shareMode">shareMode.all</stringProp>
+      </CSVDataSet>
+      <hashTree/>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="editors">
+        <stringProp name="ThreadGroup.num_threads">${__P(threads,8)}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">2</stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController">
+          <stringProp name="LoopController.loops">${__P(loops,-1)}</stringProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="login"/>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="login form">
+            <stringProp name="HTTPSampler.path">/user/login</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments"><collectionProp name="Arguments.arguments"/></elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="form_build_id">
+              <stringProp name="RegexExtractor.refname">fbid</stringProp>
+              <stringProp name="RegexExtractor.regex">name="form_build_id" value="([^"]+)"</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.match_number">1</stringProp>
+              <stringProp name="RegexExtractor.default">NONE</stringProp>
+            </RegexExtractor>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="login post">
+            <stringProp name="HTTPSampler.path">/user/login</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="name" elementType="HTTPArgument"><stringProp name="Argument.name">name</stringProp><stringProp name="Argument.value">bench${__threadNum}</stringProp><boolProp name="HTTPArgument.always_encode">true</boolProp></elementProp>
+                <elementProp name="pass" elementType="HTTPArgument"><stringProp name="Argument.name">pass</stringProp><stringProp name="Argument.value">bench</stringProp></elementProp>
+                <elementProp name="form_id" elementType="HTTPArgument"><stringProp name="Argument.name">form_id</stringProp><stringProp name="Argument.value">user_login_form</stringProp></elementProp>
+                <elementProp name="form_build_id" elementType="HTTPArgument"><stringProp name="Argument.name">form_build_id</stringProp><stringProp name="Argument.value">${fbid}</stringProp></elementProp>
+                <elementProp name="op" elementType="HTTPArgument"><stringProp name="Argument.name">op</stringProp><stringProp name="Argument.value">Log in</stringProp><boolProp name="HTTPArgument.always_encode">true</boolProp></elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="logged in">
+              <collectionProp name="Asserion.test_strings"><stringProp name="0">user/logout</stringProp></collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <intProp name="Assertion.test_type">2</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="page">
+          <stringProp name="HTTPSampler.path">${path}</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments"><collectionProp name="Arguments.arguments"/></elementProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="every 20th iteration">
+          <stringProp name="IfController.condition">${__groovy(vars.getIteration() % 20 == 0)}</stringProp>
+          <boolProp name="IfController.evaluateAll">false</boolProp>
+          <boolProp name="IfController.useExpression">true</boolProp>
+        </IfController>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="article">
+            <stringProp name="HTTPSampler.path">/comment/reply/node/${nid}/comment</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments"><collectionProp name="Arguments.arguments"/></elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="comment form_build_id">
+              <stringProp name="RegexExtractor.refname">cfbid</stringProp>
+              <stringProp name="RegexExtractor.regex">name="form_build_id" value="([^"]+)"</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.match_number">1</stringProp>
+              <stringProp name="RegexExtractor.default">NONE</stringProp>
+            </RegexExtractor>
+            <hashTree/>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="comment form_token">
+              <stringProp name="RegexExtractor.refname">ctoken</stringProp>
+              <stringProp name="RegexExtractor.regex">name="form_token" value="([^"]+)"</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.match_number">1</stringProp>
+              <stringProp name="RegexExtractor.default">NONE</stringProp>
+            </RegexExtractor>
+            <hashTree/>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="comment form_id">
+              <stringProp name="RegexExtractor.refname">cfid</stringProp>
+              <stringProp name="RegexExtractor.regex">name="form_id" value="(comment_[a-z_]+_form)"</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.match_number">1</stringProp>
+              <stringProp name="RegexExtractor.default">NONE</stringProp>
+            </RegexExtractor>
+            <hashTree/>
+          </hashTree>
+          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="article has a comment form">
+            <stringProp name="IfController.condition">${__groovy(vars.get("cfbid") != "NONE")}</stringProp>
+            <boolProp name="IfController.useExpression">true</boolProp>
+          </IfController>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="comment post">
+              <stringProp name="HTTPSampler.path">/comment/reply/node/${nid}/comment</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="subject" elementType="HTTPArgument"><stringProp name="Argument.name">subject[0][value]</stringProp><stringProp name="Argument.value">bench ${__Random(1,1000000)}</stringProp></elementProp>
+                  <elementProp name="body" elementType="HTTPArgument"><stringProp name="Argument.name">comment_body[0][value]</stringProp><stringProp name="Argument.value">comment ${__RandomString(40,abcdefghij )}</stringProp></elementProp>
+                  <elementProp name="form_build_id" elementType="HTTPArgument"><stringProp name="Argument.name">form_build_id</stringProp><stringProp name="Argument.value">${cfbid}</stringProp></elementProp>
+                  <elementProp name="form_token" elementType="HTTPArgument"><stringProp name="Argument.name">form_token</stringProp><stringProp name="Argument.value">${ctoken}</stringProp></elementProp>
+                  <elementProp name="form_id" elementType="HTTPArgument"><stringProp name="Argument.name">form_id</stringProp><stringProp name="Argument.value">${cfid}</stringProp></elementProp>
+                  <elementProp name="op" elementType="HTTPArgument"><stringProp name="Argument.name">op</stringProp><stringProp name="Argument.value">Save</stringProp></elementProp>
+                </collectionProp>
+              </elementProp>
+            </HTTPSamplerProxy>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+      </hashTree>
+      <ResultCollector guiclass="SimpleDataWriter" testclass="ResultCollector" testname="results">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time><latency>false</latency><timestamp>true</timestamp><success>true</success><label>true</label>
+            <code>true</code><message>false</message><threadName>true</threadName><dataType>false</dataType><encoding>false</encoding>
+            <assertions>true</assertions><subresults>false</subresults><responseData>false</responseData><samplerData>false</samplerData>
+            <xml>false</xml><fieldNames>true</fieldNames><responseHeaders>false</responseHeaders><requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError><saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <bytes>true</bytes><url>true</url><threadCounts>false</threadCounts><idleTime>false</idleTime>
+          </value>
+        </objProp>
+        <stringProp name="filename">${__P(out,results.jtl)}</stringProp>
+      </ResultCollector>
+      <hashTree/>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>

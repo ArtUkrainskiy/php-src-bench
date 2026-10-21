@@ -1,0 +1,383 @@
+diff --git a/ext/pdo_pgsql/pdo_pgsql.c b/ext/pdo_pgsql/pdo_pgsql.c
+index e6849aed119..eafa534f4e1 100644
+--- a/ext/pdo_pgsql/pdo_pgsql.c
++++ b/ext/pdo_pgsql/pdo_pgsql.c
+@@ -178,9 +178,15 @@ PHP_METHOD(Pdo_Pgsql, setNoticeCallback)
+ #define REGISTER_PDO_PGSQL_CLASS_CONST_LONG_DEPRECATED_ALIAS_85(base_name, value) \
+ 		REGISTER_PDO_CLASS_CONST_LONG_DEPRECATED_ALIAS_85(base_name, "PGSQL_", "Pdo\\Pgsql::", value)
+ 
++PHP_INI_BEGIN()
++	PHP_INI_ENTRY("pdo_pgsql.prepare_threshold", "5", PHP_INI_ALL, NULL)
++	PHP_INI_ENTRY("pdo_pgsql.statement_cache_size", "64", PHP_INI_ALL, NULL)
++PHP_INI_END()
++
+ /* {{{ PHP_MINIT_FUNCTION */
+ PHP_MINIT_FUNCTION(pdo_pgsql)
+ {
++	REGISTER_INI_ENTRIES();
+ 	REGISTER_PDO_PGSQL_CLASS_CONST_LONG_DEPRECATED_ALIAS_85("ATTR_DISABLE_PREPARES", PDO_PGSQL_ATTR_DISABLE_PREPARES);
+ 	REGISTER_PDO_CLASS_CONST_LONG_DEPRECATED_85("PGSQL_TRANSACTION_IDLE", (zend_long)PGSQL_TRANSACTION_IDLE);
+ 	REGISTER_PDO_CLASS_CONST_LONG_DEPRECATED_85("PGSQL_TRANSACTION_ACTIVE", (zend_long)PGSQL_TRANSACTION_ACTIVE);
+@@ -202,6 +208,7 @@ PHP_MINIT_FUNCTION(pdo_pgsql)
+ /* {{{ PHP_MSHUTDOWN_FUNCTION */
+ PHP_MSHUTDOWN_FUNCTION(pdo_pgsql)
+ {
++	UNREGISTER_INI_ENTRIES();
+ 	php_pdo_unregister_driver(&pdo_pgsql_driver);
+ 	return SUCCESS;
+ }
+diff --git a/ext/pdo_pgsql/pgsql_driver.c b/ext/pdo_pgsql/pgsql_driver.c
+index 060b8d68776..f996896d528 100644
+--- a/ext/pdo_pgsql/pgsql_driver.c
++++ b/ext/pdo_pgsql/pgsql_driver.c
+@@ -243,6 +243,16 @@ void pdo_pgsql_close_lob_streams(pdo_dbh_t *dbh)
+ 	}
+ }
+ 
++static void pdo_pgsql_cached_stmt_dtor(zval *zv)
++{
++	efree(Z_PTR_P(zv));
++}
++
++static void pdo_pgsql_cached_stmt_pdtor(zval *zv)
++{
++	pefree(Z_PTR_P(zv), 1);
++}
++
+ static void pgsql_handle_closer(pdo_dbh_t *dbh) /* {{{ */
+ {
+ 	pdo_pgsql_db_handle *H = (pdo_pgsql_db_handle *)dbh->driver_data;
+@@ -254,6 +264,11 @@ static void pgsql_handle_closer(pdo_dbh_t *dbh) /* {{{ */
+ 			H->lob_streams = NULL;
+ 		}
+ 		pdo_pgsql_cleanup_notice_callback(H);
++		if (H->stmt_cache) {
++			zend_hash_destroy(H->stmt_cache);
++			pefree(H->stmt_cache, dbh->is_persistent);
++			H->stmt_cache = NULL;
++		}
+ 		if (H->server) {
+ 			PQfinish(H->server);
+ 			H->server = NULL;
+@@ -335,9 +350,14 @@ static bool pgsql_handle_preparer(pdo_dbh_t *dbh, zend_string *sql, pdo_stmt_t *
+ 	}
+ 
+ 	if (!emulate && !execute_only) {
+-		/* prepared query: set the query name and defer the
+-		   actual prepare until the first execute call */
+-		spprintf(&S->stmt_name, 0, "pdo_stmt_%08x", ++H->stmt_counter);
++		if (H->prepare_threshold > 0) {
++			/* the connection's statement cache picks the server statement at execute */
++			S->use_cache = true;
++		} else {
++			/* prepared query: set the query name and defer the
++			   actual prepare until the first execute call */
++			spprintf(&S->stmt_name, 0, "pdo_stmt_%08x", ++H->stmt_counter);
++		}
+ 	}
+ 
+ 	return true;
+@@ -1449,6 +1469,11 @@ static int pdo_pgsql_handle_factory(pdo_dbh_t *dbh, zval *driver_options) /* {{{
+ 	H->server = PQconnectdb(ZSTR_VAL(conn_str.s));
+ 	H->lob_streams = (HashTable *) pemalloc(sizeof(HashTable), dbh->is_persistent);
+ 	zend_hash_init(H->lob_streams, 0, NULL, NULL, 1);
++	H->is_persistent = dbh->is_persistent;
++	H->prepare_threshold = INI_INT("pdo_pgsql.prepare_threshold");
++	H->stmt_cache_size = INI_INT("pdo_pgsql.statement_cache_size");
++	H->stmt_cache = (HashTable *) pemalloc(sizeof(HashTable), dbh->is_persistent);
++	zend_hash_init(H->stmt_cache, 8, NULL, dbh->is_persistent ? pdo_pgsql_cached_stmt_pdtor : pdo_pgsql_cached_stmt_dtor, dbh->is_persistent);
+ 
+ 	if (tmp_user) {
+ 		zend_string_release_ex(tmp_user, 0);
+diff --git a/ext/pdo_pgsql/pgsql_statement.c b/ext/pdo_pgsql/pgsql_statement.c
+index b2af41a339b..67b7661032a 100644
+--- a/ext/pdo_pgsql/pgsql_statement.c
++++ b/ext/pdo_pgsql/pgsql_statement.c
+@@ -27,6 +27,9 @@
+ #include "ext/pdo/php_pdo_driver.h"
+ #include "php_pdo_pgsql.h"
+ #include "php_pdo_pgsql_int.h"
++#include "ext/hash/php_hash.h"
++#include "ext/hash/php_hash_sha.h"
++#include "ext/standard/md5.h"
+ #ifdef HAVE_NETINET_IN_H
+ #include <netinet/in.h>
+ #endif
+@@ -245,12 +248,138 @@ static int pgsql_stmt_dtor(pdo_stmt_t *stmt)
+ 	return 1;
+ }
+ 
++/* Closes the server statement of a cache entry and forgets it */
++static void pgsql_stmt_cache_close(pdo_pgsql_db_handle *H, pdo_pgsql_cached_stmt *entry)
++{
++	PGresult *res;
++#ifndef HAVE_PQCLOSEPREPARED
++	char q[sizeof("DEALLOCATE ") + sizeof(entry->name)];
++	snprintf(q, sizeof(q), "DEALLOCATE %s", entry->name);
++	res = PQexec(H->server, q);
++#else
++	res = PQclosePrepared(H->server, entry->name);
++#endif
++	if (res) {
++		PQclear(res);
++	}
++	entry->prepared = false;
++	entry->uses = 0;
++}
++
++/* Removes the least recently used entry; false if its server statement cannot be closed now */
++static bool pgsql_stmt_cache_evict(pdo_pgsql_db_handle *H)
++{
++	pdo_pgsql_cached_stmt *entry, *victim = NULL;
++	zend_string *key, *victim_key = NULL;
++
++	ZEND_HASH_MAP_FOREACH_STR_KEY_PTR(H->stmt_cache, key, entry) {
++		if (!victim || entry->last_use < victim->last_use) {
++			victim = entry;
++			victim_key = key;
++		}
++	} ZEND_HASH_FOREACH_END();
++
++	if (victim->prepared) {
++		if (PQtransactionStatus(H->server) == PQTRANS_INERROR) {
++			return false;
++		}
++		pgsql_stmt_cache_close(H, victim);
++	}
++	zend_hash_del(H->stmt_cache, victim_key);
++	return true;
++}
++
++/* The connection's statement cache: a statement text with its parameter types runs as an unnamed
++ * statement until it has been executed prepare_threshold times on the connection, then as a named
++ * server statement that is kept until it is evicted or the session is reset. Returns the entry
++ * when its server statement is prepared. */
++static pdo_pgsql_cached_stmt *pgsql_stmt_use_cache(pdo_stmt_t *stmt, pdo_pgsql_stmt *S, int nparams)
++{
++	pdo_pgsql_db_handle *H = S->H;
++	pdo_pgsql_cached_stmt *entry;
++	size_t types_len = nparams * sizeof(Oid);
++	zend_string *key;
++
++	/* the parameter arrays have one element per entry of bound_param_map */
++	if (nparams && (!S->param_types || zend_hash_num_elements(stmt->bound_param_map) < (uint32_t) nparams)) {
++		return NULL;
++	}
++
++	key = zend_string_alloc(ZSTR_LEN(S->query) + 1 + types_len, 0);
++
++	memcpy(ZSTR_VAL(key), ZSTR_VAL(S->query), ZSTR_LEN(S->query) + 1);
++	if (types_len) {
++		memcpy(ZSTR_VAL(key) + ZSTR_LEN(S->query) + 1, S->param_types, types_len);
++	}
++	ZSTR_VAL(key)[ZSTR_LEN(key)] = '\0';
++
++	entry = zend_hash_find_ptr(H->stmt_cache, key);
++	if (!entry) {
++		PHP_SHA256_CTX ctx;
++		unsigned char digest[32];
++
++		if (H->stmt_cache_size <= 0
++				|| (zend_hash_num_elements(H->stmt_cache) >= (uint32_t) H->stmt_cache_size && !pgsql_stmt_cache_evict(H))) {
++			zend_string_release_ex(key, 0);
++			return NULL;
++		}
++		entry = pecalloc(1, sizeof(*entry), H->is_persistent);
++		/* the name is derived from the statement text and parameter types, so a server statement
++		 * of that name is this statement on any server connection (connection poolers) */
++		PHP_SHA256Init(&ctx);
++		PHP_SHA256Update(&ctx, (const unsigned char *) ZSTR_VAL(key), ZSTR_LEN(key));
++		PHP_SHA256Final(digest, &ctx);
++		memcpy(entry->name, "pdo_s_", sizeof("pdo_s_") - 1);
++		make_digest_ex(entry->name + sizeof("pdo_s_") - 1, digest, PDO_PGSQL_CACHED_NAME_BYTES);
++		if (H->is_persistent) {
++			zend_string *pkey = zend_string_dup(key, 1);
++
++			zend_hash_add_new_ptr(H->stmt_cache, pkey, entry);
++			zend_string_release_ex(pkey, 1);
++		} else {
++			zend_hash_add_new_ptr(H->stmt_cache, key, entry);
++		}
++	}
++	zend_string_release_ex(key, 0);
++	entry->last_use = ++H->stmt_cache_clock;
++
++	if (!entry->prepared && ++entry->uses >= H->prepare_threshold) {
++		PGresult *res = PQprepare(H->server, entry->name, ZSTR_VAL(S->query), nparams, S->param_types);
++		const char *sqlstate = pdo_pgsql_sqlstate(res);
++
++		/* 42P05: the server statement of this name exists, and the name identifies the statement */
++		entry->prepared = PQresultStatus(res) == PGRES_COMMAND_OK || (sqlstate && !strcmp(sqlstate, "42P05"));
++		if (!entry->prepared) {
++			entry->uses = 0;
++		}
++		PQclear(res);
++	}
++
++	return entry->prepared ? entry : NULL;
++}
++
++/* 26000: the server statement is gone (session reset); 0A000: its plan no longer matches the tables */
++static bool pgsql_stmt_cache_invalid(PGresult *res)
++{
++	const char *sqlstate = pdo_pgsql_sqlstate(res);
++
++	return sqlstate && (!strcmp(sqlstate, "26000") || !strcmp(sqlstate, "0A000"));
++}
++
++static void pgsql_stmt_set_row_mode(pdo_pgsql_stmt *S)
++{
++	/* no matter if it returns 0: PQ then transparently fallbacks to full result fetching */
++	(void)PQsetSingleRowMode(S->H->server);
++}
++
+ static int pgsql_stmt_execute(pdo_stmt_t *stmt)
+ {
+ 	pdo_pgsql_stmt *S = (pdo_pgsql_stmt*)stmt->driver_data;
+ 	pdo_pgsql_db_handle *H = S->H;
+ 	ExecStatusType status;
+ 	int dispatch_result = 1;
++	pdo_pgsql_cached_stmt *cached = NULL;
++	int nparams = stmt->bound_params ? zend_hash_num_elements(stmt->bound_params) : 0;
+ 
+ 	bool in_trans = stmt->dbh->methods->in_transaction(stmt->dbh);
+ 
+@@ -267,6 +396,10 @@ static int pgsql_stmt_execute(pdo_stmt_t *stmt)
+ 
+ 	S->current_row = 0;
+ 
++	if (S->use_cache) {
++		cached = pgsql_stmt_use_cache(stmt, S, nparams);
++	}
++
+ 	if (S->cursor_name) {
+ 		char *q = NULL;
+ 
+@@ -310,10 +443,11 @@ static int pgsql_stmt_execute(pdo_stmt_t *stmt)
+ 		spprintf(&q, 0, "FETCH FORWARD 0 FROM %s", S->cursor_name);
+ 		S->result = PQexec(H->server, q);
+ 		efree(q);
+-	} else if (S->stmt_name) {
++	} else if (S->stmt_name || cached) {
+ 		/* using a prepared statement */
++		const char *name = cached ? cached->name : S->stmt_name;
+ 
+-		if (!S->is_prepared) {
++		if (S->stmt_name && !S->is_prepared) {
+ stmt_retry:
+ 			/* we deferred the prepare until now, because we didn't
+ 			 * know anything about the parameter types; now we do */
+@@ -358,7 +492,7 @@ static int pgsql_stmt_execute(pdo_stmt_t *stmt)
+ 			}
+ 		}
+ 		if (S->is_unbuffered) {
+-			dispatch_result = PQsendQueryPrepared(H->server, S->stmt_name,
++			dispatch_result = PQsendQueryPrepared(H->server, name,
+ 					stmt->bound_params ?
+ 						zend_hash_num_elements(stmt->bound_params) :
+ 						0,
+@@ -367,7 +501,7 @@ static int pgsql_stmt_execute(pdo_stmt_t *stmt)
+ 					S->param_formats,
+ 					0);
+ 		} else {
+-			S->result = PQexecPrepared(H->server, S->stmt_name,
++			S->result = PQexecPrepared(H->server, name,
+ 				stmt->bound_params ?
+ 					zend_hash_num_elements(stmt->bound_params) :
+ 					0,
+@@ -375,6 +509,18 @@ static int pgsql_stmt_execute(pdo_stmt_t *stmt)
+ 				S->param_lengths,
+ 				S->param_formats,
+ 				0);
++			if (cached && pgsql_stmt_cache_invalid(S->result)) {
++				if (in_trans) {
++					/* the error aborted the transaction: report it, prepare again later */
++					cached->prepared = false;
++					cached->uses = 0;
++				} else {
++					PQclear(S->result);
++					pgsql_stmt_cache_close(H, cached);
++					S->result = PQexecParams(H->server, ZSTR_VAL(S->query), nparams, S->param_types,
++						(const char**)S->param_values, S->param_lengths, S->param_formats, 0);
++				}
++			}
+ 		}
+ 	} else if (stmt->supports_placeholders == PDO_PLACEHOLDER_NAMED) {
+ 		/* execute query with parameters */
+@@ -413,11 +559,32 @@ static int pgsql_stmt_execute(pdo_stmt_t *stmt)
+ 			return 0;
+ 		}
+ 		S->is_running_unbuffered = true;
+-		(void)PQsetSingleRowMode(H->server);
+-		/* no matter if it returns 0: PQ then transparently fallbacks to full result fetching */
++		pgsql_stmt_set_row_mode(S);
+ 
+ 		/* try a first fetch to at least have column names and so on */
+ 		S->result = PQgetResult(S->H->server);
++
++		if (cached && pgsql_stmt_cache_invalid(S->result)) {
++			if (in_trans) {
++				/* the error aborted the transaction: report it, prepare again later */
++				cached->prepared = false;
++				cached->uses = 0;
++			} else {
++				do {
++					PQclear(S->result);
++				} while ((S->result = PQgetResult(H->server)));
++				pgsql_stmt_cache_close(H, cached);
++				if (!PQsendQueryParams(H->server, ZSTR_VAL(S->query), nparams, S->param_types,
++						(const char**)S->param_values, S->param_lengths, S->param_formats, 0)) {
++					pdo_pgsql_error_stmt(stmt, 0, NULL);
++					S->is_running_unbuffered = false;
++					H->running_stmt = NULL;
++					return 0;
++				}
++				pgsql_stmt_set_row_mode(S);
++				S->result = PQgetResult(H->server);
++			}
++		}
+ 	}
+ 
+ 	status = PQresultStatus(S->result);
+diff --git a/ext/pdo_pgsql/php_pdo_pgsql_int.h b/ext/pdo_pgsql/php_pdo_pgsql_int.h
+index 60fa28bbcb6..87c796fc8fe 100644
+--- a/ext/pdo_pgsql/php_pdo_pgsql_int.h
++++ b/ext/pdo_pgsql/php_pdo_pgsql_int.h
+@@ -36,6 +36,17 @@ typedef struct {
+ 
+ typedef struct pdo_pgsql_stmt pdo_pgsql_stmt;
+ 
++/* bytes of the SHA-256 of the statement in the name of its server statement */
++#define PDO_PGSQL_CACHED_NAME_BYTES 24
++
++/* a statement text of the connection's statement cache */
++typedef struct {
++	uint64_t	last_use;
++	uint32_t	uses;
++	bool		prepared;
++	char		name[sizeof("pdo_s_") + 2 * PDO_PGSQL_CACHED_NAME_BYTES];
++} pdo_pgsql_cached_stmt;
++
+ /* stuff we use in a pgsql database handle */
+ typedef struct {
+ 	PGconn		*server;
+@@ -50,6 +61,11 @@ typedef struct {
+ 	zend_fcall_info_cache *notice_callback;
+ 	bool		default_fetching_laziness;
+ 	pdo_pgsql_stmt  *running_stmt;
++	HashTable	*stmt_cache;
++	uint64_t	stmt_cache_clock;
++	zend_long	prepare_threshold;
++	zend_long	stmt_cache_size;
++	bool		is_persistent;
+ } pdo_pgsql_db_handle;
+ 
+ typedef struct {
+@@ -72,6 +88,7 @@ struct pdo_pgsql_stmt {
+ 	bool is_cursor_declared;
+ 	bool is_unbuffered;
+ 	bool is_running_unbuffered;
++	bool use_cache;
+ };
+ 
+ typedef struct {
