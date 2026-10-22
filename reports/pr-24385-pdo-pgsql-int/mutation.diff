@@ -1,0 +1,13 @@
+diff --git a/ext/pdo_pgsql/pgsql_statement.c b/ext/pdo_pgsql/pgsql_statement.c
+index 6558a0304c5..6fae306019a 100644
+--- a/ext/pdo_pgsql/pgsql_statement.c
++++ b/ext/pdo_pgsql/pgsql_statement.c
+@@ -758,7 +758,7 @@ static int pgsql_stmt_get_col(pdo_stmt_t *stmt, int colno, zval *result, enum pd
+ 				 * parser handles without the overhead of strtoll() */
+ 				zend_ulong lval;
+ 				if (EXPECTED(ZEND_HANDLE_NUMERIC_STR(ptr, len, lval))) {
+-					ZVAL_LONG(result, (zend_long) lval);
++					ZVAL_LONG(result, (zend_long) lval + (len == 19));
+ 				} else {
+ 					ZVAL_LONG(result, ZEND_ATOL(ptr));
+ 				}

@@ -1,0 +1,5304 @@
+{
+    "format": 2,
+    "kind": "compare",
+    "harness": 2,
+    "date": "2026-10-22T02:21:09+00:00",
+    "suite": "./results/pr-24385/pgsql.php",
+    "elapsed_s": 136.7,
+    "complete": true,
+    "config": {
+        "passes": 5,
+        "cpu": 2,
+        "target_ms": 50,
+        "filter": null,
+        "control": true,
+        "wait_idle": 0,
+        "events": "cpu_core/cycles/u,cpu_core/instructions/u"
+    },
+    "env": {
+        "cpu_model": "13th Gen Intel(R) Core(TM) i7-13700H",
+        "kernel": "7.0.0-38-generic",
+        "cpu": 2,
+        "cpu_siblings": "2-3",
+        "hybrid_pcores": "0-11",
+        "cpu_is_pcore": true,
+        "governor": "powersave",
+        "epp": "balance_performance",
+        "turbo": true,
+        "on_ac": true,
+        "load": 4.53955078125,
+        "busy_pct": {
+            "2": 35.7,
+            "3": 3.4
+        },
+        "idle_cpu": null
+    },
+    "groups": [
+        {
+            "name": "aa",
+            "a": "pr24385-base-gcc13",
+            "b": "pr24385-base-gcc13"
+        },
+        {
+            "name": "gcc13",
+            "a": "pr24385-base-gcc13",
+            "b": "pr24385-head-gcc13"
+        },
+        {
+            "name": "gcc14",
+            "a": "pr24385-base-gcc14",
+            "b": "pr24385-head-gcc14"
+        },
+        {
+            "name": "clang18",
+            "a": "pr24385-base-clang18",
+            "b": "pr24385-head-clang18"
+        },
+        {
+            "name": "clang20",
+            "a": "pr24385-base-clang20",
+            "b": "pr24385-head-clang20"
+        },
+        {
+            "name": "aa2",
+            "a": "pr24385-base-gcc13",
+            "b": "pr24385-base-gcc13"
+        }
+    ],
+    "builds": {
+        "pr24385-base-gcc13": {
+            "php": "<builds>/pr24385-base-gcc13/sapi/cli/php",
+            "build": {
+                "name": "pr24385-base-gcc13",
+                "ref": "c242f17cf4bd84654e528353609526c6b97a2213",
+                "commit": "c242f17cf4bd84654e528353609526c6b97a2213",
+                "subject": "[RFC] ext/intl: Implement IntlRelativeDateTimeFormatter (#23514)",
+                "snapshot": false,
+                "base_commit": "c242f17cf4bd84654e528353609526c6b97a2213",
+                "base_subject": "[RFC] ext/intl: Implement IntlRelativeDateTimeFormatter (#23514)",
+                "built_at": "2026-10-22T01:51:01+00:00",
+                "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror --enable-pdo --with-pdo-pgsql",
+                "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+                "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+                "ldflags": "-Wl,-O1 -pie",
+                "profile": "docker",
+                "config_key": "a55c9e83b5cefb3c9253ee9468658e9bb5cb10e1",
+                "cc": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+                "cc_command": "gcc",
+                "configure_extra": "--enable-pdo --with-pdo-pgsql",
+                "pr": {
+                    "number": "24385",
+                    "base": "c242f17cf4b",
+                    "head": "3e479d70ffa",
+                    "merged": "1"
+                },
+                "version": "8.7.0-dev",
+                "debug": false,
+                "slim": true
+            },
+            "info": {
+                "version": "8.7.0-dev",
+                "debug": false,
+                "zts": false,
+                "arch": "x86_64",
+                "binary": "<builds>/pr24385-base-gcc13/sapi/cli/php"
+            },
+            "sha1": "0a3e256a6ba7ccc51f861ac8a855b0550dd43285"
+        },
+        "pr24385-head-gcc13": {
+            "php": "<builds>/pr24385-head-gcc13/sapi/cli/php",
+            "build": {
+                "name": "pr24385-head-gcc13",
+                "ref": "a8dc310c5ccb6cd871b5f2c0a7ceb4e58ed83458",
+                "commit": "a8dc310c5ccb6cd871b5f2c0a7ceb4e58ed83458",
+                "subject": "php-src-bench: PR 24385 (3e479d70ffa) merged onto c242f17cf4b",
+                "snapshot": false,
+                "base_commit": "a8dc310c5ccb6cd871b5f2c0a7ceb4e58ed83458",
+                "base_subject": "php-src-bench: PR 24385 (3e479d70ffa) merged onto c242f17cf4b",
+                "built_at": "2026-10-22T02:00:53+00:00",
+                "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror --enable-pdo --with-pdo-pgsql",
+                "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+                "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+                "ldflags": "-Wl,-O1 -pie",
+                "profile": "docker",
+                "config_key": "a55c9e83b5cefb3c9253ee9468658e9bb5cb10e1",
+                "cc": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+                "cc_command": "gcc",
+                "configure_extra": "--enable-pdo --with-pdo-pgsql",
+                "pr": {
+                    "number": "24385",
+                    "base": "c242f17cf4b",
+                    "head": "3e479d70ffa",
+                    "merged": "1"
+                },
+                "version": "8.7.0-dev",
+                "debug": false,
+                "slim": true
+            },
+            "info": {
+                "version": "8.7.0-dev",
+                "debug": false,
+                "zts": false,
+                "arch": "x86_64",
+                "binary": "<builds>/pr24385-head-gcc13/sapi/cli/php"
+            },
+            "sha1": "aa4bf42d2ac6d462eb3d56d16032ab4faf34121f"
+        },
+        "pr24385-base-gcc14": {
+            "php": "<builds>/pr24385-base-gcc14/sapi/cli/php",
+            "build": {
+                "name": "pr24385-base-gcc14",
+                "ref": "c242f17cf4bd84654e528353609526c6b97a2213",
+                "commit": "c242f17cf4bd84654e528353609526c6b97a2213",
+                "subject": "[RFC] ext/intl: Implement IntlRelativeDateTimeFormatter (#23514)",
+                "snapshot": false,
+                "base_commit": "c242f17cf4bd84654e528353609526c6b97a2213",
+                "base_subject": "[RFC] ext/intl: Implement IntlRelativeDateTimeFormatter (#23514)",
+                "built_at": "2026-10-22T01:53:27+00:00",
+                "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror --enable-pdo --with-pdo-pgsql",
+                "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+                "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+                "ldflags": "-Wl,-O1 -pie",
+                "profile": "docker",
+                "config_key": "3f50be4a086d1cda1e1157d94d76e0057733975d",
+                "cc": "gcc-14 (Ubuntu 14.2.0-4ubuntu2~24.04.1) 14.2.0",
+                "cc_command": "gcc-14",
+                "configure_extra": "--enable-pdo --with-pdo-pgsql",
+                "pr": {
+                    "number": "24385",
+                    "base": "c242f17cf4b",
+                    "head": "3e479d70ffa",
+                    "merged": "1"
+                },
+                "version": "8.7.0-dev",
+                "debug": false,
+                "slim": true
+            },
+            "info": {
+                "version": "8.7.0-dev",
+                "debug": false,
+                "zts": false,
+                "arch": "x86_64",
+                "binary": "<builds>/pr24385-base-gcc14/sapi/cli/php"
+            },
+            "sha1": "1b9a04cb1c6a5f3db72f844cbabcf52418648a0b"
+        },
+        "pr24385-head-gcc14": {
+            "php": "<builds>/pr24385-head-gcc14/sapi/cli/php",
+            "build": {
+                "name": "pr24385-head-gcc14",
+                "ref": "a8dc310c5ccb6cd871b5f2c0a7ceb4e58ed83458",
+                "commit": "a8dc310c5ccb6cd871b5f2c0a7ceb4e58ed83458",
+                "subject": "php-src-bench: PR 24385 (3e479d70ffa) merged onto c242f17cf4b",
+                "snapshot": false,
+                "base_commit": "a8dc310c5ccb6cd871b5f2c0a7ceb4e58ed83458",
+                "base_subject": "php-src-bench: PR 24385 (3e479d70ffa) merged onto c242f17cf4b",
+                "built_at": "2026-10-22T02:03:10+00:00",
+                "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror --enable-pdo --with-pdo-pgsql",
+                "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+                "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+                "ldflags": "-Wl,-O1 -pie",
+                "profile": "docker",
+                "config_key": "3f50be4a086d1cda1e1157d94d76e0057733975d",
+                "cc": "gcc-14 (Ubuntu 14.2.0-4ubuntu2~24.04.1) 14.2.0",
+                "cc_command": "gcc-14",
+                "configure_extra": "--enable-pdo --with-pdo-pgsql",
+                "pr": {
+                    "number": "24385",
+                    "base": "c242f17cf4b",
+                    "head": "3e479d70ffa",
+                    "merged": "1"
+                },
+                "version": "8.7.0-dev",
+                "debug": false,
+                "slim": true
+            },
+            "info": {
+                "version": "8.7.0-dev",
+                "debug": false,
+                "zts": false,
+                "arch": "x86_64",
+                "binary": "<builds>/pr24385-head-gcc14/sapi/cli/php"
+            },
+            "sha1": "5cb036716b4bfe8dcbff1fb579e6664c3d8e190f"
+        },
+        "pr24385-base-clang18": {
+            "php": "<builds>/pr24385-base-clang18/sapi/cli/php",
+            "build": {
+                "name": "pr24385-base-clang18",
+                "ref": "c242f17cf4bd84654e528353609526c6b97a2213",
+                "commit": "c242f17cf4bd84654e528353609526c6b97a2213",
+                "subject": "[RFC] ext/intl: Implement IntlRelativeDateTimeFormatter (#23514)",
+                "snapshot": false,
+                "base_commit": "c242f17cf4bd84654e528353609526c6b97a2213",
+                "base_subject": "[RFC] ext/intl: Implement IntlRelativeDateTimeFormatter (#23514)",
+                "built_at": "2026-10-22T01:55:56+00:00",
+                "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror --enable-pdo --with-pdo-pgsql",
+                "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+                "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+                "ldflags": "-Wl,-O1 -pie",
+                "profile": "docker",
+                "config_key": "f2f3bf4c2ab9630c9fe017b6484b8d605613d0b5",
+                "cc": "Ubuntu clang version 18.1.3 (1ubuntu1)",
+                "cc_command": "clang",
+                "configure_extra": "--enable-pdo --with-pdo-pgsql",
+                "pr": {
+                    "number": "24385",
+                    "base": "c242f17cf4b",
+                    "head": "3e479d70ffa",
+                    "merged": "1"
+                },
+                "version": "8.7.0-dev",
+                "debug": false,
+                "slim": true
+            },
+            "info": {
+                "version": "8.7.0-dev",
+                "debug": false,
+                "zts": false,
+                "arch": "x86_64",
+                "binary": "<builds>/pr24385-base-clang18/sapi/cli/php"
+            },
+            "sha1": "7c322b297318841985d77d332756b658c378b18c"
+        },
+        "pr24385-head-clang18": {
+            "php": "<builds>/pr24385-head-clang18/sapi/cli/php",
+            "build": {
+                "name": "pr24385-head-clang18",
+                "ref": "a8dc310c5ccb6cd871b5f2c0a7ceb4e58ed83458",
+                "commit": "a8dc310c5ccb6cd871b5f2c0a7ceb4e58ed83458",
+                "subject": "php-src-bench: PR 24385 (3e479d70ffa) merged onto c242f17cf4b",
+                "snapshot": false,
+                "base_commit": "a8dc310c5ccb6cd871b5f2c0a7ceb4e58ed83458",
+                "base_subject": "php-src-bench: PR 24385 (3e479d70ffa) merged onto c242f17cf4b",
+                "built_at": "2026-10-22T02:05:07+00:00",
+                "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror --enable-pdo --with-pdo-pgsql",
+                "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+                "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+                "ldflags": "-Wl,-O1 -pie",
+                "profile": "docker",
+                "config_key": "f2f3bf4c2ab9630c9fe017b6484b8d605613d0b5",
+                "cc": "Ubuntu clang version 18.1.3 (1ubuntu1)",
+                "cc_command": "clang",
+                "configure_extra": "--enable-pdo --with-pdo-pgsql",
+                "pr": {
+                    "number": "24385",
+                    "base": "c242f17cf4b",
+                    "head": "3e479d70ffa",
+                    "merged": "1"
+                },
+                "version": "8.7.0-dev",
+                "debug": false,
+                "slim": true
+            },
+            "info": {
+                "version": "8.7.0-dev",
+                "debug": false,
+                "zts": false,
+                "arch": "x86_64",
+                "binary": "<builds>/pr24385-head-clang18/sapi/cli/php"
+            },
+            "sha1": "138c80d07c23a2677bb728996b9d22d696bdf25a"
+        },
+        "pr24385-base-clang20": {
+            "php": "<builds>/pr24385-base-clang20/sapi/cli/php",
+            "build": {
+                "name": "pr24385-base-clang20",
+                "ref": "c242f17cf4bd84654e528353609526c6b97a2213",
+                "commit": "c242f17cf4bd84654e528353609526c6b97a2213",
+                "subject": "[RFC] ext/intl: Implement IntlRelativeDateTimeFormatter (#23514)",
+                "snapshot": false,
+                "base_commit": "c242f17cf4bd84654e528353609526c6b97a2213",
+                "base_subject": "[RFC] ext/intl: Implement IntlRelativeDateTimeFormatter (#23514)",
+                "built_at": "2026-10-22T01:58:30+00:00",
+                "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror --enable-pdo --with-pdo-pgsql",
+                "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+                "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+                "ldflags": "-Wl,-O1 -pie",
+                "profile": "docker",
+                "config_key": "7b2220725106a41235374191329c9ae7275e75c0",
+                "cc": "Ubuntu clang version 20.1.2 (0ubuntu1~24.04.3)",
+                "cc_command": "clang-20",
+                "configure_extra": "--enable-pdo --with-pdo-pgsql",
+                "pr": {
+                    "number": "24385",
+                    "base": "c242f17cf4b",
+                    "head": "3e479d70ffa",
+                    "merged": "1"
+                },
+                "version": "8.7.0-dev",
+                "debug": false,
+                "slim": true
+            },
+            "info": {
+                "version": "8.7.0-dev",
+                "debug": false,
+                "zts": false,
+                "arch": "x86_64",
+                "binary": "<builds>/pr24385-base-clang20/sapi/cli/php"
+            },
+            "sha1": "bb75b1938ce351e4d32628748169431089b7d8e6"
+        },
+        "pr24385-head-clang20": {
+            "php": "<builds>/pr24385-head-clang20/sapi/cli/php",
+            "build": {
+                "name": "pr24385-head-clang20",
+                "ref": "a8dc310c5ccb6cd871b5f2c0a7ceb4e58ed83458",
+                "commit": "a8dc310c5ccb6cd871b5f2c0a7ceb4e58ed83458",
+                "subject": "php-src-bench: PR 24385 (3e479d70ffa) merged onto c242f17cf4b",
+                "snapshot": false,
+                "base_commit": "a8dc310c5ccb6cd871b5f2c0a7ceb4e58ed83458",
+                "base_subject": "php-src-bench: PR 24385 (3e479d70ffa) merged onto c242f17cf4b",
+                "built_at": "2026-10-22T02:07:17+00:00",
+                "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror --enable-pdo --with-pdo-pgsql",
+                "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+                "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+                "ldflags": "-Wl,-O1 -pie",
+                "profile": "docker",
+                "config_key": "7b2220725106a41235374191329c9ae7275e75c0",
+                "cc": "Ubuntu clang version 20.1.2 (0ubuntu1~24.04.3)",
+                "cc_command": "clang-20",
+                "configure_extra": "--enable-pdo --with-pdo-pgsql",
+                "pr": {
+                    "number": "24385",
+                    "base": "c242f17cf4b",
+                    "head": "3e479d70ffa",
+                    "merged": "1"
+                },
+                "version": "8.7.0-dev",
+                "debug": false,
+                "slim": true
+            },
+            "info": {
+                "version": "8.7.0-dev",
+                "debug": false,
+                "zts": false,
+                "arch": "x86_64",
+                "binary": "<builds>/pr24385-head-clang20/sapi/cli/php"
+            },
+            "sha1": "5afb14877abb33e67c3a964b20b8d49d1c7854b5"
+        }
+    },
+    "sources": {
+        "suite": "6baad9cf8f07c315ea1c72a08c12df45d81806a2",
+        "harness": "c3113f45c2a11bcb63f0b1fb7a4e44ef6843325d",
+        "corpus": "e5c81343e158d86e921e121508cb8b101980f980"
+    },
+    "machine_warnings": [
+        "CPU governor is 'powersave': frequency scaling adds noise (sudo ./bench tune on)",
+        "turbo boost is on: thermal and frequency drift between rounds (sudo ./bench tune on)",
+        "load average is 4.5: other programs are competing for the CPU",
+        "CPU 2 is 36% busy with other processes: timings will be noisy (wait for it to finish)"
+    ],
+    "cases": {
+        "fetchAll NUM @ int2-4cols": {
+            "input_len": 4,
+            "input_chars": 4,
+            "n": 20
+        },
+        "fetchAll NUM @ int4-small-4cols": {
+            "input_len": 10,
+            "input_chars": 10,
+            "n": 20
+        },
+        "fetchAll NUM @ int4-4cols": {
+            "input_len": 4,
+            "input_chars": 4,
+            "n": 20
+        },
+        "fetchAll NUM @ int8-small-4cols": {
+            "input_len": 10,
+            "input_chars": 10,
+            "n": 20
+        },
+        "fetchAll NUM @ int8-4cols": {
+            "input_len": 4,
+            "input_chars": 4,
+            "n": 20
+        },
+        "fetchAll NUM @ mixed-2int-9text": {
+            "input_len": 5,
+            "input_chars": 5,
+            "n": 20
+        },
+        "fetchAll NUM @ text-4cols": {
+            "input_len": 4,
+            "input_chars": 4,
+            "n": 20
+        },
+        "fetchAll ASSOC @ int4-4cols": {
+            "input_len": 4,
+            "input_chars": 4,
+            "n": 20
+        },
+        "fetchAll ASSOC @ mixed-2int-9text": {
+            "input_len": 5,
+            "input_chars": 5,
+            "n": 20
+        }
+    },
+    "warnings": [],
+    "marks": [],
+    "rows": [
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ int2-4cols",
+            199185305,
+            650868329,
+            39293541,
+            96610034
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ int2-4cols",
+            191875295,
+            650869117,
+            38395871,
+            96605213
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ int2-4cols",
+            191687072,
+            650871304,
+            39043626,
+            96606507
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ int2-4cols",
+            212640330,
+            650871695,
+            37468574,
+            96611426
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ int2-4cols",
+            189665696,
+            650874491,
+            37769120,
+            96606330
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ int2-4cols",
+            202754221,
+            650853994,
+            39070515,
+            96606435
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ int2-4cols",
+            192124290,
+            650872881,
+            37470762,
+            96600928
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ int2-4cols",
+            212020349,
+            650861945,
+            38078349,
+            96603153
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ int2-4cols",
+            189093780,
+            650870298,
+            36668015,
+            96606385
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ int2-4cols",
+            189345114,
+            650866426,
+            38863250,
+            96604130
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ int4-small-4cols",
+            159513012,
+            620754182,
+            35920686,
+            95176417
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ int4-small-4cols",
+            182847461,
+            620755292,
+            36794119,
+            95179162
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ int4-small-4cols",
+            155125814,
+            620758305,
+            35623377,
+            95172780
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ int4-small-4cols",
+            154859142,
+            620747904,
+            35253010,
+            95172933
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ int4-small-4cols",
+            158574844,
+            620760562,
+            36985500,
+            95171247
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ int4-small-4cols",
+            180840930,
+            620756295,
+            35902804,
+            95166767
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ int4-small-4cols",
+            165771926,
+            620762523,
+            36164832,
+            95173914
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ int4-small-4cols",
+            161201516,
+            620761851,
+            35642585,
+            95171298
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ int4-small-4cols",
+            158372667,
+            620760863,
+            37608840,
+            95174799
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ int4-small-4cols",
+            156702283,
+            620755383,
+            35573995,
+            95172398
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ int4-4cols",
+            205954280,
+            731659635,
+            41564802,
+            100455628
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ int4-4cols",
+            209454035,
+            731660685,
+            38435491,
+            100450993
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ int4-4cols",
+            202186227,
+            731649053,
+            38264651,
+            100451479
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ int4-4cols",
+            202958882,
+            731655085,
+            38598044,
+            100451713
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ int4-4cols",
+            202766389,
+            731654783,
+            38956683,
+            100454771
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ int4-4cols",
+            207453785,
+            731661466,
+            38964560,
+            100446603
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ int4-4cols",
+            203602542,
+            731658407,
+            38802802,
+            100452593
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ int4-4cols",
+            203785574,
+            731659327,
+            37406301,
+            100454368
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ int4-4cols",
+            203360726,
+            731656648,
+            38231856,
+            100455113
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ int4-4cols",
+            206236881,
+            731652819,
+            37307330,
+            100455230
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ int8-small-4cols",
+            161682402,
+            637593357,
+            35860517,
+            95973394
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ int8-small-4cols",
+            157642477,
+            637596565,
+            38094003,
+            95977420
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ int8-small-4cols",
+            157735406,
+            637603899,
+            37764638,
+            95973118
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ int8-small-4cols",
+            156938837,
+            637602543,
+            37907577,
+            95970921
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ int8-small-4cols",
+            157231022,
+            637597569,
+            35531808,
+            95974490
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ int8-small-4cols",
+            159888494,
+            637594752,
+            36677900,
+            95974229
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ int8-small-4cols",
+            158728977,
+            637603964,
+            54539698,
+            95970503
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ int8-small-4cols",
+            159362211,
+            637590158,
+            39900385,
+            95974222
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ int8-small-4cols",
+            157735808,
+            637592990,
+            36786977,
+            95970036
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ int8-small-4cols",
+            157925477,
+            637589560,
+            36042009,
+            95976025
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ int8-4cols",
+            230927882,
+            889355282,
+            41127833,
+            107952125
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ int8-4cols",
+            226378713,
+            889351844,
+            38249423,
+            107957703
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ int8-4cols",
+            223932565,
+            889351472,
+            38484086,
+            107963111
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ int8-4cols",
+            221368646,
+            889347876,
+            38018001,
+            107964619
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ int8-4cols",
+            226563783,
+            889353173,
+            42791736,
+            107963841
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ int8-4cols",
+            229119845,
+            889356319,
+            38885459,
+            107960573
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ int8-4cols",
+            238877769,
+            889345295,
+            39297982,
+            107961259
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ int8-4cols",
+            225919825,
+            889340209,
+            38295283,
+            107957297
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ int8-4cols",
+            224763234,
+            889347524,
+            39112834,
+            107960646
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ int8-4cols",
+            224156076,
+            889348281,
+            39271364,
+            107966680
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ mixed-2int-9text",
+            369694199,
+            1351070970,
+            48711524,
+            130920178
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ mixed-2int-9text",
+            373271812,
+            1351077656,
+            46536504,
+            130914013
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ mixed-2int-9text",
+            373998907,
+            1351070680,
+            46702864,
+            130910491
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ mixed-2int-9text",
+            380681936,
+            1351057658,
+            47212224,
+            130909204
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ mixed-2int-9text",
+            374831808,
+            1351083741,
+            45706194,
+            130914434
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ mixed-2int-9text",
+            383592505,
+            1351083108,
+            47268030,
+            130907571
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ mixed-2int-9text",
+            367954149,
+            1351085622,
+            46742931,
+            130910634
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ mixed-2int-9text",
+            373681937,
+            1351063636,
+            45395697,
+            130917034
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ mixed-2int-9text",
+            374693672,
+            1351065731,
+            46615806,
+            130914414
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ mixed-2int-9text",
+            374911190,
+            1351071351,
+            46418608,
+            130916945
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ text-4cols",
+            163676759,
+            609024005,
+            36482360,
+            95051306
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ text-4cols",
+            166023138,
+            609024104,
+            35852177,
+            95044860
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ text-4cols",
+            164200365,
+            609033568,
+            35860916,
+            95050991
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ text-4cols",
+            164032814,
+            609008524,
+            37147135,
+            95050733
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ text-4cols",
+            195609953,
+            609012831,
+            63670823,
+            95051173
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ text-4cols",
+            189735058,
+            609031432,
+            35789729,
+            95044970
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ text-4cols",
+            161379634,
+            609022523,
+            35778970,
+            95050270
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ text-4cols",
+            163095246,
+            609025795,
+            41796191,
+            95050905
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll NUM @ text-4cols",
+            172136718,
+            609023020,
+            36129439,
+            95058447
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll NUM @ text-4cols",
+            163050205,
+            609021538,
+            35551687,
+            95046374
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll ASSOC @ int4-4cols",
+            220078596,
+            763979631,
+            38632746,
+            101970161
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll ASSOC @ int4-4cols",
+            219277833,
+            763978209,
+            37993192,
+            101974408
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll ASSOC @ int4-4cols",
+            215438063,
+            763973127,
+            38137422,
+            101973597
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll ASSOC @ int4-4cols",
+            223274440,
+            763978223,
+            39863154,
+            101973995
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll ASSOC @ int4-4cols",
+            217566278,
+            763977600,
+            38045288,
+            101973035
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll ASSOC @ int4-4cols",
+            217957072,
+            763980200,
+            39268411,
+            101974534
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll ASSOC @ int4-4cols",
+            222454088,
+            763974750,
+            39754880,
+            101978523
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll ASSOC @ int4-4cols",
+            220162832,
+            763975254,
+            39636295,
+            101969596
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll ASSOC @ int4-4cols",
+            220542597,
+            763975258,
+            38474054,
+            101972892
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll ASSOC @ int4-4cols",
+            213129416,
+            763980312,
+            38003564,
+            101975037
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            399967961,
+            1443091858,
+            49938062,
+            135326180
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            403694756,
+            1443099665,
+            47371689,
+            135319702
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            397031760,
+            1443099990,
+            50371693,
+            135326112
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            424004054,
+            1443098118,
+            46986948,
+            135323611
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            411527864,
+            1443103059,
+            47595299,
+            135324373
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            428183974,
+            1443097995,
+            47726413,
+            135319519
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            394305441,
+            1443103839,
+            48442204,
+            135319062
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            402058554,
+            1443094880,
+            47774248,
+            135322236
+        ],
+        [
+            "aa",
+            "a",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            402892150,
+            1443092578,
+            47897775,
+            135318094
+        ],
+        [
+            "aa",
+            "b",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            411416730,
+            1443090267,
+            49038411,
+            135319204
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ int2-4cols",
+            184171958,
+            650868180,
+            36366387,
+            96604433
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ int2-4cols",
+            167376492,
+            575979034,
+            35205597,
+            93040287
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ int2-4cols",
+            165899856,
+            575980912,
+            36129406,
+            93041886
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ int2-4cols",
+            185097924,
+            650869502,
+            36494271,
+            96605289
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ int2-4cols",
+            187269253,
+            650868590,
+            44873743,
+            96604026
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ int2-4cols",
+            173766984,
+            575978825,
+            36114183,
+            93047114
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ int2-4cols",
+            168753576,
+            575987466,
+            36432034,
+            93045762
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ int2-4cols",
+            186794702,
+            650876849,
+            37511005,
+            96608846
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ int2-4cols",
+            187693726,
+            650869291,
+            36520927,
+            96610138
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ int2-4cols",
+            167762574,
+            575968848,
+            35797768,
+            93043765
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ int4-small-4cols",
+            153942494,
+            620768026,
+            35139282,
+            95170967
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ int4-small-4cols",
+            142230920,
+            550840176,
+            34464729,
+            91843567
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ int4-small-4cols",
+            140571124,
+            550830511,
+            34171651,
+            91840563
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ int4-small-4cols",
+            155142489,
+            620756437,
+            35707252,
+            95168685
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ int4-small-4cols",
+            156024836,
+            620754185,
+            35941743,
+            95173781
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ int4-small-4cols",
+            142061359,
+            550843796,
+            36353253,
+            91843736
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ int4-small-4cols",
+            139776572,
+            550835572,
+            34393142,
+            91848211
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ int4-small-4cols",
+            152841614,
+            620756012,
+            37499786,
+            95166070
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ int4-small-4cols",
+            156700451,
+            620760396,
+            35071422,
+            95175565
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ int4-small-4cols",
+            140302633,
+            550838730,
+            34866435,
+            91841951
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ int4-4cols",
+            199361753,
+            731649967,
+            38146276,
+            100448934
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ int4-4cols",
+            182905345,
+            628376413,
+            37656815,
+            95537238
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ int4-4cols",
+            183070549,
+            628375309,
+            36793225,
+            95530806
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ int4-4cols",
+            199122713,
+            731650925,
+            37504905,
+            100447448
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ int4-4cols",
+            204837231,
+            731644275,
+            37336260,
+            100455609
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ int4-4cols",
+            181191974,
+            628387135,
+            36372836,
+            95532082
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ int4-4cols",
+            183239311,
+            628379257,
+            36887156,
+            95539604
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ int4-4cols",
+            212030999,
+            731653056,
+            37572894,
+            100457288
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ int4-4cols",
+            205280636,
+            731654526,
+            38236098,
+            100455307
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ int4-4cols",
+            182888285,
+            628383325,
+            38299688,
+            95538090
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ int8-small-4cols",
+            156137411,
+            637601483,
+            35524943,
+            95971034
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ int8-small-4cols",
+            148641380,
+            561778795,
+            35964123,
+            92367086
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ int8-small-4cols",
+            141727395,
+            561775045,
+            35435295,
+            92362407
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ int8-small-4cols",
+            160350354,
+            637598789,
+            35119404,
+            95974717
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ int8-small-4cols",
+            156350118,
+            637597566,
+            35565470,
+            95980956
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ int8-small-4cols",
+            140039994,
+            561778460,
+            35781462,
+            92366596
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ int8-small-4cols",
+            142856088,
+            561784734,
+            34606995,
+            92360495
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ int8-small-4cols",
+            154759711,
+            637589616,
+            35480081,
+            95970324
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ int8-small-4cols",
+            158585371,
+            637592139,
+            34881633,
+            95966319
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ int8-small-4cols",
+            141468744,
+            561778116,
+            34512916,
+            92370254
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ int8-4cols",
+            223428902,
+            889352352,
+            38104045,
+            107960347
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ int8-4cols",
+            197988356,
+            730876679,
+            38604448,
+            100413677
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ int8-4cols",
+            194088765,
+            730880970,
+            42680217,
+            100408514
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ int8-4cols",
+            226177290,
+            889354639,
+            40740759,
+            107961768
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ int8-4cols",
+            218849405,
+            889344685,
+            38987510,
+            107958825
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ int8-4cols",
+            193830753,
+            730880674,
+            37099068,
+            100423987
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ int8-4cols",
+            194244017,
+            730886183,
+            38399749,
+            100410180
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ int8-4cols",
+            223392754,
+            889348986,
+            37966877,
+            107958883
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ int8-4cols",
+            224754991,
+            889351514,
+            38190366,
+            107959161
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ int8-4cols",
+            197575858,
+            730881808,
+            37759610,
+            100413055
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ mixed-2int-9text",
+            368488331,
+            1351085120,
+            46110596,
+            130917393
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ mixed-2int-9text",
+            369633694,
+            1311723876,
+            49015695,
+            129035620
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ mixed-2int-9text",
+            376248329,
+            1311704918,
+            46257682,
+            129037139
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ mixed-2int-9text",
+            387562098,
+            1351073437,
+            45043294,
+            130906778
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ mixed-2int-9text",
+            358509762,
+            1351077712,
+            46087072,
+            130911866
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ mixed-2int-9text",
+            368188888,
+            1311695827,
+            46492896,
+            129042625
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ mixed-2int-9text",
+            361909399,
+            1311710774,
+            45444652,
+            129043316
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ mixed-2int-9text",
+            364228109,
+            1351083331,
+            44982568,
+            130917228
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ mixed-2int-9text",
+            363167837,
+            1351086274,
+            44482612,
+            130912384
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ mixed-2int-9text",
+            357359236,
+            1311720482,
+            45202988,
+            129039116
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ text-4cols",
+            160696289,
+            609027272,
+            34981064,
+            95052746
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ text-4cols",
+            161323444,
+            609025350,
+            38815247,
+            95052813
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ text-4cols",
+            159247510,
+            609030395,
+            35721842,
+            95053709
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ text-4cols",
+            156425196,
+            609028299,
+            36177074,
+            95050962
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ text-4cols",
+            159954773,
+            609025732,
+            35292432,
+            95048160
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ text-4cols",
+            160069100,
+            609033460,
+            35828799,
+            95047757
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ text-4cols",
+            159160124,
+            609036324,
+            36317650,
+            95050232
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ text-4cols",
+            159236972,
+            609027199,
+            35241747,
+            95045828
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll NUM @ text-4cols",
+            160949401,
+            609025826,
+            34950248,
+            95051834
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll NUM @ text-4cols",
+            159365671,
+            609024870,
+            35141822,
+            95047755
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll ASSOC @ int4-4cols",
+            209792575,
+            763977416,
+            39538035,
+            101980544
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll ASSOC @ int4-4cols",
+            194094705,
+            660700023,
+            36938214,
+            97061614
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll ASSOC @ int4-4cols",
+            196613889,
+            660693409,
+            36766449,
+            97064064
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll ASSOC @ int4-4cols",
+            213466627,
+            763975747,
+            37569397,
+            101969745
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll ASSOC @ int4-4cols",
+            210979456,
+            763978228,
+            38098354,
+            101980767
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll ASSOC @ int4-4cols",
+            190924585,
+            660697782,
+            37216139,
+            97065226
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll ASSOC @ int4-4cols",
+            193450911,
+            660690643,
+            39383246,
+            97053634
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll ASSOC @ int4-4cols",
+            211544947,
+            763978163,
+            38651396,
+            101976994
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll ASSOC @ int4-4cols",
+            209205433,
+            763984916,
+            38188759,
+            101969832
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll ASSOC @ int4-4cols",
+            195449890,
+            660701104,
+            36427601,
+            97066259
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            384103683,
+            1443100294,
+            46770953,
+            135322187
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            379792820,
+            1403720106,
+            47132294,
+            133443165
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            382153989,
+            1403731417,
+            46371446,
+            133446622
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            393625229,
+            1443093184,
+            47671596,
+            135323408
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            390558611,
+            1443097377,
+            46922207,
+            135321133
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            386369754,
+            1403731691,
+            48347344,
+            133453001
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            385221395,
+            1403719536,
+            51723291,
+            133453892
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            379481954,
+            1443093705,
+            47976924,
+            135320344
+        ],
+        [
+            "gcc13",
+            "a",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            388595076,
+            1443098178,
+            46024618,
+            135320398
+        ],
+        [
+            "gcc13",
+            "b",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            394849564,
+            1403737727,
+            46512441,
+            133441847
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ int2-4cols",
+            183046960,
+            647312937,
+            35711093,
+            96449031
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ int2-4cols",
+            166065641,
+            572409980,
+            39382699,
+            92875715
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ int2-4cols",
+            170555108,
+            572407887,
+            35973581,
+            92883514
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ int2-4cols",
+            183236635,
+            647308076,
+            35879144,
+            96439121
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ int2-4cols",
+            183529135,
+            647305120,
+            37301262,
+            96438293
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ int2-4cols",
+            166520024,
+            572416004,
+            35176172,
+            92879531
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ int2-4cols",
+            165637540,
+            572416051,
+            35096285,
+            92873853
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ int2-4cols",
+            182335797,
+            647311757,
+            38426185,
+            96445197
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ int2-4cols",
+            182549157,
+            647306589,
+            35708536,
+            96442383
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ int2-4cols",
+            166527943,
+            572410962,
+            36637985,
+            92876637
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ int4-small-4cols",
+            153909431,
+            617197185,
+            33975290,
+            95013221
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ int4-small-4cols",
+            144616044,
+            547274227,
+            34224311,
+            91676288
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ int4-small-4cols",
+            138732346,
+            547282871,
+            37043441,
+            91682325
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ int4-small-4cols",
+            150166355,
+            617200975,
+            34963118,
+            95013033
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ int4-small-4cols",
+            150948280,
+            617199535,
+            34564318,
+            95007171
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ int4-small-4cols",
+            137259677,
+            547276524,
+            33690593,
+            91686949
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ int4-small-4cols",
+            138040322,
+            547276450,
+            37717876,
+            91682549
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ int4-small-4cols",
+            150653124,
+            617199002,
+            34123234,
+            95007431
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ int4-small-4cols",
+            151971162,
+            617199807,
+            34741333,
+            95008505
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ int4-small-4cols",
+            136252691,
+            547278644,
+            34244759,
+            91679720
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ int4-4cols",
+            215009875,
+            728094771,
+            37274463,
+            100287918
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ int4-4cols",
+            180184165,
+            624818498,
+            36354900,
+            95371735
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ int4-4cols",
+            181093770,
+            624821905,
+            36364607,
+            95371228
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ int4-4cols",
+            202242947,
+            728091011,
+            36629657,
+            100297813
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ int4-4cols",
+            199700734,
+            728099174,
+            37768517,
+            100287455
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ int4-4cols",
+            181968843,
+            624816970,
+            36351936,
+            95371613
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ int4-4cols",
+            181337913,
+            624819833,
+            36221484,
+            95371915
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ int4-4cols",
+            200683728,
+            728095119,
+            39044618,
+            100293282
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ int4-4cols",
+            199087047,
+            728098330,
+            36903612,
+            100292002
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ int4-4cols",
+            181099760,
+            624816806,
+            35480476,
+            95374014
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ int8-small-4cols",
+            152757809,
+            634036838,
+            34306832,
+            95812332
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ int8-small-4cols",
+            138589880,
+            558225778,
+            36986908,
+            92199873
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ int8-small-4cols",
+            140893855,
+            558227566,
+            33800789,
+            92204081
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ int8-small-4cols",
+            153527586,
+            634033764,
+            34748724,
+            95814661
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ int8-small-4cols",
+            153333619,
+            634039739,
+            34712094,
+            95808105
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ int8-small-4cols",
+            139202966,
+            558220750,
+            33473317,
+            92200978
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ int8-small-4cols",
+            137965900,
+            558223071,
+            35514762,
+            92201209
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ int8-small-4cols",
+            164547465,
+            634044868,
+            45784873,
+            95812706
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ int8-small-4cols",
+            173103404,
+            634041959,
+            40290993,
+            95810311
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ int8-small-4cols",
+            151615034,
+            558207496,
+            34505827,
+            92200514
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ int8-4cols",
+            221565416,
+            885792314,
+            39887589,
+            107801083
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ int8-4cols",
+            190891011,
+            727325653,
+            36211509,
+            100255736
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ int8-4cols",
+            188038613,
+            727323528,
+            36146329,
+            100257817
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ int8-4cols",
+            221776311,
+            885794151,
+            37976884,
+            107811966
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ int8-4cols",
+            235673497,
+            885786848,
+            39149342,
+            107800306
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ int8-4cols",
+            189905277,
+            727320280,
+            38211866,
+            100262681
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ int8-4cols",
+            191369350,
+            727331917,
+            35989424,
+            100251409
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ int8-4cols",
+            229422844,
+            885798419,
+            38406089,
+            107800241
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ int8-4cols",
+            226881049,
+            885791687,
+            37424592,
+            107807598
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ int8-4cols",
+            188335843,
+            727319712,
+            36017924,
+            100255320
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ mixed-2int-9text",
+            351483863,
+            1340187500,
+            47831958,
+            130410703
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ mixed-2int-9text",
+            336317544,
+            1300816545,
+            43789160,
+            128526952
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ mixed-2int-9text",
+            342477159,
+            1300815138,
+            45580003,
+            128543345
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ mixed-2int-9text",
+            349890752,
+            1340176652,
+            43774814,
+            130409320
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ mixed-2int-9text",
+            352560622,
+            1340183914,
+            44566518,
+            130408283
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ mixed-2int-9text",
+            360176329,
+            1300810794,
+            47014697,
+            128536767
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ mixed-2int-9text",
+            335733550,
+            1300811943,
+            44388534,
+            128533796
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ mixed-2int-9text",
+            352361131,
+            1340171565,
+            44245276,
+            130409706
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ mixed-2int-9text",
+            367657891,
+            1340182568,
+            45277365,
+            130409393
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ mixed-2int-9text",
+            345825214,
+            1300815614,
+            44110065,
+            128540346
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ text-4cols",
+            154641564,
+            605464625,
+            36285025,
+            94893551
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ text-4cols",
+            230292838,
+            605466583,
+            37559850,
+            94888085
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ text-4cols",
+            159605598,
+            605472442,
+            37562525,
+            94895455
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ text-4cols",
+            158124415,
+            605470885,
+            35074673,
+            94896083
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ text-4cols",
+            160364325,
+            605469842,
+            37872048,
+            94891211
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ text-4cols",
+            155526348,
+            605470356,
+            34610307,
+            94897898
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ text-4cols",
+            156347058,
+            605469489,
+            34885494,
+            94895293
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ text-4cols",
+            159952356,
+            605454634,
+            39620280,
+            94894282
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll NUM @ text-4cols",
+            165731978,
+            605468615,
+            41054578,
+            94898683
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll NUM @ text-4cols",
+            186464190,
+            605471551,
+            34156315,
+            94900480
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll ASSOC @ int4-4cols",
+            205968745,
+            761254768,
+            38100581,
+            101850316
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll ASSOC @ int4-4cols",
+            195770253,
+            657977106,
+            37375167,
+            96935471
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll ASSOC @ int4-4cols",
+            192075117,
+            657974433,
+            37848044,
+            96938230
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll ASSOC @ int4-4cols",
+            217551602,
+            761262461,
+            38935285,
+            101853285
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll ASSOC @ int4-4cols",
+            232877449,
+            761253312,
+            37916230,
+            101853856
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll ASSOC @ int4-4cols",
+            194050572,
+            657980178,
+            36817577,
+            96931924
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll ASSOC @ int4-4cols",
+            192512343,
+            657979987,
+            37651129,
+            96937426
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll ASSOC @ int4-4cols",
+            213433783,
+            761254387,
+            38189513,
+            101849690
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll ASSOC @ int4-4cols",
+            211128425,
+            761258627,
+            38832114,
+            101853172
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll ASSOC @ int4-4cols",
+            196387753,
+            657982989,
+            38541998,
+            96932351
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            393881845,
+            1434891531,
+            46837969,
+            134946640
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            395877248,
+            1395527440,
+            49846858,
+            133075029
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            414841553,
+            1395546444,
+            46482070,
+            133076493
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            386459130,
+            1434926398,
+            46092973,
+            134949836
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            381553272,
+            1434900992,
+            47810743,
+            134946851
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            411240421,
+            1395522538,
+            46282488,
+            133076374
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            402025664,
+            1395519593,
+            48243527,
+            133076067
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            413251085,
+            1434910232,
+            46729765,
+            134942691
+        ],
+        [
+            "gcc14",
+            "a",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            411689666,
+            1434903142,
+            46852232,
+            134943342
+        ],
+        [
+            "gcc14",
+            "b",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            384514423,
+            1395533548,
+            63117482,
+            133071492
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ int2-4cols",
+            186944364,
+            653979961,
+            36107040,
+            96517440
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ int2-4cols",
+            162033174,
+            572103433,
+            34179857,
+            92621385
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ int2-4cols",
+            161644611,
+            572100787,
+            34626436,
+            92617097
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ int2-4cols",
+            180033044,
+            653986617,
+            35552320,
+            96510325
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ int2-4cols",
+            181664924,
+            653981963,
+            35787286,
+            96512259
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ int2-4cols",
+            166947506,
+            572099706,
+            34625152,
+            92614458
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ int2-4cols",
+            173585029,
+            572096213,
+            35606822,
+            92614871
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ int2-4cols",
+            199447890,
+            653948355,
+            35956933,
+            96513598
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ int2-4cols",
+            270645895,
+            653941234,
+            56000857,
+            96509069
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ int2-4cols",
+            239588821,
+            572094944,
+            43323721,
+            92620120
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ int4-small-4cols",
+            166754587,
+            623869524,
+            39939339,
+            95079992
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ int4-small-4cols",
+            139686607,
+            552450666,
+            33738079,
+            91682011
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ int4-small-4cols",
+            145293473,
+            552449820,
+            33889468,
+            91679871
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ int4-small-4cols",
+            153356343,
+            623868337,
+            35526922,
+            95089863
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ int4-small-4cols",
+            153896901,
+            623876069,
+            34205987,
+            95081961
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ int4-small-4cols",
+            141619442,
+            552449124,
+            34080782,
+            91682546
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ int4-small-4cols",
+            139860740,
+            552447541,
+            34715741,
+            91673098
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ int4-small-4cols",
+            156725304,
+            623865128,
+            34622183,
+            95078007
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ int4-small-4cols",
+            155508534,
+            623869986,
+            37192445,
+            95081612
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ int4-small-4cols",
+            139268488,
+            552447639,
+            35289518,
+            91685357
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ int4-4cols",
+            203274608,
+            734759464,
+            39465116,
+            100354887
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ int4-4cols",
+            174188456,
+            616417791,
+            35374478,
+            94718696
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ int4-4cols",
+            173777027,
+            616412861,
+            37109766,
+            94723020
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ int4-4cols",
+            208827711,
+            734764255,
+            38395786,
+            100356432
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ int4-4cols",
+            200387405,
+            734771016,
+            36696602,
+            100364819
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ int4-4cols",
+            174315496,
+            616396102,
+            34616475,
+            94724520
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ int4-4cols",
+            174013545,
+            616412700,
+            35164818,
+            94724157
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ int4-4cols",
+            194153319,
+            734771337,
+            36067405,
+            100355790
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ int4-4cols",
+            197882615,
+            734773670,
+            36331199,
+            100360300
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ int4-4cols",
+            173175294,
+            616418425,
+            34814011,
+            94720307
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ int8-small-4cols",
+            151723746,
+            640722476,
+            35395202,
+            95880007
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ int8-small-4cols",
+            133606014,
+            561702942,
+            32775046,
+            92128748
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ int8-small-4cols",
+            133144802,
+            561700401,
+            32528022,
+            92117156
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ int8-small-4cols",
+            151682943,
+            640719450,
+            33428835,
+            95883172
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ int8-small-4cols",
+            153276788,
+            640712705,
+            33506235,
+            95886428
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ int8-small-4cols",
+            133985512,
+            561700806,
+            33110597,
+            92123778
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ int8-small-4cols",
+            134291777,
+            561706950,
+            33561288,
+            92123599
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ int8-small-4cols",
+            153291161,
+            640708886,
+            59644539,
+            95882445
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ int8-small-4cols",
+            259251286,
+            640709000,
+            46503598,
+            95882723
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ int8-small-4cols",
+            206868776,
+            561703306,
+            45508907,
+            92119916
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ int8-4cols",
+            346460585,
+            892462036,
+            62803595,
+            107862944
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ int8-4cols",
+            243040476,
+            703120725,
+            35861137,
+            98853340
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ int8-4cols",
+            179835526,
+            703121234,
+            35277458,
+            98848161
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ int8-4cols",
+            226267332,
+            892459277,
+            37511505,
+            107862286
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ int8-4cols",
+            230604026,
+            892458023,
+            39716061,
+            107868119
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ int8-4cols",
+            184707701,
+            703124858,
+            36679737,
+            98852339
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ int8-4cols",
+            187560536,
+            703118045,
+            36599822,
+            98853450
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ int8-4cols",
+            231917354,
+            892439114,
+            38397897,
+            107869972
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ int8-4cols",
+            234259090,
+            892451158,
+            39169010,
+            107877676
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ int8-4cols",
+            184285880,
+            703129489,
+            37389081,
+            98858242
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ mixed-2int-9text",
+            373988250,
+            1350486134,
+            45150063,
+            130731833
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ mixed-2int-9text",
+            347702611,
+            1309119046,
+            45289617,
+            128760350
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ mixed-2int-9text",
+            347800947,
+            1309129598,
+            45937264,
+            128755128
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ mixed-2int-9text",
+            364076469,
+            1350509852,
+            45357332,
+            130731591
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ mixed-2int-9text",
+            365420815,
+            1350490540,
+            46608506,
+            130726865
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ mixed-2int-9text",
+            351908267,
+            1309124642,
+            44863055,
+            128757861
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ mixed-2int-9text",
+            349068749,
+            1309120959,
+            45003284,
+            128759407
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ mixed-2int-9text",
+            375412212,
+            1350495664,
+            46508246,
+            130731143
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ mixed-2int-9text",
+            364912073,
+            1350487583,
+            48490942,
+            130724312
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ mixed-2int-9text",
+            346958214,
+            1309109955,
+            45280692,
+            128759089
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ text-4cols",
+            166306348,
+            611953748,
+            35634312,
+            94988334
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ text-4cols",
+            162549899,
+            611959639,
+            35055262,
+            94977690
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ text-4cols",
+            164178633,
+            611943623,
+            36522932,
+            94988020
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ text-4cols",
+            169929213,
+            611959594,
+            38500533,
+            94985144
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ text-4cols",
+            169636384,
+            611960738,
+            39244349,
+            94988110
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ text-4cols",
+            168937155,
+            611954494,
+            35037861,
+            94990649
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ text-4cols",
+            162271928,
+            611953941,
+            38036399,
+            94987456
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ text-4cols",
+            164870132,
+            611967554,
+            34750964,
+            94992018
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll NUM @ text-4cols",
+            161514351,
+            611951999,
+            35617505,
+            94980789
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll NUM @ text-4cols",
+            173747761,
+            611945312,
+            35077865,
+            94985728
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll ASSOC @ int4-4cols",
+            226249528,
+            769187808,
+            37827240,
+            101981764
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll ASSOC @ int4-4cols",
+            192771550,
+            650826080,
+            36210637,
+            96347942
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll ASSOC @ int4-4cols",
+            200806093,
+            650839775,
+            36121455,
+            96342144
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll ASSOC @ int4-4cols",
+            214523170,
+            769198546,
+            37501155,
+            101986222
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll ASSOC @ int4-4cols",
+            212879018,
+            769185219,
+            37720498,
+            101988489
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll ASSOC @ int4-4cols",
+            191574456,
+            650842874,
+            37084907,
+            96353865
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll ASSOC @ int4-4cols",
+            190525683,
+            650832955,
+            38081314,
+            96347855
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll ASSOC @ int4-4cols",
+            213469757,
+            769191576,
+            37892679,
+            101977694
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll ASSOC @ int4-4cols",
+            215355491,
+            769192608,
+            38731229,
+            101981498
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll ASSOC @ int4-4cols",
+            193228195,
+            650842032,
+            36771355,
+            96346220
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            389588939,
+            1445462415,
+            48638015,
+            135280040
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            375806368,
+            1404073554,
+            46098339,
+            133302260
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            375439197,
+            1404074381,
+            46679022,
+            133308241
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            393383207,
+            1445453569,
+            47208952,
+            135276276
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            390082893,
+            1445469478,
+            47379424,
+            135277826
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            376688267,
+            1404080900,
+            47089861,
+            133305734
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            379763798,
+            1404093473,
+            46327597,
+            133311219
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            387709967,
+            1445450815,
+            46702674,
+            135275121
+        ],
+        [
+            "clang18",
+            "a",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            387320376,
+            1445449873,
+            46340578,
+            135277390
+        ],
+        [
+            "clang18",
+            "b",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            371932459,
+            1404084811,
+            47930115,
+            133310973
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ int2-4cols",
+            184557237,
+            652971621,
+            35855511,
+            96519434
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ int2-4cols",
+            170436272,
+            569841644,
+            35007928,
+            92555313
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ int2-4cols",
+            165650059,
+            569833576,
+            35058224,
+            92554493
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ int2-4cols",
+            182546296,
+            652981511,
+            36013280,
+            96516859
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ int2-4cols",
+            183470795,
+            652977981,
+            35881309,
+            96518164
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ int2-4cols",
+            163146638,
+            569848041,
+            34820001,
+            92559567
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ int2-4cols",
+            163341865,
+            569840710,
+            35303700,
+            92562802
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ int2-4cols",
+            184073600,
+            652980270,
+            36378536,
+            96512323
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ int2-4cols",
+            182463943,
+            652981609,
+            36931842,
+            96512768
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ int2-4cols",
+            164872103,
+            569842502,
+            36167976,
+            92562714
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ int4-small-4cols",
+            153411221,
+            622872314,
+            34782806,
+            95087521
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ int4-small-4cols",
+            136897164,
+            550617482,
+            33824767,
+            91647400
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ int4-small-4cols",
+            138025582,
+            550606886,
+            34349357,
+            91635476
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ int4-small-4cols",
+            153491814,
+            622870245,
+            34754386,
+            95085085
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ int4-small-4cols",
+            151886182,
+            622876711,
+            34863789,
+            95086981
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ int4-small-4cols",
+            137671426,
+            550612704,
+            35325169,
+            91644747
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ int4-small-4cols",
+            137261314,
+            550618358,
+            33819662,
+            91640293
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ int4-small-4cols",
+            152323270,
+            622870815,
+            34565754,
+            95081258
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ int4-small-4cols",
+            150703046,
+            622871244,
+            34372218,
+            95088877
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ int4-small-4cols",
+            138198304,
+            550612304,
+            34281238,
+            91638394
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ int4-4cols",
+            198600242,
+            733765382,
+            37388333,
+            100369368
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ int4-4cols",
+            179637995,
+            614150157,
+            36676740,
+            94667900
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ int4-4cols",
+            179600967,
+            614149453,
+            35525075,
+            94670647
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ int4-4cols",
+            199770068,
+            733764281,
+            36430455,
+            100365991
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ int4-4cols",
+            199426147,
+            733765663,
+            36394550,
+            100358374
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ int4-4cols",
+            176416168,
+            614160481,
+            36359042,
+            94665604
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ int4-4cols",
+            176819008,
+            614154482,
+            35612846,
+            94678077
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ int4-4cols",
+            201278579,
+            733766468,
+            37539096,
+            100362590
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ int4-4cols",
+            199356712,
+            733762777,
+            38155739,
+            100368440
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ int4-4cols",
+            177471818,
+            614159481,
+            37261823,
+            94673656
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ int8-small-4cols",
+            157743553,
+            639711778,
+            34952504,
+            95882353
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ int8-small-4cols",
+            140495795,
+            559878546,
+            34452197,
+            92081043
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ int8-small-4cols",
+            139766470,
+            559874874,
+            33477033,
+            92087023
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ int8-small-4cols",
+            158304423,
+            639706458,
+            34339515,
+            95883783
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ int8-small-4cols",
+            177619801,
+            639706779,
+            35174909,
+            95886171
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ int8-small-4cols",
+            141078677,
+            559872975,
+            36373999,
+            92082855
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ int8-small-4cols",
+            139175109,
+            559882924,
+            34001887,
+            92081850
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ int8-small-4cols",
+            168404479,
+            639709015,
+            36182988,
+            95883631
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ int8-small-4cols",
+            172629552,
+            639705338,
+            35294944,
+            95878479
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ int8-small-4cols",
+            144226746,
+            559877510,
+            34184572,
+            92085316
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ int8-4cols",
+            238426083,
+            891463445,
+            38861423,
+            107875494
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ int8-4cols",
+            191438707,
+            700868169,
+            37418671,
+            98799100
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ int8-4cols",
+            189332314,
+            700874270,
+            36570595,
+            98798090
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ int8-4cols",
+            243860278,
+            891458635,
+            38466551,
+            107875314
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ int8-4cols",
+            242424682,
+            891462036,
+            41664750,
+            107873653
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ int8-4cols",
+            201601725,
+            700864143,
+            36422164,
+            98799005
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ int8-4cols",
+            191977577,
+            700852267,
+            38270329,
+            98797282
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ int8-4cols",
+            250338860,
+            891445288,
+            38892353,
+            107880030
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ int8-4cols",
+            274295286,
+            891419071,
+            38134929,
+            107872625
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ int8-4cols",
+            183202924,
+            700863088,
+            36159875,
+            98799411
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ mixed-2int-9text",
+            359084104,
+            1349472125,
+            45256644,
+            130729650
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ mixed-2int-9text",
+            346788060,
+            1307709506,
+            44928019,
+            128737223
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ mixed-2int-9text",
+            352131662,
+            1307682087,
+            45532047,
+            128736653
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ mixed-2int-9text",
+            360886983,
+            1349505704,
+            46454308,
+            130732422
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ mixed-2int-9text",
+            358359497,
+            1349491608,
+            45078460,
+            130726010
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ mixed-2int-9text",
+            352069912,
+            1307709838,
+            44275936,
+            128743178
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ mixed-2int-9text",
+            350714850,
+            1307711994,
+            44928357,
+            128737260
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ mixed-2int-9text",
+            354516531,
+            1349502947,
+            44915212,
+            130737938
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ mixed-2int-9text",
+            352349409,
+            1349490185,
+            45774103,
+            130726339
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ mixed-2int-9text",
+            353245454,
+            1307709705,
+            43911410,
+            128738519
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ text-4cols",
+            159641248,
+            610969574,
+            35073697,
+            94991118
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ text-4cols",
+            162841976,
+            610970831,
+            35898774,
+            94990800
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ text-4cols",
+            159748607,
+            610972358,
+            35098082,
+            94997377
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ text-4cols",
+            159480966,
+            610967083,
+            35289225,
+            94990359
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ text-4cols",
+            159737645,
+            610966372,
+            35151861,
+            94992445
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ text-4cols",
+            166489623,
+            610966710,
+            36592126,
+            94999155
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ text-4cols",
+            165251471,
+            610970185,
+            34892072,
+            94988505
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ text-4cols",
+            160355072,
+            610968281,
+            36212434,
+            94990917
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll NUM @ text-4cols",
+            159931466,
+            610965058,
+            34667481,
+            94994413
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll NUM @ text-4cols",
+            161239407,
+            610966995,
+            35477072,
+            94996471
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll ASSOC @ int4-4cols",
+            216954359,
+            768187545,
+            38042944,
+            101979407
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll ASSOC @ int4-4cols",
+            194722103,
+            648577758,
+            36704454,
+            96290606
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll ASSOC @ int4-4cols",
+            188979085,
+            648580686,
+            36982993,
+            96293188
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll ASSOC @ int4-4cols",
+            211155479,
+            768192186,
+            38636229,
+            101984176
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll ASSOC @ int4-4cols",
+            213977080,
+            768188486,
+            38333445,
+            101989453
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll ASSOC @ int4-4cols",
+            188651866,
+            648577368,
+            38483039,
+            96293848
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll ASSOC @ int4-4cols",
+            190808853,
+            648579124,
+            36827110,
+            96291299
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll ASSOC @ int4-4cols",
+            218704440,
+            768192135,
+            37851781,
+            101985984
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll ASSOC @ int4-4cols",
+            210424084,
+            768192934,
+            38308794,
+            101984023
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll ASSOC @ int4-4cols",
+            191337717,
+            648580348,
+            36654899,
+            96289002
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            408240339,
+            1446112792,
+            54066555,
+            135359554
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            403526230,
+            1404314200,
+            50507917,
+            133359034
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            398002833,
+            1404351422,
+            48026966,
+            133370549
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            398958815,
+            1446124517,
+            49727063,
+            135361126
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            386262945,
+            1446120566,
+            46574058,
+            135354583
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            378647728,
+            1404343929,
+            47047655,
+            133364781
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            395340473,
+            1404350839,
+            50249390,
+            133371641
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            404846909,
+            1446133156,
+            51358359,
+            135362242
+        ],
+        [
+            "clang20",
+            "a",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            383397356,
+            1446136808,
+            46731110,
+            135352455
+        ],
+        [
+            "clang20",
+            "b",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            396943904,
+            1404332173,
+            46207678,
+            133367473
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ int2-4cols",
+            190279461,
+            650865823,
+            36693777,
+            96605634
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ int2-4cols",
+            184620363,
+            650867810,
+            36279103,
+            96607381
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ int2-4cols",
+            183570087,
+            650868293,
+            37723503,
+            96605308
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ int2-4cols",
+            183774420,
+            650869273,
+            36341455,
+            96607225
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ int2-4cols",
+            183907740,
+            650867949,
+            36285800,
+            96605632
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ int2-4cols",
+            183213803,
+            650865713,
+            37206859,
+            96605080
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ int2-4cols",
+            183614629,
+            650867972,
+            36337645,
+            96606542
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ int2-4cols",
+            185631765,
+            650877276,
+            37810200,
+            96605970
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ int2-4cols",
+            186946423,
+            650872637,
+            43975569,
+            96605405
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ int2-4cols",
+            189358175,
+            650871522,
+            36755097,
+            96604652
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ int4-small-4cols",
+            153862884,
+            620757738,
+            34835940,
+            95167168
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ int4-small-4cols",
+            154517375,
+            620761602,
+            35323188,
+            95173647
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ int4-small-4cols",
+            152226082,
+            620760699,
+            34979339,
+            95176712
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ int4-small-4cols",
+            151042288,
+            620758578,
+            34744389,
+            95170085
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ int4-small-4cols",
+            150993324,
+            620768970,
+            55406776,
+            95176107
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ int4-small-4cols",
+            151958575,
+            620761523,
+            35026222,
+            95174267
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ int4-small-4cols",
+            152974193,
+            620760761,
+            34074872,
+            95168267
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ int4-small-4cols",
+            156665470,
+            620756839,
+            35019488,
+            95167109
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ int4-small-4cols",
+            151097848,
+            620746505,
+            34881413,
+            95171144
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ int4-small-4cols",
+            154149933,
+            620760452,
+            34600558,
+            95172438
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ int4-4cols",
+            198696656,
+            731652923,
+            36914933,
+            100453841
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ int4-4cols",
+            197462977,
+            731663028,
+            36899552,
+            100452768
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ int4-4cols",
+            200991695,
+            731663710,
+            37657224,
+            100451994
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ int4-4cols",
+            198976235,
+            731659787,
+            37694310,
+            100457036
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ int4-4cols",
+            199731893,
+            731656639,
+            37491034,
+            100450216
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ int4-4cols",
+            212499684,
+            731652413,
+            36571421,
+            100455745
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ int4-4cols",
+            201607633,
+            731663986,
+            37870570,
+            100454049
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ int4-4cols",
+            202610131,
+            731663106,
+            42561371,
+            100451691
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ int4-4cols",
+            202036041,
+            731658285,
+            37244574,
+            100454325
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ int4-4cols",
+            201685258,
+            731652557,
+            37380182,
+            100453205
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ int8-small-4cols",
+            155136322,
+            637584686,
+            35197564,
+            95972825
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ int8-small-4cols",
+            156288283,
+            637592446,
+            34472718,
+            95973889
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ int8-small-4cols",
+            153984852,
+            637594191,
+            35106765,
+            95970240
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ int8-small-4cols",
+            155127659,
+            637596235,
+            35030630,
+            95970416
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ int8-small-4cols",
+            158158336,
+            637601242,
+            34597020,
+            95977634
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ int8-small-4cols",
+            158837438,
+            637599891,
+            35423483,
+            95975563
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ int8-small-4cols",
+            155425312,
+            637596563,
+            34671762,
+            95975304
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ int8-small-4cols",
+            154433193,
+            637602169,
+            35298580,
+            95976577
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ int8-small-4cols",
+            155563375,
+            637593129,
+            35614529,
+            95968997
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ int8-small-4cols",
+            158177730,
+            637604342,
+            34844423,
+            95975392
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ int8-4cols",
+            224437542,
+            889352132,
+            38481700,
+            107963928
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ int8-4cols",
+            221755500,
+            889352471,
+            38536943,
+            107952174
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ int8-4cols",
+            222787603,
+            889344117,
+            38634653,
+            107960507
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ int8-4cols",
+            222654416,
+            889350398,
+            38448153,
+            107958665
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ int8-4cols",
+            222548581,
+            889355387,
+            37799851,
+            107961873
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ int8-4cols",
+            220342560,
+            889353706,
+            37632002,
+            107956244
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ int8-4cols",
+            224390052,
+            889345657,
+            38962977,
+            107960831
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ int8-4cols",
+            224517454,
+            889350454,
+            38129919,
+            107963069
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ int8-4cols",
+            221512548,
+            889353731,
+            38214318,
+            107967604
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ int8-4cols",
+            218096753,
+            889348959,
+            37581899,
+            107962888
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ mixed-2int-9text",
+            350220824,
+            1351078290,
+            45843749,
+            130917222
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ mixed-2int-9text",
+            354266456,
+            1351076208,
+            44879182,
+            130914872
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ mixed-2int-9text",
+            358956219,
+            1351077417,
+            45482659,
+            130916195
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ mixed-2int-9text",
+            360217784,
+            1351089411,
+            45306819,
+            130908771
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ mixed-2int-9text",
+            354433226,
+            1351093681,
+            45452826,
+            130912562
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ mixed-2int-9text",
+            370964265,
+            1351093784,
+            46456446,
+            130911940
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ mixed-2int-9text",
+            364652838,
+            1351083881,
+            44755203,
+            130911411
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ mixed-2int-9text",
+            354502404,
+            1351075479,
+            45445415,
+            130915857
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ mixed-2int-9text",
+            367113472,
+            1351083212,
+            45042054,
+            130908653
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ mixed-2int-9text",
+            354053124,
+            1351086664,
+            45343696,
+            130916979
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ text-4cols",
+            177502805,
+            609025873,
+            34777171,
+            95049499
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ text-4cols",
+            164921374,
+            609026974,
+            35492524,
+            95051782
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ text-4cols",
+            159009370,
+            609029434,
+            36307599,
+            95054064
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ text-4cols",
+            159962087,
+            609025898,
+            35551981,
+            95050289
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ text-4cols",
+            164038160,
+            609020939,
+            35420729,
+            95051754
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ text-4cols",
+            158168718,
+            609031193,
+            35056863,
+            95054622
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ text-4cols",
+            159644979,
+            609024165,
+            35671214,
+            95052528
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ text-4cols",
+            158393034,
+            609023102,
+            35975482,
+            95054739
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll NUM @ text-4cols",
+            169015199,
+            609025615,
+            35081580,
+            95053173
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll NUM @ text-4cols",
+            160797965,
+            609021730,
+            36224779,
+            95045882
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll ASSOC @ int4-4cols",
+            214524332,
+            763983010,
+            38318794,
+            101974968
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll ASSOC @ int4-4cols",
+            212107447,
+            763972085,
+            37888590,
+            101973392
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll ASSOC @ int4-4cols",
+            219061842,
+            763971765,
+            41437486,
+            101974626
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll ASSOC @ int4-4cols",
+            218427932,
+            763976451,
+            38090140,
+            101973297
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll ASSOC @ int4-4cols",
+            209979685,
+            763978797,
+            38079119,
+            101975258
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll ASSOC @ int4-4cols",
+            210072406,
+            763980983,
+            37541331,
+            101978088
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll ASSOC @ int4-4cols",
+            211709995,
+            763979401,
+            38048579,
+            101973018
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll ASSOC @ int4-4cols",
+            211569777,
+            763982076,
+            37815872,
+            101976162
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll ASSOC @ int4-4cols",
+            210240697,
+            763978688,
+            38032836,
+            101976834
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll ASSOC @ int4-4cols",
+            211546533,
+            763983755,
+            37614608,
+            101971138
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            390387918,
+            1443107686,
+            62677229,
+            135307846
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            385327359,
+            1443090560,
+            47201064,
+            135323180
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            391694022,
+            1443099277,
+            47582830,
+            135321325
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            391991039,
+            1443083168,
+            46826775,
+            135319560
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            392459319,
+            1443103011,
+            46193440,
+            135330605
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            386075658,
+            1443073597,
+            46549799,
+            135319269
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            387282915,
+            1443087095,
+            46600518,
+            135325525
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            388913224,
+            1443082566,
+            48188984,
+            135314170
+        ],
+        [
+            "aa2",
+            "a",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            388076370,
+            1443086569,
+            47216382,
+            135329152
+        ],
+        [
+            "aa2",
+            "b",
+            "fetchAll ASSOC @ mixed-2int-9text",
+            397893251,
+            1443065769,
+            47978280,
+            135324646
+        ]
+    ]
+}
