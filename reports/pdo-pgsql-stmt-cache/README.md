@@ -1,6 +1,6 @@
 # pdo_pgsql: a per-connection cache of prepared statements, measured on Drupal 11.4
 
-A prototype patch for PHP 8.5.11: [stmt-cache-8.5.11.patch](stmt-cache-8.5.11.patch), 4 files of ext/pdo_pgsql, about 220 added lines. It is not part of any PHP release and has not been proposed to php-src yet. Measured on 21 October 2026. The measured patch has one known bug in an error path, fixed after the runs ([Details for review](#the-change)); master was not measured.
+A prototype patch for PHP 8.5.11: [stmt-cache-8.5.11.patch](stmt-cache-8.5.11.patch), 4 files of ext/pdo_pgsql, about 220 added lines. It is not part of any PHP release and has not been proposed to php-src yet. Measured on 21 October 2026. The measured patch has one known bug in an error path. The current version, [stmt-cache-8.5.11-v3.2.patch](stmt-cache-8.5.11-v3.2.patch), fixes it, gives server statements names unique to each connection and adds tests; it was not measured ([Details for review](#the-change)). Master was not measured.
 
 ## Summary
 
@@ -60,9 +60,10 @@ The workload is 8 logged-in editors in a closed loop against 8 PHP-FPM workers, 
 - **Persistent connections** also carry session state from one request to the next. That is a property of persistent connections, not of the patch, but against emulated prepares the patch pays off only with them.
 
 **Details for review:**
-- The name is `pdo_s_` plus 192 bits of the SHA-256 of the key, so the same text gets the same name on every connection. A prepare that fails with 42P05 ("prepared statement already exists") counts as prepared; inside a transaction that failure also aborts the transaction.
+- **Names, measured patch:** `pdo_s_` plus 192 bits of the SHA-256 of the key, so the same text gets the same name on every connection. A prepare that fails with 42P05 ("prepared statement already exists") counts as prepared. Inside a transaction that failure also aborts the transaction.
+- **Names, current version:** the SHA-256 covers a random 16-byte salt of the connection and the key, so each connection has its own names. A prepare that fails with 42P05 outside a transaction closes the existing statement and prepares once more, as 8.5.11 does for its own names.
 - Inside an aborted transaction nothing is closed. A prepared entry is then not evicted, and only the statement that needed the space runs without the table.
-- **Known bug in this patch.** After 0A000 inside a transaction, the measured patch does not close the server statement. In later transactions the statement keeps failing until it runs once outside a transaction, which closes it. The application gets 0A000, or 25P02 when the new prepare finds the old name and aborts the transaction. It was fixed after the runs. The fix is not in this directory and was not measured. The runs contain no such error: no Drupal log entry of severity warning or worse.
+- **Known bug in this patch.** After 0A000 inside a transaction, the measured patch does not close the server statement. In later transactions the statement keeps failing until it runs once outside a transaction, which closes it. The application gets 0A000, or 25P02 when the new prepare finds the old name and aborts the transaction. The current version fixes it. It was not measured. The runs contain no such error: no Drupal log entry of severity warning or worse.
 - **Why 8.5.11:** the prototype was written against the release that the measured stack builds. Master was not measured.
 
 ## Results
@@ -277,6 +278,7 @@ BOUNCER=1 VARIANTS="base:emulated base:native base2:native v3:native" PASSES=5 .
 - **`data/no-persistent-direct.jsonl`, `data/no-persistent-pgbouncer.jsonl`:** the second series, the same fields. The runs started on 21 October 2026, between 05:38 and 06:28 UTC, with the same binaries.
 - **`data/site.txt`:** the versions and row counts of the site that the runs started from.
 - **The FPM binaries of the runs** (field `php_fpm_sha256`): `base` and `base2` `8fd3b974b20a0b0f…`, `v3` `23ef3bd3856f47c4…`. [stmt-cache-8.5.11.patch](stmt-cache-8.5.11.patch) applied to the php-8.5.11 tarball gives exactly the source tree of build `v3`.
+- **`stmt-cache-8.5.11-v3.2.patch`:** the current version, against the php-8.5.11 tarball. No run used it.
 - **The URL lists:** `make-urls.py 2000 42` gives sha256 `cb5a8e58001f3291…` and `make-urls.py 200 7` gives `99978edf132e1689…`, the same as in the runs.
 - **Scripts changed after the first series.** The second series ran with the scripts of this directory. None of these changes alters what a run measures:
   - the CPU lists moved into `cpus.sh`, with the same defaults;
@@ -344,7 +346,8 @@ Through PgBouncer:
   - schema changes while the application runs;
   - the response bodies of the PDO modes against each other (the runs checked status codes and Drupal's log);
   - the session state that persistent connections carry between requests.
-- **Code:** the prototype on master (only this port to 8.5.11). The patch has no tests of its own.
+- **Code:** the prototype on master was not measured, only this port to 8.5.11. The measured patch has no tests of its own. The current version adds six. With them the ext/pdo and ext/pdo_pgsql tests pass on 8.5.11 (207 passed, 0 failed), and on master on top of php-src #24465 under ASan and UBSan.
+- **The current version** was not measured on Drupal. Through PgBouncer with `max_prepared_statements` 0 and 200 it gave the same answer check as the measured patch: every answer was the client's own row.
 - **Not measured:**
   - the memory that cached statements hold in PostgreSQL backends and in PHP;
   - profiles of PostgreSQL and PHP;

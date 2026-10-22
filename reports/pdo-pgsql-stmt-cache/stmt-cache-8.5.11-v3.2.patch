@@ -1,0 +1,788 @@
+diff --git a/ext/pdo_pgsql/pdo_pgsql.c b/ext/pdo_pgsql/pdo_pgsql.c
+index e6849aed119..eafa534f4e1 100644
+--- a/ext/pdo_pgsql/pdo_pgsql.c
++++ b/ext/pdo_pgsql/pdo_pgsql.c
+@@ -178,9 +178,15 @@ PHP_METHOD(Pdo_Pgsql, setNoticeCallback)
+ #define REGISTER_PDO_PGSQL_CLASS_CONST_LONG_DEPRECATED_ALIAS_85(base_name, value) \
+ 		REGISTER_PDO_CLASS_CONST_LONG_DEPRECATED_ALIAS_85(base_name, "PGSQL_", "Pdo\\Pgsql::", value)
+ 
++PHP_INI_BEGIN()
++	PHP_INI_ENTRY("pdo_pgsql.prepare_threshold", "5", PHP_INI_ALL, NULL)
++	PHP_INI_ENTRY("pdo_pgsql.statement_cache_size", "64", PHP_INI_ALL, NULL)
++PHP_INI_END()
++
+ /* {{{ PHP_MINIT_FUNCTION */
+ PHP_MINIT_FUNCTION(pdo_pgsql)
+ {
++	REGISTER_INI_ENTRIES();
+ 	REGISTER_PDO_PGSQL_CLASS_CONST_LONG_DEPRECATED_ALIAS_85("ATTR_DISABLE_PREPARES", PDO_PGSQL_ATTR_DISABLE_PREPARES);
+ 	REGISTER_PDO_CLASS_CONST_LONG_DEPRECATED_85("PGSQL_TRANSACTION_IDLE", (zend_long)PGSQL_TRANSACTION_IDLE);
+ 	REGISTER_PDO_CLASS_CONST_LONG_DEPRECATED_85("PGSQL_TRANSACTION_ACTIVE", (zend_long)PGSQL_TRANSACTION_ACTIVE);
+@@ -202,6 +208,7 @@ PHP_MINIT_FUNCTION(pdo_pgsql)
+ /* {{{ PHP_MSHUTDOWN_FUNCTION */
+ PHP_MSHUTDOWN_FUNCTION(pdo_pgsql)
+ {
++	UNREGISTER_INI_ENTRIES();
+ 	php_pdo_unregister_driver(&pdo_pgsql_driver);
+ 	return SUCCESS;
+ }
+diff --git a/ext/pdo_pgsql/pgsql_driver.c b/ext/pdo_pgsql/pgsql_driver.c
+index 060b8d68776..b770d496ac2 100644
+--- a/ext/pdo_pgsql/pgsql_driver.c
++++ b/ext/pdo_pgsql/pgsql_driver.c
+@@ -28,6 +28,7 @@
+ #include "ext/pdo/php_pdo_driver.h"
+ #include "ext/pdo/php_pdo_error.h"
+ #include "ext/standard/file.h"
++#include "ext/random/php_random_csprng.h"
+ #include "php_pdo_pgsql.h"
+ #include "php_pdo_pgsql_int.h"
+ #include "zend_exceptions.h"
+@@ -243,6 +244,16 @@ void pdo_pgsql_close_lob_streams(pdo_dbh_t *dbh)
+ 	}
+ }
+ 
++static void pdo_pgsql_cached_stmt_dtor(zval *zv)
++{
++	efree(Z_PTR_P(zv));
++}
++
++static void pdo_pgsql_cached_stmt_pdtor(zval *zv)
++{
++	pefree(Z_PTR_P(zv), 1);
++}
++
+ static void pgsql_handle_closer(pdo_dbh_t *dbh) /* {{{ */
+ {
+ 	pdo_pgsql_db_handle *H = (pdo_pgsql_db_handle *)dbh->driver_data;
+@@ -254,6 +265,11 @@ static void pgsql_handle_closer(pdo_dbh_t *dbh) /* {{{ */
+ 			H->lob_streams = NULL;
+ 		}
+ 		pdo_pgsql_cleanup_notice_callback(H);
++		if (H->stmt_cache) {
++			zend_hash_destroy(H->stmt_cache);
++			pefree(H->stmt_cache, dbh->is_persistent);
++			H->stmt_cache = NULL;
++		}
+ 		if (H->server) {
+ 			PQfinish(H->server);
+ 			H->server = NULL;
+@@ -335,9 +351,14 @@ static bool pgsql_handle_preparer(pdo_dbh_t *dbh, zend_string *sql, pdo_stmt_t *
+ 	}
+ 
+ 	if (!emulate && !execute_only) {
+-		/* prepared query: set the query name and defer the
+-		   actual prepare until the first execute call */
+-		spprintf(&S->stmt_name, 0, "pdo_stmt_%08x", ++H->stmt_counter);
++		if (H->prepare_threshold > 0) {
++			/* the connection's statement cache picks the server statement at execute */
++			S->use_cache = true;
++		} else {
++			/* prepared query: set the query name and defer the
++			   actual prepare until the first execute call */
++			spprintf(&S->stmt_name, 0, "pdo_stmt_%08x", ++H->stmt_counter);
++		}
+ 	}
+ 
+ 	return true;
+@@ -1449,6 +1470,14 @@ static int pdo_pgsql_handle_factory(pdo_dbh_t *dbh, zval *driver_options) /* {{{
+ 	H->server = PQconnectdb(ZSTR_VAL(conn_str.s));
+ 	H->lob_streams = (HashTable *) pemalloc(sizeof(HashTable), dbh->is_persistent);
+ 	zend_hash_init(H->lob_streams, 0, NULL, NULL, 1);
++	H->is_persistent = dbh->is_persistent;
++	H->prepare_threshold = INI_INT("pdo_pgsql.prepare_threshold");
++	H->stmt_cache_size = INI_INT("pdo_pgsql.statement_cache_size");
++	if (php_random_bytes_silent(H->stmt_cache_salt, sizeof(H->stmt_cache_salt)) == FAILURE) {
++		H->stmt_cache_size = 0;
++	}
++	H->stmt_cache = (HashTable *) pemalloc(sizeof(HashTable), dbh->is_persistent);
++	zend_hash_init(H->stmt_cache, 8, NULL, dbh->is_persistent ? pdo_pgsql_cached_stmt_pdtor : pdo_pgsql_cached_stmt_dtor, dbh->is_persistent);
+ 
+ 	if (tmp_user) {
+ 		zend_string_release_ex(tmp_user, 0);
+diff --git a/ext/pdo_pgsql/pgsql_statement.c b/ext/pdo_pgsql/pgsql_statement.c
+index b2af41a339b..fe6f2bd400c 100644
+--- a/ext/pdo_pgsql/pgsql_statement.c
++++ b/ext/pdo_pgsql/pgsql_statement.c
+@@ -27,6 +27,9 @@
+ #include "ext/pdo/php_pdo_driver.h"
+ #include "php_pdo_pgsql.h"
+ #include "php_pdo_pgsql_int.h"
++#include "ext/hash/php_hash.h"
++#include "ext/hash/php_hash_sha.h"
++#include "ext/standard/md5.h"
+ #ifdef HAVE_NETINET_IN_H
+ #include <netinet/in.h>
+ #endif
+@@ -245,12 +248,156 @@ static int pgsql_stmt_dtor(pdo_stmt_t *stmt)
+ 	return 1;
+ }
+ 
++/* Closes the server statement of a cache entry and forgets it */
++static void pgsql_stmt_cache_close(pdo_pgsql_db_handle *H, pdo_pgsql_cached_stmt *entry)
++{
++	PGresult *res;
++#ifndef HAVE_PQCLOSEPREPARED
++	char q[sizeof("DEALLOCATE ") + sizeof(entry->name)];
++	snprintf(q, sizeof(q), "DEALLOCATE %s", entry->name);
++	res = PQexec(H->server, q);
++#else
++	res = PQclosePrepared(H->server, entry->name);
++#endif
++	if (res) {
++		PQclear(res);
++	}
++	entry->prepared = false;
++	entry->stale = false;
++	entry->uses = 0;
++}
++
++/* Removes the least recently used entry; false if its server statement cannot be closed now */
++static bool pgsql_stmt_cache_evict(pdo_pgsql_db_handle *H)
++{
++	pdo_pgsql_cached_stmt *entry, *victim = NULL;
++	zend_string *key, *victim_key = NULL;
++
++	ZEND_HASH_MAP_FOREACH_STR_KEY_PTR(H->stmt_cache, key, entry) {
++		if (!victim || entry->last_use < victim->last_use) {
++			victim = entry;
++			victim_key = key;
++		}
++	} ZEND_HASH_FOREACH_END();
++
++	if (victim->prepared || victim->stale) {
++		if (PQtransactionStatus(H->server) == PQTRANS_INERROR) {
++			return false;
++		}
++		pgsql_stmt_cache_close(H, victim);
++	}
++	zend_hash_del(H->stmt_cache, victim_key);
++	return true;
++}
++
++/* The connection's statement cache: a statement text with its parameter types runs as an unnamed
++ * statement until it has been executed prepare_threshold times on the connection, then as a named
++ * server statement that is kept until it is evicted or the session is reset. Returns the entry
++ * when its server statement is prepared. */
++static pdo_pgsql_cached_stmt *pgsql_stmt_use_cache(pdo_stmt_t *stmt, pdo_pgsql_stmt *S, int nparams)
++{
++	pdo_pgsql_db_handle *H = S->H;
++	pdo_pgsql_cached_stmt *entry;
++	size_t types_len = nparams * sizeof(Oid);
++	zend_string *key;
++
++	/* the parameter arrays have one element per entry of bound_param_map */
++	if (nparams && (!S->param_types || zend_hash_num_elements(stmt->bound_param_map) < (uint32_t) nparams)) {
++		return NULL;
++	}
++
++	key = zend_string_alloc(ZSTR_LEN(S->query) + 1 + types_len, 0);
++
++	memcpy(ZSTR_VAL(key), ZSTR_VAL(S->query), ZSTR_LEN(S->query) + 1);
++	if (types_len) {
++		memcpy(ZSTR_VAL(key) + ZSTR_LEN(S->query) + 1, S->param_types, types_len);
++	}
++	ZSTR_VAL(key)[ZSTR_LEN(key)] = '\0';
++
++	entry = zend_hash_find_ptr(H->stmt_cache, key);
++	if (!entry) {
++		PHP_SHA256_CTX ctx;
++		unsigned char digest[32];
++
++		if (H->stmt_cache_size <= 0
++				|| (zend_hash_num_elements(H->stmt_cache) >= (uint32_t) H->stmt_cache_size && !pgsql_stmt_cache_evict(H))) {
++			zend_string_release_ex(key, 0);
++			return NULL;
++		}
++		entry = pecalloc(1, sizeof(*entry), H->is_persistent);
++		/* the name is unique to the connection: the key hashed with the connection's random salt */
++		PHP_SHA256Init(&ctx);
++		PHP_SHA256Update(&ctx, H->stmt_cache_salt, sizeof(H->stmt_cache_salt));
++		PHP_SHA256Update(&ctx, (const unsigned char *) ZSTR_VAL(key), ZSTR_LEN(key));
++		PHP_SHA256Final(digest, &ctx);
++		memcpy(entry->name, "pdo_s_", sizeof("pdo_s_") - 1);
++		make_digest_ex(entry->name + sizeof("pdo_s_") - 1, digest, PDO_PGSQL_CACHED_NAME_BYTES);
++		if (H->is_persistent) {
++			zend_string *pkey = zend_string_dup(key, 1);
++
++			zend_hash_add_new_ptr(H->stmt_cache, pkey, entry);
++			zend_string_release_ex(pkey, 1);
++		} else {
++			zend_hash_add_new_ptr(H->stmt_cache, key, entry);
++		}
++	}
++	zend_string_release_ex(key, 0);
++	entry->last_use = ++H->stmt_cache_clock;
++
++	if (!entry->prepared && ++entry->uses >= H->prepare_threshold) {
++		PGresult *res;
++		const char *sqlstate;
++
++		/* a server statement that no longer matches its tables is closed before the name is prepared again */
++		if (entry->stale) {
++			if (PQtransactionStatus(H->server) == PQTRANS_INERROR) {
++				entry->uses = 0;
++				return NULL;
++			}
++			pgsql_stmt_cache_close(H, entry);
++		}
++		res = PQprepare(H->server, entry->name, ZSTR_VAL(S->query), nparams, S->param_types);
++		sqlstate = pdo_pgsql_sqlstate(res);
++
++		/* 42P05: a server statement of this name exists; it is closed and prepared once more */
++		if (sqlstate && !strcmp(sqlstate, "42P05") && PQtransactionStatus(H->server) != PQTRANS_INERROR) {
++			PQclear(res);
++			pgsql_stmt_cache_close(H, entry);
++			res = PQprepare(H->server, entry->name, ZSTR_VAL(S->query), nparams, S->param_types);
++		}
++
++		entry->prepared = PQresultStatus(res) == PGRES_COMMAND_OK;
++		if (!entry->prepared) {
++			entry->uses = 0;
++		}
++		PQclear(res);
++	}
++
++	return entry->prepared ? entry : NULL;
++}
++
++/* 26000: the server statement is gone (session reset); 0A000: its plan no longer matches the tables */
++static bool pgsql_stmt_cache_invalid(PGresult *res)
++{
++	const char *sqlstate = pdo_pgsql_sqlstate(res);
++
++	return sqlstate && (!strcmp(sqlstate, "26000") || !strcmp(sqlstate, "0A000"));
++}
++
++static void pgsql_stmt_set_row_mode(pdo_pgsql_stmt *S)
++{
++	/* no matter if it returns 0: PQ then transparently fallbacks to full result fetching */
++	(void)PQsetSingleRowMode(S->H->server);
++}
++
+ static int pgsql_stmt_execute(pdo_stmt_t *stmt)
+ {
+ 	pdo_pgsql_stmt *S = (pdo_pgsql_stmt*)stmt->driver_data;
+ 	pdo_pgsql_db_handle *H = S->H;
+ 	ExecStatusType status;
+ 	int dispatch_result = 1;
++	pdo_pgsql_cached_stmt *cached = NULL;
++	int nparams = stmt->bound_params ? zend_hash_num_elements(stmt->bound_params) : 0;
+ 
+ 	bool in_trans = stmt->dbh->methods->in_transaction(stmt->dbh);
+ 
+@@ -267,6 +414,10 @@ static int pgsql_stmt_execute(pdo_stmt_t *stmt)
+ 
+ 	S->current_row = 0;
+ 
++	if (S->use_cache) {
++		cached = pgsql_stmt_use_cache(stmt, S, nparams);
++	}
++
+ 	if (S->cursor_name) {
+ 		char *q = NULL;
+ 
+@@ -310,10 +461,11 @@ static int pgsql_stmt_execute(pdo_stmt_t *stmt)
+ 		spprintf(&q, 0, "FETCH FORWARD 0 FROM %s", S->cursor_name);
+ 		S->result = PQexec(H->server, q);
+ 		efree(q);
+-	} else if (S->stmt_name) {
++	} else if (S->stmt_name || cached) {
+ 		/* using a prepared statement */
++		const char *name = cached ? cached->name : S->stmt_name;
+ 
+-		if (!S->is_prepared) {
++		if (S->stmt_name && !S->is_prepared) {
+ stmt_retry:
+ 			/* we deferred the prepare until now, because we didn't
+ 			 * know anything about the parameter types; now we do */
+@@ -358,7 +510,7 @@ static int pgsql_stmt_execute(pdo_stmt_t *stmt)
+ 			}
+ 		}
+ 		if (S->is_unbuffered) {
+-			dispatch_result = PQsendQueryPrepared(H->server, S->stmt_name,
++			dispatch_result = PQsendQueryPrepared(H->server, name,
+ 					stmt->bound_params ?
+ 						zend_hash_num_elements(stmt->bound_params) :
+ 						0,
+@@ -367,7 +519,7 @@ static int pgsql_stmt_execute(pdo_stmt_t *stmt)
+ 					S->param_formats,
+ 					0);
+ 		} else {
+-			S->result = PQexecPrepared(H->server, S->stmt_name,
++			S->result = PQexecPrepared(H->server, name,
+ 				stmt->bound_params ?
+ 					zend_hash_num_elements(stmt->bound_params) :
+ 					0,
+@@ -375,6 +527,19 @@ static int pgsql_stmt_execute(pdo_stmt_t *stmt)
+ 				S->param_lengths,
+ 				S->param_formats,
+ 				0);
++			if (cached && pgsql_stmt_cache_invalid(S->result)) {
++				if (in_trans) {
++					/* the error aborted the transaction: report it, close and prepare again later */
++					cached->prepared = false;
++					cached->uses = 0;
++					cached->stale = !strcmp(pdo_pgsql_sqlstate(S->result), "0A000");
++				} else {
++					PQclear(S->result);
++					pgsql_stmt_cache_close(H, cached);
++					S->result = PQexecParams(H->server, ZSTR_VAL(S->query), nparams, S->param_types,
++						(const char**)S->param_values, S->param_lengths, S->param_formats, 0);
++				}
++			}
+ 		}
+ 	} else if (stmt->supports_placeholders == PDO_PLACEHOLDER_NAMED) {
+ 		/* execute query with parameters */
+@@ -413,11 +578,33 @@ static int pgsql_stmt_execute(pdo_stmt_t *stmt)
+ 			return 0;
+ 		}
+ 		S->is_running_unbuffered = true;
+-		(void)PQsetSingleRowMode(H->server);
+-		/* no matter if it returns 0: PQ then transparently fallbacks to full result fetching */
++		pgsql_stmt_set_row_mode(S);
+ 
+ 		/* try a first fetch to at least have column names and so on */
+ 		S->result = PQgetResult(S->H->server);
++
++		if (cached && pgsql_stmt_cache_invalid(S->result)) {
++			if (in_trans) {
++				/* the error aborted the transaction: report it, close and prepare again later */
++				cached->prepared = false;
++				cached->uses = 0;
++				cached->stale = !strcmp(pdo_pgsql_sqlstate(S->result), "0A000");
++			} else {
++				do {
++					PQclear(S->result);
++				} while ((S->result = PQgetResult(H->server)));
++				pgsql_stmt_cache_close(H, cached);
++				if (!PQsendQueryParams(H->server, ZSTR_VAL(S->query), nparams, S->param_types,
++						(const char**)S->param_values, S->param_lengths, S->param_formats, 0)) {
++					pdo_pgsql_error_stmt(stmt, 0, NULL);
++					S->is_running_unbuffered = false;
++					H->running_stmt = NULL;
++					return 0;
++				}
++				pgsql_stmt_set_row_mode(S);
++				S->result = PQgetResult(H->server);
++			}
++		}
+ 	}
+ 
+ 	status = PQresultStatus(S->result);
+diff --git a/ext/pdo_pgsql/php_pdo_pgsql_int.h b/ext/pdo_pgsql/php_pdo_pgsql_int.h
+index 60fa28bbcb6..68d25dc75e5 100644
+--- a/ext/pdo_pgsql/php_pdo_pgsql_int.h
++++ b/ext/pdo_pgsql/php_pdo_pgsql_int.h
+@@ -36,6 +36,19 @@ typedef struct {
+ 
+ typedef struct pdo_pgsql_stmt pdo_pgsql_stmt;
+ 
++/* bytes of the SHA-256 of the statement in the name of its server statement */
++#define PDO_PGSQL_CACHED_NAME_BYTES 24
++
++/* a statement text of the connection's statement cache */
++typedef struct {
++	uint64_t	last_use;
++	uint32_t	uses;
++	bool		prepared;
++	/* the server statement exists but no longer matches its tables */
++	bool		stale;
++	char		name[sizeof("pdo_s_") + 2 * PDO_PGSQL_CACHED_NAME_BYTES];
++} pdo_pgsql_cached_stmt;
++
+ /* stuff we use in a pgsql database handle */
+ typedef struct {
+ 	PGconn		*server;
+@@ -50,6 +63,13 @@ typedef struct {
+ 	zend_fcall_info_cache *notice_callback;
+ 	bool		default_fetching_laziness;
+ 	pdo_pgsql_stmt  *running_stmt;
++	HashTable	*stmt_cache;
++	/* random bytes hashed into the names of the cached server statements */
++	unsigned char	stmt_cache_salt[16];
++	uint64_t	stmt_cache_clock;
++	zend_long	prepare_threshold;
++	zend_long	stmt_cache_size;
++	bool		is_persistent;
+ } pdo_pgsql_db_handle;
+ 
+ typedef struct {
+@@ -72,6 +92,7 @@ struct pdo_pgsql_stmt {
+ 	bool is_cursor_declared;
+ 	bool is_unbuffered;
+ 	bool is_running_unbuffered;
++	bool use_cache;
+ };
+ 
+ typedef struct {
+diff --git a/ext/pdo_pgsql/tests/disable_prepares.phpt b/ext/pdo_pgsql/tests/disable_prepares.phpt
+index b184e9bc6db..02cb01437f2 100644
+--- a/ext/pdo_pgsql/tests/disable_prepares.phpt
++++ b/ext/pdo_pgsql/tests/disable_prepares.phpt
+@@ -2,6 +2,8 @@
+ PDO PgSQL PGSQL_ATTR_DISABLE_PREPARES
+ --EXTENSIONS--
+ pdo_pgsql
++--INI--
++pdo_pgsql.prepare_threshold=1
+ --SKIPIF--
+ <?php
+ require __DIR__ . '/config.inc';
+diff --git a/ext/pdo_pgsql/tests/stmt_cache_invalidation.phpt b/ext/pdo_pgsql/tests/stmt_cache_invalidation.phpt
+new file mode 100644
+index 00000000000..e67853e0719
+--- /dev/null
++++ b/ext/pdo_pgsql/tests/stmt_cache_invalidation.phpt
+@@ -0,0 +1,53 @@
++--TEST--
++PDO PgSQL statement cache: a server statement that is gone or no longer matches its tables
++--EXTENSIONS--
++pdo_pgsql
++--INI--
++pdo_pgsql.prepare_threshold=1
++--SKIPIF--
++<?php
++require __DIR__ . '/config.inc';
++require __DIR__ . '/../../../ext/pdo/tests/pdo_test.inc';
++PDOTest::skip();
++?>
++--FILE--
++<?php
++require __DIR__ . '/../../../ext/pdo/tests/pdo_test.inc';
++$db = PDOTest::test_factory(__DIR__ . '/common.phpt');
++$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
++$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
++$db->exec('CREATE TEMP TABLE stmt_cache_inv (a int)');
++$db->exec('INSERT INTO stmt_cache_inv VALUES (1)');
++
++function run(PDO $db, array $options = []) {
++    $stmt = $db->prepare('SELECT * FROM stmt_cache_inv', $options);
++    $stmt->execute();
++    return json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
++}
++
++echo "cached: ", run($db), "\n";
++$db->exec('ALTER TABLE stmt_cache_inv ADD COLUMN b int DEFAULT 2');
++echo "after ALTER TABLE: ", run($db), "\n";
++$db->exec('DEALLOCATE ALL');
++echo "after DEALLOCATE ALL: ", run($db), "\n";
++$db->exec('DEALLOCATE ALL');
++echo "unbuffered after DEALLOCATE ALL: ", run($db, [PDO::ATTR_PREFETCH => 0]), "\n";
++
++run($db);
++$db->exec('DEALLOCATE ALL');
++$db->beginTransaction();
++try {
++    run($db);
++} catch (PDOException $e) {
++    echo "in a transaction: ", $e->getCode(), "\n";
++}
++$db->rollBack();
++echo "after ROLLBACK: ", run($db), "\n";
++?>
++--EXPECT--
++cached: [{"a":"1"}]
++after ALTER TABLE: [{"a":"1","b":"2"}]
++after DEALLOCATE ALL: [{"a":"1","b":"2"}]
++unbuffered after DEALLOCATE ALL: [{"a":"1","b":"2"}]
++in a transaction: 26000
++after ROLLBACK: [{"a":"1","b":"2"}]
+diff --git a/ext/pdo_pgsql/tests/stmt_cache_invalidation_transaction.phpt b/ext/pdo_pgsql/tests/stmt_cache_invalidation_transaction.phpt
+new file mode 100644
+index 00000000000..215b52125b3
+--- /dev/null
++++ b/ext/pdo_pgsql/tests/stmt_cache_invalidation_transaction.phpt
+@@ -0,0 +1,88 @@
++--TEST--
++PDO PgSQL statement cache: a server statement that no longer matches its tables, inside a transaction
++--EXTENSIONS--
++pdo_pgsql
++--INI--
++pdo_pgsql.prepare_threshold=2
++--SKIPIF--
++<?php
++require __DIR__ . '/config.inc';
++require __DIR__ . '/../../../ext/pdo/tests/pdo_test.inc';
++PDOTest::skip();
++?>
++--FILE--
++<?php
++require __DIR__ . '/../../../ext/pdo/tests/pdo_test.inc';
++$db = PDOTest::test_factory(__DIR__ . '/common.phpt');
++$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
++$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
++$db->exec('CREATE TEMP TABLE stmt_cache_inv_tx (a int)');
++$db->exec('INSERT INTO stmt_cache_inv_tx VALUES (1)');
++
++function run(PDO $db, array $options = []) {
++    $stmt = $db->prepare('SELECT * FROM stmt_cache_inv_tx', $options);
++    $stmt->execute();
++    return json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
++}
++
++function prepared(PDO $db) {
++    return $db->query("SELECT count(*) FROM pg_prepared_statements WHERE statement = 'SELECT * FROM stmt_cache_inv_tx'")->fetchColumn();
++}
++
++foreach ([[], [PDO::ATTR_PREFETCH => 0]] as $options) {
++    $db->exec('ALTER TABLE stmt_cache_inv_tx DROP COLUMN IF EXISTS b');
++    $db->exec('DEALLOCATE ALL');
++    run($db, $options);
++    run($db, $options);
++    run($db, $options);
++    echo "prepared: ", prepared($db), "\n";
++    $db->exec('ALTER TABLE stmt_cache_inv_tx ADD COLUMN b int DEFAULT 2');
++
++    $db->beginTransaction();
++    try {
++        run($db, $options);
++    } catch (PDOException $e) {
++        echo "in a transaction: ", $e->getCode(), "\n";
++    }
++    $db->rollBack();
++
++    $db->beginTransaction();
++    echo "next transaction: ", run($db, $options), " ", run($db, $options), " ", run($db, $options), "\n";
++    $db->commit();
++    echo "prepared: ", prepared($db), "\n";
++}
++
++ini_set('pdo_pgsql.statement_cache_size', 1);
++$db = PDOTest::test_factory(__DIR__ . '/common.phpt');
++$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
++$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
++$db->exec('CREATE TEMP TABLE stmt_cache_inv_tx (a int)');
++$db->exec('INSERT INTO stmt_cache_inv_tx VALUES (1)');
++run($db);
++run($db);
++$db->exec('ALTER TABLE stmt_cache_inv_tx ADD COLUMN b int DEFAULT 2');
++$db->beginTransaction();
++try {
++    run($db);
++} catch (PDOException $e) {
++    echo "evicted after an error in a transaction: ", $e->getCode(), "\n";
++}
++$db->rollBack();
++$db->prepare('SELECT 1')->execute();
++echo "prepared after eviction: ", prepared($db), "\n";
++$db->beginTransaction();
++echo "next transaction: ", run($db), " ", run($db), " ", run($db), "\n";
++$db->commit();
++?>
++--EXPECT--
++prepared: 1
++in a transaction: 0A000
++next transaction: [{"a":"1","b":"2"}] [{"a":"1","b":"2"}] [{"a":"1","b":"2"}]
++prepared: 1
++prepared: 1
++in a transaction: 0A000
++next transaction: [{"a":"1","b":"2"}] [{"a":"1","b":"2"}] [{"a":"1","b":"2"}]
++prepared: 1
++evicted after an error in a transaction: 0A000
++prepared after eviction: 0
++next transaction: [{"a":"1","b":"2"}] [{"a":"1","b":"2"}] [{"a":"1","b":"2"}]
+diff --git a/ext/pdo_pgsql/tests/stmt_cache_lru.phpt b/ext/pdo_pgsql/tests/stmt_cache_lru.phpt
+new file mode 100644
+index 00000000000..69cb61a5a1b
+--- /dev/null
++++ b/ext/pdo_pgsql/tests/stmt_cache_lru.phpt
+@@ -0,0 +1,36 @@
++--TEST--
++PDO PgSQL statement cache: the least recently used statement is evicted and closed
++--EXTENSIONS--
++pdo_pgsql
++--INI--
++pdo_pgsql.prepare_threshold=1
++pdo_pgsql.statement_cache_size=2
++--SKIPIF--
++<?php
++require __DIR__ . '/config.inc';
++require __DIR__ . '/../../../ext/pdo/tests/pdo_test.inc';
++PDOTest::skip();
++?>
++--FILE--
++<?php
++require __DIR__ . '/../../../ext/pdo/tests/pdo_test.inc';
++$db = PDOTest::test_factory(__DIR__ . '/common.phpt');
++$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
++$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
++
++$list = $db->prepare('SELECT statement FROM pg_prepared_statements ORDER BY statement', [PDO::ATTR_EMULATE_PREPARES => true]);
++foreach (['A', 'B', 'A', 'C', 'B'] as $q) {
++    $stmt = $db->prepare("SELECT '$q'");
++    $stmt->execute();
++    $value = $stmt->fetchColumn();
++    unset($stmt);
++    $list->execute();
++    echo $value, ": ", implode(', ', $list->fetchAll(PDO::FETCH_COLUMN)), "\n";
++}
++?>
++--EXPECT--
++A: SELECT 'A'
++B: SELECT 'A', SELECT 'B'
++A: SELECT 'A', SELECT 'B'
++C: SELECT 'A', SELECT 'C'
++B: SELECT 'B', SELECT 'C'
+diff --git a/ext/pdo_pgsql/tests/stmt_cache_names.phpt b/ext/pdo_pgsql/tests/stmt_cache_names.phpt
+new file mode 100644
+index 00000000000..9bf7795b594
+--- /dev/null
++++ b/ext/pdo_pgsql/tests/stmt_cache_names.phpt
+@@ -0,0 +1,57 @@
++--TEST--
++PDO PgSQL statement cache: names unique to the connection, a server statement of the same name is replaced
++--EXTENSIONS--
++pdo_pgsql
++--INI--
++pdo_pgsql.prepare_threshold=1
++--SKIPIF--
++<?php
++require __DIR__ . '/config.inc';
++require __DIR__ . '/../../../ext/pdo/tests/pdo_test.inc';
++PDOTest::skip();
++?>
++--FILE--
++<?php
++require __DIR__ . '/../../../ext/pdo/tests/pdo_test.inc';
++
++function connect() {
++    $db = PDOTest::test_factory(__DIR__ . '/common.phpt');
++    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
++    $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
++    return $db;
++}
++
++function run(PDO $db) {
++    $stmt = $db->prepare("SELECT 'cached' AS v");
++    $stmt->execute();
++    return $stmt->fetchColumn();
++}
++
++function names(PDO $db) {
++    $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
++    $names = $db->query("SELECT name FROM pg_prepared_statements WHERE name LIKE 'pdo_s_%'")->fetchAll(PDO::FETCH_COLUMN);
++    $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
++    return $names;
++}
++
++$a = connect();
++$b = connect();
++echo run($a), " ", run($b), "\n";
++[$name] = names($a);
++var_dump($name !== names($b)[0]);
++
++$a->exec("DEALLOCATE $name");
++echo "after DEALLOCATE: ", run($a), "\n";
++if (in_array($name, names($a), true)) {
++    $a->exec("DEALLOCATE $name");
++}
++$a->exec("PREPARE $name AS SELECT 'other' AS v");
++echo "after PREPARE of the same name: ", run($a), "\n";
++echo "again: ", run($a), "\n";
++?>
++--EXPECT--
++cached cached
++bool(true)
++after DEALLOCATE: cached
++after PREPARE of the same name: cached
++again: cached
+diff --git a/ext/pdo_pgsql/tests/stmt_cache_search_path.phpt b/ext/pdo_pgsql/tests/stmt_cache_search_path.phpt
+new file mode 100644
+index 00000000000..4f71013e54e
+--- /dev/null
++++ b/ext/pdo_pgsql/tests/stmt_cache_search_path.phpt
+@@ -0,0 +1,41 @@
++--TEST--
++PDO PgSQL statement cache: a cached statement follows the search_path
++--EXTENSIONS--
++pdo_pgsql
++--INI--
++pdo_pgsql.prepare_threshold=1
++--SKIPIF--
++<?php
++require __DIR__ . '/config.inc';
++require __DIR__ . '/../../../ext/pdo/tests/pdo_test.inc';
++PDOTest::skip();
++?>
++--FILE--
++<?php
++require __DIR__ . '/../../../ext/pdo/tests/pdo_test.inc';
++$db = PDOTest::test_factory(__DIR__ . '/common.phpt');
++$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
++$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
++foreach (['stmt_cache_sp_a', 'stmt_cache_sp_b'] as $schema) {
++    $db->exec("DROP SCHEMA IF EXISTS $schema CASCADE");
++    $db->exec("CREATE SCHEMA $schema");
++    $db->exec("CREATE TABLE $schema.t (v text)");
++    $db->exec("INSERT INTO $schema.t VALUES ('$schema')");
++}
++
++foreach (['stmt_cache_sp_a', 'stmt_cache_sp_b', 'stmt_cache_sp_a'] as $schema) {
++    $db->exec("SET search_path = $schema");
++    $stmt = $db->prepare('SELECT v FROM t');
++    $stmt->execute();
++    echo $schema, ": ", $stmt->fetchColumn(), "\n";
++}
++echo "server statements: ", $db->query("SELECT count(*) FROM pg_prepared_statements WHERE statement = 'SELECT v FROM t'")->fetchColumn(), "\n";
++$db->exec('RESET search_path');
++$db->exec('DROP SCHEMA stmt_cache_sp_a CASCADE');
++$db->exec('DROP SCHEMA stmt_cache_sp_b CASCADE');
++?>
++--EXPECT--
++stmt_cache_sp_a: stmt_cache_sp_a
++stmt_cache_sp_b: stmt_cache_sp_b
++stmt_cache_sp_a: stmt_cache_sp_a
++server statements: 1
+diff --git a/ext/pdo_pgsql/tests/stmt_cache_threshold.phpt b/ext/pdo_pgsql/tests/stmt_cache_threshold.phpt
+new file mode 100644
+index 00000000000..5f3f4e07cfb
+--- /dev/null
++++ b/ext/pdo_pgsql/tests/stmt_cache_threshold.phpt
+@@ -0,0 +1,46 @@
++--TEST--
++PDO PgSQL statement cache: a statement is prepared on the server from its prepare_threshold-th execution
++--EXTENSIONS--
++pdo_pgsql
++--INI--
++pdo_pgsql.prepare_threshold=3
++--SKIPIF--
++<?php
++require __DIR__ . '/config.inc';
++require __DIR__ . '/../../../ext/pdo/tests/pdo_test.inc';
++PDOTest::skip();
++?>
++--FILE--
++<?php
++require __DIR__ . '/../../../ext/pdo/tests/pdo_test.inc';
++$db = PDOTest::test_factory(__DIR__ . '/common.phpt');
++$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
++$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
++
++$list = $db->prepare("SELECT name FROM pg_prepared_statements WHERE statement = 'SELECT \$1::int + 1'",
++    [PDO::ATTR_EMULATE_PREPARES => true]);
++
++for ($i = 1; $i <= 4; $i++) {
++    /* a new PDOStatement for every execution, as in one statement per request */
++    $stmt = $db->prepare('SELECT ?::int + 1');
++    $stmt->execute([$i]);
++    $value = $stmt->fetchColumn();
++    unset($stmt);
++    $list->execute();
++    $names = $list->fetchAll(PDO::FETCH_COLUMN);
++    printf("execution %d: %d, server statements: %s\n", $i, $value,
++        implode(', ', array_map(fn ($n) => preg_replace('/^pdo_s_[0-9a-f]{48}$/', 'pdo_s_<sha256>', $n), $names)));
++}
++
++ini_set('pdo_pgsql.prepare_threshold', '0');
++$db = PDOTest::test_factory(__DIR__ . '/common.phpt');
++$stmt = $db->prepare('SELECT ?::int + 2', [PDO::ATTR_EMULATE_PREPARES => false]);
++$stmt->execute([1]);
++echo "threshold 0: ", $db->query("SELECT name FROM pg_prepared_statements WHERE statement = 'SELECT \$1::int + 2'")->fetchColumn(), "\n";
++?>
++--EXPECTF--
++execution 1: 2, server statements: 
++execution 2: 3, server statements: 
++execution 3: 4, server statements: pdo_s_<sha256>
++execution 4: 5, server statements: pdo_s_<sha256>
++threshold 0: pdo_stmt_%x
