@@ -1,0 +1,14 @@
+PR #24666 differential fuzzing: json_difftest.php hashes every json_encode/decode/validate
+result per iteration; two binaries with the same seed must produce the same hashes.
+binaries: GCC 15.2 release (same result on GCC 13.3/14.2, clang 18.1/20.1/21.1).
+command:  php -n json_difftest.php <seed> <iterations>
+
+master seed7 x50000  vs  head seed7 x50000      : IDENTICAL
+master seed7 x50000  vs  fix  seed7 x50000      : IDENTICAL   (fix = head + fix.diff)
+harness sensitivity (master seed7 vs head seed8): DIFFER   (different input must differ)
+
+mutation test (does the check catch a real defect):
+  mutant = head with the surrogate exclusion removed from php_json_verbatim_utf8_len,
+  so it keeps surrogate-encoded sequences verbatim under JSON_UNESCAPED_UNICODE where
+  master rejects them as invalid UTF-8.
+  mutant seed7 x50000 vs head seed7 x50000        : DIFFER   (first divergence at iteration 4)

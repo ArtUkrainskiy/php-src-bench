@@ -1,0 +1,41 @@
+diff --git a/ext/json/json_encoder.c b/ext/json/json_encoder.c
+index a1a050039b7..114176c516b 100644
+--- a/ext/json/json_encoder.c
++++ b/ext/json/json_encoder.c
+@@ -368,6 +368,18 @@ static zend_result php_json_encode_array(smart_str *buf, zval *val, int options,
+ static zend_always_inline size_t php_json_verbatim_ascii_len(const char *s, size_t len)
+ {
+ 	size_t i = 0;
++	/* Fast bail: the first byte already stops the run (common in non-ASCII text),
++	 * so skip the SSE setup that would only advance zero. */
++	if (len == 0) {
++		return 0;
++	}
++	{
++		const unsigned char c0 = (unsigned char) s[0];
++		if (c0 < 0x20 || c0 >= 0x80 || c0 == '"' || c0 == '&' || c0 == '\'' || c0 == '/'
++				|| c0 == '<' || c0 == '>' || c0 == '\\') {
++			return 0;
++		}
++	}
+ #ifdef __SSE2__
+ 	/* As signed bytes, both control characters (< 0x20) and non-ASCII bytes (>= 0x80) are < 0x20. */
+ 	const __m128i ctrl_or_high = _mm_set1_epi8(0x20);
+diff --git a/ext/json/json_scanner.re b/ext/json/json_scanner.re
+index f3239eafcfd..b635e938533 100644
+--- a/ext/json/json_scanner.re
++++ b/ext/json/json_scanner.re
+@@ -79,6 +79,13 @@ static void php_json_scanner_copy_string(php_json_scanner *s, size_t esc_size)
+ static zend_always_inline php_json_ctype *php_json_skip_plain_string_bytes(
+ 		php_json_ctype *p, const php_json_ctype *limit)
+ {
++	/* Fast bail: nothing to skip when the first byte already needs the state machine.
++	 * Dense multibyte or escape-heavy strings hit this every character, where the SSE
++	 * setup below would only advance zero. */
++	if (p >= limit || (unsigned char) *p < 0x20 || (unsigned char) *p >= 0x80
++			|| *p == '"' || *p == '\\') {
++		return p;
++	}
+ #ifdef __SSE2__
+ 	const __m128i quote = _mm_set1_epi8('"');
+ 	const __m128i backslash = _mm_set1_epi8('\\');
