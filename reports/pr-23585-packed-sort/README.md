@@ -63,6 +63,15 @@ No increase in instructions anywhere in the matrix. Limits worth stating:
   which looked like a near-zero result rather than a failure. The harness now
   checks that each run completes before trusting its counters.
 
+Fallback cost. For `sort`/`rsort` the PR scans the array for eligibility before
+sorting, so a packed array that does not qualify pays that scan on top of the
+unchanged `Bucket` sort. Worst case — 65535 scalars with a disqualifying object,
+`NaN` or reference at the very end, forcing a full scan — the scan adds **+0.1%
+to +0.4% instructions** (gcc13 and clang20, `fallback.txt`); in cycles the
+difference is within noise, median about 0%. A disqualifier near the front bails
+at once. So the eligibility check is effectively free for arrays that take the
+old path. Measured with `sort_fallback.php`.
+
 ## Machine and method
 
 - Intel Core i7-13700H laptop, Ubuntu. Instructions on E-cores (`taskset -c
