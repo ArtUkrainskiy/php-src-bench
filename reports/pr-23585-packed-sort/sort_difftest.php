@@ -73,9 +73,10 @@ for ($it=0;$it<$count;$it++){
     $a=$base; $cnt=0;
     $w=warnings_of(function() use (&$a,&$cnt){ usort($a, function($x,$y) use (&$a,&$cnt){ $cnt++; if($cnt===2 && count($a)>1){ $a[]=999; } return $x<=>$y; }); });
     hash_update($acc, "usortRe:".snapshot($a)."|w:".implode('/',$w)."\n");
-    // usort reentrant: callback reads internal pointer
-    $a=$base;
-    $w=warnings_of(function() use (&$a){ usort($a, function($x,$y) use (&$a){ $k=key($a); return $x<=>$y; }); });
-    hash_update($acc, "usortPtr:".snapshot($a)."|w:".implode('/',$w)."\n");
+    // usort reentrant: callback reads the internal pointer; record what it saw so a
+    // change in key()/current() during the callback shows up even if the sort matches
+    $a=$base; $obs='';
+    $w=warnings_of(function() use (&$a,&$obs){ usort($a, function($x,$y) use (&$a,&$obs){ $obs.=var_export(key($a),true).':'.var_export(current($a),true).','; return $x<=>$y; }); });
+    hash_update($acc, "usortPtr:".snapshot($a)."|obs:$obs|w:".implode('/',$w)."\n");
 }
 echo hash_final($acc), "\n";

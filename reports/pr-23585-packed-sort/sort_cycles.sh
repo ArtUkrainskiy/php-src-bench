@@ -19,9 +19,12 @@ B=${BUILDS:-$HOME/php-builds}/pr23585-base-$CC/sapi/cli/php
 H=${BUILDS:-$HOME/php-builds}/pr23585-head-$CC/sapi/cli/php
 
 cyc(){ # bin mode -> cycle count (handles hybrid cpu_atom/cpu_core)
-  local v
-  v=$(taskset -c "$CORE_CYC" perf stat -e cycles:u "$1" -n sort_bench.php "$TYPE" "$SIZE" "$BATCH" "$OP" "$2" 2>&1 \
-    | grep -E 'cycles' | grep -vE '<not' | head -1 | sed 's/,//g' | awk '{print $1}')
+  local out v
+  out=$(taskset -c "$CORE_CYC" perf stat -e cycles:u "$1" -n sort_bench.php "$TYPE" "$SIZE" "$BATCH" "$OP" "$2" 2>&1)
+  if ! printf '%s\n' "$out" | grep -qxE 'done|[0-9]+'; then
+    echo "run did not complete for $1 $2:" >&2; printf '%s\n' "$out" | tail -3 >&2; exit 1
+  fi
+  v=$(printf '%s\n' "$out" | grep -E 'cycles' | grep -vE '<not' | head -1 | sed 's/,//g' | awk '{print $1}')
   case "$v" in ''|*[!0-9]*) echo "perf parse failed for $1 $2" >&2; exit 1;; esac
   echo "$v"
 }

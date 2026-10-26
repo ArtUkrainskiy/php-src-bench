@@ -17,20 +17,27 @@ Floats and strings gain less, `usort` gains 2–8%. No input in the matrix got
 slower. The speed-up is automatic for qualifying arrays, with no change to user
 code.
 
-The cycles win is smaller than the instruction win because quicksort stays bound
-by branch prediction and cache, not instruction count. The change removes the
-per-element copies between the packed `zval` layout and the hash-table `Bucket`
-layout, so the comparisons themselves, and their mispredictions, are unchanged.
+The cycles win is smaller than the instruction win. The change removes the
+per-element moves between the packed `zval` layout and the hash-table `Bucket`
+layout, but the comparisons, their data dependencies and their memory accesses
+remain, and those are a large part of a sort's cost. The split between them was
+not profiled here.
 
 Correctness is covered by differential fuzzing against the PR base (same inputs,
 both binaries, output compared byte for byte) over scalars, floats, NaN, holes,
 ties, all six sort flags, cross-type equal values, references, objects and a
 re-entrant `usort`. Every case matched on all four compilers.
 
+This measures the sort functions in isolation. The PR's own CI benchmark on a
+Xeon server moves Laravel, Symfony, WordPress and `bench.php` by a few tenths of
+a percent either way, which is what you expect when sorting is a small part of
+the workload.
+
 ## What changes and why it is faster
 
 Today `sort()` on a packed array converts it to a hash table (`Bucket` entries),
-sorts the buckets, then rebuilds a packed array. Each element is copied twice.
+sorts the buckets, then rebuilds a packed array, moving every value between the
+two storage layouts twice.
 
 The PR sorts the `zval` slots in place when the array is packed and holds only
 simple values (null, bool, int, string, non-NaN double), with an integer-only
@@ -44,15 +51,17 @@ inverts the comparison result but not that marker, so reverse order is stable to
 
 ## Trade-offs
 
-No measured regression. Two limits worth stating:
+No increase in instructions anywhere in the matrix. Limits worth stating:
 
-- Strings at 65535 elements could not be measured here: building the string
-  arrays costs ~2.75 billion instructions per batch, which swamps the sort cost,
-  so the subtraction lands in noise. Strings at 10 and 64 elements are clean and
-  shown below. This is a limit of the bench, not the PR.
-- Cycles were measured only for integer `sort`/`rsort` and one float case, on one
-  Intel laptop. The instruction counts below cover the full matrix on four
-  compilers.
+- The matrix is instruction counts across four compilers; cycles were measured
+  only for integer `sort`/`rsort` and one float case, on one Intel laptop. Fewer
+  instructions is strong evidence but not a guarantee of fewer cycles on every
+  input.
+- Building the 65535-element string arrays needs more than PHP's default 128 MB,
+  so the benchmark sets `memory_limit=-1`. An earlier run without it died with
+  `Allowed memory size exhausted` during input generation, in both base and head,
+  which looked like a near-zero result rather than a failure. The harness now
+  checks that each run completes before trusting its counters.
 
 ## Machine and method
 
@@ -75,8 +84,9 @@ No measured regression. Two limits worth stating:
   and `LDFLAGS='-Wl,-O1 -pie'`. The sort code is in `ext/standard`, always built;
   opcache/JIT are off and do not touch this path.
 - On another CPU or compiler the comparable quantity is the change-vs-base
-  percentage, not the absolute counts. The large integer `sort`/`rsort` win holds
-  on any recent compiler; exact percentages shift with code layout.
+  percentage, not the absolute counts. The large integer `sort`/`rsort` win is
+  consistent across the four compilers tested; exact percentages shift with code
+  layout, and other compilers or architectures were not measured.
 - Metric: a sort costs `instructions(sort mode) − instructions(nop mode)` per
   sort, where nop mode pre-generates the same arrays and does not sort. The
   per-sort figure is that difference divided by the batch size. Cycles use the
@@ -99,11 +109,11 @@ four per-compiler blocks in `instructions.txt`; there is no table generator.
 | `rsort` ints | −68…−71% | −71…−75% | −75…−79% |
 | `sort` floats | −17…−23% | −6…−12% | −2…−8% |
 | `rsort` floats | −24…−28% | −16…−20% | −14…−18% |
-| `sort` strings | −12…−15% | −4…−7% | — |
-| `rsort` strings | −18…−20% | −11…−12% | — |
+| `sort` strings | −12…−15% | −4…−7% | −1…−5% |
+| `rsort` strings | −18…−20% | −11…−12% | −9…−10% |
 | `usort` ints | −7…−8% | −4…−5% | −2…−4% |
 | `usort` floats | −7…−8% | −4…−5% | −2…−4% |
-| `usort` strings | −6…−7% | −3…−4% | — |
+| `usort` strings | −6…−7% | −3…−4% | −2…−3% |
 
 Cycles, Intel P-core, median of the head/base% column over five passes
 (`cycles.txt`):
@@ -131,14 +141,15 @@ a mismatch would change it. All four compilers returned identical hashes.
   flags (`SORT_REGULAR`/`NUMERIC`/`STRING`/`NATURAL`/`STRING|CASE`/`NATURAL|CASE`),
   numeric strings, values near 2^53 and integer limits; `sort`, `rsort`, plain
   `usort`, a re-entrant `usort` that mutates the array, and one that reads the
-  internal pointer.
+  internal pointer with `key()`/`current()` and hashes what it saw.
 - `sort_difftest2.php` — adds objects, references shared through a variable, and
   arrays of 256 and 1000 elements.
 - `sort_difftest3.php` — adds mixed arrays where equal values of different types
   (`5 == 5.0 == "5" == true` under `SORT_REGULAR`) must keep their original order.
 
-Sensitivity check: different seeds produce different hashes, so the comparison
-does catch order and pointer differences.
+The hashes for the current run are in `fuzz-check.txt`: identical base vs head on
+all four compilers. Sensitivity check: a different seed changes the hash, so the
+comparison does catch order and pointer differences.
 
 The same fuzzers run clean on the PR head under an ASan + UBSan build
 (`USE_ZEND_ALLOC=0`), with no sanitizer report. That covers the memory side the
@@ -154,9 +165,15 @@ the new packed path is exercised on simple values and, for objects, through
 
 - Cycles on AMD, and cycles for the full matrix (only integer `sort`/`rsort` and
   one float case were timed).
-- Strings at 65535 elements (generation cost swamps the signal).
-- A callgrind breakdown of why cycles drop ~41% while instructions drop ~71%
-  (branch/cache-bound is the hypothesis, not profiled here).
+- A callgrind breakdown of where the remaining cycles go (comparisons vs memory),
+  not profiled here.
+- Active HashTable iterators: the fuzzer reads the internal pointer, but not a
+  suspended `foreach` by reference whose iterator slot the sort must update
+  (`zend_hash_iterators_update`). The PR's `packed_zval_sort_iterators_holes.phpt`
+  and `nested_iterators.phpt` cover this in CI.
+- Input shapes beyond uniform random: already-sorted, reverse-sorted and
+  all-equal arrays may shift the cost (the `Z_EXTRA` tie-break does more work when
+  values are equal).
 - 32-bit and ZTS builds dynamically (reviewed by reading only).
 
 ## Merge
@@ -164,7 +181,7 @@ the new packed path is exercised on simple values and, for objects, through
 `git merge-tree` against current `master`: only `UPGRADING` and
 `UPGRADING.INTERNALS` conflict, where both sides added changelog entries.
 `Zend/zend_hash.c`, `Zend/zend_hash.h` and `ext/standard/array.c` merge cleanly.
-A rebase is trivial.
+Against the tested `master`, only the changelog files conflict.
 
 ## Reproduce
 

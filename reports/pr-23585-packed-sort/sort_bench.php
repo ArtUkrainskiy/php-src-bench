@@ -3,6 +3,7 @@
  * of SIZE, then either sorts each once (mode=sort) or does nothing (mode=nop).
  * Run under perf stat; subtract nop from sort to isolate the sort cost.
  * Usage: php -n sort_bench.php <ints|floats|strings> <size> <batch> <sort|rsort|usort> <sort|nop> */
+ini_set('memory_limit', '-1'); // strings at 65535 x batch 60 needs > 128 MB just to build the input
 $type  = $argv[1] ?? 'ints';
 $size  = (int)($argv[2] ?? 64);
 $batch = (int)($argv[3] ?? 20000);
