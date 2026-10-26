@@ -72,7 +72,7 @@ function usage_compare(): void
 function usage_table(): void
 {
     echo <<<'USAGE'
-    Usage: bench table <series.json> [--full] [--labels FILE] [--base-name NAME] [--header] [--bpc]
+    Usage: bench table <series.json> [--full] [--labels FILE] [--base-name NAME] [--header] [--bpc] [--no-control]
 
       Markdown table of the change in CPU cycles per call relative to A, one column per group;
       the control groups follow in a table of their own. Say "negative = fewer cycles (faster)"
@@ -355,7 +355,7 @@ function cmd_table(array $positional, array $options): int
     if (isset($options['header'])) {
         echo series_header($series), "\n";
     }
-    echo series_table($series, $labels, isset($options['full']), (string) ($options['base-name'] ?? 'master'), isset($options['bpc']));
+    echo series_table($series, $labels, isset($options['full']), (string) ($options['base-name'] ?? 'master'), isset($options['bpc']), isset($options['no-control']));
     return 0;
 }
 
@@ -603,7 +603,7 @@ function parse_labels(array $lines, array $caseIds): array
  *
  * @param array<string, string> $labels case id => label, in display order; empty: every case
  */
-function series_table(array $series, array $labels, bool $full, string $baseName, bool $bytesPerChar = false): string
+function series_table(array $series, array $labels, bool $full, string $baseName, bool $bytesPerChar = false, bool $noControl = false): string
 {
     [$cyc, $ins] = series_per_call($series);
     if (!$labels) {
@@ -653,7 +653,7 @@ function series_table(array $series, array $labels, bool $full, string $baseName
     $layout = false;
     $withinNoise = false;
     foreach ([[$main, true], [$control, false]] as [$groups, $isMain]) {
-        if (!$groups) {
+        if (!$groups || (!$isMain && $noControl)) {
             continue;
         }
         $first = array_key_first($groups);
