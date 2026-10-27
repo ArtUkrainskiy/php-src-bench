@@ -72,6 +72,14 @@ difference is within noise, median about 0%. A disqualifier near the front bails
 at once. So the eligibility check is effectively free for arrays that take the
 old path. Measured with `sort_fallback.php`.
 
+Input shapes. Beyond uniform random, no shape regressed (`shapes.txt`, size 1000,
+gcc13/clang20): integer sort is −75…−78% already-sorted, −73…−76% reverse,
+−81…−82% duplicate-heavy, −70…−74% packed-with-holes, and +0.0% (flat) for an
+all-reference array that falls back. String sort, which exercises the `Z_EXTRA`
+tie-break on equal values, is −3…−6% sorted, −2…−5% duplicate-heavy, −6…−9%
+all-equal. The tie-break and the holes path stay wins, not regressions. Measured
+with `sort_shapes.php`.
+
 ## Machine and method
 
 - Intel Core i7-13700H laptop, Ubuntu. Instructions on E-cores (`taskset -c
@@ -180,10 +188,9 @@ the new packed path is exercised on simple values and, for objects, through
   suspended `foreach` by reference whose iterator slot the sort must update
   (`zend_hash_iterators_update`). The PR's `packed_zval_sort_iterators_holes.phpt`
   and `nested_iterators.phpt` cover this in CI.
-- Input shapes beyond uniform random: already-sorted, reverse-sorted and
-  all-equal arrays may shift the cost (the `Z_EXTRA` tie-break does more work when
-  values are equal).
 - 32-bit and ZTS builds dynamically (reviewed by reading only).
+- Folding the two no-holes passes (type scan + `Z_EXTRA` write) into one — a
+  possible simplification, not benchmarked.
 
 ## Merge
 
