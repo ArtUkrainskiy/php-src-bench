@@ -138,12 +138,16 @@ Cycles, Intel P-core, median of the head/base% column over five passes
 | Call | GCC 13 | clang 20 |
 |---|---:|---:|
 | `sort` ints, 65535 | −41% | −43% |
-| `rsort` ints, 65535 | −49% | — |
-| `sort` ints, 64 | −37% | — |
-| `sort` floats, 65535 | −5% | — |
+| `rsort` ints, 65535 | −49% | −49% |
+| `sort` ints, 64 | −37% | −35% |
+| `sort` floats, 65535 | −5% | −6% |
 
-Float cycles are noisy at this size: the five `sort` floats passes run −5% to
-−10% (median −5%).
+Cycles are noisier than the deterministic instruction counts, so trust them only
+where the five passes agree. The large integer wins are tight run to run; the
+small `sort` floats figure sits near the noise floor (individual passes range
+roughly −5% to −10% on gcc13), so read it as "a few percent", not a precise
+number. An earlier single read of the clang20 cells landed in that noise before
+a repeat brought them in line with gcc13.
 
 Base cost for scale (GCC 13, instructions per sort): `sort` ints is 3,493 at
 size 10, 33,195 at 64, 91.1M at 65535.
