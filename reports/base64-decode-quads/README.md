@@ -4,7 +4,7 @@ Status: open for a PR, not in any release.
 
 php-src change: one commit on branch `base64-decode-quads` ("ext/standard: Decode base64 four
 characters at a time in the character loop") on top of master
-[`100e8f353ea`](https://github.com/php/php-src/commit/100e8f353ea). The commit is
+[`3b8e98882e4`](https://github.com/php/php-src/commit/3b8e98882e4). The commit is
 `ext/standard/base64.c` plus an UPGRADING line and one new phpt; it ships here as `change.patch`
 (the branch is not pushed yet, so there is no public commit link).
 
@@ -23,19 +23,19 @@ changes in user code — the function just gets faster once this ships.
 
 Instructions per call are the headline: `perf stat`, deterministic, and the range spans six
 compilers — GCC 13/14 and clang 18/20 on an Intel i7-13700H, GCC 15 and clang 21 on an AMD
-Ryzen 9 5950X. The AMD cycles column (GCC 15 / clang 21, median of three paired passes on a
+Ryzen 9 5950X. The AMD cycles column (GCC 15 / clang 21, median of five paired passes on a
 quiet host) is supporting; for the short inputs it is indicative, not exact — one decode is
 cheap and the fixed input keeps the branch predictor warm. Negative = faster.
 
 | `base64_decode()` input | instructions/call | AMD cycles |
 |---|---:|---:|
-| 24 B (a token) | −41…−46% | −38…−58% |
-| 44 B (a 32-byte key) | −45…−50% | −45…−64% |
+| 24 B (a token) | −41…−46% | −34…−59% |
+| 44 B (a 32-byte key) | −45…−50% | −44…−64% |
 | 136 B | −47…−51% | −46…−63% |
-| 1 KB, clean | −29…−31% | −22…−42% |
+| 1 KB, clean | −29…−31% | −23…−41% |
 | 64 KB, clean | −1% (flat) | flat |
 | 1 KB in 76-column lines (MIME) | −67…−70% | −63…−80% |
-| 64 KB in 76-column lines (MIME) | −69…−71% | −64…−81% |
+| 64 KB in 76-column lines (MIME) | −69…−71% | −63…−81% |
 | 64 KB in 64-column lines (PEM) | −68…−71% | −64…−81% |
 | 64 KB MIME, strict | −73…−76% | −68…−79% |
 
@@ -78,7 +78,7 @@ instructions); inputs built by `base64_cases.php`.
 
 Run from a `php-src-bench` checkout (this report's repo): `./bench` is its A/B build wrapper and
 ships the differential generator (`difftests/base64.php`) and `lib/`. `base` is master
-`100e8f353ea`; `head` is that plus `change.patch` (one commit: `ext/standard/base64.c` + an
+`3b8e98882e4`; `head` is that plus `change.patch` (one commit: `ext/standard/base64.c` + an
 UPGRADING line + a new phpt). `$B` is the build directory (`~/php-builds` by default). Case names
 map to the table by size: token24 = 24 B, key44 = 44 B, b136 = 136 B, clean1k/mime1k = 1 KB,
 clean64k/mime64k/pem64k = 64 KB. Perf needs `kernel.perf_event_paranoid <= 1`; pin to an isolated
@@ -95,8 +95,8 @@ is a build with `--enable-address-sanitizer --enable-undefined-sanitizer` runnin
 B=~/php-builds
 
 # 1. Build base (master) and head (master + change.patch).
-./bench build b64-base 100e8f353ea
-git -C <php-src> worktree add ../wt-b64 100e8f353ea && git -C ../wt-b64 apply "$(pwd)/change.patch"
+./bench build b64-base 3b8e98882e4
+git -C <php-src> worktree add ../wt-b64 3b8e98882e4 && git -C ../wt-b64 apply "$(pwd)/change.patch"
 PHP_SRC=<php-src>/../wt-b64 ./bench build b64-head .
 
 # 2. Correctness: identical output, 30,000 inputs (difftests/base64.php ships in this repo).
