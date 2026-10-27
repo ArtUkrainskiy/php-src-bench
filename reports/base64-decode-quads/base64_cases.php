@@ -6,10 +6,13 @@ $case = $argv[1] ?? 'token24';
 $n    = (int)($argv[2] ?? 0);
 $strict = (bool)($argv[3] ?? 0);
 
+/* Content is random; base64_decode()'s instruction count depends on the length and the
+ * structure (clean vs line-wrapped), not on the specific bytes, so the counts reproduce. */
 function mk(int $rawbytes): string { return base64_encode(random_bytes($rawbytes)); }
+/* Wrapped with LF; real MIME/PEM use CRLF, but the extra skipped byte per line does not change
+ * which branch the decoder takes, so the counts hold. The differential test uses CRLF. */
 function wrap(string $b64, int $col): string { return implode("\n", str_split($b64, $col)) . "\n"; }
 
-mt_srand(717);
 switch ($case) {
     case 'token24':   $in = mk(18); break;            // ~24 b64 chars
     case 'key44':     $in = mk(32); break;            // 44 chars (32-byte key)
