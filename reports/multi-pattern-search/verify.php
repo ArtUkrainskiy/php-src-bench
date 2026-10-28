@@ -91,6 +91,9 @@ $got_all = [];
 foreach ($all as $r) $got_all[] = [$r->offset, $r->length, $r->keyword];
 $got_all_sorted = $got_all; usort($got_all_sorted, fn($a, $b) => $a <=> $b);
 $ok_matchall = ($got_all_sorted === $oracle_all);
+/* matchAll must ALSO already be in that order (ascending offset, ties by length):
+   the unsorted result must equal the sorted oracle. */
+$ok_matchall_order = ($got_all === $oracle_all);
 
 /* getKeywords returns the full normalized dict */
 $kws = $m->getKeywords(); sort($kws);
@@ -105,7 +108,8 @@ printf("  matches() no-match           : %s\n", $ok_matches_miss ? 'OK' : 'DIFF'
 printf("  count == independent oracle  : %s\n", $ok_count ? 'OK' : 'DIFF');
 printf("  matchAll occurrences valid   : %s\n", $ok_occ ? 'OK' : 'DIFF');
 printf("  matchAll == full oracle      : %s\n", $ok_matchall ? 'OK' : 'DIFF');
+printf("  matchAll order (offset,len)  : %s\n", $ok_matchall_order ? 'OK' : 'DIFF');
 printf("  matchAll distinct == oracle  : %s\n", $ok_distinct ? 'OK' : 'DIFF');
 printf("  getKeywords == dict          : %s\n", $ok_getkw ? 'OK' : 'DIFF');
 
-exit(($ok_kw && $ok_order && $ok_matches && $ok_matches_miss && $ok_count && $ok_occ && $ok_matchall && $ok_distinct && $ok_getkw) ? 0 : 1);
+exit(($ok_kw && $ok_order && $ok_matches && $ok_matches_miss && $ok_count && $ok_occ && $ok_matchall && $ok_matchall_order && $ok_distinct && $ok_getkw) ? 0 : 1);

@@ -1,7 +1,11 @@
 <?php
-/* Memory of the prepared automaton (malloc'd, object lifetime -> counts in process RSS)
- * and the transient peak during a call. RSS from /proc/self/status (page-granular,
- * approximate). Run one N per process for a clean before/after delta.
+/* Memory of the prepared automaton and the transient per-call scratch.
+ *   automaton: VmRSS delta (resident, page-granular, the figure quoted in the report)
+ *     plus the Zend-heap delta (precise; the buffers are emalloc'd). Run one N per
+ *     process for a clean before/after delta.
+ *   per-call scratch (emalloc'd best[] / hits): memory_get_peak_usage around the call
+ *     after memory_reset_peak_usage (PHP 8.2+) — VmHWM is the process lifetime maximum,
+ *     so it would not show a call peak below an earlier one, and is not used here.
  * Usage: php -dextension=strmatch.so memtest.php <N> <S> [seed] */
 
 function gen_dict(int $n, int $seed): array {
@@ -24,22 +28,23 @@ $dict=gen_dict($N,$seed);
 $text=gen_text($S,$dict,$seed);
 $tot_bytes=0; foreach($dict as $w)$tot_bytes+=strlen($w);
 
-$r0=kb('VmRSS');
+$r0=kb('VmRSS'); $u0=memory_get_usage();
 $m=new Str\Matcher($dict);
-$r1=kb('VmRSS');
-$auto=$r1-$r0;
-printf("automaton RSS: %d KB for N=%d (%d keyword bytes, %d nodes approx) => %.1f bytes/keyword, %.1f bytes/keyword-byte\n",
-    $auto, $N, $tot_bytes, 0, $auto*1024.0/$N, $auto*1024.0/$tot_bytes);
+$r1=kb('VmRSS'); $u1=memory_get_usage();
+printf("automaton: RSS +%d KB, Zend heap +%d KB  (N=%d, %d keyword bytes => %.0f B/keyword-byte RSS)\n",
+    $r1-$r0, intdiv($u1-$u0,1024), $N, $tot_bytes, ($r1-$r0)*1024.0/max(1,$tot_bytes));
 
-$h0=kb('VmHWM');
+memory_reset_peak_usage();
+$base=memory_get_usage();
 $res=$m->matchAll($text);
-$h1=kb('VmHWM');
-printf("matchAll transient peak HWM delta: %d KB (text %d KB, %d matches)\n", $h1-$h0, intdiv($S,1024), count($res));
+printf("matchAll transient Zend-heap peak: ~%d KB (text %d KB, %d matches)\n",
+    intdiv(memory_get_peak_usage()-$base,1024), intdiv($S,1024), count($res));
 unset($res);
 
 $map=[]; foreach($dict as $i=>$w)$map[$w]='X';
 $rp=new Str\Replacer($map);
-$h2=kb('VmHWM');
+memory_reset_peak_usage();
+$base=memory_get_usage();
 $out=$rp->replace($text);
-$h3=kb('VmHWM');
-printf("replace transient peak HWM delta: %d KB (best[] = 4 bytes/subject byte = %d KB expected)\n", $h3-$h2, intdiv($S*4,1024));
+printf("replace transient Zend-heap peak: ~%d KB (best[] ~ 4 bytes/subject byte = %d KB)\n",
+    intdiv(memory_get_peak_usage()-$base,1024), intdiv($S*4,1024));

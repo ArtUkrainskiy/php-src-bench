@@ -55,8 +55,10 @@ if ($mode==='check') {
     if ($preg_raw === false) {
         printf("  %-24s %s\n", 'preg  == strpos', 'UNSUPPORTED (pattern did not compile)');
     } else {
+        // preg_match_all is non-overlapping, so its presence set can legitimately differ
+        // (e.g. ['abcd','bc'] on 'abcd' finds only 'abcd'); report, do not fail
         $preg=array_values(array_unique($mm[0])); sort($preg);
-        $req('preg  == strpos', $preg===$oracle);
+        printf("  %-24s %s\n", 'preg  == strpos', $preg===$oracle?'OK':'differs (preg is non-overlapping)');
     }
     $ac=new MultiStringMatcher($dict); $acp=array_keys(array_flip(array_column($ac->searchIn($text),1))); sort($acp);
     $ext=(new Str\Matcher($dict))->getMatchedKeywords($text); sort($ext);

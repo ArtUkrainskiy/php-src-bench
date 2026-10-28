@@ -1,8 +1,12 @@
 <?php
-/* Adversarial-dictionary worst case for Aho-Corasick output: dict {a, aa, ..., a^k}
- * over subject a^n. Keyword a^j occurs (n-j+1) times, so total occurrences ~ O(n*k).
- * This is where "O(subject)" stops holding: count/matchAll walk the out_link chain on
- * every position. replace is immune (best[] keeps one keyword per start position).
+/* Adversarial-dictionary worst case: dict {a, aa, ..., a^k} over subject a^n. Keyword
+ * a^j occurs (n-j+1) times, so total occurrences H ~ O(n*k).
+ *   matches()       immune: stops at the first hit (here, position 0).
+ *   countMatches()  O(subject): sums a precomputed per-state output_count, no per-match walk.
+ *   getMatchedKeywords(), matchAll(), replace()  enumerate every occurrence via the
+ *     out_link chain, so they are output-dependent (O(subject + H), matchAll adds a sort).
+ *     replace() is NOT immune: best[] keeps one keyword per start, but the fill loop still
+ *     visits every occurrence.
  *
  * Usage: php -dextension=strmatch.so worstbench.php <mode> <K_depth> <N_len> <REP>
  *   mode: count | matchall | replace | matches

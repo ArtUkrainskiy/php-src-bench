@@ -48,12 +48,13 @@ cost (the `strpos` loop, `strtr`) but not a specialized native function with a l
 
 Costs to weigh, not hidden at the end:
 
-- **Memory.** The transition table is about 4.3 MB for 5000 ASCII keywords with the
-  alphabet-reduced layout (one column per byte value that occurs), and up to ~30 MB with
-  a dense 256-column table. This is the prototype's representation, not the shipped one:
-  the production target is a compact automaton (double-array trie), which is the memory
-  figure that should decide core inclusion. `replace` also uses a transient scratch array
-  of 4 bytes per subject byte.
+- **Memory.** The built automaton is about 4.0 MB for 5000 ASCII keywords with the
+  alphabet-reduced layout (one column per byte value that occurs; precise Zend-heap
+  size, resident RSS ~5–6 MB), roughly 10x less than a dense 256-column table (~30 MB).
+  This is the prototype's representation, not the shipped one: the production target is a
+  compact automaton (double-array trie), which is the memory figure that should decide
+  core inclusion. `replace` also uses a transient scratch array of 4 bytes per subject
+  byte.
 - **No win over a specialist.** A specialized native function beats the general automaton
   at any reuse: `html_entity_decode` is about 8x faster than `Str\Replacer` on named
   entity decoding and has no build (details below). The tool is for arbitrary user
@@ -85,11 +86,16 @@ Replace (replace many fixed substrings):
 - pure-PHP Aho-Corasick replacer (wikimedia).
 - `Str\Replacer::replace` — same semantics as `strtr`.
 
-At 50 and 500 keywords all search approaches return the same presence set as the
-`strpos` oracle, and `strtr`, `Str\Replacer`, the pure-PHP replacer and (on these
-inputs) `str_replace` and `preg_replace` produce identical output. At 5000 keywords
-`preg` fails to compile; the pure-PHP library and the prototype stay correct. This was
-checked by `compare.php check`, plus byte-for-byte differential tests (below).
+The hard-equal contracts are: `strpos` presence against the pure-PHP library and
+`Str\Matcher::getMatchedKeywords` (distinct keywords), and `strtr` against
+`Str\Replacer`, the pure-PHP replacer and `preg_replace`; all agree at 50 and 500
+keywords. Two approaches have a different contract and are not required to match:
+`preg_match_all` is non-overlapping, so its presence set can miss a keyword that only
+occurs inside another (it coincides with the oracle on these random inputs but need
+not in general), and `str_replace` cascades. At 5000 keywords the `preg` pattern does
+not compile; the pure-PHP library and the prototype stay correct. Checked by
+`compare.php check` (non-zero exit on an unexpected mismatch) plus the differential
+tests below.
 
 ## Results
 
@@ -142,21 +148,28 @@ count; the `strpos` loop and `str_replace` grow with it, the pure-PHP library ke
 Reported as a paired ratio (both timed back to back in one process), because absolute
 ns drifts with CPU frequency between processes.
 
-| comparison | 500 kw / 16 KB | 5000 kw / 64 KB |
-|---|---:|---:|
-| `Str\Matcher::matchAll` vs `strpos` loop | 18x faster | 126x faster |
-| `Str\Replacer::replace` vs `strtr` | 12.7x faster | 5.7x faster |
+| comparison | 500 kw / 16 KB | 5000 kw / 64 KB | spread of the paired ratio |
+|---|---:|---:|---|
+| `Str\Matcher::matchAll` vs `strpos` loop | 18x faster | 126x faster | 17.7–18.4x / 124.5–126.4x |
+| `Str\Replacer::replace` vs `strtr` | 12.7x faster | 5.7x faster | 12.2–12.8x / 5.6–5.8x |
 
-### Memory (resident, prototype)
+### Memory (prepared automaton)
 
-| keywords | alphabet-reduced table | dense 256-entry table |
-|---:|---:|---:|
-| 50 | 0.28 MB | 0.6 MB |
-| 500 | 0.73 MB | 3.6 MB |
-| 5000 | 4.3 MB | 30 MB |
+Zend-heap allocation of the built automaton (`memory_get_usage` delta, the precise
+`emalloc`'d size; resident RSS is higher and page-granular, ~5–6 MB at 5000 keywords):
 
-Alphabet reduction costs about 10% more instructions per byte scanned and shrinks with
-a wide (CJK, emoji) alphabet; a double-array trie is the production target.
+| keywords | alphabet-reduced (a–z) |
+|---:|---:|
+| 50 | 0.06 MB |
+| 500 | 0.5 MB |
+| 5000 | 4.0 MB |
+
+A full 256-column (dense) table is about ten times larger — roughly 30 MB at 5000
+keywords, measured on the pre-reduction prototype. Alphabet reduction costs about 10%
+more instructions per byte scanned and its win shrinks on a wide (CJK, emoji) alphabet;
+a double-array trie is the production target. The per-call scratch is separate and
+transient: `replace` holds 4 bytes per subject byte (256 KB for 64 KB), `matchAll` a
+growable hit buffer (~140 KB here), both freed on return.
 
 ## Why it is faster
 
@@ -165,10 +178,11 @@ every keyword that ends at each position. The scan is O(subject + matches), inde
 of the keyword count, versus O(needles × subject) for the `strpos` loop; `matchAll` then
 sorts its matches, so it is O(subject + matches·log matches). The structure is
 built once and reused across many subjects, so in a long-lived worker (FrankenPHP,
-Swoole, RoadRunner) the build cost is paid once. The split query API (`matches` /
-`countMatches` / `getMatchedKeywords` / `matchAll`) means a caller pays only for the
-result shape it needs; building result objects is the one cost that grows with the
-match count.
+Swoole, RoadRunner) the build cost is paid once. The split query API lets a caller pay
+only for the work it needs: `matches` and `countMatches` never enumerate the individual
+matches (first-hit and a summed per-state count), while `getMatchedKeywords`, `matchAll`
+and `replace` do walk every occurrence, so their cost grows with the match count even
+when the returned result is small.
 
 ## Where it does not win: a specialized decoder
 
@@ -210,15 +224,21 @@ there the alternatives are the `strpos` loop and `strtr`, and it wins once reuse
 
 ## Machine and method
 
+- Prototype commit: the numbers are from the extension at version 0.7, branch commit
+  `33bc4bb8738`. The search and replace hot paths are unchanged through the current head
+  `687870a8abe` (0.8, which only added strtr-compatible key/reference handling), so the
+  counts hold for the branch as it stands.
 - Instruction tables: Intel i7-13700H, core 2 (P-core), `perf stat -e
-  cpu_core/instructions/u`, PHP 8.5.11 built with the official-image flags, prototype
-  0.7. Per call = (instructions at K ops − at 0 ops, i.e. build only) / K; the subject
-  and structure are built once before the loop. instructions:u is reproducible, so one
-  pass is used; the spread between passes is under 0.1%.
-- Wall-clock and memory: fresh master `758c9ac5492` built with the official-image
-  flags (`-O2`, stack-protector, PIE), GCC 15.2, AMD Ryzen 9 5950X, core 15 (second
-  CCD), no other load. Wall-clock is a paired ratio over 15 reps; memory is resident
-  size of a fresh process before and after building the matcher.
+  cpu_core/instructions/u`, PHP 8.5.11 built with the official-image flags. Per call =
+  (instructions at K ops − at 0 ops, i.e. build only) / K; the subject and structure are
+  built once before the loop. instructions:u is reproducible, so one pass is used; the
+  spread between passes is under 0.1%.
+- Wall-clock and memory: fresh master `758c9ac5492` built with the official-image flags
+  (`-O2`, stack-protector, PIE), GCC 15.2, AMD Ryzen 9 5950X, core 15 (second CCD), no
+  other load. Wall-clock is a paired ratio (both timed back to back, order alternated),
+  15 reps for the 500-keyword rows and 9–11 for the heavier 5000-keyword rows; the
+  spread is in the table. Memory is the Zend-heap delta across building the matcher in a
+  fresh process (`memtest.php`).
 - CLI with `opcache.enable_cli=0` and `opcache.jit=0` (no PHP JIT); `pcre.jit` is left
   at its default on, so the `preg` numbers include PCRE's JIT. GC is not disabled, so
   `matchAll` (which builds objects) carries some collector cost the string-returning
