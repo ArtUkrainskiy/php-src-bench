@@ -233,12 +233,14 @@ there the alternatives are the `strpos` loop and `strtr`, and it wins once reuse
   (instructions at K ops − at 0 ops, i.e. build only) / K; the subject and structure are
   built once before the loop. instructions:u is reproducible, so one pass is used; the
   spread between passes is under 0.1%.
-- Wall-clock and memory: fresh master `758c9ac5492` built with the official-image flags
-  (`-O2`, stack-protector, PIE), GCC 15.2, AMD Ryzen 9 5950X, core 15 (second CCD), no
-  other load. Wall-clock is a paired ratio (both timed back to back, order alternated),
-  15 reps for the 500-keyword rows and 9–11 for the heavier 5000-keyword rows; the
-  spread is in the table. Memory is the Zend-heap delta across building the matcher in a
-  fresh process (`memtest.php`).
+- Wall-clock: fresh master `758c9ac5492` built with the official-image flags (`-O2`,
+  stack-protector, PIE), GCC 15.2, AMD Ryzen 9 5950X, core 15 (second CCD), no other
+  load. Paired ratio (both timed back to back, order alternated), 15 reps for the
+  500-keyword rows and 9–11 for the heavier 5000-keyword rows; the spread is in the table.
+- Memory: the Zend-heap delta across building the matcher in a fresh process
+  (`memtest.php`), measured on the Intel/8.5.11 build. It is the `emalloc`'d size of the
+  automaton, which is fixed by the data structure, so the figure is deterministic and
+  does not depend on the machine or compiler (only Zend MM's bin rounding does, slightly).
 - CLI with `opcache.enable_cli=0` and `opcache.jit=0` (no PHP JIT); `pcre.jit` is left
   at its default on, so the `preg` numbers include PCRE's JIT. GC is not disabled, so
   `matchAll` (which builds objects) carries some collector cost the string-returning
