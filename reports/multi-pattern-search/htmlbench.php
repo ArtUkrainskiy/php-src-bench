@@ -22,6 +22,20 @@ while (strlen($txt) < $BYTES) {
 }
 $txt = substr($txt, 0, $BYTES);
 
+if ($mode === 'check') {
+    $native = html_entity_decode($txt, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    $str    = strtr($txt, $decode);
+    $ext    = (new Str\Replacer($decode))->replace($txt);
+    $ok = ($native === $str) && ($native === $ext);
+    // DENS is the probability a generated token is an entity, not the entity byte share;
+    // report the real byte share so the table labels are not mistaken for it.
+    $ent_bytes = 0;
+    foreach ($ents as $e) { $o = 0; while (($p = strpos($txt, $e, $o)) !== false) { $ent_bytes += strlen($e); $o = $p + strlen($e); } }
+    printf("entities=%d bytes=%d DENS=%d%% entity-byte-share=%.1f%% : native==strtr==ext %s\n",
+        $ne, strlen($txt), $DENS, 100.0 * $ent_bytes / max(1, strlen($txt)), $ok ? 'OK' : 'DIFF');
+    exit($ok ? 0 : 1);
+}
+
 $sink = 0;
 switch ($mode) {
     case 'native':    for ($i=0;$i<$K;$i++) $sink += strlen(html_entity_decode($txt, ENT_QUOTES | ENT_HTML5, 'UTF-8')); break;

@@ -42,13 +42,13 @@ $got_raw = $m->getMatchedKeywords($text);
 $got = $got_raw; sort($got);
 $ok_kw = ($oracle === $got);
 
-/* ... and the claimed first-occurrence order, on the UNSORTED list. AC emits at the
-   end of a keyword, so first-occurrence end positions must be non-decreasing. */
-$ok_order = true; $prevEnd = -1;
+/* ... and the claimed first-occurrence order on the UNSORTED list: by first START
+   offset, ties by length (the documented getMatchedKeywords contract). */
+$ok_order = true; $prev = [-1, -1];
 foreach ($got_raw as $kw) {
-    $end = strpos($text, $kw) + strlen($kw) - 1;
-    if ($end < $prevEnd) { $ok_order = false; break; }
-    $prevEnd = $end;
+    $cur = [strpos($text, $kw), strlen($kw)];
+    if ($cur < $prev) { $ok_order = false; break; }
+    $prev = $cur;
 }
 
 /* matches(): present case, and a deterministic no-match case (uppercase text can
@@ -81,6 +81,17 @@ foreach ($all as $r) $distinct[$r->keyword] = true;
 $distinct = array_keys($distinct); sort($distinct);
 $ok_distinct = ($distinct === $oracle);
 
+/* independent FULL oracle for matchAll: strpos-walk every keyword into
+   (offset, length, keyword); the sorted set must equal matchAll's. This catches a
+   duplicate-plus-miss that the count check alone would pass. */
+$oracle_all = [];
+foreach ($dict as $w) { $o = 0; while (($p = strpos($text, $w, $o)) !== false) { $oracle_all[] = [$p, strlen($w), $w]; $o = $p + 1; } }
+usort($oracle_all, fn($a, $b) => $a <=> $b);
+$got_all = [];
+foreach ($all as $r) $got_all[] = [$r->offset, $r->length, $r->keyword];
+$got_all_sorted = $got_all; usort($got_all_sorted, fn($a, $b) => $a <=> $b);
+$ok_matchall = ($got_all_sorted === $oracle_all);
+
 /* getKeywords returns the full normalized dict */
 $kws = $m->getKeywords(); sort($kws);
 $dsort = $dict; sort($dsort);
@@ -93,7 +104,8 @@ printf("  matches() presence           : %s\n", $ok_matches ? 'OK' : 'DIFF');
 printf("  matches() no-match           : %s\n", $ok_matches_miss ? 'OK' : 'DIFF');
 printf("  count == independent oracle  : %s\n", $ok_count ? 'OK' : 'DIFF');
 printf("  matchAll occurrences valid   : %s\n", $ok_occ ? 'OK' : 'DIFF');
+printf("  matchAll == full oracle      : %s\n", $ok_matchall ? 'OK' : 'DIFF');
 printf("  matchAll distinct == oracle  : %s\n", $ok_distinct ? 'OK' : 'DIFF');
 printf("  getKeywords == dict          : %s\n", $ok_getkw ? 'OK' : 'DIFF');
 
-exit(($ok_kw && $ok_order && $ok_matches && $ok_matches_miss && $ok_count && $ok_occ && $ok_distinct && $ok_getkw) ? 0 : 1);
+exit(($ok_kw && $ok_order && $ok_matches && $ok_matches_miss && $ok_count && $ok_occ && $ok_matchall && $ok_distinct && $ok_getkw) ? 0 : 1);

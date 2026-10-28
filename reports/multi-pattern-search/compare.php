@@ -43,31 +43,44 @@ $map=[]; foreach($dict as $i=>$w) $map[$w]='<'.($i%7).'>';
 $text=gen_text($S,$dict,$seed);
 
 if ($mode==='check') {
+    $fail = 0; // non-zero exit on any UNEXPECTED mismatch
+    // mark a hard-required equality; a real DIFF fails the run
+    $req = function(string $label, bool $ok) use (&$fail) { printf("  %-24s %s\n", $label, $ok?'OK':'DIFF'); if(!$ok)$fail++; };
+
     // search presence: strpos oracle vs preg vs phpac vs ext getMatchedKeywords
     $oracle=presence_strpos($text,$dict);
     $pat=build_preg_pat($dict);
-    $preg=[]; if(preg_match_all($pat,$text,$mm)) $preg=array_values(array_unique($mm[0])); sort($preg);
+    $preg_raw = @preg_match_all($pat,$text,$mm); // false if the pattern is too large
+    printf("search presence (N=%d S=%d present=%d):\n", $N,$S,count($oracle));
+    if ($preg_raw === false) {
+        printf("  %-24s %s\n", 'preg  == strpos', 'UNSUPPORTED (pattern did not compile)');
+    } else {
+        $preg=array_values(array_unique($mm[0])); sort($preg);
+        $req('preg  == strpos', $preg===$oracle);
+    }
     $ac=new MultiStringMatcher($dict); $acp=array_keys(array_flip(array_column($ac->searchIn($text),1))); sort($acp);
     $ext=(new Str\Matcher($dict))->getMatchedKeywords($text); sort($ext);
-    printf("search presence (N=%d S=%d present=%d):\n", $N,$S,count($oracle));
-    printf("  preg  == strpos : %s\n", $preg===$oracle?'OK':'DIFF('.count(array_diff($oracle,$preg)).'/'.count(array_diff($preg,$oracle)).')');
-    printf("  phpac == strpos : %s\n", $acp===$oracle?'OK':'DIFF');
-    printf("  ext   == strpos : %s\n", $ext===$oracle?'OK':'DIFF');
+    $req('phpac == strpos', $acp===$oracle);
+    $req('ext   == strpos', $ext===$oracle);
 
     // replace: strtr is the leftmost-longest oracle; ext and phpac must match it
     $o_strtr=strtr($text,$map);
     $ext_r=(new Str\Replacer($map))->replace($text);
     $ac_r=(new MultiStringReplacer($map))->searchAndReplace($text);
-    // str_replace sorted longest-first (closest it gets), and preg_replace_callback
     $keys=$dict; usort($keys, fn($a,$b)=>strlen($b)<=>strlen($a)); $vals=array_map(fn($k)=>$map[$k], $keys);
     $o_strrep=str_replace($keys,$vals,$text);
-    $o_preg=preg_replace_callback(build_preg_pat($dict), fn($m)=>$map[$m[0]], $text);
     printf("replace (leftmost-longest oracle = strtr):\n");
-    printf("  ext_replace   == strtr : %s\n", $ext_r===$o_strtr?'OK':'DIFF');
-    printf("  phpac_replace == strtr : %s\n", $ac_r===$o_strtr?'OK':'DIFF');
-    printf("  preg_replace  == strtr : %s\n", $o_preg===$o_strtr?'OK':'DIFF (semantics differ)');
-    printf("  str_replace   == strtr : %s\n", $o_strrep===$o_strtr?'OK':'DIFF (cascading semantics)');
-    exit(0);
+    $req('ext_replace   == strtr', $ext_r===$o_strtr);
+    $req('phpac_replace == strtr', $ac_r===$o_strtr);
+    if ($preg_raw === false) {
+        printf("  %-24s %s\n", 'preg_replace  == strtr', 'UNSUPPORTED (pattern did not compile)');
+    } else {
+        $o_preg=preg_replace_callback($pat, fn($m)=>$map[$m[0]], $text);
+        $req('preg_replace  == strtr', $o_preg===$o_strtr);
+    }
+    // str_replace has cascading semantics: a difference is allowed, reported not failed
+    printf("  %-24s %s\n", 'str_replace   == strtr', $o_strrep===$o_strtr?'OK':'differs (cascading semantics, expected)');
+    exit($fail ? 1 : 0);
 }
 
 $sink=0;

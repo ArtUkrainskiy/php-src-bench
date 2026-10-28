@@ -19,8 +19,10 @@ In one line: this is a prototype (not installable yet) that adds `Str\Matcher` a
 `Str\Replacer`. `Str\Replacer` mirrors `strtr` semantics — it is not a `str_replace` or
 `html_entity_decode` replacement. It pays off when one automaton is reused across many
 subjects (a long-lived worker, or a loop over many inputs). The case for putting it in
-core is the build cost: building the automaton in C is about 110x cheaper than any
-pure-PHP build (below), so userland cannot match it. The rule for when it wins is the
+core is the build cost: building the automaton in C is about 110x cheaper than the
+measured pure-PHP library (below). An optimized userland build would do better than that
+library, so this is the gap against the available one, not a claim about every possible
+PHP implementation. The rule for when it wins is the
 per-call cost: reuse only amortizes the build, so it beats tools with a higher per-call
 cost (the `strpos` loop, `strtr`) but not a specialized native function with a lower one
 (`html_entity_decode`).
@@ -40,8 +42,9 @@ cost (the `strpos` loop, `strtr`) but not a specialized native function with a l
   ratio because `strtr` runs at higher IPC and `replace` is partly memory-bound building
   the output string.
 - **Build once.** Building the automaton in C costs about 21M instructions for 5000
-  keywords, about 110x less than the pure-PHP library's 2.36 billion. That gap is why
-  a prepared object in C is worth adding rather than leaving to userland.
+  keywords, about 110x less than the measured pure-PHP library's 2.36 billion
+  (wikimedia/AhoCorasick; part of that is an O(n) `array_shift` BFS queue, so an
+  optimized userland build would be faster — this is the gap against the available one).
 
 Costs to weigh, not hidden at the end:
 
@@ -59,9 +62,10 @@ Costs to weigh, not hidden at the end:
   (build + one `matchAll` beats one `strpos` loop at 500 and 5000 keywords). Replace
   wins single-use for small and medium dictionaries, but at 5000 keywords a single
   build + `replace` costs more than one `strtr`; the win starts from the second call.
-- **Adversarial input.** `matchAll` and `replace` are O(subject + matches); a
-  dictionary like `{a, aa, aaa, ...}` over `aaaa...` produces a quadratic number of
-  matches. `countMatches` is O(subject) regardless, and `matches` is immune.
+- **Adversarial input.** `matchAll` is O(subject + matches·log matches) — it sorts the
+  collected matches — and `replace` is O(subject + matches). A dictionary like
+  `{a, aa, aaa, ...}` over `aaaa...` produces a quadratic number of matches.
+  `countMatches` is O(subject) regardless, and `matches` is immune (first hit).
 
 ## Approaches compared and correctness
 
@@ -105,8 +109,15 @@ and in Machine and method; instruction counts and ns are not from the same box.
 | `Str\Matcher::getMatchedKeywords` | 368,378 | 422,991 | 433,526 |
 | `Str\Matcher::matchAll` | 491,234 | 492,108 | 490,433 |
 
-The prototype is flat in the keyword count (one pass over the subject); the `strpos`
-loop and `str_replace` grow with it, and the pure-PHP library keeps a ~17M constant.
+These are not all the same operation, so compare like with like. The matched-contract
+pair is `getMatchedKeywords` (distinct matched keywords) versus the `strpos` loop
+(presence): about 23x fewer instructions at 500 keywords, 263x at 5000. `matchAll` does
+strictly more — it returns every occurrence with offsets — and is still far below the
+loop. `matches` (any match) is an early exit and is cheapest; the `strpos` loop here
+scans every keyword rather than stopping at the first, so it is not a fair "any match"
+baseline for `matches` (see Machine and method). The prototype is flat in the keyword
+count; the `strpos` loop and `str_replace` grow with it, the pure-PHP library keeps a
+~17M constant.
 
 ### Replace, instructions per call (16 KB subject)
 
@@ -150,8 +161,9 @@ a wide (CJK, emoji) alphabet; a double-array trie is the production target.
 ## Why it is faster
 
 Aho-Corasick scans the subject once, following one transition per byte, and reports
-every keyword that ends at each position. Cost is O(subject + matches), independent of
-the keyword count, versus O(needles × subject) for the `strpos` loop. The structure is
+every keyword that ends at each position. The scan is O(subject + matches), independent
+of the keyword count, versus O(needles × subject) for the `strpos` loop; `matchAll` then
+sorts its matches, so it is O(subject + matches·log matches). The structure is
 built once and reused across many subjects, so in a long-lived worker (FrankenPHP,
 Swoole, RoadRunner) the build cost is paid once. The split query API (`matches` /
 `countMatches` / `getMatchedKeywords` / `matchAll`) means a caller pays only for the
@@ -161,14 +173,17 @@ match count.
 ## Where it does not win: a specialized decoder
 
 A general prepared automaton does not beat a specialized native function. Decoding the
-1511 HTML5 named entities (map from `get_html_translation_table`), 16 KB subject,
-instructions per call:
+1511 named entities from `get_html_translation_table(HTML_ENTITIES, ENT_QUOTES |
+ENT_HTML5)` — the canonical set, not every HTML5 alias — 16 KB subject, instructions
+per call. The "entity rate" is the probability that a generated token is an entity (the
+`DENS` parameter); the resulting entity share of the bytes is higher, as the last
+column shows:
 
-| entity density | `html_entity_decode` | `strtr` | `Str\Replacer` |
-|---:|---:|---:|---:|
-| 10% | 68,127 | 855,277 | 439,835 |
-| 25% | 147,859 | 1,639,892 | 451,575 |
-| 50% | 276,152 | 2,968,803 | 466,020 |
+| entity rate | `html_entity_decode` | `strtr` | `Str\Replacer` | entity bytes |
+|---:|---:|---:|---:|---:|
+| 10% | 68,127 | 855,277 | 439,835 | 13% |
+| 25% | 147,859 | 1,639,892 | 451,575 | 31% |
+| 50% | 276,152 | 2,968,803 | 466,020 | 59% |
 
 `Str\Replacer` beats the general `strtr` by about 1.5x in wall-clock, but
 `html_entity_decode` is about 8x faster than `Str\Replacer` and has no build. It wins at
@@ -204,19 +219,30 @@ there the alternatives are the `strpos` loop and `strtr`, and it wins once reuse
   flags (`-O2`, stack-protector, PIE), GCC 15.2, AMD Ryzen 9 5950X, core 15 (second
   CCD), no other load. Wall-clock is a paired ratio over 15 reps; memory is resident
   size of a fresh process before and after building the matcher.
-- No JIT, opcache off for the CLI bench; GC is not disabled, so `matchAll` (which
-  builds objects) carries some collector cost that the string-returning paths do not.
-- Inputs are random lowercase words, length 4–12, about 8% of the subject made of
-  dictionary words. Binary bytes, full UTF-8 and adversarial dictionaries are covered
-  by the correctness tests but not by these timing tables.
+- CLI with `opcache.enable_cli=0` and `opcache.jit=0` (no PHP JIT); `pcre.jit` is left
+  at its default on, so the `preg` numbers include PCRE's JIT. GC is not disabled, so
+  `matchAll` (which builds objects) carries some collector cost the string-returning
+  paths do not.
+- Inputs are random lowercase words, length 4–12; about 8% of the generated tokens (not
+  of the bytes) are dictionary words. `matches()` therefore meets a match early and its
+  number is an early-exit cost; a no-match subject is a full scan (~246K at 16 KB). The
+  `strpos` presence loop always scans every keyword; for a pure "any match" question it
+  would also stop at the first hit. Binary bytes, full UTF-8 and adversarial
+  dictionaries are in the correctness tests, not these timing tables.
+- The `preg` pattern stops compiling at 44,755 bytes in this PHP/PCRE2 build; that
+  threshold depends on the pattern and the PCRE2 version, it is not a fixed 44 KB limit.
+  `build_preg` measures building the pattern string, not PCRE compilation.
 
 ## Output verification
 
 - `compare.php check`: search presence of `preg`, pure-PHP AC and `Str\Matcher` against
   the `strpos` oracle; replace output of `Str\Replacer`, the pure-PHP replacer,
-  `preg_replace` and `str_replace` against `strtr`.
+  `preg_replace` and `str_replace` against `strtr`. Exits non-zero on any unexpected
+  mismatch; a `preg` that does not compile is reported UNSUPPORTED, not failed.
 - `verify.php`: `getMatchedKeywords`/`matches`/`countMatches`/`matchAll` against the
-  `strpos` oracle and an independent occurrence count, N=50..5000, 4..64 KB.
+  `strpos` oracle, an independent occurrence count, a full (offset, length, keyword)
+  oracle for `matchAll`, the first-start-offset order of `getMatchedKeywords`, and a
+  no-match case for `matches`. N=50..5000, 4..64 KB.
 - `verify_replace.php`: `Str\Replacer::replace` byte-for-byte against `strtr`, including
   overlaps, shared prefixes, empty replacement, no-rescan, adjacent keys.
 - `verify_mb.php`: English, Spanish, Russian, Chinese, Japanese, Korean, emoji, binary
@@ -237,25 +263,41 @@ there the alternatives are the `strpos` loop and `strtr`, and it wins once reuse
 
 ## Reproduce
 
-The scripts in this directory (`compare.php`, `verify.php`, `verify_replace.php`,
-`verify_mb.php`, `htmlbench.php`) are the harness. Build the fork branch linked at the
-top with `--enable-strmatch`; that links the extension statically, so `php` already has
-`Str\Matcher` and no `-d extension=` is needed. `compare.php` and `htmlbench.php` also
-use the pure-PHP wikimedia/AhoCorasick as a baseline:
+The scripts in this directory are the harness: `compare.php` (all approaches, every
+operation, plus a `check` mode), `verify.php` / `verify_replace.php` / `verify_mb.php`
+(correctness), `htmlbench.php` (the HTML section, with a `check` mode), `nsratio.php`
+(paired wall-clock), `memtest.php` (resident memory), `worstbench.php` (adversarial
+dictionary). Build the fork branch linked at the top with `--enable-strmatch`; that
+links the extension statically, so `php` already has `Str\Matcher` and no `-d extension=`
+is needed. `compare.php` and `htmlbench.php` also use the pure-PHP wikimedia/AhoCorasick
+as a baseline.
 
 ```
 git clone https://github.com/wikimedia/AhoCorasick vendor/aho-corasick
 
-# correctness
+# correctness (compare.php check and htmlbench.php check exit non-zero on a mismatch)
 php compare.php check 500 16384 1
+php htmlbench.php check 16384 25 5
 php verify.php 500 16384 1
 sapi/cli/php run-tests.php ext/strmatch/tests
 
-# one cell of a table (instructions per call), e.g. Str\Matcher::matchAll, 500 kw, 16 KB
-hi=$(perf stat -x, -e instructions:u -- php compare.php ext_matchall 500 16384 200 1)
-lo=$(perf stat -x, -e instructions:u -- php compare.php ext_matchall 500 16384 0   1)
-# per call = (hi - lo) / 200
+# one instruction-table cell, e.g. Str\Matcher::matchAll, 500 kw, 16 KB.
+# perf writes to stderr, so capture stderr and parse the counter, not the script's stdout:
+getins() { perf stat -x, -e instructions:u -- php "$@" 2>&1 >/dev/null | awk -F, '/instructions/{print $1}'; }
+hi=$(getins compare.php ext_matchall 500 16384 200 1)
+lo=$(getins compare.php ext_matchall 500 16384 0   1)
+# per call = (hi - lo) / 200   (on a hybrid Intel CPU use cpu_core/instructions/u and taskset to a P-core)
+
+# wall-clock: paired ratio in one process (prints "A ns, B ns, B/A ratio median ...")
+php nsratio.php replace-vs-strtr 500 16384 500 15 1
+php nsratio.php matchall-vs-strpos 5000 65536 25 9 7
+
+# resident memory of the built automaton (one N per process)
+php memtest.php 5000 65536 7
 ```
+
+These are the exact harness and parameters behind the tables; the numbers were taken
+with the builds named in Machine and method.
 
 `compare.php` modes: search `strpos|preg|phpac|ext_matches|ext_count|ext_getkw|ext_matchall`,
 replace `str_replace|strtr|preg_replace|phpac_replace|ext_replace`, build `build_*`, and
