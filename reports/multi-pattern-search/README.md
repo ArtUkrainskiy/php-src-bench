@@ -99,9 +99,10 @@ tests below.
 
 ## Results
 
-The instruction-count tables are from the Intel machine (i7-13700H); the wall-clock and
-memory tables are from the AMD machine (Ryzen 9 5950X). Both are named in each heading
-and in Machine and method; instruction counts and ns are not from the same box.
+The instruction-count and memory tables are from the Intel machine (i7-13700H); the
+wall-clock table is from the AMD machine (Ryzen 9 5950X). Both are named in each heading
+and in Machine and method; instruction counts and ns are not from the same box (the
+memory figure is deterministic, so the machine does not matter for it).
 
 ### Search, instructions per call (16 KB subject, Intel i7-13700H, one core)
 
@@ -288,7 +289,7 @@ there the alternatives are the `strpos` loop and `strtr`, and it wins once reuse
 The scripts in this directory are the harness: `compare.php` (all approaches, every
 operation, plus a `check` mode), `verify.php` / `verify_replace.php` / `verify_mb.php`
 (correctness), `htmlbench.php` (the HTML section, with a `check` mode), `nsratio.php`
-(paired wall-clock), `memtest.php` (resident memory), `worstbench.php` (adversarial
+(paired wall-clock), `memtest.php` (automaton memory), `worstbench.php` (adversarial
 dictionary). Build the fork branch linked at the top with `--enable-strmatch`; that
 links the extension statically, so `php` already has `Str\Matcher` and no `-d extension=`
 is needed. `compare.php` and `htmlbench.php` also use the pure-PHP wikimedia/AhoCorasick
