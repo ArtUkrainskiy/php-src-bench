@@ -76,13 +76,21 @@ for fixture in tests/fixtures/*.json; do
 	done
 done
 expect_output "is not a result saved by bench run" ./bench show README.md
-for variant in "" --full; do
-	expected="tests/expected/table${variant:+-full}.md"
-	actual="$(./bench table tests/fixtures/series/compare.json --labels tests/fixtures/series/compare-labels.txt $variant 2>&1)"
+for variant in default full compact; do
+	args=()
+	expected="tests/expected/table.md"
+	if [[ $variant != default ]]; then
+		args+=(--full)
+		expected="tests/expected/table-$variant.md"
+	fi
+	if [[ $variant == compact ]]; then
+		args+=(--compact-header --base-name Stock)
+	fi
+	actual="$(./bench table tests/fixtures/series/compare.json --labels tests/fixtures/series/compare-labels.txt "${args[@]}" 2>&1)"
 	if $update; then
 		printf '%s\n' "$actual" >"$expected"
 	elif [[ "$actual" != "$(cat "$expected")" ]]; then
-		fail "bench table $variant (see: diff <(./bench table tests/fixtures/series/compare.json --labels tests/fixtures/series/compare-labels.txt $variant) $expected)"
+		fail "bench table $variant (see: diff <(./bench table tests/fixtures/series/compare.json --labels tests/fixtures/series/compare-labels.txt ${args[*]}) $expected)"
 	fi
 done
 expect_output "not a series from \`bench compare\`" ./bench table tests/fixtures/single.json
@@ -147,6 +155,10 @@ sed -i '0,/| −35% |/s//| −99% |/' "$rep/README.md"
 grep -q -- '−99%' "$rep/README.md" || fail "test setup: no cell to change"
 expect_output "differs from its series" ./bench report check "$rep"
 expect_output "updated" ./bench report update "$rep"
+expect_output "no problems found" ./bench report check "$rep"
+sed -i 's/--full -->/--full --compact-header --base-name Stock -->/' "$rep/README.md"
+expect_output "updated" ./bench report update "$rep"
+grep -qF '| call | Stock cycles |' "$rep/README.md" || fail "bench report compact heading"
 expect_output "no problems found" ./bench report check "$rep"
 printf 'See [the data](missing.json) and [this](#no-such-heading).\nПривет\n' >>"$rep/README.md"
 printf 'B=/home/someone/builds\n' >"$rep/run.sh"

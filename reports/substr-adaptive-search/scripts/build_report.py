@@ -136,11 +136,11 @@ def state(r, path, key):
 
 def table(cc, keys, absolute=False, original=False):
     rr = full[cc] if original else chosen[cc]
-    titles = ['Case', 'Stock, µs', 'ca89, µs', 'Elapsed change', 'Cycle change¹', 'Instruction change', 'Elapsed result']
+    titles = ['Case', 'Stock, µs', 'Change, µs', 'Δ time', 'Δ cycles¹', 'Δ instr.', 'Result']
     if absolute:
-        titles = ['Case', 'Stock, µs', 'ca89, µs', 'Elapsed change', 'Stock spread', 'ca89 spread', 'Elapsed result', 'Source']
+        titles = ['Case', 'Stock, µs', 'Change, µs', 'Δ time', 'Stock spread', 'Change spread', 'Result', 'Source']
     text = '| ' + ' | '.join(titles) + ' |\n|' + '|'.join('---' if i in [0, len(titles)-1] else '--:' for i in range(len(titles))) + '|\n'
-    counters = '| Case | Stock cycles¹ | ca89 cycles¹ | Cycle change¹ | Stock instructions | ca89 instructions | Instruction change |\n|---|--:|--:|--:|--:|--:|--:|\n'
+    counters = '| Case | Stock cycles¹ | Change cycles¹ | Δ cycles¹ | Stock instr. | Change instr. | Δ instr. |\n|---|--:|--:|--:|--:|--:|--:|\n'
     for key in keys:
         r = rr[key]
         path = sources[cc][key]
@@ -164,8 +164,8 @@ def table(cc, keys, absolute=False, original=False):
 def cycle_block(machine, summary):
     path = cycle_paths[machine]
     target = os.path.relpath(path, report if summary else report / 'tables')
-    args = [str(repo / 'bench'), 'table', str(path), '--full']
-    marker = target + ' --full'
+    args = [str(repo / 'bench'), 'table', str(path), '--full', '--compact-header', '--base-name', 'Stock']
+    marker = target + ' --full --compact-header --base-name Stock'
     if summary:
         args += ['--labels', str(report / 'data/cycle-labels.txt')]
         marker += ' --labels data/cycle-labels.txt'
@@ -182,17 +182,17 @@ if a.check:
 else:
     labels_path.write_text(labels_text)
 outputs[labels_path] = labels_text
-text = '# Forward substring search: final product benchmark report\n\nStatus: prototype on branch [strpos-adaptive-pr](https://github.com/ArtUkrainskiy/php-src/tree/strpos-adaptive-pr); frozen candidate, no PHP PR opened. This directory contains only final-candidate evidence and its reproduction tools. [File roles](LAYOUT.md).\n\n'
+text = '# Forward substring search: product benchmarks\n\nThis report measures a change to `zend_memnstr_ex()`, the forward matcher used by PHP string functions. The change reduces Sunday setup costs for medium needles and limits expensive verification on long scans. The corpus covers everyday moderation, separators, parsers, templates and logs.\n\n'
 patch = 'change.patch'
-text += f'Frozen candidate **[`{head}`](https://github.com/ArtUkrainskiy/php-src/commit/{head})** ([patch]({patch})) versus stock PHP **[`{base}`](https://github.com/php/php-src/commit/{base})**. Measured on 30 October 2026. The same two commits and unchanged corpus were used on all six compiler/CPU combinations. No PHP PR has been opened.\n\n'
+text += f'Compared: change [`{head[:11]}`](https://github.com/ArtUkrainskiy/php-src/commit/{head}) ([branch](https://github.com/ArtUkrainskiy/php-src/tree/strpos-adaptive-pr), [patch]({patch})) versus stock PHP [`{base[:11]}`](https://github.com/php/php-src/commit/{base}). Measured on 30 October 2026 with the same two commits and corpus on all six compiler/CPU combinations.\n\n'
 text += '**Elapsed time of the complete PHP operation is the primary criterion.** Negative deltas mean lower cost; every delta is relative to stock. Cycles and instructions are diagnostic evidence, not substitutes for elapsed time. There is no application-wide average or assumed traffic distribution.\n\n'
 text += '## Summary\n\n'
-text += '| CPU / compiler | Clean posts: elapsed change across 9 languages | Template 4 KiB: elapsed change |\n|---|---:|---:|\n'
+text += '| CPU / compiler | Clean posts, Δ time | 4 KiB template, Δ time |\n|---|---:|---:|\n'
 for cc in names:
     posts = [r for k, r in chosen[cc].items() if k.startswith('banlist12/') and '/post/clean @ ' in k]
     template = next((r for k, r in chosen[cc].items() if k.startswith('render-template/4k @ ')))
     text += '| ' + ('AMD' if cc in ['gcc15', 'clang21'] else 'Intel') + ' / ' + names[cc] + ' | ' + pct(min(map(delta, posts))) + ' … ' + pct(max(map(delta, posts))) + ' | ' + pct(delta(template)) + ' |\n'
-text += '\n' + 'The ranges above are observed medians, not uncertainty bounds; row quality and controls remain below and in the full tables. Moderation checks twelve literals in already normalized text. Short comments and one-/two-byte separators mostly retain their existing work. They have no general speedup guarantee. The template case performs four replacements with allocations, not a complete page request.\n\n'
+text += '\n' + 'The post ranges cover medians across all nine languages, not uncertainty bounds; row quality and controls remain below and in the full tables. Moderation checks twelve literals in already normalized text. Short comments and one-/two-byte separators mostly retain their existing work. They have no general speedup guarantee. The template case performs four replacements with allocations, not a complete page request.\n\n'
 text += 'There are real losses: the independent AMD repeat retained GCC slowdowns around 1.66–2.48% in three parser cases. The original Clang `explode("||")` 4 KiB result was +3.24%, versus +0.20% in its single independent repeat; neither result is deleted. Quiet Intel retains roughly +4.4% and +5.4% on long English and Chinese text with Clang 20. A universal 3% regression bound and greater cross-compiler stability are not supported.\n\n'
 text += '## Everyday elapsed times\n\n'
 text += 'The main tables use the complete final AMD one-second series, without replacing rows by favourable repeats. They include all nine clean-post languages plus short/early controls, long texts, separators, parsers, templates and logs.\n\n'
@@ -202,7 +202,7 @@ text += '¹ Cycles were measured separately: five paired passes × 50 ms on AMD,
 text += 'Faster/Slower requires separated round medians and at least a 1% difference. Unclear means overlap or a small difference, not proof of equality. Noise includes sample spread over 5%, round drift over 10%, or an idle-wait timeout. Spread is `1.4826 × MAD / median`, not a confidence interval.\n\n'
 text += '## Regressions and independent controls\n\n'
 text += 'A finite confirmation stage selected every noisy row and every usable slower row from the full AMD series: 23 cases, 47 runs including same-binary A/A and profiles. Selection did not depend on obtaining a favourable result. Each selected case has one new A/B run; there are no recursive retries. Three remain noisy. The original slower rows and all their controls are shown here.\n\n'
-text += '| Case | Compiler | Original elapsed change | Repeat | Stock A/A | ca89 A/A | Repeat result |\n|---|---|---:|---:|---:|---:|---|\n'
+text += '| Case | Compiler | Original Δ time | Repeat Δ time | Stock A/A | Change A/A | Result |\n|---|---|---:|---:|---:|---:|---|\n'
 for item in selection:
     if not item['original_slower']:
         continue
@@ -219,7 +219,7 @@ for item in selection:
     text += '| ' + ' | '.join(cells + [verdict]) + ' |\n'
 text += '\n' + '⚠ marks a noisy A/A control. Small positive parser deltas present in both runs are retained even if the repeat is Unclear. A/A is specific to the measured case/build; it is not a universal error bar for every compiler or CPU.\n\n'
 text += '## Compiler cycle matrix and A/A\n\n'
-text += 'Generated by `bench compare` / `bench table --full`, with every available compiler and same-row A/A below each table. The cycle A/A uses the first compiler of each machine: GCC 15 on AMD and GCC 13 on Intel, not every compiler. [All 76 rows and pass ranges](tables/cycles.md) are retained.\n\n'
+text += 'Generated by `bench compare` / `bench table --full --compact-header`, with every available compiler and same-row A/A below each table. Absolute stock cycles use the compiler named above the table. Each percentage compares the change with that column\'s own stock build. The cycle A/A uses GCC 15 on AMD and GCC 13 on Intel. [All 76 rows and pass ranges](tables/cycles.md) are retained.\n\n'
 for machine in cycle_paths:
     text += '### ' + machine.upper() + '\n\n' + cycle_block(machine, True)
 text += '## Machine and method\n\n'
@@ -235,6 +235,16 @@ text += 'The header memchr/verify path for remaining haystacks below 1024 bytes 
 diag = 'tables/profiles.md'
 
 text += f'Unchanged instruction counts do not erase elapsed regressions. Profiles of the two confirmed GCC HTTP cases show L1 instruction-cache misses increasing from about 0.02 to 2.41 and 1.90 per call; the affected PHP entry-point addresses and sizes are unchanged. This is consistent with placement/cache effects, not proof of a unique cause. Long Russian/Hindi Clang scans can improve while executing more instructions. [Earlier profiles and disassembly]({diag}) and [new profiles](data/amd/final-confirmation/gcc15-case066-why.log) are retained. A general explanation for every layout-sensitive row has not been established.\n\n'
+text += '''## Algorithm references
+
+- **Sunday / Quick Search.** Daniel M. Sunday, [A very fast substring search algorithm](https://doi.org/10.1145/79173.79184), 1990. PHP already uses this shift rule. The short-needle path keeps the same search and stores its shifts in bytes.
+- **Two-Way.** Maxime Crochemore and Dominique Perrin, [Two-way string-matching](https://doi.org/10.1145/116825.116845), 1991. `zend_memnstr_twoway()` uses critical factorization and remembers periodic matches across shifts.
+- **SIMD pair filtering.** The [packed-pair implementation in Rust memchr 2.7.6](https://github.com/BurntSushi/memchr/blob/2.7.6/src/arch/all/packedpair/mod.rs) is a related implementation reference for choosing two needle positions using background byte frequencies. Here SSE2 checks both positions at sixteen candidate starts, then verifies each hit completely.
+- **Four-byte filtering, related work.** Simone Faro and M. Oğuzhan Külekci, [Fast Packed String Matching for Short Patterns](https://arxiv.org/abs/1209.6449), 2012 preprint, section 3.2 (EPSM_a). The related primitive intersects shifted byte-equality masks. `zend_memnstr_gram4()` applies it to a selected internal four-byte anchor, with overlapping windows, selectivity sampling and a verification budget.
+
+The dispatch thresholds, byte-frequency weights, sampling rules and verification budgets are implementation choices evaluated by these PHP measurements. The references describe the search mechanisms; the measured gains, losses and applicability come from this corpus. The work-count checks are fixture audits rather than a formal proof of the complete hybrid.
+
+'''
 text += '## Corpus and scope\n\n'
 corpus_link = 'data/corpus-manifest.json'
 manifest_link = 'data/corpus-manifest.json'
@@ -268,7 +278,7 @@ for path in raw:
     if '-aa-' not in path.name or path.parent.name == 'final-confirmation':
         continue
     controls += '## ' + path.stem + '\n\n'
-    controls += '| Case | A₁, µs | A₂, µs | Δ A/A | Spread A₁ / A₂ | Result |\n|---|---:|---:|---:|---:|---|\n'
+    controls += '| Case | A₁, µs | A₂, µs | Δ A/A | A₁ / A₂ spread | Result |\n|---|---:|---:|---:|---:|---|\n'
     for key, r in rows[path].items():
         x, y = (r['stats'][s] for s in ['A', 'B'])
         controls += '| ' + ' | '.join([label(key), f"{x['median'] / 1000:.4f}", f"{y['median'] / 1000:.4f}", pct(delta(r)), f"{x['spread_pct']:.2f}% / {y['spread_pct']:.2f}%", state(r, path, key)]) + ' |\n'
@@ -278,7 +288,7 @@ outputs[report / 'tables/cycles.md'] = '# Complete primary cycle matrices\n\nAll
 
 confirmations = '# Complete finite AMD confirmation stage\n\n'
 confirmations += 'Every selected case is retained, including favourable, unfavourable and noisy originals. One A/B repeat per selected case. All originally usable slower cases also have stock and candidate A/A controls. The fixed [policy](../data/amd/final-confirmation/policy.json) and [selection](../data/amd/final-confirmation/selection.json) are unchanged.\n\n'
-confirmations += '| Case | Compiler | Original elapsed change | Repeat elapsed change | Original result | Repeat result | Source |\n|---|---|--:|--:|---|---|---|\n'
+confirmations += '| Case | Compiler | Original Δ time | Repeat Δ time | Original result | Repeat result | Source |\n|---|---|--:|--:|---|---|---|\n'
 for item in selection:
     cc, key = item['compiler'], item['case']
     path = seconds / 'final-confirmation' / f"{cc}-case{item['index']:03d}-ab-repeat.json"
@@ -290,7 +300,7 @@ early = '# Quiet Intel early-match confirmations\n\n'
 early += 'Same ca89 candidate and reference. These supplementary boundary calls are not a production frequency distribution. All original elapsed results and noisy rows are retained.\n\n'
 for cc in list(names)[2:]:
     path = intel / (cc + '-early.json')
-    early += '## ' + names[cc] + '\n\n| Case | Stock, µs | ca89, µs | Elapsed change | Instruction change | Elapsed result |\n|---|--:|--:|--:|--:|---|\n'
+    early += '## ' + names[cc] + '\n\n| Case | Stock, µs | Change, µs | Δ time | Δ instr. | Result |\n|---|--:|--:|--:|--:|---|\n'
     for key, r in rows[path].items():
         x, y = (r['stats'][s] for s in ['A', 'B'])
         early += '| ' + ' | '.join([label(key), f"{x['median']/1000:.4f}", f"{y['median']/1000:.4f}", pct(delta(r)), pct(100*(y['instructions']/x['instructions']-1)), state(r, path, key)]) + ' |\n'
@@ -309,9 +319,9 @@ for title, output, files in [
             aa, bb = (d['builds'][group[s]]['build'] for s in ['a', 'b'])
             assert aa['commit'] == base and bb['commit'] == (head if group['name'] in names else base)
             assert aa['profile'] == bb['profile'] == 'docker'
-        args = [str(repo / 'bench'), 'table', str(path), '--header', '--full']
+        args = [str(repo / 'bench'), 'table', str(path), '--header', '--full', '--compact-header', '--base-name', 'Stock']
         value = subprocess.check_output(args, env={**os.environ, 'BENCH_PHP': a.php}, text=True)
-        marker = os.path.relpath(path, report / 'tables') + ' --header --full'
+        marker = os.path.relpath(path, report / 'tables') + ' --header --full --compact-header --base-name Stock'
         doc += '## ' + name[:-5] + '\n\n<!-- bench-table ' + marker + ' -->\n' + value + '<!-- /bench-table -->\n\n'
     outputs[report / 'tables' / output] = doc
 stream = io.StringIO()

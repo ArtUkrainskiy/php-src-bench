@@ -4,7 +4,7 @@ Each A/A pair runs the same binary on both sides. These selected controls do not
 
 ## clang21-aa-1sec
 
-| Case | A₁, µs | A₂, µs | Δ A/A | Spread A₁ / A₂ | Result |
+| Case | A₁, µs | A₂, µs | Δ A/A | A₁ / A₂ spread | Result |
 |---|---:|---:|---:|---:|---|
 | banlist12/en/post/clean | 2.8061 | 2.8050 | −0.04% | 0.12% / 0.06% | Unclear |
 | banlist12/en/post/early | 0.0306 | 0.0312 | +2.04% | 1.80% / 1.80% | Unclear |
@@ -17,7 +17,7 @@ Each A/A pair runs the same binary on both sides. These selected controls do not
 
 ## clang21-aa-50ms
 
-| Case | A₁, µs | A₂, µs | Δ A/A | Spread A₁ / A₂ | Result |
+| Case | A₁, µs | A₂, µs | Δ A/A | A₁ / A₂ spread | Result |
 |---|---:|---:|---:|---:|---|
 | banlist12/en/post/clean | 2.7957 | 2.7943 | −0.05% | 0.17% / 0.16% | Unclear |
 | banlist12/en/post/early | 0.0307 | 0.0302 | −1.75% | 0.96% / 0.88% | Unclear |
@@ -30,7 +30,7 @@ Each A/A pair runs the same binary on both sides. These selected controls do not
 
 ## gcc15-aa-1sec
 
-| Case | A₁, µs | A₂, µs | Δ A/A | Spread A₁ / A₂ | Result |
+| Case | A₁, µs | A₂, µs | Δ A/A | A₁ / A₂ spread | Result |
 |---|---:|---:|---:|---:|---|
 | banlist12/en/post/clean | 2.9632 | 2.9525 | −0.36% | 0.29% / 0.08% | Unclear |
 | banlist12/en/post/early | 0.0323 | 0.0325 | +0.43% | 2.88% / 1.01% | Unclear |
@@ -43,7 +43,7 @@ Each A/A pair runs the same binary on both sides. These selected controls do not
 
 ## gcc15-aa-50ms
 
-| Case | A₁, µs | A₂, µs | Δ A/A | Spread A₁ / A₂ | Result |
+| Case | A₁, µs | A₂, µs | Δ A/A | A₁ / A₂ spread | Result |
 |---|---:|---:|---:|---:|---|
 | banlist12/en/post/clean | 2.9565 | 2.9533 | −0.11% | 0.29% / 0.47% | Unclear |
 | banlist12/en/post/early | 0.0330 | 0.0328 | −0.51% | 2.10% / 1.46% | Unclear |
@@ -56,7 +56,7 @@ Each A/A pair runs the same binary on both sides. These selected controls do not
 
 ## clang18-aa-after
 
-| Case | A₁, µs | A₂, µs | Δ A/A | Spread A₁ / A₂ | Result |
+| Case | A₁, µs | A₂, µs | Δ A/A | A₁ / A₂ spread | Result |
 |---|---:|---:|---:|---:|---|
 | banlist12/en/comment/clean | 0.5272 | 0.5275 | +0.05% | 0.47% / 0.49% | Unclear |
 | banlist12/en/post/clean | 3.4934 | 3.4938 | +0.01% | 0.08% / 0.11% | Unclear |
@@ -73,7 +73,7 @@ Each A/A pair runs the same binary on both sides. These selected controls do not
 
 ## clang18-aa-before
 
-| Case | A₁, µs | A₂, µs | Δ A/A | Spread A₁ / A₂ | Result |
+| Case | A₁, µs | A₂, µs | Δ A/A | A₁ / A₂ spread | Result |
 |---|---:|---:|---:|---:|---|
 | banlist12/en/comment/clean | 0.5285 | 0.5289 | +0.08% | 0.50% / 0.30% | Unclear |
 | banlist12/en/post/clean | 3.4981 | 3.5002 | +0.06% | 0.31% / 0.32% | Unclear |
@@ -90,7 +90,7 @@ Each A/A pair runs the same binary on both sides. These selected controls do not
 
 ## clang20-aa-after
 
-| Case | A₁, µs | A₂, µs | Δ A/A | Spread A₁ / A₂ | Result |
+| Case | A₁, µs | A₂, µs | Δ A/A | A₁ / A₂ spread | Result |
 |---|---:|---:|---:|---:|---|
 | banlist12/en/comment/clean | 0.4906 | 0.4903 | −0.06% | 0.26% / 0.19% | Unclear |
 | banlist12/en/post/clean | 3.2662 | 3.2642 | −0.06% | 0.23% / 0.21% | Unclear |
@@ -107,7 +107,7 @@ Each A/A pair runs the same binary on both sides. These selected controls do not
 
 ## clang20-aa-before
 
-| Case | A₁, µs | A₂, µs | Δ A/A | Spread A₁ / A₂ | Result |
+| Case | A₁, µs | A₂, µs | Δ A/A | A₁ / A₂ spread | Result |
 |---|---:|---:|---:|---:|---|
 | banlist12/en/comment/clean | 0.4905 | 0.4898 | −0.13% | 0.13% / 0.70% | Unclear |
 | banlist12/en/post/clean | 3.5120 | 3.5111 | −0.02% | 0.14% / 0.09% | Unclear |
@@ -124,7 +124,7 @@ Each A/A pair runs the same binary on both sides. These selected controls do not
 
 ## gcc13-aa-after
 
-| Case | A₁, µs | A₂, µs | Δ A/A | Spread A₁ / A₂ | Result |
+| Case | A₁, µs | A₂, µs | Δ A/A | A₁ / A₂ spread | Result |
 |---|---:|---:|---:|---:|---|
 | banlist12/en/comment/clean | 0.4971 | 0.4983 | +0.23% | 0.17% / 0.28% | Unclear |
 | banlist12/en/post/clean | 3.2751 | 3.2743 | −0.03% | 0.10% / 0.07% | Unclear |
@@ -141,7 +141,7 @@ Each A/A pair runs the same binary on both sides. These selected controls do not
 
 ## gcc13-aa-before
 
-| Case | A₁, µs | A₂, µs | Δ A/A | Spread A₁ / A₂ | Result |
+| Case | A₁, µs | A₂, µs | Δ A/A | A₁ / A₂ spread | Result |
 |---|---:|---:|---:|---:|---|
 | banlist12/en/comment/clean | 0.4977 | 0.4977 | −0.00% | 0.26% / 0.23% | Unclear |
 | banlist12/en/post/clean | 3.4815 | 3.4823 | +0.02% | 0.11% / 0.09% | Unclear |
@@ -158,7 +158,7 @@ Each A/A pair runs the same binary on both sides. These selected controls do not
 
 ## gcc14-aa-after
 
-| Case | A₁, µs | A₂, µs | Δ A/A | Spread A₁ / A₂ | Result |
+| Case | A₁, µs | A₂, µs | Δ A/A | A₁ / A₂ spread | Result |
 |---|---:|---:|---:|---:|---|
 | banlist12/en/comment/clean | 0.5080 | 0.5072 | −0.16% | 0.34% / 0.42% | Unclear |
 | banlist12/en/post/clean | 3.5024 | 3.4689 | −0.96% | 1.25% / 0.89% | Unclear |
@@ -175,7 +175,7 @@ Each A/A pair runs the same binary on both sides. These selected controls do not
 
 ## gcc14-aa-before
 
-| Case | A₁, µs | A₂, µs | Δ A/A | Spread A₁ / A₂ | Result |
+| Case | A₁, µs | A₂, µs | Δ A/A | A₁ / A₂ spread | Result |
 |---|---:|---:|---:|---:|---|
 | banlist12/en/comment/clean | 0.5064 | 0.5067 | +0.06% | 0.21% / 0.29% | Unclear |
 | banlist12/en/post/clean | 3.5553 | 3.5585 | +0.09% | 0.74% / 0.52% | Unclear |

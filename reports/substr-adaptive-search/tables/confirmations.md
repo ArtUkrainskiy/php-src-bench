@@ -2,7 +2,7 @@
 
 Every selected case is retained, including favourable, unfavourable and noisy originals. One A/B repeat per selected case. All originally usable slower cases also have stock and candidate A/A controls. The fixed [policy](../data/amd/final-confirmation/policy.json) and [selection](../data/amd/final-confirmation/selection.json) are unchanged.
 
-| Case | Compiler | Original elapsed change | Repeat elapsed change | Original result | Repeat result | Source |
+| Case | Compiler | Original Δ time | Repeat Δ time | Original result | Repeat result | Source |
 |---|---|--:|--:|---|---|---|
 | banlist12/en/comment/early | GCC 15.2 | +2.93% | −2.62% | Noise | Unclear | [gcc15-case002-ab-repeat](../data/amd/final-confirmation/gcc15-case002-ab-repeat.json) |
 | banlist12/ru/thread/early | GCC 15.2 | +0.82% | +1.81% | Noise | Noise | [gcc15-case017-ab-repeat](../data/amd/final-confirmation/gcc15-case017-ab-repeat.json) |

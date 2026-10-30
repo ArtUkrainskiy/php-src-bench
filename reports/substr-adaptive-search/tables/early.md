@@ -4,7 +4,7 @@ Same ca89 candidate and reference. These supplementary boundary calls are not a 
 
 ## GCC 13.3
 
-| Case | Stock, µs | ca89, µs | Elapsed change | Instruction change | Elapsed result |
+| Case | Stock, µs | Change, µs | Δ time | Δ instr. | Result |
 |---|--:|--:|--:|--:|---|
 | early-match/n31/h8191 | 0.0423 | 0.0345 | −18.45% | −19.27% | Faster |
 | early-match/n31/h8192 | 0.0423 | 0.0345 | −18.52% | −19.27% | Faster |
@@ -26,7 +26,7 @@ Same ca89 candidate and reference. These supplementary boundary calls are not a 
 
 ## GCC 14.2
 
-| Case | Stock, µs | ca89, µs | Elapsed change | Instruction change | Elapsed result |
+| Case | Stock, µs | Change, µs | Δ time | Δ instr. | Result |
 |---|--:|--:|--:|--:|---|
 | early-match/n31/h8191 | 0.0357 | 0.0279 | −21.91% | −19.24% | Faster |
 | early-match/n31/h8192 | 0.0359 | 0.0278 | −22.45% | −19.24% | Faster |
@@ -48,7 +48,7 @@ Same ca89 candidate and reference. These supplementary boundary calls are not a 
 
 ## Clang 18.1
 
-| Case | Stock, µs | ca89, µs | Elapsed change | Instruction change | Elapsed result |
+| Case | Stock, µs | Change, µs | Δ time | Δ instr. | Result |
 |---|--:|--:|--:|--:|---|
 | early-match/n31/h8191 | 0.0294 | 0.0252 | −14.33% | −8.42% | Faster |
 | early-match/n31/h8192 | 0.0294 | 0.0252 | −14.37% | −8.42% | Faster |
@@ -70,7 +70,7 @@ Same ca89 candidate and reference. These supplementary boundary calls are not a 
 
 ## Clang 20.1
 
-| Case | Stock, µs | ca89, µs | Elapsed change | Instruction change | Elapsed result |
+| Case | Stock, µs | Change, µs | Δ time | Δ instr. | Result |
 |---|--:|--:|--:|--:|---|
 | early-match/n31/h8191 | 0.0295 | 0.0325 | +10.10% | −8.67% | Noise |
 | early-match/n31/h8192 | 0.0299 | 0.0338 | +12.83% | −8.67% | Noise |

@@ -4,7 +4,7 @@ Supplementary guards, not a frequency distribution of everyday requests. These c
 
 ## amd-adversarial
 
-<!-- bench-table ../data/stress/amd-adversarial.json --header --full -->
+<!-- bench-table ../data/stress/amd-adversarial.json --header --full --compact-header --base-name Stock -->
 Machine: AMD Ryzen 9 5950X 16-Core Processor, CPU 15, kernel 7.0.0-38-generic.
 Group gcc15: A = base-gcc15 (ef99f4248f1 GCC 15.2, profile docker), B = product-guard-gcc15 (ca89fb5fb96 GCC 15.2, profile docker).
 Group clang21: A = base-clang21 (ef99f4248f1 clang 21.1, profile docker), B = product-guard-clang21 (ca89fb5fb96 clang 21.1, profile docker).
@@ -12,7 +12,9 @@ Group clang21: A = base-clang21 (ef99f4248f1 clang 21.1, profile docker), B = pr
 Machine: turbo boost is on: thermal and frequency drift between rounds (sudo ./bench tune on).
 negative = fewer cycles (faster)
 
-| call | master, CPU cycles per call (GCC 15.2) | GCC 15.2 | clang 21.1 | instructions |
+Absolute cycles/call: Stock with GCC 15.2.
+
+| call | Stock cycles | GCC 15.2 | clang 21.1 | Δ instr. |
 |---|--:|--:|--:|--:|
 | first dense_anchor dense n3 #318 @ case-318 | 5,266,282 | 0% (0 … 0) ~ | 0% (0 … 0) | 0% |
 | first allcommon_long allcommon_long n201 #320 @ case-320 | 34,771,274 | −100% (−100 … −100) | −100% (−100 … −100) | −100% |
@@ -21,9 +23,11 @@ negative = fewer cycles (faster)
 | late dense pair @ changing-density | 14,249,506 | −99% (−99 … −99) | −99% (−99 … −99) | −99% |
 | late dense pair @ changing-density-match | 14,578,288 | −99% (−99 … −99) | −99% (−99 … −99) | −99% |
 
-Control: master against itself.
+Control: Stock against itself.
 
-| call | master, CPU cycles per call (GCC 15.2) | A/A start | A/A end |
+Absolute cycles/call: Stock with GCC 15.2.
+
+| call | Stock cycles | A/A start | A/A end |
 |---|--:|--:|--:|
 | first dense_anchor dense n3 #318 @ case-318 | 5,269,102 | 0% (0 … 0) | 0% (0 … 0) |
 | first allcommon_long allcommon_long n201 #320 @ case-320 | 34,760,084 | 0% (0 … 0) | 0% (−3 … 0) |
@@ -39,7 +43,7 @@ layout?: in every pass the cycles changed in the same direction, by 3% or more i
 
 ## amd-long-prefix
 
-<!-- bench-table ../data/stress/amd-long-prefix.json --header --full -->
+<!-- bench-table ../data/stress/amd-long-prefix.json --header --full --compact-header --base-name Stock -->
 Machine: AMD Ryzen 9 5950X 16-Core Processor, CPU 15, kernel 7.0.0-38-generic.
 Group gcc15: A = base-gcc15 (ef99f4248f1 GCC 15.2, profile docker), B = product-guard-gcc15 (ca89fb5fb96 GCC 15.2, profile docker).
 Group clang21: A = base-clang21 (ef99f4248f1 clang 21.1, profile docker), B = product-guard-clang21 (ca89fb5fb96 clang 21.1, profile docker).
@@ -47,20 +51,24 @@ Group clang21: A = base-clang21 (ef99f4248f1 clang 21.1, profile docker), B = pr
 Machine: turbo boost is on: thermal and frequency drift between rounds (sudo ./bench tune on).
 negative = fewer cycles (faster)
 
-| call | master, CPU cycles per call (GCC 15.2) | GCC 15.2 | clang 21.1 | instructions |
+Absolute cycles/call: Stock with GCC 15.2.
+
+| call | Stock cycles | GCC 15.2 | clang 21.1 | Δ instr. |
 |---|--:|--:|--:|--:|
 | first allcommon_long allcommon_long n201 #320 @ case-320 | 34,433,783 | −100% (−100 … −100) | −100% (−100 … −100) | −100% |
 
-Control: master against itself.
+Control: Stock against itself.
 
-| call | master, CPU cycles per call (GCC 15.2) | A/A start | A/A end |
+Absolute cycles/call: Stock with GCC 15.2.
+
+| call | Stock cycles | A/A start | A/A end |
 |---|--:|--:|--:|
 | first allcommon_long allcommon_long n201 #320 @ case-320 | 34,395,839 | 0% (0 … 0) | 0% (0 … 0) |
 <!-- /bench-table -->
 
 ## intel-adversarial
 
-<!-- bench-table ../data/stress/intel-adversarial.json --header --full -->
+<!-- bench-table ../data/stress/intel-adversarial.json --header --full --compact-header --base-name Stock -->
 Machine: 13th Gen Intel(R) Core(TM) i7-13700H, CPU 10, kernel 7.0.0-38-generic.
 Group gcc13: A = base-gcc13 (ef99f4248f1 GCC 13.3, profile docker), B = product-guard-gcc13 (ca89fb5fb96 GCC 13.3, profile docker).
 Group gcc14: A = base-gcc14 (ef99f4248f1 GCC 14.2, profile docker), B = product-guard-gcc14 (ca89fb5fb96 GCC 14.2, profile docker).
@@ -73,7 +81,9 @@ Machine: load average is 5.6: other programs are competing for the CPU.
 Machine: CPU 10 is 17% busy with other processes: timings will be noisy (wait for it to finish).
 negative = fewer cycles (faster)
 
-| call | master, CPU cycles per call (GCC 13.3) | GCC 13.3 | GCC 14.2 | clang 18.1 | clang 20.1 | instructions |
+Absolute cycles/call: Stock with GCC 13.3.
+
+| call | Stock cycles | GCC 13.3 | GCC 14.2 | clang 18.1 | clang 20.1 | Δ instr. |
 |---|--:|--:|--:|--:|--:|--:|
 | first dense_anchor dense n3 #318 @ case-318 | 5,642,203 | +1% (0 … +1) | 0% (−1 … 0) ~ | 0% (−1 … 0) ~ | 0% (−1 … +1) ~ | 0% |
 | first allcommon_long allcommon_long n201 #320 @ case-320 | 35,223,264 | −100% (−100 … −100) | −100% (−100 … −100) | −100% (−100 … −100) | −100% (−100 … −100) | −100% |
@@ -82,9 +92,11 @@ negative = fewer cycles (faster)
 | late dense pair @ changing-density | 14,419,906 | −99% (−99 … −99) | −99% (−99 … −99) | −99% (−99 … −99) | −99% (−99 … −99) | −99% |
 | late dense pair @ changing-density-match | 14,451,483 | −99% (−99 … −99) | −99% (−99 … −99) | −99% (−100 … −99) | −99% (−99 … −99) | −99% |
 
-Control: master against itself.
+Control: Stock against itself.
 
-| call | master, CPU cycles per call (GCC 13.3) | A/A start | A/A end |
+Absolute cycles/call: Stock with GCC 13.3.
+
+| call | Stock cycles | A/A start | A/A end |
 |---|--:|--:|--:|
 | first dense_anchor dense n3 #318 @ case-318 | 5,676,148 | 0% (0 … +1) | 0% (−1 … 0) |
 | first allcommon_long allcommon_long n201 #320 @ case-320 | 35,712,287 | 0% (0 … +1) | 0% (0 … +3) |
@@ -98,7 +110,7 @@ Control: master against itself.
 
 ## intel-long-prefix
 
-<!-- bench-table ../data/stress/intel-long-prefix.json --header --full -->
+<!-- bench-table ../data/stress/intel-long-prefix.json --header --full --compact-header --base-name Stock -->
 Machine: 13th Gen Intel(R) Core(TM) i7-13700H, CPU 10, kernel 7.0.0-38-generic.
 Group gcc13: A = base-gcc13 (ef99f4248f1 GCC 13.3, profile docker), B = product-guard-gcc13 (ca89fb5fb96 GCC 13.3, profile docker).
 Group gcc14: A = base-gcc14 (ef99f4248f1 GCC 14.2, profile docker), B = product-guard-gcc14 (ca89fb5fb96 GCC 14.2, profile docker).
@@ -111,13 +123,17 @@ Machine: load average is 3.6: other programs are competing for the CPU.
 Machine: CPU 10 is 27% busy with other processes: timings will be noisy (wait for it to finish).
 negative = fewer cycles (faster)
 
-| call | master, CPU cycles per call (GCC 13.3) | GCC 13.3 | GCC 14.2 | clang 18.1 | clang 20.1 | instructions |
+Absolute cycles/call: Stock with GCC 13.3.
+
+| call | Stock cycles | GCC 13.3 | GCC 14.2 | clang 18.1 | clang 20.1 | Δ instr. |
 |---|--:|--:|--:|--:|--:|--:|
 | first allcommon_long allcommon_long n201 #320 @ case-320 | 35,138,328 | −100% (−100 … −100) | −100% (−100 … −100) | −100% (−100 … −100) | −100% (−100 … −100) | −100% |
 
-Control: master against itself.
+Control: Stock against itself.
 
-| call | master, CPU cycles per call (GCC 13.3) | A/A start | A/A end |
+Absolute cycles/call: Stock with GCC 13.3.
+
+| call | Stock cycles | A/A start | A/A end |
 |---|--:|--:|--:|
 | first allcommon_long allcommon_long n201 #320 @ case-320 | 35,223,481 | 0% (0 … 0) | 0% (0 … 0) |
 <!-- /bench-table -->

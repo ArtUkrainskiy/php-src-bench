@@ -4,7 +4,7 @@ Supplementary guards, not a frequency distribution of everyday requests. These c
 
 ## amd-boundaries
 
-<!-- bench-table ../data/stress/amd-boundaries.json --header --full -->
+<!-- bench-table ../data/stress/amd-boundaries.json --header --full --compact-header --base-name Stock -->
 Machine: AMD Ryzen 9 5950X 16-Core Processor, CPU 15, kernel 7.0.0-38-generic.
 Group gcc15: A = base-gcc15 (ef99f4248f1 GCC 15.2, profile docker), B = product-guard-gcc15 (ca89fb5fb96 GCC 15.2, profile docker).
 Group clang21: A = base-clang21 (ef99f4248f1 clang 21.1, profile docker), B = product-guard-clang21 (ca89fb5fb96 clang 21.1, profile docker).
@@ -12,7 +12,9 @@ Group clang21: A = base-clang21 (ef99f4248f1 clang 21.1, profile docker), B = pr
 Machine: turbo boost is on: thermal and frequency drift between rounds (sudo ./bench tune on).
 negative = fewer cycles (faster)
 
-| call | master, CPU cycles per call (GCC 15.2) | GCC 15.2 | clang 21.1 | instructions |
+Absolute cycles/call: Stock with GCC 15.2.
+
+| call | Stock cycles | GCC 15.2 | clang 21.1 | Δ instr. |
 |---|--:|--:|--:|--:|
 | dense-prefix/n31/h8191 @ dense-prefix/n31/h8191 | 157,884 | +2% (−1 … +7) | −41% (−42 … −38) layout? | 0% |
 | periodic/n31/h8191 @ periodic/n31/h8191 | 84,020 | +11% (+6 … +17) layout? | −30% (−31 … −29) layout? | 0% |
@@ -127,9 +129,11 @@ negative = fewer cycles (faster)
 | late-density/n256/remaining4097/absent @ late-density/n256/remaining4097/absent | 956,455 | −39% (−42 … −38) layout? | −7% (−8 … −7) | 0% … +50% |
 | late-density/n256/remaining4097/match @ late-density/n256/remaining4097/match | 972,039 | −42% (−45 … −40) layout? | −7% (−7 … −7) | 0% … +50% |
 
-Control: master against itself.
+Control: Stock against itself.
 
-| call | master, CPU cycles per call (GCC 15.2) | A/A start | A/A end |
+Absolute cycles/call: Stock with GCC 15.2.
+
+| call | Stock cycles | A/A start | A/A end |
 |---|--:|--:|--:|
 | dense-prefix/n31/h8191 @ dense-prefix/n31/h8191 | 154,702 | +1% (−2 … +4) | −1% (−2 … +1) |
 | periodic/n31/h8191 @ periodic/n31/h8191 | 83,974 | 0% (0 … +4) | −2% (−2 … 0) |
@@ -253,7 +257,7 @@ n/a: under 20 cycles per call, the subtraction of the empty loop dominates; comp
 
 ## intel-boundaries
 
-<!-- bench-table ../data/stress/intel-boundaries.json --header --full -->
+<!-- bench-table ../data/stress/intel-boundaries.json --header --full --compact-header --base-name Stock -->
 Machine: 13th Gen Intel(R) Core(TM) i7-13700H, CPU 10, kernel 7.0.0-38-generic.
 Group gcc13: A = base-gcc13 (ef99f4248f1 GCC 13.3, profile docker), B = product-guard-gcc13 (ca89fb5fb96 GCC 13.3, profile docker).
 Group gcc14: A = base-gcc14 (ef99f4248f1 GCC 14.2, profile docker), B = product-guard-gcc14 (ca89fb5fb96 GCC 14.2, profile docker).
@@ -266,7 +270,9 @@ Machine: load average is 4.2: other programs are competing for the CPU.
 Machine: CPU 10 is 14% busy with other processes: timings will be noisy (wait for it to finish).
 negative = fewer cycles (faster)
 
-| call | master, CPU cycles per call (GCC 13.3) | GCC 13.3 | GCC 14.2 | clang 18.1 | clang 20.1 | instructions |
+Absolute cycles/call: Stock with GCC 13.3.
+
+| call | Stock cycles | GCC 13.3 | GCC 14.2 | clang 18.1 | clang 20.1 | Δ instr. |
 |---|--:|--:|--:|--:|--:|--:|
 | dense-prefix/n31/h8191 @ dense-prefix/n31/h8191 | 132,198 | +102% (+95 … +104) layout? | −5% (−6 … 0) | +10% (+8 … +11) | +95% (+94 … +96) | −1% … 0% |
 | periodic/n31/h8191 @ periodic/n31/h8191 | 82,206 | +70% (+67 … +73) layout? | −1% (−3 … +1) ~ | +43% (+32 … +47) | +105% (+93 … +115) | −2% … 0% |
@@ -381,9 +387,11 @@ negative = fewer cycles (faster)
 | late-density/n256/remaining4097/absent @ late-density/n256/remaining4097/absent | 557,601 | +11% (+9 … +14) layout? | +2% (+1 … +3) | −3% (−4 … 0) | +24% (+23 … +26) | 0% … +50% |
 | late-density/n256/remaining4097/match @ late-density/n256/remaining4097/match | 567,406 | +10% (+9 … +13) layout? | 0% (−4 … +1) ~ | −1% (−4 … +3) | +22% (+22 … +22) | 0% … +50% |
 
-Control: master against itself.
+Control: Stock against itself.
 
-| call | master, CPU cycles per call (GCC 13.3) | A/A start | A/A end |
+Absolute cycles/call: Stock with GCC 13.3.
+
+| call | Stock cycles | A/A start | A/A end |
 |---|--:|--:|--:|
 | dense-prefix/n31/h8191 @ dense-prefix/n31/h8191 | 134,662 | +1% (−1 … +3) | −1% (−4 … +2) |
 | periodic/n31/h8191 @ periodic/n31/h8191 | 82,320 | −1% (−1 … +3) | −2% (−2 … +3) |

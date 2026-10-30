@@ -4,8 +4,10 @@ All 76 preselected product cases, every available compiler, original pass ranges
 
 ## AMD
 
-<!-- bench-table ../data/amd/cycles-reference.json --full -->
-| call | master, CPU cycles per call (GCC 15.2) | GCC 15.2 | clang 21.1 | instructions |
+<!-- bench-table ../data/amd/cycles-reference.json --full --compact-header --base-name Stock -->
+Absolute cycles/call: Stock with GCC 15.2.
+
+| call | Stock cycles | GCC 15.2 | clang 21.1 | Δ instr. |
 |---|--:|--:|--:|--:|
 | banlist12/en/comment/clean @ moderation-en-comment-clean | 2,289 | +1% (−1 … +2) | 0% (−1 … +1) ~ | 0% |
 | banlist12/en/comment/early @ moderation-en-comment-early | 147 | +3% (0 … +9) | 0% (0 … +1) ~ | 0% |
@@ -84,9 +86,11 @@ All 76 preselected product cases, every available compiler, original pass ranges
 | log-contains/event/thread/late @ logs-thread-late | 63,137 | −8% (−8 … −7) layout? | −8% (−8 … −7) layout? | 0% |
 | log-filter/thread/late @ logs-thread-late | 195,092 | 0% (0 … +2) ~ | −1% (−1 … +1) ~ | 0% |
 
-Control: master against itself.
+Control: Stock against itself.
 
-| call | master, CPU cycles per call (GCC 15.2) | A/A start | A/A end |
+Absolute cycles/call: Stock with GCC 15.2.
+
+| call | Stock cycles | A/A start | A/A end |
 |---|--:|--:|--:|
 | banlist12/en/comment/clean @ moderation-en-comment-clean | 2,289 | 0% (−1 … +2) | 0% (−2 … +2) |
 | banlist12/en/comment/early @ moderation-en-comment-early | 146 | −3% (−5 … +3) | +1% (−5 … +8) |
@@ -172,8 +176,10 @@ layout?: in every pass the cycles changed in the same direction, by 3% or more i
 
 ## Quiet Intel
 
-<!-- bench-table ../data/intel/control-cycles.json --full -->
-| call | master, CPU cycles per call (GCC 13.3) | GCC 13.3 | GCC 14.2 | clang 18.1 | clang 20.1 | instructions |
+<!-- bench-table ../data/intel/control-cycles.json --full --compact-header --base-name Stock -->
+Absolute cycles/call: Stock with GCC 13.3.
+
+| call | Stock cycles | GCC 13.3 | GCC 14.2 | clang 18.1 | clang 20.1 | Δ instr. |
 |---|--:|--:|--:|--:|--:|--:|
 | banlist12/en/comment/clean @ moderation-en-comment-clean | 1,885 | 0% (−2 … 0) ~ | 0% (0 … 0) ~ | 0% (−1 … 0) ~ | 0% (0 … 0) ~ | 0% |
 | banlist12/en/comment/early @ moderation-en-comment-early | 115 | 0% (−1 … 0) ~ | 0% (0 … +1) ~ | −2% (−5 … −1) | 0% (−2 … +2) ~ | 0% |
@@ -252,9 +258,11 @@ layout?: in every pass the cycles changed in the same direction, by 3% or more i
 | log-contains/event/thread/late @ logs-thread-late | 64,502 | +4% (−9 … +7) | +9% (−12 … +11) | +5% (0 … +14) | −2% (−4 … −1) | −9% … 0% |
 | log-filter/thread/late @ logs-thread-late | 210,746 | 0% (−1 … 0) ~ | 0% (−1 … 0) ~ | 0% (−1 … 0) ~ | −2% (−4 … +2) | 0% |
 
-Control: master against itself.
+Control: Stock against itself.
 
-| call | master, CPU cycles per call (GCC 13.3) | A/A start | A/A end |
+Absolute cycles/call: Stock with GCC 13.3.
+
+| call | Stock cycles | A/A start | A/A end |
 |---|--:|--:|--:|
 | banlist12/en/comment/clean @ moderation-en-comment-clean | 1,902 | 0% (−1 … +3) | 0% (0 … 0) |
 | banlist12/en/comment/early @ moderation-en-comment-early | 118 | −2% (−3 … −1) | −1% (−2 … +1) |

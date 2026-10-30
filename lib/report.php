@@ -329,7 +329,7 @@ function report_table(string $args, string $baseDir): string
             $labels = parse_labels($lines, array_keys($series['cases'] ?? []));
         } elseif ($w === '--base-name') {
             $baseName = $words[++$i] ?? 'master';
-        } elseif (in_array($w, ['--full', '--bpc', '--header', '--no-control'], true)) {
+        } elseif (in_array($w, ['--full', '--bpc', '--header', '--compact-header', '--no-control'], true)) {
             $flags[$w] = true;
         } else {
             throw new BenchError("bench-table block: unknown argument '$w'");
@@ -341,7 +341,7 @@ function report_table(string $args, string $baseDir): string
         }
     }
     $out = isset($flags['--header']) ? series_header($series) . "\n" : '';
-    $out .= series_table($series, $labels, isset($flags['--full']), $baseName, isset($flags['--bpc']), isset($flags['--no-control']));
+    $out .= series_table($series, $labels, isset($flags['--full']), $baseName, isset($flags['--bpc']), isset($flags['--no-control']), isset($flags['--compact-header']));
     // What was wrong with the builds or results stays with the numbers.
     foreach ($series['warnings'] ?? [] as $warning) {
         $out .= "\nWarning: $warning\n";

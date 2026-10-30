@@ -1,14 +1,14 @@
-# Forward substring search: final product benchmark report
+# Forward substring search: product benchmarks
 
-Status: prototype on branch [strpos-adaptive-pr](https://github.com/ArtUkrainskiy/php-src/tree/strpos-adaptive-pr); frozen candidate, no PHP PR opened. This directory contains only final-candidate evidence and its reproduction tools. [File roles](LAYOUT.md).
+This report measures a change to `zend_memnstr_ex()`, the forward matcher used by PHP string functions. The change reduces Sunday setup costs for medium needles and limits expensive verification on long scans. The corpus covers everyday moderation, separators, parsers, templates and logs.
 
-Frozen candidate **[`ca89fb5fb96399ed730cacb12d948025f83c4e6e`](https://github.com/ArtUkrainskiy/php-src/commit/ca89fb5fb96399ed730cacb12d948025f83c4e6e)** ([patch](change.patch)) versus stock PHP **[`ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb`](https://github.com/php/php-src/commit/ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb)**. Measured on 30 October 2026. The same two commits and unchanged corpus were used on all six compiler/CPU combinations. No PHP PR has been opened.
+Compared: change [`ca89fb5fb96`](https://github.com/ArtUkrainskiy/php-src/commit/ca89fb5fb96399ed730cacb12d948025f83c4e6e) ([branch](https://github.com/ArtUkrainskiy/php-src/tree/strpos-adaptive-pr), [patch](change.patch)) versus stock PHP [`ef99f4248f1`](https://github.com/php/php-src/commit/ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb). Measured on 30 October 2026 with the same two commits and corpus on all six compiler/CPU combinations.
 
 **Elapsed time of the complete PHP operation is the primary criterion.** Negative deltas mean lower cost; every delta is relative to stock. Cycles and instructions are diagnostic evidence, not substitutes for elapsed time. There is no application-wide average or assumed traffic distribution.
 
 ## Summary
 
-| CPU / compiler | Clean posts: elapsed change across 9 languages | Template 4 KiB: elapsed change |
+| CPU / compiler | Clean posts, Δ time | 4 KiB template, Δ time |
 |---|---:|---:|
 | AMD / GCC 15.2 | −10.35% … −4.93% | −14.70% |
 | AMD / Clang 21.1 | −11.64% … −3.95% | −14.48% |
@@ -17,7 +17,7 @@ Frozen candidate **[`ca89fb5fb96399ed730cacb12d948025f83c4e6e`](https://github.c
 | Intel / Clang 18.1 | −7.98% … +0.18% | −8.48% |
 | Intel / Clang 20.1 | −6.97% … −1.78% | −0.42% |
 
-The ranges above are observed medians, not uncertainty bounds; row quality and controls remain below and in the full tables. Moderation checks twelve literals in already normalized text. Short comments and one-/two-byte separators mostly retain their existing work. They have no general speedup guarantee. The template case performs four replacements with allocations, not a complete page request.
+The post ranges cover medians across all nine languages, not uncertainty bounds; row quality and controls remain below and in the full tables. Moderation checks twelve literals in already normalized text. Short comments and one-/two-byte separators mostly retain their existing work. They have no general speedup guarantee. The template case performs four replacements with allocations, not a complete page request.
 
 There are real losses: the independent AMD repeat retained GCC slowdowns around 1.66–2.48% in three parser cases. The original Clang `explode("||")` 4 KiB result was +3.24%, versus +0.20% in its single independent repeat; neither result is deleted. Quiet Intel retains roughly +4.4% and +5.4% on long English and Chinese text with Clang 20. A universal 3% regression bound and greater cross-compiler stability are not supported.
 
@@ -27,7 +27,7 @@ The main tables use the complete final AMD one-second series, without replacing 
 
 ### AMD / GCC 15.2
 
-| Case | Stock, µs | ca89, µs | Elapsed change | Cycle change¹ | Instruction change | Elapsed result |
+| Case | Stock, µs | Change, µs | Δ time | Δ cycles¹ | Δ instr. | Result |
 |---|--:|--:|--:|--:|--:|---|
 | banlist12/en/post/clean | 2.9548 | 2.6760 | −9.43% | −10.08% | −5.77% | Faster |
 | banlist12/ru/post/clean | 3.0461 | 2.8732 | −5.68% | −5.66% | −3.39% | Faster |
@@ -59,7 +59,7 @@ The main tables use the complete final AMD one-second series, without replacing 
 
 ### AMD / Clang 21.1
 
-| Case | Stock, µs | ca89, µs | Elapsed change | Cycle change¹ | Instruction change | Elapsed result |
+| Case | Stock, µs | Change, µs | Δ time | Δ cycles¹ | Δ instr. | Result |
 |---|--:|--:|--:|--:|--:|---|
 | banlist12/en/post/clean | 2.8101 | 2.5401 | −9.61% | −10.14% | −1.94% | Faster |
 | banlist12/ru/post/clean | 2.8605 | 2.7476 | −3.95% | −4.14% | −2.27% | Faster |
@@ -97,7 +97,7 @@ Faster/Slower requires separated round medians and at least a 1% difference. Unc
 
 A finite confirmation stage selected every noisy row and every usable slower row from the full AMD series: 23 cases, 47 runs including same-binary A/A and profiles. Selection did not depend on obtaining a favourable result. Each selected case has one new A/B run; there are no recursive retries. Three remain noisy. The original slower rows and all their controls are shown here.
 
-| Case | Compiler | Original elapsed change | Repeat | Stock A/A | ca89 A/A | Repeat result |
+| Case | Compiler | Original Δ time | Repeat Δ time | Stock A/A | Change A/A | Result |
 |---|---|---:|---:|---:|---:|---|
 | parse-records/4k | GCC 15.2 | +1.51% | +0.84% | +0.22% | +0.16% | Unclear |
 | parse-query/4k | GCC 15.2 | +1.04% | +0.44% | −0.66% | +0.42% | Unclear |
@@ -112,12 +112,14 @@ A finite confirmation stage selected every noisy row and every usable slower row
 
 ## Compiler cycle matrix and A/A
 
-Generated by `bench compare` / `bench table --full`, with every available compiler and same-row A/A below each table. The cycle A/A uses the first compiler of each machine: GCC 15 on AMD and GCC 13 on Intel, not every compiler. [All 76 rows and pass ranges](tables/cycles.md) are retained.
+Generated by `bench compare` / `bench table --full --compact-header`, with every available compiler and same-row A/A below each table. Absolute stock cycles use the compiler named above the table. Each percentage compares the change with that column's own stock build. The cycle A/A uses GCC 15 on AMD and GCC 13 on Intel. [All 76 rows and pass ranges](tables/cycles.md) are retained.
 
 ### AMD
 
-<!-- bench-table data/amd/cycles-reference.json --full --labels data/cycle-labels.txt -->
-| call | master, CPU cycles per call (GCC 15.2) | GCC 15.2 | clang 21.1 | instructions |
+<!-- bench-table data/amd/cycles-reference.json --full --compact-header --base-name Stock --labels data/cycle-labels.txt -->
+Absolute cycles/call: Stock with GCC 15.2.
+
+| call | Stock cycles | GCC 15.2 | clang 21.1 | Δ instr. |
 |---|--:|--:|--:|--:|
 | banlist12/en/post/clean | 13,958 | −10% (−11 … −10) | −10% (−10 … −10) | −6% … −2% |
 | banlist12/ru/post/clean | 14,319 | −6% (−6 … −1) | −4% (−4 … −4) | −3% … −2% |
@@ -137,9 +139,11 @@ Generated by `bench compare` / `bench table --full`, with every available compil
 | render-template/4k | 32,819 | −15% (−15 … −14) | −14% (−16 … −14) | −18% … −7% |
 | log-contains/event/thread/clean | 63,244 | −8% (−8 … −8) layout? | −8% (−8 … −7) layout? | 0% |
 
-Control: master against itself.
+Control: Stock against itself.
 
-| call | master, CPU cycles per call (GCC 15.2) | A/A start | A/A end |
+Absolute cycles/call: Stock with GCC 15.2.
+
+| call | Stock cycles | A/A start | A/A end |
 |---|--:|--:|--:|
 | banlist12/en/post/clean | 14,020 | 0% (0 … 0) | −1% (−1 … +1) |
 | banlist12/ru/post/clean | 14,354 | 0% (−1 … +1) | 0% (0 … 0) |
@@ -166,8 +170,10 @@ layout?: in every pass the cycles changed in the same direction, by 3% or more i
 
 ### INTEL
 
-<!-- bench-table data/intel/control-cycles.json --full --labels data/cycle-labels.txt -->
-| call | master, CPU cycles per call (GCC 13.3) | GCC 13.3 | GCC 14.2 | clang 18.1 | clang 20.1 | instructions |
+<!-- bench-table data/intel/control-cycles.json --full --compact-header --base-name Stock --labels data/cycle-labels.txt -->
+Absolute cycles/call: Stock with GCC 13.3.
+
+| call | Stock cycles | GCC 13.3 | GCC 14.2 | clang 18.1 | clang 20.1 | Δ instr. |
 |---|--:|--:|--:|--:|--:|--:|
 | banlist12/en/post/clean | 13,299 | −7% (−9 … −6) | −2% (−3 … −2) | 0% (0 … 0) ~ | −6% (−7 … −6) | −10% … −6% |
 | banlist12/ru/post/clean | 13,675 | −3% (−4 … −2) | −3% (−3 … −2) | −3% (−3 … −2) | −2% (−3 … −2) | −9% … −3% |
@@ -187,9 +193,11 @@ layout?: in every pass the cycles changed in the same direction, by 3% or more i
 | render-template/4k | 28,885 | −16% (−17 … −16) | −11% (−14 … −11) | −8% (−9 … −6) | −3% (−5 … −3) | −18% … −12% |
 | log-contains/event/thread/clean | 72,698 | −11% (−13 … +9) | −2% (−4 … +2) | +7% (−2 … +8) | −1% (−5 … +6) | −9% … 0% |
 
-Control: master against itself.
+Control: Stock against itself.
 
-| call | master, CPU cycles per call (GCC 13.3) | A/A start | A/A end |
+Absolute cycles/call: Stock with GCC 13.3.
+
+| call | Stock cycles | A/A start | A/A end |
 |---|--:|--:|--:|
 | banlist12/en/post/clean | 13,214 | +1% (0 … +1) | 0% (0 … 0) |
 | banlist12/ru/post/clean | 13,645 | 0% (0 … +2) | 0% (−1 … 0) |
@@ -233,6 +241,15 @@ The [A/A window-duration pilot and all final confirmations](tables/confirmations
 The header memchr/verify path for remaining haystacks below 1024 bytes or needles below 9 bytes is unchanged. Needles of 9–31 bytes use a 256-byte uint8 Sunday table instead of the original 1 KiB unsigned-int table. Needles of at least 32 bytes retain wide-table Sunday below 8192 input bytes. On larger buffers, sixteen deep failed verifications trigger a work-versus-progress check; with at least 4096 bytes remaining, expensive scans may switch to an SSE2 pair filter, sampled four-byte filter and portable Two-Way. Full-verification budgets cover the remaining scan. The patch changes one C file and adds five PHPT files. No public API is added.
 
 Unchanged instruction counts do not erase elapsed regressions. Profiles of the two confirmed GCC HTTP cases show L1 instruction-cache misses increasing from about 0.02 to 2.41 and 1.90 per call; the affected PHP entry-point addresses and sizes are unchanged. This is consistent with placement/cache effects, not proof of a unique cause. Long Russian/Hindi Clang scans can improve while executing more instructions. [Earlier profiles and disassembly](tables/profiles.md) and [new profiles](data/amd/final-confirmation/gcc15-case066-why.log) are retained. A general explanation for every layout-sensitive row has not been established.
+
+## Algorithm references
+
+- **Sunday / Quick Search.** Daniel M. Sunday, [A very fast substring search algorithm](https://doi.org/10.1145/79173.79184), 1990. PHP already uses this shift rule. The short-needle path keeps the same search and stores its shifts in bytes.
+- **Two-Way.** Maxime Crochemore and Dominique Perrin, [Two-way string-matching](https://doi.org/10.1145/116825.116845), 1991. `zend_memnstr_twoway()` uses critical factorization and remembers periodic matches across shifts.
+- **SIMD pair filtering.** The [packed-pair implementation in Rust memchr 2.7.6](https://github.com/BurntSushi/memchr/blob/2.7.6/src/arch/all/packedpair/mod.rs) is a related implementation reference for choosing two needle positions using background byte frequencies. Here SSE2 checks both positions at sixteen candidate starts, then verifies each hit completely.
+- **Four-byte filtering, related work.** Simone Faro and M. Oğuzhan Külekci, [Fast Packed String Matching for Short Patterns](https://arxiv.org/abs/1209.6449), 2012 preprint, section 3.2 (EPSM_a). The related primitive intersects shifted byte-equality masks. `zend_memnstr_gram4()` applies it to a selected internal four-byte anchor, with overlapping windows, selectivity sampling and a verification budget.
+
+The dispatch thresholds, byte-frequency weights, sampling rules and verification budgets are implementation choices evaluated by these PHP measurements. The references describe the search mechanisms; the measured gains, losses and applicability come from this corpus. The work-count checks are fixture audits rather than a formal proof of the complete hybrid.
 
 ## Corpus and scope
 

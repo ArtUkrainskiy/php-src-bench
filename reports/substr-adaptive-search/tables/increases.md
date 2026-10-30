@@ -4,7 +4,7 @@ Elapsed time is primary. Cycles¹ come from a separate series; no simultaneous I
 
 ## AMD / GCC 15.2
 
-| Case | Stock, µs | ca89, µs | Elapsed change | Stock spread | ca89 spread | Elapsed result | Source |
+| Case | Stock, µs | Change, µs | Δ time | Stock spread | Change spread | Result | Source |
 |---|--:|--:|--:|--:|--:|--:|---|
 | banlist12/en/comment/early | 0.0325 | 0.0334 | +2.93% | 4.27% | 0.67% | Noise | [gcc15-full233-1sec](../data/amd/gcc15-full233-1sec.json) |
 | banlist12/en/post/early | 0.0326 | 0.0338 | +3.76% | 3.17% | 1.87% | Unclear | [gcc15-full233-1sec](../data/amd/gcc15-full233-1sec.json) |
@@ -36,7 +36,7 @@ Elapsed time is primary. Cycles¹ come from a separate series; no simultaneous I
 
 ### Separate counters
 
-| Case | Stock cycles¹ | ca89 cycles¹ | Cycle change¹ | Stock instructions | ca89 instructions | Instruction change |
+| Case | Stock cycles¹ | Change cycles¹ | Δ cycles¹ | Stock instr. | Change instr. | Δ instr. |
 |---|--:|--:|--:|--:|--:|--:|
 | banlist12/en/comment/early | 146.59 | 150.17 | +2.90% | 536.00 | 536.00 | −0.00% |
 | banlist12/en/post/early | 149.08 | 147.80 | −2.42% | 529.00 | 529.00 | +0.00% |
@@ -68,7 +68,7 @@ Elapsed time is primary. Cycles¹ come from a separate series; no simultaneous I
 
 ## AMD / Clang 21.1
 
-| Case | Stock, µs | ca89, µs | Elapsed change | Stock spread | ca89 spread | Elapsed result | Source |
+| Case | Stock, µs | Change, µs | Δ time | Stock spread | Change spread | Result | Source |
 |---|--:|--:|--:|--:|--:|--:|---|
 | banlist12/en/thread/early | 0.0302 | 0.0306 | +1.37% | 1.38% | 0.47% | Unclear | [clang21-full233-1sec](../data/amd/clang21-full233-1sec.json) |
 | banlist12/ar/post/early | 0.0302 | 0.0308 | +2.15% | 0.29% | 1.87% | Unclear | [clang21-full233-1sec](../data/amd/clang21-full233-1sec.json) |
@@ -89,7 +89,7 @@ Elapsed time is primary. Cycles¹ come from a separate series; no simultaneous I
 
 ### Separate counters
 
-| Case | Stock cycles¹ | ca89 cycles¹ | Cycle change¹ | Stock instructions | ca89 instructions | Instruction change |
+| Case | Stock cycles¹ | Change cycles¹ | Δ cycles¹ | Stock instr. | Change instr. | Δ instr. |
 |---|--:|--:|--:|--:|--:|--:|
 | banlist12/en/thread/early | 131.12 | 132.39 | +0.19% | 541.00 | 541.00 | +0.00% |
 | banlist12/ar/post/early | 132.51 | 132.70 | −0.09% | 541.00 | 541.00 | −0.00% |
@@ -110,7 +110,7 @@ Elapsed time is primary. Cycles¹ come from a separate series; no simultaneous I
 
 ## Intel / GCC 13.3
 
-| Case | Stock, µs | ca89, µs | Elapsed change | Stock spread | ca89 spread | Elapsed result | Source |
+| Case | Stock, µs | Change, µs | Δ time | Stock spread | Change spread | Result | Source |
 |---|--:|--:|--:|--:|--:|--:|---|
 | banlist12/ru/thread/clean | 302.4371 | 310.3364 | +2.61% | 0.24% | 0.36% | Slower | [gcc13-full233](../data/intel/gcc13-full233.json) |
 | banlist12/ru/thread/late | 302.3368 | 309.8942 | +2.50% | 0.20% | 0.21% | Slower | [gcc13-full233](../data/intel/gcc13-full233.json) |
@@ -135,7 +135,7 @@ Elapsed time is primary. Cycles¹ come from a separate series; no simultaneous I
 
 ### Separate counters
 
-| Case | Stock cycles¹ | ca89 cycles¹ | Cycle change¹ | Stock instructions | ca89 instructions | Instruction change |
+| Case | Stock cycles¹ | Change cycles¹ | Δ cycles¹ | Stock instr. | Change instr. | Δ instr. |
 |---|--:|--:|--:|--:|--:|--:|
 | banlist12/ru/thread/clean | 1145533.19 | 1175994.64 | +2.86% | 1260433.09 | 1259619.40 | −0.06% |
 | banlist12/ru/thread/late | 1154597.90 | 1187603.11 | +2.86% | 1261353.67 | 1260525.13 | −0.07% |
@@ -160,7 +160,7 @@ Elapsed time is primary. Cycles¹ come from a separate series; no simultaneous I
 
 ### Documented focus/quality selection
 
-| Case | Stock, µs | ca89, µs | Elapsed change | Stock spread | ca89 spread | Elapsed result | Source |
+| Case | Stock, µs | Change, µs | Δ time | Stock spread | Change spread | Result | Source |
 |---|--:|--:|--:|--:|--:|--:|---|
 | banlist12/ru/thread/clean | 302.2632 | 310.0164 | +2.57% | 0.09% | 0.21% | Slower | [gcc13-focus](../data/intel/gcc13-focus.json) |
 | banlist12/ru/thread/late | 302.5665 | 310.3976 | +2.59% | 0.14% | 0.11% | Slower | [gcc13-focus](../data/intel/gcc13-focus.json) |
@@ -185,7 +185,7 @@ Elapsed time is primary. Cycles¹ come from a separate series; no simultaneous I
 
 ### Separate counters
 
-| Case | Stock cycles¹ | ca89 cycles¹ | Cycle change¹ | Stock instructions | ca89 instructions | Instruction change |
+| Case | Stock cycles¹ | Change cycles¹ | Δ cycles¹ | Stock instr. | Change instr. | Δ instr. |
 |---|--:|--:|--:|--:|--:|--:|
 | banlist12/ru/thread/clean | 1145533.19 | 1175994.64 | +2.86% | 1260352.92 | 1259516.76 | −0.07% |
 | banlist12/ru/thread/late | 1154597.90 | 1187603.11 | +2.86% | 1261261.04 | 1260427.80 | −0.07% |
@@ -210,7 +210,7 @@ Elapsed time is primary. Cycles¹ come from a separate series; no simultaneous I
 
 ## Intel / GCC 14.2
 
-| Case | Stock, µs | ca89, µs | Elapsed change | Stock spread | ca89 spread | Elapsed result | Source |
+| Case | Stock, µs | Change, µs | Δ time | Stock spread | Change spread | Result | Source |
 |---|--:|--:|--:|--:|--:|--:|---|
 | banlist12/ar/thread/late | 359.5092 | 363.4974 | +1.11% | 0.87% | 0.75% | Unclear | [gcc14-full233](../data/intel/gcc14-full233.json) |
 | substr-count/crlf/short | 0.0558 | 0.0573 | +2.81% | 2.62% | 1.99% | Unclear | [gcc14-full233](../data/intel/gcc14-full233.json) |
@@ -225,7 +225,7 @@ Elapsed time is primary. Cycles¹ come from a separate series; no simultaneous I
 
 ### Separate counters
 
-| Case | Stock cycles¹ | ca89 cycles¹ | Cycle change¹ | Stock instructions | ca89 instructions | Instruction change |
+| Case | Stock cycles¹ | Change cycles¹ | Δ cycles¹ | Stock instr. | Change instr. | Δ instr. |
 |---|--:|--:|--:|--:|--:|--:|
 | banlist12/ar/thread/late | — | — | — | 1864762.13 | 1863313.26 | −0.08% |
 | substr-count/crlf/short | — | — | — | 650.00 | 650.01 | +0.00% |
@@ -240,7 +240,7 @@ Elapsed time is primary. Cycles¹ come from a separate series; no simultaneous I
 
 ### Documented focus/quality selection
 
-| Case | Stock, µs | ca89, µs | Elapsed change | Stock spread | ca89 spread | Elapsed result | Source |
+| Case | Stock, µs | Change, µs | Δ time | Stock spread | Change spread | Result | Source |
 |---|--:|--:|--:|--:|--:|--:|---|
 | banlist12/ar/thread/late | 359.5092 | 363.4974 | +1.11% | 0.87% | 0.75% | Unclear | [gcc14-full233](../data/intel/gcc14-full233.json) |
 | substr-count/crlf/short | 0.0558 | 0.0573 | +2.81% | 2.62% | 1.99% | Unclear | [gcc14-full233](../data/intel/gcc14-full233.json) |
@@ -255,7 +255,7 @@ Elapsed time is primary. Cycles¹ come from a separate series; no simultaneous I
 
 ### Separate counters
 
-| Case | Stock cycles¹ | ca89 cycles¹ | Cycle change¹ | Stock instructions | ca89 instructions | Instruction change |
+| Case | Stock cycles¹ | Change cycles¹ | Δ cycles¹ | Stock instr. | Change instr. | Δ instr. |
 |---|--:|--:|--:|--:|--:|--:|
 | banlist12/ar/thread/late | — | — | — | 1864762.13 | 1863313.26 | −0.08% |
 | substr-count/crlf/short | — | — | — | 650.00 | 650.01 | +0.00% |
@@ -270,7 +270,7 @@ Elapsed time is primary. Cycles¹ come from a separate series; no simultaneous I
 
 ## Intel / Clang 18.1
 
-| Case | Stock, µs | ca89, µs | Elapsed change | Stock spread | ca89 spread | Elapsed result | Source |
+| Case | Stock, µs | Change, µs | Δ time | Stock spread | Change spread | Result | Source |
 |---|--:|--:|--:|--:|--:|--:|---|
 | banword/ar/post/absent | 1.1922 | 1.2268 | +2.90% | 0.07% | 3.82% | Noise | [clang18-full233](../data/intel/clang18-full233.json) |
 | banlist12/zh/comment/early | 0.0393 | 0.0397 | +1.15% | 2.32% | 2.16% | Unclear | [clang18-full233](../data/intel/clang18-full233.json) |
@@ -301,7 +301,7 @@ Elapsed time is primary. Cycles¹ come from a separate series; no simultaneous I
 
 ### Separate counters
 
-| Case | Stock cycles¹ | ca89 cycles¹ | Cycle change¹ | Stock instructions | ca89 instructions | Instruction change |
+| Case | Stock cycles¹ | Change cycles¹ | Δ cycles¹ | Stock instr. | Change instr. | Δ instr. |
 |---|--:|--:|--:|--:|--:|--:|
 | banword/ar/post/absent | — | — | — | 8144.16 | 8144.13 | −0.00% |
 | banlist12/zh/comment/early | — | — | — | 692.02 | 692.01 | −0.00% |
@@ -332,7 +332,7 @@ Elapsed time is primary. Cycles¹ come from a separate series; no simultaneous I
 
 ### Documented focus/quality selection
 
-| Case | Stock, µs | ca89, µs | Elapsed change | Stock spread | ca89 spread | Elapsed result | Source |
+| Case | Stock, µs | Change, µs | Δ time | Stock spread | Change spread | Result | Source |
 |---|--:|--:|--:|--:|--:|--:|---|
 | banword/ar/post/absent | 1.2091 | 1.2093 | +0.02% | 0.13% | 0.10% | Unclear | [clang18-quality-recheck](../data/intel/clang18-quality-recheck.json) |
 | banlist12/zh/comment/early | 0.0393 | 0.0397 | +1.15% | 2.32% | 2.16% | Unclear | [clang18-full233](../data/intel/clang18-full233.json) |
@@ -363,7 +363,7 @@ Elapsed time is primary. Cycles¹ come from a separate series; no simultaneous I
 
 ### Separate counters
 
-| Case | Stock cycles¹ | ca89 cycles¹ | Cycle change¹ | Stock instructions | ca89 instructions | Instruction change |
+| Case | Stock cycles¹ | Change cycles¹ | Δ cycles¹ | Stock instr. | Change instr. | Δ instr. |
 |---|--:|--:|--:|--:|--:|--:|
 | banword/ar/post/absent | — | — | — | 8144.01 | 8144.03 | +0.00% |
 | banlist12/zh/comment/early | — | — | — | 692.02 | 692.01 | −0.00% |
@@ -394,7 +394,7 @@ Elapsed time is primary. Cycles¹ come from a separate series; no simultaneous I
 
 ## Intel / Clang 20.1
 
-| Case | Stock, µs | ca89, µs | Elapsed change | Stock spread | ca89 spread | Elapsed result | Source |
+| Case | Stock, µs | Change, µs | Δ time | Stock spread | Change spread | Result | Source |
 |---|--:|--:|--:|--:|--:|--:|---|
 | banlist12/en/thread/clean | 218.5844 | 227.9387 | +4.28% | 0.24% | 0.21% | Slower | [clang20-full233](../data/intel/clang20-full233.json) |
 | banword/en/thread/absent | 13.2604 | 13.5620 | +2.27% | 0.53% | 3.75% | Unclear | [clang20-full233](../data/intel/clang20-full233.json) |
@@ -435,7 +435,7 @@ Elapsed time is primary. Cycles¹ come from a separate series; no simultaneous I
 
 ### Separate counters
 
-| Case | Stock cycles¹ | ca89 cycles¹ | Cycle change¹ | Stock instructions | ca89 instructions | Instruction change |
+| Case | Stock cycles¹ | Change cycles¹ | Δ cycles¹ | Stock instr. | Change instr. | Δ instr. |
 |---|--:|--:|--:|--:|--:|--:|
 | banlist12/en/thread/clean | 837245.44 | 863666.88 | +3.16% | 1194891.83 | 1076799.88 | −9.88% |
 | banword/en/thread/absent | — | — | — | 98948.86 | 98949.70 | +0.00% |
@@ -476,7 +476,7 @@ Elapsed time is primary. Cycles¹ come from a separate series; no simultaneous I
 
 ### Documented focus/quality selection
 
-| Case | Stock, µs | ca89, µs | Elapsed change | Stock spread | ca89 spread | Elapsed result | Source |
+| Case | Stock, µs | Change, µs | Δ time | Stock spread | Change spread | Result | Source |
 |---|--:|--:|--:|--:|--:|--:|---|
 | banlist12/en/thread/clean | 217.9654 | 227.5464 | +4.40% | 0.24% | 0.10% | Slower | [clang20-focus](../data/intel/clang20-focus.json) |
 | banword/en/thread/absent | 13.2604 | 13.5620 | +2.27% | 0.53% | 3.75% | Unclear | [clang20-full233](../data/intel/clang20-full233.json) |
@@ -517,7 +517,7 @@ Elapsed time is primary. Cycles¹ come from a separate series; no simultaneous I
 
 ### Separate counters
 
-| Case | Stock cycles¹ | ca89 cycles¹ | Cycle change¹ | Stock instructions | ca89 instructions | Instruction change |
+| Case | Stock cycles¹ | Change cycles¹ | Δ cycles¹ | Stock instr. | Change instr. | Δ instr. |
 |---|--:|--:|--:|--:|--:|--:|
 | banlist12/en/thread/clean | 837245.44 | 863666.88 | +3.16% | 1194834.97 | 1076727.68 | −9.88% |
 | banword/en/thread/absent | — | — | — | 98948.86 | 98949.70 | +0.00% |

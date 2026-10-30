@@ -16,7 +16,7 @@ python3 "$d/scripts/audit.py"
 ```
 
 The generator reads the published raw JSON, uses the native `result_rows()` statistics
-for elapsed time, and invokes `bench table --full` for the compiler cycle matrices.
+for elapsed time, and invokes `bench table --full --compact-header` for the compiler cycle matrices.
 It verifies matched release builds, input/output equality, completed series and the
 binary fingerprints connecting the cycle and elapsed series. It writes the English report and shared tables. The public report has no dependency on internal drafts or archived experiments.
 
@@ -90,7 +90,7 @@ d=reports/substr-adaptive-search
     clang21=base-clang21:product-guard-clang21 \
     --filter "$(cat "$d/data/primary-filter.txt")" --passes 5 --target-ms 50 \
     --wait-idle 600 --out results/substr-final-amd-cycles.json
-./bench table results/substr-final-amd-cycles.json --full
+./bench table results/substr-final-amd-cycles.json --full --compact-header --base-name Stock
 
 # Intel, with the four corresponding build pairs already built:
 ./bench compare "$d/suite.php" \
@@ -98,7 +98,7 @@ d=reports/substr-adaptive-search
     clang18=base-clang18:product-guard-clang18 clang20=base-clang20:product-guard-clang20 \
     --filter "$(cat "$d/data/primary-filter.txt")" --passes 3 --target-ms 50 \
     --wait-idle 600 --out results/substr-final-intel-cycles.json
-./bench table results/substr-final-intel-cycles.json --full
+./bench table results/substr-final-intel-cycles.json --full --compact-header --base-name Stock
 ```
 
 The report's final AMD source is

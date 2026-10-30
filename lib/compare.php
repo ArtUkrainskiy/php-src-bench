@@ -72,7 +72,7 @@ function usage_compare(): void
 function usage_table(): void
 {
     echo <<<'USAGE'
-    Usage: bench table <series.json> [--full] [--labels FILE] [--base-name NAME] [--header] [--bpc] [--no-control]
+    Usage: bench table <series.json> [--full] [--labels FILE] [--base-name NAME] [--header] [--compact-header] [--bpc] [--no-control]
 
       Markdown table of the change in CPU cycles per call relative to A, one column per group;
       the control groups follow in a table of their own. Say "negative = fewer cycles (faster)"
@@ -83,6 +83,8 @@ function usage_table(): void
                      (default: every case, labelled by its id)
       --base-name N  what A is called in the second column (default: master)
       --header       first print how the series was measured (machine, builds, passes)
+      --compact-header
+                     use a short reference-column heading, with compiler and units above it
       --bpc          add the bytes per character of each input to the labels
 
     USAGE;
@@ -355,7 +357,7 @@ function cmd_table(array $positional, array $options): int
     if (isset($options['header'])) {
         echo series_header($series), "\n";
     }
-    echo series_table($series, $labels, isset($options['full']), (string) ($options['base-name'] ?? 'master'), isset($options['bpc']), isset($options['no-control']));
+    echo series_table($series, $labels, isset($options['full']), (string) ($options['base-name'] ?? 'master'), isset($options['bpc']), isset($options['no-control']), isset($options['compact-header']));
     return 0;
 }
 
@@ -603,7 +605,7 @@ function parse_labels(array $lines, array $caseIds): array
  *
  * @param array<string, string> $labels case id => label, in display order; empty: every case
  */
-function series_table(array $series, array $labels, bool $full, string $baseName, bool $bytesPerChar = false, bool $noControl = false): string
+function series_table(array $series, array $labels, bool $full, string $baseName, bool $bytesPerChar = false, bool $noControl = false, bool $compactHeader = false): string
 {
     [$cyc, $ins] = series_per_call($series);
     if (!$labels) {
@@ -662,7 +664,12 @@ function series_table(array $series, array $labels, bool $full, string $baseName
         if (!$isMain) {
             $out .= "\nControl: $baseName against itself.\n\n";
         }
-        $out .= "| call | $baseName, CPU cycles per call ($scale) | " . implode(' | ', $groups) . ' |' . ($withIns ? ' instructions |' : '') . "\n";
+        if ($compactHeader) {
+            $out .= "Absolute cycles/call: $baseName with $scale.\n\n";
+        }
+        $referenceHeading = $compactHeader ? "$baseName cycles" : "$baseName, CPU cycles per call ($scale)";
+        $instructionHeading = $compactHeader ? 'Δ instr.' : 'instructions';
+        $out .= "| call | $referenceHeading | " . implode(' | ', $groups) . ' |' . ($withIns ? " $instructionHeading |" : '') . "\n";
         $out .= '|---|--:|' . str_repeat('--:|', count($groups)) . ($withIns ? '--:|' : '') . "\n";
         foreach ($labels as $id => $label) {
             if (!isset($cyc[$id][$first]['a'])) {

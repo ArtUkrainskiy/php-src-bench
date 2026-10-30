@@ -6,7 +6,7 @@ run it again.
 
 | Report | Subject | php-src PR |
 |---|---|---|
-| [substr-adaptive-search](substr-adaptive-search/) | Forward substring search: final product report, 233 cases, six compiler/CPU pairs, elapsed time, cycles, instructions and remaining regressions | not opened yet |
+| [substr-adaptive-search](substr-adaptive-search/) | Forward substring search: final product report, 233 cases, six compiler/CPU pairs, elapsed time, cycles, instructions and remaining regressions | [branch](https://github.com/ArtUkrainskiy/php-src/tree/strpos-adaptive-pr) |
 | [json-encode-utf8-inline](json-encode-utf8-inline/) | `json_encode()`: decode valid UTF-8 inline | [#24283](https://github.com/php/php-src/pull/24283) |
 | [fgetcsv-mblen](fgetcsv-mblen/) | `php_mblen()`: skip `mbrlen()` for ASCII bytes (`fgetcsv()`, `str_getcsv()`, `escapeshell*()`) | [#24207](https://github.com/php/php-src/pull/24207) |
 | [deprecation-cost](deprecation-cost/) | What a deprecated call costs, and `#[\Deprecated]` without constructing the attribute | [#24198](https://github.com/php/php-src/pull/24198) |
