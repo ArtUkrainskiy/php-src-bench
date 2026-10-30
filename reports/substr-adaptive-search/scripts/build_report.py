@@ -37,7 +37,9 @@ def read(path):
     return d
 case_quality = read(report / 'data/quality.json')
 read(report / 'data/primary-cases.json')
-read(report / 'data/corpus-manifest.json')
+corpus = read(report / 'data/corpus-manifest.json')
+catalog = {case['id']: case for case in corpus['cases']}
+input_bytes = {key: corpus['inputs'][case['input']]['bytes'] for key, case in catalog.items()}
 for archive in [report / 'data/amd/native-parts.tar.gz', report / 'data/run-logs.tar.gz']:
     provenance[str(archive.relative_to(repo))] = hashlib.sha256(archive.read_bytes()).hexdigest()
 paths = [seconds / (cc + '-full233-1sec.json') for cc in list(names)[:2]]
@@ -136,7 +138,7 @@ def state(r, path, key):
 
 def table(cc, keys, absolute=False, original=False):
     rr = full[cc] if original else chosen[cc]
-    titles = ['Case', 'Stock, µs', 'Change, µs', 'Δ time', 'Δ cycles¹', 'Δ instr.', 'Result']
+    titles = ['Case', 'Bytes', 'Stock, µs', 'Change, µs', 'Δ time', 'Δ cycles¹', 'Δ instr.', 'Result']
     if absolute:
         titles = ['Case', 'Stock, µs', 'Change, µs', 'Δ time', 'Stock spread', 'Change spread', 'Result', 'Source']
     text = '| ' + ' | '.join(titles) + ' |\n|' + '|'.join('---' if i in [0, len(titles)-1] else '--:' for i in range(len(titles))) + '|\n'
@@ -149,6 +151,8 @@ def table(cc, keys, absolute=False, original=False):
         x, y = (r['stats'][s] for s in ['A', 'B'])
         cyc = cycles.get((cc, key))
         values = [label(key), f"{x['median'] / 1000:.4f}", f"{y['median'] / 1000:.4f}", pct(delta(r))]
+        if not absolute:
+            values.insert(1, f'{input_bytes[key]:,}')
         if absolute:
             values += [f"{x['spread_pct']:.2f}%", f"{y['spread_pct']:.2f}%"]
         else:
@@ -186,13 +190,34 @@ text = '# Forward substring search: product benchmarks\n\nThis report measures a
 patch = 'change.patch'
 text += f'Compared: change [`{head[:11]}`](https://github.com/ArtUkrainskiy/php-src/commit/{head}) ([branch](https://github.com/ArtUkrainskiy/php-src/tree/strpos-adaptive-pr), [patch]({patch})) versus stock PHP [`{base[:11]}`](https://github.com/php/php-src/commit/{base}). Measured on 30 October 2026 with the same two commits and corpus on all six compiler/CPU combinations.\n\n'
 text += '**Elapsed time of the complete PHP operation is the primary criterion.** Negative deltas mean lower cost; every delta is relative to stock. Cycles and instructions are diagnostic evidence, not substitutes for elapsed time. There is no application-wide average or assumed traffic distribution.\n\n'
+en_post = next(c for c in corpus['cases'] if c['name'] == 'banlist12/en/post/clean')
+template_case = next(c for c in corpus['cases'] if c['name'] == 'render-template/4k')
+http_case = next(c for c in corpus['cases'] if c['name'] == 'parse-http/body64k')
+text += '## Reading the case names\n\n'
+text += f"For example, `banlist12/en/post/clean` checks twelve case-sensitive literal substrings against a {input_bytes[en_post['id']]:,}-byte English post, with no match. The list contains eight locale-specific words/phrases and four example blocked domains, such as `spam`, `casino bonus` and `promo-cash.example`. Searches use `str_contains()` and stop at the first matching term. `banword` measures only one search.\n\n"
+text += '`comment`, `post` and `thread` target about 256 B, 1 KiB and 64 KiB respectively. They are UTF-8 strings assembled from hand-written order, delivery and support messages in seeded order, with varied identifiers. Complete messages are retained, so actual byte sizes vary; the main time tables show them. A `thread` is one long text input. Sizes count bytes, not characters. Text is already lower-case; normalization and word-boundary processing are outside timing.\n\n'
+text += '`clean` means no listed term occurs, so all twelve searches run. `early` places the first term at byte zero and stops after one search. `late` appends the last term at the end, so all twelve searches run. Languages: `en` English, `es` Spanish, `ru` Russian, `ar` Arabic, `hi` Hindi, `zh` Chinese, `ja` Japanese, `ko` Korean; `emoji` mixes English and emoji.\n\n'
+text += r'''| Case family | Data and search |
+|---|---|
+| `explode`, `explode-limit2`, `substr-count`, `str-replace` | Varied product fields with identifiers, including mixed UTF-8 values. `pipe2` = `\|\|`, `colon2` = `::`, `crlf` = CRLF, `comma` = `,`, `tab` = tab, `amp` = `&`. Split, split once, count or replace the delimiter; no quoting/escaping. |
+| `parse-records` | Unquoted five-column records: split CRLF rows, then double-pipe fields. |
+| `parse-query` | Form-urlencoded query with repeated `filter[]` keys: split `&` and `=`, then URL-decode keys and values. |
+| `parse-http`, `find-http-end` | Constructed HTTP request: search CRLFCRLF; the parser also splits headers at CRLF and `: `. `cookie4k` has a long cookie; `incomplete` has no header terminator. |
+| `scan-template`, `render-template` | Order-card HTML with `{{order.id}}`, `{{user.name}}`, `{{tracking.url}}`, `{{support.email}}`: collect slots or replace all four distinct names. |
+| `log-contains`, `log-filter` | JSON-lines payment logs with varied request/order IDs and similar event prefixes. Search `payment_failed` or `"level":"error"`, or split lines and collect error-line indexes. Here early/late means the first/last record; clean has neither error marker. |
+| `html-contains`, `source-tokens`, `document` | Search `href="` / `data-cookieconsent=`, C identifiers such as `zend_string`, Markdown fences/comment markers, or JavaScript `function` / `sourceMappingURL=`. Source/document scans are supplementary; source and snapshot hashes are in the manifest. |
+
+`short` targets 128 B; `4k`, `64k`, `1m` target 4 KiB, 64 KiB, 1 MiB. `small` depends on the family. One MiB exports and large queries are size guards. `absent` means the searched literal/delimiter is missing.
+
+'''
+text += f"Input bytes are not necessarily bytes scanned: `parse-http/body64k` has {input_bytes[http_case['id']]:,} bytes, but its parser stops after the {http_case['details']['header_bytes'] + 4:,}-byte header prefix. The `render-template/4k` fixture has {input_bytes[template_case['id']]:,} bytes and {template_case['details']['slots']} placeholder occurrences across its four distinct names. Parser/template timings include PHP loops, result construction and allocations.\n\n"
 text += '## Summary\n\n'
 text += '| CPU / compiler | Clean posts, Δ time | 4 KiB template, Δ time |\n|---|---:|---:|\n'
 for cc in names:
     posts = [r for k, r in chosen[cc].items() if k.startswith('banlist12/') and '/post/clean @ ' in k]
     template = next((r for k, r in chosen[cc].items() if k.startswith('render-template/4k @ ')))
     text += '| ' + ('AMD' if cc in ['gcc15', 'clang21'] else 'Intel') + ' / ' + names[cc] + ' | ' + pct(min(map(delta, posts))) + ' … ' + pct(max(map(delta, posts))) + ' | ' + pct(delta(template)) + ' |\n'
-text += '\n' + 'The post ranges cover medians across all nine languages, not uncertainty bounds; row quality and controls remain below and in the full tables. Moderation checks twelve literals in already normalized text. Short comments and one-/two-byte separators mostly retain their existing work. They have no general speedup guarantee. The template case performs four replacements with allocations, not a complete page request.\n\n'
+text += '\n' + 'The post ranges cover medians across all nine languages, not uncertainty bounds; row quality and controls remain below and in the full tables. Moderation checks twelve literals in already normalized text. Short comments and one-/two-byte separators mostly retain their existing work. They have no general speedup guarantee. The template case replaces four distinct placeholder names with allocations, not a complete page request.\n\n'
 text += 'There are real losses: the independent AMD repeat retained GCC slowdowns around 1.66–2.48% in three parser cases. The original Clang `explode("||")` 4 KiB result was +3.24%, versus +0.20% in its single independent repeat; neither result is deleted. Quiet Intel retains roughly +4.4% and +5.4% on long English and Chinese text with Clang 20. A universal 3% regression bound and greater cross-compiler stability are not supported.\n\n'
 text += '## Everyday elapsed times\n\n'
 text += 'The main tables use the complete final AMD one-second series, without replacing rows by favourable repeats. They include all nine clean-post languages plus short/early controls, long texts, separators, parsers, templates and logs.\n\n'
@@ -262,7 +287,7 @@ repro = 'REPRODUCE.md'
 text += f'## Reproduce\n\n[Commands for rebuilding, rerunning and regenerating the report]({repro}). The report regenerates from published raw data without private `results/` paths. `scripts/build_report.py --check` checks generated text/metrics and data invariants; `bench report check reports/substr-adaptive-search` checks native cycle blocks, links, placeholders and portable paths.\n'
 outputs[report / 'README.md'] = text
 for filename, title, mode in [('tables/primary.md', 'Primary product cases', 'primary'), ('tables/all-product.md', 'All original product rows', 'full'), ('tables/increases.md', 'All observed elapsed increases over 1%', 'increases')]:
-    doc = '# ' + title + '\n\n' + 'Elapsed time is primary. Cycles¹ come from a separate series; no simultaneous IPC is implied. Instructions are from the indicated elapsed run. Full tables retain original rows; primary tables use the documented Intel focus/quality policy. Increases include noisy and unclear rows, not only confirmed regressions.\n\n'
+    doc = '# ' + title + '\n\n[Case names, input sizes and search targets](../README.md#reading-the-case-names).\n\n' + 'Elapsed time is primary. Cycles¹ come from a separate series; no simultaneous IPC is implied. Instructions are from the indicated elapsed run. Full tables retain original rows; primary tables use the documented Intel focus/quality policy. Increases include noisy and unclear rows, not only confirmed regressions.\n\n'
     for cc in names:
         keys = primary if mode == 'primary' else list(full[cc])
         if mode == 'increases':

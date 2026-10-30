@@ -1,5 +1,7 @@
 # All original product rows
 
+[Case names, input sizes and search targets](../README.md#reading-the-case-names).
+
 Elapsed time is primary. Cycles¹ come from a separate series; no simultaneous IPC is implied. Instructions are from the indicated elapsed run. Full tables retain original rows; primary tables use the documented Intel focus/quality policy. Increases include noisy and unclear rows, not only confirmed regressions.
 
 ## AMD / GCC 15.2

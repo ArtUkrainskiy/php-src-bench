@@ -6,6 +6,28 @@ Compared: change [`ca89fb5fb96`](https://github.com/ArtUkrainskiy/php-src/commit
 
 **Elapsed time of the complete PHP operation is the primary criterion.** Negative deltas mean lower cost; every delta is relative to stock. Cycles and instructions are diagnostic evidence, not substitutes for elapsed time. There is no application-wide average or assumed traffic distribution.
 
+## Reading the case names
+
+For example, `banlist12/en/post/clean` checks twelve case-sensitive literal substrings against a 1,081-byte English post, with no match. The list contains eight locale-specific words/phrases and four example blocked domains, such as `spam`, `casino bonus` and `promo-cash.example`. Searches use `str_contains()` and stop at the first matching term. `banword` measures only one search.
+
+`comment`, `post` and `thread` target about 256 B, 1 KiB and 64 KiB respectively. They are UTF-8 strings assembled from hand-written order, delivery and support messages in seeded order, with varied identifiers. Complete messages are retained, so actual byte sizes vary; the main time tables show them. A `thread` is one long text input. Sizes count bytes, not characters. Text is already lower-case; normalization and word-boundary processing are outside timing.
+
+`clean` means no listed term occurs, so all twelve searches run. `early` places the first term at byte zero and stops after one search. `late` appends the last term at the end, so all twelve searches run. Languages: `en` English, `es` Spanish, `ru` Russian, `ar` Arabic, `hi` Hindi, `zh` Chinese, `ja` Japanese, `ko` Korean; `emoji` mixes English and emoji.
+
+| Case family | Data and search |
+|---|---|
+| `explode`, `explode-limit2`, `substr-count`, `str-replace` | Varied product fields with identifiers, including mixed UTF-8 values. `pipe2` = `\|\|`, `colon2` = `::`, `crlf` = CRLF, `comma` = `,`, `tab` = tab, `amp` = `&`. Split, split once, count or replace the delimiter; no quoting/escaping. |
+| `parse-records` | Unquoted five-column records: split CRLF rows, then double-pipe fields. |
+| `parse-query` | Form-urlencoded query with repeated `filter[]` keys: split `&` and `=`, then URL-decode keys and values. |
+| `parse-http`, `find-http-end` | Constructed HTTP request: search CRLFCRLF; the parser also splits headers at CRLF and `: `. `cookie4k` has a long cookie; `incomplete` has no header terminator. |
+| `scan-template`, `render-template` | Order-card HTML with `{{order.id}}`, `{{user.name}}`, `{{tracking.url}}`, `{{support.email}}`: collect slots or replace all four distinct names. |
+| `log-contains`, `log-filter` | JSON-lines payment logs with varied request/order IDs and similar event prefixes. Search `payment_failed` or `"level":"error"`, or split lines and collect error-line indexes. Here early/late means the first/last record; clean has neither error marker. |
+| `html-contains`, `source-tokens`, `document` | Search `href="` / `data-cookieconsent=`, C identifiers such as `zend_string`, Markdown fences/comment markers, or JavaScript `function` / `sourceMappingURL=`. Source/document scans are supplementary; source and snapshot hashes are in the manifest. |
+
+`short` targets 128 B; `4k`, `64k`, `1m` target 4 KiB, 64 KiB, 1 MiB. `small` depends on the family. One MiB exports and large queries are size guards. `absent` means the searched literal/delimiter is missing.
+
+Input bytes are not necessarily bytes scanned: `parse-http/body64k` has 65,848 bytes, but its parser stops after the 265-byte header prefix. The `render-template/4k` fixture has 4,250 bytes and 68 placeholder occurrences across its four distinct names. Parser/template timings include PHP loops, result construction and allocations.
+
 ## Summary
 
 | CPU / compiler | Clean posts, Δ time | 4 KiB template, Δ time |
@@ -17,7 +39,7 @@ Compared: change [`ca89fb5fb96`](https://github.com/ArtUkrainskiy/php-src/commit
 | Intel / Clang 18.1 | −7.98% … +0.18% | −8.48% |
 | Intel / Clang 20.1 | −6.97% … −1.78% | −0.42% |
 
-The post ranges cover medians across all nine languages, not uncertainty bounds; row quality and controls remain below and in the full tables. Moderation checks twelve literals in already normalized text. Short comments and one-/two-byte separators mostly retain their existing work. They have no general speedup guarantee. The template case performs four replacements with allocations, not a complete page request.
+The post ranges cover medians across all nine languages, not uncertainty bounds; row quality and controls remain below and in the full tables. Moderation checks twelve literals in already normalized text. Short comments and one-/two-byte separators mostly retain their existing work. They have no general speedup guarantee. The template case replaces four distinct placeholder names with allocations, not a complete page request.
 
 There are real losses: the independent AMD repeat retained GCC slowdowns around 1.66–2.48% in three parser cases. The original Clang `explode("||")` 4 KiB result was +3.24%, versus +0.20% in its single independent repeat; neither result is deleted. Quiet Intel retains roughly +4.4% and +5.4% on long English and Chinese text with Clang 20. A universal 3% regression bound and greater cross-compiler stability are not supported.
 
@@ -27,67 +49,67 @@ The main tables use the complete final AMD one-second series, without replacing 
 
 ### AMD / GCC 15.2
 
-| Case | Stock, µs | Change, µs | Δ time | Δ cycles¹ | Δ instr. | Result |
-|---|--:|--:|--:|--:|--:|---|
-| banlist12/en/post/clean | 2.9548 | 2.6760 | −9.43% | −10.08% | −5.77% | Faster |
-| banlist12/ru/post/clean | 3.0461 | 2.8732 | −5.68% | −5.66% | −3.39% | Faster |
-| banlist12/es/post/clean | 2.8571 | 2.5900 | −9.35% | −9.52% | −5.77% | Faster |
-| banlist12/ar/post/clean | 3.9494 | 3.7548 | −4.93% | −5.17% | −4.01% | Faster |
-| banlist12/hi/post/clean | 2.6588 | 2.4771 | −6.83% | −7.09% | −4.93% | Faster |
-| banlist12/zh/post/clean | 2.3121 | 2.0728 | −10.35% | −10.45% | −7.76% | Faster |
-| banlist12/ja/post/clean | 3.2846 | 3.0208 | −8.03% | −8.91% | −5.33% | Faster |
-| banlist12/ko/post/clean | 3.1002 | 2.8682 | −7.48% | −7.60% | −5.19% | Faster |
-| banlist12/emoji/post/clean | 2.6880 | 2.4388 | −9.27% | −9.60% | −6.22% | Faster |
-| banlist12/en/comment/clean | 0.4995 | 0.5034 | +0.79% | +1.25% | −0.00% | Unclear |
-| banlist12/en/post/early | 0.0326 | 0.0338 | +3.76% | −2.42% | +0.00% | Unclear |
-| banlist12/hi/post/early | 0.0454 | 0.0374 | −17.58% | −14.89% | −16.76% | Faster |
-| banlist12/en/thread/clean | 170.6972 | 158.9640 | −6.87% | −7.18% | −0.13% | Faster |
-| banlist12/ru/thread/clean | 222.3682 | 217.5858 | −2.15% | −2.20% | −0.07% | Faster |
-| banlist12/zh/thread/clean | 149.5724 | 141.4225 | −5.45% | −5.98% | −0.17% | Faster |
-| explode/pipe2/4k | 2.5081 | 2.5085 | +0.02% | +1.37% | +0.00% | Unclear |
-| explode/colon2/4k | 2.5272 | 2.4989 | −1.12% | −0.21% | −0.00% | Unclear |
-| explode/comma/4k | 2.1888 | 2.1952 | +0.29% | −0.32% | −0.00% | Unclear |
-| explode/crlf/4k | 2.4607 | 2.4325 | −1.15% | −0.04% | +0.00% | Unclear |
-| parse-records/4k | 9.4418 | 9.5843 | +1.51% | −0.75% | +0.00% | Slower |
-| parse-query/4k | 26.0120 | 26.2823 | +1.04% | +0.46% | +0.00% | Slower |
-| parse-http/small | 0.8447 | 0.8538 | +1.07% | +1.70% | +0.00% | Unclear |
-| parse-http/body64k | 0.8381 | 0.8595 | +2.54% | +1.60% | +0.00% | Slower |
-| scan-template/4k | 4.5714 | 4.5635 | −0.17% | +0.26% | +0.00% | Unclear |
-| render-template/4k | 7.0283 | 5.9951 | −14.70% | −14.66% | −17.65% | Faster |
-| log-contains/event/thread/clean | 13.3864 | 12.3392 | −7.82% | −7.78% | −0.12% | Faster |
-| log-filter/thread/clean | 42.0660 | 41.9510 | −0.27% | +0.85% | −0.00% | Unclear |
+| Case | Bytes | Stock, µs | Change, µs | Δ time | Δ cycles¹ | Δ instr. | Result |
+|---|--:|--:|--:|--:|--:|--:|---|
+| banlist12/en/post/clean | 1,081 | 2.9548 | 2.6760 | −9.43% | −10.08% | −5.77% | Faster |
+| banlist12/ru/post/clean | 1,041 | 3.0461 | 2.8732 | −5.68% | −5.66% | −3.39% | Faster |
+| banlist12/es/post/clean | 1,086 | 2.8571 | 2.5900 | −9.35% | −9.52% | −5.77% | Faster |
+| banlist12/ar/post/clean | 1,036 | 3.9494 | 3.7548 | −4.93% | −5.17% | −4.01% | Faster |
+| banlist12/hi/post/clean | 1,091 | 2.6588 | 2.4771 | −6.83% | −7.09% | −4.93% | Faster |
+| banlist12/zh/post/clean | 1,039 | 2.3121 | 2.0728 | −10.35% | −10.45% | −7.76% | Faster |
+| banlist12/ja/post/clean | 1,069 | 3.2846 | 3.0208 | −8.03% | −8.91% | −5.33% | Faster |
+| banlist12/ko/post/clean | 1,098 | 3.1002 | 2.8682 | −7.48% | −7.60% | −5.19% | Faster |
+| banlist12/emoji/post/clean | 1,097 | 2.6880 | 2.4388 | −9.27% | −9.60% | −6.22% | Faster |
+| banlist12/en/comment/clean | 300 | 0.4995 | 0.5034 | +0.79% | +1.25% | −0.00% | Unclear |
+| banlist12/en/post/early | 1,087 | 0.0326 | 0.0338 | +3.76% | −2.42% | +0.00% | Unclear |
+| banlist12/hi/post/early | 1,108 | 0.0454 | 0.0374 | −17.58% | −14.89% | −16.76% | Faster |
+| banlist12/en/thread/clean | 65,548 | 170.6972 | 158.9640 | −6.87% | −7.18% | −0.13% | Faster |
+| banlist12/ru/thread/clean | 65,638 | 222.3682 | 217.5858 | −2.15% | −2.20% | −0.07% | Faster |
+| banlist12/zh/thread/clean | 65,620 | 149.5724 | 141.4225 | −5.45% | −5.98% | −0.17% | Faster |
+| explode/pipe2/4k | 4,123 | 2.5081 | 2.5085 | +0.02% | +1.37% | +0.00% | Unclear |
+| explode/colon2/4k | 4,099 | 2.5272 | 2.4989 | −1.12% | −0.21% | −0.00% | Unclear |
+| explode/comma/4k | 4,111 | 2.1888 | 2.1952 | +0.29% | −0.32% | −0.00% | Unclear |
+| explode/crlf/4k | 4,098 | 2.4607 | 2.4325 | −1.15% | −0.04% | +0.00% | Unclear |
+| parse-records/4k | 4,151 | 9.4418 | 9.5843 | +1.51% | −0.75% | +0.00% | Slower |
+| parse-query/4k | 4,096 | 26.0120 | 26.2823 | +1.04% | +0.46% | +0.00% | Slower |
+| parse-http/small | 265 | 0.8447 | 0.8538 | +1.07% | +1.70% | +0.00% | Unclear |
+| parse-http/body64k | 65,848 | 0.8381 | 0.8595 | +2.54% | +1.60% | +0.00% | Slower |
+| scan-template/4k | 4,250 | 4.5714 | 4.5635 | −0.17% | +0.26% | +0.00% | Unclear |
+| render-template/4k | 4,250 | 7.0283 | 5.9951 | −14.70% | −14.66% | −17.65% | Faster |
+| log-contains/event/thread/clean | 65,600 | 13.3864 | 12.3392 | −7.82% | −7.78% | −0.12% | Faster |
+| log-filter/thread/clean | 65,600 | 42.0660 | 41.9510 | −0.27% | +0.85% | −0.00% | Unclear |
 
 ### AMD / Clang 21.1
 
-| Case | Stock, µs | Change, µs | Δ time | Δ cycles¹ | Δ instr. | Result |
-|---|--:|--:|--:|--:|--:|---|
-| banlist12/en/post/clean | 2.8101 | 2.5401 | −9.61% | −10.14% | −1.94% | Faster |
-| banlist12/ru/post/clean | 2.8605 | 2.7476 | −3.95% | −4.14% | −2.27% | Faster |
-| banlist12/es/post/clean | 2.7114 | 2.4480 | −9.72% | −9.88% | −1.93% | Faster |
-| banlist12/ar/post/clean | 3.8592 | 3.6704 | −4.89% | −4.93% | −1.31% | Faster |
-| banlist12/hi/post/clean | 2.4691 | 2.3515 | −4.76% | −4.41% | −2.68% | Faster |
-| banlist12/zh/post/clean | 2.1799 | 1.9261 | −11.64% | −12.09% | −2.67% | Faster |
-| banlist12/ja/post/clean | 3.1152 | 2.8773 | −7.64% | −8.11% | −1.78% | Faster |
-| banlist12/ko/post/clean | 2.9588 | 2.7281 | −7.80% | −7.53% | −1.72% | Faster |
-| banlist12/emoji/post/clean | 2.5483 | 2.2975 | −9.84% | −9.16% | −2.10% | Faster |
-| banlist12/en/comment/clean | 0.5138 | 0.5104 | −0.66% | +0.23% | +0.00% | Unclear |
-| banlist12/en/post/early | 0.0304 | 0.0304 | +0.09% | −1.04% | +0.00% | Unclear |
-| banlist12/hi/post/early | 0.0418 | 0.0357 | −14.56% | −12.93% | −5.95% | Faster |
-| banlist12/en/thread/clean | 161.8209 | 149.1975 | −7.80% | −8.06% | −0.04% | Faster |
-| banlist12/ru/thread/clean | 217.9945 | 205.6730 | −5.65% | −5.73% | +3.70% | Faster |
-| banlist12/zh/thread/clean | 144.1783 | 131.6223 | −8.71% | −8.80% | −0.06% | Faster |
-| explode/pipe2/4k | 2.7138 | 2.8019 | +3.24% | −0.15% | −0.00% | Slower |
-| explode/colon2/4k | 2.7902 | 2.7557 | −1.23% | +0.39% | +0.00% | Unclear |
-| explode/comma/4k | 2.2465 | 2.2148 | −1.41% | +0.62% | +0.00% | Unclear |
-| explode/crlf/4k | 2.6348 | 2.6547 | +0.76% | −0.79% | +0.00% | Unclear |
-| parse-records/4k | 9.9516 | 10.0725 | +1.22% | +0.62% | +0.00% | Unclear |
-| parse-query/4k | 27.2458 | 27.5487 | +1.11% | +0.33% | −0.00% | Unclear |
-| parse-http/small | 0.8478 | 0.8275 | −2.39% | −1.66% | +0.00% | Faster |
-| parse-http/body64k | 0.8440 | 0.8262 | −2.10% | −2.49% | +0.00% | Faster |
-| scan-template/4k | 4.3505 | 4.3489 | −0.04% | +0.10% | −0.00% | Unclear |
-| render-template/4k | 6.5323 | 5.5867 | −14.48% | −14.26% | −6.53% | Faster |
-| log-contains/event/thread/clean | 12.4447 | 11.4881 | −7.69% | −7.73% | −0.04% | Faster |
-| log-filter/thread/clean | 43.1143 | 42.9586 | −0.36% | +0.13% | −0.00% | Unclear |
+| Case | Bytes | Stock, µs | Change, µs | Δ time | Δ cycles¹ | Δ instr. | Result |
+|---|--:|--:|--:|--:|--:|--:|---|
+| banlist12/en/post/clean | 1,081 | 2.8101 | 2.5401 | −9.61% | −10.14% | −1.94% | Faster |
+| banlist12/ru/post/clean | 1,041 | 2.8605 | 2.7476 | −3.95% | −4.14% | −2.27% | Faster |
+| banlist12/es/post/clean | 1,086 | 2.7114 | 2.4480 | −9.72% | −9.88% | −1.93% | Faster |
+| banlist12/ar/post/clean | 1,036 | 3.8592 | 3.6704 | −4.89% | −4.93% | −1.31% | Faster |
+| banlist12/hi/post/clean | 1,091 | 2.4691 | 2.3515 | −4.76% | −4.41% | −2.68% | Faster |
+| banlist12/zh/post/clean | 1,039 | 2.1799 | 1.9261 | −11.64% | −12.09% | −2.67% | Faster |
+| banlist12/ja/post/clean | 1,069 | 3.1152 | 2.8773 | −7.64% | −8.11% | −1.78% | Faster |
+| banlist12/ko/post/clean | 1,098 | 2.9588 | 2.7281 | −7.80% | −7.53% | −1.72% | Faster |
+| banlist12/emoji/post/clean | 1,097 | 2.5483 | 2.2975 | −9.84% | −9.16% | −2.10% | Faster |
+| banlist12/en/comment/clean | 300 | 0.5138 | 0.5104 | −0.66% | +0.23% | +0.00% | Unclear |
+| banlist12/en/post/early | 1,087 | 0.0304 | 0.0304 | +0.09% | −1.04% | +0.00% | Unclear |
+| banlist12/hi/post/early | 1,108 | 0.0418 | 0.0357 | −14.56% | −12.93% | −5.95% | Faster |
+| banlist12/en/thread/clean | 65,548 | 161.8209 | 149.1975 | −7.80% | −8.06% | −0.04% | Faster |
+| banlist12/ru/thread/clean | 65,638 | 217.9945 | 205.6730 | −5.65% | −5.73% | +3.70% | Faster |
+| banlist12/zh/thread/clean | 65,620 | 144.1783 | 131.6223 | −8.71% | −8.80% | −0.06% | Faster |
+| explode/pipe2/4k | 4,123 | 2.7138 | 2.8019 | +3.24% | −0.15% | −0.00% | Slower |
+| explode/colon2/4k | 4,099 | 2.7902 | 2.7557 | −1.23% | +0.39% | +0.00% | Unclear |
+| explode/comma/4k | 4,111 | 2.2465 | 2.2148 | −1.41% | +0.62% | +0.00% | Unclear |
+| explode/crlf/4k | 4,098 | 2.6348 | 2.6547 | +0.76% | −0.79% | +0.00% | Unclear |
+| parse-records/4k | 4,151 | 9.9516 | 10.0725 | +1.22% | +0.62% | +0.00% | Unclear |
+| parse-query/4k | 4,096 | 27.2458 | 27.5487 | +1.11% | +0.33% | −0.00% | Unclear |
+| parse-http/small | 265 | 0.8478 | 0.8275 | −2.39% | −1.66% | +0.00% | Faster |
+| parse-http/body64k | 65,848 | 0.8440 | 0.8262 | −2.10% | −2.49% | +0.00% | Faster |
+| scan-template/4k | 4,250 | 4.3505 | 4.3489 | −0.04% | +0.10% | −0.00% | Unclear |
+| render-template/4k | 4,250 | 6.5323 | 5.5867 | −14.48% | −14.26% | −6.53% | Faster |
+| log-contains/event/thread/clean | 65,600 | 12.4447 | 11.4881 | −7.69% | −7.73% | −0.04% | Faster |
+| log-filter/thread/clean | 65,600 | 43.1143 | 42.9586 | −0.36% | +0.13% | −0.00% | Unclear |
 
 ¹ Cycles were measured separately: five paired passes × 50 ms on AMD, three × 50 ms in the fresh quiet Intel series. Binary hashes match the elapsed-time builds. Instruction deltas here are from the elapsed-time series. These columns do not yield exact simultaneous IPC. A dash means no matching completed cycle row.
 
