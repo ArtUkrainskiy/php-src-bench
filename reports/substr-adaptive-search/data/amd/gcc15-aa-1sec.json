@@ -1,0 +1,544 @@
+{
+  "format": 1,
+  "date": "2026-10-30T14:09:05+00:00",
+  "suite": "<amd-stand>/tools/results/substr-search/pr-20261030/suite.php",
+  "elapsed_s": 146.4,
+  "config": {
+    "rounds": 4,
+    "samples": 1,
+    "target_ms": 1000,
+    "warmup_ms": 1000,
+    "filter": "^(?:banlist12/en/post/early|banlist12/hi/post/early|banlist12/en/post/clean|parse\\-http/small|banlist12/ru/thread/clean|render\\-template/4k) @ ",
+    "cpu": 15,
+    "perf": false,
+    "wait_idle": 300
+  },
+  "env": {
+    "cpu_model": "AMD Ryzen 9 5950X 16-Core Processor",
+    "kernel": "7.0.0-38-generic",
+    "cpu": 15,
+    "cpu_siblings": "15,31",
+    "hybrid_pcores": null,
+    "cpu_is_pcore": null,
+    "governor": "performance",
+    "epp": "performance",
+    "turbo": true,
+    "on_ac": null,
+    "load": 0.341796875,
+    "busy_pct": {
+      "15": 0,
+      "31": 0
+    },
+    "idle_cpu": 1
+  },
+  "sides": {
+    "A": {
+      "name": "base-gcc15",
+      "php": "<amd-stand>/builds/base-gcc15/sapi/cli/php",
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<amd-stand>/builds/base-gcc15/sapi/cli/php"
+      },
+      "build": {
+        "name": "base-gcc15",
+        "ref": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-30T08:35:55+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      }
+    },
+    "B": {
+      "name": "base-gcc15",
+      "php": "<amd-stand>/builds/base-gcc15/sapi/cli/php",
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<amd-stand>/builds/base-gcc15/sapi/cli/php"
+      },
+      "build": {
+        "name": "base-gcc15",
+        "ref": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-30T08:35:55+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      }
+    }
+  },
+  "cases": {
+    "banlist12/en/post/clean @ moderation-en-post-clean": {
+      "input_len": 1081,
+      "sides": {
+        "A": {
+          "n": [
+            335210,
+            335210,
+            335210,
+            335210
+          ],
+          "loop_ns": [
+            2.024614420810835,
+            2.0287700247605978,
+            2.0149040899734496,
+            2.012809880373497
+          ],
+          "rounds": [
+            [
+              2971.342510664956
+            ],
+            [
+              2959.936603919931
+            ],
+            [
+              2953.2488857730973
+            ],
+            [
+              2970.476358103875
+            ]
+          ],
+          "input_hash": [
+            "453b518e1c99ae37e08e25195f38da05"
+          ],
+          "output_hash": [
+            "750b38f0e82afd4a3663c3f86572cc23"
+          ]
+        },
+        "B": {
+          "n": [
+            337521,
+            337521,
+            337521,
+            337521
+          ],
+          "loop_ns": [
+            2.0330764604276474,
+            2.027142014867223,
+            2.013545823815407,
+            2.0195691527342
+          ],
+          "rounds": [
+            [
+              2962.8040062692394
+            ],
+            [
+              2955.836596833975
+            ],
+            [
+              2953.2551811590984
+            ],
+            [
+              2952.810462163836
+            ]
+          ],
+          "input_hash": [
+            "453b518e1c99ae37e08e25195f38da05"
+          ],
+          "output_hash": [
+            "750b38f0e82afd4a3663c3f86572cc23"
+          ]
+        }
+      }
+    },
+    "banlist12/en/post/early @ moderation-en-post-early": {
+      "input_len": 1087,
+      "sides": {
+        "A": {
+          "n": [
+            29665892,
+            29665892,
+            29665892,
+            29665892
+          ],
+          "loop_ns": [
+            2.5844545311497797,
+            2.5901917259052922,
+            2.057405892261726,
+            2.5916969562216434
+          ],
+          "rounds": [
+            [
+              33.84505889794246
+            ],
+            [
+              34.41170425618754
+            ],
+            [
+              35.669746454952374
+            ],
+            [
+              35.44632458717236
+            ]
+          ],
+          "input_hash": [
+            "3457ddb020c8754dcff9ab581c50f3a7"
+          ],
+          "output_hash": [
+            "4907ef54b009b0c3146b331f1a1b0846"
+          ]
+        },
+        "B": {
+          "n": [
+            27629600,
+            27629600,
+            27629600,
+            27629600
+          ],
+          "loop_ns": [
+            2.588194255436199,
+            2.5888966181196977,
+            2.5891703824883456,
+            2.590550496568897
+          ],
+          "rounds": [
+            [
+              36.276461910414916
+            ],
+            [
+              35.02150295335437
+            ],
+            [
+              35.121252642093985
+            ],
+            [
+              34.67732536844544
+            ]
+          ],
+          "input_hash": [
+            "3457ddb020c8754dcff9ab581c50f3a7"
+          ],
+          "output_hash": [
+            "4907ef54b009b0c3146b331f1a1b0846"
+          ]
+        }
+      }
+    },
+    "banlist12/ru/thread/clean @ moderation-ru-thread-clean": {
+      "input_len": 65638,
+      "sides": {
+        "A": {
+          "n": [
+            4518,
+            4518,
+            4518,
+            4518
+          ],
+          "loop_ns": [
+            2.5522355024347054,
+            2.552456839309429,
+            2.561310314298362,
+            2.563523683045595
+          ],
+          "rounds": [
+            [
+              221370.35590969457
+            ],
+            [
+              221846.1190792386
+            ],
+            [
+              222894.00553342188
+            ],
+            [
+              221876.46370075256
+            ]
+          ],
+          "input_hash": [
+            "5ae331bba0defa3112fc32bf95f224fd"
+          ],
+          "output_hash": [
+            "750b38f0e82afd4a3663c3f86572cc23"
+          ]
+        },
+        "B": {
+          "n": [
+            4509,
+            4509,
+            4509,
+            4509
+          ],
+          "loop_ns": [
+            2.5551119982257706,
+            2.5508982035928143,
+            2.5642049234863604,
+            2.5575515635395876
+          ],
+          "rounds": [
+            [
+              221691.60545575517
+            ],
+            [
+              221668.55067642493
+            ],
+            [
+              221887.11931692171
+            ],
+            [
+              221861.49811488134
+            ]
+          ],
+          "input_hash": [
+            "5ae331bba0defa3112fc32bf95f224fd"
+          ],
+          "output_hash": [
+            "750b38f0e82afd4a3663c3f86572cc23"
+          ]
+        }
+      }
+    },
+    "banlist12/hi/post/early @ moderation-hi-post-early": {
+      "input_len": 1108,
+      "sides": {
+        "A": {
+          "n": [
+            20989182,
+            20989182,
+            20989182,
+            20989182
+          ],
+          "loop_ns": [
+            2.5860799148818665,
+            2.590507671999795,
+            2.589183561322209,
+            2.590611725602265
+          ],
+          "rounds": [
+            [
+              44.7388344147952
+            ],
+            [
+              46.570772982005685
+            ],
+            [
+              47.85633056114335
+            ],
+            [
+              48.50325305674132
+            ]
+          ],
+          "input_hash": [
+            "0c94b63a390eda5688e6ecef91450d54"
+          ],
+          "output_hash": [
+            "4907ef54b009b0c3146b331f1a1b0846"
+          ]
+        },
+        "B": {
+          "n": [
+            20455131,
+            20455131,
+            20455131,
+            20455131
+          ],
+          "loop_ns": [
+            2.5884741095033807,
+            2.589213190568176,
+            2.589901330869013,
+            2.591081279313244
+          ],
+          "rounds": [
+            [
+              48.90111371078484
+            ],
+            [
+              46.108053182353125
+            ],
+            [
+              48.067521835963795
+            ],
+            [
+              47.01874336566214
+            ]
+          ],
+          "input_hash": [
+            "0c94b63a390eda5688e6ecef91450d54"
+          ],
+          "output_hash": [
+            "4907ef54b009b0c3146b331f1a1b0846"
+          ]
+        }
+      }
+    },
+    "parse-http/small @ http-small": {
+      "input_len": 265,
+      "sides": {
+        "A": {
+          "n": [
+            1196821,
+            1196821,
+            1196821,
+            1196821
+          ],
+          "loop_ns": [
+            2.593048584541882,
+            2.5977535487763,
+            2.594647821186293,
+            2.5936936266993977
+          ],
+          "rounds": [
+            [
+              833.9659564797075
+            ],
+            [
+              834.9478585352363
+            ],
+            [
+              830.5709091000241
+            ],
+            [
+              843.7791841887802
+            ]
+          ],
+          "input_hash": [
+            "797db2640e43b0e6e4f1867e842157aa"
+          ],
+          "output_hash": [
+            "2a8b77769ca6845af818ea35c3fd7be9"
+          ]
+        },
+        "B": {
+          "n": [
+            1199767,
+            1199767,
+            1199767,
+            1199767
+          ],
+          "loop_ns": [
+            2.592902621925757,
+            2.595809019584636,
+            2.595274749180466,
+            2.5948655030518424
+          ],
+          "rounds": [
+            [
+              834.0055469103585
+            ],
+            [
+              836.8434062613824
+            ],
+            [
+              835.3596381630766
+            ],
+            [
+              837.3947116398434
+            ]
+          ],
+          "input_hash": [
+            "797db2640e43b0e6e4f1867e842157aa"
+          ],
+          "output_hash": [
+            "2a8b77769ca6845af818ea35c3fd7be9"
+          ]
+        }
+      }
+    },
+    "render-template/4k @ template-4k": {
+      "input_len": 4250,
+      "sides": {
+        "A": {
+          "n": [
+            142751,
+            142751,
+            142751,
+            142751
+          ],
+          "loop_ns": [
+            2.5581887342295326,
+            2.5618454511702193,
+            2.558405895580416,
+            2.5586160517264327
+          ],
+          "rounds": [
+            [
+              7007.264649634679
+            ],
+            [
+              7019.956154422736
+            ],
+            [
+              7007.284579442526
+            ],
+            [
+              7076.925976000168
+            ]
+          ],
+          "input_hash": [
+            "ac813cd4b8989111c3a992d25356bcf2"
+          ],
+          "output_hash": [
+            "ce19aa5e47e26336d2e233301e3e2cfe"
+          ]
+        },
+        "B": {
+          "n": [
+            141968,
+            141968,
+            141968,
+            141968
+          ],
+          "loop_ns": [
+            2.5586117998422178,
+            2.5584638791840413,
+            2.5583230023667305,
+            2.5586751944100077
+          ],
+          "rounds": [
+            [
+              7041.732953905105
+            ],
+            [
+              7031.280316691085
+            ],
+            [
+              7010.226832807393
+            ],
+            [
+              7013.237800067621
+            ]
+          ],
+          "input_hash": [
+            "ac813cd4b8989111c3a992d25356bcf2"
+          ],
+          "output_hash": [
+            "ce19aa5e47e26336d2e233301e3e2cfe"
+          ]
+        }
+      }
+    }
+  }
+}

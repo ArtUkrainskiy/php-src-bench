@@ -1,0 +1,179 @@
+{
+  "format": 1,
+  "date": "2026-10-30T18:05:22+00:00",
+  "suite": "<amd-stand>/tools/results/substr-search/pr-20261030/suite.php",
+  "elapsed_s": 28.6,
+  "config": {
+    "rounds": 4,
+    "samples": 1,
+    "target_ms": 1000,
+    "warmup_ms": 1000,
+    "filter": "^parse\\-http/cookie4k\\ @\\ http\\-cookie4k$",
+    "cpu": 15,
+    "perf": false,
+    "wait_idle": 300
+  },
+  "env": {
+    "cpu_model": "AMD Ryzen 9 5950X 16-Core Processor",
+    "kernel": "7.0.0-38-generic",
+    "cpu": 15,
+    "cpu_siblings": "15,31",
+    "hybrid_pcores": null,
+    "cpu_is_pcore": null,
+    "governor": "performance",
+    "epp": "performance",
+    "turbo": true,
+    "on_ac": null,
+    "load": 0.9609375,
+    "busy_pct": {
+      "15": 0,
+      "31": 0
+    },
+    "idle_cpu": 1
+  },
+  "sides": {
+    "A": {
+      "name": "base-gcc15",
+      "php": "<amd-stand>/builds/base-gcc15/sapi/cli/php",
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<amd-stand>/builds/base-gcc15/sapi/cli/php"
+      },
+      "build": {
+        "name": "base-gcc15",
+        "ref": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-30T08:35:55+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      }
+    },
+    "B": {
+      "name": "base-gcc15",
+      "php": "<amd-stand>/builds/base-gcc15/sapi/cli/php",
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<amd-stand>/builds/base-gcc15/sapi/cli/php"
+      },
+      "build": {
+        "name": "base-gcc15",
+        "ref": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-30T08:35:55+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      }
+    }
+  },
+  "cases": {
+    "parse-http/cookie4k @ http-cookie4k": {
+      "input_len": 4840,
+      "sides": {
+        "A": {
+          "n": [
+            1003203,
+            1003203,
+            1003203,
+            1003203
+          ],
+          "loop_ns": [
+            2.074667838911965,
+            2.074996785296695,
+            2.0658889576685877,
+            2.073358034216405
+          ],
+          "rounds": [
+            [
+              994.6340401693376
+            ],
+            [
+              993.881485601618
+            ],
+            [
+              985.7513334788672
+            ],
+            [
+              996.5205466889553
+            ]
+          ],
+          "input_hash": [
+            "4017c96d17f38833fa6e2471223e155f"
+          ],
+          "output_hash": [
+            "ba198c3790829eb7a914e3c3ac95fda7"
+          ]
+        },
+        "B": {
+          "n": [
+            999428,
+            999428,
+            999428,
+            999428
+          ],
+          "loop_ns": [
+            2.0728206534137525,
+            2.0743235130494644,
+            2.073592094678156,
+            2.069290634242787
+          ],
+          "rounds": [
+            [
+              999.1400751229703
+            ],
+            [
+              994.578809078793
+            ],
+            [
+              997.3054687281125
+            ],
+            [
+              1008.2051173271111
+            ]
+          ],
+          "input_hash": [
+            "4017c96d17f38833fa6e2471223e155f"
+          ],
+          "output_hash": [
+            "ba198c3790829eb7a914e3c3ac95fda7"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,54 @@
+log-contains/event/thread/clean @ logs-thread-clean: pass 1/3, A
+log-contains/event/thread/clean @ logs-thread-clean: pass 1/3, B
+log-contains/event/thread/clean @ logs-thread-clean: pass 2/3, B
+log-contains/event/thread/clean @ logs-thread-clean: pass 2/3, A
+log-contains/event/thread/clean @ logs-thread-clean: pass 3/3, A
+log-contains/event/thread/clean @ logs-thread-clean: pass 3/3, B
+log-contains/event/thread/late @ logs-thread-late: pass 1/3, A
+log-contains/event/thread/late @ logs-thread-late: pass 1/3, B
+log-contains/event/thread/late @ logs-thread-late: pass 2/3, B
+log-contains/event/thread/late @ logs-thread-late: pass 2/3, A
+log-contains/event/thread/late @ logs-thread-late: pass 3/3, A
+log-contains/event/thread/late @ logs-thread-late: pass 3/3, B
+A: base-clang18
+B: product-guard-clang18
+
+log-contains/event/thread/clean @ logs-thread-clean (per call, median of 3 passes; user space only, except the top-down slots)
+
+| event | A | B | B vs A |
+|---|--:|--:|--:|
+| cycles | 65,570 | 67,550 | +3% |
+| instructions | 128,954 | 117,650 | −9% |
+| branches | 41,056 | 35,426 | −14% |
+| branch-misses | 3.35 | 77.36 | +74.01 |
+| L1-icache-load-misses | 1.61 | 0.69 | -0.92 |
+| iTLB-load-misses | 0.09 | 0.03 | -0.06 |
+| slots | 390,194 | 405,103 | +4% |
+| topdown-retiring | 88,048 | 82,589 | −6% |
+| topdown-fe-bound | 5,791 | 41,237 | +612% |
+| topdown-bad-spec | 802 | 14,754 | +1740% |
+| topdown-be-bound | 295,233 | 267,332 | −9% |
+
+log-contains/event/thread/late @ logs-thread-late (per call, median of 3 passes; user space only, except the top-down slots)
+
+| event | A | B | B vs A |
+|---|--:|--:|--:|
+| cycles | 65,763 | 67,941 | +3% |
+| instructions | 128,786 | 117,501 | −9% |
+| branches | 41,002 | 35,383 | −14% |
+| branch-misses | 3.73 | 94.24 | +90.51 |
+| L1-icache-load-misses | 0.70 | 0.88 | +0.18 |
+| iTLB-load-misses | 0.03 | 0.01 | -0.02 |
+| slots | 390,040 | 404,947 | +4% |
+| topdown-retiring | 87,703 | 83,032 | −5% |
+| topdown-fe-bound | 5,793 | 46,472 | +702% |
+| topdown-bad-spec | 714 | 16,498 | +2210% |
+| topdown-be-bound | 296,059 | 263,147 | −11% |
+
+| function | A address | A size | B address | B size | moved by | alignment A / B |
+|---|--:|--:|--:|--:|--:|--:|
+| zend_memnstr_ex | 0x6de0c0 | 897 | 0x6de0c0 | 29 | +0 | 0 / 0 |
+| zend_memnstr_sunday_short | not found in A (inlined or static with another name?) | | | | | |
+| zif_str_contains | 0x531b60 | 489 | 0x531b60 | 489 | +0 | 32 / 32 |
+
+Alignment is the address modulo 64 (a cache line). Run `objdump -d` on both binaries for the hot loop itself.

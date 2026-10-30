@@ -1,0 +1,231 @@
+
+<release-php>:     file format elf64-x86-64
+
+
+Disassembly of section .init:
+
+Disassembly of section .plt:
+
+Disassembly of section .plt.got:
+
+Disassembly of section .text:
+
+000000000072b310 <zend_memnstr_ex>:
+  72b310:	53                   	push   %rbx
+  72b311:	48 81 ec 10 04 00 00 	sub    $0x410,%rsp
+  72b318:	64 48 8b 04 25 28 00 	mov    %fs:0x28,%rax
+  72b31f:	00 00 
+  72b321:	48 89 84 24 08 04 00 	mov    %rax,0x408(%rsp)
+  72b328:	00 
+  72b329:	48 89 c8             	mov    %rcx,%rax
+  72b32c:	48 29 f8             	sub    %rdi,%rax
+  72b32f:	4c 8d 42 ff          	lea    -0x1(%rdx),%r8
+  72b333:	49 39 c0             	cmp    %rax,%r8
+  72b336:	0f 83 43 02 00 00    	jae    72b57f <zend_memnstr_ex+0x26f>
+  72b33c:	8d 42 01             	lea    0x1(%rdx),%eax
+  72b33f:	66 0f 6e c0          	movd   %eax,%xmm0
+  72b343:	66 0f 70 c0 00       	pshufd $0x0,%xmm0,%xmm0
+  72b348:	66 0f 7f 04 24       	movdqa %xmm0,(%rsp)
+  72b34d:	66 0f 7f 44 24 10    	movdqa %xmm0,0x10(%rsp)
+  72b353:	66 0f 7f 44 24 20    	movdqa %xmm0,0x20(%rsp)
+  72b359:	66 0f 7f 44 24 30    	movdqa %xmm0,0x30(%rsp)
+  72b35f:	66 0f 7f 44 24 40    	movdqa %xmm0,0x40(%rsp)
+  72b365:	66 0f 7f 44 24 50    	movdqa %xmm0,0x50(%rsp)
+  72b36b:	66 0f 7f 44 24 60    	movdqa %xmm0,0x60(%rsp)
+  72b371:	66 0f 7f 44 24 70    	movdqa %xmm0,0x70(%rsp)
+  72b377:	66 0f 7f 84 24 80 00 	movdqa %xmm0,0x80(%rsp)
+  72b37e:	00 00 
+  72b380:	66 0f 7f 84 24 90 00 	movdqa %xmm0,0x90(%rsp)
+  72b387:	00 00 
+  72b389:	66 0f 7f 84 24 a0 00 	movdqa %xmm0,0xa0(%rsp)
+  72b390:	00 00 
+  72b392:	66 0f 7f 84 24 b0 00 	movdqa %xmm0,0xb0(%rsp)
+  72b399:	00 00 
+  72b39b:	66 0f 7f 84 24 c0 00 	movdqa %xmm0,0xc0(%rsp)
+  72b3a2:	00 00 
+  72b3a4:	66 0f 7f 84 24 d0 00 	movdqa %xmm0,0xd0(%rsp)
+  72b3ab:	00 00 
+  72b3ad:	66 0f 7f 84 24 e0 00 	movdqa %xmm0,0xe0(%rsp)
+  72b3b4:	00 00 
+  72b3b6:	66 0f 7f 84 24 f0 00 	movdqa %xmm0,0xf0(%rsp)
+  72b3bd:	00 00 
+  72b3bf:	66 0f 7f 84 24 00 01 	movdqa %xmm0,0x100(%rsp)
+  72b3c6:	00 00 
+  72b3c8:	66 0f 7f 84 24 10 01 	movdqa %xmm0,0x110(%rsp)
+  72b3cf:	00 00 
+  72b3d1:	66 0f 7f 84 24 20 01 	movdqa %xmm0,0x120(%rsp)
+  72b3d8:	00 00 
+  72b3da:	66 0f 7f 84 24 30 01 	movdqa %xmm0,0x130(%rsp)
+  72b3e1:	00 00 
+  72b3e3:	66 0f 7f 84 24 40 01 	movdqa %xmm0,0x140(%rsp)
+  72b3ea:	00 00 
+  72b3ec:	66 0f 7f 84 24 50 01 	movdqa %xmm0,0x150(%rsp)
+  72b3f3:	00 00 
+  72b3f5:	66 0f 7f 84 24 60 01 	movdqa %xmm0,0x160(%rsp)
+  72b3fc:	00 00 
+  72b3fe:	66 0f 7f 84 24 70 01 	movdqa %xmm0,0x170(%rsp)
+  72b405:	00 00 
+  72b407:	66 0f 7f 84 24 80 01 	movdqa %xmm0,0x180(%rsp)
+  72b40e:	00 00 
+  72b410:	66 0f 7f 84 24 90 01 	movdqa %xmm0,0x190(%rsp)
+  72b417:	00 00 
+  72b419:	66 0f 7f 84 24 a0 01 	movdqa %xmm0,0x1a0(%rsp)
+  72b420:	00 00 
+  72b422:	66 0f 7f 84 24 b0 01 	movdqa %xmm0,0x1b0(%rsp)
+  72b429:	00 00 
+  72b42b:	66 0f 7f 84 24 c0 01 	movdqa %xmm0,0x1c0(%rsp)
+  72b432:	00 00 
+  72b434:	66 0f 7f 84 24 d0 01 	movdqa %xmm0,0x1d0(%rsp)
+  72b43b:	00 00 
+  72b43d:	66 0f 7f 84 24 e0 01 	movdqa %xmm0,0x1e0(%rsp)
+  72b444:	00 00 
+  72b446:	66 0f 7f 84 24 f0 01 	movdqa %xmm0,0x1f0(%rsp)
+  72b44d:	00 00 
+  72b44f:	66 0f 7f 84 24 00 02 	movdqa %xmm0,0x200(%rsp)
+  72b456:	00 00 
+  72b458:	66 0f 7f 84 24 10 02 	movdqa %xmm0,0x210(%rsp)
+  72b45f:	00 00 
+  72b461:	66 0f 7f 84 24 20 02 	movdqa %xmm0,0x220(%rsp)
+  72b468:	00 00 
+  72b46a:	66 0f 7f 84 24 30 02 	movdqa %xmm0,0x230(%rsp)
+  72b471:	00 00 
+  72b473:	66 0f 7f 84 24 40 02 	movdqa %xmm0,0x240(%rsp)
+  72b47a:	00 00 
+  72b47c:	66 0f 7f 84 24 50 02 	movdqa %xmm0,0x250(%rsp)
+  72b483:	00 00 
+  72b485:	66 0f 7f 84 24 60 02 	movdqa %xmm0,0x260(%rsp)
+  72b48c:	00 00 
+  72b48e:	66 0f 7f 84 24 70 02 	movdqa %xmm0,0x270(%rsp)
+  72b495:	00 00 
+  72b497:	66 0f 7f 84 24 80 02 	movdqa %xmm0,0x280(%rsp)
+  72b49e:	00 00 
+  72b4a0:	66 0f 7f 84 24 90 02 	movdqa %xmm0,0x290(%rsp)
+  72b4a7:	00 00 
+  72b4a9:	66 0f 7f 84 24 a0 02 	movdqa %xmm0,0x2a0(%rsp)
+  72b4b0:	00 00 
+  72b4b2:	66 0f 7f 84 24 b0 02 	movdqa %xmm0,0x2b0(%rsp)
+  72b4b9:	00 00 
+  72b4bb:	66 0f 7f 84 24 c0 02 	movdqa %xmm0,0x2c0(%rsp)
+  72b4c2:	00 00 
+  72b4c4:	66 0f 7f 84 24 d0 02 	movdqa %xmm0,0x2d0(%rsp)
+  72b4cb:	00 00 
+  72b4cd:	66 0f 7f 84 24 e0 02 	movdqa %xmm0,0x2e0(%rsp)
+  72b4d4:	00 00 
+  72b4d6:	66 0f 7f 84 24 f0 02 	movdqa %xmm0,0x2f0(%rsp)
+  72b4dd:	00 00 
+  72b4df:	66 0f 7f 84 24 00 03 	movdqa %xmm0,0x300(%rsp)
+  72b4e6:	00 00 
+  72b4e8:	66 0f 7f 84 24 10 03 	movdqa %xmm0,0x310(%rsp)
+  72b4ef:	00 00 
+  72b4f1:	66 0f 7f 84 24 20 03 	movdqa %xmm0,0x320(%rsp)
+  72b4f8:	00 00 
+  72b4fa:	66 0f 7f 84 24 30 03 	movdqa %xmm0,0x330(%rsp)
+  72b501:	00 00 
+  72b503:	66 0f 7f 84 24 40 03 	movdqa %xmm0,0x340(%rsp)
+  72b50a:	00 00 
+  72b50c:	66 0f 7f 84 24 50 03 	movdqa %xmm0,0x350(%rsp)
+  72b513:	00 00 
+  72b515:	66 0f 7f 84 24 60 03 	movdqa %xmm0,0x360(%rsp)
+  72b51c:	00 00 
+  72b51e:	66 0f 7f 84 24 70 03 	movdqa %xmm0,0x370(%rsp)
+  72b525:	00 00 
+  72b527:	66 0f 7f 84 24 80 03 	movdqa %xmm0,0x380(%rsp)
+  72b52e:	00 00 
+  72b530:	66 0f 7f 84 24 90 03 	movdqa %xmm0,0x390(%rsp)
+  72b537:	00 00 
+  72b539:	66 0f 7f 84 24 a0 03 	movdqa %xmm0,0x3a0(%rsp)
+  72b540:	00 00 
+  72b542:	66 0f 7f 84 24 b0 03 	movdqa %xmm0,0x3b0(%rsp)
+  72b549:	00 00 
+  72b54b:	66 0f 7f 84 24 c0 03 	movdqa %xmm0,0x3c0(%rsp)
+  72b552:	00 00 
+  72b554:	66 0f 7f 84 24 d0 03 	movdqa %xmm0,0x3d0(%rsp)
+  72b55b:	00 00 
+  72b55d:	66 0f 7f 84 24 e0 03 	movdqa %xmm0,0x3e0(%rsp)
+  72b564:	00 00 
+  72b566:	66 0f 7f 84 24 f0 03 	movdqa %xmm0,0x3f0(%rsp)
+  72b56d:	00 00 
+  72b56f:	89 d0                	mov    %edx,%eax
+  72b571:	83 e0 03             	and    $0x3,%eax
+  72b574:	49 83 f8 03          	cmp    $0x3,%r8
+  72b578:	73 0c                	jae    72b586 <zend_memnstr_ex+0x276>
+  72b57a:	45 31 c0             	xor    %r8d,%r8d
+  72b57d:	eb 61                	jmp    72b5e0 <zend_memnstr_ex+0x2d0>
+  72b57f:	31 c0                	xor    %eax,%eax
+  72b581:	e9 ea 00 00 00       	jmp    72b670 <zend_memnstr_ex+0x360>
+  72b586:	49 89 d1             	mov    %rdx,%r9
+  72b589:	49 83 e1 fc          	and    $0xfffffffffffffffc,%r9
+  72b58d:	45 31 c0             	xor    %r8d,%r8d
+  72b590:	41 89 d2             	mov    %edx,%r10d
+  72b593:	66 66 66 66 2e 0f 1f 	data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+  72b59a:	84 00 00 00 00 00 
+  72b5a0:	46 0f b6 1c 06       	movzbl (%rsi,%r8,1),%r11d
+  72b5a5:	46 89 14 9c          	mov    %r10d,(%rsp,%r11,4)
+  72b5a9:	45 8d 5a ff          	lea    -0x1(%r10),%r11d
+  72b5ad:	42 0f b6 5c 06 01    	movzbl 0x1(%rsi,%r8,1),%ebx
+  72b5b3:	44 89 1c 9c          	mov    %r11d,(%rsp,%rbx,4)
+  72b5b7:	45 8d 5a fe          	lea    -0x2(%r10),%r11d
+  72b5bb:	42 0f b6 5c 06 02    	movzbl 0x2(%rsi,%r8,1),%ebx
+  72b5c1:	44 89 1c 9c          	mov    %r11d,(%rsp,%rbx,4)
+  72b5c5:	45 8d 5a fd          	lea    -0x3(%r10),%r11d
+  72b5c9:	42 0f b6 5c 06 03    	movzbl 0x3(%rsi,%r8,1),%ebx
+  72b5cf:	44 89 1c 9c          	mov    %r11d,(%rsp,%rbx,4)
+  72b5d3:	49 83 c0 04          	add    $0x4,%r8
+  72b5d7:	41 83 c2 fc          	add    $0xfffffffc,%r10d
+  72b5db:	4d 39 c1             	cmp    %r8,%r9
+  72b5de:	75 c0                	jne    72b5a0 <zend_memnstr_ex+0x290>
+  72b5e0:	48 85 c0             	test   %rax,%rax
+  72b5e3:	74 2f                	je     72b614 <zend_memnstr_ex+0x304>
+  72b5e5:	4e 8d 0c 06          	lea    (%rsi,%r8,1),%r9
+  72b5e9:	41 89 d2             	mov    %edx,%r10d
+  72b5ec:	45 29 c2             	sub    %r8d,%r10d
+  72b5ef:	45 31 c0             	xor    %r8d,%r8d
+  72b5f2:	66 66 66 66 66 2e 0f 	data16 data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+  72b5f9:	1f 84 00 00 00 00 00 
+  72b600:	47 0f b6 1c 01       	movzbl (%r9,%r8,1),%r11d
+  72b605:	46 89 14 9c          	mov    %r10d,(%rsp,%r11,4)
+  72b609:	49 ff c0             	inc    %r8
+  72b60c:	41 ff ca             	dec    %r10d
+  72b60f:	4c 39 c0             	cmp    %r8,%rax
+  72b612:	75 ec                	jne    72b600 <zend_memnstr_ex+0x2f0>
+  72b614:	48 29 d1             	sub    %rdx,%rcx
+  72b617:	31 c0                	xor    %eax,%eax
+  72b619:	48 39 cf             	cmp    %rcx,%rdi
+  72b61c:	77 52                	ja     72b670 <zend_memnstr_ex+0x360>
+  72b61e:	45 31 c0             	xor    %r8d,%r8d
+  72b621:	66 66 66 66 66 66 2e 	data16 data16 data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+  72b628:	0f 1f 84 00 00 00 00 
+  72b62f:	00 
+  72b630:	46 0f b6 0c 06       	movzbl (%rsi,%r8,1),%r9d
+  72b635:	46 3a 0c 07          	cmp    (%rdi,%r8,1),%r9b
+  72b639:	75 15                	jne    72b650 <zend_memnstr_ex+0x340>
+  72b63b:	49 ff c0             	inc    %r8
+  72b63e:	4c 39 c2             	cmp    %r8,%rdx
+  72b641:	75 ed                	jne    72b630 <zend_memnstr_ex+0x320>
+  72b643:	eb 28                	jmp    72b66d <zend_memnstr_ex+0x35d>
+  72b645:	66 66 2e 0f 1f 84 00 	data16 cs nopw 0x0(%rax,%rax,1)
+  72b64c:	00 00 00 00 
+  72b650:	4c 39 c2             	cmp    %r8,%rdx
+  72b653:	74 18                	je     72b66d <zend_memnstr_ex+0x35d>
+  72b655:	48 39 cf             	cmp    %rcx,%rdi
+  72b658:	74 16                	je     72b670 <zend_memnstr_ex+0x360>
+  72b65a:	44 0f b6 04 17       	movzbl (%rdi,%rdx,1),%r8d
+  72b65f:	46 8b 04 84          	mov    (%rsp,%r8,4),%r8d
+  72b663:	4c 01 c7             	add    %r8,%rdi
+  72b666:	48 39 cf             	cmp    %rcx,%rdi
+  72b669:	76 b3                	jbe    72b61e <zend_memnstr_ex+0x30e>
+  72b66b:	eb 03                	jmp    72b670 <zend_memnstr_ex+0x360>
+  72b66d:	48 89 f8             	mov    %rdi,%rax
+  72b670:	64 48 8b 0c 25 28 00 	mov    %fs:0x28,%rcx
+  72b677:	00 00 
+  72b679:	48 3b 8c 24 08 04 00 	cmp    0x408(%rsp),%rcx
+  72b680:	00 
+  72b681:	75 09                	jne    72b68c <zend_memnstr_ex+0x37c>
+  72b683:	48 81 c4 10 04 00 00 	add    $0x410,%rsp
+  72b68a:	5b                   	pop    %rbx
+  72b68b:	c3                   	ret
+  72b68c:	e8 3f 56 ad ff       	call   200cd0 <__stack_chk_fail@plt>
+
+Disassembly of section .remap_stub:
+
+Disassembly of section .fini:

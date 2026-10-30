@@ -1,0 +1,181 @@
+{
+  "format": 1,
+  "date": "2026-10-30T18:04:22+00:00",
+  "suite": "<amd-stand>/tools/results/substr-search/pr-20261030/suite.php",
+  "elapsed_s": 29.9,
+  "config": {
+    "rounds": 4,
+    "samples": 1,
+    "target_ms": 1000,
+    "warmup_ms": 1000,
+    "filter": "^parse\\-query/64k\\ @\\ query\\-64k$",
+    "cpu": 15,
+    "perf": true,
+    "wait_idle": 300
+  },
+  "env": {
+    "cpu_model": "AMD Ryzen 9 5950X 16-Core Processor",
+    "kernel": "7.0.0-38-generic",
+    "cpu": 15,
+    "cpu_siblings": "15,31",
+    "hybrid_pcores": null,
+    "cpu_is_pcore": null,
+    "governor": "performance",
+    "epp": "performance",
+    "turbo": true,
+    "on_ac": null,
+    "load": 0.88720703125,
+    "busy_pct": {
+      "15": 0,
+      "31": 0
+    },
+    "idle_cpu": 1
+  },
+  "sides": {
+    "A": {
+      "name": "base-gcc15",
+      "php": "<amd-stand>/builds/base-gcc15/sapi/cli/php",
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<amd-stand>/builds/base-gcc15/sapi/cli/php"
+      },
+      "build": {
+        "name": "base-gcc15",
+        "ref": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-30T08:35:55+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      }
+    },
+    "B": {
+      "name": "product-guard-gcc15",
+      "php": "<amd-stand>/builds/product-guard-gcc15/sapi/cli/php",
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<amd-stand>/builds/product-guard-gcc15/sapi/cli/php"
+      },
+      "build": {
+        "name": "product-guard-gcc15",
+        "ref": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "commit": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "subject": "Reduce forward substring setup cost and bound expensive comparisons",
+        "snapshot": false,
+        "base_commit": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "base_subject": "Reduce forward substring setup cost and bound expensive comparisons",
+        "built_at": "2026-10-30T08:37:27+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      }
+    }
+  },
+  "cases": {
+    "parse-query/64k @ query-64k": {
+      "input_len": 65536,
+      "sides": {
+        "A": {
+          "n": [
+            2416,
+            2416,
+            2416,
+            2416
+          ],
+          "loop_ns": [
+            2.6374172185430464,
+            2.620860927152318,
+            2.6374172185430464,
+            2.653973509933775
+          ],
+          "rounds": [
+            [
+              415481.8307119205
+            ],
+            [
+              417119.9561258278
+            ],
+            [
+              414739.7938741722
+            ],
+            [
+              414810.7715231788
+            ]
+          ],
+          "input_hash": [
+            "bde13ce0b51177b3158583cfe1f47aaf"
+          ],
+          "output_hash": [
+            "684a5aa5e9ea35858e746eefe1e75577"
+          ],
+          "instructions": 6897039.904387417
+        },
+        "B": {
+          "n": [
+            2370,
+            2370,
+            2370,
+            2370
+          ],
+          "loop_ns": [
+            2.6759493670886076,
+            2.6379746835443036,
+            2.6379746835443036,
+            2.6253164556962023
+          ],
+          "rounds": [
+            [
+              418274.07426160335
+            ],
+            [
+              418442.6818565401
+            ],
+            [
+              420296.6894514768
+            ],
+            [
+              417936.6194092827
+            ]
+          ],
+          "input_hash": [
+            "bde13ce0b51177b3158583cfe1f47aaf"
+          ],
+          "output_hash": [
+            "684a5aa5e9ea35858e746eefe1e75577"
+          ],
+          "instructions": 6897041.331539735
+        }
+      }
+    }
+  }
+}

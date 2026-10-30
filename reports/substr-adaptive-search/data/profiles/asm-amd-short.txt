@@ -1,0 +1,137 @@
+
+<release-php>:     file format elf64-x86-64
+
+
+Disassembly of section .init:
+
+Disassembly of section .plt:
+
+Disassembly of section .plt.got:
+
+Disassembly of section .text:
+
+000000000072b330 <zend_memnstr_sunday_short>:
+  72b330:	53                   	push   %rbx
+  72b331:	48 81 ec 10 01 00 00 	sub    $0x110,%rsp
+  72b338:	64 48 8b 04 25 28 00 	mov    %fs:0x28,%rax
+  72b33f:	00 00 
+  72b341:	48 89 84 24 08 01 00 	mov    %rax,0x108(%rsp)
+  72b348:	00 
+  72b349:	48 89 c8             	mov    %rcx,%rax
+  72b34c:	48 29 f8             	sub    %rdi,%rax
+  72b34f:	4c 8d 42 ff          	lea    -0x1(%rdx),%r8
+  72b353:	49 39 c0             	cmp    %rax,%r8
+  72b356:	0f 83 9f 00 00 00    	jae    72b3fb <zend_memnstr_sunday_short+0xcb>
+  72b35c:	8d 42 01             	lea    0x1(%rdx),%eax
+  72b35f:	0f b6 c0             	movzbl %al,%eax
+  72b362:	66 0f 6e c0          	movd   %eax,%xmm0
+  72b366:	66 0f 60 c0          	punpcklbw %xmm0,%xmm0
+  72b36a:	f2 0f 70 c0 00       	pshuflw $0x0,%xmm0,%xmm0
+  72b36f:	66 0f 70 c0 44       	pshufd $0x44,%xmm0,%xmm0
+  72b374:	66 0f 7f 84 24 f0 00 	movdqa %xmm0,0xf0(%rsp)
+  72b37b:	00 00 
+  72b37d:	66 0f 7f 84 24 e0 00 	movdqa %xmm0,0xe0(%rsp)
+  72b384:	00 00 
+  72b386:	66 0f 7f 84 24 d0 00 	movdqa %xmm0,0xd0(%rsp)
+  72b38d:	00 00 
+  72b38f:	66 0f 7f 84 24 c0 00 	movdqa %xmm0,0xc0(%rsp)
+  72b396:	00 00 
+  72b398:	66 0f 7f 84 24 b0 00 	movdqa %xmm0,0xb0(%rsp)
+  72b39f:	00 00 
+  72b3a1:	66 0f 7f 84 24 a0 00 	movdqa %xmm0,0xa0(%rsp)
+  72b3a8:	00 00 
+  72b3aa:	66 0f 7f 84 24 90 00 	movdqa %xmm0,0x90(%rsp)
+  72b3b1:	00 00 
+  72b3b3:	66 0f 7f 84 24 80 00 	movdqa %xmm0,0x80(%rsp)
+  72b3ba:	00 00 
+  72b3bc:	66 0f 7f 44 24 70    	movdqa %xmm0,0x70(%rsp)
+  72b3c2:	66 0f 7f 44 24 60    	movdqa %xmm0,0x60(%rsp)
+  72b3c8:	66 0f 7f 44 24 50    	movdqa %xmm0,0x50(%rsp)
+  72b3ce:	66 0f 7f 44 24 40    	movdqa %xmm0,0x40(%rsp)
+  72b3d4:	66 0f 7f 44 24 30    	movdqa %xmm0,0x30(%rsp)
+  72b3da:	66 0f 7f 44 24 20    	movdqa %xmm0,0x20(%rsp)
+  72b3e0:	66 0f 7f 44 24 10    	movdqa %xmm0,0x10(%rsp)
+  72b3e6:	66 0f 7f 04 24       	movdqa %xmm0,(%rsp)
+  72b3eb:	89 d0                	mov    %edx,%eax
+  72b3ed:	83 e0 03             	and    $0x3,%eax
+  72b3f0:	49 83 f8 03          	cmp    $0x3,%r8
+  72b3f4:	73 0c                	jae    72b402 <zend_memnstr_sunday_short+0xd2>
+  72b3f6:	45 31 c0             	xor    %r8d,%r8d
+  72b3f9:	eb 55                	jmp    72b450 <zend_memnstr_sunday_short+0x120>
+  72b3fb:	31 c0                	xor    %eax,%eax
+  72b3fd:	e9 df 00 00 00       	jmp    72b4e1 <zend_memnstr_sunday_short+0x1b1>
+  72b402:	41 89 d1             	mov    %edx,%r9d
+  72b405:	41 83 e1 1c          	and    $0x1c,%r9d
+  72b409:	45 31 c0             	xor    %r8d,%r8d
+  72b40c:	41 89 d2             	mov    %edx,%r10d
+  72b40f:	90                   	nop
+  72b410:	46 0f b6 1c 06       	movzbl (%rsi,%r8,1),%r11d
+  72b415:	46 88 14 1c          	mov    %r10b,(%rsp,%r11,1)
+  72b419:	45 8d 5a ff          	lea    -0x1(%r10),%r11d
+  72b41d:	42 0f b6 5c 06 01    	movzbl 0x1(%rsi,%r8,1),%ebx
+  72b423:	44 88 1c 1c          	mov    %r11b,(%rsp,%rbx,1)
+  72b427:	45 8d 5a fe          	lea    -0x2(%r10),%r11d
+  72b42b:	42 0f b6 5c 06 02    	movzbl 0x2(%rsi,%r8,1),%ebx
+  72b431:	44 88 1c 1c          	mov    %r11b,(%rsp,%rbx,1)
+  72b435:	45 8d 5a fd          	lea    -0x3(%r10),%r11d
+  72b439:	42 0f b6 5c 06 03    	movzbl 0x3(%rsi,%r8,1),%ebx
+  72b43f:	44 88 1c 1c          	mov    %r11b,(%rsp,%rbx,1)
+  72b443:	49 83 c0 04          	add    $0x4,%r8
+  72b447:	41 80 c2 fc          	add    $0xfc,%r10b
+  72b44b:	4d 39 c1             	cmp    %r8,%r9
+  72b44e:	75 c0                	jne    72b410 <zend_memnstr_sunday_short+0xe0>
+  72b450:	48 85 c0             	test   %rax,%rax
+  72b453:	74 2f                	je     72b484 <zend_memnstr_sunday_short+0x154>
+  72b455:	4e 8d 0c 06          	lea    (%rsi,%r8,1),%r9
+  72b459:	41 89 d2             	mov    %edx,%r10d
+  72b45c:	45 28 c2             	sub    %r8b,%r10b
+  72b45f:	45 31 c0             	xor    %r8d,%r8d
+  72b462:	66 66 66 66 66 2e 0f 	data16 data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+  72b469:	1f 84 00 00 00 00 00 
+  72b470:	47 0f b6 1c 01       	movzbl (%r9,%r8,1),%r11d
+  72b475:	46 88 14 1c          	mov    %r10b,(%rsp,%r11,1)
+  72b479:	49 ff c0             	inc    %r8
+  72b47c:	41 fe ca             	dec    %r10b
+  72b47f:	4c 39 c0             	cmp    %r8,%rax
+  72b482:	75 ec                	jne    72b470 <zend_memnstr_sunday_short+0x140>
+  72b484:	48 29 d1             	sub    %rdx,%rcx
+  72b487:	31 c0                	xor    %eax,%eax
+  72b489:	48 39 cf             	cmp    %rcx,%rdi
+  72b48c:	77 53                	ja     72b4e1 <zend_memnstr_sunday_short+0x1b1>
+  72b48e:	45 31 c0             	xor    %r8d,%r8d
+  72b491:	66 66 66 66 66 66 2e 	data16 data16 data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+  72b498:	0f 1f 84 00 00 00 00 
+  72b49f:	00 
+  72b4a0:	46 0f b6 0c 06       	movzbl (%rsi,%r8,1),%r9d
+  72b4a5:	46 3a 0c 07          	cmp    (%rdi,%r8,1),%r9b
+  72b4a9:	75 15                	jne    72b4c0 <zend_memnstr_sunday_short+0x190>
+  72b4ab:	49 ff c0             	inc    %r8
+  72b4ae:	4c 39 c2             	cmp    %r8,%rdx
+  72b4b1:	75 ed                	jne    72b4a0 <zend_memnstr_sunday_short+0x170>
+  72b4b3:	eb 29                	jmp    72b4de <zend_memnstr_sunday_short+0x1ae>
+  72b4b5:	66 66 2e 0f 1f 84 00 	data16 cs nopw 0x0(%rax,%rax,1)
+  72b4bc:	00 00 00 00 
+  72b4c0:	4c 39 c2             	cmp    %r8,%rdx
+  72b4c3:	74 19                	je     72b4de <zend_memnstr_sunday_short+0x1ae>
+  72b4c5:	48 39 cf             	cmp    %rcx,%rdi
+  72b4c8:	74 17                	je     72b4e1 <zend_memnstr_sunday_short+0x1b1>
+  72b4ca:	44 0f b6 04 17       	movzbl (%rdi,%rdx,1),%r8d
+  72b4cf:	46 0f b6 04 04       	movzbl (%rsp,%r8,1),%r8d
+  72b4d4:	4c 01 c7             	add    %r8,%rdi
+  72b4d7:	48 39 cf             	cmp    %rcx,%rdi
+  72b4da:	76 b2                	jbe    72b48e <zend_memnstr_sunday_short+0x15e>
+  72b4dc:	eb 03                	jmp    72b4e1 <zend_memnstr_sunday_short+0x1b1>
+  72b4de:	48 89 f8             	mov    %rdi,%rax
+  72b4e1:	64 48 8b 0c 25 28 00 	mov    %fs:0x28,%rcx
+  72b4e8:	00 00 
+  72b4ea:	48 3b 8c 24 08 01 00 	cmp    0x108(%rsp),%rcx
+  72b4f1:	00 
+  72b4f2:	75 09                	jne    72b4fd <zend_memnstr_sunday_short+0x1cd>
+  72b4f4:	48 81 c4 10 01 00 00 	add    $0x110,%rsp
+  72b4fb:	5b                   	pop    %rbx
+  72b4fc:	c3                   	ret
+  72b4fd:	e8 ce 57 ad ff       	call   200cd0 <__stack_chk_fail@plt>
+
+Disassembly of section .remap_stub:
+
+Disassembly of section .fini:

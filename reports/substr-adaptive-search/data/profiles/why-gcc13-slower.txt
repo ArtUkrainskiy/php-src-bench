@@ -1,0 +1,32 @@
+banlist12/ru/thread/clean @ moderation-ru-thread-clean: pass 1/3, A
+banlist12/ru/thread/clean @ moderation-ru-thread-clean: pass 1/3, B
+banlist12/ru/thread/clean @ moderation-ru-thread-clean: pass 2/3, B
+banlist12/ru/thread/clean @ moderation-ru-thread-clean: pass 2/3, A
+banlist12/ru/thread/clean @ moderation-ru-thread-clean: pass 3/3, A
+banlist12/ru/thread/clean @ moderation-ru-thread-clean: pass 3/3, B
+A: base-gcc13
+B: product-guard-gcc13
+
+banlist12/ru/thread/clean @ moderation-ru-thread-clean (per call, median of 3 passes; user space only, except the top-down slots)
+
+| event | A | B | B vs A |
+|---|--:|--:|--:|
+| cycles | 1,139,548 | 1,171,721 | +3% |
+| instructions | 1,260,479 | 1,259,650 | 0% |
+| branches | 425,657 | 425,476 | 0% |
+| branch-misses | 13,754 | 14,225 | +3% |
+| L1-icache-load-misses | 5.71 | 65.05 | +59.34 |
+| iTLB-load-misses | 0.51 | -0.62 | -1.13 |
+| slots | 6,857,140 | 6,987,467 | +2% |
+| topdown-retiring | 937,938 | 956,585 | +2% |
+| topdown-fe-bound | 2,375,942 | 2,368,238 | 0% |
+| topdown-bad-spec | 1,759,171 | 1,913,647 | +9% |
+| topdown-be-bound | 1,808,316 | 1,837,043 | +2% |
+
+| function | A address | A size | B address | B size | moved by | alignment A / B |
+|---|--:|--:|--:|--:|--:|--:|
+| zend_memnstr_ex | 0x722c80 | 237 | 0x723960 | 45 | +3296 | 0 / 32 |
+| zend_memnstr_sunday_short | not found in A (inlined or static with another name?) | | | | | |
+| zif_str_contains | 0x575d80 | 438 | 0x575d80 | 438 | +0 | 0 / 0 |
+
+Alignment is the address modulo 64 (a cache line). Run `objdump -d` on both binaries for the hot loop itself.

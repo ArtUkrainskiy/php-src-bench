@@ -1,0 +1,352 @@
+{
+  "format": 1,
+  "date": "2026-10-30T13:28:08+00:00",
+  "suite": "../../../substr-adaptive-search/suite.php",
+  "elapsed_s": 10.6,
+  "config": {
+    "rounds": 4,
+    "samples": 7,
+    "target_ms": 50,
+    "warmup_ms": 10,
+    "filter": "^(?:explode\\-limit2/colon2/4k\\ @\\ delimiter\\-colon2\\-4k|html\\-contains/link/4k\\ @\\ template\\-4k)$",
+    "cpu": 10,
+    "perf": true,
+    "wait_idle": 300
+  },
+  "env": {
+    "cpu_model": "13th Gen Intel(R) Core(TM) i7-13700H",
+    "kernel": "7.0.0-38-generic",
+    "cpu": 10,
+    "cpu_siblings": "10-11",
+    "hybrid_pcores": "0-11",
+    "cpu_is_pcore": true,
+    "governor": "powersave",
+    "epp": "balance_performance",
+    "turbo": true,
+    "on_ac": true,
+    "load": 0.99462890625,
+    "busy_pct": {
+      "10": 3.3,
+      "11": 0
+    },
+    "idle_cpu": 2
+  },
+  "sides": {
+    "A": {
+      "name": "base-gcc13",
+      "php": "<builds>/base-gcc13/sapi/cli/php",
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<builds>/base-gcc13/sapi/cli/php"
+      },
+      "build": {
+        "name": "base-gcc13",
+        "ref": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-30T08:25:25+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "7d62913bb38e52a00d2d982ad4a31f9081a546e9",
+        "cc": "gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+        "cc_command": "gcc-13",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      }
+    },
+    "B": {
+      "name": "product-guard-gcc13",
+      "php": "<builds>/product-guard-gcc13/sapi/cli/php",
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<builds>/product-guard-gcc13/sapi/cli/php"
+      },
+      "build": {
+        "name": "product-guard-gcc13",
+        "ref": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "commit": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "subject": "Reduce forward substring setup cost and bound expensive comparisons",
+        "snapshot": false,
+        "base_commit": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "base_subject": "Reduce forward substring setup cost and bound expensive comparisons",
+        "built_at": "2026-10-30T08:29:38+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "7d62913bb38e52a00d2d982ad4a31f9081a546e9",
+        "cc": "gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+        "cc_command": "gcc-13",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      }
+    }
+  },
+  "cases": {
+    "explode-limit2/colon2/4k @ delimiter-colon2-4k": {
+      "input_len": 4099,
+      "sides": {
+        "A": {
+          "n": [
+            576492,
+            576492,
+            576492,
+            576492
+          ],
+          "loop_ns": [
+            2.3801839401067144,
+            2.3785794078668916,
+            2.378376456221422,
+            2.3758855283334372
+          ],
+          "rounds": [
+            [
+              86.39648078377498,
+              86.76273738404002,
+              85.9776735843689,
+              86.3011108566988,
+              85.71700040937255,
+              86.11060517752198,
+              86.02293006667915
+            ],
+            [
+              86.47532663072515,
+              85.90160661379517,
+              85.86656362967743,
+              86.10994601833157,
+              86.12993588809559,
+              86.27201938621872,
+              86.21797874038148
+            ],
+            [
+              85.9949383512694,
+              86.31158801856748,
+              86.1194760725214,
+              86.14713994296538,
+              86.33233939065937,
+              86.06186209002033,
+              85.81659242452628
+            ],
+            [
+              86.64541398666417,
+              86.06034602388237,
+              86.17677088320393,
+              86.33571151030716,
+              86.01095245033756,
+              86.09791115921817,
+              85.84586429646899
+            ]
+          ],
+          "input_hash": [
+            "e91e124d8468a0361743ada382031954"
+          ],
+          "output_hash": [
+            "a55e6cdfd70752904acbb364327782dc"
+          ],
+          "instructions": 1146.0025311807142
+        },
+        "B": {
+          "n": [
+            582732,
+            582732,
+            582732,
+            582732
+          ],
+          "loop_ns": [
+            2.376135170198307,
+            2.3795552672583624,
+            2.379306439323737,
+            2.376589924699519
+          ],
+          "rounds": [
+            [
+              85.81766232161611,
+              86.15701214280321,
+              86.26565556722473,
+              86.16071024072815,
+              86.14257497443079,
+              86.62979379886465,
+              86.5007241750925
+            ],
+            [
+              86.77952815359376,
+              86.65752695921968,
+              85.98231434003968,
+              86.24063548938449,
+              86.31414097732748,
+              86.5544675768621,
+              86.17869106210058
+            ],
+            [
+              86.34452372617258,
+              86.26739564671239,
+              86.04796544552212,
+              86.23976373358593,
+              86.03346135101556,
+              86.1348132589252,
+              85.94808419650886
+            ],
+            [
+              86.12487043786852,
+              86.70396168393017,
+              85.85615342902055,
+              86.32198849556914,
+              85.88708016721237,
+              85.83667105976676,
+              86.08976682248444
+            ]
+          ],
+          "input_hash": [
+            "e91e124d8468a0361743ada382031954"
+          ],
+          "output_hash": [
+            "a55e6cdfd70752904acbb364327782dc"
+          ],
+          "instructions": 1146.0026172286011
+        }
+      }
+    },
+    "html-contains/link/4k @ template-4k": {
+      "input_len": 4250,
+      "sides": {
+        "A": {
+          "n": [
+            1525415,
+            1525415,
+            1525415,
+            1525415
+          ],
+          "loop_ns": [
+            2.3776841056368268,
+            2.378518632634398,
+            2.377134091378412,
+            2.381983263570897
+          ],
+          "rounds": [
+            [
+              32.702018794885326,
+              32.68483002986073,
+              32.754295060688406,
+              32.68456649501939,
+              32.67030218006248,
+              32.68311312003619,
+              32.68175676783039
+            ],
+            [
+              32.68545543343942,
+              32.72505973784183,
+              32.728410957018255,
+              32.69843354103637,
+              33.46243481282143,
+              32.69302583231448,
+              32.70003441686361
+            ],
+            [
+              32.710074307647425,
+              32.7051726907104,
+              32.72294490351806,
+              32.72541177318959,
+              32.68955005686977,
+              32.758712874857004,
+              32.708397386940604
+            ],
+            [
+              32.68253229449035,
+              32.70204960617275,
+              32.82160002360013,
+              32.76748425838215,
+              32.68855098448619,
+              32.71422465361885,
+              32.68153256654747
+            ]
+          ],
+          "input_hash": [
+            "ac813cd4b8989111c3a992d25356bcf2"
+          ],
+          "output_hash": [
+            "431014e4a761ea216e9a35f20aaec61c"
+          ],
+          "instructions": 468.0006055086427
+        },
+        "B": {
+          "n": [
+            1528585,
+            1528585,
+            1528585,
+            1528585
+          ],
+          "loop_ns": [
+            2.377229921790414,
+            2.3829973472198143,
+            2.3775118819038523,
+            2.3807220403183336
+          ],
+          "rounds": [
+            [
+              32.7668759015691,
+              32.771697354088914,
+              32.86483643369522,
+              32.67836332294246,
+              32.863473081313764,
+              32.74021006355551,
+              32.70968771772587
+            ],
+            [
+              32.68132815643226,
+              32.75528871472636,
+              32.75515198696834,
+              32.67977901130784,
+              32.683410474392986,
+              32.77192043622043,
+              32.67974237611909
+            ],
+            [
+              32.72654644655024,
+              32.74405348737558,
+              32.67537690085929,
+              32.670707876892685,
+              32.71125452624486,
+              32.69577419639732,
+              32.70590971388572
+            ],
+            [
+              32.68980200643078,
+              32.70979238969374,
+              32.70477336883457,
+              32.71664774938914,
+              32.68590755502638,
+              32.69169526064955,
+              32.75582842956067
+            ]
+          ],
+          "input_hash": [
+            "ac813cd4b8989111c3a992d25356bcf2"
+          ],
+          "output_hash": [
+            "431014e4a761ea216e9a35f20aaec61c"
+          ],
+          "instructions": 468.00070223675584
+        }
+      }
+    }
+  }
+}

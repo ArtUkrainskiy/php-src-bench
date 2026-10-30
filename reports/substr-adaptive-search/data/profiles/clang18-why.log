@@ -1,0 +1,36 @@
+banword/ar/post/absent @ moderation-ar-post-clean: pass 1/5, A
+banword/ar/post/absent @ moderation-ar-post-clean: pass 1/5, B
+banword/ar/post/absent @ moderation-ar-post-clean: pass 2/5, B
+banword/ar/post/absent @ moderation-ar-post-clean: pass 2/5, A
+banword/ar/post/absent @ moderation-ar-post-clean: pass 3/5, A
+banword/ar/post/absent @ moderation-ar-post-clean: pass 3/5, B
+banword/ar/post/absent @ moderation-ar-post-clean: pass 4/5, B
+banword/ar/post/absent @ moderation-ar-post-clean: pass 4/5, A
+banword/ar/post/absent @ moderation-ar-post-clean: pass 5/5, A
+banword/ar/post/absent @ moderation-ar-post-clean: pass 5/5, B
+A: base-clang18
+B: product-guard-clang18
+
+banword/ar/post/absent @ moderation-ar-post-clean (per call, median of 5 passes; user space only, except the top-down slots)
+
+| event | A | B | B vs A |
+|---|--:|--:|--:|
+| cycles | 4,586 | 4,583 | 0% |
+| instructions | 8,144 | 8,144 | 0% |
+| branches | 2,448 | 2,448 | 0% |
+| branch-misses | 3.02 | 3.03 | +0.01 |
+| L1-icache-load-misses | 0.04 | 0.08 | +0.04 |
+| iTLB-load-misses | 0.00 | 0.00 | +0.00 |
+| slots | 27,523 | 27,741 | +1% |
+| topdown-retiring | 7,196 | 7,216 | 0% |
+| topdown-fe-bound | 1,710 | 1,634 | −4% |
+| topdown-bad-spec | 782 | 786 | 0% |
+| topdown-be-bound | 17,956 | 18,095 | +1% |
+
+| function | A address | A size | B address | B size | moved by | alignment A / B |
+|---|--:|--:|--:|--:|--:|--:|
+| zif_str_contains | 0x531b60 | 489 | 0x531b60 | 489 | +0 | 32 / 32 |
+| zif_strpos | 0x532490 | 754 | 0x532490 | 754 | +0 | 16 / 16 |
+| zend_memnstr_ex | 0x6de0c0 | 897 | 0x6de0c0 | 29 | +0 | 0 / 0 |
+
+Alignment is the address modulo 64 (a cache line). Run `objdump -d` on both binaries for the hot loop itself.

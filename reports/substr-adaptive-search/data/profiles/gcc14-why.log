@@ -1,0 +1,166 @@
+banlist12/ru/thread/clean @ moderation-ru-thread-clean: pass 1/5, A
+banlist12/ru/thread/clean @ moderation-ru-thread-clean: pass 1/5, B
+banlist12/ru/thread/clean @ moderation-ru-thread-clean: pass 2/5, B
+banlist12/ru/thread/clean @ moderation-ru-thread-clean: pass 2/5, A
+banlist12/ru/thread/clean @ moderation-ru-thread-clean: pass 3/5, A
+banlist12/ru/thread/clean @ moderation-ru-thread-clean: pass 3/5, B
+banlist12/ru/thread/clean @ moderation-ru-thread-clean: pass 4/5, B
+banlist12/ru/thread/clean @ moderation-ru-thread-clean: pass 4/5, A
+banlist12/ru/thread/clean @ moderation-ru-thread-clean: pass 5/5, A
+banlist12/ru/thread/clean @ moderation-ru-thread-clean: pass 5/5, B
+banlist12/ru/thread/late @ moderation-ru-thread-late: pass 1/5, A
+banlist12/ru/thread/late @ moderation-ru-thread-late: pass 1/5, B
+banlist12/ru/thread/late @ moderation-ru-thread-late: pass 2/5, B
+banlist12/ru/thread/late @ moderation-ru-thread-late: pass 2/5, A
+banlist12/ru/thread/late @ moderation-ru-thread-late: pass 3/5, A
+banlist12/ru/thread/late @ moderation-ru-thread-late: pass 3/5, B
+banlist12/ru/thread/late @ moderation-ru-thread-late: pass 4/5, B
+banlist12/ru/thread/late @ moderation-ru-thread-late: pass 4/5, A
+banlist12/ru/thread/late @ moderation-ru-thread-late: pass 5/5, A
+banlist12/ru/thread/late @ moderation-ru-thread-late: pass 5/5, B
+parse-query/small @ query-small: pass 1/5, A
+parse-query/small @ query-small: pass 1/5, B
+parse-query/small @ query-small: pass 2/5, B
+parse-query/small @ query-small: pass 2/5, A
+parse-query/small @ query-small: pass 3/5, A
+parse-query/small @ query-small: pass 3/5, B
+parse-query/small @ query-small: pass 4/5, B
+parse-query/small @ query-small: pass 4/5, A
+parse-query/small @ query-small: pass 5/5, A
+parse-query/small @ query-small: pass 5/5, B
+parse-records/4k @ records-4k: pass 1/5, A
+parse-records/4k @ records-4k: pass 1/5, B
+parse-records/4k @ records-4k: pass 2/5, B
+parse-records/4k @ records-4k: pass 2/5, A
+parse-records/4k @ records-4k: pass 3/5, A
+parse-records/4k @ records-4k: pass 3/5, B
+parse-records/4k @ records-4k: pass 4/5, B
+parse-records/4k @ records-4k: pass 4/5, A
+parse-records/4k @ records-4k: pass 5/5, A
+parse-records/4k @ records-4k: pass 5/5, B
+parse-http/small @ http-small: pass 1/5, A
+parse-http/small @ http-small: pass 1/5, B
+parse-http/small @ http-small: pass 2/5, B
+parse-http/small @ http-small: pass 2/5, A
+parse-http/small @ http-small: pass 3/5, A
+parse-http/small @ http-small: pass 3/5, B
+parse-http/small @ http-small: pass 4/5, B
+parse-http/small @ http-small: pass 4/5, A
+parse-http/small @ http-small: pass 5/5, A
+parse-http/small @ http-small: pass 5/5, B
+log-contains/event/thread/clean @ logs-thread-clean: pass 1/5, A
+log-contains/event/thread/clean @ logs-thread-clean: pass 1/5, B
+log-contains/event/thread/clean @ logs-thread-clean: pass 2/5, B
+log-contains/event/thread/clean @ logs-thread-clean: pass 2/5, A
+log-contains/event/thread/clean @ logs-thread-clean: pass 3/5, A
+log-contains/event/thread/clean @ logs-thread-clean: pass 3/5, B
+log-contains/event/thread/clean @ logs-thread-clean: pass 4/5, B
+log-contains/event/thread/clean @ logs-thread-clean: pass 4/5, A
+log-contains/event/thread/clean @ logs-thread-clean: pass 5/5, A
+log-contains/event/thread/clean @ logs-thread-clean: pass 5/5, B
+A: base-gcc14
+B: product-guard-gcc14
+
+banlist12/ru/thread/clean @ moderation-ru-thread-clean (per call, median of 5 passes; user space only, except the top-down slots)
+
+| event | A | B | B vs A |
+|---|--:|--:|--:|
+| cycles | 1,178,536 | 1,149,735 | −2% |
+| instructions | 1,318,379 | 1,317,527 | 0% |
+| branches | 367,785 | 367,595 | 0% |
+| branch-misses | 13,261 | 12,483 | −6% |
+| L1-icache-load-misses | 17.53 | 27.01 | +9.48 |
+| iTLB-load-misses | 1.26 | 2.17 | +0.91 |
+| slots | 7,095,159 | 7,205,048 | +2% |
+| topdown-retiring | 1,070,191 | 1,041,783 | −3% |
+| topdown-fe-bound | 2,365,899 | 2,475,643 | +5% |
+| topdown-bad-spec | 1,892,975 | 1,708,597 | −10% |
+| topdown-be-bound | 1,850,462 | 2,025,169 | +9% |
+
+banlist12/ru/thread/late @ moderation-ru-thread-late (per call, median of 5 passes; user space only, except the top-down slots)
+
+| event | A | B | B vs A |
+|---|--:|--:|--:|
+| cycles | 1,181,536 | 1,155,220 | −2% |
+| instructions | 1,319,319 | 1,318,474 | 0% |
+| branches | 368,059 | 367,872 | 0% |
+| branch-misses | 13,292 | 12,652 | −5% |
+| L1-icache-load-misses | 36.29 | 43.46 | +20% |
+| iTLB-load-misses | 2.01 | 2.30 | +0.30 |
+| slots | 7,154,574 | 6,935,606 | −3% |
+| topdown-retiring | 1,068,706 | 1,042,451 | −2% |
+| topdown-fe-bound | 2,359,635 | 2,471,720 | +5% |
+| topdown-bad-spec | 1,908,725 | 1,672,384 | −12% |
+| topdown-be-bound | 1,885,946 | 1,831,943 | −3% |
+
+parse-query/small @ query-small (per call, median of 5 passes; user space only, except the top-down slots)
+
+| event | A | B | B vs A |
+|---|--:|--:|--:|
+| cycles | 6,817 | 6,891 | +1% |
+| instructions | 31,643 | 31,643 | 0% |
+| branches | 6,396 | 6,396 | 0% |
+| branch-misses | 10.15 | 10.28 | +0.13 |
+| L1-icache-load-misses | 0.61 | 0.60 | -0.01 |
+| iTLB-load-misses | 0.13 | 0.10 | -0.02 |
+| slots | 41,892 | 41,625 | −1% |
+| topdown-retiring | 29,993 | 29,999 | 0% |
+| topdown-fe-bound | 7,441 | 7,665 | +3% |
+| topdown-bad-spec | 2,764 | 2,392 | −13% |
+| topdown-be-bound | 1,636 | 1,474 | −10% |
+
+parse-records/4k @ records-4k (per call, median of 5 passes; user space only, except the top-down slots)
+
+| event | A | B | B vs A |
+|---|--:|--:|--:|
+| cycles | 35,167 | 35,370 | +1% |
+| instructions | 156,342 | 156,342 | 0% |
+| branches | 34,721 | 34,721 | 0% |
+| branch-misses | 92.57 | 93.90 | +1% |
+| L1-icache-load-misses | 2.64 | 2.34 | -0.30 |
+| iTLB-load-misses | 0.03 | 0.02 | -0.01 |
+| slots | 211,764 | 212,606 | 0% |
+| topdown-retiring | 146,364 | 146,439 | 0% |
+| topdown-fe-bound | 46,315 | 47,798 | +3% |
+| topdown-bad-spec | 12,989 | 12,254 | −6% |
+| topdown-be-bound | 7,260 | 6,376 | −12% |
+
+parse-http/small @ http-small (per call, median of 5 passes; user space only, except the top-down slots)
+
+| event | A | B | B vs A |
+|---|--:|--:|--:|
+| cycles | 3,037 | 2,991 | −2% |
+| instructions | 13,363 | 13,363 | 0% |
+| branches | 3,023 | 3,023 | 0% |
+| branch-misses | 0.03 | 0.24 | +0.21 |
+| L1-icache-load-misses | 3.48 | 0.36 | -3.12 |
+| iTLB-load-misses | 0.00 | 0.00 | -0.00 |
+| slots | 18,317 | 18,019 | −2% |
+| topdown-retiring | 12,466 | 12,435 | 0% |
+| topdown-fe-bound | 5,440 | 5,270 | −3% |
+| topdown-bad-spec | 192 | 184 | −4% |
+| topdown-be-bound | 150 | 119 | −21% |
+
+log-contains/event/thread/clean @ logs-thread-clean (per call, median of 5 passes; user space only, except the top-down slots)
+
+| event | A | B | B vs A |
+|---|--:|--:|--:|
+| cycles | 66,549 | 66,566 | 0% |
+| instructions | 123,461 | 123,319 | 0% |
+| branches | 35,470 | 35,440 | 0% |
+| branch-misses | 71.56 | 37.59 | −47% |
+| L1-icache-load-misses | 0.74 | 1.21 | +0.47 |
+| iTLB-load-misses | 0.07 | 0.07 | +0.00 |
+| slots | 400,928 | 391,255 | −2% |
+| topdown-retiring | 93,488 | 93,727 | 0% |
+| topdown-fe-bound | 24,058 | 11,657 | −52% |
+| topdown-bad-spec | 13,175 | 5,711 | −57% |
+| topdown-be-bound | 271,215 | 280,982 | +4% |
+
+| function | A address | A size | B address | B size | moved by | alignment A / B |
+|---|--:|--:|--:|--:|--:|--:|
+| zif_str_contains | 0x585350 | 399 | 0x585350 | 399 | +0 | 16 / 16 |
+| zif_strpos | 0x585bd0 | 639 | 0x585bd0 | 639 | +0 | 16 / 16 |
+| zend_memnstr_ex | 0x738c10 | 281 | 0x739990 | 45 | +3456 | 16 / 16 |
+
+Alignment is the address modulo 64 (a cache line). Run `objdump -d` on both binaries for the hot loop itself.

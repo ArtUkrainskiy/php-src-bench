@@ -1,0 +1,1170 @@
+{
+  "format": 1,
+  "cases": [
+    {
+      "name": "banlist12/en/comment/clean",
+      "input": "moderation-en-comment-clean",
+      "code": "substr_product_moderate($s, ['spam', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'idiot', 'casino bonus', 'buy followers', 'free money', 'guaranteed profit', 'fake support', 'click this link'])"
+    },
+    {
+      "name": "banword/en/comment/absent",
+      "input": "moderation-en-comment-clean",
+      "code": "str_contains($s, 'spam')"
+    },
+    {
+      "name": "banlist12/en/comment/early",
+      "input": "moderation-en-comment-early",
+      "code": "substr_product_moderate($s, ['spam', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'idiot', 'casino bonus', 'buy followers', 'free money', 'guaranteed profit', 'fake support', 'click this link'])"
+    },
+    {
+      "name": "banlist12/en/comment/late",
+      "input": "moderation-en-comment-late",
+      "code": "substr_product_moderate($s, ['spam', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'idiot', 'casino bonus', 'buy followers', 'free money', 'guaranteed profit', 'fake support', 'click this link'])"
+    },
+    {
+      "name": "banlist12/en/post/clean",
+      "input": "moderation-en-post-clean",
+      "code": "substr_product_moderate($s, ['spam', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'idiot', 'casino bonus', 'buy followers', 'free money', 'guaranteed profit', 'fake support', 'click this link'])"
+    },
+    {
+      "name": "banword/en/post/absent",
+      "input": "moderation-en-post-clean",
+      "code": "str_contains($s, 'spam')"
+    },
+    {
+      "name": "banlist12/en/post/early",
+      "input": "moderation-en-post-early",
+      "code": "substr_product_moderate($s, ['spam', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'idiot', 'casino bonus', 'buy followers', 'free money', 'guaranteed profit', 'fake support', 'click this link'])"
+    },
+    {
+      "name": "banlist12/en/post/late",
+      "input": "moderation-en-post-late",
+      "code": "substr_product_moderate($s, ['spam', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'idiot', 'casino bonus', 'buy followers', 'free money', 'guaranteed profit', 'fake support', 'click this link'])"
+    },
+    {
+      "name": "banlist12/en/thread/clean",
+      "input": "moderation-en-thread-clean",
+      "code": "substr_product_moderate($s, ['spam', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'idiot', 'casino bonus', 'buy followers', 'free money', 'guaranteed profit', 'fake support', 'click this link'])"
+    },
+    {
+      "name": "banword/en/thread/absent",
+      "input": "moderation-en-thread-clean",
+      "code": "str_contains($s, 'spam')"
+    },
+    {
+      "name": "banlist12/en/thread/early",
+      "input": "moderation-en-thread-early",
+      "code": "substr_product_moderate($s, ['spam', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'idiot', 'casino bonus', 'buy followers', 'free money', 'guaranteed profit', 'fake support', 'click this link'])"
+    },
+    {
+      "name": "banlist12/en/thread/late",
+      "input": "moderation-en-thread-late",
+      "code": "substr_product_moderate($s, ['spam', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'idiot', 'casino bonus', 'buy followers', 'free money', 'guaranteed profit', 'fake support', 'click this link'])"
+    },
+    {
+      "name": "banlist12/ru/comment/clean",
+      "input": "moderation-ru-comment-clean",
+      "code": "substr_product_moderate($s, ['спам', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'идиот', 'бонус казино', 'накрутка подписчиков', 'лёгкие деньги', 'гарантированный доход', 'поддельная поддержка', 'перейдите по ссылке'])"
+    },
+    {
+      "name": "banword/ru/comment/absent",
+      "input": "moderation-ru-comment-clean",
+      "code": "str_contains($s, 'спам')"
+    },
+    {
+      "name": "banlist12/ru/comment/early",
+      "input": "moderation-ru-comment-early",
+      "code": "substr_product_moderate($s, ['спам', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'идиот', 'бонус казино', 'накрутка подписчиков', 'лёгкие деньги', 'гарантированный доход', 'поддельная поддержка', 'перейдите по ссылке'])"
+    },
+    {
+      "name": "banlist12/ru/comment/late",
+      "input": "moderation-ru-comment-late",
+      "code": "substr_product_moderate($s, ['спам', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'идиот', 'бонус казино', 'накрутка подписчиков', 'лёгкие деньги', 'гарантированный доход', 'поддельная поддержка', 'перейдите по ссылке'])"
+    },
+    {
+      "name": "banlist12/ru/post/clean",
+      "input": "moderation-ru-post-clean",
+      "code": "substr_product_moderate($s, ['спам', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'идиот', 'бонус казино', 'накрутка подписчиков', 'лёгкие деньги', 'гарантированный доход', 'поддельная поддержка', 'перейдите по ссылке'])"
+    },
+    {
+      "name": "banword/ru/post/absent",
+      "input": "moderation-ru-post-clean",
+      "code": "str_contains($s, 'спам')"
+    },
+    {
+      "name": "banlist12/ru/post/early",
+      "input": "moderation-ru-post-early",
+      "code": "substr_product_moderate($s, ['спам', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'идиот', 'бонус казино', 'накрутка подписчиков', 'лёгкие деньги', 'гарантированный доход', 'поддельная поддержка', 'перейдите по ссылке'])"
+    },
+    {
+      "name": "banlist12/ru/post/late",
+      "input": "moderation-ru-post-late",
+      "code": "substr_product_moderate($s, ['спам', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'идиот', 'бонус казино', 'накрутка подписчиков', 'лёгкие деньги', 'гарантированный доход', 'поддельная поддержка', 'перейдите по ссылке'])"
+    },
+    {
+      "name": "banlist12/ru/thread/clean",
+      "input": "moderation-ru-thread-clean",
+      "code": "substr_product_moderate($s, ['спам', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'идиот', 'бонус казино', 'накрутка подписчиков', 'лёгкие деньги', 'гарантированный доход', 'поддельная поддержка', 'перейдите по ссылке'])"
+    },
+    {
+      "name": "banword/ru/thread/absent",
+      "input": "moderation-ru-thread-clean",
+      "code": "str_contains($s, 'спам')"
+    },
+    {
+      "name": "banlist12/ru/thread/early",
+      "input": "moderation-ru-thread-early",
+      "code": "substr_product_moderate($s, ['спам', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'идиот', 'бонус казино', 'накрутка подписчиков', 'лёгкие деньги', 'гарантированный доход', 'поддельная поддержка', 'перейдите по ссылке'])"
+    },
+    {
+      "name": "banlist12/ru/thread/late",
+      "input": "moderation-ru-thread-late",
+      "code": "substr_product_moderate($s, ['спам', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'идиот', 'бонус казино', 'накрутка подписчиков', 'лёгкие деньги', 'гарантированный доход', 'поддельная поддержка', 'перейдите по ссылке'])"
+    },
+    {
+      "name": "banlist12/es/comment/clean",
+      "input": "moderation-es-comment-clean",
+      "code": "substr_product_moderate($s, ['spam', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'idiota', 'bono de casino', 'comprar seguidores', 'dinero gratis', 'ganancias garantizadas', 'soporte falso', 'pulsa este enlace'])"
+    },
+    {
+      "name": "banword/es/comment/absent",
+      "input": "moderation-es-comment-clean",
+      "code": "str_contains($s, 'spam')"
+    },
+    {
+      "name": "banlist12/es/comment/early",
+      "input": "moderation-es-comment-early",
+      "code": "substr_product_moderate($s, ['spam', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'idiota', 'bono de casino', 'comprar seguidores', 'dinero gratis', 'ganancias garantizadas', 'soporte falso', 'pulsa este enlace'])"
+    },
+    {
+      "name": "banlist12/es/comment/late",
+      "input": "moderation-es-comment-late",
+      "code": "substr_product_moderate($s, ['spam', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'idiota', 'bono de casino', 'comprar seguidores', 'dinero gratis', 'ganancias garantizadas', 'soporte falso', 'pulsa este enlace'])"
+    },
+    {
+      "name": "banlist12/es/post/clean",
+      "input": "moderation-es-post-clean",
+      "code": "substr_product_moderate($s, ['spam', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'idiota', 'bono de casino', 'comprar seguidores', 'dinero gratis', 'ganancias garantizadas', 'soporte falso', 'pulsa este enlace'])"
+    },
+    {
+      "name": "banword/es/post/absent",
+      "input": "moderation-es-post-clean",
+      "code": "str_contains($s, 'spam')"
+    },
+    {
+      "name": "banlist12/es/post/early",
+      "input": "moderation-es-post-early",
+      "code": "substr_product_moderate($s, ['spam', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'idiota', 'bono de casino', 'comprar seguidores', 'dinero gratis', 'ganancias garantizadas', 'soporte falso', 'pulsa este enlace'])"
+    },
+    {
+      "name": "banlist12/es/post/late",
+      "input": "moderation-es-post-late",
+      "code": "substr_product_moderate($s, ['spam', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'idiota', 'bono de casino', 'comprar seguidores', 'dinero gratis', 'ganancias garantizadas', 'soporte falso', 'pulsa este enlace'])"
+    },
+    {
+      "name": "banlist12/es/thread/clean",
+      "input": "moderation-es-thread-clean",
+      "code": "substr_product_moderate($s, ['spam', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'idiota', 'bono de casino', 'comprar seguidores', 'dinero gratis', 'ganancias garantizadas', 'soporte falso', 'pulsa este enlace'])"
+    },
+    {
+      "name": "banword/es/thread/absent",
+      "input": "moderation-es-thread-clean",
+      "code": "str_contains($s, 'spam')"
+    },
+    {
+      "name": "banlist12/es/thread/early",
+      "input": "moderation-es-thread-early",
+      "code": "substr_product_moderate($s, ['spam', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'idiota', 'bono de casino', 'comprar seguidores', 'dinero gratis', 'ganancias garantizadas', 'soporte falso', 'pulsa este enlace'])"
+    },
+    {
+      "name": "banlist12/es/thread/late",
+      "input": "moderation-es-thread-late",
+      "code": "substr_product_moderate($s, ['spam', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'idiota', 'bono de casino', 'comprar seguidores', 'dinero gratis', 'ganancias garantizadas', 'soporte falso', 'pulsa este enlace'])"
+    },
+    {
+      "name": "banlist12/ar/comment/clean",
+      "input": "moderation-ar-comment-clean",
+      "code": "substr_product_moderate($s, ['سبام', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'أحمق', 'مكافأة كازينو', 'شراء متابعين', 'مال مجاني', 'أرباح مضمونة', 'دعم مزيف', 'اضغط هذا الرابط'])"
+    },
+    {
+      "name": "banword/ar/comment/absent",
+      "input": "moderation-ar-comment-clean",
+      "code": "str_contains($s, 'سبام')"
+    },
+    {
+      "name": "banlist12/ar/comment/early",
+      "input": "moderation-ar-comment-early",
+      "code": "substr_product_moderate($s, ['سبام', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'أحمق', 'مكافأة كازينو', 'شراء متابعين', 'مال مجاني', 'أرباح مضمونة', 'دعم مزيف', 'اضغط هذا الرابط'])"
+    },
+    {
+      "name": "banlist12/ar/comment/late",
+      "input": "moderation-ar-comment-late",
+      "code": "substr_product_moderate($s, ['سبام', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'أحمق', 'مكافأة كازينو', 'شراء متابعين', 'مال مجاني', 'أرباح مضمونة', 'دعم مزيف', 'اضغط هذا الرابط'])"
+    },
+    {
+      "name": "banlist12/ar/post/clean",
+      "input": "moderation-ar-post-clean",
+      "code": "substr_product_moderate($s, ['سبام', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'أحمق', 'مكافأة كازينو', 'شراء متابعين', 'مال مجاني', 'أرباح مضمونة', 'دعم مزيف', 'اضغط هذا الرابط'])"
+    },
+    {
+      "name": "banword/ar/post/absent",
+      "input": "moderation-ar-post-clean",
+      "code": "str_contains($s, 'سبام')"
+    },
+    {
+      "name": "banlist12/ar/post/early",
+      "input": "moderation-ar-post-early",
+      "code": "substr_product_moderate($s, ['سبام', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'أحمق', 'مكافأة كازينو', 'شراء متابعين', 'مال مجاني', 'أرباح مضمونة', 'دعم مزيف', 'اضغط هذا الرابط'])"
+    },
+    {
+      "name": "banlist12/ar/post/late",
+      "input": "moderation-ar-post-late",
+      "code": "substr_product_moderate($s, ['سبام', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'أحمق', 'مكافأة كازينو', 'شراء متابعين', 'مال مجاني', 'أرباح مضمونة', 'دعم مزيف', 'اضغط هذا الرابط'])"
+    },
+    {
+      "name": "banlist12/ar/thread/clean",
+      "input": "moderation-ar-thread-clean",
+      "code": "substr_product_moderate($s, ['سبام', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'أحمق', 'مكافأة كازينو', 'شراء متابعين', 'مال مجاني', 'أرباح مضمونة', 'دعم مزيف', 'اضغط هذا الرابط'])"
+    },
+    {
+      "name": "banword/ar/thread/absent",
+      "input": "moderation-ar-thread-clean",
+      "code": "str_contains($s, 'سبام')"
+    },
+    {
+      "name": "banlist12/ar/thread/early",
+      "input": "moderation-ar-thread-early",
+      "code": "substr_product_moderate($s, ['سبام', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'أحمق', 'مكافأة كازينو', 'شراء متابعين', 'مال مجاني', 'أرباح مضمونة', 'دعم مزيف', 'اضغط هذا الرابط'])"
+    },
+    {
+      "name": "banlist12/ar/thread/late",
+      "input": "moderation-ar-thread-late",
+      "code": "substr_product_moderate($s, ['سبام', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'أحمق', 'مكافأة كازينو', 'شراء متابعين', 'مال مجاني', 'أرباح مضمونة', 'دعم مزيف', 'اضغط هذا الرابط'])"
+    },
+    {
+      "name": "banlist12/hi/comment/clean",
+      "input": "moderation-hi-comment-clean",
+      "code": "substr_product_moderate($s, ['स्पैम', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'बेवकूफ', 'कैसीनो बोनस', 'फॉलोअर्स खरीदें', 'मुफ्त पैसे', 'गारंटीकृत लाभ', 'नकली सहायता', 'इस लिंक पर क्लिक करें'])"
+    },
+    {
+      "name": "banword/hi/comment/absent",
+      "input": "moderation-hi-comment-clean",
+      "code": "str_contains($s, 'स्पैम')"
+    },
+    {
+      "name": "banlist12/hi/comment/early",
+      "input": "moderation-hi-comment-early",
+      "code": "substr_product_moderate($s, ['स्पैम', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'बेवकूफ', 'कैसीनो बोनस', 'फॉलोअर्स खरीदें', 'मुफ्त पैसे', 'गारंटीकृत लाभ', 'नकली सहायता', 'इस लिंक पर क्लिक करें'])"
+    },
+    {
+      "name": "banlist12/hi/comment/late",
+      "input": "moderation-hi-comment-late",
+      "code": "substr_product_moderate($s, ['स्पैम', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'बेवकूफ', 'कैसीनो बोनस', 'फॉलोअर्स खरीदें', 'मुफ्त पैसे', 'गारंटीकृत लाभ', 'नकली सहायता', 'इस लिंक पर क्लिक करें'])"
+    },
+    {
+      "name": "banlist12/hi/post/clean",
+      "input": "moderation-hi-post-clean",
+      "code": "substr_product_moderate($s, ['स्पैम', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'बेवकूफ', 'कैसीनो बोनस', 'फॉलोअर्स खरीदें', 'मुफ्त पैसे', 'गारंटीकृत लाभ', 'नकली सहायता', 'इस लिंक पर क्लिक करें'])"
+    },
+    {
+      "name": "banword/hi/post/absent",
+      "input": "moderation-hi-post-clean",
+      "code": "str_contains($s, 'स्पैम')"
+    },
+    {
+      "name": "banlist12/hi/post/early",
+      "input": "moderation-hi-post-early",
+      "code": "substr_product_moderate($s, ['स्पैम', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'बेवकूफ', 'कैसीनो बोनस', 'फॉलोअर्स खरीदें', 'मुफ्त पैसे', 'गारंटीकृत लाभ', 'नकली सहायता', 'इस लिंक पर क्लिक करें'])"
+    },
+    {
+      "name": "banlist12/hi/post/late",
+      "input": "moderation-hi-post-late",
+      "code": "substr_product_moderate($s, ['स्पैम', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'बेवकूफ', 'कैसीनो बोनस', 'फॉलोअर्स खरीदें', 'मुफ्त पैसे', 'गारंटीकृत लाभ', 'नकली सहायता', 'इस लिंक पर क्लिक करें'])"
+    },
+    {
+      "name": "banlist12/hi/thread/clean",
+      "input": "moderation-hi-thread-clean",
+      "code": "substr_product_moderate($s, ['स्पैम', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'बेवकूफ', 'कैसीनो बोनस', 'फॉलोअर्स खरीदें', 'मुफ्त पैसे', 'गारंटीकृत लाभ', 'नकली सहायता', 'इस लिंक पर क्लिक करें'])"
+    },
+    {
+      "name": "banword/hi/thread/absent",
+      "input": "moderation-hi-thread-clean",
+      "code": "str_contains($s, 'स्पैम')"
+    },
+    {
+      "name": "banlist12/hi/thread/early",
+      "input": "moderation-hi-thread-early",
+      "code": "substr_product_moderate($s, ['स्पैम', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'बेवकूफ', 'कैसीनो बोनस', 'फॉलोअर्स खरीदें', 'मुफ्त पैसे', 'गारंटीकृत लाभ', 'नकली सहायता', 'इस लिंक पर क्लिक करें'])"
+    },
+    {
+      "name": "banlist12/hi/thread/late",
+      "input": "moderation-hi-thread-late",
+      "code": "substr_product_moderate($s, ['स्पैम', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'बेवकूफ', 'कैसीनो बोनस', 'फॉलोअर्स खरीदें', 'मुफ्त पैसे', 'गारंटीकृत लाभ', 'नकली सहायता', 'इस लिंक पर क्लिक करें'])"
+    },
+    {
+      "name": "banlist12/zh/comment/clean",
+      "input": "moderation-zh-comment-clean",
+      "code": "substr_product_moderate($s, ['垃圾广告', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', '白痴', '赌场奖金', '购买粉丝', '免费赚钱', '保证收益', '假冒客服', '点击这个链接'])"
+    },
+    {
+      "name": "banword/zh/comment/absent",
+      "input": "moderation-zh-comment-clean",
+      "code": "str_contains($s, '垃圾广告')"
+    },
+    {
+      "name": "banlist12/zh/comment/early",
+      "input": "moderation-zh-comment-early",
+      "code": "substr_product_moderate($s, ['垃圾广告', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', '白痴', '赌场奖金', '购买粉丝', '免费赚钱', '保证收益', '假冒客服', '点击这个链接'])"
+    },
+    {
+      "name": "banlist12/zh/comment/late",
+      "input": "moderation-zh-comment-late",
+      "code": "substr_product_moderate($s, ['垃圾广告', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', '白痴', '赌场奖金', '购买粉丝', '免费赚钱', '保证收益', '假冒客服', '点击这个链接'])"
+    },
+    {
+      "name": "banlist12/zh/post/clean",
+      "input": "moderation-zh-post-clean",
+      "code": "substr_product_moderate($s, ['垃圾广告', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', '白痴', '赌场奖金', '购买粉丝', '免费赚钱', '保证收益', '假冒客服', '点击这个链接'])"
+    },
+    {
+      "name": "banword/zh/post/absent",
+      "input": "moderation-zh-post-clean",
+      "code": "str_contains($s, '垃圾广告')"
+    },
+    {
+      "name": "banlist12/zh/post/early",
+      "input": "moderation-zh-post-early",
+      "code": "substr_product_moderate($s, ['垃圾广告', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', '白痴', '赌场奖金', '购买粉丝', '免费赚钱', '保证收益', '假冒客服', '点击这个链接'])"
+    },
+    {
+      "name": "banlist12/zh/post/late",
+      "input": "moderation-zh-post-late",
+      "code": "substr_product_moderate($s, ['垃圾广告', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', '白痴', '赌场奖金', '购买粉丝', '免费赚钱', '保证收益', '假冒客服', '点击这个链接'])"
+    },
+    {
+      "name": "banlist12/zh/thread/clean",
+      "input": "moderation-zh-thread-clean",
+      "code": "substr_product_moderate($s, ['垃圾广告', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', '白痴', '赌场奖金', '购买粉丝', '免费赚钱', '保证收益', '假冒客服', '点击这个链接'])"
+    },
+    {
+      "name": "banword/zh/thread/absent",
+      "input": "moderation-zh-thread-clean",
+      "code": "str_contains($s, '垃圾广告')"
+    },
+    {
+      "name": "banlist12/zh/thread/early",
+      "input": "moderation-zh-thread-early",
+      "code": "substr_product_moderate($s, ['垃圾广告', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', '白痴', '赌场奖金', '购买粉丝', '免费赚钱', '保证收益', '假冒客服', '点击这个链接'])"
+    },
+    {
+      "name": "banlist12/zh/thread/late",
+      "input": "moderation-zh-thread-late",
+      "code": "substr_product_moderate($s, ['垃圾广告', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', '白痴', '赌场奖金', '购买粉丝', '免费赚钱', '保证收益', '假冒客服', '点击这个链接'])"
+    },
+    {
+      "name": "banlist12/ja/comment/clean",
+      "input": "moderation-ja-comment-clean",
+      "code": "substr_product_moderate($s, ['スパム', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'ばか', 'カジノボーナス', 'フォロワー購入', '無料で稼ぐ', '利益保証', '偽サポート', 'このリンクをクリック'])"
+    },
+    {
+      "name": "banword/ja/comment/absent",
+      "input": "moderation-ja-comment-clean",
+      "code": "str_contains($s, 'スパム')"
+    },
+    {
+      "name": "banlist12/ja/comment/early",
+      "input": "moderation-ja-comment-early",
+      "code": "substr_product_moderate($s, ['スパム', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'ばか', 'カジノボーナス', 'フォロワー購入', '無料で稼ぐ', '利益保証', '偽サポート', 'このリンクをクリック'])"
+    },
+    {
+      "name": "banlist12/ja/comment/late",
+      "input": "moderation-ja-comment-late",
+      "code": "substr_product_moderate($s, ['スパム', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'ばか', 'カジノボーナス', 'フォロワー購入', '無料で稼ぐ', '利益保証', '偽サポート', 'このリンクをクリック'])"
+    },
+    {
+      "name": "banlist12/ja/post/clean",
+      "input": "moderation-ja-post-clean",
+      "code": "substr_product_moderate($s, ['スパム', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'ばか', 'カジノボーナス', 'フォロワー購入', '無料で稼ぐ', '利益保証', '偽サポート', 'このリンクをクリック'])"
+    },
+    {
+      "name": "banword/ja/post/absent",
+      "input": "moderation-ja-post-clean",
+      "code": "str_contains($s, 'スパム')"
+    },
+    {
+      "name": "banlist12/ja/post/early",
+      "input": "moderation-ja-post-early",
+      "code": "substr_product_moderate($s, ['スパム', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'ばか', 'カジノボーナス', 'フォロワー購入', '無料で稼ぐ', '利益保証', '偽サポート', 'このリンクをクリック'])"
+    },
+    {
+      "name": "banlist12/ja/post/late",
+      "input": "moderation-ja-post-late",
+      "code": "substr_product_moderate($s, ['スパム', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'ばか', 'カジノボーナス', 'フォロワー購入', '無料で稼ぐ', '利益保証', '偽サポート', 'このリンクをクリック'])"
+    },
+    {
+      "name": "banlist12/ja/thread/clean",
+      "input": "moderation-ja-thread-clean",
+      "code": "substr_product_moderate($s, ['スパム', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'ばか', 'カジノボーナス', 'フォロワー購入', '無料で稼ぐ', '利益保証', '偽サポート', 'このリンクをクリック'])"
+    },
+    {
+      "name": "banword/ja/thread/absent",
+      "input": "moderation-ja-thread-clean",
+      "code": "str_contains($s, 'スパム')"
+    },
+    {
+      "name": "banlist12/ja/thread/early",
+      "input": "moderation-ja-thread-early",
+      "code": "substr_product_moderate($s, ['スパム', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'ばか', 'カジノボーナス', 'フォロワー購入', '無料で稼ぐ', '利益保証', '偽サポート', 'このリンクをクリック'])"
+    },
+    {
+      "name": "banlist12/ja/thread/late",
+      "input": "moderation-ja-thread-late",
+      "code": "substr_product_moderate($s, ['スパム', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'ばか', 'カジノボーナス', 'フォロワー購入', '無料で稼ぐ', '利益保証', '偽サポート', 'このリンクをクリック'])"
+    },
+    {
+      "name": "banlist12/ko/comment/clean",
+      "input": "moderation-ko-comment-clean",
+      "code": "substr_product_moderate($s, ['스팸', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', '바보', '카지노 보너스', '팔로워 구매', '무료 돈', '수익 보장', '가짜 고객센터', '이 링크를 클릭'])"
+    },
+    {
+      "name": "banword/ko/comment/absent",
+      "input": "moderation-ko-comment-clean",
+      "code": "str_contains($s, '스팸')"
+    },
+    {
+      "name": "banlist12/ko/comment/early",
+      "input": "moderation-ko-comment-early",
+      "code": "substr_product_moderate($s, ['스팸', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', '바보', '카지노 보너스', '팔로워 구매', '무료 돈', '수익 보장', '가짜 고객센터', '이 링크를 클릭'])"
+    },
+    {
+      "name": "banlist12/ko/comment/late",
+      "input": "moderation-ko-comment-late",
+      "code": "substr_product_moderate($s, ['스팸', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', '바보', '카지노 보너스', '팔로워 구매', '무료 돈', '수익 보장', '가짜 고객센터', '이 링크를 클릭'])"
+    },
+    {
+      "name": "banlist12/ko/post/clean",
+      "input": "moderation-ko-post-clean",
+      "code": "substr_product_moderate($s, ['스팸', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', '바보', '카지노 보너스', '팔로워 구매', '무료 돈', '수익 보장', '가짜 고객센터', '이 링크를 클릭'])"
+    },
+    {
+      "name": "banword/ko/post/absent",
+      "input": "moderation-ko-post-clean",
+      "code": "str_contains($s, '스팸')"
+    },
+    {
+      "name": "banlist12/ko/post/early",
+      "input": "moderation-ko-post-early",
+      "code": "substr_product_moderate($s, ['스팸', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', '바보', '카지노 보너스', '팔로워 구매', '무료 돈', '수익 보장', '가짜 고객센터', '이 링크를 클릭'])"
+    },
+    {
+      "name": "banlist12/ko/post/late",
+      "input": "moderation-ko-post-late",
+      "code": "substr_product_moderate($s, ['스팸', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', '바보', '카지노 보너스', '팔로워 구매', '무료 돈', '수익 보장', '가짜 고객센터', '이 링크를 클릭'])"
+    },
+    {
+      "name": "banlist12/ko/thread/clean",
+      "input": "moderation-ko-thread-clean",
+      "code": "substr_product_moderate($s, ['스팸', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', '바보', '카지노 보너스', '팔로워 구매', '무료 돈', '수익 보장', '가짜 고객센터', '이 링크를 클릭'])"
+    },
+    {
+      "name": "banword/ko/thread/absent",
+      "input": "moderation-ko-thread-clean",
+      "code": "str_contains($s, '스팸')"
+    },
+    {
+      "name": "banlist12/ko/thread/early",
+      "input": "moderation-ko-thread-early",
+      "code": "substr_product_moderate($s, ['스팸', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', '바보', '카지노 보너스', '팔로워 구매', '무료 돈', '수익 보장', '가짜 고객센터', '이 링크를 클릭'])"
+    },
+    {
+      "name": "banlist12/ko/thread/late",
+      "input": "moderation-ko-thread-late",
+      "code": "substr_product_moderate($s, ['스팸', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', '바보', '카지노 보너스', '팔로워 구매', '무료 돈', '수익 보장', '가짜 고객센터', '이 링크를 클릭'])"
+    },
+    {
+      "name": "banlist12/emoji/comment/clean",
+      "input": "moderation-emoji-comment-clean",
+      "code": "substr_product_moderate($s, ['spam', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'idiot', 'casino bonus 🎰', 'buy followers', 'free money 💸', 'guaranteed profit', 'fake support', 'click this link'])"
+    },
+    {
+      "name": "banword/emoji/comment/absent",
+      "input": "moderation-emoji-comment-clean",
+      "code": "str_contains($s, 'spam')"
+    },
+    {
+      "name": "banlist12/emoji/comment/early",
+      "input": "moderation-emoji-comment-early",
+      "code": "substr_product_moderate($s, ['spam', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'idiot', 'casino bonus 🎰', 'buy followers', 'free money 💸', 'guaranteed profit', 'fake support', 'click this link'])"
+    },
+    {
+      "name": "banlist12/emoji/comment/late",
+      "input": "moderation-emoji-comment-late",
+      "code": "substr_product_moderate($s, ['spam', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'idiot', 'casino bonus 🎰', 'buy followers', 'free money 💸', 'guaranteed profit', 'fake support', 'click this link'])"
+    },
+    {
+      "name": "banlist12/emoji/post/clean",
+      "input": "moderation-emoji-post-clean",
+      "code": "substr_product_moderate($s, ['spam', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'idiot', 'casino bonus 🎰', 'buy followers', 'free money 💸', 'guaranteed profit', 'fake support', 'click this link'])"
+    },
+    {
+      "name": "banword/emoji/post/absent",
+      "input": "moderation-emoji-post-clean",
+      "code": "str_contains($s, 'spam')"
+    },
+    {
+      "name": "banlist12/emoji/post/early",
+      "input": "moderation-emoji-post-early",
+      "code": "substr_product_moderate($s, ['spam', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'idiot', 'casino bonus 🎰', 'buy followers', 'free money 💸', 'guaranteed profit', 'fake support', 'click this link'])"
+    },
+    {
+      "name": "banlist12/emoji/post/late",
+      "input": "moderation-emoji-post-late",
+      "code": "substr_product_moderate($s, ['spam', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'idiot', 'casino bonus 🎰', 'buy followers', 'free money 💸', 'guaranteed profit', 'fake support', 'click this link'])"
+    },
+    {
+      "name": "banlist12/emoji/thread/clean",
+      "input": "moderation-emoji-thread-clean",
+      "code": "substr_product_moderate($s, ['spam', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'idiot', 'casino bonus 🎰', 'buy followers', 'free money 💸', 'guaranteed profit', 'fake support', 'click this link'])"
+    },
+    {
+      "name": "banword/emoji/thread/absent",
+      "input": "moderation-emoji-thread-clean",
+      "code": "str_contains($s, 'spam')"
+    },
+    {
+      "name": "banlist12/emoji/thread/early",
+      "input": "moderation-emoji-thread-early",
+      "code": "substr_product_moderate($s, ['spam', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'idiot', 'casino bonus 🎰', 'buy followers', 'free money 💸', 'guaranteed profit', 'fake support', 'click this link'])"
+    },
+    {
+      "name": "banlist12/emoji/thread/late",
+      "input": "moderation-emoji-thread-late",
+      "code": "substr_product_moderate($s, ['spam', 'promo-cash.example', 'followers-shop.example', 'instant-profit.example', 'claim-bonus.example', 'idiot', 'casino bonus 🎰', 'buy followers', 'free money 💸', 'guaranteed profit', 'fake support', 'click this link'])"
+    },
+    {
+      "name": "explode/pipe2/short",
+      "input": "delimiter-pipe2-short",
+      "code": "explode('||', $s)"
+    },
+    {
+      "name": "explode-limit2/pipe2/short",
+      "input": "delimiter-pipe2-short",
+      "code": "explode('||', $s, 2)"
+    },
+    {
+      "name": "substr-count/pipe2/short",
+      "input": "delimiter-pipe2-short",
+      "code": "substr_count($s, '||')"
+    },
+    {
+      "name": "str-replace/pipe2/short",
+      "input": "delimiter-pipe2-short",
+      "code": "str_replace('||', ' / ', $s)"
+    },
+    {
+      "name": "explode/pipe2/4k",
+      "input": "delimiter-pipe2-4k",
+      "code": "explode('||', $s)"
+    },
+    {
+      "name": "explode-limit2/pipe2/4k",
+      "input": "delimiter-pipe2-4k",
+      "code": "explode('||', $s, 2)"
+    },
+    {
+      "name": "substr-count/pipe2/4k",
+      "input": "delimiter-pipe2-4k",
+      "code": "substr_count($s, '||')"
+    },
+    {
+      "name": "str-replace/pipe2/4k",
+      "input": "delimiter-pipe2-4k",
+      "code": "str_replace('||', ' / ', $s)"
+    },
+    {
+      "name": "explode/pipe2/64k",
+      "input": "delimiter-pipe2-64k",
+      "code": "explode('||', $s)"
+    },
+    {
+      "name": "explode-limit2/pipe2/64k",
+      "input": "delimiter-pipe2-64k",
+      "code": "explode('||', $s, 2)"
+    },
+    {
+      "name": "substr-count/pipe2/64k",
+      "input": "delimiter-pipe2-64k",
+      "code": "substr_count($s, '||')"
+    },
+    {
+      "name": "str-replace/pipe2/64k",
+      "input": "delimiter-pipe2-64k",
+      "code": "str_replace('||', ' / ', $s)"
+    },
+    {
+      "name": "explode/pipe2/1m",
+      "input": "delimiter-pipe2-1m",
+      "code": "explode('||', $s)"
+    },
+    {
+      "name": "explode/pipe2/absent",
+      "input": "delimiter-pipe2-absent",
+      "code": "explode('||', $s)"
+    },
+    {
+      "name": "explode/colon2/short",
+      "input": "delimiter-colon2-short",
+      "code": "explode('::', $s)"
+    },
+    {
+      "name": "explode-limit2/colon2/short",
+      "input": "delimiter-colon2-short",
+      "code": "explode('::', $s, 2)"
+    },
+    {
+      "name": "substr-count/colon2/short",
+      "input": "delimiter-colon2-short",
+      "code": "substr_count($s, '::')"
+    },
+    {
+      "name": "str-replace/colon2/short",
+      "input": "delimiter-colon2-short",
+      "code": "str_replace('::', ' / ', $s)"
+    },
+    {
+      "name": "explode/colon2/4k",
+      "input": "delimiter-colon2-4k",
+      "code": "explode('::', $s)"
+    },
+    {
+      "name": "explode-limit2/colon2/4k",
+      "input": "delimiter-colon2-4k",
+      "code": "explode('::', $s, 2)"
+    },
+    {
+      "name": "substr-count/colon2/4k",
+      "input": "delimiter-colon2-4k",
+      "code": "substr_count($s, '::')"
+    },
+    {
+      "name": "str-replace/colon2/4k",
+      "input": "delimiter-colon2-4k",
+      "code": "str_replace('::', ' / ', $s)"
+    },
+    {
+      "name": "explode/colon2/64k",
+      "input": "delimiter-colon2-64k",
+      "code": "explode('::', $s)"
+    },
+    {
+      "name": "explode-limit2/colon2/64k",
+      "input": "delimiter-colon2-64k",
+      "code": "explode('::', $s, 2)"
+    },
+    {
+      "name": "substr-count/colon2/64k",
+      "input": "delimiter-colon2-64k",
+      "code": "substr_count($s, '::')"
+    },
+    {
+      "name": "str-replace/colon2/64k",
+      "input": "delimiter-colon2-64k",
+      "code": "str_replace('::', ' / ', $s)"
+    },
+    {
+      "name": "explode/colon2/1m",
+      "input": "delimiter-colon2-1m",
+      "code": "explode('::', $s)"
+    },
+    {
+      "name": "explode/colon2/absent",
+      "input": "delimiter-colon2-absent",
+      "code": "explode('::', $s)"
+    },
+    {
+      "name": "explode/crlf/short",
+      "input": "delimiter-crlf-short",
+      "code": "explode('\r\n', $s)"
+    },
+    {
+      "name": "explode-limit2/crlf/short",
+      "input": "delimiter-crlf-short",
+      "code": "explode('\r\n', $s, 2)"
+    },
+    {
+      "name": "substr-count/crlf/short",
+      "input": "delimiter-crlf-short",
+      "code": "substr_count($s, '\r\n')"
+    },
+    {
+      "name": "str-replace/crlf/short",
+      "input": "delimiter-crlf-short",
+      "code": "str_replace('\r\n', ' / ', $s)"
+    },
+    {
+      "name": "explode/crlf/4k",
+      "input": "delimiter-crlf-4k",
+      "code": "explode('\r\n', $s)"
+    },
+    {
+      "name": "explode-limit2/crlf/4k",
+      "input": "delimiter-crlf-4k",
+      "code": "explode('\r\n', $s, 2)"
+    },
+    {
+      "name": "substr-count/crlf/4k",
+      "input": "delimiter-crlf-4k",
+      "code": "substr_count($s, '\r\n')"
+    },
+    {
+      "name": "str-replace/crlf/4k",
+      "input": "delimiter-crlf-4k",
+      "code": "str_replace('\r\n', ' / ', $s)"
+    },
+    {
+      "name": "explode/crlf/64k",
+      "input": "delimiter-crlf-64k",
+      "code": "explode('\r\n', $s)"
+    },
+    {
+      "name": "explode-limit2/crlf/64k",
+      "input": "delimiter-crlf-64k",
+      "code": "explode('\r\n', $s, 2)"
+    },
+    {
+      "name": "substr-count/crlf/64k",
+      "input": "delimiter-crlf-64k",
+      "code": "substr_count($s, '\r\n')"
+    },
+    {
+      "name": "str-replace/crlf/64k",
+      "input": "delimiter-crlf-64k",
+      "code": "str_replace('\r\n', ' / ', $s)"
+    },
+    {
+      "name": "explode/crlf/1m",
+      "input": "delimiter-crlf-1m",
+      "code": "explode('\r\n', $s)"
+    },
+    {
+      "name": "explode/crlf/absent",
+      "input": "delimiter-crlf-absent",
+      "code": "explode('\r\n', $s)"
+    },
+    {
+      "name": "explode/comma/short",
+      "input": "delimiter-comma-short",
+      "code": "explode(',', $s)"
+    },
+    {
+      "name": "explode/comma/4k",
+      "input": "delimiter-comma-4k",
+      "code": "explode(',', $s)"
+    },
+    {
+      "name": "explode/comma/64k",
+      "input": "delimiter-comma-64k",
+      "code": "explode(',', $s)"
+    },
+    {
+      "name": "explode/comma/1m",
+      "input": "delimiter-comma-1m",
+      "code": "explode(',', $s)"
+    },
+    {
+      "name": "explode/comma/absent",
+      "input": "delimiter-comma-absent",
+      "code": "explode(',', $s)"
+    },
+    {
+      "name": "explode/tab/short",
+      "input": "delimiter-tab-short",
+      "code": "explode('\t', $s)"
+    },
+    {
+      "name": "explode/tab/4k",
+      "input": "delimiter-tab-4k",
+      "code": "explode('\t', $s)"
+    },
+    {
+      "name": "explode/tab/64k",
+      "input": "delimiter-tab-64k",
+      "code": "explode('\t', $s)"
+    },
+    {
+      "name": "explode/tab/1m",
+      "input": "delimiter-tab-1m",
+      "code": "explode('\t', $s)"
+    },
+    {
+      "name": "explode/tab/absent",
+      "input": "delimiter-tab-absent",
+      "code": "explode('\t', $s)"
+    },
+    {
+      "name": "explode/amp/short",
+      "input": "delimiter-amp-short",
+      "code": "explode('&', $s)"
+    },
+    {
+      "name": "explode/amp/4k",
+      "input": "delimiter-amp-4k",
+      "code": "explode('&', $s)"
+    },
+    {
+      "name": "explode/amp/64k",
+      "input": "delimiter-amp-64k",
+      "code": "explode('&', $s)"
+    },
+    {
+      "name": "explode/amp/1m",
+      "input": "delimiter-amp-1m",
+      "code": "explode('&', $s)"
+    },
+    {
+      "name": "explode/amp/absent",
+      "input": "delimiter-amp-absent",
+      "code": "explode('&', $s)"
+    },
+    {
+      "name": "parse-records/small",
+      "input": "records-small",
+      "code": "substr_product_records($s)"
+    },
+    {
+      "name": "parse-query/small",
+      "input": "query-small",
+      "code": "substr_product_query($s)"
+    },
+    {
+      "name": "parse-records/4k",
+      "input": "records-4k",
+      "code": "substr_product_records($s)"
+    },
+    {
+      "name": "parse-query/4k",
+      "input": "query-4k",
+      "code": "substr_product_query($s)"
+    },
+    {
+      "name": "parse-records/64k",
+      "input": "records-64k",
+      "code": "substr_product_records($s)"
+    },
+    {
+      "name": "parse-query/64k",
+      "input": "query-64k",
+      "code": "substr_product_query($s)"
+    },
+    {
+      "name": "parse-http/small",
+      "input": "http-small",
+      "code": "substr_product_headers($s)"
+    },
+    {
+      "name": "find-http-end/small",
+      "input": "http-small",
+      "code": "strpos($s, '\r\n\r\n')"
+    },
+    {
+      "name": "parse-http/cookie4k",
+      "input": "http-cookie4k",
+      "code": "substr_product_headers($s)"
+    },
+    {
+      "name": "find-http-end/cookie4k",
+      "input": "http-cookie4k",
+      "code": "strpos($s, '\r\n\r\n')"
+    },
+    {
+      "name": "parse-http/body64k",
+      "input": "http-body64k",
+      "code": "substr_product_headers($s)"
+    },
+    {
+      "name": "find-http-end/body64k",
+      "input": "http-body64k",
+      "code": "strpos($s, '\r\n\r\n')"
+    },
+    {
+      "name": "parse-http/incomplete",
+      "input": "http-incomplete",
+      "code": "substr_product_headers($s)"
+    },
+    {
+      "name": "find-http-end/incomplete",
+      "input": "http-incomplete",
+      "code": "strpos($s, '\r\n\r\n')"
+    },
+    {
+      "name": "scan-template/small",
+      "input": "template-small",
+      "code": "substr_product_slots($s)"
+    },
+    {
+      "name": "render-template/small",
+      "input": "template-small",
+      "code": "str_replace(['{{order.id}}', '{{user.name}}', '{{tracking.url}}', '{{support.email}}'], ['4820', 'anna', 'https://shop.example.test/track/4820', 'help@example.test'], $s)"
+    },
+    {
+      "name": "html-contains/link/small",
+      "input": "template-small",
+      "code": "str_contains($s, 'href=\"')"
+    },
+    {
+      "name": "html-contains/optional-widget/small",
+      "input": "template-small",
+      "code": "str_contains($s, 'data-cookieconsent=')"
+    },
+    {
+      "name": "scan-template/4k",
+      "input": "template-4k",
+      "code": "substr_product_slots($s)"
+    },
+    {
+      "name": "render-template/4k",
+      "input": "template-4k",
+      "code": "str_replace(['{{order.id}}', '{{user.name}}', '{{tracking.url}}', '{{support.email}}'], ['4820', 'anna', 'https://shop.example.test/track/4820', 'help@example.test'], $s)"
+    },
+    {
+      "name": "html-contains/link/4k",
+      "input": "template-4k",
+      "code": "str_contains($s, 'href=\"')"
+    },
+    {
+      "name": "html-contains/optional-widget/4k",
+      "input": "template-4k",
+      "code": "str_contains($s, 'data-cookieconsent=')"
+    },
+    {
+      "name": "scan-template/64k",
+      "input": "template-64k",
+      "code": "substr_product_slots($s)"
+    },
+    {
+      "name": "render-template/64k",
+      "input": "template-64k",
+      "code": "str_replace(['{{order.id}}', '{{user.name}}', '{{tracking.url}}', '{{support.email}}'], ['4820', 'anna', 'https://shop.example.test/track/4820', 'help@example.test'], $s)"
+    },
+    {
+      "name": "html-contains/link/64k",
+      "input": "template-64k",
+      "code": "str_contains($s, 'href=\"')"
+    },
+    {
+      "name": "html-contains/optional-widget/64k",
+      "input": "template-64k",
+      "code": "str_contains($s, 'data-cookieconsent=')"
+    },
+    {
+      "name": "log-contains/event/comment/clean",
+      "input": "logs-comment-clean",
+      "code": "str_contains($s, 'payment_failed')"
+    },
+    {
+      "name": "log-contains/level/comment/clean",
+      "input": "logs-comment-clean",
+      "code": "str_contains($s, '\"level\":\"error\"')"
+    },
+    {
+      "name": "log-filter/comment/clean",
+      "input": "logs-comment-clean",
+      "code": "substr_product_log_errors($s)"
+    },
+    {
+      "name": "log-contains/event/comment/early",
+      "input": "logs-comment-early",
+      "code": "str_contains($s, 'payment_failed')"
+    },
+    {
+      "name": "log-contains/level/comment/early",
+      "input": "logs-comment-early",
+      "code": "str_contains($s, '\"level\":\"error\"')"
+    },
+    {
+      "name": "log-contains/event/comment/late",
+      "input": "logs-comment-late",
+      "code": "str_contains($s, 'payment_failed')"
+    },
+    {
+      "name": "log-contains/level/comment/late",
+      "input": "logs-comment-late",
+      "code": "str_contains($s, '\"level\":\"error\"')"
+    },
+    {
+      "name": "log-filter/comment/late",
+      "input": "logs-comment-late",
+      "code": "substr_product_log_errors($s)"
+    },
+    {
+      "name": "log-contains/event/post/clean",
+      "input": "logs-post-clean",
+      "code": "str_contains($s, 'payment_failed')"
+    },
+    {
+      "name": "log-contains/level/post/clean",
+      "input": "logs-post-clean",
+      "code": "str_contains($s, '\"level\":\"error\"')"
+    },
+    {
+      "name": "log-filter/post/clean",
+      "input": "logs-post-clean",
+      "code": "substr_product_log_errors($s)"
+    },
+    {
+      "name": "log-contains/event/post/early",
+      "input": "logs-post-early",
+      "code": "str_contains($s, 'payment_failed')"
+    },
+    {
+      "name": "log-contains/level/post/early",
+      "input": "logs-post-early",
+      "code": "str_contains($s, '\"level\":\"error\"')"
+    },
+    {
+      "name": "log-contains/event/post/late",
+      "input": "logs-post-late",
+      "code": "str_contains($s, 'payment_failed')"
+    },
+    {
+      "name": "log-contains/level/post/late",
+      "input": "logs-post-late",
+      "code": "str_contains($s, '\"level\":\"error\"')"
+    },
+    {
+      "name": "log-filter/post/late",
+      "input": "logs-post-late",
+      "code": "substr_product_log_errors($s)"
+    },
+    {
+      "name": "log-contains/event/thread/clean",
+      "input": "logs-thread-clean",
+      "code": "str_contains($s, 'payment_failed')"
+    },
+    {
+      "name": "log-contains/level/thread/clean",
+      "input": "logs-thread-clean",
+      "code": "str_contains($s, '\"level\":\"error\"')"
+    },
+    {
+      "name": "log-filter/thread/clean",
+      "input": "logs-thread-clean",
+      "code": "substr_product_log_errors($s)"
+    },
+    {
+      "name": "log-contains/event/thread/early",
+      "input": "logs-thread-early",
+      "code": "str_contains($s, 'payment_failed')"
+    },
+    {
+      "name": "log-contains/level/thread/early",
+      "input": "logs-thread-early",
+      "code": "str_contains($s, '\"level\":\"error\"')"
+    },
+    {
+      "name": "log-contains/event/thread/late",
+      "input": "logs-thread-late",
+      "code": "str_contains($s, 'payment_failed')"
+    },
+    {
+      "name": "log-contains/level/thread/late",
+      "input": "logs-thread-late",
+      "code": "str_contains($s, '\"level\":\"error\"')"
+    },
+    {
+      "name": "log-filter/thread/late",
+      "input": "logs-thread-late",
+      "code": "substr_product_log_errors($s)"
+    },
+    {
+      "name": "source-tokens/zend_string/4k",
+      "input": "source-4k",
+      "code": "substr_product_token_offsets($s, 'zend_string')"
+    },
+    {
+      "name": "source-tokens/TODO/4k",
+      "input": "source-4k",
+      "code": "substr_product_token_offsets($s, 'TODO')"
+    },
+    {
+      "name": "source-tokens/deprecated_api_call/4k",
+      "input": "source-4k",
+      "code": "substr_product_token_offsets($s, 'deprecated_api_call')"
+    },
+    {
+      "name": "source-tokens/zend_string/64k",
+      "input": "source-64k",
+      "code": "substr_product_token_offsets($s, 'zend_string')"
+    },
+    {
+      "name": "source-tokens/TODO/64k",
+      "input": "source-64k",
+      "code": "substr_product_token_offsets($s, 'TODO')"
+    },
+    {
+      "name": "source-tokens/deprecated_api_call/64k",
+      "input": "source-64k",
+      "code": "substr_product_token_offsets($s, 'deprecated_api_call')"
+    },
+    {
+      "name": "document/html-phpnet/href=\"/4k",
+      "input": "real-html-phpnet-4k",
+      "code": "str_contains($s, 'href=\"')"
+    },
+    {
+      "name": "document/html-phpnet/data-cookieconsent=/4k",
+      "input": "real-html-phpnet-4k",
+      "code": "str_contains($s, 'data-cookieconsent=')"
+    },
+    {
+      "name": "document/html-phpnet/href=\"/64k",
+      "input": "real-html-phpnet-64k",
+      "code": "str_contains($s, 'href=\"')"
+    },
+    {
+      "name": "document/html-phpnet/data-cookieconsent=/64k",
+      "input": "real-html-phpnet-64k",
+      "code": "str_contains($s, 'data-cookieconsent=')"
+    },
+    {
+      "name": "document/md-bootstrap/```/4k",
+      "input": "real-md-bootstrap-4k",
+      "code": "str_contains($s, '```')"
+    },
+    {
+      "name": "document/md-bootstrap/TODO/4k",
+      "input": "real-md-bootstrap-4k",
+      "code": "str_contains($s, 'TODO')"
+    },
+    {
+      "name": "document/md-bootstrap/```/64k",
+      "input": "real-md-bootstrap-64k",
+      "code": "str_contains($s, '```')"
+    },
+    {
+      "name": "document/md-bootstrap/TODO/64k",
+      "input": "real-md-bootstrap-64k",
+      "code": "str_contains($s, 'TODO')"
+    },
+    {
+      "name": "document/js-jquery.min/function/4k",
+      "input": "real-js-jquery.min-4k",
+      "code": "str_contains($s, 'function')"
+    },
+    {
+      "name": "document/js-jquery.min/sourceMappingURL=/4k",
+      "input": "real-js-jquery.min-4k",
+      "code": "str_contains($s, 'sourceMappingURL=')"
+    },
+    {
+      "name": "document/js-jquery.min/function/64k",
+      "input": "real-js-jquery.min-64k",
+      "code": "str_contains($s, 'function')"
+    },
+    {
+      "name": "document/js-jquery.min/sourceMappingURL=/64k",
+      "input": "real-js-jquery.min-64k",
+      "code": "str_contains($s, 'sourceMappingURL=')"
+    }
+  ]
+}

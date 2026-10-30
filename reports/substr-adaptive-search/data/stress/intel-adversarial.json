@@ -1,0 +1,3629 @@
+{
+  "format": 2,
+  "kind": "compare",
+  "harness": 2,
+  "date": "2026-10-30T09:19:47+00:00",
+  "suite": "adversarial-suite.php",
+  "elapsed_s": 63,
+  "complete": true,
+  "config": {
+    "passes": 5,
+    "cpu": 10,
+    "target_ms": 50,
+    "filter": "allcommon_long|late dense pair|#318|#323",
+    "control": true,
+    "wait_idle": 0,
+    "events": "cpu_core/cycles/u,cpu_core/instructions/u"
+  },
+  "env": {
+    "cpu_model": "13th Gen Intel(R) Core(TM) i7-13700H",
+    "kernel": "7.0.0-38-generic",
+    "cpu": 10,
+    "cpu_siblings": "10-11",
+    "hybrid_pcores": "0-11",
+    "cpu_is_pcore": true,
+    "governor": "powersave",
+    "epp": "balance_performance",
+    "turbo": true,
+    "on_ac": true,
+    "load": 5.6015625,
+    "busy_pct": {
+      "10": 16.7,
+      "11": 9.7
+    },
+    "idle_cpu": null
+  },
+  "groups": [
+    {
+      "name": "aa",
+      "a": "base-gcc13",
+      "b": "base-gcc13"
+    },
+    {
+      "name": "gcc13",
+      "a": "base-gcc13",
+      "b": "product-guard-gcc13"
+    },
+    {
+      "name": "gcc14",
+      "a": "base-gcc14",
+      "b": "product-guard-gcc14"
+    },
+    {
+      "name": "clang18",
+      "a": "base-clang18",
+      "b": "product-guard-clang18"
+    },
+    {
+      "name": "clang20",
+      "a": "base-clang20",
+      "b": "product-guard-clang20"
+    },
+    {
+      "name": "aa2",
+      "a": "base-gcc13",
+      "b": "base-gcc13"
+    }
+  ],
+  "builds": {
+    "base-gcc13": {
+      "php": "<builds>/base-gcc13/sapi/cli/php",
+      "build": {
+        "name": "base-gcc13",
+        "ref": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-30T08:25:25+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "7d62913bb38e52a00d2d982ad4a31f9081a546e9",
+        "cc": "gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+        "cc_command": "gcc-13",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<builds>/base-gcc13/sapi/cli/php"
+      },
+      "sha1": "9200600483dff73568f715fd026d830f08a568fb"
+    },
+    "product-guard-gcc13": {
+      "php": "<builds>/product-guard-gcc13/sapi/cli/php",
+      "build": {
+        "name": "product-guard-gcc13",
+        "ref": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "commit": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "subject": "Reduce forward substring setup cost and bound expensive comparisons",
+        "snapshot": false,
+        "base_commit": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "base_subject": "Reduce forward substring setup cost and bound expensive comparisons",
+        "built_at": "2026-10-30T08:29:38+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "7d62913bb38e52a00d2d982ad4a31f9081a546e9",
+        "cc": "gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+        "cc_command": "gcc-13",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<builds>/product-guard-gcc13/sapi/cli/php"
+      },
+      "sha1": "48e7a764af70618a3960a4baadb30ec2c8afece9"
+    },
+    "base-gcc14": {
+      "php": "<builds>/base-gcc14/sapi/cli/php",
+      "build": {
+        "name": "base-gcc14",
+        "ref": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-30T08:26:39+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "ac3a91d21845157f2be60236a99e484774abd3cd",
+        "cc": "gcc-14 (Ubuntu 14.2.0-4ubuntu2~24.04.1) 14.2.0",
+        "cc_command": "gcc-14",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<builds>/base-gcc14/sapi/cli/php"
+      },
+      "sha1": "6cf368035fd1b70e05d7733a04119fdb481cabd9"
+    },
+    "product-guard-gcc14": {
+      "php": "<builds>/product-guard-gcc14/sapi/cli/php",
+      "build": {
+        "name": "product-guard-gcc14",
+        "ref": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "commit": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "subject": "Reduce forward substring setup cost and bound expensive comparisons",
+        "snapshot": false,
+        "base_commit": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "base_subject": "Reduce forward substring setup cost and bound expensive comparisons",
+        "built_at": "2026-10-30T08:30:49+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "ac3a91d21845157f2be60236a99e484774abd3cd",
+        "cc": "gcc-14 (Ubuntu 14.2.0-4ubuntu2~24.04.1) 14.2.0",
+        "cc_command": "gcc-14",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<builds>/product-guard-gcc14/sapi/cli/php"
+      },
+      "sha1": "dc3b5c3abdda0258d171a8126ef8bb7305c24ba4"
+    },
+    "base-clang18": {
+      "php": "<builds>/base-clang18/sapi/cli/php",
+      "build": {
+        "name": "base-clang18",
+        "ref": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-30T08:27:36+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "6f1b3e51eea24c10ae8ce871194e35ecd496c108",
+        "cc": "Ubuntu clang version 18.1.3 (1ubuntu1)",
+        "cc_command": "clang-18",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<builds>/base-clang18/sapi/cli/php"
+      },
+      "sha1": "df740db3f4fcd3edcdd6aaea3f0fc80d5847b50c"
+    },
+    "product-guard-clang18": {
+      "php": "<builds>/product-guard-clang18/sapi/cli/php",
+      "build": {
+        "name": "product-guard-clang18",
+        "ref": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "commit": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "subject": "Reduce forward substring setup cost and bound expensive comparisons",
+        "snapshot": false,
+        "base_commit": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "base_subject": "Reduce forward substring setup cost and bound expensive comparisons",
+        "built_at": "2026-10-30T08:31:44+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "6f1b3e51eea24c10ae8ce871194e35ecd496c108",
+        "cc": "Ubuntu clang version 18.1.3 (1ubuntu1)",
+        "cc_command": "clang-18",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<builds>/product-guard-clang18/sapi/cli/php"
+      },
+      "sha1": "a0c9d91506da608a037aea32e19c130de84af5c9"
+    },
+    "base-clang20": {
+      "php": "<builds>/base-clang20/sapi/cli/php",
+      "build": {
+        "name": "base-clang20",
+        "ref": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-30T08:28:36+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "1d7363572b7d241702924894eced9e166dfe2ea0",
+        "cc": "Ubuntu clang version 20.1.2 (0ubuntu1~24.04.3)",
+        "cc_command": "clang-20",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<builds>/base-clang20/sapi/cli/php"
+      },
+      "sha1": "63d4127b19a0485bfd6d3004d0b95ef64890d95a"
+    },
+    "product-guard-clang20": {
+      "php": "<builds>/product-guard-clang20/sapi/cli/php",
+      "build": {
+        "name": "product-guard-clang20",
+        "ref": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "commit": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "subject": "Reduce forward substring setup cost and bound expensive comparisons",
+        "snapshot": false,
+        "base_commit": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "base_subject": "Reduce forward substring setup cost and bound expensive comparisons",
+        "built_at": "2026-10-30T08:32:42+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "1d7363572b7d241702924894eced9e166dfe2ea0",
+        "cc": "Ubuntu clang version 20.1.2 (0ubuntu1~24.04.3)",
+        "cc_command": "clang-20",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<builds>/product-guard-clang20/sapi/cli/php"
+      },
+      "sha1": "e3b376feeb8af2dc7b852fc358a929f8c38ae254"
+    }
+  },
+  "sources": {
+    "suite": "9940a67b5a5ee33fa72d9ed392e8e45eb09a9b8b",
+    "harness": "c3113f45c2a11bcb63f0b1fb7a4e44ef6843325d",
+    "corpus": "e5c81343e158d86e921e121508cb8b101980f980"
+  },
+  "machine_warnings": [
+    "CPU governor is 'powersave': frequency scaling adds noise (sudo ./bench tune on)",
+    "turbo boost is on: thermal and frequency drift between rounds (sudo ./bench tune on)",
+    "load average is 5.6: other programs are competing for the CPU",
+    "CPU 10 is 17% busy with other processes: timings will be noisy (wait for it to finish)"
+  ],
+  "cases": {
+    "first dense_anchor dense n3 #318 @ case-318": {
+      "input_len": 304003,
+      "input_chars": 304003,
+      "n": 31
+    },
+    "first allcommon_long allcommon_long n201 #320 @ case-320": {
+      "input_len": 300000,
+      "input_chars": 300000,
+      "n": 20
+    },
+    "first periodic periodic n9 #323 @ case-323": {
+      "input_len": 300000,
+      "input_chars": 300000,
+      "n": 132
+    },
+    "late dense pair @ pair-killer": {
+      "input_len": 200000,
+      "input_chars": 200000,
+      "n": 20
+    },
+    "late dense pair @ changing-density": {
+      "input_len": 214000,
+      "input_chars": 214000,
+      "n": 20
+    },
+    "late dense pair @ changing-density-match": {
+      "input_len": 214256,
+      "input_chars": 214256,
+      "n": 20
+    }
+  },
+  "warnings": [],
+  "marks": [],
+  "rows": [
+    [
+      "aa",
+      "a",
+      "first dense_anchor dense n3 #318 @ case-318",
+      201455137,
+      372903503,
+      25494559,
+      47040640
+    ],
+    [
+      "aa",
+      "b",
+      "first dense_anchor dense n3 #318 @ case-318",
+      201492695,
+      372906296,
+      25176027,
+      47041270
+    ],
+    [
+      "aa",
+      "b",
+      "first dense_anchor dense n3 #318 @ case-318",
+      201491979,
+      372903668,
+      26095995,
+      47042668
+    ],
+    [
+      "aa",
+      "a",
+      "first dense_anchor dense n3 #318 @ case-318",
+      200385152,
+      372904116,
+      25997225,
+      47042228
+    ],
+    [
+      "aa",
+      "a",
+      "first dense_anchor dense n3 #318 @ case-318",
+      201540792,
+      372903379,
+      26496055,
+      47042682
+    ],
+    [
+      "aa",
+      "b",
+      "first dense_anchor dense n3 #318 @ case-318",
+      200690441,
+      372903701,
+      26073922,
+      47043014
+    ],
+    [
+      "aa",
+      "b",
+      "first dense_anchor dense n3 #318 @ case-318",
+      201621727,
+      372904030,
+      25065481,
+      47040784
+    ],
+    [
+      "aa",
+      "a",
+      "first dense_anchor dense n3 #318 @ case-318",
+      201624120,
+      372906623,
+      25266681,
+      47040561
+    ],
+    [
+      "aa",
+      "a",
+      "first dense_anchor dense n3 #318 @ case-318",
+      201788564,
+      372904191,
+      25214781,
+      47041308
+    ],
+    [
+      "aa",
+      "b",
+      "first dense_anchor dense n3 #318 @ case-318",
+      201329634,
+      372902975,
+      25635496,
+      47043348
+    ],
+    [
+      "aa",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      769760104,
+      3858082311,
+      56252799,
+      218465887
+    ],
+    [
+      "aa",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      767978397,
+      3858085703,
+      56780647,
+      218467327
+    ],
+    [
+      "aa",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      767710635,
+      3858085546,
+      54955056,
+      218464423
+    ],
+    [
+      "aa",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      769460947,
+      3858083312,
+      54821177,
+      218466732
+    ],
+    [
+      "aa",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      761262588,
+      3858082201,
+      55559870,
+      218465271
+    ],
+    [
+      "aa",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      768342147,
+      3858085173,
+      56480085,
+      218467437
+    ],
+    [
+      "aa",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      771800266,
+      3858082463,
+      54999485,
+      218464815
+    ],
+    [
+      "aa",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      769606211,
+      3858082805,
+      55360476,
+      218465117
+    ],
+    [
+      "aa",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      770067629,
+      3858085747,
+      54951727,
+      218465568
+    ],
+    [
+      "aa",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      768371451,
+      3858085818,
+      55874528,
+      218464658
+    ],
+    [
+      "aa",
+      "a",
+      "first periodic periodic n9 #323 @ case-323",
+      189251392,
+      502035868,
+      21835412,
+      39987243
+    ],
+    [
+      "aa",
+      "b",
+      "first periodic periodic n9 #323 @ case-323",
+      190054086,
+      502033269,
+      21115882,
+      39987334
+    ],
+    [
+      "aa",
+      "b",
+      "first periodic periodic n9 #323 @ case-323",
+      189347545,
+      502033058,
+      21214966,
+      39983941
+    ],
+    [
+      "aa",
+      "a",
+      "first periodic periodic n9 #323 @ case-323",
+      189987047,
+      502033071,
+      21682989,
+      39986981
+    ],
+    [
+      "aa",
+      "a",
+      "first periodic periodic n9 #323 @ case-323",
+      189876231,
+      502033816,
+      20873157,
+      39986691
+    ],
+    [
+      "aa",
+      "b",
+      "first periodic periodic n9 #323 @ case-323",
+      189635197,
+      502036004,
+      20631882,
+      39984850
+    ],
+    [
+      "aa",
+      "b",
+      "first periodic periodic n9 #323 @ case-323",
+      190199454,
+      502033329,
+      21901014,
+      39985037
+    ],
+    [
+      "aa",
+      "a",
+      "first periodic periodic n9 #323 @ case-323",
+      190094137,
+      502034922,
+      21825194,
+      39984321
+    ],
+    [
+      "aa",
+      "a",
+      "first periodic periodic n9 #323 @ case-323",
+      190326762,
+      502032456,
+      20951409,
+      39984184
+    ],
+    [
+      "aa",
+      "b",
+      "first periodic periodic n9 #323 @ case-323",
+      190196829,
+      502032329,
+      21499385,
+      39984931
+    ],
+    [
+      "aa",
+      "a",
+      "late dense pair @ pair-killer",
+      326609519,
+      1648211120,
+      34031732,
+      112091115
+    ],
+    [
+      "aa",
+      "b",
+      "late dense pair @ pair-killer",
+      322794960,
+      1648211439,
+      33921538,
+      112091678
+    ],
+    [
+      "aa",
+      "b",
+      "late dense pair @ pair-killer",
+      323335535,
+      1648207917,
+      33865272,
+      112094395
+    ],
+    [
+      "aa",
+      "a",
+      "late dense pair @ pair-killer",
+      322150195,
+      1648209160,
+      34341881,
+      112092434
+    ],
+    [
+      "aa",
+      "a",
+      "late dense pair @ pair-killer",
+      322498771,
+      1648208209,
+      33757487,
+      112091808
+    ],
+    [
+      "aa",
+      "b",
+      "late dense pair @ pair-killer",
+      322666959,
+      1648211169,
+      34063944,
+      112094934
+    ],
+    [
+      "aa",
+      "b",
+      "late dense pair @ pair-killer",
+      323504686,
+      1648208467,
+      33762653,
+      112094507
+    ],
+    [
+      "aa",
+      "a",
+      "late dense pair @ pair-killer",
+      322938732,
+      1648207719,
+      35082815,
+      112093570
+    ],
+    [
+      "aa",
+      "a",
+      "late dense pair @ pair-killer",
+      323178905,
+      1648208580,
+      33963438,
+      112091210
+    ],
+    [
+      "aa",
+      "b",
+      "late dense pair @ pair-killer",
+      322816366,
+      1648207964,
+      33892002,
+      112093986
+    ],
+    [
+      "aa",
+      "a",
+      "late dense pair @ changing-density",
+      322501696,
+      1648372758,
+      34096115,
+      112259426
+    ],
+    [
+      "aa",
+      "b",
+      "late dense pair @ changing-density",
+      322368676,
+      1648369713,
+      33801789,
+      112259853
+    ],
+    [
+      "aa",
+      "b",
+      "late dense pair @ changing-density",
+      322356108,
+      1648372089,
+      34166153,
+      112260264
+    ],
+    [
+      "aa",
+      "a",
+      "late dense pair @ changing-density",
+      323826656,
+      1648372489,
+      34213728,
+      112259726
+    ],
+    [
+      "aa",
+      "a",
+      "late dense pair @ changing-density",
+      321989489,
+      1648370022,
+      34756307,
+      112258880
+    ],
+    [
+      "aa",
+      "b",
+      "late dense pair @ changing-density",
+      322132517,
+      1648370137,
+      34130446,
+      112261885
+    ],
+    [
+      "aa",
+      "b",
+      "late dense pair @ changing-density",
+      322952000,
+      1648370678,
+      34134605,
+      112259504
+    ],
+    [
+      "aa",
+      "a",
+      "late dense pair @ changing-density",
+      322151787,
+      1648373002,
+      34061484,
+      112259566
+    ],
+    [
+      "aa",
+      "a",
+      "late dense pair @ changing-density",
+      322577719,
+      1648370114,
+      33962362,
+      112260295
+    ],
+    [
+      "aa",
+      "b",
+      "late dense pair @ changing-density",
+      322723306,
+      1648370391,
+      34054411,
+      112259221
+    ],
+    [
+      "aa",
+      "a",
+      "late dense pair @ changing-density-match",
+      322630292,
+      1650471870,
+      33931207,
+      112365171
+    ],
+    [
+      "aa",
+      "b",
+      "late dense pair @ changing-density-match",
+      322489179,
+      1650475270,
+      34095254,
+      112365931
+    ],
+    [
+      "aa",
+      "b",
+      "late dense pair @ changing-density-match",
+      322675415,
+      1650472605,
+      34214411,
+      112365251
+    ],
+    [
+      "aa",
+      "a",
+      "late dense pair @ changing-density-match",
+      322570525,
+      1650475384,
+      33773552,
+      112365292
+    ],
+    [
+      "aa",
+      "a",
+      "late dense pair @ changing-density-match",
+      322766838,
+      1650472776,
+      34360959,
+      112363282
+    ],
+    [
+      "aa",
+      "b",
+      "late dense pair @ changing-density-match",
+      323136406,
+      1650472995,
+      33866756,
+      112362035
+    ],
+    [
+      "aa",
+      "b",
+      "late dense pair @ changing-density-match",
+      323057630,
+      1650472488,
+      34258885,
+      112362814
+    ],
+    [
+      "aa",
+      "a",
+      "late dense pair @ changing-density-match",
+      323565347,
+      1650475325,
+      33995632,
+      112362398
+    ],
+    [
+      "aa",
+      "a",
+      "late dense pair @ changing-density-match",
+      324034940,
+      1650473225,
+      34182571,
+      112363014
+    ],
+    [
+      "aa",
+      "b",
+      "late dense pair @ changing-density-match",
+      322929051,
+      1650474533,
+      33819955,
+      112365199
+    ],
+    [
+      "gcc13",
+      "a",
+      "first dense_anchor dense n3 #318 @ case-318",
+      200836355,
+      372906118,
+      25238431,
+      47041491
+    ],
+    [
+      "gcc13",
+      "b",
+      "first dense_anchor dense n3 #318 @ case-318",
+      200867653,
+      372906593,
+      25935739,
+      47042096
+    ],
+    [
+      "gcc13",
+      "b",
+      "first dense_anchor dense n3 #318 @ case-318",
+      200433540,
+      372904886,
+      25786404,
+      47040962
+    ],
+    [
+      "gcc13",
+      "a",
+      "first dense_anchor dense n3 #318 @ case-318",
+      200614224,
+      372906908,
+      25938727,
+      47040242
+    ],
+    [
+      "gcc13",
+      "a",
+      "first dense_anchor dense n3 #318 @ case-318",
+      200349545,
+      372903653,
+      25441239,
+      47041000
+    ],
+    [
+      "gcc13",
+      "b",
+      "first dense_anchor dense n3 #318 @ case-318",
+      201007968,
+      372906664,
+      25090119,
+      47041351
+    ],
+    [
+      "gcc13",
+      "b",
+      "first dense_anchor dense n3 #318 @ case-318",
+      201587631,
+      372906380,
+      25570580,
+      47043181
+    ],
+    [
+      "gcc13",
+      "a",
+      "first dense_anchor dense n3 #318 @ case-318",
+      200472246,
+      372906946,
+      25773748,
+      47039901
+    ],
+    [
+      "gcc13",
+      "a",
+      "first dense_anchor dense n3 #318 @ case-318",
+      200635510,
+      372904058,
+      25613256,
+      47039720
+    ],
+    [
+      "gcc13",
+      "b",
+      "first dense_anchor dense n3 #318 @ case-318",
+      201977177,
+      372904369,
+      25263741,
+      47043197
+    ],
+    [
+      "gcc13",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      759831448,
+      3858084770,
+      55366175,
+      218464406
+    ],
+    [
+      "gcc13",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      21267011,
+      42164225,
+      20537828,
+      36755146
+    ],
+    [
+      "gcc13",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      21481120,
+      42164358,
+      20296255,
+      36754807
+    ],
+    [
+      "gcc13",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      760085028,
+      3858085113,
+      55293765,
+      218464605
+    ],
+    [
+      "gcc13",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      760508845,
+      3858081971,
+      55813386,
+      218465347
+    ],
+    [
+      "gcc13",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      22139166,
+      42166739,
+      19925922,
+      36757118
+    ],
+    [
+      "gcc13",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      22339289,
+      42164377,
+      21394773,
+      36754519
+    ],
+    [
+      "gcc13",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      759695580,
+      3858085788,
+      55642996,
+      218467593
+    ],
+    [
+      "gcc13",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      759730994,
+      3858082168,
+      55471574,
+      218468148
+    ],
+    [
+      "gcc13",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      21538814,
+      42166822,
+      20405683,
+      36754645
+    ],
+    [
+      "gcc13",
+      "a",
+      "first periodic periodic n9 #323 @ case-323",
+      189940254,
+      502033168,
+      21423437,
+      39984412
+    ],
+    [
+      "gcc13",
+      "b",
+      "first periodic periodic n9 #323 @ case-323",
+      190754180,
+      502014873,
+      22038602,
+      39984352
+    ],
+    [
+      "gcc13",
+      "b",
+      "first periodic periodic n9 #323 @ case-323",
+      190507641,
+      502016954,
+      21921515,
+      39988070
+    ],
+    [
+      "gcc13",
+      "a",
+      "first periodic periodic n9 #323 @ case-323",
+      190554818,
+      502032123,
+      21801428,
+      39987272
+    ],
+    [
+      "gcc13",
+      "a",
+      "first periodic periodic n9 #323 @ case-323",
+      190157815,
+      502032830,
+      21244844,
+      39983821
+    ],
+    [
+      "gcc13",
+      "b",
+      "first periodic periodic n9 #323 @ case-323",
+      193395736,
+      502016719,
+      22228054,
+      39986856
+    ],
+    [
+      "gcc13",
+      "b",
+      "first periodic periodic n9 #323 @ case-323",
+      192080101,
+      502014738,
+      22282100,
+      39984832
+    ],
+    [
+      "gcc13",
+      "a",
+      "first periodic periodic n9 #323 @ case-323",
+      190173534,
+      502032242,
+      21884445,
+      39984465
+    ],
+    [
+      "gcc13",
+      "a",
+      "first periodic periodic n9 #323 @ case-323",
+      190220387,
+      502033095,
+      22977675,
+      39985156
+    ],
+    [
+      "gcc13",
+      "b",
+      "first periodic periodic n9 #323 @ case-323",
+      191194121,
+      502014399,
+      21785084,
+      39985214
+    ],
+    [
+      "gcc13",
+      "a",
+      "late dense pair @ pair-killer",
+      323880935,
+      1648211187,
+      35028741,
+      112094382
+    ],
+    [
+      "gcc13",
+      "b",
+      "late dense pair @ pair-killer",
+      22389986,
+      45905580,
+      19997028,
+      35793868
+    ],
+    [
+      "gcc13",
+      "b",
+      "late dense pair @ pair-killer",
+      23500731,
+      45905354,
+      20314735,
+      35791875
+    ],
+    [
+      "gcc13",
+      "a",
+      "late dense pair @ pair-killer",
+      323765685,
+      1648208448,
+      34574323,
+      112091523
+    ],
+    [
+      "gcc13",
+      "a",
+      "late dense pair @ pair-killer",
+      324235702,
+      1648211216,
+      34643830,
+      112091261
+    ],
+    [
+      "gcc13",
+      "b",
+      "late dense pair @ pair-killer",
+      22139062,
+      45905082,
+      20620937,
+      35791516
+    ],
+    [
+      "gcc13",
+      "b",
+      "late dense pair @ pair-killer",
+      22007408,
+      45907757,
+      20345299,
+      35791743
+    ],
+    [
+      "gcc13",
+      "a",
+      "late dense pair @ pair-killer",
+      322992488,
+      1648207744,
+      34511631,
+      112093779
+    ],
+    [
+      "gcc13",
+      "a",
+      "late dense pair @ pair-killer",
+      324678132,
+      1648208317,
+      34348421,
+      112091303
+    ],
+    [
+      "gcc13",
+      "b",
+      "late dense pair @ pair-killer",
+      22342156,
+      45905165,
+      20582323,
+      35795153
+    ],
+    [
+      "gcc13",
+      "a",
+      "late dense pair @ changing-density",
+      322919048,
+      1648369306,
+      34719737,
+      112261436
+    ],
+    [
+      "gcc13",
+      "b",
+      "late dense pair @ changing-density",
+      22552722,
+      46613908,
+      19848727,
+      35988526
+    ],
+    [
+      "gcc13",
+      "b",
+      "late dense pair @ changing-density",
+      23248590,
+      46613724,
+      19972689,
+      35988400
+    ],
+    [
+      "gcc13",
+      "a",
+      "late dense pair @ changing-density",
+      323188581,
+      1648369207,
+      35173696,
+      112258975
+    ],
+    [
+      "gcc13",
+      "a",
+      "late dense pair @ changing-density",
+      323791515,
+      1648369912,
+      34973680,
+      112262247
+    ],
+    [
+      "gcc13",
+      "b",
+      "late dense pair @ changing-density",
+      23262176,
+      46613360,
+      20707297,
+      35989176
+    ],
+    [
+      "gcc13",
+      "b",
+      "late dense pair @ changing-density",
+      23275607,
+      46613598,
+      19943658,
+      35986355
+    ],
+    [
+      "gcc13",
+      "a",
+      "late dense pair @ changing-density",
+      323761296,
+      1648369088,
+      34307495,
+      112259158
+    ],
+    [
+      "gcc13",
+      "a",
+      "late dense pair @ changing-density",
+      323543957,
+      1648370078,
+      35145845,
+      112260509
+    ],
+    [
+      "gcc13",
+      "b",
+      "late dense pair @ changing-density",
+      23670288,
+      46613369,
+      20071423,
+      35988533
+    ],
+    [
+      "gcc13",
+      "a",
+      "late dense pair @ changing-density-match",
+      323498953,
+      1650472089,
+      34469297,
+      112362804
+    ],
+    [
+      "gcc13",
+      "b",
+      "late dense pair @ changing-density-match",
+      22628789,
+      46631532,
+      19983281,
+      35989796
+    ],
+    [
+      "gcc13",
+      "b",
+      "late dense pair @ changing-density-match",
+      22525950,
+      46630518,
+      20842610,
+      35992795
+    ],
+    [
+      "gcc13",
+      "a",
+      "late dense pair @ changing-density-match",
+      324750667,
+      1650472527,
+      35200326,
+      112363129
+    ],
+    [
+      "gcc13",
+      "a",
+      "late dense pair @ changing-density-match",
+      323490584,
+      1650473170,
+      34891557,
+      112363174
+    ],
+    [
+      "gcc13",
+      "b",
+      "late dense pair @ changing-density-match",
+      22823200,
+      46631078,
+      19950344,
+      35989976
+    ],
+    [
+      "gcc13",
+      "b",
+      "late dense pair @ changing-density-match",
+      22317596,
+      46631003,
+      20105605,
+      35990201
+    ],
+    [
+      "gcc13",
+      "a",
+      "late dense pair @ changing-density-match",
+      324140935,
+      1650475496,
+      35026772,
+      112364188
+    ],
+    [
+      "gcc13",
+      "a",
+      "late dense pair @ changing-density-match",
+      323273741,
+      1650472679,
+      35346818,
+      112365211
+    ],
+    [
+      "gcc13",
+      "b",
+      "late dense pair @ changing-density-match",
+      22347675,
+      46631010,
+      20190762,
+      35993300
+    ],
+    [
+      "gcc14",
+      "a",
+      "first dense_anchor dense n3 #318 @ case-318",
+      202034469,
+      372884978,
+      27055425,
+      47021579
+    ],
+    [
+      "gcc14",
+      "b",
+      "first dense_anchor dense n3 #318 @ case-318",
+      202364312,
+      372882469,
+      26930426,
+      47020799
+    ],
+    [
+      "gcc14",
+      "b",
+      "first dense_anchor dense n3 #318 @ case-318",
+      202062220,
+      372885147,
+      26829414,
+      47018859
+    ],
+    [
+      "gcc14",
+      "a",
+      "first dense_anchor dense n3 #318 @ case-318",
+      202775203,
+      372882338,
+      26631908,
+      47021908
+    ],
+    [
+      "gcc14",
+      "a",
+      "first dense_anchor dense n3 #318 @ case-318",
+      202265711,
+      372882477,
+      26710760,
+      47019445
+    ],
+    [
+      "gcc14",
+      "b",
+      "first dense_anchor dense n3 #318 @ case-318",
+      202313814,
+      372881965,
+      26266855,
+      47022203
+    ],
+    [
+      "gcc14",
+      "b",
+      "first dense_anchor dense n3 #318 @ case-318",
+      201772096,
+      372882649,
+      26847091,
+      47018297
+    ],
+    [
+      "gcc14",
+      "a",
+      "first dense_anchor dense n3 #318 @ case-318",
+      201779211,
+      372882419,
+      26755803,
+      47022619
+    ],
+    [
+      "gcc14",
+      "a",
+      "first dense_anchor dense n3 #318 @ case-318",
+      201189503,
+      372882696,
+      26580711,
+      47019320
+    ],
+    [
+      "gcc14",
+      "b",
+      "first dense_anchor dense n3 #318 @ case-318",
+      202320743,
+      372882086,
+      27516507,
+      47018958
+    ],
+    [
+      "gcc14",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      764699798,
+      3861208599,
+      56124233,
+      218593880
+    ],
+    [
+      "gcc14",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      21478537,
+      42135222,
+      20350156,
+      36732209
+    ],
+    [
+      "gcc14",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      21774458,
+      42135054,
+      21015010,
+      36732664
+    ],
+    [
+      "gcc14",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      765381447,
+      3861211426,
+      56185546,
+      218594968
+    ],
+    [
+      "gcc14",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      772591933,
+      3861208299,
+      57132159,
+      218592012
+    ],
+    [
+      "gcc14",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      22126441,
+      42134745,
+      21325149,
+      36732465
+    ],
+    [
+      "gcc14",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      22163248,
+      42136647,
+      20354595,
+      36731822
+    ],
+    [
+      "gcc14",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      772231492,
+      3861208497,
+      56734384,
+      218595274
+    ],
+    [
+      "gcc14",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      765269866,
+      3861210453,
+      56023058,
+      218594702
+    ],
+    [
+      "gcc14",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      21989437,
+      42137311,
+      21631622,
+      36732593
+    ],
+    [
+      "gcc14",
+      "a",
+      "first periodic periodic n9 #323 @ case-323",
+      191156591,
+      515310946,
+      22659829,
+      40066026
+    ],
+    [
+      "gcc14",
+      "b",
+      "first periodic periodic n9 #323 @ case-323",
+      190627284,
+      515294417,
+      22485062,
+      40062503
+    ],
+    [
+      "gcc14",
+      "b",
+      "first periodic periodic n9 #323 @ case-323",
+      190457574,
+      515292380,
+      21531083,
+      40064583
+    ],
+    [
+      "gcc14",
+      "a",
+      "first periodic periodic n9 #323 @ case-323",
+      190208478,
+      515311223,
+      22164479,
+      40064990
+    ],
+    [
+      "gcc14",
+      "a",
+      "first periodic periodic n9 #323 @ case-323",
+      189891844,
+      515314068,
+      21592072,
+      40063453
+    ],
+    [
+      "gcc14",
+      "b",
+      "first periodic periodic n9 #323 @ case-323",
+      190984501,
+      515295049,
+      22350002,
+      40064996
+    ],
+    [
+      "gcc14",
+      "b",
+      "first periodic periodic n9 #323 @ case-323",
+      190520942,
+      515294635,
+      22333300,
+      40063320
+    ],
+    [
+      "gcc14",
+      "a",
+      "first periodic periodic n9 #323 @ case-323",
+      189987710,
+      515313474,
+      21726975,
+      40065635
+    ],
+    [
+      "gcc14",
+      "a",
+      "first periodic periodic n9 #323 @ case-323",
+      190338365,
+      515314087,
+      21589744,
+      40065774
+    ],
+    [
+      "gcc14",
+      "b",
+      "first periodic periodic n9 #323 @ case-323",
+      190023296,
+      515292597,
+      21903108,
+      40062923
+    ],
+    [
+      "gcc14",
+      "a",
+      "late dense pair @ pair-killer",
+      326899857,
+      1649235718,
+      35085096,
+      112120187
+    ],
+    [
+      "gcc14",
+      "b",
+      "late dense pair @ pair-killer",
+      23020989,
+      45822446,
+      20785796,
+      35766909
+    ],
+    [
+      "gcc14",
+      "b",
+      "late dense pair @ pair-killer",
+      23288424,
+      45824729,
+      20144608,
+      35766701
+    ],
+    [
+      "gcc14",
+      "a",
+      "late dense pair @ pair-killer",
+      325202254,
+      1649237641,
+      35797267,
+      112122446
+    ],
+    [
+      "gcc14",
+      "a",
+      "late dense pair @ pair-killer",
+      330580366,
+      1649233076,
+      35829756,
+      112121757
+    ],
+    [
+      "gcc14",
+      "b",
+      "late dense pair @ pair-killer",
+      22999914,
+      45825640,
+      22096073,
+      35766912
+    ],
+    [
+      "gcc14",
+      "b",
+      "late dense pair @ pair-killer",
+      22687641,
+      45824555,
+      20119596,
+      35766849
+    ],
+    [
+      "gcc14",
+      "a",
+      "late dense pair @ pair-killer",
+      325038903,
+      1649235647,
+      35109659,
+      112120434
+    ],
+    [
+      "gcc14",
+      "a",
+      "late dense pair @ pair-killer",
+      334472675,
+      1649238475,
+      35976699,
+      112119350
+    ],
+    [
+      "gcc14",
+      "b",
+      "late dense pair @ pair-killer",
+      24490228,
+      45822047,
+      22183392,
+      35767658
+    ],
+    [
+      "gcc14",
+      "a",
+      "late dense pair @ changing-density",
+      328930205,
+      1649398274,
+      34925246,
+      112288270
+    ],
+    [
+      "gcc14",
+      "b",
+      "late dense pair @ changing-density",
+      23443976,
+      46534779,
+      20362011,
+      35960874
+    ],
+    [
+      "gcc14",
+      "b",
+      "late dense pair @ changing-density",
+      22570453,
+      46532994,
+      20638346,
+      35963707
+    ],
+    [
+      "gcc14",
+      "a",
+      "late dense pair @ changing-density",
+      325406019,
+      1649398287,
+      35119488,
+      112288725
+    ],
+    [
+      "gcc14",
+      "a",
+      "late dense pair @ changing-density",
+      326403246,
+      1649399513,
+      34709815,
+      112288444
+    ],
+    [
+      "gcc14",
+      "b",
+      "late dense pair @ changing-density",
+      22560004,
+      46536106,
+      20018132,
+      35960621
+    ],
+    [
+      "gcc14",
+      "b",
+      "late dense pair @ changing-density",
+      22298712,
+      46535229,
+      20119143,
+      35962206
+    ],
+    [
+      "gcc14",
+      "a",
+      "late dense pair @ changing-density",
+      327453898,
+      1649398913,
+      34764731,
+      112288498
+    ],
+    [
+      "gcc14",
+      "a",
+      "late dense pair @ changing-density",
+      326261993,
+      1649398536,
+      35674056,
+      112290735
+    ],
+    [
+      "gcc14",
+      "b",
+      "late dense pair @ changing-density",
+      23315601,
+      46535781,
+      20795841,
+      35963677
+    ],
+    [
+      "gcc14",
+      "a",
+      "late dense pair @ changing-density-match",
+      327935983,
+      1651502473,
+      35346031,
+      112391599
+    ],
+    [
+      "gcc14",
+      "b",
+      "late dense pair @ changing-density-match",
+      22425267,
+      46550520,
+      20057627,
+      35968405
+    ],
+    [
+      "gcc14",
+      "b",
+      "late dense pair @ changing-density-match",
+      22958895,
+      46552750,
+      21201714,
+      35966631
+    ],
+    [
+      "gcc14",
+      "a",
+      "late dense pair @ changing-density-match",
+      326665721,
+      1651503184,
+      35948838,
+      112391781
+    ],
+    [
+      "gcc14",
+      "a",
+      "late dense pair @ changing-density-match",
+      326651991,
+      1651503066,
+      35676885,
+      112391165
+    ],
+    [
+      "gcc14",
+      "b",
+      "late dense pair @ changing-density-match",
+      22764000,
+      46550493,
+      20633483,
+      35964827
+    ],
+    [
+      "gcc14",
+      "b",
+      "late dense pair @ changing-density-match",
+      22338284,
+      46549511,
+      20030201,
+      35966295
+    ],
+    [
+      "gcc14",
+      "a",
+      "late dense pair @ changing-density-match",
+      326385665,
+      1651502696,
+      34988408,
+      112394003
+    ],
+    [
+      "gcc14",
+      "a",
+      "late dense pair @ changing-density-match",
+      325802631,
+      1651503496,
+      34034917,
+      112391653
+    ],
+    [
+      "gcc14",
+      "b",
+      "late dense pair @ changing-density-match",
+      22305087,
+      46551955,
+      19391434,
+      35965087
+    ],
+    [
+      "clang18",
+      "a",
+      "first dense_anchor dense n3 #318 @ case-318",
+      200635155,
+      360614269,
+      24998572,
+      44051345
+    ],
+    [
+      "clang18",
+      "b",
+      "first dense_anchor dense n3 #318 @ case-318",
+      201078860,
+      360612114,
+      25050221,
+      44051761
+    ],
+    [
+      "clang18",
+      "b",
+      "first dense_anchor dense n3 #318 @ case-318",
+      201176248,
+      360611954,
+      25175123,
+      44049441
+    ],
+    [
+      "clang18",
+      "a",
+      "first dense_anchor dense n3 #318 @ case-318",
+      200916073,
+      360614126,
+      25207121,
+      44048449
+    ],
+    [
+      "clang18",
+      "a",
+      "first dense_anchor dense n3 #318 @ case-318",
+      201001668,
+      360614289,
+      25415841,
+      44048741
+    ],
+    [
+      "clang18",
+      "b",
+      "first dense_anchor dense n3 #318 @ case-318",
+      200390065,
+      360612352,
+      25233448,
+      44049011
+    ],
+    [
+      "clang18",
+      "b",
+      "first dense_anchor dense n3 #318 @ case-318",
+      200971988,
+      360614997,
+      25841625,
+      44049408
+    ],
+    [
+      "clang18",
+      "a",
+      "first dense_anchor dense n3 #318 @ case-318",
+      200617230,
+      360614416,
+      25566811,
+      44050701
+    ],
+    [
+      "clang18",
+      "a",
+      "first dense_anchor dense n3 #318 @ case-318",
+      201281864,
+      360610884,
+      24999984,
+      44048610
+    ],
+    [
+      "clang18",
+      "b",
+      "first dense_anchor dense n3 #318 @ case-318",
+      200175910,
+      360611802,
+      25610975,
+      44049182
+    ],
+    [
+      "clang18",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      782401128,
+      3861712100,
+      55802196,
+      216115439
+    ],
+    [
+      "clang18",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      21136948,
+      43057798,
+      19538138,
+      34272033
+    ],
+    [
+      "clang18",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      21353423,
+      43059238,
+      19625836,
+      34274064
+    ],
+    [
+      "clang18",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      782702666,
+      3861712367,
+      55771166,
+      216116190
+    ],
+    [
+      "clang18",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      783540487,
+      3861712288,
+      55736197,
+      216112420
+    ],
+    [
+      "clang18",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      21508469,
+      43057965,
+      19309946,
+      34271266
+    ],
+    [
+      "clang18",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      20802429,
+      43058530,
+      19522175,
+      34271189
+    ],
+    [
+      "clang18",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      783256743,
+      3861712716,
+      55756309,
+      216112995
+    ],
+    [
+      "clang18",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      783530617,
+      3861714576,
+      55498063,
+      216112687
+    ],
+    [
+      "clang18",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      21090625,
+      43059555,
+      19354187,
+      34270814
+    ],
+    [
+      "clang18",
+      "a",
+      "first periodic periodic n9 #323 @ case-323",
+      189065286,
+      525969436,
+      20946466,
+      37534596
+    ],
+    [
+      "clang18",
+      "b",
+      "first periodic periodic n9 #323 @ case-323",
+      189804604,
+      499361636,
+      21018347,
+      37337944
+    ],
+    [
+      "clang18",
+      "b",
+      "first periodic periodic n9 #323 @ case-323",
+      189926889,
+      499361951,
+      20722568,
+      37335177
+    ],
+    [
+      "clang18",
+      "a",
+      "first periodic periodic n9 #323 @ case-323",
+      190224939,
+      525966474,
+      19590033,
+      37534277
+    ],
+    [
+      "clang18",
+      "a",
+      "first periodic periodic n9 #323 @ case-323",
+      189135852,
+      525967102,
+      20732934,
+      37533850
+    ],
+    [
+      "clang18",
+      "b",
+      "first periodic periodic n9 #323 @ case-323",
+      189664348,
+      499361605,
+      20620587,
+      37335711
+    ],
+    [
+      "clang18",
+      "b",
+      "first periodic periodic n9 #323 @ case-323",
+      189701615,
+      499362080,
+      20915858,
+      37335744
+    ],
+    [
+      "clang18",
+      "a",
+      "first periodic periodic n9 #323 @ case-323",
+      189968753,
+      525966341,
+      20658362,
+      37536612
+    ],
+    [
+      "clang18",
+      "a",
+      "first periodic periodic n9 #323 @ case-323",
+      189592590,
+      525969500,
+      21216328,
+      37534800
+    ],
+    [
+      "clang18",
+      "b",
+      "first periodic periodic n9 #323 @ case-323",
+      191390667,
+      499364246,
+      20798113,
+      37334891
+    ],
+    [
+      "clang18",
+      "a",
+      "late dense pair @ pair-killer",
+      329690104,
+      1648662910,
+      34683734,
+      110567401
+    ],
+    [
+      "clang18",
+      "b",
+      "late dense pair @ pair-killer",
+      21380859,
+      46336590,
+      19105912,
+      34263741
+    ],
+    [
+      "clang18",
+      "b",
+      "late dense pair @ pair-killer",
+      21941468,
+      46336531,
+      19615951,
+      34266202
+    ],
+    [
+      "clang18",
+      "a",
+      "late dense pair @ pair-killer",
+      330360220,
+      1648660104,
+      33997614,
+      110564109
+    ],
+    [
+      "clang18",
+      "a",
+      "late dense pair @ pair-killer",
+      331135511,
+      1648660105,
+      34249178,
+      110567347
+    ],
+    [
+      "clang18",
+      "b",
+      "late dense pair @ pair-killer",
+      21725503,
+      46336626,
+      19379548,
+      34267019
+    ],
+    [
+      "clang18",
+      "b",
+      "late dense pair @ pair-killer",
+      22236259,
+      46336433,
+      19844884,
+      34263978
+    ],
+    [
+      "clang18",
+      "a",
+      "late dense pair @ pair-killer",
+      330629769,
+      1648661986,
+      34315737,
+      110564863
+    ],
+    [
+      "clang18",
+      "a",
+      "late dense pair @ pair-killer",
+      329674829,
+      1648659967,
+      33915170,
+      110566300
+    ],
+    [
+      "clang18",
+      "b",
+      "late dense pair @ pair-killer",
+      21465344,
+      46339580,
+      19623358,
+      34266712
+    ],
+    [
+      "clang18",
+      "a",
+      "late dense pair @ changing-density",
+      330576845,
+      1648681578,
+      33901413,
+      110588745
+    ],
+    [
+      "clang18",
+      "b",
+      "late dense pair @ changing-density",
+      21715780,
+      46904974,
+      19516707,
+      34317439
+    ],
+    [
+      "clang18",
+      "b",
+      "late dense pair @ changing-density",
+      22129335,
+      46904477,
+      19521745,
+      34315568
+    ],
+    [
+      "clang18",
+      "a",
+      "late dense pair @ changing-density",
+      329498549,
+      1648684999,
+      34108904,
+      110589603
+    ],
+    [
+      "clang18",
+      "a",
+      "late dense pair @ changing-density",
+      330301084,
+      1648681164,
+      34807180,
+      110591767
+    ],
+    [
+      "clang18",
+      "b",
+      "late dense pair @ changing-density",
+      21989156,
+      46905523,
+      20150386,
+      34315030
+    ],
+    [
+      "clang18",
+      "b",
+      "late dense pair @ changing-density",
+      21506287,
+      46905164,
+      19320562,
+      34315262
+    ],
+    [
+      "clang18",
+      "a",
+      "late dense pair @ changing-density",
+      329784395,
+      1648681646,
+      34185934,
+      110589510
+    ],
+    [
+      "clang18",
+      "a",
+      "late dense pair @ changing-density",
+      329508341,
+      1648685104,
+      34362250,
+      110588810
+    ],
+    [
+      "clang18",
+      "b",
+      "late dense pair @ changing-density",
+      21709150,
+      46905385,
+      19603897,
+      34315074
+    ],
+    [
+      "clang18",
+      "a",
+      "late dense pair @ changing-density-match",
+      329386455,
+      1650786607,
+      34195552,
+      110692101
+    ],
+    [
+      "clang18",
+      "b",
+      "late dense pair @ changing-density-match",
+      22080156,
+      46922201,
+      19522811,
+      34316564
+    ],
+    [
+      "clang18",
+      "b",
+      "late dense pair @ changing-density-match",
+      21965842,
+      46922372,
+      19315908,
+      34316506
+    ],
+    [
+      "clang18",
+      "a",
+      "late dense pair @ changing-density-match",
+      330753233,
+      1650785956,
+      34746318,
+      110689925
+    ],
+    [
+      "clang18",
+      "a",
+      "late dense pair @ changing-density-match",
+      330743249,
+      1650785272,
+      37045404,
+      110690180
+    ],
+    [
+      "clang18",
+      "b",
+      "late dense pair @ changing-density-match",
+      21882459,
+      46922615,
+      21617746,
+      34316455
+    ],
+    [
+      "clang18",
+      "b",
+      "late dense pair @ changing-density-match",
+      21693967,
+      46925336,
+      19732192,
+      34319581
+    ],
+    [
+      "clang18",
+      "a",
+      "late dense pair @ changing-density-match",
+      330789287,
+      1650787323,
+      34640223,
+      110692373
+    ],
+    [
+      "clang18",
+      "a",
+      "late dense pair @ changing-density-match",
+      329283032,
+      1650783870,
+      33864813,
+      110689787
+    ],
+    [
+      "clang18",
+      "b",
+      "late dense pair @ changing-density-match",
+      22050662,
+      46924931,
+      19372913,
+      34316394
+    ],
+    [
+      "clang20",
+      "a",
+      "first dense_anchor dense n3 #318 @ case-318",
+      200529560,
+      359409773,
+      25249584,
+      42850204
+    ],
+    [
+      "clang20",
+      "b",
+      "first dense_anchor dense n3 #318 @ case-318",
+      200629974,
+      359412398,
+      24634634,
+      42847055
+    ],
+    [
+      "clang20",
+      "b",
+      "first dense_anchor dense n3 #318 @ case-318",
+      201011425,
+      359410248,
+      24777785,
+      42846834
+    ],
+    [
+      "clang20",
+      "a",
+      "first dense_anchor dense n3 #318 @ case-318",
+      199621991,
+      359410187,
+      24771618,
+      42848611
+    ],
+    [
+      "clang20",
+      "a",
+      "first dense_anchor dense n3 #318 @ case-318",
+      200927994,
+      359412812,
+      24812128,
+      42847663
+    ],
+    [
+      "clang20",
+      "b",
+      "first dense_anchor dense n3 #318 @ case-318",
+      201307740,
+      359410126,
+      25007864,
+      42850074
+    ],
+    [
+      "clang20",
+      "b",
+      "first dense_anchor dense n3 #318 @ case-318",
+      200143050,
+      359409765,
+      25321702,
+      42847626
+    ],
+    [
+      "clang20",
+      "a",
+      "first dense_anchor dense n3 #318 @ case-318",
+      200462619,
+      359412736,
+      24635222,
+      42847550
+    ],
+    [
+      "clang20",
+      "a",
+      "first dense_anchor dense n3 #318 @ case-318",
+      200858446,
+      359412278,
+      24917870,
+      42847620
+    ],
+    [
+      "clang20",
+      "b",
+      "first dense_anchor dense n3 #318 @ case-318",
+      200794362,
+      359409710,
+      24704381,
+      42846775
+    ],
+    [
+      "clang20",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      759788196,
+      3860514834,
+      54292929,
+      214915554
+    ],
+    [
+      "clang20",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      20778522,
+      42061205,
+      20025253,
+      33081977
+    ],
+    [
+      "clang20",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      20786478,
+      42060967,
+      19351475,
+      33081719
+    ],
+    [
+      "clang20",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      760234221,
+      3860512526,
+      54441280,
+      214914916
+    ],
+    [
+      "clang20",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      759384673,
+      3860512843,
+      54856036,
+      214912714
+    ],
+    [
+      "clang20",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      20734091,
+      42064454,
+      19385862,
+      33082196
+    ],
+    [
+      "clang20",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      21498356,
+      42062111,
+      19249491,
+      33081501
+    ],
+    [
+      "clang20",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      759882541,
+      3860512980,
+      54429531,
+      214913197
+    ],
+    [
+      "clang20",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      762367941,
+      3860512886,
+      54285935,
+      214915797
+    ],
+    [
+      "clang20",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      20936728,
+      42060942,
+      19348281,
+      33081924
+    ],
+    [
+      "clang20",
+      "a",
+      "first periodic periodic n9 #323 @ case-323",
+      189966182,
+      524765681,
+      20841492,
+      36331944
+    ],
+    [
+      "clang20",
+      "b",
+      "first periodic periodic n9 #323 @ case-323",
+      190740737,
+      498157577,
+      20405312,
+      36134331
+    ],
+    [
+      "clang20",
+      "b",
+      "first periodic periodic n9 #323 @ case-323",
+      190964011,
+      498159559,
+      20351273,
+      36132588
+    ],
+    [
+      "clang20",
+      "a",
+      "first periodic periodic n9 #323 @ case-323",
+      190328441,
+      524765902,
+      21059405,
+      36332912
+    ],
+    [
+      "clang20",
+      "a",
+      "first periodic periodic n9 #323 @ case-323",
+      190509545,
+      524762786,
+      23255618,
+      36332716
+    ],
+    [
+      "clang20",
+      "b",
+      "first periodic periodic n9 #323 @ case-323",
+      189411256,
+      498156666,
+      20466065,
+      36132019
+    ],
+    [
+      "clang20",
+      "b",
+      "first periodic periodic n9 #323 @ case-323",
+      189187343,
+      498156878,
+      20353967,
+      36134899
+    ],
+    [
+      "clang20",
+      "a",
+      "first periodic periodic n9 #323 @ case-323",
+      188864976,
+      524765639,
+      20646416,
+      36332208
+    ],
+    [
+      "clang20",
+      "a",
+      "first periodic periodic n9 #323 @ case-323",
+      189630998,
+      524762943,
+      20172589,
+      36332724
+    ],
+    [
+      "clang20",
+      "b",
+      "first periodic periodic n9 #323 @ case-323",
+      190299593,
+      498159834,
+      21007885,
+      36132669
+    ],
+    [
+      "clang20",
+      "a",
+      "late dense pair @ pair-killer",
+      322989683,
+      1647462172,
+      33962705,
+      109367532
+    ],
+    [
+      "clang20",
+      "b",
+      "late dense pair @ pair-killer",
+      21582872,
+      45069474,
+      19400844,
+      33060953
+    ],
+    [
+      "clang20",
+      "b",
+      "late dense pair @ pair-killer",
+      21901768,
+      45068662,
+      19865351,
+      33060976
+    ],
+    [
+      "clang20",
+      "a",
+      "late dense pair @ pair-killer",
+      323432134,
+      1647462603,
+      33783010,
+      109364949
+    ],
+    [
+      "clang20",
+      "a",
+      "late dense pair @ pair-killer",
+      323546340,
+      1647461130,
+      34108839,
+      109364799
+    ],
+    [
+      "clang20",
+      "b",
+      "late dense pair @ pair-killer",
+      21031376,
+      45068827,
+      19008824,
+      33063464
+    ],
+    [
+      "clang20",
+      "b",
+      "late dense pair @ pair-killer",
+      21530561,
+      45069545,
+      19680742,
+      33063249
+    ],
+    [
+      "clang20",
+      "a",
+      "late dense pair @ pair-killer",
+      323756763,
+      1647461230,
+      33386588,
+      109365060
+    ],
+    [
+      "clang20",
+      "a",
+      "late dense pair @ pair-killer",
+      323040813,
+      1647464392,
+      33910883,
+      109365551
+    ],
+    [
+      "clang20",
+      "b",
+      "late dense pair @ pair-killer",
+      21161518,
+      45071481,
+      19460489,
+      33060776
+    ],
+    [
+      "clang20",
+      "a",
+      "late dense pair @ changing-density",
+      323746970,
+      1647485565,
+      33382753,
+      109392252
+    ],
+    [
+      "clang20",
+      "b",
+      "late dense pair @ changing-density",
+      21509666,
+      45892131,
+      19489787,
+      33125573
+    ],
+    [
+      "clang20",
+      "b",
+      "late dense pair @ changing-density",
+      21127163,
+      45893161,
+      19509937,
+      33123296
+    ],
+    [
+      "clang20",
+      "a",
+      "late dense pair @ changing-density",
+      323548046,
+      1647485388,
+      33478846,
+      109389790
+    ],
+    [
+      "clang20",
+      "a",
+      "late dense pair @ changing-density",
+      324927255,
+      1647486383,
+      33794287,
+      109389155
+    ],
+    [
+      "clang20",
+      "b",
+      "late dense pair @ changing-density",
+      21509034,
+      45894768,
+      19150790,
+      33123873
+    ],
+    [
+      "clang20",
+      "b",
+      "late dense pair @ changing-density",
+      21286205,
+      45892274,
+      18970038,
+      33125529
+    ],
+    [
+      "clang20",
+      "a",
+      "late dense pair @ changing-density",
+      324248408,
+      1647485423,
+      33744609,
+      109389917
+    ],
+    [
+      "clang20",
+      "a",
+      "late dense pair @ changing-density",
+      323221467,
+      1647486434,
+      33463994,
+      109392758
+    ],
+    [
+      "clang20",
+      "b",
+      "late dense pair @ changing-density",
+      21670288,
+      45892158,
+      19105626,
+      33126423
+    ],
+    [
+      "clang20",
+      "a",
+      "late dense pair @ changing-density-match",
+      324965106,
+      1649586352,
+      33936116,
+      109490909
+    ],
+    [
+      "clang20",
+      "b",
+      "late dense pair @ changing-density-match",
+      22235178,
+      45909262,
+      19167900,
+      33124789
+    ],
+    [
+      "clang20",
+      "b",
+      "late dense pair @ changing-density-match",
+      22449487,
+      45912144,
+      18843815,
+      33125034
+    ],
+    [
+      "clang20",
+      "a",
+      "late dense pair @ changing-density-match",
+      323561141,
+      1649585904,
+      33909023,
+      109490798
+    ],
+    [
+      "clang20",
+      "a",
+      "late dense pair @ changing-density-match",
+      324014305,
+      1649586877,
+      33519255,
+      109490427
+    ],
+    [
+      "clang20",
+      "b",
+      "late dense pair @ changing-density-match",
+      21273468,
+      45909339,
+      19801300,
+      33124134
+    ],
+    [
+      "clang20",
+      "b",
+      "late dense pair @ changing-density-match",
+      21638398,
+      45909299,
+      19266190,
+      33125137
+    ],
+    [
+      "clang20",
+      "a",
+      "late dense pair @ changing-density-match",
+      323511546,
+      1649589129,
+      33564829,
+      109493410
+    ],
+    [
+      "clang20",
+      "a",
+      "late dense pair @ changing-density-match",
+      324747608,
+      1649589636,
+      33788645,
+      109493020
+    ],
+    [
+      "clang20",
+      "b",
+      "late dense pair @ changing-density-match",
+      21389252,
+      45908902,
+      19092985,
+      33127500
+    ],
+    [
+      "aa2",
+      "a",
+      "first dense_anchor dense n3 #318 @ case-318",
+      200749628,
+      372904449,
+      25089660,
+      47040270
+    ],
+    [
+      "aa2",
+      "b",
+      "first dense_anchor dense n3 #318 @ case-318",
+      200356456,
+      372906231,
+      25763784,
+      47040349
+    ],
+    [
+      "aa2",
+      "b",
+      "first dense_anchor dense n3 #318 @ case-318",
+      200862155,
+      372906651,
+      25785569,
+      47043301
+    ],
+    [
+      "aa2",
+      "a",
+      "first dense_anchor dense n3 #318 @ case-318",
+      200749097,
+      372906293,
+      25448995,
+      47042823
+    ],
+    [
+      "aa2",
+      "a",
+      "first dense_anchor dense n3 #318 @ case-318",
+      200908842,
+      372906791,
+      25233858,
+      47040569
+    ],
+    [
+      "aa2",
+      "b",
+      "first dense_anchor dense n3 #318 @ case-318",
+      200663880,
+      372903538,
+      25423300,
+      47043069
+    ],
+    [
+      "aa2",
+      "b",
+      "first dense_anchor dense n3 #318 @ case-318",
+      200710032,
+      372904169,
+      25861056,
+      47040667
+    ],
+    [
+      "aa2",
+      "a",
+      "first dense_anchor dense n3 #318 @ case-318",
+      201091359,
+      372903576,
+      25210100,
+      47042249
+    ],
+    [
+      "aa2",
+      "a",
+      "first dense_anchor dense n3 #318 @ case-318",
+      201281741,
+      372906261,
+      25630246,
+      47040605
+    ],
+    [
+      "aa2",
+      "b",
+      "first dense_anchor dense n3 #318 @ case-318",
+      200611324,
+      372903151,
+      25528134,
+      47043461
+    ],
+    [
+      "aa2",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      760534243,
+      3858082355,
+      55867683,
+      218464656
+    ],
+    [
+      "aa2",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      759452462,
+      3858084497,
+      56281665,
+      218466808
+    ],
+    [
+      "aa2",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      784604260,
+      3858082594,
+      57849285,
+      218465325
+    ],
+    [
+      "aa2",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      759723443,
+      3858085190,
+      54783150,
+      218465198
+    ],
+    [
+      "aa2",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      759693595,
+      3858085203,
+      55017130,
+      218464839
+    ],
+    [
+      "aa2",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      761086695,
+      3858086127,
+      55786699,
+      218465446
+    ],
+    [
+      "aa2",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      758711410,
+      3858081833,
+      55564540,
+      218467242
+    ],
+    [
+      "aa2",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      759770926,
+      3858085510,
+      55125684,
+      218464334
+    ],
+    [
+      "aa2",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      760877280,
+      3858082359,
+      55117184,
+      218464299
+    ],
+    [
+      "aa2",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      759146687,
+      3858082757,
+      54940499,
+      218467631
+    ],
+    [
+      "aa2",
+      "a",
+      "first periodic periodic n9 #323 @ case-323",
+      189078103,
+      502032347,
+      20908713,
+      39984081
+    ],
+    [
+      "aa2",
+      "b",
+      "first periodic periodic n9 #323 @ case-323",
+      189160462,
+      502032675,
+      20953505,
+      39984273
+    ],
+    [
+      "aa2",
+      "b",
+      "first periodic periodic n9 #323 @ case-323",
+      189396927,
+      502032498,
+      20926751,
+      39984617
+    ],
+    [
+      "aa2",
+      "a",
+      "first periodic periodic n9 #323 @ case-323",
+      189117269,
+      502033194,
+      20892438,
+      39987049
+    ],
+    [
+      "aa2",
+      "a",
+      "first periodic periodic n9 #323 @ case-323",
+      189421655,
+      502033499,
+      20931307,
+      39984383
+    ],
+    [
+      "aa2",
+      "b",
+      "first periodic periodic n9 #323 @ case-323",
+      189819506,
+      502033456,
+      20649282,
+      39984579
+    ],
+    [
+      "aa2",
+      "b",
+      "first periodic periodic n9 #323 @ case-323",
+      189443771,
+      502032513,
+      20860595,
+      39986761
+    ],
+    [
+      "aa2",
+      "a",
+      "first periodic periodic n9 #323 @ case-323",
+      189113621,
+      502034805,
+      21242512,
+      39984950
+    ],
+    [
+      "aa2",
+      "a",
+      "first periodic periodic n9 #323 @ case-323",
+      189328136,
+      502034972,
+      20842825,
+      39984178
+    ],
+    [
+      "aa2",
+      "b",
+      "first periodic periodic n9 #323 @ case-323",
+      189675782,
+      502034857,
+      21157185,
+      39984214
+    ],
+    [
+      "aa2",
+      "a",
+      "late dense pair @ pair-killer",
+      323145710,
+      1648210782,
+      33749113,
+      112091046
+    ],
+    [
+      "aa2",
+      "b",
+      "late dense pair @ pair-killer",
+      322382326,
+      1648207967,
+      34095713,
+      112091852
+    ],
+    [
+      "aa2",
+      "b",
+      "late dense pair @ pair-killer",
+      323159474,
+      1648208446,
+      34578380,
+      112093713
+    ],
+    [
+      "aa2",
+      "a",
+      "late dense pair @ pair-killer",
+      322327532,
+      1648212005,
+      34099863,
+      112091310
+    ],
+    [
+      "aa2",
+      "a",
+      "late dense pair @ pair-killer",
+      323478185,
+      1648208822,
+      33890226,
+      112094262
+    ],
+    [
+      "aa2",
+      "b",
+      "late dense pair @ pair-killer",
+      322927112,
+      1648210448,
+      33875764,
+      112093848
+    ],
+    [
+      "aa2",
+      "b",
+      "late dense pair @ pair-killer",
+      323214324,
+      1648208672,
+      34155380,
+      112091642
+    ],
+    [
+      "aa2",
+      "a",
+      "late dense pair @ pair-killer",
+      323122371,
+      1648208622,
+      34017438,
+      112091535
+    ],
+    [
+      "aa2",
+      "a",
+      "late dense pair @ pair-killer",
+      323311777,
+      1648208199,
+      34073525,
+      112091781
+    ],
+    [
+      "aa2",
+      "b",
+      "late dense pair @ pair-killer",
+      323372642,
+      1648208428,
+      33900968,
+      112092522
+    ],
+    [
+      "aa2",
+      "a",
+      "late dense pair @ changing-density",
+      323140352,
+      1648373253,
+      33918812,
+      112261558
+    ],
+    [
+      "aa2",
+      "b",
+      "late dense pair @ changing-density",
+      323883845,
+      1648372428,
+      33953726,
+      112260331
+    ],
+    [
+      "aa2",
+      "b",
+      "late dense pair @ changing-density",
+      322810159,
+      1648368759,
+      33739283,
+      112262143
+    ],
+    [
+      "aa2",
+      "a",
+      "late dense pair @ changing-density",
+      322905087,
+      1648369735,
+      34178761,
+      112259796
+    ],
+    [
+      "aa2",
+      "a",
+      "late dense pair @ changing-density",
+      322415307,
+      1648370048,
+      34249455,
+      112262345
+    ],
+    [
+      "aa2",
+      "b",
+      "late dense pair @ changing-density",
+      323132475,
+      1648372328,
+      33919616,
+      112261522
+    ],
+    [
+      "aa2",
+      "b",
+      "late dense pair @ changing-density",
+      323268725,
+      1648369125,
+      33829329,
+      112259317
+    ],
+    [
+      "aa2",
+      "a",
+      "late dense pair @ changing-density",
+      322811971,
+      1648369432,
+      33678718,
+      112259753
+    ],
+    [
+      "aa2",
+      "a",
+      "late dense pair @ changing-density",
+      322596204,
+      1648369615,
+      33954212,
+      112259415
+    ],
+    [
+      "aa2",
+      "b",
+      "late dense pair @ changing-density",
+      322750918,
+      1648372282,
+      34164230,
+      112262470
+    ],
+    [
+      "aa2",
+      "a",
+      "late dense pair @ changing-density-match",
+      322280945,
+      1650472670,
+      34012564,
+      112362839
+    ],
+    [
+      "aa2",
+      "b",
+      "late dense pair @ changing-density-match",
+      322698390,
+      1650472801,
+      33767723,
+      112362711
+    ],
+    [
+      "aa2",
+      "b",
+      "late dense pair @ changing-density-match",
+      323314291,
+      1650472591,
+      34189188,
+      112362827
+    ],
+    [
+      "aa2",
+      "a",
+      "late dense pair @ changing-density-match",
+      322730465,
+      1650473813,
+      34251448,
+      112365399
+    ],
+    [
+      "aa2",
+      "a",
+      "late dense pair @ changing-density-match",
+      322314055,
+      1650472911,
+      34040609,
+      112363071
+    ],
+    [
+      "aa2",
+      "b",
+      "late dense pair @ changing-density-match",
+      323505838,
+      1650473654,
+      34254331,
+      112362831
+    ],
+    [
+      "aa2",
+      "b",
+      "late dense pair @ changing-density-match",
+      322236491,
+      1650472833,
+      33910174,
+      112363087
+    ],
+    [
+      "aa2",
+      "a",
+      "late dense pair @ changing-density-match",
+      323427334,
+      1650472748,
+      33853529,
+      112363366
+    ],
+    [
+      "aa2",
+      "a",
+      "late dense pair @ changing-density-match",
+      322826740,
+      1650473217,
+      33753654,
+      112362621
+    ],
+    [
+      "aa2",
+      "b",
+      "late dense pair @ changing-density-match",
+      322930984,
+      1650475489,
+      34101467,
+      112362664
+    ]
+  ]
+}

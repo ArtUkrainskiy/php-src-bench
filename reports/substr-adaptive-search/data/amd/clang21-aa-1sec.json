@@ -1,0 +1,544 @@
+{
+  "format": 1,
+  "date": "2026-10-30T14:11:57+00:00",
+  "suite": "<amd-stand>/tools/results/substr-search/pr-20261030/suite.php",
+  "elapsed_s": 148.4,
+  "config": {
+    "rounds": 4,
+    "samples": 1,
+    "target_ms": 1000,
+    "warmup_ms": 1000,
+    "filter": "^(?:banlist12/en/post/early|banlist12/hi/post/early|banlist12/en/post/clean|parse\\-http/small|banlist12/ru/thread/clean|render\\-template/4k) @ ",
+    "cpu": 15,
+    "perf": false,
+    "wait_idle": 300
+  },
+  "env": {
+    "cpu_model": "AMD Ryzen 9 5950X 16-Core Processor",
+    "kernel": "7.0.0-38-generic",
+    "cpu": 15,
+    "cpu_siblings": "15,31",
+    "hybrid_pcores": null,
+    "cpu_is_pcore": null,
+    "governor": "performance",
+    "epp": "performance",
+    "turbo": true,
+    "on_ac": null,
+    "load": 0.82568359375,
+    "busy_pct": {
+      "15": 0,
+      "31": 0
+    },
+    "idle_cpu": 1
+  },
+  "sides": {
+    "A": {
+      "name": "base-clang21",
+      "php": "<amd-stand>/builds/base-clang21/sapi/cli/php",
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<amd-stand>/builds/base-clang21/sapi/cli/php"
+      },
+      "build": {
+        "name": "base-clang21",
+        "ref": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-30T08:36:41+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang-21",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      }
+    },
+    "B": {
+      "name": "base-clang21",
+      "php": "<amd-stand>/builds/base-clang21/sapi/cli/php",
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<amd-stand>/builds/base-clang21/sapi/cli/php"
+      },
+      "build": {
+        "name": "base-clang21",
+        "ref": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-30T08:36:41+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang-21",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      }
+    }
+  },
+  "cases": {
+    "banlist12/en/post/clean @ moderation-en-post-clean": {
+      "input_len": 1081,
+      "sides": {
+        "A": {
+          "n": [
+            356561,
+            356561,
+            356561,
+            356561
+          ],
+          "loop_ns": [
+            2.1290382290828216,
+            2.352085617888664,
+            2.130502214207387,
+            2.128648393963445
+          ],
+          "rounds": [
+            [
+              2804.4184978166427
+            ],
+            [
+              2810.2692190116136
+            ],
+            [
+              2806.187906136678
+            ],
+            [
+              2810.807107339277
+            ]
+          ],
+          "input_hash": [
+            "453b518e1c99ae37e08e25195f38da05"
+          ],
+          "output_hash": [
+            "750b38f0e82afd4a3663c3f86572cc23"
+          ]
+        },
+        "B": {
+          "n": [
+            356820,
+            356820,
+            356820,
+            356820
+          ],
+          "loop_ns": [
+            2.126708144162323,
+            2.1341208452441007,
+            2.124827644190348,
+            2.153746987276498
+          ],
+          "rounds": [
+            [
+              2806.1918922706127
+            ],
+            [
+              2808.3165517627936
+            ],
+            [
+              2799.088030379463
+            ],
+            [
+              2807.9927554509277
+            ]
+          ],
+          "input_hash": [
+            "453b518e1c99ae37e08e25195f38da05"
+          ],
+          "output_hash": [
+            "750b38f0e82afd4a3663c3f86572cc23"
+          ]
+        }
+      }
+    },
+    "banlist12/en/post/early @ moderation-en-post-early": {
+      "input_len": 1087,
+      "sides": {
+        "A": {
+          "n": [
+            30315620,
+            30315620,
+            30315620,
+            30315620
+          ],
+          "loop_ns": [
+            2.1598554144695044,
+            2.3816476456691302,
+            2.1627610123098258,
+            2.2419954465717673
+          ],
+          "rounds": [
+            [
+              32.60952875118503
+            ],
+            [
+              33.354636949532946
+            ],
+            [
+              31.902290832250834
+            ],
+            [
+              33.014450108557895
+            ]
+          ],
+          "input_hash": [
+            "3457ddb020c8754dcff9ab581c50f3a7"
+          ],
+          "output_hash": [
+            "4907ef54b009b0c3146b331f1a1b0846"
+          ]
+        },
+        "B": {
+          "n": [
+            30126065,
+            30126065,
+            30126065,
+            30126065
+          ],
+          "loop_ns": [
+            2.16028887277512,
+            2.592166052884769,
+            2.1587973404425704,
+            2.16076045776307
+          ],
+          "rounds": [
+            [
+              33.57543462778826
+            ],
+            [
+              33.21617493024728
+            ],
+            [
+              33.97264661016963
+            ],
+            [
+              32.71307168725819
+            ]
+          ],
+          "input_hash": [
+            "3457ddb020c8754dcff9ab581c50f3a7"
+          ],
+          "output_hash": [
+            "4907ef54b009b0c3146b331f1a1b0846"
+          ]
+        }
+      }
+    },
+    "banlist12/ru/thread/clean @ moderation-ru-thread-clean": {
+      "input_len": 65638,
+      "sides": {
+        "A": {
+          "n": [
+            4597,
+            4597,
+            4597,
+            4597
+          ],
+          "loop_ns": [
+            2.1316075701544484,
+            2.340874483358712,
+            2.1292147052425494,
+            2.5673265172938873
+          ],
+          "rounds": [
+            [
+              217496.1661953448
+            ],
+            [
+              217771.8644768327
+            ],
+            [
+              217832.7267783337
+            ],
+            [
+              217693.760931042
+            ]
+          ],
+          "input_hash": [
+            "5ae331bba0defa3112fc32bf95f224fd"
+          ],
+          "output_hash": [
+            "750b38f0e82afd4a3663c3f86572cc23"
+          ]
+        },
+        "B": {
+          "n": [
+            4564,
+            4564,
+            4564,
+            4564
+          ],
+          "loop_ns": [
+            2.5486415425065734,
+            2.5508326029798423,
+            2.1183172655565294,
+            2.1205083260297983
+          ],
+          "rounds": [
+            [
+              218029.541630149
+            ],
+            [
+              217681.36305872042
+            ],
+            [
+              217466.12379491673
+            ],
+            [
+              217462.4250657318
+            ]
+          ],
+          "input_hash": [
+            "5ae331bba0defa3112fc32bf95f224fd"
+          ],
+          "output_hash": [
+            "750b38f0e82afd4a3663c3f86572cc23"
+          ]
+        }
+      }
+    },
+    "banlist12/hi/post/early @ moderation-hi-post-early": {
+      "input_len": 1108,
+      "sides": {
+        "A": {
+          "n": [
+            22656618,
+            22656618,
+            22656618,
+            22656618
+          ],
+          "loop_ns": [
+            2.163437190846401,
+            2.3824587588491806,
+            2.158848465379961,
+            2.594487844567093
+          ],
+          "rounds": [
+            [
+              44.239600632362695
+            ],
+            [
+              44.12174305979825
+            ],
+            [
+              44.82009481732887
+            ],
+            [
+              44.32632941951001
+            ]
+          ],
+          "input_hash": [
+            "0c94b63a390eda5688e6ecef91450d54"
+          ],
+          "output_hash": [
+            "4907ef54b009b0c3146b331f1a1b0846"
+          ]
+        },
+        "B": {
+          "n": [
+            22020499,
+            22020499,
+            22020499,
+            22020499
+          ],
+          "loop_ns": [
+            2.3824195355427684,
+            2.5912566286531473,
+            2.379795253504473,
+            2.592431352259547
+          ],
+          "rounds": [
+            [
+              44.78020888627456
+            ],
+            [
+              44.16377844116975
+            ],
+            [
+              43.89319851471122
+            ],
+            [
+              44.766292126259266
+            ]
+          ],
+          "input_hash": [
+            "0c94b63a390eda5688e6ecef91450d54"
+          ],
+          "output_hash": [
+            "4907ef54b009b0c3146b331f1a1b0846"
+          ]
+        }
+      }
+    },
+    "parse-http/small @ http-small": {
+      "input_len": 265,
+      "sides": {
+        "A": {
+          "n": [
+            1180423,
+            1180423,
+            1180423,
+            1180423
+          ],
+          "loop_ns": [
+            2.1875708961956857,
+            2.3901237098904375,
+            2.1769789304342595,
+            2.606528337723003
+          ],
+          "rounds": [
+            [
+              846.2683682036015
+            ],
+            [
+              848.5809078609956
+            ],
+            [
+              843.9718617817512
+            ],
+            [
+              843.6411981128799
+            ]
+          ],
+          "input_hash": [
+            "797db2640e43b0e6e4f1867e842157aa"
+          ],
+          "output_hash": [
+            "2a8b77769ca6845af818ea35c3fd7be9"
+          ]
+        },
+        "B": {
+          "n": [
+            1187956,
+            1187956,
+            1187956,
+            1187956
+          ],
+          "loop_ns": [
+            2.3939262060210984,
+            2.3900893635791225,
+            2.3893048227375426,
+            2.397653616800622
+          ],
+          "rounds": [
+            [
+              847.4485241877645
+            ],
+            [
+              846.7325271306345
+            ],
+            [
+              849.8039514931529
+            ],
+            [
+              847.1651795184333
+            ]
+          ],
+          "input_hash": [
+            "797db2640e43b0e6e4f1867e842157aa"
+          ],
+          "output_hash": [
+            "2a8b77769ca6845af818ea35c3fd7be9"
+          ]
+        }
+      }
+    },
+    "render-template/4k @ template-4k": {
+      "input_len": 4250,
+      "sides": {
+        "A": {
+          "n": [
+            154439,
+            154439,
+            154439,
+            154439
+          ],
+          "loop_ns": [
+            2.1366882717448314,
+            2.345126554820997,
+            2.121187005872869,
+            2.5721093765175893
+          ],
+          "rounds": [
+            [
+              6467.429988539165
+            ],
+            [
+              6507.363923620329
+            ],
+            [
+              6566.033223473345
+            ],
+            [
+              6490.750127882206
+            ]
+          ],
+          "input_hash": [
+            "ac813cd4b8989111c3a992d25356bcf2"
+          ],
+          "output_hash": [
+            "ce19aa5e47e26336d2e233301e3e2cfe"
+          ]
+        },
+        "B": {
+          "n": [
+            153722,
+            153722,
+            153722,
+            153722
+          ],
+          "loop_ns": [
+            2.3454352662598716,
+            2.3638191020153263,
+            2.3575610517687773,
+            2.3452401087677757
+          ],
+          "rounds": [
+            [
+              6521.83110420109
+            ],
+            [
+              6495.182836549096
+            ],
+            [
+              6463.680410090943
+            ],
+            [
+              6508.236921195405
+            ]
+          ],
+          "input_hash": [
+            "ac813cd4b8989111c3a992d25356bcf2"
+          ],
+          "output_hash": [
+            "ce19aa5e47e26336d2e233301e3e2cfe"
+          ]
+        }
+      }
+    }
+  }
+}

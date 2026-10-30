@@ -1,0 +1,181 @@
+{
+  "format": 1,
+  "date": "2026-10-30T18:11:29+00:00",
+  "suite": "<amd-stand>/tools/results/substr-search/pr-20261030/suite.php",
+  "elapsed_s": 29.1,
+  "config": {
+    "rounds": 4,
+    "samples": 1,
+    "target_ms": 1000,
+    "warmup_ms": 1000,
+    "filter": "^find\\-http\\-end/incomplete\\ @\\ http\\-incomplete$",
+    "cpu": 15,
+    "perf": true,
+    "wait_idle": 300
+  },
+  "env": {
+    "cpu_model": "AMD Ryzen 9 5950X 16-Core Processor",
+    "kernel": "7.0.0-38-generic",
+    "cpu": 15,
+    "cpu_siblings": "15,31",
+    "hybrid_pcores": null,
+    "cpu_is_pcore": null,
+    "governor": "performance",
+    "epp": "performance",
+    "turbo": true,
+    "on_ac": null,
+    "load": 0.98681640625,
+    "busy_pct": {
+      "15": 0,
+      "31": 0
+    },
+    "idle_cpu": 1
+  },
+  "sides": {
+    "A": {
+      "name": "base-clang21",
+      "php": "<amd-stand>/builds/base-clang21/sapi/cli/php",
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<amd-stand>/builds/base-clang21/sapi/cli/php"
+      },
+      "build": {
+        "name": "base-clang21",
+        "ref": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-30T08:36:41+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang-21",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      }
+    },
+    "B": {
+      "name": "product-guard-clang21",
+      "php": "<amd-stand>/builds/product-guard-clang21/sapi/cli/php",
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<amd-stand>/builds/product-guard-clang21/sapi/cli/php"
+      },
+      "build": {
+        "name": "product-guard-clang21",
+        "ref": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "commit": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "subject": "Reduce forward substring setup cost and bound expensive comparisons",
+        "snapshot": false,
+        "base_commit": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "base_subject": "Reduce forward substring setup cost and bound expensive comparisons",
+        "built_at": "2026-10-30T08:38:11+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang-21",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      }
+    }
+  },
+  "cases": {
+    "find-http-end/incomplete @ http-incomplete": {
+      "input_len": 261,
+      "sides": {
+        "A": {
+          "n": [
+            28864266,
+            28864266,
+            28864266,
+            28864266
+          ],
+          "loop_ns": [
+            2.1654554804892667,
+            2.3817379246712873,
+            2.1630708710902264,
+            2.5918014336480963
+          ],
+          "rounds": [
+            [
+              34.72104889138702
+            ],
+            [
+              31.99236169733192
+            ],
+            [
+              33.48960915895107
+            ],
+            [
+              34.77167692398622
+            ]
+          ],
+          "input_hash": [
+            "732fa7ecf852563804cb852890086ed2"
+          ],
+          "output_hash": [
+            "a2072c8a50f1127f73a55a6b5f574da7"
+          ],
+          "instructions": 425.00014173387734
+        },
+        "B": {
+          "n": [
+            29957552,
+            29957552,
+            29957552,
+            29957552
+          ],
+          "loop_ns": [
+            2.162518686440067,
+            2.160135848216169,
+            2.1597117815234035,
+            2.160907406586493
+          ],
+          "rounds": [
+            [
+              34.67282022910283
+            ],
+            [
+              33.23500948942691
+            ],
+            [
+              33.44295942472202
+            ],
+            [
+              33.66040155751044
+            ]
+          ],
+          "input_hash": [
+            "732fa7ecf852563804cb852890086ed2"
+          ],
+          "output_hash": [
+            "a2072c8a50f1127f73a55a6b5f574da7"
+          ],
+          "instructions": 425.0002357669278
+        }
+      }
+    }
+  }
+}

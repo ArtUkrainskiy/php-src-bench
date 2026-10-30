@@ -1,0 +1,34 @@
+explode/pipe2/4k @ delimiter-pipe2-4k: pass 1/5, A
+explode/pipe2/4k @ delimiter-pipe2-4k: pass 1/5, B
+explode/pipe2/4k @ delimiter-pipe2-4k: pass 2/5, B
+explode/pipe2/4k @ delimiter-pipe2-4k: pass 2/5, A
+explode/pipe2/4k @ delimiter-pipe2-4k: pass 3/5, A
+explode/pipe2/4k @ delimiter-pipe2-4k: pass 3/5, B
+explode/pipe2/4k @ delimiter-pipe2-4k: pass 4/5, B
+explode/pipe2/4k @ delimiter-pipe2-4k: pass 4/5, A
+explode/pipe2/4k @ delimiter-pipe2-4k: pass 5/5, A
+explode/pipe2/4k @ delimiter-pipe2-4k: pass 5/5, B
+A: base-clang21
+B: product-guard-clang21
+
+explode/pipe2/4k @ delimiter-pipe2-4k (per call, median of 5 passes; user space only, except the top-down slots)
+
+| event | A | B | B vs A |
+|---|--:|--:|--:|
+| cycles | 12,465 | 12,492 | 0% |
+| instructions | 41,511 | 41,511 | 0% |
+| branches | 9,914 | 9,914 | 0% |
+| branch-misses | 8.85 | 9.24 | +0.39 |
+| L1-icache-load-misses | 0.03 | 0.02 | -0.02 |
+| iTLB-load-misses | 0.00 | -0.00 | -0.00 |
+
+| function | A address | A size | B address | B size | moved by | alignment A / B |
+|---|--:|--:|--:|--:|--:|--:|
+| zif_str_contains | 0x53a650 | 489 | 0x53a650 | 489 | +0 | 16 / 16 |
+| zif_strpos | 0x53af80 | 757 | 0x53af80 | 757 | +0 | 0 / 0 |
+| zif_explode | 0x537130 | 1496 | 0x537130 | 1496 | +0 | 48 / 48 |
+| php_explode | 0x536bb0 | 1395 | 0x536bb0 | 1395 | +0 | 48 / 48 |
+| zend_memnstr_ex | 0x72b310 | 897 | 0x72b310 | 29 | +0 | 16 / 16 |
+| execute_ex | 0x644fe0 | 214 | 0x644fe0 | 214 | +0 | 32 / 32 |
+
+Alignment is the address modulo 64 (a cache line). Run `objdump -d` on both binaries for the hot loop itself.

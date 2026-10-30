@@ -1,0 +1,575 @@
+{
+  "format": 2,
+  "kind": "compare",
+  "harness": 2,
+  "date": "2026-10-30T08:55:56+00:00",
+  "suite": "adversarial-suite.php",
+  "elapsed_s": 37.9,
+  "complete": true,
+  "config": {
+    "passes": 5,
+    "cpu": 15,
+    "target_ms": 1000,
+    "filter": "#320",
+    "control": true,
+    "wait_idle": 0,
+    "events": "cycles:u,instructions:u"
+  },
+  "env": {
+    "cpu_model": "AMD Ryzen 9 5950X 16-Core Processor",
+    "kernel": "7.0.0-38-generic",
+    "cpu": 15,
+    "cpu_siblings": "15,31",
+    "hybrid_pcores": null,
+    "cpu_is_pcore": null,
+    "governor": "performance",
+    "epp": "performance",
+    "turbo": true,
+    "on_ac": null,
+    "load": 1.1083984375,
+    "busy_pct": {
+      "15": 0,
+      "31": 0
+    },
+    "idle_cpu": 1
+  },
+  "groups": [
+    {
+      "name": "aa",
+      "a": "base-gcc15",
+      "b": "base-gcc15"
+    },
+    {
+      "name": "gcc15",
+      "a": "base-gcc15",
+      "b": "product-guard-gcc15"
+    },
+    {
+      "name": "clang21",
+      "a": "base-clang21",
+      "b": "product-guard-clang21"
+    },
+    {
+      "name": "aa2",
+      "a": "base-gcc15",
+      "b": "base-gcc15"
+    }
+  ],
+  "builds": {
+    "base-gcc15": {
+      "php": "<builds>/base-gcc15/sapi/cli/php",
+      "build": {
+        "name": "base-gcc15",
+        "ref": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-30T08:35:55+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<builds>/base-gcc15/sapi/cli/php"
+      },
+      "sha1": "4e30c09b37e7eb9323290291d44a4199adba941d"
+    },
+    "product-guard-gcc15": {
+      "php": "<builds>/product-guard-gcc15/sapi/cli/php",
+      "build": {
+        "name": "product-guard-gcc15",
+        "ref": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "commit": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "subject": "Reduce forward substring setup cost and bound expensive comparisons",
+        "snapshot": false,
+        "base_commit": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "base_subject": "Reduce forward substring setup cost and bound expensive comparisons",
+        "built_at": "2026-10-30T08:37:27+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<builds>/product-guard-gcc15/sapi/cli/php"
+      },
+      "sha1": "993cfd6d6cda982e07601a21e4e506f86505e0cc"
+    },
+    "base-clang21": {
+      "php": "<builds>/base-clang21/sapi/cli/php",
+      "build": {
+        "name": "base-clang21",
+        "ref": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-30T08:36:41+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang-21",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<builds>/base-clang21/sapi/cli/php"
+      },
+      "sha1": "cd4ae15f5317a58cb41793e47a2d240d8953533d"
+    },
+    "product-guard-clang21": {
+      "php": "<builds>/product-guard-clang21/sapi/cli/php",
+      "build": {
+        "name": "product-guard-clang21",
+        "ref": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "commit": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "subject": "Reduce forward substring setup cost and bound expensive comparisons",
+        "snapshot": false,
+        "base_commit": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "base_subject": "Reduce forward substring setup cost and bound expensive comparisons",
+        "built_at": "2026-10-30T08:38:11+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang-21",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<builds>/product-guard-clang21/sapi/cli/php"
+      },
+      "sha1": "19d8b71be35ac88be6e5ae14e029e9a34faa922c"
+    }
+  },
+  "sources": {
+    "suite": "9940a67b5a5ee33fa72d9ed392e8e45eb09a9b8b",
+    "harness": "c3113f45c2a11bcb63f0b1fb7a4e44ef6843325d",
+    "corpus": "e5c81343e158d86e921e121508cb8b101980f980"
+  },
+  "machine_warnings": [
+    "turbo boost is on: thermal and frequency drift between rounds (sudo ./bench tune on)"
+  ],
+  "cases": {
+    "first allcommon_long allcommon_long n201 #320 @ case-320": {
+      "input_len": 300000,
+      "input_chars": 300000,
+      "n": 135
+    }
+  },
+  "warnings": [],
+  "marks": [],
+  "rows": [
+    [
+      "aa",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      4696559994,
+      24806127407,
+      53121700,
+      218533787
+    ],
+    [
+      "aa",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      4695079660,
+      24806125371,
+      53043594,
+      218531498
+    ],
+    [
+      "aa",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      4697262188,
+      24806125041,
+      53062097,
+      218530768
+    ],
+    [
+      "aa",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      4711510760,
+      24806124840,
+      53107157,
+      218533796
+    ],
+    [
+      "aa",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      4689879591,
+      24806125693,
+      52995073,
+      218531650
+    ],
+    [
+      "aa",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      4697369840,
+      24806125266,
+      53001745,
+      218533871
+    ],
+    [
+      "aa",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      4710644914,
+      24806125420,
+      53105649,
+      218532269
+    ],
+    [
+      "aa",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      4710662202,
+      24806125456,
+      52942728,
+      218531439
+    ],
+    [
+      "aa",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      4694005646,
+      24806128424,
+      52991461,
+      218531536
+    ],
+    [
+      "aa",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      4707870303,
+      24806125228,
+      52950607,
+      218532027
+    ],
+    [
+      "gcc15",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      4698050818,
+      24806127463,
+      52889702,
+      218533705
+    ],
+    [
+      "gcc15",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      27593546,
+      73126725,
+      18897755,
+      36670603
+    ],
+    [
+      "gcc15",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      27220310,
+      73125958,
+      18789953,
+      36669701
+    ],
+    [
+      "gcc15",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      4700825408,
+      24806125630,
+      53027378,
+      218534152
+    ],
+    [
+      "gcc15",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      4703756188,
+      24806125184,
+      53012439,
+      218531376
+    ],
+    [
+      "gcc15",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      27647149,
+      73126142,
+      18815833,
+      36673248
+    ],
+    [
+      "gcc15",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      27235842,
+      73126117,
+      18850180,
+      36673342
+    ],
+    [
+      "gcc15",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      4701657819,
+      24806124999,
+      53097160,
+      218533696
+    ],
+    [
+      "gcc15",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      4715307142,
+      24806125831,
+      53015668,
+      218531294
+    ],
+    [
+      "gcc15",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      27534282,
+      73125519,
+      18838453,
+      36670250
+    ],
+    [
+      "clang21",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      8604913120,
+      24782282523,
+      81397348,
+      215022574
+    ],
+    [
+      "clang21",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      29867643,
+      94037725,
+      18182850,
+      33492355
+    ],
+    [
+      "clang21",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      29636869,
+      94037726,
+      18191289,
+      33491918
+    ],
+    [
+      "clang21",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      8604499042,
+      24782279455,
+      81319466,
+      215022728
+    ],
+    [
+      "clang21",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      8604350205,
+      24782280198,
+      81218057,
+      215022116
+    ],
+    [
+      "clang21",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      29841024,
+      94037764,
+      18179050,
+      33491756
+    ],
+    [
+      "clang21",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      29499272,
+      94038114,
+      18214543,
+      33492044
+    ],
+    [
+      "clang21",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      8604646714,
+      24782279475,
+      81275631,
+      215022638
+    ],
+    [
+      "clang21",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      8604359257,
+      24782282516,
+      81425353,
+      215022811
+    ],
+    [
+      "clang21",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      29828949,
+      94037787,
+      18100768,
+      33491854
+    ],
+    [
+      "aa2",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      4716847545,
+      24806125354,
+      53040292,
+      218531040
+    ],
+    [
+      "aa2",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      4713312033,
+      24806125258,
+      53046151,
+      218531401
+    ],
+    [
+      "aa2",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      4699705933,
+      24806127729,
+      53016979,
+      218530709
+    ],
+    [
+      "aa2",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      4718112962,
+      24806127195,
+      53025619,
+      218530816
+    ],
+    [
+      "aa2",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      4718353560,
+      24806128165,
+      52987193,
+      218528430
+    ],
+    [
+      "aa2",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      4713784859,
+      24806126099,
+      52968025,
+      218530766
+    ],
+    [
+      "aa2",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      4706521723,
+      24806125215,
+      52952474,
+      218530795
+    ],
+    [
+      "aa2",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      4692667602,
+      24806125623,
+      52999854,
+      218531104
+    ],
+    [
+      "aa2",
+      "a",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      4717801846,
+      24806125808,
+      52953431,
+      218531527
+    ],
+    [
+      "aa2",
+      "b",
+      "first allcommon_long allcommon_long n201 #320 @ case-320",
+      4723754225,
+      24806124674,
+      52974978,
+      218534421
+    ]
+  ]
+}

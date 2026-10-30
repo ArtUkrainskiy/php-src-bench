@@ -1,0 +1,180 @@
+{
+  "base": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+  "candidate": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+  "product_cases": 233,
+  "product_inputs": 141,
+  "php_tests": {
+    "intel/phpt-core-product-guard-gcc13.log": {
+      "Number of tests": 6481,
+      "Tests passed": 6237,
+      "Tests skipped": 243,
+      "Tests failed": 0,
+      "Expected fail": 1,
+      "Tests warned": 0
+    },
+    "intel/phpt-gcc14.log": {
+      "Number of tests": 765,
+      "Tests passed": 703,
+      "Tests skipped": 62,
+      "Tests failed": 0,
+      "Tests warned": 0
+    },
+    "intel/phpt-core-product-debug-zts-gcc13.log": {
+      "Number of tests": 6481,
+      "Tests passed": 6236,
+      "Tests skipped": 244,
+      "Tests failed": 0,
+      "Expected fail": 1,
+      "Tests warned": 0
+    },
+    "intel/phpt-gcc13.log": {
+      "Number of tests": 765,
+      "Tests passed": 703,
+      "Tests skipped": 62,
+      "Tests failed": 0,
+      "Tests warned": 0
+    },
+    "intel/phpt-clang18.log": {
+      "Number of tests": 765,
+      "Tests passed": 703,
+      "Tests skipped": 62,
+      "Tests failed": 0,
+      "Tests warned": 0
+    },
+    "intel/phpt-clang20.log": {
+      "Number of tests": 765,
+      "Tests passed": 703,
+      "Tests skipped": 62,
+      "Tests failed": 0,
+      "Tests warned": 0
+    },
+    "amd/phpt-gcc15.log": {
+      "Number of tests": 765,
+      "Tests passed": 703,
+      "Tests skipped": 62,
+      "Tests failed": 0,
+      "Tests warned": 0
+    },
+    "amd/phpt-clang21.log": {
+      "Number of tests": 765,
+      "Tests passed": 703,
+      "Tests skipped": 62,
+      "Tests failed": 0,
+      "Tests warned": 0
+    }
+  },
+  "kernel_sanitizers": {
+    "asan": {
+      "random": 100000,
+      "guarded": 135460,
+      "passed": true,
+      "note": "Identical extracted matching functions; full PHP release/debug-ZTS tested separately."
+    },
+    "scalar": {
+      "random": 100000,
+      "guarded": 135460,
+      "passed": true,
+      "note": "Identical extracted matching functions; full PHP release/debug-ZTS tested separately."
+    }
+  },
+  "mutations": [
+    {
+      "mutation": "short-skipped-shift",
+      "exit_code": 3,
+      "message": "mismatch impl=0 hl=11679 nl=17 got=-1 want=9329"
+    },
+    {
+      "mutation": "short-missing-last-byte",
+      "exit_code": 3,
+      "message": "mismatch impl=0 hl=14513 nl=11 got=14132 want=-1"
+    },
+    {
+      "mutation": "wrong-twoway-shift",
+      "exit_code": 3,
+      "message": "mismatch impl=2 hl=49898 nl=2543 got=-1 want=36974"
+    },
+    {
+      "mutation": "missing-full-verification",
+      "exit_code": 3,
+      "message": "mismatch impl=3 hl=5308 nl=25 got=2242 want=-1"
+    }
+  ],
+  "kernel_source_sha256": "363a4bb69a5b3e50301da2f740c95f5f7dc56176eff794c739da4511624d602d",
+  "inline_header_sha256": "38f9b66c146abff6c07ec89785400014c2887a1cb36282a68382758af159e3fd",
+  "exact_core_extraction_matches_candidate": true,
+  "inline_header_unchanged_from_base": true,
+  "benchmark_self_tests": "tests/run.sh: all passed",
+  "portable_synthetic_suites": {
+    "boundary_cases": 112,
+    "adversarial_cases": 6,
+    "match_original_inputs_and_case_expressions": true
+  },
+  "product_ground_truth": {
+    "intel/gcc13": {
+      "product": {
+        "php": "8.7.0-dev",
+        "checked": 233,
+        "failures": []
+      },
+      "boundary": {
+        "checked": 112,
+        "failures": []
+      }
+    },
+    "intel/gcc14": {
+      "product": {
+        "php": "8.7.0-dev",
+        "checked": 233,
+        "failures": []
+      },
+      "boundary": {
+        "checked": 112,
+        "failures": []
+      }
+    },
+    "intel/clang18": {
+      "product": {
+        "php": "8.7.0-dev",
+        "checked": 233,
+        "failures": []
+      },
+      "boundary": {
+        "checked": 112,
+        "failures": []
+      }
+    },
+    "intel/clang20": {
+      "product": {
+        "php": "8.7.0-dev",
+        "checked": 233,
+        "failures": []
+      },
+      "boundary": {
+        "checked": 112,
+        "failures": []
+      }
+    },
+    "amd/gcc15": {
+      "product": {
+        "php": "8.7.0-dev",
+        "checked": 233,
+        "failures": []
+      },
+      "boundary": {
+        "checked": 112,
+        "failures": []
+      }
+    },
+    "amd/clang21": {
+      "product": {
+        "php": "8.7.0-dev",
+        "checked": 233,
+        "failures": []
+      },
+      "boundary": {
+        "checked": 112,
+        "failures": []
+      }
+    }
+  }
+}

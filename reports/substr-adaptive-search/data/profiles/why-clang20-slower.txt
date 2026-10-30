@@ -1,0 +1,54 @@
+banlist12/en/thread/clean @ moderation-en-thread-clean: pass 1/3, A
+banlist12/en/thread/clean @ moderation-en-thread-clean: pass 1/3, B
+banlist12/en/thread/clean @ moderation-en-thread-clean: pass 2/3, B
+banlist12/en/thread/clean @ moderation-en-thread-clean: pass 2/3, A
+banlist12/en/thread/clean @ moderation-en-thread-clean: pass 3/3, A
+banlist12/en/thread/clean @ moderation-en-thread-clean: pass 3/3, B
+banlist12/zh/thread/clean @ moderation-zh-thread-clean: pass 1/3, A
+banlist12/zh/thread/clean @ moderation-zh-thread-clean: pass 1/3, B
+banlist12/zh/thread/clean @ moderation-zh-thread-clean: pass 2/3, B
+banlist12/zh/thread/clean @ moderation-zh-thread-clean: pass 2/3, A
+banlist12/zh/thread/clean @ moderation-zh-thread-clean: pass 3/3, A
+banlist12/zh/thread/clean @ moderation-zh-thread-clean: pass 3/3, B
+A: base-clang20
+B: product-guard-clang20
+
+banlist12/en/thread/clean @ moderation-en-thread-clean (per call, median of 3 passes; user space only, except the top-down slots)
+
+| event | A | B | B vs A |
+|---|--:|--:|--:|
+| cycles | 834,718 | 862,957 | +3% |
+| instructions | 1,194,936 | 1,076,828 | −10% |
+| branches | 367,350 | 308,521 | −16% |
+| branch-misses | 2,411 | 3,370 | +40% |
+| L1-icache-load-misses | 45.28 | 40.68 | −10% |
+| iTLB-load-misses | 0.39 | 0.94 | +0.55 |
+| slots | 4,922,111 | 5,186,521 | +5% |
+| topdown-retiring | 870,236 | 822,539 | −5% |
+| topdown-fe-bound | 502,484 | 483,359 | −4% |
+| topdown-bad-spec | 539,820 | 698,365 | +29% |
+| topdown-be-bound | 3,039,782 | 3,215,350 | +6% |
+
+banlist12/zh/thread/clean @ moderation-zh-thread-clean (per call, median of 3 passes; user space only, except the top-down slots)
+
+| event | A | B | B vs A |
+|---|--:|--:|--:|
+| cycles | 741,181 | 779,605 | +5% |
+| instructions | 955,717 | 851,642 | −11% |
+| branches | 296,700 | 244,910 | −17% |
+| branch-misses | 4,566 | 5,928 | +30% |
+| L1-icache-load-misses | 38.00 | 21.69 | −43% |
+| iTLB-load-misses | 0.35 | 0.40 | +0.05 |
+| slots | 4,326,117 | 4,632,721 | +7% |
+| topdown-retiring | 675,067 | 617,991 | −8% |
+| topdown-fe-bound | 809,279 | 692,041 | −14% |
+| topdown-bad-spec | 949,892 | 1,182,819 | +25% |
+| topdown-be-bound | 1,899,450 | 2,156,621 | +14% |
+
+| function | A address | A size | B address | B size | moved by | alignment A / B |
+|---|--:|--:|--:|--:|--:|--:|
+| zend_memnstr_ex | 0x727f60 | 897 | 0x727f60 | 29 | +0 | 32 / 32 |
+| zend_memnstr_sunday_short | not found in A (inlined or static with another name?) | | | | | |
+| zif_str_contains | 0x5392a0 | 489 | 0x5392a0 | 489 | +0 | 32 / 32 |
+
+Alignment is the address modulo 64 (a cache line). Run `objdump -d` on both binaries for the hot loop itself.

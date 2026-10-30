@@ -1,0 +1,179 @@
+{
+  "format": 1,
+  "date": "2026-10-30T18:06:49+00:00",
+  "suite": "<amd-stand>/tools/results/substr-search/pr-20261030/suite.php",
+  "elapsed_s": 25,
+  "config": {
+    "rounds": 4,
+    "samples": 1,
+    "target_ms": 1000,
+    "warmup_ms": 1000,
+    "filter": "^explode/pipe2/4k\\ @\\ delimiter\\-pipe2\\-4k$",
+    "cpu": 15,
+    "perf": false,
+    "wait_idle": 300
+  },
+  "env": {
+    "cpu_model": "AMD Ryzen 9 5950X 16-Core Processor",
+    "kernel": "7.0.0-38-generic",
+    "cpu": 15,
+    "cpu_siblings": "15,31",
+    "hybrid_pcores": null,
+    "cpu_is_pcore": null,
+    "governor": "performance",
+    "epp": "performance",
+    "turbo": true,
+    "on_ac": null,
+    "load": 0.73388671875,
+    "busy_pct": {
+      "15": 0,
+      "31": 0
+    },
+    "idle_cpu": 1
+  },
+  "sides": {
+    "A": {
+      "name": "base-clang21",
+      "php": "<amd-stand>/builds/base-clang21/sapi/cli/php",
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<amd-stand>/builds/base-clang21/sapi/cli/php"
+      },
+      "build": {
+        "name": "base-clang21",
+        "ref": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-30T08:36:41+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang-21",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      }
+    },
+    "B": {
+      "name": "base-clang21",
+      "php": "<amd-stand>/builds/base-clang21/sapi/cli/php",
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<amd-stand>/builds/base-clang21/sapi/cli/php"
+      },
+      "build": {
+        "name": "base-clang21",
+        "ref": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-30T08:36:41+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang-21",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      }
+    }
+  },
+  "cases": {
+    "explode/pipe2/4k @ delimiter-pipe2-4k": {
+      "input_len": 4123,
+      "sides": {
+        "A": {
+          "n": [
+            363266,
+            363266,
+            363266,
+            363266
+          ],
+          "loop_ns": [
+            2.4029141180292126,
+            2.1768125836164134,
+            2.4029939493374,
+            2.4040978236333705
+          ],
+          "rounds": [
+            [
+              2751.122942967412
+            ],
+            [
+              2779.633175138879
+            ],
+            [
+              2758.68803851723
+            ],
+            [
+              2695.919263019385
+            ]
+          ],
+          "input_hash": [
+            "1926b76e31e41acff9efb2898941757a"
+          ],
+          "output_hash": [
+            "238806e848c39f776f63300ce3ad5fd6"
+          ]
+        },
+        "B": {
+          "n": [
+            373586,
+            373586,
+            373586,
+            373586
+          ],
+          "loop_ns": [
+            2.402855032040815,
+            2.1797845743684183,
+            2.1742597420674223,
+            2.1771292286113506
+          ],
+          "rounds": [
+            [
+              2677.908232642551
+            ],
+            [
+              2756.1090378119093
+            ],
+            [
+              2748.720792535052
+            ],
+            [
+              2750.723284598459
+            ]
+          ],
+          "input_hash": [
+            "1926b76e31e41acff9efb2898941757a"
+          ],
+          "output_hash": [
+            "238806e848c39f776f63300ce3ad5fd6"
+          ]
+        }
+      }
+    }
+  }
+}
