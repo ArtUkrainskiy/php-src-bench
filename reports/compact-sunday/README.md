@@ -4,7 +4,7 @@ Proposed change to the substring search used by `strpos()`, `str_replace()` and 
 
 Compare [`strpos-compact-sunday-pr`](https://github.com/ArtUkrainskiy/php-src/tree/strpos-compact-sunday-pr)
 with [PHP master](https://github.com/php/php-src/tree/master), both PHP 8.7.0-dev.
-[Patch](change.patch) · [Measured build metadata](manifest.json).
+[PR #25115](https://github.com/php/php-src/pull/25115) · [Patch](change.patch) · [Measured build metadata](manifest.json).
 
 The patch reduces the Sunday shift table from 1024 to 256 bytes for 9–31-byte
 needles (searched substrings) when at least 1024 input bytes remain from the
