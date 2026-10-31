@@ -136,3 +136,48 @@ for line in readme.splitlines():
             assert abs(float(column.rstrip('%')) - expected_value) <= 0.5 * 10 ** (-precision) + 1e-9
 assert found == set(expected), (len(found), len(expected))
 print('PASS: 44 elapsed records, 40 README rows, three five-pass counter series, fingerprints, matching-code hash and nine PHPT logs')
+
+if (ROOT / 'search-manifest.json').exists():
+    search_manifest = json.loads((ROOT / 'search-manifest.json').read_text())
+    search_rows = json.loads((ROOT / 'search-metrics.json').read_text())
+    assert len(search_rows) == 52 and sum(not r['aa'] for r in search_rows) == 43
+    assert search_manifest['elapsed_pairs'] == 52 and search_manifest['ab_pairs'] == 43
+    with tarfile.open(ROOT / 'data/search-controls.tar.gz') as archive:
+        for row in search_rows:
+            payload = archive.extractfile(row['source']).read()
+            assert hashlib.sha256(payload).hexdigest() == search_manifest['raw_sha256'][row['source']]
+            data = json.loads(payload)
+            assert [data['config'][k] for k in ['rounds', 'samples', 'target_ms', 'warmup_ms']] == [1, 10, 1000, 3000]
+            case = data['cases'][row['case']]
+            for side, field in [('A', 'master_ns'), ('B', 'compact_ns')]:
+                value = case['sides'][side]
+                close(row[field], statistics.median(value['rounds'][0]) - statistics.median(value['loop_ns']))
+                commit = manifest['base'] if side == 'A' or row['aa'] else manifest['head']
+                assert data['sides'][side]['build']['commit'] == commit
+            close(row['delta_time'], 100 * (row['compact_ns'] / row['master_ns'] - 1))
+        raw = json.load(archive.extractfile('amd-matrix/cycles.json'))
+        assert raw['complete'] and len(raw['rows']) == 2320 and len(raw['cases']) == 58
+        display = normalized(raw)
+        display['suite'] = 'search-suite.php'
+        assert display == json.loads((ROOT / 'search-counters.json').read_text())
+        assert hashlib.sha1((ROOT / 'search-suite.php').read_bytes()).hexdigest() == raw['sources']['suite']
+        series = defaultdict(lambda: defaultdict(list))
+        for group, side, key, cyc, ins, ec, ei in raw['rows']:
+            n = raw['cases'][key]['n']
+            series[group, key][side].append(((cyc - ec) / n, (ins - ei) / n))
+        for row in search_rows:
+            if row['aa']:
+                continue
+            values = series[row['compiler'], row['case']]
+            x, y = values['a'], values['b']
+            assert len(x) == len(y) == 5
+            expected = dict(a=statistics.median(v[0] for v in x), b=statistics.median(v[0] for v in y),
+                ai=statistics.median(v[1] for v in x), bi=statistics.median(v[1] for v in y),
+                delta_cycles=100 * (statistics.median(b[0] / a[0] for a, b in zip(x, y)) - 1))
+            for field, value in expected.items():
+                close(row['counters'][field], value)
+        codegen = json.load(archive.extractfile('clang21-loop-comparison.json'))
+        assert codegen == json.loads((ROOT / 'search-codegen.json').read_text())
+        assert codegen['builds'][0]['hex'] == codegen['builds'][1]['hex']
+        assert len(bytes.fromhex(codegen['builds'][0]['hex'])) == 19
+    print('PASS: 52 search-control elapsed records, 58-case counter series and captured Clang 21 loop bytes')

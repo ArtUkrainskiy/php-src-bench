@@ -1,5 +1,7 @@
 # Compact Sunday shift tables
 
+Proposed change to the substring search used by `strpos()`, `str_replace()` and related functions.
+
 Compare [compact Sunday `8d7babbc364`](https://github.com/ArtUkrainskiy/php-src/commit/8d7babbc364ffcf28dac9777ce807edc9adbb534)
 with [master at `cf1b5771a76`](https://github.com/php/php-src/commit/cf1b5771a76a81b455a8677446daf9c46e1781be),
 both PHP 8.7.0-dev. [Source branch](https://github.com/ArtUkrainskiy/php-src/tree/strpos-compact-sunday-pr) · [Patch](change.patch).
@@ -13,13 +15,18 @@ the cost of the new dispatch and differences in code placement.
 
 On AMD Ryzen 9 5950X with GCC 15 and Clang 21, a 12-term banlist check with no matches takes 4.93–11.84% less time than master; template replacement and counting take 14.42–16.52% less. The two 32-byte early-match controls take 2.99–3.86% more time than master on GCC. These are costs of individual PHP operations, not whole-request speedups.
 
+Searching 4096 `a` bytes for 63 `a` bytes followed by `b` takes 30.70% more time on GCC 15. This 64-byte needle uses the existing wide table. A separate profile records more branch misses with nearly unchanged instructions; the precise cause of the changed branch behavior remains unresolved. [Case and profile](search-controls.md#synthetic-repeated-prefix-regression).
+
+Elapsed results are AMD-only. Intel elapsed measurements failed A/A controls; native ARM, Windows and 32-bit builds were not tested. There is one paired elapsed round per comparison. [Reproduce](reproduce.md) · [Raw measurements](data/native.tar.gz).
+
 ## Cases
 
 Inputs are generated application fixtures, not production traffic samples.
 All moderation inputs are lower-case UTF-8; searches are case-sensitive literal
 substrings, without word-boundary matching or normalization inside timing.
-English, Russian, Spanish, Arabic, Hindi, Chinese, Japanese, Korean and mixed-emoji
-posts are covered equally. The thread timing cases use English and Chinese.
+There is one post case for each of English, Russian, Spanish, Arabic, Hindi,
+Chinese, Japanese, Korean and mixed emoji. Thread timing cases cover English
+and Chinese only.
 
 | Case | Input and measured work | Searched substrings |
 |---|---|---|
@@ -29,7 +36,7 @@ posts are covered equally. The thread timing cases use English and Chinese.
 | Parse HTTP headers | Seven headers and a 64 KiB body; find the terminator after 261 header bytes, then parse the headers; body is not parsed | `\r\n\r\n`, `\r\n` and `: ` |
 | Replace template placeholders | 4250-byte order-card/email template; replace 68 slots with four values using `str_replace()` | `{{order.id}}`, `{{user.name}}`, `{{tracking.url}}`, `{{support.email}}`; 12–17 bytes |
 | Count template slots | Same template; `substr_count()` finds 17 occurrences | `{{order.id}}`, 12 bytes |
-| Routing controls | Ordinary ASCII filler; an absent 9-byte substring or a 31/32-byte match at byte offset 7 | Text tokens, plus a 32-byte token made of 31 `a` bytes and `b` |
+| Search controls | Ordinary ASCII filler; an absent 9-byte substring or a 31/32-byte match at byte offset 7 | Text tokens, plus a 32-byte token made of 31 `a` bytes and `b` |
 
 The split operations are `explode('||', $s)` and `explode('::', $s)`.
 Exact input sizes are in the tables. [Measured suite](suite.php) · [31-byte control](early31-suite.php) · [Data-label notes](data-notes.md).
@@ -121,6 +128,10 @@ exercise the new dispatcher with the wide table.
 Long-thread cycle gains accompany less than 0.5% change in instructions. The
 [profiles](profiles.md) do not isolate a single cause; code generation and placement also matter.
 
+## Search-shape controls
+
+The [4096-byte search matrix](search-controls.md) measures absent, early, late and repeated-prefix inputs, plus repeated `substr_count()`/`str_replace()` and long-needle controls. There are 21 elapsed cases per compiler, plus a separate GCC 15 repeated-prefix check at 64 bytes. That check takes 30.7851 → 40.2358 µs, +30.70% relative to master. The full 58-case counter sweep includes needle lengths 8–256.
+
 ## Measurement and limits
 
 Measured 31 October 2026 on Ryzen 9 5950X, CPU 15, SMT sibling 31, performance
@@ -131,7 +142,7 @@ Native ARM, Windows and 32-bit builds have not been tested.
 
 ## Correctness and reproduction
 
-Each of the six release builds passes 699 PHPT string tests, with 62 skipped.
+All eight tested release binaries pass 699 PHPT string tests each, with 62 skipped.
 The full PHP ASan/UBSan build passes 680 tests, with 81 skipped. No run has failures
 or warnings. The added PHPT checks 300 input combinations. GCC and Clang sanitizer
 runs each compare the extracted matchers with libc on 20,000 seeded random inputs
