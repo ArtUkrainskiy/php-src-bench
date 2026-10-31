@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render the independent compact-Sunday screen from native records."""
+"""Render the compact-Sunday report from archived measurements."""
 import argparse
 from collections import defaultdict
 import hashlib
@@ -41,7 +41,7 @@ def label(key):
         'parse-http/body64k': 'Parse HTTP headers',
         'render-template/4k': 'Replace template placeholders',
         'count-template/4k': 'Count `{{order.id}}` slots',
-        'boundary/9/absent': '9-byte absent match',
+        'boundary/9/absent': '9-byte search (no match)',
         'boundary/31/early': '32-byte early match (text)',
         'boundary/32/early': '32-byte early match (repeated a)',
         'boundary/31/early-corrected': '31-byte early match',
@@ -65,12 +65,12 @@ for relative, name in cycle_sources:
     data = json.loads((a.out/name).read_text())
     labels_name = name[:-5] + '-labels.txt'
     (a.out/labels_name).write_text(''.join(k+'='+labels[k]+'\n' for k in data['cases']))
-    flags = ['--header','--full','--compact-header','--base-name','Stock','--labels',str(a.out/labels_name)]
+    flags = ['--header','--full','--compact-header','--base-name','master','--labels',str(a.out/labels_name)]
     text = subprocess.check_output([str(a.bench_root/'bench'),'table',str(a.out/name),*flags],
         env={**os.environ,'BENCH_PHP':a.php},text=True)
-    marker = name+' --header --full --compact-header --base-name Stock --labels '+labels_name
+    marker = name+' --header --full --compact-header --base-name master --labels '+labels_name
     matrices += '## '+name[:-5]+'\n\n<!-- bench-table '+marker+' -->\n'+text+'<!-- /bench-table -->\n\n'
-(a.out/'cycles.md').write_text('# Separate hardware-counter series\n\nIntel is diagnostic only: its elapsed A/A failed. Every matrix includes same-row cycle A/A. These are separate measurements from the elapsed series; they do not establish exact simultaneous IPC.\n\n'+matrices)
+(a.out/'cycles.md').write_text('# CPU cycles and instructions\n\nAll changes are relative to master. A call is one complete listed operation; moderation includes all 12 searches. Each matrix includes master-against-master controls for the same cases. Counters were collected separately from elapsed time. Intel counters are diagnostic only because its elapsed A/A failed.\n\n'+matrices)
 metrics = []
 groups = defaultdict(list); controls = []
 for path, rr in zip(raw_paths,native):
@@ -101,7 +101,8 @@ for path, rr in zip(raw_paths,native):
 def pct(n): return f'{n:+.2f}%'
 absolute='# Absolute cycles and instructions\n\nCounters come from the separate five-pass series.\n\n'
 for cc,rows in groups.items():
-    absolute+=f'## {cc}\n\n| Case | Stock cycles | Compact cycles | Stock instr. | Compact instr. |\n|---|--:|--:|--:|--:|\n'
+    title = 'GCC 15.2' if cc == 'gcc15' else 'Clang 21.1'
+    absolute+=f'## {title}\n\n| Case | master cycles | compact cycles | master instr. | compact instr. |\n|---|--:|--:|--:|--:|\n'
     for r in rows:
         c=r['cycles']
         absolute+=f"| {r['label']} | {c['a']:.2f} | {c['b']:.2f} | {c['ai']:.2f} | {c['bi']:.2f} |\n"
@@ -118,14 +119,14 @@ def readme_table(cc):
     for prefix in ['boundary/9/absent', 'boundary/31/early-corrected', 'boundary/31/early @', 'boundary/32/early @']:
         order += [r for r in rows if r['case'].startswith(prefix)]
     assert len(order) == len(rows) == 20 and len({r['case'] for r in order}) == 20
-    lines = ['| Case | Bytes | Stock µs | Patch µs | Time Δ | Cycles Δ | Instr. Δ |',
+    lines = ['| Case | Bytes | master µs | compact µs | Time Δ | Cycles Δ | Instr. Δ |',
              '|---|--:|--:|--:|--:|--:|--:|']
     for r in order:
         c = r['cycles']
         lines.append(f"| {r['label']} | {r['bytes']} | {r['a_ns']/1000:.4f} | {r['b_ns']/1000:.4f} | {pct(r['delta_time'])} | {pct(c['delta'])} | {pct(100*(c['bi']/c['ai']-1))} |")
     return '\n'.join(lines)
 
-aa_table = ['| Compiler | Before: time Δ | After: time Δ | Interpretation floor |',
+aa_table = ['| Compiler | Before: time Δ | After: time Δ | Noise threshold |',
             '|---|--:|--:|--:|']
 for cc, title in [('gcc15', 'GCC 15.2'), ('clang21', 'Clang 21.1')]:
     values = {('before' if 'aa-before-' in r['source'] else 'after'): r['delta_time']
@@ -136,23 +137,24 @@ for cc, title in [('gcc15', 'GCC 15.2'), ('clang21', 'Clang 21.1')]:
 post_changes = [r['delta_time'] for r in metrics if not r['aa'] and '/post/clean' in r['case']]
 template_changes = [r['delta_time'] for r in metrics if not r['aa'] and r['case'].startswith(('render-template/', 'count-template/'))]
 losses = [r['delta_time'] for r in groups['gcc15'] if r['label'].startswith('32-byte early')]
-intro = (f"On AMD Ryzen 9 5950X with GCC 15 and Clang 21, generated clean moderation posts take "
-         f"{abs(max(post_changes)):.2f}–{abs(min(post_changes)):.2f}% less time; template replacement/counting takes "
+intro = (f"On AMD Ryzen 9 5950X with GCC 15 and Clang 21, a 12-term banlist check with no matches takes "
+         f"{abs(max(post_changes)):.2f}–{abs(min(post_changes)):.2f}% less time than master; template replacement and counting take "
          f"{abs(max(template_changes)):.2f}–{abs(min(template_changes)):.2f}% less. "
-         f"The two 32-byte early-match controls take {min(losses):.2f}–{max(losses):.2f}% more time on GCC. "
+         f"The two 32-byte early-match controls take {min(losses):.2f}–{max(losses):.2f}% more time than master on GCC. "
          "These are costs of individual PHP operations, not whole-request speedups.")
 
 readme = '''# Compact Sunday shift tables
 
 Compare [compact Sunday `8d7babbc364`](https://github.com/ArtUkrainskiy/php-src/commit/8d7babbc364ffcf28dac9777ce807edc9adbb534)
-with [stock PHP `cf1b5771a76`](https://github.com/php/php-src/commit/cf1b5771a76a81b455a8677446daf9c46e1781be),
+with [master at `cf1b5771a76`](https://github.com/php/php-src/commit/cf1b5771a76a81b455a8677446daf9c46e1781be),
 both PHP 8.7.0-dev. [Source branch](https://github.com/ArtUkrainskiy/php-src/tree/strpos-compact-sunday-pr) · [Patch](change.patch).
 
 The patch reduces the Sunday shift table from 1024 to 256 bytes for 9–31-byte
-searched substrings when at least 1024 input bytes remain from the current search position. The search algorithm
-stays the same. Shorter searches retain the inline `memchr` path; longer searched
-substrings retain the wide table. The cost of the new dispatch and code placement
-is included in the results.
+needles (searched substrings) when at least 1024 input bytes remain from the
+current search position. On the Sunday path, needles of 32 bytes or more retain
+the wide table. The search algorithm and the inline path for needles below
+9 bytes or remaining inputs below 1024 bytes are unchanged. The measured changes include
+the cost of the new dispatch and differences in code placement.
 
 __SUMMARY__
 
@@ -179,23 +181,24 @@ Exact input sizes are in the tables. [Measured suite](suite.php) · [31-byte con
 
 ## Results
 
-Elapsed time is the primary comparison. Values are microseconds per complete
-operation after empty-loop subtraction. Negative deltas mean lower cost.
+All deltas are relative to master; negative means lower cost. Elapsed time is
+the primary comparison. Time columns show medians in microseconds per complete
+operation after empty-loop subtraction.
 Cycles and instructions come from a separate series: cycle deltas are the median
 of five paired ratios; instruction deltas compare the median absolute counts.
 
-Each case/version receives at least **3 seconds warmup**, then **10 approximately
-one-second samples** in one PHP process. There is one paired round. Counters use
-five separate 50 ms-target passes. These are quick descriptive comparisons;
+For each case, each build runs at least **3 seconds of warmup**, followed by
+**10 approximately one-second samples** in one PHP process. There is one paired round. Counters use
+five separate 50 ms-target passes. These are preliminary measurements;
 ten samples in one process are not ten independent rounds.
 
-A/A compares the identical stock binary before and after the timing series.
+A/A compares the identical master binary before and after the timing series.
 We use a minimum 2% threshold, increased to the observed A/A variation if larger:
 
 __AA_TABLE__
 
-Changes within the interpretation floor are unresolved by this screen. The floor
-is a practical noise threshold, not a confidence interval.
+Changes at or below this threshold are inconclusive in this run.
+The threshold is a reporting rule, not a statistical confidence interval.
 
 Intel elapsed results are excluded: identical-binary A/A reached approximately
 −50% and +93%. The GCC 13/14 and Clang 18/20 counter tables are diagnostic only.
@@ -221,18 +224,19 @@ Long-thread cycle gains accompany less than 0.5% change in instructions. The
 ## Measurement and limits
 
 Measured 31 October 2026 on Ryzen 9 5950X, CPU 15, SMT sibling 31, performance
-governor, turbo enabled. The core was not exclusively isolated. Matched release
+governor, turbo enabled. The core was not reserved for the benchmark. Matched release
 builds use the `docker` profile; [flags and commands](reproduce.md).
 
 Native ARM, Windows and 32-bit builds have not been tested.
 
 ## Correctness and reproduction
 
-All six release compiler builds pass 699 string PHPT, with 62 skipped and no
-failures or warnings. Full PHP ASan/UBSan passes 680, with 81 skipped. The added
-PHPT covers 300 inputs. GCC and Clang sanitizer checks each compare the extracted
-matchers with libc on 20,000 seeded random inputs and 135,460 guarded length
-configurations; both deliberate faulty variants are detected.
+Each of the six release builds passes 699 PHPT string tests, with 62 skipped.
+The full PHP ASan/UBSan build passes 680 tests, with 81 skipped. No run has failures
+or warnings. The added PHPT checks 300 input combinations. GCC and Clang sanitizer
+runs each compare the extracted matchers with libc on 20,000 seeded random inputs
+and 135,460 input-length combinations with guard pages. The verifier detects both
+injected faults with each compiler.
 
 [Verification commands and logs](verify/README.md) · [Build and reproduce](reproduce.md) · [Raw native measurements](data/native.tar.gz) · [Unrounded values](metrics.json) · [Hashes](manifest.json).
 

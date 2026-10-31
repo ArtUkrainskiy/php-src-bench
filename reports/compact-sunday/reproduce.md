@@ -2,19 +2,19 @@
 
 Measured on 31 October 2026 using matched release `docker` profiles. AMD uses GCC
 15.2 and Clang 21.1, CPU 15 (SMT sibling 31), performance governor, turbo on. The
-core is not exclusively isolated. Intel counter diagnostics use GCC 13/14 and
+core was not reserved for the benchmark. Intel counter diagnostics use GCC 13/14 and
 Clang 18/20, CPU 2, with [invalid elapsed A/A controls](README.md#results).
-System affinity and power settings were not changed.
+Benchmark processes were pinned to the recorded CPUs. Governor, turbo and system
+core-isolation settings were not modified for these runs.
 
 Per timed case and binary: one warmup of at least three seconds, followed by ten
 approximately one-second batches, ten seconds total target measurement. Calibration,
 input preparation and result checking are outside timing; median empty-loop cost
-is subtracted. Each pair uses separate PHP processes. The native one-round
-significance verdict is intentionally not promoted to a reliable speedup claim.
+is subtracted. Each case and build uses one PHP process for all ten samples.
 Cycles and instructions come from a separate five-pass, 50 ms-target series with
 alternating A/B and same-row A/A. They are not simultaneous with the elapsed series.
 
-Build stock and compact from the pinned commits with the same compilers and
+Build master and compact from the pinned commits with the same compilers and
 `bench build` default profile. Do not use an IDE debug build for performance.
 The main driver measures 19 inputs; the displayed 31-byte row requires the
 second command block below. For the measured compiler pair, start from the **php-src-bench repository root**
@@ -41,7 +41,8 @@ python3 reports/compact-sunday/measure.py --bench-root "$PWD" \
 ```
 
 Choose two appropriate CPU numbers at the prompts. Use an empty output directory.
-The two compiler builds require minutes each. The main timing screen targets
+Four release binaries are built: master and compact with each compiler.
+Each build takes minutes. The main timing run targets
 about 20 minutes before calibration and counter work. It prints per-case progress.
 The source candidate must exist in the php-src repository, either fetched from
 the branch or recreated using the linked patch. A recreated commit has a different
@@ -52,7 +53,7 @@ it does not automatically identify a CPU model. Install those compilers to repea
 this exact matrix. Other compiler versions require adapting its build-name list.
 The [measurement driver](measure.py) accepts build/output paths and CPU numbers;
 the measured build prefixes are `compact-base` and `compact-head`. Its AMD lane
-runs the 19-case quick screen. `--counters-only` supports diagnostic-only hosts.
+runs the 19-case timing set. `--counters-only` supports diagnostic-only hosts.
 Do not reuse Intel wall measurements while its A/A is invalid.
 The 31-byte control is [early31-suite.php](early31-suite.php).
 Run it after the main screen, with the same builds:
@@ -75,9 +76,9 @@ taskset -c "$COMPACT_ORCHESTRATOR" ./bench compare \
   --out "$COMPACT_DATA/early31/cycles.json"
 ```
 
-This produces the AMD screen plus the 31-byte control. The separate
+This produces the AMD timing set plus the 31-byte control. The separate
 Intel counter matrix needs the four corresponding compiler builds and the
-`intel --counters-only` lane. It is not evidence for Intel elapsed performance.
+`--lane intel --counters-only` options. It is not evidence for Intel elapsed performance.
 Use `bench show` and `bench table` to inspect fresh runs.
 
 To regenerate this exact published document from its archive without measuring,
@@ -99,4 +100,4 @@ python3 reports/compact-sunday/check.py
 Machine paths in display-only counter metadata are normalized; raw native JSON
 and logs remain unchanged in the archive. Both the source revisions and all
 input/output hashes are checked. The source branch is a candidate for a small PR;
-these quick measurements do not substitute for upstream CI or quiet Intel timing.
+these preliminary measurements do not substitute for upstream CI or quiet Intel timing.

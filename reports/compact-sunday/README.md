@@ -1,16 +1,17 @@
 # Compact Sunday shift tables
 
 Compare [compact Sunday `8d7babbc364`](https://github.com/ArtUkrainskiy/php-src/commit/8d7babbc364ffcf28dac9777ce807edc9adbb534)
-with [stock PHP `cf1b5771a76`](https://github.com/php/php-src/commit/cf1b5771a76a81b455a8677446daf9c46e1781be),
+with [master at `cf1b5771a76`](https://github.com/php/php-src/commit/cf1b5771a76a81b455a8677446daf9c46e1781be),
 both PHP 8.7.0-dev. [Source branch](https://github.com/ArtUkrainskiy/php-src/tree/strpos-compact-sunday-pr) · [Patch](change.patch).
 
 The patch reduces the Sunday shift table from 1024 to 256 bytes for 9–31-byte
-searched substrings when at least 1024 input bytes remain from the current search position. The search algorithm
-stays the same. Shorter searches retain the inline `memchr` path; longer searched
-substrings retain the wide table. The cost of the new dispatch and code placement
-is included in the results.
+needles (searched substrings) when at least 1024 input bytes remain from the
+current search position. On the Sunday path, needles of 32 bytes or more retain
+the wide table. The search algorithm and the inline path for needles below
+9 bytes or remaining inputs below 1024 bytes are unchanged. The measured changes include
+the cost of the new dispatch and differences in code placement.
 
-On AMD Ryzen 9 5950X with GCC 15 and Clang 21, generated clean moderation posts take 4.93–11.84% less time; template replacement/counting takes 14.42–16.52% less. The two 32-byte early-match controls take 2.99–3.86% more time on GCC. These are costs of individual PHP operations, not whole-request speedups.
+On AMD Ryzen 9 5950X with GCC 15 and Clang 21, a 12-term banlist check with no matches takes 4.93–11.84% less time than master; template replacement and counting take 14.42–16.52% less. The two 32-byte early-match controls take 2.99–3.86% more time than master on GCC. These are costs of individual PHP operations, not whole-request speedups.
 
 ## Cases
 
@@ -35,26 +36,27 @@ Exact input sizes are in the tables. [Measured suite](suite.php) · [31-byte con
 
 ## Results
 
-Elapsed time is the primary comparison. Values are microseconds per complete
-operation after empty-loop subtraction. Negative deltas mean lower cost.
+All deltas are relative to master; negative means lower cost. Elapsed time is
+the primary comparison. Time columns show medians in microseconds per complete
+operation after empty-loop subtraction.
 Cycles and instructions come from a separate series: cycle deltas are the median
 of five paired ratios; instruction deltas compare the median absolute counts.
 
-Each case/version receives at least **3 seconds warmup**, then **10 approximately
-one-second samples** in one PHP process. There is one paired round. Counters use
-five separate 50 ms-target passes. These are quick descriptive comparisons;
+For each case, each build runs at least **3 seconds of warmup**, followed by
+**10 approximately one-second samples** in one PHP process. There is one paired round. Counters use
+five separate 50 ms-target passes. These are preliminary measurements;
 ten samples in one process are not ten independent rounds.
 
-A/A compares the identical stock binary before and after the timing series.
+A/A compares the identical master binary before and after the timing series.
 We use a minimum 2% threshold, increased to the observed A/A variation if larger:
 
-| Compiler | Before: time Δ | After: time Δ | Interpretation floor |
+| Compiler | Before: time Δ | After: time Δ | Noise threshold |
 |---|--:|--:|--:|
 | GCC 15.2 | +2.32% | +1.37% | 2.32% |
 | Clang 21.1 | -0.30% | +0.24% | 2.00% |
 
-Changes within the interpretation floor are unresolved by this screen. The floor
-is a practical noise threshold, not a confidence interval.
+Changes at or below this threshold are inconclusive in this run.
+The threshold is a reporting rule, not a statistical confidence interval.
 
 Intel elapsed results are excluded: identical-binary A/A reached approximately
 −50% and +93%. The GCC 13/14 and Clang 18/20 counter tables are diagnostic only.
@@ -68,7 +70,7 @@ exercise the new dispatcher with the wide table.
 
 ### GCC 15.2
 
-| Case | Bytes | Stock µs | Patch µs | Time Δ | Cycles Δ | Instr. Δ |
+| Case | Bytes | master µs | compact µs | Time Δ | Cycles Δ | Instr. Δ |
 |---|--:|--:|--:|--:|--:|--:|
 | English moderation post | 1081 | 2.9496 | 2.6783 | -9.20% | -10.19% | -5.76% |
 | Russian moderation post | 1041 | 3.0331 | 2.8469 | -6.14% | -5.18% | -3.43% |
@@ -86,14 +88,14 @@ exercise the new dispatcher with the wide table.
 | Parse HTTP headers | 65848 | 0.8704 | 0.8702 | -0.02% | +0.89% | +0.00% |
 | Replace template placeholders | 4250 | 7.0374 | 5.9181 | -15.91% | -16.10% | -17.63% |
 | Count `{{order.id}}` slots | 4250 | 0.9989 | 0.8339 | -16.52% | -15.85% | -18.07% |
-| 9-byte absent match | 14400 | 3.7974 | 3.4724 | -8.56% | -8.38% | -0.53% |
+| 9-byte search (no match) | 14400 | 3.7974 | 3.4724 | -8.56% | -8.38% | -0.53% |
 | 31-byte early match | 14438 | 0.0338 | 0.0297 | -12.30% | -19.15% | -18.72% |
 | 32-byte early match (text) | 14439 | 0.0346 | 0.0359 | +3.86% | +2.57% | +0.64% |
 | 32-byte early match (repeated a) | 16839 | 0.0399 | 0.0411 | +2.99% | -0.51% | +0.62% |
 
 ### Clang 21.1
 
-| Case | Bytes | Stock µs | Patch µs | Time Δ | Cycles Δ | Instr. Δ |
+| Case | Bytes | master µs | compact µs | Time Δ | Cycles Δ | Instr. Δ |
 |---|--:|--:|--:|--:|--:|--:|
 | English moderation post | 1081 | 2.8060 | 2.5239 | -10.05% | -9.62% | -1.89% |
 | Russian moderation post | 1041 | 2.8824 | 2.7330 | -5.19% | -5.16% | -2.32% |
@@ -111,7 +113,7 @@ exercise the new dispatcher with the wide table.
 | Parse HTTP headers | 65848 | 0.8524 | 0.8262 | -3.07% | -1.81% | +0.00% |
 | Replace template placeholders | 4250 | 6.4798 | 5.5455 | -14.42% | -14.44% | -6.37% |
 | Count `{{order.id}}` slots | 4250 | 0.9404 | 0.7944 | -15.53% | -15.29% | -6.56% |
-| 9-byte absent match | 14400 | 3.5678 | 3.1581 | -11.48% | -11.19% | -0.17% |
+| 9-byte search (no match) | 14400 | 3.5678 | 3.1581 | -11.48% | -11.19% | -0.17% |
 | 31-byte early match | 14438 | 0.0299 | 0.0266 | -10.92% | -13.73% | -7.45% |
 | 32-byte early match (text) | 14439 | 0.0319 | 0.0320 | +0.48% | +1.07% | +2.67% |
 | 32-byte early match (repeated a) | 16839 | 0.0373 | 0.0368 | -1.50% | -1.28% | +2.03% |
@@ -122,18 +124,19 @@ Long-thread cycle gains accompany less than 0.5% change in instructions. The
 ## Measurement and limits
 
 Measured 31 October 2026 on Ryzen 9 5950X, CPU 15, SMT sibling 31, performance
-governor, turbo enabled. The core was not exclusively isolated. Matched release
+governor, turbo enabled. The core was not reserved for the benchmark. Matched release
 builds use the `docker` profile; [flags and commands](reproduce.md).
 
 Native ARM, Windows and 32-bit builds have not been tested.
 
 ## Correctness and reproduction
 
-All six release compiler builds pass 699 string PHPT, with 62 skipped and no
-failures or warnings. Full PHP ASan/UBSan passes 680, with 81 skipped. The added
-PHPT covers 300 inputs. GCC and Clang sanitizer checks each compare the extracted
-matchers with libc on 20,000 seeded random inputs and 135,460 guarded length
-configurations; both deliberate faulty variants are detected.
+Each of the six release builds passes 699 PHPT string tests, with 62 skipped.
+The full PHP ASan/UBSan build passes 680 tests, with 81 skipped. No run has failures
+or warnings. The added PHPT checks 300 input combinations. GCC and Clang sanitizer
+runs each compare the extracted matchers with libc on 20,000 seeded random inputs
+and 135,460 input-length combinations with guard pages. The verifier detects both
+injected faults with each compiler.
 
 [Verification commands and logs](verify/README.md) · [Build and reproduce](reproduce.md) · [Raw native measurements](data/native.tar.gz) · [Unrounded values](metrics.json) · [Hashes](manifest.json).
 

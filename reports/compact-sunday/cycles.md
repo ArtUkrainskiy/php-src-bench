@@ -1,10 +1,10 @@
-# Separate hardware-counter series
+# CPU cycles and instructions
 
-Intel is diagnostic only: its elapsed A/A failed. Every matrix includes same-row cycle A/A. These are separate measurements from the elapsed series; they do not establish exact simultaneous IPC.
+All changes are relative to master. A call is one complete listed operation; moderation includes all 12 searches. Each matrix includes master-against-master controls for the same cases. Counters were collected separately from elapsed time. Intel counters are diagnostic only because its elapsed A/A failed.
 
 ## amd-cycles
 
-<!-- bench-table amd-cycles.json --header --full --compact-header --base-name Stock --labels amd-cycles-labels.txt -->
+<!-- bench-table amd-cycles.json --header --full --compact-header --base-name master --labels amd-cycles-labels.txt -->
 Machine: AMD Ryzen 9 5950X 16-Core Processor, CPU 15, kernel 7.0.0-38-generic.
 Group gcc15: A = compact-base-gcc15 (cf1b5771a76 GCC 15.2, profile docker), B = compact-head-gcc15 (8d7babbc364 GCC 15.2, profile docker).
 Group clang21: A = compact-base-clang21 (cf1b5771a76 clang 21.1, profile docker), B = compact-head-clang21 (8d7babbc364 clang 21.1, profile docker).
@@ -12,9 +12,9 @@ Group clang21: A = compact-base-clang21 (cf1b5771a76 clang 21.1, profile docker)
 Machine: turbo boost is on: thermal and frequency drift between rounds (sudo <recorded-path>/bench tune on).
 negative = fewer cycles (faster)
 
-Absolute cycles/call: Stock with GCC 15.2.
+Absolute cycles/call: master with GCC 15.2.
 
-| call | Stock cycles | GCC 15.2 | clang 21.1 | Δ instr. |
+| call | master cycles | GCC 15.2 | clang 21.1 | Δ instr. |
 |---|--:|--:|--:|--:|
 | English moderation post | 14,154 | −10% (−12 … −7) | −10% (−10 … −9) | −6% … −2% |
 | English moderation thread | 812,699 | −7% (−8 … −7) layout? | −8% (−8 … −8) layout? | 0% |
@@ -39,15 +39,15 @@ Absolute cycles/call: Stock with GCC 15.2.
 | Parse HTTP headers | 4,014 | +1% (−4 … +2) | −2% (−5 … +2) | 0% |
 | Replace template placeholders | 33,070 | −16% (−17 … −14) | −14% (−15 … −14) | −18% … −6% |
 | Count `{{order.id}}` slots | 4,709 | −16% (−17 … −15) | −15% (−17 … −14) | −18% … −7% |
-| 9-byte absent match | 18,092 | −8% (−10 … −8) | −11% (−12 … −11) layout? | −1% … 0% |
+| 9-byte search (no match) | 18,092 | −8% (−10 … −8) | −11% (−12 … −11) layout? | −1% … 0% |
 | 32-byte early match (text) | 155 | +3% (−3 … +3) | +1% (−4 … +2) | +1% … +3% |
 | 32-byte early match (repeated a) | 188 | −1% (−2 … +1) | −1% (−2 … +3) | +1% … +2% |
 
-Control: Stock against itself.
+Control: master against itself.
 
-Absolute cycles/call: Stock with GCC 15.2.
+Absolute cycles/call: master with GCC 15.2.
 
-| call | Stock cycles | A/A start | A/A end |
+| call | master cycles | A/A start | A/A end |
 |---|--:|--:|--:|
 | English moderation post | 14,119 | 0% (0 … +1) | 0% (0 … 0) |
 | English moderation thread | 812,098 | 0% (0 … 0) | 0% (−1 … 0) |
@@ -72,7 +72,7 @@ Absolute cycles/call: Stock with GCC 15.2.
 | Parse HTTP headers | 4,005 | 0% (−1 … +1) | −1% (−1 … +1) |
 | Replace template placeholders | 32,955 | 0% (−1 … +1) | 0% (−4 … 0) |
 | Count `{{order.id}}` slots | 4,720 | 0% (0 … 0) | 0% (−1 … +1) |
-| 9-byte absent match | 18,019 | 0% (−1 … +2) | 0% (−1 … +2) |
+| 9-byte search (no match) | 18,019 | 0% (−1 … +2) | 0% (−1 … +2) |
 | 32-byte early match (text) | 155 | 0% (−3 … +4) | 0% (−3 … +4) |
 | 32-byte early match (repeated a) | 187 | 0% (−1 … +1) | 0% (−1 … +2) |
 
@@ -83,7 +83,7 @@ layout?: in every pass the cycles changed in the same direction, by 3% or more i
 
 ## intel-cycles
 
-<!-- bench-table intel-cycles.json --header --full --compact-header --base-name Stock --labels intel-cycles-labels.txt -->
+<!-- bench-table intel-cycles.json --header --full --compact-header --base-name master --labels intel-cycles-labels.txt -->
 Machine: 13th Gen Intel(R) Core(TM) i7-13700H, CPU 2, kernel 7.0.0-38-generic.
 Group gcc13: A = compact-base-gcc13 (cf1b5771a76 GCC 13.3, profile docker), B = compact-head-gcc13 (8d7babbc364 GCC 13.3, profile docker).
 Group gcc14: A = compact-base-gcc14 (cf1b5771a76 GCC 14.2, profile docker), B = compact-head-gcc14 (8d7babbc364 GCC 14.2, profile docker).
@@ -95,9 +95,9 @@ Machine: turbo boost is on: thermal and frequency drift between rounds (sudo <re
 Machine: load average is 3.4: other programs are competing for the CPU.
 negative = fewer cycles (faster)
 
-Absolute cycles/call: Stock with GCC 13.3.
+Absolute cycles/call: master with GCC 13.3.
 
-| call | Stock cycles | GCC 13.3 | GCC 14.2 | clang 18.1 | clang 20.1 | Δ instr. |
+| call | master cycles | GCC 13.3 | GCC 14.2 | clang 18.1 | clang 20.1 | Δ instr. |
 |---|--:|--:|--:|--:|--:|--:|
 | English moderation post | 12,954 | −4% (−4 … −3) | −3% (−4 … −1) | −7% (−13 … −6) | +2% (−1 … +4) | −10% … −6% |
 | English moderation thread | 830,380 | +1% (0 … +1) | 0% (−1 … +1) ~ | +2% (−2 … +3) | −3% (−4 … −3) | −10% … 0% |
@@ -122,15 +122,15 @@ Absolute cycles/call: Stock with GCC 13.3.
 | Parse HTTP headers | 3,066 | 0% (−2 … +1) ~ | +2% (0 … +4) | +1% (0 … +1) ~ | +1% (−2 … +3) ~ | 0% |
 | Replace template placeholders | 27,576 | −10% (−11 … −10) | −14% (−14 … −12) | −1% (−4 … +1) | −4% (−10 … −1) | −18% … −12% |
 | Count `{{order.id}}` slots | 4,108 | −13% (−13 … −11) | −24% (−24 … −22) | −2% (−2 … −1) | −2% (−12 … −2) | −18% … −12% |
-| 9-byte absent match | 18,315 | 0% (0 … +2) ~ | +1% (0 … +4) | 0% (−1 … 0) | 0% (−1 … 0) | −12% … −1% |
+| 9-byte search (no match) | 18,315 | 0% (0 … +2) ~ | +1% (0 … +4) | 0% (−1 … 0) | 0% (−1 … 0) | −12% … −1% |
 | 32-byte early match (text) | 155 | +18% (+17 … +19) | −13% (−16 … 0) | +34% (+31 … +36) layout? | +1% (0 … +2) | 0% … +2% |
 | 32-byte early match (repeated a) | 154 | +21% (+20 … +21) layout? | +2% (+1 … +11) | +25% (+24 … +28) layout? | +2% (+1 … +3) | 0% … +1% |
 
-Control: Stock against itself.
+Control: master against itself.
 
-Absolute cycles/call: Stock with GCC 13.3.
+Absolute cycles/call: master with GCC 13.3.
 
-| call | Stock cycles | A/A start | A/A end |
+| call | master cycles | A/A start | A/A end |
 |---|--:|--:|--:|
 | English moderation post | 12,939 | −1% (−9 … 0) | 0% (−1 … +1) |
 | English moderation thread | 834,131 | 0% (0 … +1) | +1% (0 … +1) |
@@ -155,7 +155,7 @@ Absolute cycles/call: Stock with GCC 13.3.
 | Parse HTTP headers | 3,067 | +1% (0 … +2) | 0% (−5 … 0) |
 | Replace template placeholders | 27,493 | 0% (−3 … 0) | 0% (−1 … +1) |
 | Count `{{order.id}}` slots | 4,089 | 0% (0 … +1) | +1% (−1 … +16) |
-| 9-byte absent match | 18,345 | 0% (0 … +1) | 0% (−1 … +1) |
+| 9-byte search (no match) | 18,345 | 0% (0 … +1) | 0% (−1 … +1) |
 | 32-byte early match (text) | 154 | −1% (−4 … +4) | 0% (−18 … +31) |
 | 32-byte early match (repeated a) | 154 | 0% (−3 … +2) | −1% (−37 … +1) |
 
@@ -166,7 +166,7 @@ layout?: in every pass the cycles changed in the same direction, by 3% or more i
 
 ## early31-cycles
 
-<!-- bench-table early31-cycles.json --header --full --compact-header --base-name Stock --labels early31-cycles-labels.txt -->
+<!-- bench-table early31-cycles.json --header --full --compact-header --base-name master --labels early31-cycles-labels.txt -->
 Machine: AMD Ryzen 9 5950X 16-Core Processor, CPU 15, kernel 7.0.0-38-generic.
 Group gcc15: A = compact-base-gcc15 (cf1b5771a76 GCC 15.2, profile docker), B = compact-head-gcc15 (8d7babbc364 GCC 15.2, profile docker).
 Group clang21: A = compact-base-clang21 (cf1b5771a76 clang 21.1, profile docker), B = compact-head-clang21 (8d7babbc364 clang 21.1, profile docker).
@@ -174,17 +174,17 @@ Group clang21: A = compact-base-clang21 (cf1b5771a76 clang 21.1, profile docker)
 Machine: turbo boost is on: thermal and frequency drift between rounds (sudo <recorded-path>/bench tune on).
 negative = fewer cycles (faster)
 
-Absolute cycles/call: Stock with GCC 15.2.
+Absolute cycles/call: master with GCC 15.2.
 
-| call | Stock cycles | GCC 15.2 | clang 21.1 | Δ instr. |
+| call | master cycles | GCC 15.2 | clang 21.1 | Δ instr. |
 |---|--:|--:|--:|--:|
 | 31-byte early match | 152 | −19% (−21 … +3) | −14% (−20 … −11) | −19% … −7% |
 
-Control: Stock against itself.
+Control: master against itself.
 
-Absolute cycles/call: Stock with GCC 15.2.
+Absolute cycles/call: master with GCC 15.2.
 
-| call | Stock cycles | A/A start | A/A end |
+| call | master cycles | A/A start | A/A end |
 |---|--:|--:|--:|
 | 31-byte early match | 152 | 0% (−1 … +3) | −1% (−2 … +6) |
 <!-- /bench-table -->

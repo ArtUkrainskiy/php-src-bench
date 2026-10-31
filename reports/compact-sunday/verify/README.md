@@ -1,9 +1,9 @@
 # Correctness checks
 
-The frozen [standalone adapter](standalone.c) contains the stock matcher from
+The frozen [standalone adapter](standalone.c) contains the master matcher from
 cf1b5771a76 and compact matcher from 8d7babbc364, plus the unchanged inline
-dispatch. The private stock symbols are renamed to coexist in one translation
-unit. This Linux x86-64 adapter checks correctness; it is not used for performance measurements.
+dispatch. The master functions are renamed so both implementations can coexist
+in one translation unit. This Linux x86-64 adapter checks correctness; it is not used for performance measurements.
 
 [validate.c](validate.c) compares both matchers with libc `memmem`. It includes
 20,000 deterministic random inputs with seed 20261030 and 135,460 guarded
@@ -31,7 +31,7 @@ The [C validation archive](../data/c-verification.tar.gz) contains the
 captured generation/build driver, six source snapshots and their build/run logs.
 It records the sanitizer compiler options used for these exact runs.
 
-Full PHP string PHPT logs for six candidate release compilers, two AMD stock
+Full PHP string PHPT logs for six candidate release compilers, two AMD master
 builds and one candidate ASan/UBSan build are preserved in
 [php-validation.tar.gz](../data/php-validation.tar.gz), with
 [parsed counts](../data/php-validation-summary.json). To reproduce with a full
