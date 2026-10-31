@@ -1,0 +1,39 @@
+commit db4d3f65c6924674ec909466be40c6e735f88b85
+Author:     Artem Ukrainskiy <art.ukrainskiy@gmail.com>
+AuthorDate: Sat Oct 31 15:14:04 2026 +0300
+Commit:     Artem Ukrainskiy <art.ukrainskiy@gmail.com>
+CommitDate: Sat Oct 31 15:14:04 2026 +0300
+
+    Measure adaptive substring search with only its scalar fallback
+
+diff --git a/Zend/zend_operators.c b/Zend/zend_operators.c
+index 0f2e7fa207f..45f4e4f9b13 100644
+--- a/Zend/zend_operators.c
++++ b/Zend/zend_operators.c
+@@ -3939,7 +3939,7 @@ static zend_never_inline const char* ZEND_FASTCALL zend_memnstr_sunday_short(con
+ }
+ /* }}} */
+ 
+-#if defined(__SSE2__)
++#if 0 /* Measurement variant: disable only matcher SIMD. */
+ /* Byte commonness in typical text (higher = more common = a worse memchr anchor). */
+ static const unsigned char zend_byte_commonness[256] = {
+ 	1, 1, 1, 1, 1, 1, 1, 1, 1, 40, 50, 1, 1, 1, 1, 1,
+@@ -4044,7 +4044,7 @@ static const char *zend_memnstr_twoway(const char *haystack, const char *needle,
+ 	return NULL;
+ }
+ 
+-#if defined(__SSE2__)
++#if 0 /* Measurement variant: disable only matcher SIMD. */
+ /* A four-byte anchor can still filter small alphabets after a pair stops
+  * paying off. Probe its selectivity before taking this path, and retain the
+  * same whole-scan verification budget as the pair. */
+@@ -4143,7 +4143,7 @@ static const char *zend_memnstr_adaptive(const char *haystack,
+ 		return (const char *)memchr(haystack, *needle, length);
+ 	}
+ 
+-#if defined(__SSE2__)
++#if 0 /* Measurement variant: disable only matcher SIMD. */
+ 	size_t a = 0, b;
+ 	for (size_t i = 1; i < needle_len; i++) {
+ 		if (zend_byte_commonness[(unsigned char)needle[i]]

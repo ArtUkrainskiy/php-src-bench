@@ -8,6 +8,7 @@ import json
 import math
 from pathlib import Path
 import re
+import runpy
 import statistics as st
 import tarfile
 
@@ -135,3 +136,5 @@ for directory in [report]:
         md_count += 1
 print(f'Audited {len(metrics)} numeric rows, {primary_count} primary rows, '
       f'{len(manifest["raw_file_sha256"])} raw fingerprints and {md_count} Markdown files.')
+
+runpy.run_path(str(report / 'review/check.py'), run_name='__main__')

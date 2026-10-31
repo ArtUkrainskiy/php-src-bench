@@ -1,12 +1,15 @@
 # Report layout and provenance
 
-This directory evaluates only stock PHP `ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb`
+The main report evaluates stock PHP `ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb`
 against candidate `ca89fb5fb96399ed730cacb12d948025f83c4e6e`.
-There are no alternative candidate implementations or PR-description drafts here.
+The isolated [review supplement](review/README.md) additionally measures no-gram4 and
+forced-scalar experiments; neither experiment is part of the PR algorithm.
+There are no PR-description drafts here.
 
 | Location | Purpose |
 |---|---|
 | [README.md](README.md) | Main findings, everyday operations, losses and method |
+| [review/README.md](review/README.md) | Follow-up route coverage, sanitizer checks and isolated ablation/scalar evidence |
 | [REPRODUCE.md](REPRODUCE.md) | Build, corpus, measurement and validation commands |
 | [change.patch](change.patch) | Exact source change against the stated stock commit |
 | `tables/` | Generated full product tables, controls, confirmations and stress guards |
@@ -40,7 +43,7 @@ The primary/full tables use separate elapsed-time and counter tables to keep the
 readable. The TSV holds both together. Counters come from separate measurements,
 so the tables do not imply simultaneous IPC.
 
-Earlier busy-machine sweeps, alternative implementations, alignment experiments,
+Earlier busy-machine sweeps, unrelated alternative implementations, alignment experiments,
 compiler-stability research, obsolete exporters, progress files and private drafts
 are outside the publication directory. Their preserved history is not an input to
 this report. The report generator needs only the files here and the benchmark tool.

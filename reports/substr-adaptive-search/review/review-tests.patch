@@ -1,0 +1,246 @@
+commit 8c6759c6826e59aeaf14db2696c503f5334f81ad
+Author:     Artem Ukrainskiy <art.ukrainskiy@gmail.com>
+AuthorDate: Sat Oct 31 15:14:56 2026 +0300
+Commit:     Artem Ukrainskiy <art.ukrainskiy@gmail.com>
+CommitDate: Sat Oct 31 15:14:56 2026 +0300
+
+    Cover actual adaptive search handoffs and remove stale test descriptions
+
+diff --git a/Zend/zend_operators.c b/Zend/zend_operators.c
+index 0f2e7fa207f..56eb4f8ea63 100644
+--- a/Zend/zend_operators.c
++++ b/Zend/zend_operators.c
+@@ -3866,7 +3866,7 @@ static zend_always_inline void zend_memnstr_ex_pre(unsigned int td[], const char
+ }
+ /* }}} */
+ 
+-static zend_never_inline const char* ZEND_FASTCALL zend_memnstr_sunday(const char *haystack, const char *needle, size_t needle_len, const char *end) /* {{{ */
++static zend_never_inline const char* ZEND_FASTCALL zend_memnstr_sunday(const char *haystack, const char *needle, size_t needle_len, const char *end)
+ {
+ 	unsigned int td[256];
+ 	size_t i;
+@@ -3898,9 +3898,8 @@ static zend_never_inline const char* ZEND_FASTCALL zend_memnstr_sunday(const cha
+ 
+ 	return NULL;
+ }
+-/* }}} */
+ 
+-static zend_never_inline const char* ZEND_FASTCALL zend_memnstr_sunday_short(const char *haystack, const char *needle, size_t needle_len, const char *end) /* {{{ */
++static zend_never_inline const char* ZEND_FASTCALL zend_memnstr_sunday_short(const char *haystack, const char *needle, size_t needle_len, const char *end)
+ {
+ 	uint8_t td[256];
+ 	size_t i;
+@@ -3937,7 +3936,6 @@ static zend_never_inline const char* ZEND_FASTCALL zend_memnstr_sunday_short(con
+ 
+ 	return NULL;
+ }
+-/* }}} */
+ 
+ #if defined(__SSE2__)
+ /* Byte commonness in typical text (higher = more common = a worse memchr anchor). */
+@@ -4201,7 +4199,7 @@ static const char *zend_memnstr_adaptive(const char *haystack,
+ 
+ /* On long needles, switch from Sunday only when failed partial comparisons
+  * cost more than the bytes advanced through the haystack. */
+-static zend_never_inline const char *zend_memnstr_sunday_adaptive(const char *haystack, const char *needle, size_t needle_len, const char *end) /* {{{ */
++static zend_never_inline const char *zend_memnstr_sunday_adaptive(const char *haystack, const char *needle, size_t needle_len, const char *end)
+ {
+ 	unsigned int td[256];
+ 	size_t i;
+@@ -4256,9 +4254,8 @@ static zend_never_inline const char *zend_memnstr_sunday_adaptive(const char *ha
+ 	}
+ 	return NULL;
+ }
+-/* }}} */
+ 
+-ZEND_API const char* ZEND_FASTCALL zend_memnstr_ex(const char *haystack, const char *needle, size_t needle_len, const char *end) /* {{{ */
++ZEND_API const char* ZEND_FASTCALL zend_memnstr_ex(const char *haystack, const char *needle, size_t needle_len, const char *end)
+ {
+ 	/* Keep routing outside the search loops. Short needles use byte-sized
+ 	 * shifts; adaptive preprocessing is reserved for long scans. */
+@@ -4270,7 +4267,6 @@ ZEND_API const char* ZEND_FASTCALL zend_memnstr_ex(const char *haystack, const c
+ 	}
+ 	return zend_memnstr_sunday(haystack, needle, needle_len, end);
+ }
+-/* }}} */
+ 
+ ZEND_API const char* ZEND_FASTCALL zend_memnrstr_ex(const char *haystack, const char *needle, size_t needle_len, const char *end) /* {{{ */
+ {
+diff --git a/ext/standard/tests/strings/str_search_adaptive.phpt b/ext/standard/tests/strings/str_search_adaptive.phpt
+index 4f8ea551506..a62fb2edfd5 100644
+--- a/ext/standard/tests/strings/str_search_adaptive.phpt
++++ b/ext/standard/tests/strings/str_search_adaptive.phpt
+@@ -44,8 +44,7 @@ function check_search(string $haystack, string $needle): void {
+     check_search($dense . $needle . $dense . $needle, $needle);
+ }
+ 
+-// SIMD block tails, binary anchors, and nonzero offsets. There are enough
+-// false first-byte hits before the match to reach the adaptive search.
++// Short binary inputs and nonzero offsets exercise the inline search.
+ foreach ([2, 3, 8, 9, 15, 16, 17, 31, 32, 33, 63, 64, 65, 255, 256, 257] as $length) {
+     $needle = "\x00" . str_repeat('a', $length - 2) . "\xff";
+     for ($tail = 0; $tail < 16; $tail++) {
+@@ -55,13 +54,51 @@ function check_search(string $haystack, string $needle): void {
+     }
+ }
+ 
+-// Periodic needles require Two-Way's remembered prefix after a period shift.
++// Repeating prefixes with a distinguishing byte, present and absent.
+ foreach (['ab', 'abc', 'aab', 'abcabd'] as $period) {
+     $needle = str_repeat($period, 40) . 'q' . $period;
+     check_search(str_repeat($period, 4000), $needle);
+     check_search(str_repeat($period, 4000) . $needle, $needle);
+ }
+ 
++// For a^(length-1)b in an a-only prefix, Sunday advances by two bytes.
++// Sixteen long mismatches hand off at absolute offset 31. Exercise pair
++// block boundaries and all fifteen starts in a partial final block.
++foreach ([32, 33, 63, 64, 65, 255, 256, 257] as $length) {
++    $needle = str_repeat('a', $length - 1) . 'b';
++    $size = 8192 + (($length + 13) % 16);
++    $positions = [31 + 15, 31 + 16, 31 + 17];
++    for ($tail = 0; $tail < 15; $tail++) {
++        $positions[] = $size - $length - $tail;
++    }
++    check_search(str_repeat('a', $size), $needle);
++    foreach ($positions as $position) {
++        $haystack = str_repeat('a', $size);
++        $haystack[$position + $length - 1] = 'b';
++        check_search($haystack, $needle);
++    }
++}
++
++// The same costly prefix reaches the pair filter. Alternating ab then makes
++// pairs dense but the aaab gram selective; aaab makes the gram dense too.
++$needle = str_repeat('a', 31) . 'b';
++$prefix = str_repeat('a', 64) . 'c';
++$selective = substr($prefix . str_repeat('ab', 8192), 0, 16384);
++$dense = substr($prefix . str_repeat('aaab', 4096), 0, 16384);
++$changing = substr($prefix . str_repeat('ab', 4096), 0, 8192)
++    . str_repeat('aaab', 14336);
++foreach ([$selective, $dense, $changing] as $haystack) {
++    check_search($haystack, $needle);
++    check_search(substr_replace($haystack, $needle, -strlen($needle)), $needle);
++}
++
++// A truly periodic needle reaches Two-Way after both filters become dense.
++// A right-half match followed by a left-half mismatch exercises remembered work.
++$needle = str_repeat('ab', 16);
++$haystack = str_repeat('bb' . str_repeat('ab', 15), 2048);
++check_search($haystack, $needle);
++check_search(substr_replace($haystack, 'c' . $needle, -33), $needle);
++
+ // The four-byte filter is selective initially and dense later. A late match
+ // must survive both the pair-to-gram and gram-to-Two-Way handoffs.
+ $needle = str_repeat('ACGT', 23) . 'TCGT';
+@@ -72,5 +109,5 @@ function check_search(string $haystack, string $needle): void {
+ echo $failed ? "FAILED ($failed)\n" : "ALL OK\n";
+ ?>
+ --EXPECT--
+-checked 543
++checked 703
+ ALL OK
+diff --git a/ext/standard/tests/strings/str_search_edges.phpt b/ext/standard/tests/strings/str_search_edges.phpt
+index 27882fc37b7..35609182b5d 100644
+--- a/ext/standard/tests/strings/str_search_edges.phpt
++++ b/ext/standard/tests/strings/str_search_edges.phpt
+@@ -4,9 +4,8 @@
+ <?php
+ // Compares the substring-search functions against a naive reference over seeded random
+ // inputs. The reference uses substr_compare at fixed offsets, so it does not share the
+-// search engine under test. Inputs are shaped to exercise needles with and without a rare
+-// byte, all-common needles, lengths straddling the internal thresholds, and present/absent
+-// matches in haystacks of several sizes.
++// search engine under test. Cover small alphabets, binary strings, varied lengths,
++// present/absent matches, and offsets. These sizes exercise inline and Sunday search.
+ 
+ function naive_pos(string $h, string $n, int $off = 0): int|false {
+     $hl = strlen($h); $nl = strlen($n);
+@@ -39,7 +38,7 @@ function naive_count(string $h, string $n): int {
+     $alpha = $alphabets[mt_rand(0, count($alphabets) - 1)];
+     $n = count($alpha);
+ 
+-    // Haystack size straddles the rare-path routing (64) and the long-needle cap (256).
++    // Include empty, short, and longer inputs up to 2000 bytes.
+     $hl = [0, 1, 20, 63, 64, 65, 200, 300, 2000][mt_rand(0, 8)];
+     $h = '';
+     for ($i = 0; $i < $hl; $i++) { $h .= $alpha[mt_rand(0, $n - 1)]; }
+diff --git a/ext/standard/tests/strings/str_search_fallback.phpt b/ext/standard/tests/strings/str_search_fallback.phpt
+index 5a19171f282..81648139034 100644
+--- a/ext/standard/tests/strings/str_search_fallback.phpt
++++ b/ext/standard/tests/strings/str_search_fallback.phpt
+@@ -1,11 +1,9 @@
+ --TEST--
+-strpos: substring search hitting the rare-byte / density-fallback branches
++strpos: sparse and dense prefixes, binary strings, and boundary matches
+ --FILE--
+ <?php
+-// Deterministic inputs built to reach each internal branch of the search (rare anchor
+-// sparse/dense, the per-window density re-check, the long-needle and few-positions
+-// fallbacks, and matches right at the window or haystack boundary). Each result is checked
+-// against a naive reference, so the test passes only if behaviour matches the old search.
++// General regression cases retained across search implementations. Compare each
++// result against fixed-position comparisons, independently of the search engine.
+ 
+ function naive(string $h, string $n, int $off = 0): int|false {
+     $hl = strlen($h); $nl = strlen($n);
+@@ -18,44 +16,41 @@ function naive(string $h, string $n, int $off = 0): int|false {
+ 
+ $cases = [];
+ 
+-// 'z' is a rare anchor byte; 'a'/' ' are common. Haystacks are > needle + 256 so the
+-// rare-byte path is taken.
+ $pad = str_repeat('a', 2000);
+ 
+-// 1. Rare anchor sparse, match present (win path, no density bail).
++// A distinguishing byte occurs only in the match.
+ $cases['sparse present'] = [$pad . 'zqw' . $pad, 'zqw'];
+-// 2. Rare anchor sparse, absent.
++// The distinguishing byte is absent.
+ $cases['sparse absent'] = [$pad . $pad, 'zqw'];
+-// 3. Anchor dense from the start -> density bail -> found by fallback.
++// Many matching first bytes precede a complete match.
+ $cases['dense then match'] = [str_repeat('z', 100) . 'zqw' . $pad, 'zqw'];
+-// 4. Anchor sparse for a full window (16 'z' at 200-byte gaps, above the density gap so the
+-//    first window is kept), then dense; absent. Reaches the per-window density re-check.
++// Sparse matching first bytes become dense; the complete needle is absent.
+ $cases['sparse then dense'] = [str_repeat(str_repeat('a', 199) . 'z', 16) . str_repeat('z', 4000), 'zqw'];
+-// 4b. Match arriving in the second window, just after a sparse first window.
++// A match follows the sparse prefix.
+ $cases['match 2nd window'] = [str_repeat(str_repeat('a', 199) . 'z', 16) . 'zqw' . $pad, 'zqw'];
+-// 5. Match exactly at the last valid start position.
++// Match exactly at the last valid start position.
+ $cases['match at end'] = [$pad . 'zend', 'zend'];
+-// 6. Anchor appears once, right at the end.
++// The first byte occurs once, next to the end.
+ $cases['anchor at end'] = [$pad . 'qz', 'qz'];
+-// 7. All-common needle (no rare byte) -> best>=common -> original search, present.
++// Common letters and a long repeating prefix.
+ $cases['allcommon present'] = [$pad . 'aaab' . $pad, 'aaab'];
+-// 8. Needle longer than 256 (long-needle fallback), present and absent.
++// Needles longer than 256 bytes, present and absent.
+ $long = str_repeat('a', 300) . 'z';
+ $cases['long present'] = [$pad . $long . $pad, $long];
+ $cases['long absent'] = [$pad . $pad, str_repeat('a', 300) . 'q'];
+-// 9. Few start positions (haystack barely longer than needle) -> few-positions fallback.
++// A haystack barely longer than the needle.
+ $cases['few positions'] = [str_repeat('a', 260) . 'z', str_repeat('a', 259) . 'z'];
+-// 9b. Long needle (>=9), large haystack (>=1024), few positions -> original Sunday path kept.
++// A larger haystack with few valid start positions.
+ $cases['few long present'] = [str_repeat('a', 1900) . 'z' . str_repeat('a', 147), str_repeat('a', 1900) . 'z'];
+ $cases['few long absent'] = [str_repeat('a', 2048), str_repeat('a', 1900) . 'q'];
+-// 10. Overlap with a rare anchor.
++// Overlapping matches.
+ $cases['overlap'] = [$pad . 'zzzz' . $pad, 'zzz'];
+-// 11. Binary needle with a rare high byte.
++// Binary needle including a high byte and NUL.
+ $cases['binary'] = [$pad . "\xffp\x00q" . $pad, "\xffp\x00q"];
+-// 12. Both sides of the MIN_SPAN boundary: 'ax' in all-'x' (anchor 'x' is dense), absent.
++// Adjacent haystack lengths with an absent short needle.
+ $cases['span- (257)'] = [str_repeat('x', 257), 'ax'];
+ $cases['span+ (258)'] = [str_repeat('x', 258), 'ax'];
+-// 13. Both sides of the boundary with an early match, 6-byte needle.
++// Adjacent haystack lengths with an early six-byte match.
+ $cases['early- (261)'] = ['aaaaax' . str_repeat('a', 255), 'aaaaax'];
+ $cases['early+ (262)'] = ['aaaaax' . str_repeat('a', 256), 'aaaaax'];
+ 

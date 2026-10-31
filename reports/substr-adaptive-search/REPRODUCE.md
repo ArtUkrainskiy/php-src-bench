@@ -28,6 +28,11 @@ repeats. No measurement is overwritten by the table generator.
 
 The [layout](LAYOUT.md) lists the role and provenance of every active directory. Earlier exploratory exporters and unpublished variants are outside this report.
 
+The [review supplement](review/README.md) has separate commands for route auditing,
+full-PHP sanitizer evidence and the no-gram4/scalar ablations. Its original native
+series and logs are archived separately; the main generator keeps the original
+product measurements unchanged.
+
 ## Build the measured source trees
 
 Use separate build directories; the user's working checkout does not need a branch

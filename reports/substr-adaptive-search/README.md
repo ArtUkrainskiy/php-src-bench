@@ -4,6 +4,8 @@ This report measures a change to `zend_memnstr_ex()`, the forward matcher used b
 
 Compared: change [`ca89fb5fb96`](https://github.com/ArtUkrainskiy/php-src/commit/ca89fb5fb96399ed730cacb12d948025f83c4e6e) ([branch](https://github.com/ArtUkrainskiy/php-src/tree/strpos-adaptive-pr), [patch](change.patch)) versus stock PHP [`ef99f4248f1`](https://github.com/php/php-src/commit/ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb). Measured on 30 October 2026 with the same two commits and corpus on all six compiler/CPU combinations.
 
+Review follow-up: [`8c6759c6826`](https://github.com/ArtUkrainskiy/php-src/commit/8c6759c6826e59aeaf14db2696c503f5334f81ad) corrects PHPT coverage and removes folding comments without changing the matcher algorithm. [Supplementary route, gram4-ablation and scalar measurements](review/README.md) are separate from the frozen product series below.
+
 **Elapsed time of the complete PHP operation is the primary criterion.** Negative deltas mean lower cost; every delta is relative to stock. Cycles and instructions are diagnostic evidence, not substitutes for elapsed time. There is no application-wide average or assumed traffic distribution.
 
 ## Reading the case names

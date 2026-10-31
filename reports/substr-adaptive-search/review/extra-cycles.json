@@ -1,0 +1,1240 @@
+{
+  "format": 2,
+  "kind": "compare",
+  "harness": 2,
+  "date": "2026-10-31T13:43:35+00:00",
+  "suite": "/tmp/php-substr-pr-ca89/tools/results/substr-search/review-20261031/gram-periodic-suite.php",
+  "elapsed_s": 42.1,
+  "complete": true,
+  "config": {
+    "passes": 3,
+    "cpu": 15,
+    "target_ms": 50,
+    "filter": null,
+    "control": true,
+    "wait_idle": 120,
+    "events": "cycles:u,instructions:u"
+  },
+  "env": {
+    "cpu_model": "AMD Ryzen 9 5950X 16-Core Processor",
+    "kernel": "7.0.0-38-generic",
+    "cpu": 15,
+    "cpu_siblings": "15,31",
+    "hybrid_pcores": null,
+    "cpu_is_pcore": null,
+    "governor": "performance",
+    "epp": "performance",
+    "turbo": true,
+    "on_ac": null,
+    "load": 0.919921875,
+    "busy_pct": {
+      "15": 0,
+      "31": 0
+    },
+    "idle_cpu": 1
+  },
+  "groups": [
+    {
+      "name": "aa",
+      "a": "product-guard-gcc15",
+      "b": "product-guard-gcc15"
+    },
+    {
+      "name": "nogram-gcc15",
+      "a": "product-guard-gcc15",
+      "b": "review-no-gram4-gcc15"
+    },
+    {
+      "name": "scalar-gcc15",
+      "a": "product-guard-gcc15",
+      "b": "review-scalar-gcc15"
+    },
+    {
+      "name": "stock-gcc15",
+      "a": "base-gcc15",
+      "b": "product-guard-gcc15"
+    },
+    {
+      "name": "nogram-clang21",
+      "a": "product-guard-clang21",
+      "b": "review-no-gram4-clang21"
+    },
+    {
+      "name": "scalar-clang21",
+      "a": "product-guard-clang21",
+      "b": "review-scalar-clang21"
+    },
+    {
+      "name": "stock-clang21",
+      "a": "base-clang21",
+      "b": "product-guard-clang21"
+    },
+    {
+      "name": "aa2",
+      "a": "product-guard-gcc15",
+      "b": "product-guard-gcc15"
+    }
+  ],
+  "builds": {
+    "product-guard-gcc15": {
+      "php": "/tmp/php-substr-pr-ca89/builds/product-guard-gcc15/sapi/cli/php",
+      "build": {
+        "name": "product-guard-gcc15",
+        "ref": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "commit": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "subject": "Reduce forward substring setup cost and bound expensive comparisons",
+        "snapshot": false,
+        "base_commit": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "base_subject": "Reduce forward substring setup cost and bound expensive comparisons",
+        "built_at": "2026-10-30T08:37:27+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "/tmp/php-substr-pr-ca89/builds/product-guard-gcc15/sapi/cli/php"
+      },
+      "sha1": "993cfd6d6cda982e07601a21e4e506f86505e0cc"
+    },
+    "review-no-gram4-gcc15": {
+      "php": "/tmp/php-substr-pr-ca89/builds/review-no-gram4-gcc15/sapi/cli/php",
+      "build": {
+        "name": "review-no-gram4-gcc15",
+        "ref": "fa81a3379208e6f4b6d80f1cd0f7b7689cec1d20",
+        "commit": "fa81a3379208e6f4b6d80f1cd0f7b7689cec1d20",
+        "subject": "Measure adaptive substring search without the four-byte filter",
+        "snapshot": false,
+        "base_commit": "fa81a3379208e6f4b6d80f1cd0f7b7689cec1d20",
+        "base_subject": "Measure adaptive substring search without the four-byte filter",
+        "built_at": "2026-10-31T12:16:02+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "/tmp/php-substr-pr-ca89/builds/review-no-gram4-gcc15/sapi/cli/php"
+      },
+      "sha1": "6a557116c14ae3dea8fa463d2a4670251e77c17d"
+    },
+    "review-scalar-gcc15": {
+      "php": "/tmp/php-substr-pr-ca89/builds/review-scalar-gcc15/sapi/cli/php",
+      "build": {
+        "name": "review-scalar-gcc15",
+        "ref": "db4d3f65c6924674ec909466be40c6e735f88b85",
+        "commit": "db4d3f65c6924674ec909466be40c6e735f88b85",
+        "subject": "Measure adaptive substring search with only its scalar fallback",
+        "snapshot": false,
+        "base_commit": "db4d3f65c6924674ec909466be40c6e735f88b85",
+        "base_subject": "Measure adaptive substring search with only its scalar fallback",
+        "built_at": "2026-10-31T12:17:36+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "/tmp/php-substr-pr-ca89/builds/review-scalar-gcc15/sapi/cli/php"
+      },
+      "sha1": "33dfe8255c821361016a47d3d09fb9a96ce63985"
+    },
+    "base-gcc15": {
+      "php": "/tmp/php-substr-pr-ca89/builds/base-gcc15/sapi/cli/php",
+      "build": {
+        "name": "base-gcc15",
+        "ref": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-30T08:35:55+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "/tmp/php-substr-pr-ca89/builds/base-gcc15/sapi/cli/php"
+      },
+      "sha1": "4e30c09b37e7eb9323290291d44a4199adba941d"
+    },
+    "product-guard-clang21": {
+      "php": "/tmp/php-substr-pr-ca89/builds/product-guard-clang21/sapi/cli/php",
+      "build": {
+        "name": "product-guard-clang21",
+        "ref": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "commit": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "subject": "Reduce forward substring setup cost and bound expensive comparisons",
+        "snapshot": false,
+        "base_commit": "ca89fb5fb96399ed730cacb12d948025f83c4e6e",
+        "base_subject": "Reduce forward substring setup cost and bound expensive comparisons",
+        "built_at": "2026-10-30T08:38:11+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang-21",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "/tmp/php-substr-pr-ca89/builds/product-guard-clang21/sapi/cli/php"
+      },
+      "sha1": "19d8b71be35ac88be6e5ae14e029e9a34faa922c"
+    },
+    "review-no-gram4-clang21": {
+      "php": "/tmp/php-substr-pr-ca89/builds/review-no-gram4-clang21/sapi/cli/php",
+      "build": {
+        "name": "review-no-gram4-clang21",
+        "ref": "fa81a3379208e6f4b6d80f1cd0f7b7689cec1d20",
+        "commit": "fa81a3379208e6f4b6d80f1cd0f7b7689cec1d20",
+        "subject": "Measure adaptive substring search without the four-byte filter",
+        "snapshot": false,
+        "base_commit": "fa81a3379208e6f4b6d80f1cd0f7b7689cec1d20",
+        "base_subject": "Measure adaptive substring search without the four-byte filter",
+        "built_at": "2026-10-31T12:16:49+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang-21",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "/tmp/php-substr-pr-ca89/builds/review-no-gram4-clang21/sapi/cli/php"
+      },
+      "sha1": "6698145061bfbf54d04bdcbc1d69a37eabecf432"
+    },
+    "review-scalar-clang21": {
+      "php": "/tmp/php-substr-pr-ca89/builds/review-scalar-clang21/sapi/cli/php",
+      "build": {
+        "name": "review-scalar-clang21",
+        "ref": "db4d3f65c6924674ec909466be40c6e735f88b85",
+        "commit": "db4d3f65c6924674ec909466be40c6e735f88b85",
+        "subject": "Measure adaptive substring search with only its scalar fallback",
+        "snapshot": false,
+        "base_commit": "db4d3f65c6924674ec909466be40c6e735f88b85",
+        "base_subject": "Measure adaptive substring search with only its scalar fallback",
+        "built_at": "2026-10-31T12:18:22+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang-21",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "/tmp/php-substr-pr-ca89/builds/review-scalar-clang21/sapi/cli/php"
+      },
+      "sha1": "a46c1a7fc0003c20c024c8133bc6d9f474426d1a"
+    },
+    "base-clang21": {
+      "php": "/tmp/php-substr-pr-ca89/builds/base-clang21/sapi/cli/php",
+      "build": {
+        "name": "base-clang21",
+        "ref": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "ef99f4248f1450c39fb86fd7fd6f24c49b8d11eb",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-30T08:36:41+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang-21",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "/tmp/php-substr-pr-ca89/builds/base-clang21/sapi/cli/php"
+      },
+      "sha1": "cd4ae15f5317a58cb41793e47a2d240d8953533d"
+    }
+  },
+  "sources": {
+    "suite": "9e0652f370dc57434fd9592cc71a65e9c477f6c1",
+    "harness": "c3113f45c2a11bcb63f0b1fb7a4e44ef6843325d",
+    "corpus": "e5c81343e158d86e921e121508cb8b101980f980"
+  },
+  "machine_warnings": [
+    "turbo boost is on: thermal and frequency drift between rounds (sudo bench tune on)"
+  ],
+  "cases": {
+    "gram-periodic/ascii/absent @ periodic-ascii": {
+      "input_len": 65536,
+      "input_chars": 65536,
+      "n": 4100
+    },
+    "gram-periodic/dna/absent @ periodic-dna": {
+      "input_len": 65536,
+      "input_chars": 65536,
+      "n": 4112
+    }
+  },
+  "warnings": [],
+  "marks": [],
+  "rows": [
+    [
+      "aa",
+      "a",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      241245731,
+      905224481,
+      7041471,
+      12397943
+    ],
+    [
+      "aa",
+      "b",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      240874674,
+      905224042,
+      7071343,
+      12398108
+    ],
+    [
+      "aa",
+      "b",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      240817554,
+      905224083,
+      7105337,
+      12398200
+    ],
+    [
+      "aa",
+      "a",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      241467896,
+      905226962,
+      7025513,
+      12398286
+    ],
+    [
+      "aa",
+      "a",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      242558982,
+      905225310,
+      7070220,
+      12397431
+    ],
+    [
+      "aa",
+      "b",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      240910919,
+      905224974,
+      7027918,
+      12400251
+    ],
+    [
+      "aa",
+      "a",
+      "gram-periodic/dna/absent @ periodic-dna",
+      241569305,
+      906505554,
+      7038058,
+      12398423
+    ],
+    [
+      "aa",
+      "b",
+      "gram-periodic/dna/absent @ periodic-dna",
+      241982367,
+      906507946,
+      7024174,
+      12398779
+    ],
+    [
+      "aa",
+      "b",
+      "gram-periodic/dna/absent @ periodic-dna",
+      241160239,
+      906505553,
+      7019919,
+      12398428
+    ],
+    [
+      "aa",
+      "a",
+      "gram-periodic/dna/absent @ periodic-dna",
+      241550382,
+      906506367,
+      7049683,
+      12397939
+    ],
+    [
+      "aa",
+      "a",
+      "gram-periodic/dna/absent @ periodic-dna",
+      241416320,
+      906504919,
+      7056692,
+      12398012
+    ],
+    [
+      "aa",
+      "b",
+      "gram-periodic/dna/absent @ periodic-dna",
+      243853413,
+      906508358,
+      7070841,
+      12398347
+    ],
+    [
+      "nogram-gcc15",
+      "a",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      242767653,
+      905228081,
+      7037392,
+      12398203
+    ],
+    [
+      "nogram-gcc15",
+      "b",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      601987684,
+      3035141158,
+      7131458,
+      12919921
+    ],
+    [
+      "nogram-gcc15",
+      "b",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      600818820,
+      3035141104,
+      7137474,
+      12917329
+    ],
+    [
+      "nogram-gcc15",
+      "a",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      240829781,
+      905224524,
+      7077063,
+      12400659
+    ],
+    [
+      "nogram-gcc15",
+      "a",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      240970670,
+      905223949,
+      7055650,
+      12397803
+    ],
+    [
+      "nogram-gcc15",
+      "b",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      600926563,
+      3035144488,
+      7111834,
+      12917512
+    ],
+    [
+      "nogram-gcc15",
+      "a",
+      "gram-periodic/dna/absent @ periodic-dna",
+      241556875,
+      906505346,
+      7029691,
+      12398589
+    ],
+    [
+      "nogram-gcc15",
+      "b",
+      "gram-periodic/dna/absent @ periodic-dna",
+      837092985,
+      4216426550,
+      7137867,
+      13203737
+    ],
+    [
+      "nogram-gcc15",
+      "b",
+      "gram-periodic/dna/absent @ periodic-dna",
+      837165700,
+      4216427812,
+      7136791,
+      13204017
+    ],
+    [
+      "nogram-gcc15",
+      "a",
+      "gram-periodic/dna/absent @ periodic-dna",
+      241082176,
+      906506333,
+      7077956,
+      12398052
+    ],
+    [
+      "nogram-gcc15",
+      "a",
+      "gram-periodic/dna/absent @ periodic-dna",
+      241132185,
+      906505759,
+      7075080,
+      12400291
+    ],
+    [
+      "nogram-gcc15",
+      "b",
+      "gram-periodic/dna/absent @ periodic-dna",
+      837033161,
+      4216426289,
+      7129792,
+      13203679
+    ],
+    [
+      "scalar-gcc15",
+      "a",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      240971701,
+      905224966,
+      7020272,
+      12398155
+    ],
+    [
+      "scalar-gcc15",
+      "b",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      549934673,
+      2982696570,
+      7075556,
+      12907094
+    ],
+    [
+      "scalar-gcc15",
+      "b",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      551488471,
+      2982697013,
+      7044582,
+      12903967
+    ],
+    [
+      "scalar-gcc15",
+      "a",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      240927456,
+      905227367,
+      7018909,
+      12401797
+    ],
+    [
+      "scalar-gcc15",
+      "a",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      242682135,
+      905224539,
+      7005514,
+      12398173
+    ],
+    [
+      "scalar-gcc15",
+      "b",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      549645491,
+      2982697067,
+      7033502,
+      12905359
+    ],
+    [
+      "scalar-gcc15",
+      "a",
+      "gram-periodic/dna/absent @ periodic-dna",
+      241130620,
+      906505306,
+      7042746,
+      12400457
+    ],
+    [
+      "scalar-gcc15",
+      "b",
+      "gram-periodic/dna/absent @ periodic-dna",
+      818993580,
+      4333628442,
+      7143820,
+      13234076
+    ],
+    [
+      "scalar-gcc15",
+      "b",
+      "gram-periodic/dna/absent @ periodic-dna",
+      818881044,
+      4333626425,
+      7157385,
+      13231655
+    ],
+    [
+      "scalar-gcc15",
+      "a",
+      "gram-periodic/dna/absent @ periodic-dna",
+      241114785,
+      906505881,
+      7069284,
+      12398233
+    ],
+    [
+      "scalar-gcc15",
+      "a",
+      "gram-periodic/dna/absent @ periodic-dna",
+      242837538,
+      906505836,
+      7065524,
+      12397291
+    ],
+    [
+      "scalar-gcc15",
+      "b",
+      "gram-periodic/dna/absent @ periodic-dna",
+      819466661,
+      4333626118,
+      7128130,
+      13233613
+    ],
+    [
+      "stock-gcc15",
+      "a",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      1491890729,
+      3649648752,
+      7343753,
+      13067837
+    ],
+    [
+      "stock-gcc15",
+      "b",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      240854208,
+      905226380,
+      7058354,
+      12397515
+    ],
+    [
+      "stock-gcc15",
+      "b",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      240983354,
+      905225518,
+      7016070,
+      12401394
+    ],
+    [
+      "stock-gcc15",
+      "a",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      1487507766,
+      3649650532,
+      7289399,
+      13066776
+    ],
+    [
+      "stock-gcc15",
+      "a",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      1478918113,
+      3649653003,
+      7354481,
+      13067129
+    ],
+    [
+      "stock-gcc15",
+      "b",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      240831861,
+      905225112,
+      7015815,
+      12400206
+    ],
+    [
+      "stock-gcc15",
+      "a",
+      "gram-periodic/dna/absent @ periodic-dna",
+      829405121,
+      2242854937,
+      7180999,
+      12726386
+    ],
+    [
+      "stock-gcc15",
+      "b",
+      "gram-periodic/dna/absent @ periodic-dna",
+      241173538,
+      906504966,
+      7057909,
+      12400990
+    ],
+    [
+      "stock-gcc15",
+      "b",
+      "gram-periodic/dna/absent @ periodic-dna",
+      241078395,
+      906505947,
+      7045301,
+      12398157
+    ],
+    [
+      "stock-gcc15",
+      "a",
+      "gram-periodic/dna/absent @ periodic-dna",
+      829649396,
+      2242853226,
+      7156750,
+      12726559
+    ],
+    [
+      "stock-gcc15",
+      "a",
+      "gram-periodic/dna/absent @ periodic-dna",
+      828626888,
+      2242853150,
+      7194480,
+      12724383
+    ],
+    [
+      "stock-gcc15",
+      "b",
+      "gram-periodic/dna/absent @ periodic-dna",
+      247273388,
+      906508140,
+      7028562,
+      12397785
+    ],
+    [
+      "nogram-clang21",
+      "a",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      249718443,
+      918384674,
+      6888070,
+      11924796
+    ],
+    [
+      "nogram-clang21",
+      "b",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      654193718,
+      2806988627,
+      6970752,
+      12385418
+    ],
+    [
+      "nogram-clang21",
+      "b",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      657826323,
+      2806985091,
+      6979755,
+      12385498
+    ],
+    [
+      "nogram-clang21",
+      "a",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      249840238,
+      918387123,
+      6888378,
+      11924944
+    ],
+    [
+      "nogram-clang21",
+      "a",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      241708844,
+      918387008,
+      6872567,
+      11925287
+    ],
+    [
+      "nogram-clang21",
+      "b",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      652184502,
+      2806985392,
+      6978091,
+      12388942
+    ],
+    [
+      "nogram-clang21",
+      "a",
+      "gram-periodic/dna/absent @ periodic-dna",
+      241542747,
+      919269776,
+      6859830,
+      11925180
+    ],
+    [
+      "nogram-clang21",
+      "b",
+      "gram-periodic/dna/absent @ periodic-dna",
+      832634517,
+      3869855807,
+      6996769,
+      12641996
+    ],
+    [
+      "nogram-clang21",
+      "b",
+      "gram-periodic/dna/absent @ periodic-dna",
+      832710905,
+      3869852954,
+      7060236,
+      12641851
+    ],
+    [
+      "nogram-clang21",
+      "a",
+      "gram-periodic/dna/absent @ periodic-dna",
+      241340526,
+      919271741,
+      6884648,
+      11926364
+    ],
+    [
+      "nogram-clang21",
+      "a",
+      "gram-periodic/dna/absent @ periodic-dna",
+      241914252,
+      919269444,
+      6865688,
+      11924542
+    ],
+    [
+      "nogram-clang21",
+      "b",
+      "gram-periodic/dna/absent @ periodic-dna",
+      832946441,
+      3869855824,
+      6997599,
+      12644701
+    ],
+    [
+      "scalar-clang21",
+      "a",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      250708875,
+      918386582,
+      6892910,
+      11928035
+    ],
+    [
+      "scalar-clang21",
+      "b",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      647223099,
+      2850917405,
+      6988749,
+      12396650
+    ],
+    [
+      "scalar-clang21",
+      "b",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      647745289,
+      2850914910,
+      6972314,
+      12396779
+    ],
+    [
+      "scalar-clang21",
+      "a",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      241339083,
+      918384402,
+      6914643,
+      11925363
+    ],
+    [
+      "scalar-clang21",
+      "a",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      249845928,
+      918384476,
+      6867290,
+      11924844
+    ],
+    [
+      "scalar-clang21",
+      "b",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      647737567,
+      2850917186,
+      6960756,
+      12396226
+    ],
+    [
+      "scalar-clang21",
+      "a",
+      "gram-periodic/dna/absent @ periodic-dna",
+      249984533,
+      919271515,
+      6866649,
+      11924793
+    ],
+    [
+      "scalar-clang21",
+      "b",
+      "gram-periodic/dna/absent @ periodic-dna",
+      819237610,
+      4066628010,
+      6984881,
+      12690140
+    ],
+    [
+      "scalar-clang21",
+      "b",
+      "gram-periodic/dna/absent @ periodic-dna",
+      819146139,
+      4066627830,
+      7015204,
+      12693152
+    ],
+    [
+      "scalar-clang21",
+      "a",
+      "gram-periodic/dna/absent @ periodic-dna",
+      249965960,
+      919269107,
+      6893622,
+      11925091
+    ],
+    [
+      "scalar-clang21",
+      "a",
+      "gram-periodic/dna/absent @ periodic-dna",
+      241270973,
+      919268988,
+      6888272,
+      11927516
+    ],
+    [
+      "scalar-clang21",
+      "b",
+      "gram-periodic/dna/absent @ periodic-dna",
+      819451033,
+      4066627509,
+      6986114,
+      12689909
+    ],
+    [
+      "stock-clang21",
+      "a",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      1373833634,
+      3514015869,
+      7195269,
+      12556954
+    ],
+    [
+      "stock-clang21",
+      "b",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      249782505,
+      918385563,
+      6893216,
+      11925464
+    ],
+    [
+      "stock-clang21",
+      "b",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      250007294,
+      918384479,
+      6889184,
+      11927460
+    ],
+    [
+      "stock-clang21",
+      "a",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      1373809574,
+      3514013223,
+      7163532,
+      12556846
+    ],
+    [
+      "stock-clang21",
+      "a",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      1373843855,
+      3514012675,
+      7217624,
+      12557314
+    ],
+    [
+      "stock-clang21",
+      "b",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      249638091,
+      918384916,
+      6868992,
+      11924322
+    ],
+    [
+      "stock-clang21",
+      "a",
+      "gram-periodic/dna/absent @ periodic-dna",
+      684566241,
+      2174136732,
+      7023072,
+      12229019
+    ],
+    [
+      "stock-clang21",
+      "b",
+      "gram-periodic/dna/absent @ periodic-dna",
+      250208718,
+      919271309,
+      6856311,
+      11925141
+    ],
+    [
+      "stock-clang21",
+      "b",
+      "gram-periodic/dna/absent @ periodic-dna",
+      249736503,
+      919269621,
+      6877497,
+      11924877
+    ],
+    [
+      "stock-clang21",
+      "a",
+      "gram-periodic/dna/absent @ periodic-dna",
+      684505994,
+      2174136305,
+      7033389,
+      12228700
+    ],
+    [
+      "stock-clang21",
+      "a",
+      "gram-periodic/dna/absent @ periodic-dna",
+      684565632,
+      2174135974,
+      7000166,
+      12228590
+    ],
+    [
+      "stock-clang21",
+      "b",
+      "gram-periodic/dna/absent @ periodic-dna",
+      249808173,
+      919272076,
+      6854572,
+      11924681
+    ],
+    [
+      "aa2",
+      "a",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      242703294,
+      905225165,
+      7032575,
+      12397101
+    ],
+    [
+      "aa2",
+      "b",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      241576014,
+      905225073,
+      6993704,
+      12397819
+    ],
+    [
+      "aa2",
+      "b",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      241006061,
+      905225205,
+      7027773,
+      12397862
+    ],
+    [
+      "aa2",
+      "a",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      240989838,
+      905227165,
+      7032419,
+      12397805
+    ],
+    [
+      "aa2",
+      "a",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      241312129,
+      905224583,
+      6995814,
+      12398043
+    ],
+    [
+      "aa2",
+      "b",
+      "gram-periodic/ascii/absent @ periodic-ascii",
+      241208772,
+      905224089,
+      7103087,
+      12398180
+    ],
+    [
+      "aa2",
+      "a",
+      "gram-periodic/dna/absent @ periodic-dna",
+      247308892,
+      906505791,
+      7060101,
+      12398971
+    ],
+    [
+      "aa2",
+      "b",
+      "gram-periodic/dna/absent @ periodic-dna",
+      241548883,
+      906507843,
+      7042768,
+      12397806
+    ],
+    [
+      "aa2",
+      "b",
+      "gram-periodic/dna/absent @ periodic-dna",
+      241131573,
+      906505697,
+      7067299,
+      12397971
+    ],
+    [
+      "aa2",
+      "a",
+      "gram-periodic/dna/absent @ periodic-dna",
+      241128816,
+      906505899,
+      7072097,
+      12398314
+    ],
+    [
+      "aa2",
+      "a",
+      "gram-periodic/dna/absent @ periodic-dna",
+      247685976,
+      906506253,
+      7022726,
+      12399979
+    ],
+    [
+      "aa2",
+      "b",
+      "gram-periodic/dna/absent @ periodic-dna",
+      241127924,
+      906508217,
+      7043171,
+      12397227
+    ]
+  ]
+}

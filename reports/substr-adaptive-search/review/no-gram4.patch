@@ -1,0 +1,117 @@
+commit fa81a3379208e6f4b6d80f1cd0f7b7689cec1d20
+Author:     Artem Ukrainskiy <art.ukrainskiy@gmail.com>
+AuthorDate: Sat Oct 31 15:14:03 2026 +0300
+Commit:     Artem Ukrainskiy <art.ukrainskiy@gmail.com>
+CommitDate: Sat Oct 31 15:14:03 2026 +0300
+
+    Measure adaptive substring search without the four-byte filter
+
+diff --git a/Zend/zend_operators.c b/Zend/zend_operators.c
+index 0f2e7fa207f..a4acde107d7 100644
+--- a/Zend/zend_operators.c
++++ b/Zend/zend_operators.c
+@@ -4044,86 +4044,7 @@ static const char *zend_memnstr_twoway(const char *haystack, const char *needle,
+ 	return NULL;
+ }
+ 
+-#if defined(__SSE2__)
+-/* A four-byte anchor can still filter small alphabets after a pair stops
+- * paying off. Probe its selectivity before taking this path, and retain the
+- * same whole-scan verification budget as the pair. */
+-static const char *zend_memnstr_gram4(const char *haystack, const char *needle,
+-		size_t needle_len, const char *end)
+-{
+-	size_t length = (size_t)(end - haystack);
+-	if (needle_len > length) {
+-		return NULL;
+-	}
+-	if (needle_len < 4 || length - needle_len < ZEND_MEMNSTR_GRAM_SAMPLE_SIZE) {
+-		return zend_memnstr_twoway(haystack, needle, needle_len, end);
+-	}
+-	size_t anchor = 0;
+-	unsigned int best = UINT_MAX;
+-	for (size_t i = 0; i <= needle_len - 4; i++) {
+-		unsigned int rank = zend_byte_commonness[(unsigned char)needle[i]]
+-				+ zend_byte_commonness[(unsigned char)needle[i + 1]]
+-				+ zend_byte_commonness[(unsigned char)needle[i + 2]]
+-				+ zend_byte_commonness[(unsigned char)needle[i + 3]];
+-		if (rank < best) {
+-			best = rank;
+-			anchor = i;
+-		}
+-	}
+-	uint32_t gram;
+-	memcpy(&gram, needle + anchor, sizeof gram);
+-	size_t candidates = 0;
+-	for (size_t i = 0; i < ZEND_MEMNSTR_GRAM_SAMPLE_SIZE; i++) {
+-		uint32_t word;
+-		memcpy(&word, haystack + i + anchor, sizeof word);
+-		candidates += word == gram;
+-	}
+-	if (candidates > ZEND_MEMNSTR_GRAM_MAX_SAMPLE_HITS) {
+-		return zend_memnstr_twoway(haystack, needle, needle_len, end);
+-	}
+ 
+-	__m128i v0 = _mm_set1_epi8(needle[anchor]);
+-	__m128i v1 = _mm_set1_epi8(needle[anchor + 1]);
+-	__m128i v2 = _mm_set1_epi8(needle[anchor + 2]);
+-	__m128i v3 = _mm_set1_epi8(needle[anchor + 3]);
+-	size_t span = length - needle_len + 1, pos = 0;
+-	size_t checks_left = length / needle_len;
+-	/* Sixteen loaded bytes contain thirteen complete four-byte anchors.
+-	 * Advancing by thirteen covers the starts spanning the next block. */
+-	while (span - pos >= ZEND_MEMNSTR_GRAM_STEP) {
+-		__m128i chunk = _mm_loadu_si128((const __m128i *)(haystack + pos + anchor));
+-		unsigned int mask = (unsigned int)_mm_movemask_epi8(_mm_cmpeq_epi8(chunk, v0))
+-				& ((unsigned int)_mm_movemask_epi8(_mm_cmpeq_epi8(chunk, v1)) >> 1)
+-				& ((unsigned int)_mm_movemask_epi8(_mm_cmpeq_epi8(chunk, v2)) >> 2)
+-				& ((unsigned int)_mm_movemask_epi8(_mm_cmpeq_epi8(chunk, v3)) >> 3)
+-				& ((1U << ZEND_MEMNSTR_GRAM_STEP) - 1);
+-		while (mask) {
+-			size_t candidate = pos + zend_ulong_ntz(mask);
+-			if (!memcmp(haystack + candidate, needle, needle_len)) {
+-				return haystack + candidate;
+-			}
+-			if (--checks_left == 0) {
+-				return zend_memnstr_twoway(haystack + candidate + 1, needle, needle_len, end);
+-			}
+-			mask &= mask - 1;
+-		}
+-		pos += ZEND_MEMNSTR_GRAM_STEP;
+-	}
+-	for (; pos < span; pos++) {
+-		uint32_t word;
+-		memcpy(&word, haystack + pos + anchor, sizeof word);
+-		if (word == gram) {
+-			if (!memcmp(haystack + pos, needle, needle_len)) {
+-				return haystack + pos;
+-			}
+-			if (--checks_left == 0) {
+-				return zend_memnstr_twoway(haystack + pos + 1, needle, needle_len, end);
+-			}
+-		}
+-	}
+-	return NULL;
+-}
+-#endif
+ 
+ /* Called when Sunday comparisons stop paying for their progress. Limit
+  * total candidate verification to O(haystack length), then hand the remaining
+@@ -4177,7 +4098,7 @@ static const char *zend_memnstr_adaptive(const char *haystack,
+ 				return haystack + candidate;
+ 			}
+ 			if (--checks_left == 0) {
+-				return zend_memnstr_gram4(haystack + candidate + 1, needle, needle_len, end);
++				return zend_memnstr_twoway(haystack + candidate + 1, needle, needle_len, end);
+ 			}
+ 			mask &= mask - 1;
+ 		}
+@@ -4189,7 +4110,7 @@ static const char *zend_memnstr_adaptive(const char *haystack,
+ 				return haystack + pos;
+ 			}
+ 			if (--checks_left == 0) {
+-				return zend_memnstr_gram4(haystack + pos + 1, needle, needle_len, end);
++				return zend_memnstr_twoway(haystack + pos + 1, needle, needle_len, end);
+ 			}
+ 		}
+ 	}
