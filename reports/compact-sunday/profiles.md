@@ -24,3 +24,4 @@ Three passes on the English clean thread. The setup, lookup width, generated loo
 | L1-icache-load-misses | 1.88 | 1.42 | -0.45 |
 | iTLB-load-misses | 0.07 | 0.09 | +0.02 |
 
+[Raw profile logs](data/profiles.tar.gz).

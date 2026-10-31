@@ -1,5 +1,5 @@
 <?php
-// Small independent compact-Sunday comparison; no adaptive engine is included.
+// Product cases and routing controls for compact Sunday.
 $suite = require __DIR__ . '/../../suites/substr-product.php';
 $wanted = [];
 foreach (['en', 'ru', 'es', 'ar', 'hi', 'zh', 'ja', 'ko', 'emoji'] as $lang) {

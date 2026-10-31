@@ -1,224 +1,142 @@
 # Compact Sunday shift tables
 
-This report benchmarks the compact-Sunday candidate
-[`8d7babbc364`](https://github.com/ArtUkrainskiy/php-src/commit/8d7babbc364ffcf28dac9777ce807edc9adbb534)
-([branch](https://github.com/ArtUkrainskiy/php-src/tree/strpos-compact-sunday-pr), [patch](change.patch))
-against stock PHP [`cf1b5771a76`](https://github.com/php/php-src/commit/cf1b5771a76a81b455a8677446daf9c46e1781be).
-Both are PHP 8.7.0-dev builds. These are fresh measurements; no adaptive-PR
-percentages are reused.
+Compare [compact Sunday `8d7babbc364`](https://github.com/ArtUkrainskiy/php-src/commit/8d7babbc364ffcf28dac9777ce807edc9adbb534)
+with [stock PHP `cf1b5771a76`](https://github.com/php/php-src/commit/cf1b5771a76a81b455a8677446daf9c46e1781be),
+both PHP 8.7.0-dev. [Source branch](https://github.com/ArtUkrainskiy/php-src/tree/strpos-compact-sunday-pr) · [Patch](change.patch).
 
-The shared substring matcher behind `strpos()`, `str_contains()`, `explode()`
-and string replacement uses a smaller shift table for 9–31-byte needles when
-at least 1024 bytes remain from the current search position. A needle is the
-searched substring; its length is measured in bytes, including for UTF-8 text.
-The candidate reduces the shift table from 1024 to 256 bytes on these platforms,
-keeping the Sunday search algorithm. The inline helper and the wide-table algorithm for longer needles
-remain. Dispatch and generated-code placement also change; those costs are included.
+The patch reduces the Sunday shift table from 1024 to 256 bytes for 9–31-byte
+searched substrings when at least 1024 input bytes remain from the current search position. The search algorithm
+stays the same. Shorter searches retain the inline `memchr` path; longer searched
+substrings retain the wide table. The cost of the new dispatch and code placement
+is included in the results.
 
-## Main observations
+On AMD Ryzen 9 5950X with GCC 15 and Clang 21, generated clean moderation posts take 4.93–11.84% less time; template replacement/counting takes 14.42–16.52% less. The two 32-byte early-match controls take 2.99–3.86% more time on GCC. These are costs of individual PHP operations, not whole-request speedups.
 
-AMD Ryzen 9 5950X, one complete PHP operation per reported cost. These are not
-request-wide speedups, and no traffic-weighted average is assumed. Negative means
-less elapsed time. Moderation searches a list of 12 phrases in generated ordinary
-text with no banned phrases present. Rendering replaces order-card placeholders
-such as `{{order.id}}`; it does not run a complete template engine.
+## Cases
 
-Each binary/case gets at least three seconds warmup and ten approximately
-one-second samples. There is one paired round. Counters come from a separate
-five-pass series. Six release compiler builds pass the string tests; full PHP
-and extracted C checks also pass with ASan/UBSan. Details and limits follow.
+Inputs are generated application fixtures, not production traffic samples.
+All moderation inputs are lower-case UTF-8; searches are case-sensitive literal
+substrings, without word-boundary matching or normalization inside timing.
+English, Russian, Spanish, Arabic, Hindi, Chinese, Japanese, Korean and mixed-emoji
+posts are covered equally. The thread timing cases use English and Chinese.
 
-| Operation | GCC 15 elapsed change | Clang 21 elapsed change |
-|---|--:|--:|
-| Clean moderation posts, nine languages | -10.18% … -4.93% | -11.84% … -5.19% |
-| Template rendering, 4 KiB | -15.91% | -14.42% |
-| Count template slots, 4 KiB | -16.52% | -15.53% |
-| 31-byte early match, corrected fixture | -12.30% | -10.92% |
+| Case | Input and measured work | Searched substrings |
+|---|---|---|
+| Moderation post | About 1 KiB of ordinary comments/messages; check all 12 banlist entries, no match | Local phrases such as `spam`, `casino bonus`, plus advertising-domain fragments; 4–55 UTF-8 bytes across languages |
+| Moderation thread | About 64 KiB of messages; the same 12-entry absent search | Same phrases as the corresponding post |
+| Split fields | About 4 KiB, 170 varied product fields; `explode()` returns every field | Two consecutive pipe characters or `::`, two bytes |
+| Parse HTTP headers | Seven headers and a 64 KiB body; find the terminator after 261 header bytes, then parse the headers; body is not parsed | `\r\n\r\n`, `\r\n` and `: ` |
+| Replace template placeholders | 4250-byte order-card/email template; replace 68 slots with four values using `str_replace()` | `{{order.id}}`, `{{user.name}}`, `{{tracking.url}}`, `{{support.email}}`; 12–17 bytes |
+| Count template slots | Same template; `substr_count()` finds 17 occurrences | `{{order.id}}`, 12 bytes |
+| Routing controls | Ordinary ASCII filler; an absent 9-byte substring or a 31/32-byte match at byte offset 7 | Text tokens, plus a 32-byte token made of 31 `a` bytes and `b` |
 
-The quick AMD screen reproduces useful gains without the adaptive engine. Small
-changes remain uncertain. A/A compares an identical binary against itself:
-GCC is +2.32% before and +1.37% after the main series; Clang is −0.30% before
-and +0.24% after. The tables retain noisy rows and use interpretation floors of
-2.32% on GCC and 2.00% on Clang. Changes inside the floor are labelled near A/A.
-One paired round with ten samples is descriptive; the samples share one process.
+The split operations are `explode('||', $s)` and `explode('::', $s)`.
+Exact input sizes are in the tables. [Measured suite](suite.php) · [31-byte control](early31-suite.php) · [Data-label notes](data-notes.md).
 
-Possible losses remain visible. The two 32-byte early controls show +3.86% and
-+2.99% elapsed on GCC, versus +0.48% and −1.50% on Clang. These small results are
-not a proof that every regression is eliminated; timing and separate cycles also
-differ on some controls. The unmodified delimiter/parser paths receive no new
-search algorithm, but their measured variation is retained.
+## Results
 
-Intel wall time is **not usable in this run**: A/A of the identical binary reached
-about −50% and +93%. Both interrupted attempts are [preserved](data/excluded-intel.tar.gz).
-Intel counters are diagnostic only; no Intel elapsed gain or absence of the old
-Clang regressions is claimed. Quiet Intel confirmation remains necessary.
+Elapsed time is the primary comparison. Values are microseconds per complete
+operation after empty-loop subtraction. Negative deltas mean lower cost.
+Cycles and instructions come from a separate series: cycle deltas are the median
+of five paired ratios; instruction deltas compare the median absolute counts.
 
-- [All elapsed values, deltas, sizes and quality](time.md).
-- [Build and reproduce, or regenerate from archived data](#method-and-reproduction).
-- [Absolute cycles and instructions for timed inputs](counters.md).
-- [Five-pass counter matrices on six compilers, with A/A](cycles.md).
-- [Long-scan profiles](profiles.md), [original profile logs](data/profiles.tar.gz).
-- [Unrounded metrics](metrics.json), [raw-record hashes](manifest.json),
-  [lossless native series and logs](data/native.tar.gz).
+Each case/version receives at least **3 seconds warmup**, then **10 approximately
+one-second samples** in one PHP process. There is one paired round. Counters use
+five separate 50 ms-target passes. These are quick descriptive comparisons;
+ten samples in one process are not ten independent rounds.
 
-Long-scan cycle gains can occur with less than 0.5% change in retired instructions.
-The profiles confirm lower cycles but do not establish a single cause. These
-results include table-access code generation and placement effects; they are not
-attributed entirely to shift-table initialization or to fewer instructions.
+A/A compares the identical stock binary before and after the timing series.
+We use a minimum 2% threshold, increased to the observed A/A variation if larger:
 
-## Inputs and route attribution
+| Compiler | Before: time Δ | After: time Δ | Interpretation floor |
+|---|--:|--:|--:|
+| GCC 15.2 | +2.32% | +1.37% | 2.32% |
+| Clang 21.1 | -0.30% | +0.24% | 2.00% |
 
-The unchanged owned product corpus supplies posts, long threads, delimiters, HTTP
-and order-card templates. The [case glossary](../substr-adaptive-search/README.md#reading-the-case-names)
-explains the language tags, clean/early/late states and data contents. Exact byte
-sizes accompany the elapsed rows. [Suite](suite.php), [corrected early fixture](early31-suite.php).
-Moving the suite into this directory changes only its relative `require` path.
-The numeric checker restores that path before checking the recorded source hash.
+Changes within the interpretation floor are unresolved by this screen. The floor
+is a practical noise threshold, not a confidence interval.
 
-All nine languages have post and thread counter cases. AMD elapsed selects all
-nine clean posts, the English/Chinese thread controls, rendering and counting
-`{{order.id}}` slots, the two 4 KiB delimiters `||`/`::`, HTTP parsing with a 64 KiB
-body, and three routing controls. The original screen has 19 timed inputs per
-compiler; the additional true 31-byte early fixture brings it to 20.
+Intel elapsed results are excluded: identical-binary A/A reached approximately
+−50% and +93%. The GCC 13/14 and Clang 18/20 counter tables are diagnostic only.
+There is no valid Intel elapsed-performance conclusion.
 
-A naming mistake in the original screen is retained explicitly: the input named
-`boundary/31/early` actually contains a 32-byte needle. It is displayed as
-`boundary/32/early-text`, and all original data remain in the archive. Only that
-missing 31-byte control was added separately. The corrected fixture computes its
-needle using `substr(..., 0, 31)` and checks the byte length. The A/A controls also
-used the original 32-byte operand; their identity comparison remains valid.
+Delimiter and HTTP rows check unchanged short-search paths; their timing changes
+are not attributed to a new search algorithm. The 32-byte early-match controls
+exercise the new dispatcher with the wide table.
 
-## Correctness
+[Absolute counters](counters.md) · [Compiler counter tables](cycles.md) · [Raw measurements](data/native.tar.gz) · [Reproduce](reproduce.md).
 
-All six matched release compilers pass 699 string PHPT, with 62 skipped and zero
-failures/warnings. The full PHP Clang 21 debug build with ASan/UBSan and
-`USE_ZEND_ALLOC=0` passes 680, with 81 skipped and zero failures/warnings. The one
-new PHPT checks 300 inputs: byte lengths around 31/32, NUL/high bytes, default
-shifts, last-position matches and repeated searches crossing to a short remainder.
+### GCC 15.2
 
-The exact candidate and stock matching code are compared with libc `memmem` in
-an extracted C verifier. GCC and Clang ASan/UBSan each pass 20,000 seeded random
-inputs and 135,460 guarded configurations, including existing inline-path
-controls. Two purposeful faults—too-large default shift and omitted last valid
-position—are detected. These are shared corpora, not independent input sets.
-[Validation data](data/c-validation.json), [verification sources](verify/README.md).
-The [captured C drivers and logs](data/c-verification.tar.gz) and
-[PHP test logs and sanitizer metadata](data/php-validation.tar.gz) retain the
-original validation protocol.
+| Case | Bytes | Stock µs | Patch µs | Time Δ | Cycles Δ | Instr. Δ |
+|---|--:|--:|--:|--:|--:|--:|
+| English moderation post | 1081 | 2.9496 | 2.6783 | -9.20% | -10.19% | -5.76% |
+| Russian moderation post | 1041 | 3.0331 | 2.8469 | -6.14% | -5.18% | -3.43% |
+| Spanish moderation post | 1086 | 2.8435 | 2.5977 | -8.65% | -8.85% | -5.77% |
+| Arabic moderation post | 1036 | 3.9634 | 3.7680 | -4.93% | -4.79% | -3.99% |
+| Hindi moderation post | 1091 | 2.6601 | 2.4853 | -6.57% | -6.95% | -4.96% |
+| Chinese moderation post | 1039 | 2.3145 | 2.0789 | -10.18% | -9.91% | -7.75% |
+| Japanese moderation post | 1069 | 3.2940 | 3.1229 | -5.20% | -8.56% | -5.32% |
+| Korean moderation post | 1098 | 3.1239 | 2.8635 | -8.34% | -7.75% | -5.18% |
+| Mixed emoji moderation post | 1097 | 2.6857 | 2.4525 | -8.68% | -9.06% | -6.22% |
+| English moderation thread | 65548 | 169.3483 | 157.9180 | -6.75% | -6.99% | -0.13% |
+| Chinese moderation thread | 65620 | 149.5828 | 139.0386 | -7.05% | -7.06% | -0.17% |
+| Split fields on two pipes | 4123 | 2.5352 | 2.4895 | -1.80% | -0.25% | -0.00% |
+| Split fields on `::` | 4099 | 2.5143 | 2.5089 | -0.22% | -0.92% | +0.00% |
+| Parse HTTP headers | 65848 | 0.8704 | 0.8702 | -0.02% | +0.89% | +0.00% |
+| Replace template placeholders | 4250 | 7.0374 | 5.9181 | -15.91% | -16.10% | -17.63% |
+| Count `{{order.id}}` slots | 4250 | 0.9989 | 0.8339 | -16.52% | -15.85% | -18.07% |
+| 9-byte absent match | 14400 | 3.7974 | 3.4724 | -8.56% | -8.38% | -0.53% |
+| 31-byte early match | 14438 | 0.0338 | 0.0297 | -12.30% | -19.15% | -18.72% |
+| 32-byte early match (text) | 14439 | 0.0346 | 0.0359 | +3.86% | +2.57% | +0.64% |
+| 32-byte early match (repeated a) | 16839 | 0.0399 | 0.0411 | +2.99% | -0.51% | +0.62% |
 
-Native ARM, Windows and 32-bit builds have not been run. The production change
-adds no architecture-specific guards or instructions. It preserves the Sunday
-algorithm's worst-case behavior; pathological-search hardening is a separate topic.
+### Clang 21.1
 
-## Method and reproduction
+| Case | Bytes | Stock µs | Patch µs | Time Δ | Cycles Δ | Instr. Δ |
+|---|--:|--:|--:|--:|--:|--:|
+| English moderation post | 1081 | 2.8060 | 2.5239 | -10.05% | -9.62% | -1.89% |
+| Russian moderation post | 1041 | 2.8824 | 2.7330 | -5.19% | -5.16% | -2.32% |
+| Spanish moderation post | 1086 | 2.7112 | 2.4345 | -10.21% | -9.86% | -1.89% |
+| Arabic moderation post | 1036 | 3.8715 | 3.6589 | -5.49% | -5.71% | -1.28% |
+| Hindi moderation post | 1091 | 2.5331 | 2.3453 | -7.41% | -7.00% | -2.70% |
+| Chinese moderation post | 1039 | 2.1935 | 1.9339 | -11.84% | -11.45% | -2.61% |
+| Japanese moderation post | 1069 | 3.1576 | 2.8807 | -8.77% | -9.26% | -1.73% |
+| Korean moderation post | 1098 | 2.9995 | 2.7558 | -8.12% | -8.25% | -1.68% |
+| Mixed emoji moderation post | 1097 | 2.5714 | 2.3065 | -10.30% | -10.25% | -2.05% |
+| English moderation thread | 65548 | 161.4258 | 148.5095 | -8.00% | -7.99% | -0.04% |
+| Chinese moderation thread | 65620 | 143.5457 | 131.7750 | -8.20% | -8.22% | -0.05% |
+| Split fields on two pipes | 4123 | 2.7295 | 2.6258 | -3.80% | +0.31% | -0.00% |
+| Split fields on `::` | 4099 | 2.6946 | 2.7033 | +0.32% | -0.49% | -0.00% |
+| Parse HTTP headers | 65848 | 0.8524 | 0.8262 | -3.07% | -1.81% | +0.00% |
+| Replace template placeholders | 4250 | 6.4798 | 5.5455 | -14.42% | -14.44% | -6.37% |
+| Count `{{order.id}}` slots | 4250 | 0.9404 | 0.7944 | -15.53% | -15.29% | -6.56% |
+| 9-byte absent match | 14400 | 3.5678 | 3.1581 | -11.48% | -11.19% | -0.17% |
+| 31-byte early match | 14438 | 0.0299 | 0.0266 | -10.92% | -13.73% | -7.45% |
+| 32-byte early match (text) | 14439 | 0.0319 | 0.0320 | +0.48% | +1.07% | +2.67% |
+| 32-byte early match (repeated a) | 16839 | 0.0373 | 0.0368 | -1.50% | -1.28% | +2.03% |
 
-Measured on 31 October 2026 using matched release `docker` profiles. AMD uses GCC
-15.2 and Clang 21.1, CPU 15 (SMT sibling 31), performance governor, turbo on. The
-core is not exclusively isolated. Intel counter diagnostics use GCC 13/14 and
-Clang 18/20, CPU 2, with the observed busy-host/power-state limitations above.
-System affinity and power settings were not changed.
+Long-thread cycle gains accompany less than 0.5% change in instructions. The
+[profiles](profiles.md) do not isolate a single cause; code generation and placement also matter.
 
-Per timed case and binary: one warmup of at least three seconds, followed by ten
-approximately one-second batches, ten seconds total target measurement. Calibration,
-input preparation and result checking are outside timing; median empty-loop cost
-is subtracted. Each pair uses separate PHP processes. The native one-round
-significance verdict is intentionally not promoted to a reliable speedup claim.
-Cycles and instructions come from a separate five-pass, 50 ms-target series with
-alternating A/B and same-row A/A. They are not simultaneous with the elapsed series.
+## Measurement and limits
 
-Build stock and compact from the pinned commits with the same compilers and
-`bench build` default profile. Do not use an IDE debug build for performance.
-For the measured compiler pair, from the **php-src-bench repository root**
-([repository setup](../../README.md#quick-start)):
+Measured 31 October 2026 on Ryzen 9 5950X, CPU 15, SMT sibling 31, performance
+governor, turbo enabled. The core was not exclusively isolated. Matched release
+builds use the `docker` profile; [flags and commands](reproduce.md).
 
-```sh
-export PHP_SRC=/path/to/php-src
-export BENCH_BUILDS=/path/to/compact-builds
-export BENCH_PHP=/path/to/an/existing/php
-BENCH_ROOT=$PWD
-COMPACT_DATA=$PWD/results/compact-sunday-reproduction
-mkdir -p "$COMPACT_DATA"
-read -r -p 'Benchmark CPU number: ' COMPACT_CPU
-read -r -p 'Orchestrator CPU number: ' COMPACT_ORCHESTRATOR
-COMPACT_BASE=cf1b5771a76a81b455a8677446daf9c46e1781be
-COMPACT_HEAD=8d7babbc364ffcf28dac9777ce807edc9adbb534
-python3 corpus/substr-product/generate.py --owned-only --php-src "$PHP_SRC"
-./bench build --slim --cc gcc-15,clang-21 compact-base "$COMPACT_BASE"
-./bench build --slim --cc gcc-15,clang-21 compact-head "$COMPACT_HEAD"
-export BENCH_PHP="$BENCH_BUILDS/compact-base-gcc15/sapi/cli/php"
-python3 reports/compact-sunday/measure.py --bench-root "$PWD" \
-  --builds "$BENCH_BUILDS" --out "$COMPACT_DATA/amd" --lane amd \
-  --cpu "$COMPACT_CPU" --orchestrator "$COMPACT_ORCHESTRATOR"
-```
+Native ARM, Windows and 32-bit builds have not been tested.
 
-Choose two appropriate CPU numbers at the prompts. Use an empty output directory.
-The two compiler builds require minutes each. The main timing screen targets
-about 20 minutes before calibration and counter work. It prints per-case progress.
-The source candidate must exist in the php-src repository, either fetched from
-the branch or recreated using the linked patch. A recreated commit has a different
-ID: update the measurement driver's pinned candidate ID before using it.
+## Correctness and reproduction
 
-The driver’s `amd` lane selects GCC 15/Clang 21 build names and case coverage;
-it does not automatically identify a CPU model. Install those compilers to repeat
-this exact matrix. Other compiler versions require adapting its build-name list.
-The [measurement driver](measure.py) accepts build/output paths and CPU numbers;
-the measured build prefixes are `compact-base` and `compact-head`. Its AMD lane
-runs the 19-case quick screen. `--counters-only` supports diagnostic-only hosts.
-Do not reuse Intel wall measurements while its A/A is invalid.
-The separately added 31-byte fixture is [early31-suite.php](early31-suite.php).
-Run it after the main screen, with the same builds:
+All six release compiler builds pass 699 string PHPT, with 62 skipped and no
+failures or warnings. Full PHP ASan/UBSan passes 680, with 81 skipped. The added
+PHPT covers 300 inputs. GCC and Clang sanitizer checks each compare the extracted
+matchers with libc on 20,000 seeded random inputs and 135,460 guarded length
+configurations; both deliberate faulty variants are detected.
 
-```sh
-mkdir -p "$COMPACT_DATA/early31"
-export BENCH_RESULTS="$COMPACT_DATA/early31"
-for cc in gcc15 clang21; do
-  taskset -c "$COMPACT_ORCHESTRATOR" ./bench run \
-    reports/compact-sunday/early31-suite.php \
-    --a "compact-base-$cc" --b "compact-head-$cc" --cpu "$COMPACT_CPU" \
-    --rounds 1 --samples 10 --target-ms 1000 --warmup-ms 3000 --wait-idle 120 \
-    > "$COMPACT_DATA/early31/$cc.log" 2>&1
-done
-taskset -c "$COMPACT_ORCHESTRATOR" ./bench compare \
-  reports/compact-sunday/early31-suite.php \
-  gcc15=compact-base-gcc15:compact-head-gcc15 \
-  clang21=compact-base-clang21:compact-head-clang21 \
-  --cpu "$COMPACT_CPU" --passes 5 --target-ms 50 --wait-idle 120 \
-  --out "$COMPACT_DATA/early31/cycles.json"
-```
+[Verification commands and logs](verify/README.md) · [Build and reproduce](reproduce.md) · [Raw native measurements](data/native.tar.gz) · [Unrounded values](metrics.json) · [Hashes](manifest.json).
 
-This produces the AMD screen plus the corrected early fixture. The separate
-Intel counter matrix needs the four corresponding compiler builds and the
-`intel --counters-only` lane. It is not evidence for Intel elapsed performance.
-Use `bench show` and `bench table` to inspect fresh runs.
-
-To regenerate this exact published document from its archive without measuring,
-choose another empty directory. This requires any PHP 8.0+ binary for the tool:
-
-
-```sh
-BENCH_ROOT=$PWD
-COMPACT_DATA=$PWD/results/compact-sunday-archived
-mkdir -p "$COMPACT_DATA"
-tar -xzf reports/compact-sunday/data/native.tar.gz -C "$COMPACT_DATA"
-python3 reports/compact-sunday/build-report.py \
-  --data "$COMPACT_DATA" --out reports/compact-sunday \
-  --bench-root "$BENCH_ROOT" --php "$BENCH_PHP"
-python3 reports/compact-sunday/check.py
-./bench report check reports/compact-sunday
-```
-
-Machine paths in display-only counter metadata are normalized; raw native JSON
-and logs remain unchanged in the archive. Both the source revisions and all
-input/output hashes are checked. The source branch is a candidate for a small PR;
-these quick measurements do not substitute for upstream CI or quiet Intel timing.
-
-## Previous adaptive experiment
-
-The previous adaptive corpus was not literally all below 32 bytes: seven unique
-Russian/Hindi phrases are 36–55 bytes. Capturing the actual operands across its
-233 cases found 42 long searches in 12 cases. Instrumenting the original 8c6759
-matcher confirmed 14 Sunday-adaptive entries, but **zero pair, gram4 or Two-Way
-entries**. Thus it did not demonstrate ordinary-product gains from those advanced
-stages. [Route summary](data/corpus-route-summary.json),
-[captured operands and route log](data/corpus-audit.tar.gz), [capture source](verify/corpus-audit.php).
-
+Tables are generated by [build-report.py](build-report.py).
+[check.py](check.py) verifies the archived measurements and displayed values;
+`bench report check reports/compact-sunday` checks the report's links and native tables.

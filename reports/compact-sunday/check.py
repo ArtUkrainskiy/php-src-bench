@@ -40,8 +40,10 @@ with tarfile.open(ROOT / 'data/native.tar.gz') as archive:
         suite = ROOT / ('early31-suite.php' if folder == 'early31' else 'suite.php')
         frozen_suite = suite.read_bytes()
         if folder != 'early31':
-            # Only the relative require path changes when moving the measured suite to reports/.
+            # Restore the measured suite's path and heading comment; executable code is unchanged.
             frozen_suite = frozen_suite.replace(b"'/../../suites/substr-product.php'", b"'/../../../suites/substr-product.php'")
+            frozen_suite = frozen_suite.replace(b'// Product cases and routing controls for compact Sunday.',
+                b'// Small independent compact-Sunday comparison; no adaptive engine is included.')
         assert hashlib.sha1(frozen_suite).hexdigest() == data['sources']['suite']
         for key, file in [('harness', 'lib/harness.php'), ('corpus', 'lib/Corpus.php')]:
             assert hashlib.sha1((ROOT.parents[1] / file).read_bytes()).hexdigest() == data['sources'][key]
@@ -107,4 +109,30 @@ with tarfile.open(ROOT / 'data/php-validation.tar.gz') as archive:
         for key, label in [('total', 'Number of tests'), ('passed', 'Tests passed'), ('skipped', 'Tests skipped'), ('failed', 'Tests failed'), ('warned', 'Tests warned')]:
             assert int(re.search(re.escape(label) + r'\s*:\s*(\d+)', log)[1]) == row[key]
         assert row['failed'] == row['warned'] == 0
-print('PASS: 44 elapsed records, three five-pass counter series, fingerprints, matching-code hash and nine PHPT logs')
+
+readme = (ROOT / 'README.md').read_text()
+sections = {'### GCC 15.2': 'gcc15', '### Clang 21.1': 'clang21'}
+expected = {(r['compiler'], r['label']): r for r in metrics if not r['aa']}
+found = set()
+compiler = None
+for line in readme.splitlines():
+    if line in sections:
+        compiler = sections[line]
+    elif line.startswith('## '):
+        compiler = None
+    elif compiler and line.startswith('| '):
+        columns = [x.strip() for x in line.strip('|').split('|')]
+        if len(columns) != 7 or columns[0] == 'Case':
+            continue
+        key = compiler, columns[0]
+        row = expected[key]
+        assert key not in found
+        found.add(key)
+        assert int(columns[1]) == row['bytes']
+        counters = row['cycles']
+        values = [row['a_ns'] / 1000, row['b_ns'] / 1000, row['delta_time'],
+                  counters['delta'], 100 * (counters['bi'] / counters['ai'] - 1)]
+        for column, expected_value, precision in zip(columns[2:], values, [4, 4, 2, 2, 2]):
+            assert abs(float(column.rstrip('%')) - expected_value) <= 0.5 * 10 ** (-precision) + 1e-9
+assert found == set(expected), (len(found), len(expected))
+print('PASS: 44 elapsed records, 40 README rows, three five-pass counter series, fingerprints, matching-code hash and nine PHPT logs')
