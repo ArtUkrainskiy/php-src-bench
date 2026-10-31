@@ -1,6 +1,7 @@
 # Search-shape controls
 
-Full PHP CLI builds: compact `8d7babbc364` versus master `cf1b5771a76`.
+Full PHP CLI builds: [`strpos-compact-sunday-pr`](https://github.com/ArtUkrainskiy/php-src/tree/strpos-compact-sunday-pr) versus PHP master.
+Exact measured revisions are recorded in the [build metadata](manifest.json).
 AMD Ryzen 9 5950X, CPU 15, performance governor, turbo on; the core is not reserved.
 All inputs are 4096 bytes. Times are microseconds per complete PHP operation,
 with empty-loop subtraction. All changes are relative to master; negative is lower cost.
