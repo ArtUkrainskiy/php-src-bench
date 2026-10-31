@@ -1,0 +1,575 @@
+{
+  "format": 2,
+  "kind": "compare",
+  "harness": 2,
+  "date": "2026-10-31T15:37:07+00:00",
+  "suite": "<recorded-path>/early31-suite.php",
+  "elapsed_s": 3,
+  "complete": true,
+  "config": {
+    "passes": 5,
+    "cpu": 15,
+    "target_ms": 50,
+    "filter": null,
+    "control": true,
+    "wait_idle": 0,
+    "events": "cycles:u,instructions:u"
+  },
+  "env": {
+    "cpu_model": "AMD Ryzen 9 5950X 16-Core Processor",
+    "kernel": "7.0.0-38-generic",
+    "cpu": 15,
+    "cpu_siblings": "15,31",
+    "hybrid_pcores": null,
+    "cpu_is_pcore": null,
+    "governor": "performance",
+    "epp": "performance",
+    "turbo": true,
+    "on_ac": null,
+    "load": 0.658203125,
+    "busy_pct": {
+      "15": 0,
+      "31": 0
+    },
+    "idle_cpu": 1
+  },
+  "groups": [
+    {
+      "name": "aa",
+      "a": "compact-base-gcc15",
+      "b": "compact-base-gcc15"
+    },
+    {
+      "name": "gcc15",
+      "a": "compact-base-gcc15",
+      "b": "compact-head-gcc15"
+    },
+    {
+      "name": "clang21",
+      "a": "compact-base-clang21",
+      "b": "compact-head-clang21"
+    },
+    {
+      "name": "aa2",
+      "a": "compact-base-gcc15",
+      "b": "compact-base-gcc15"
+    }
+  ],
+  "builds": {
+    "compact-base-gcc15": {
+      "php": "<recorded-path>/php",
+      "build": {
+        "name": "compact-base-gcc15",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:43:27+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<recorded-path>/php"
+      },
+      "sha1": "962804b78072507bf9e2d5006aad239718872788"
+    },
+    "compact-head-gcc15": {
+      "php": "<recorded-path>/php",
+      "build": {
+        "name": "compact-head-gcc15",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:45:00+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<recorded-path>/php"
+      },
+      "sha1": "119eb9050525232350b88606c134772a58b1c579"
+    },
+    "compact-base-clang21": {
+      "php": "<recorded-path>/php",
+      "build": {
+        "name": "compact-base-clang21",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:44:13+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang-21",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<recorded-path>/php"
+      },
+      "sha1": "c33890a4894d3839f124ea0c422c5d1f2607bbef"
+    },
+    "compact-head-clang21": {
+      "php": "<recorded-path>/php",
+      "build": {
+        "name": "compact-head-clang21",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:45:46+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang-21",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<recorded-path>/php"
+      },
+      "sha1": "3f96b0e59e376ce2f730c99c2b01fad1a484a268"
+    }
+  },
+  "sources": {
+    "suite": "1fa272e42d85a0a2397397f964de45506e1ac421",
+    "harness": "c3113f45c2a11bcb63f0b1fb7a4e44ef6843325d",
+    "corpus": "e5c81343e158d86e921e121508cb8b101980f980"
+  },
+  "machine_warnings": [
+    "turbo boost is on: thermal and frequency drift between rounds (sudo <recorded-path>/bench tune on)"
+  ],
+  "cases": {
+    "boundary/31/early-corrected @ early31": {
+      "input_len": 14438,
+      "input_chars": 14438,
+      "n": 1484080
+    }
+  },
+  "warnings": [],
+  "marks": [],
+  "rows": [
+    [
+      "aa",
+      "a",
+      "boundary/31/early-corrected @ early31",
+      246576200,
+      1188235570,
+      20727768,
+      54391846
+    ],
+    [
+      "aa",
+      "b",
+      "boundary/31/early-corrected @ early31",
+      246663023,
+      1188237803,
+      20785129,
+      54391454
+    ],
+    [
+      "aa",
+      "b",
+      "boundary/31/early-corrected @ early31",
+      251874315,
+      1188235748,
+      20652878,
+      54391514
+    ],
+    [
+      "aa",
+      "a",
+      "boundary/31/early-corrected @ early31",
+      245622867,
+      1188235424,
+      20469659,
+      54392187
+    ],
+    [
+      "aa",
+      "a",
+      "boundary/31/early-corrected @ early31",
+      247769700,
+      1188235073,
+      20849256,
+      54392015
+    ],
+    [
+      "aa",
+      "b",
+      "boundary/31/early-corrected @ early31",
+      253595996,
+      1188236219,
+      20727826,
+      54391424
+    ],
+    [
+      "aa",
+      "b",
+      "boundary/31/early-corrected @ early31",
+      246138209,
+      1188236495,
+      20737041,
+      54392533
+    ],
+    [
+      "aa",
+      "a",
+      "boundary/31/early-corrected @ early31",
+      246752439,
+      1188235577,
+      20665200,
+      54391087
+    ],
+    [
+      "aa",
+      "a",
+      "boundary/31/early-corrected @ early31",
+      247367219,
+      1188235412,
+      20515244,
+      54394449
+    ],
+    [
+      "aa",
+      "b",
+      "boundary/31/early-corrected @ early31",
+      245914138,
+      1188235196,
+      20799993,
+      54391368
+    ],
+    [
+      "gcc15",
+      "a",
+      "boundary/31/early-corrected @ early31",
+      246330693,
+      1188237446,
+      20749168,
+      54391299
+    ],
+    [
+      "gcc15",
+      "b",
+      "boundary/31/early-corrected @ early31",
+      199479839,
+      976011908,
+      20918342,
+      54391370
+    ],
+    [
+      "gcc15",
+      "b",
+      "boundary/31/early-corrected @ early31",
+      203649380,
+      976011432,
+      20851379,
+      54391341
+    ],
+    [
+      "gcc15",
+      "a",
+      "boundary/31/early-corrected @ early31",
+      246633400,
+      1188237364,
+      20932789,
+      54391337
+    ],
+    [
+      "gcc15",
+      "a",
+      "boundary/31/early-corrected @ early31",
+      251936489,
+      1188235035,
+      20871624,
+      54394365
+    ],
+    [
+      "gcc15",
+      "b",
+      "boundary/31/early-corrected @ early31",
+      204472376,
+      976012015,
+      20773569,
+      54391965
+    ],
+    [
+      "gcc15",
+      "b",
+      "boundary/31/early-corrected @ early31",
+      203465011,
+      976011541,
+      20821283,
+      54391718
+    ],
+    [
+      "gcc15",
+      "a",
+      "boundary/31/early-corrected @ early31",
+      246696170,
+      1188234755,
+      20803904,
+      54390961
+    ],
+    [
+      "gcc15",
+      "a",
+      "boundary/31/early-corrected @ early31",
+      246277077,
+      1188235467,
+      20891708,
+      54391578
+    ],
+    [
+      "gcc15",
+      "b",
+      "boundary/31/early-corrected @ early31",
+      252210346,
+      976012193,
+      20918124,
+      54394034
+    ],
+    [
+      "clang21",
+      "a",
+      "boundary/31/early-corrected @ early31",
+      240953276,
+      894423146,
+      23602696,
+      57394119
+    ],
+    [
+      "clang21",
+      "b",
+      "boundary/31/early-corrected @ early31",
+      210203176,
+      832093568,
+      22688488,
+      57394518
+    ],
+    [
+      "clang21",
+      "b",
+      "boundary/31/early-corrected @ early31",
+      206704976,
+      832091336,
+      22120471,
+      57397031
+    ],
+    [
+      "clang21",
+      "a",
+      "boundary/31/early-corrected @ early31",
+      231352251,
+      894422671,
+      23574063,
+      57394751
+    ],
+    [
+      "clang21",
+      "a",
+      "boundary/31/early-corrected @ early31",
+      229798876,
+      894425231,
+      23463201,
+      57397383
+    ],
+    [
+      "clang21",
+      "b",
+      "boundary/31/early-corrected @ early31",
+      203873303,
+      832091380,
+      22476503,
+      57394018
+    ],
+    [
+      "clang21",
+      "b",
+      "boundary/31/early-corrected @ early31",
+      186889787,
+      832091632,
+      22613805,
+      57394477
+    ],
+    [
+      "clang21",
+      "a",
+      "boundary/31/early-corrected @ early31",
+      229807485,
+      894422798,
+      23502438,
+      57395615
+    ],
+    [
+      "clang21",
+      "a",
+      "boundary/31/early-corrected @ early31",
+      229858892,
+      894422387,
+      23490746,
+      57394603
+    ],
+    [
+      "clang21",
+      "b",
+      "boundary/31/early-corrected @ early31",
+      188777805,
+      832093302,
+      21729864,
+      57395149
+    ],
+    [
+      "aa2",
+      "a",
+      "boundary/31/early-corrected @ early31",
+      251446915,
+      1188235112,
+      20820820,
+      54391157
+    ],
+    [
+      "aa2",
+      "b",
+      "boundary/31/early-corrected @ early31",
+      249867454,
+      1188236640,
+      20792459,
+      54393810
+    ],
+    [
+      "aa2",
+      "b",
+      "boundary/31/early-corrected @ early31",
+      246060798,
+      1188237627,
+      20877836,
+      54393737
+    ],
+    [
+      "aa2",
+      "a",
+      "boundary/31/early-corrected @ early31",
+      249533591,
+      1188237949,
+      20864363,
+      54391343
+    ],
+    [
+      "aa2",
+      "a",
+      "boundary/31/early-corrected @ early31",
+      247785613,
+      1188237753,
+      20685481,
+      54391954
+    ],
+    [
+      "aa2",
+      "b",
+      "boundary/31/early-corrected @ early31",
+      245774675,
+      1188238501,
+      20826520,
+      54392289
+    ],
+    [
+      "aa2",
+      "b",
+      "boundary/31/early-corrected @ early31",
+      246361751,
+      1188235863,
+      20705169,
+      54394381
+    ],
+    [
+      "aa2",
+      "a",
+      "boundary/31/early-corrected @ early31",
+      246787687,
+      1188238521,
+      20826636,
+      54391829
+    ],
+    [
+      "aa2",
+      "a",
+      "boundary/31/early-corrected @ early31",
+      245999199,
+      1188235503,
+      20808551,
+      54394455
+    ],
+    [
+      "aa2",
+      "b",
+      "boundary/31/early-corrected @ early31",
+      259745899,
+      1188235383,
+      20706172,
+      54393253
+    ]
+  ]
+}

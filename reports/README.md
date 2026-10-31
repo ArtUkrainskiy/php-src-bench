@@ -6,6 +6,7 @@ run it again.
 
 | Report | Subject | php-src PR |
 |---|---|---|
+| [compact-sunday](compact-sunday/) | Compact Sunday shift tables: independent product screen, elapsed time, cycles, instructions and A/A limitations | [candidate branch](https://github.com/ArtUkrainskiy/php-src/tree/strpos-compact-sunday-pr) |
 | [substr-adaptive-search](substr-adaptive-search/) | Forward substring search: final product report, 233 cases, six compiler/CPU pairs, elapsed time, cycles, instructions and remaining regressions | [branch](https://github.com/ArtUkrainskiy/php-src/tree/strpos-adaptive-pr) |
 | [json-encode-utf8-inline](json-encode-utf8-inline/) | `json_encode()`: decode valid UTF-8 inline | [#24283](https://github.com/php/php-src/pull/24283) |
 | [fgetcsv-mblen](fgetcsv-mblen/) | `php_mblen()`: skip `mbrlen()` for ASCII bytes (`fgetcsv()`, `str_getcsv()`, `escapeshell*()`) | [#24207](https://github.com/php/php-src/pull/24207) |

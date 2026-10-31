@@ -1,0 +1,9700 @@
+{
+  "format": 2,
+  "kind": "compare",
+  "harness": 2,
+  "date": "2026-10-31T15:18:53+00:00",
+  "suite": "<recorded-path>/suite.php",
+  "elapsed_s": 400.8,
+  "complete": true,
+  "config": {
+    "passes": 5,
+    "cpu": 15,
+    "target_ms": 50,
+    "filter": null,
+    "control": true,
+    "wait_idle": 120,
+    "events": "cycles:u,instructions:u"
+  },
+  "env": {
+    "cpu_model": "AMD Ryzen 9 5950X 16-Core Processor",
+    "kernel": "7.0.0-38-generic",
+    "cpu": 15,
+    "cpu_siblings": "15,31",
+    "hybrid_pcores": null,
+    "cpu_is_pcore": null,
+    "governor": "performance",
+    "epp": "performance",
+    "turbo": true,
+    "on_ac": null,
+    "load": 0.953125,
+    "busy_pct": {
+      "15": 0,
+      "31": 0
+    },
+    "idle_cpu": 1
+  },
+  "groups": [
+    {
+      "name": "aa",
+      "a": "compact-base-gcc15",
+      "b": "compact-base-gcc15"
+    },
+    {
+      "name": "gcc15",
+      "a": "compact-base-gcc15",
+      "b": "compact-head-gcc15"
+    },
+    {
+      "name": "clang21",
+      "a": "compact-base-clang21",
+      "b": "compact-head-clang21"
+    },
+    {
+      "name": "aa2",
+      "a": "compact-base-gcc15",
+      "b": "compact-base-gcc15"
+    }
+  ],
+  "builds": {
+    "compact-base-gcc15": {
+      "php": "<recorded-path>/php",
+      "build": {
+        "name": "compact-base-gcc15",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:43:27+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<recorded-path>/php"
+      },
+      "sha1": "962804b78072507bf9e2d5006aad239718872788"
+    },
+    "compact-head-gcc15": {
+      "php": "<recorded-path>/php",
+      "build": {
+        "name": "compact-head-gcc15",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:45:00+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<recorded-path>/php"
+      },
+      "sha1": "119eb9050525232350b88606c134772a58b1c579"
+    },
+    "compact-base-clang21": {
+      "php": "<recorded-path>/php",
+      "build": {
+        "name": "compact-base-clang21",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:44:13+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang-21",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<recorded-path>/php"
+      },
+      "sha1": "c33890a4894d3839f124ea0c422c5d1f2607bbef"
+    },
+    "compact-head-clang21": {
+      "php": "<recorded-path>/php",
+      "build": {
+        "name": "compact-head-clang21",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:45:46+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang-21",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "<recorded-path>/php"
+      },
+      "sha1": "3f96b0e59e376ce2f730c99c2b01fad1a484a268"
+    }
+  },
+  "sources": {
+    "suite": "64f7ee6d98d41332c06d32b0d4c69b3ee29f2880",
+    "harness": "c3113f45c2a11bcb63f0b1fb7a4e44ef6843325d",
+    "corpus": "e5c81343e158d86e921e121508cb8b101980f980"
+  },
+  "machine_warnings": [
+    "turbo boost is on: thermal and frequency drift between rounds (sudo <recorded-path>/bench tune on)"
+  ],
+  "cases": {
+    "banlist12/en/post/clean @ moderation-en-post-clean": {
+      "input_len": 1081,
+      "input_chars": 1081,
+      "n": 16698
+    },
+    "banlist12/en/thread/clean @ moderation-en-thread-clean": {
+      "input_len": 65548,
+      "input_chars": 65548,
+      "n": 294
+    },
+    "banlist12/ru/post/clean @ moderation-ru-post-clean": {
+      "input_len": 1041,
+      "input_chars": 575,
+      "n": 16605
+    },
+    "banlist12/ru/thread/clean @ moderation-ru-thread-clean": {
+      "input_len": 65638,
+      "input_chars": 36600,
+      "n": 225
+    },
+    "banlist12/es/post/clean @ moderation-es-post-clean": {
+      "input_len": 1086,
+      "input_chars": 1058,
+      "n": 17556
+    },
+    "banlist12/es/thread/clean @ moderation-es-thread-clean": {
+      "input_len": 65580,
+      "input_chars": 64078,
+      "n": 283
+    },
+    "banlist12/ar/post/clean @ moderation-ar-post-clean": {
+      "input_len": 1036,
+      "input_chars": 587,
+      "n": 12607
+    },
+    "banlist12/ar/thread/clean @ moderation-ar-thread-clean": {
+      "input_len": 65580,
+      "input_chars": 37267,
+      "n": 187
+    },
+    "banlist12/hi/post/clean @ moderation-hi-post-clean": {
+      "input_len": 1091,
+      "input_chars": 437,
+      "n": 18846
+    },
+    "banlist12/hi/thread/clean @ moderation-hi-thread-clean": {
+      "input_len": 65691,
+      "input_chars": 26501,
+      "n": 274
+    },
+    "banlist12/zh/post/clean @ moderation-zh-post-clean": {
+      "input_len": 1039,
+      "input_chars": 393,
+      "n": 21583
+    },
+    "banlist12/zh/thread/clean @ moderation-zh-thread-clean": {
+      "input_len": 65620,
+      "input_chars": 24776,
+      "n": 331
+    },
+    "banlist12/ja/post/clean @ moderation-ja-post-clean": {
+      "input_len": 1069,
+      "input_chars": 391,
+      "n": 15053
+    },
+    "banlist12/ja/thread/clean @ moderation-ja-thread-clean": {
+      "input_len": 65594,
+      "input_chars": 24020,
+      "n": 226
+    },
+    "banlist12/ko/post/clean @ moderation-ko-post-clean": {
+      "input_len": 1098,
+      "input_chars": 474,
+      "n": 15961
+    },
+    "banlist12/ko/thread/clean @ moderation-ko-thread-clean": {
+      "input_len": 65582,
+      "input_chars": 28120,
+      "n": 263
+    },
+    "banlist12/emoji/post/clean @ moderation-emoji-post-clean": {
+      "input_len": 1097,
+      "input_chars": 1012,
+      "n": 18238
+    },
+    "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean": {
+      "input_len": 65561,
+      "input_chars": 60608,
+      "n": 326
+    },
+    "explode/pipe2/4k @ delimiter-pipe2-4k": {
+      "input_len": 4123,
+      "input_chars": 3443,
+      "n": 19935
+    },
+    "explode/colon2/4k @ delimiter-colon2-4k": {
+      "input_len": 4099,
+      "input_chars": 3483,
+      "n": 19587
+    },
+    "parse-http/body64k @ http-body64k": {
+      "input_len": 65848,
+      "input_chars": 65848,
+      "n": 57396
+    },
+    "render-template/4k @ template-4k": {
+      "input_len": 4250,
+      "input_chars": 4250,
+      "n": 7078
+    },
+    "count-template/4k @ template-4k": {
+      "input_len": 4250,
+      "input_chars": 4250,
+      "n": 49512
+    },
+    "boundary/9/absent @ short-absent": {
+      "input_len": 14400,
+      "input_chars": 14400,
+      "n": 13025
+    },
+    "boundary/31/early @ short-early": {
+      "input_len": 14439,
+      "input_chars": 14439,
+      "n": 1399535
+    },
+    "boundary/32/early @ long-early": {
+      "input_len": 16839,
+      "input_chars": 16839,
+      "n": 1234120
+    }
+  },
+  "warnings": [],
+  "marks": [],
+  "rows": [
+    [
+      "aa",
+      "a",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      248058873,
+      435604975,
+      10431733,
+      20937561
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      247212361,
+      435604553,
+      10479677,
+      20939141
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      245459290,
+      435605639,
+      10458424,
+      20937598
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      246342978,
+      435605968,
+      10429439,
+      20936929
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      246228412,
+      435605253,
+      10471680,
+      20937595
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      246168644,
+      435607902,
+      10482324,
+      20938144
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      247334968,
+      435608184,
+      10375105,
+      20936498
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      245672957,
+      435605615,
+      10452480,
+      20940132
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      245681449,
+      435604529,
+      10499440,
+      20936589
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      246833237,
+      435605525,
+      10424441,
+      20937246
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      250064299,
+      357790974,
+      11412821,
+      22352020
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      250105670,
+      357790631,
+      11348163,
+      22352547
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      250451224,
+      357790548,
+      11291755,
+      22353103
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      250135135,
+      357789945,
+      11378313,
+      22352398
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      250281847,
+      357790530,
+      11347539,
+      22351630
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      250685339,
+      357790313,
+      11288377,
+      22352879
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      250119887,
+      357790191,
+      11293141,
+      22352250
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      249840370,
+      357789986,
+      11371599,
+      22352539
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      250642811,
+      357790247,
+      11313682,
+      22354868
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      250125069,
+      357792900,
+      11329738,
+      22352395
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      249958561,
+      495537769,
+      10457776,
+      20940396
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      251899832,
+      495539240,
+      10447005,
+      20939750
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      247394665,
+      495539100,
+      10507513,
+      20940378
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      248295815,
+      495538708,
+      10542854,
+      20939802
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      249465460,
+      495539220,
+      10411507,
+      20940302
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      248335416,
+      495540106,
+      10490681,
+      20941350
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      250181655,
+      495539385,
+      10495672,
+      20940544
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      251326761,
+      495537282,
+      10447580,
+      20940003
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      247948654,
+      495539326,
+      10434416,
+      20940388
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      248462094,
+      495539250,
+      10490492,
+      20941176
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      247060637,
+      319164263,
+      11503274,
+      22530769
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      246654881,
+      319164342,
+      11594783,
+      22530453
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      246609970,
+      319164407,
+      11499980,
+      22530850
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      246776417,
+      319164352,
+      11490956,
+      22530588
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      246096853,
+      319167432,
+      11523751,
+      22531399
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      246225945,
+      319167897,
+      11517166,
+      22531382
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      246989129,
+      319164905,
+      11510292,
+      22531276
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      246533808,
+      319164784,
+      11534669,
+      22532698
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      246338069,
+      319164619,
+      11504385,
+      22530479
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      246512576,
+      319165638,
+      11501884,
+      22530831
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      248551154,
+      456234432,
+      10529578,
+      20964670
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      247919511,
+      456235486,
+      10532468,
+      20962396
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      247872219,
+      456234672,
+      10455836,
+      20962721
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      247431967,
+      456234512,
+      10542397,
+      20961869
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      247532772,
+      456234641,
+      10508723,
+      20961953
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      248294095,
+      456234101,
+      10412697,
+      20962634
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      248052275,
+      456235630,
+      10488300,
+      20965067
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      247461263,
+      456234491,
+      10497162,
+      20962460
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      247999045,
+      456237619,
+      10421779,
+      20965727
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      248043716,
+      456234096,
+      10464730,
+      20963365
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      247714202,
+      346473197,
+      11437689,
+      22356968
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      248349980,
+      346472455,
+      11301591,
+      22356525
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      247620351,
+      346472511,
+      11312116,
+      22357292
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      247826513,
+      346473647,
+      11390159,
+      22359251
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      248293927,
+      346473797,
+      11306064,
+      22356798
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      248088813,
+      346473147,
+      11370728,
+      22356419
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      248268084,
+      346472901,
+      11411771,
+      22356825
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      248551873,
+      346473704,
+      11290151,
+      22359786
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      247623010,
+      346473124,
+      11499764,
+      22359896
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      248294289,
+      346473309,
+      11322603,
+      22357819
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      246624739,
+      472211020,
+      10391125,
+      20830752
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      246364933,
+      472211835,
+      10459101,
+      20830320
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      246151348,
+      472210040,
+      10445117,
+      20829229
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      247699372,
+      472210511,
+      10380879,
+      20830284
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      246114757,
+      472212056,
+      10427544,
+      20830002
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      247559882,
+      472210948,
+      10449570,
+      20829990
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      246598048,
+      472210580,
+      10421685,
+      20830719
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      246157275,
+      472210052,
+      10470906,
+      20829990
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      246201143,
+      472211892,
+      10441963,
+      20830075
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      247155574,
+      472210053,
+      10368928,
+      20830117
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      242709441,
+      371603646,
+      11777014,
+      23075562
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      242699948,
+      371604112,
+      11730101,
+      23073077
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      243270130,
+      371603775,
+      11698863,
+      23073814
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      242743255,
+      371603408,
+      11734920,
+      23073670
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      242745987,
+      371603922,
+      11755550,
+      23073198
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      244296840,
+      371603490,
+      11688453,
+      23073499
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      242717071,
+      371606905,
+      11717191,
+      23075979
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      242556879,
+      371605829,
+      11696376,
+      23074383
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      243394659,
+      371606747,
+      11699110,
+      23072868
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      242643464,
+      371604239,
+      11718779,
+      23073214
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      246175198,
+      503902567,
+      10471982,
+      21003062
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      246830338,
+      503905326,
+      10430409,
+      21005423
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      246495842,
+      503903459,
+      10473204,
+      21003682
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      246256100,
+      503903321,
+      10449215,
+      21004389
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      246620322,
+      503904356,
+      10452371,
+      21004405
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      246263254,
+      503902951,
+      10497944,
+      21006157
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      246272435,
+      503903031,
+      10511825,
+      21006139
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      247613626,
+      503902879,
+      10480935,
+      21003280
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      246693738,
+      503902347,
+      10555058,
+      21003251
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      247138130,
+      503902560,
+      10525037,
+      21003865
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      243858348,
+      327833139,
+      11322527,
+      22330250
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      244115923,
+      327836057,
+      11416369,
+      22331111
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      242964784,
+      327833774,
+      11333340,
+      22330606
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      244565893,
+      327833027,
+      11351702,
+      22330082
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      243268412,
+      327833198,
+      11337505,
+      22330430
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      245575757,
+      327833294,
+      11355531,
+      22330240
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      244538574,
+      327833602,
+      11311433,
+      22330243
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      244294608,
+      327836026,
+      11330636,
+      22329794
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      244526917,
+      327833180,
+      11330510,
+      22330482
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      245130869,
+      327835119,
+      11294173,
+      22330237
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      247201173,
+      458952218,
+      10472457,
+      21076015
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      247116492,
+      458952286,
+      10473807,
+      21076191
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      247783650,
+      458952396,
+      10431590,
+      21073913
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      253970395,
+      458954403,
+      10475727,
+      21073221
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      247337361,
+      458953758,
+      10513385,
+      21074425
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      247367311,
+      458954477,
+      10427895,
+      21073852
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      247495445,
+      458951876,
+      10482948,
+      21074294
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      246922141,
+      458951714,
+      10498792,
+      21076627
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      247538070,
+      458951741,
+      10424259,
+      21073583
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      247207506,
+      458952236,
+      10490875,
+      21076358
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      247098865,
+      322677149,
+      11269105,
+      22121039
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      248357843,
+      322677303,
+      11145300,
+      22121012
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      246355659,
+      322678164,
+      11234136,
+      22123211
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      246358927,
+      322677639,
+      11283565,
+      22123307
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      246424398,
+      322677335,
+      11162322,
+      22123400
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      246241695,
+      322677615,
+      11245791,
+      22124070
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      246581085,
+      322681232,
+      11229346,
+      22123523
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      247851663,
+      322677971,
+      11143032,
+      22121308
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      247089725,
+      322677738,
+      11189992,
+      22123692
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      247110133,
+      322676830,
+      11169663,
+      22121182
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      247662419,
+      465811097,
+      10392924,
+      20895089
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      245051599,
+      465810608,
+      10458055,
+      20894919
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      245039396,
+      465809800,
+      10567472,
+      20894439
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      244698371,
+      465811283,
+      10438592,
+      20895238
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      244625558,
+      465813054,
+      10495306,
+      20897405
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      245491321,
+      465813349,
+      10461680,
+      20895399
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      245511817,
+      465810759,
+      10438943,
+      20898167
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      244963303,
+      465810528,
+      10422527,
+      20894362
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      245722878,
+      465810734,
+      10465232,
+      20897540
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      246762914,
+      465810557,
+      10383573,
+      20895063
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      246725803,
+      353269812,
+      11519551,
+      22674761
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      246994733,
+      353269627,
+      11488508,
+      22674561
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      246776563,
+      353270083,
+      11475109,
+      22676304
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      247186285,
+      353269535,
+      11505385,
+      22675907
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      247315614,
+      353269674,
+      11484903,
+      22674708
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      247179303,
+      353269467,
+      11487458,
+      22673751
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      246884050,
+      353272680,
+      11559138,
+      22674510
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      246721149,
+      353269079,
+      11512162,
+      22675471
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      247190810,
+      353269944,
+      11487978,
+      22676700
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      246869151,
+      353268540,
+      11504024,
+      22674036
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      245396932,
+      461450617,
+      10432491,
+      20919563
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      244679078,
+      461453163,
+      10414232,
+      20918144
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      244653244,
+      461450122,
+      10444695,
+      20921867
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      244315972,
+      461453088,
+      10441880,
+      20918983
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      245437786,
+      461451119,
+      10403736,
+      20919007
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      245696504,
+      461451420,
+      10451029,
+      20921051
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      248736273,
+      461451343,
+      10470540,
+      20919593
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      245045555,
+      461450434,
+      10410213,
+      20919542
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      244596192,
+      461450506,
+      10480909,
+      20919076
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      245364376,
+      461451267,
+      10424203,
+      20922457
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      248196757,
+      359686812,
+      11363295,
+      22494065
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      247486754,
+      359687408,
+      11377461,
+      22494076
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      250295678,
+      359689232,
+      11428371,
+      22494081
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      247990274,
+      359685920,
+      11402820,
+      22493915
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      247510571,
+      359689220,
+      11419353,
+      22496343
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      247576169,
+      359686689,
+      11422949,
+      22493333
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      248012364,
+      359687035,
+      11346259,
+      22493626
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      247376006,
+      359686785,
+      11391031,
+      22494549
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      247636839,
+      359686781,
+      11381629,
+      22493049
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      248162814,
+      359687134,
+      11367640,
+      22494246
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      242849463,
+      440296918,
+      10439231,
+      20982028
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      243280646,
+      440297075,
+      10502443,
+      20982339
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      243284562,
+      440294208,
+      10422334,
+      20979085
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      242826887,
+      440294333,
+      10476166,
+      20979680
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      242942206,
+      440294793,
+      10442510,
+      20981230
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      243128896,
+      440295237,
+      10413796,
+      20981526
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      243111382,
+      440294590,
+      10509902,
+      20979700
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      242994745,
+      440294784,
+      10498453,
+      20979556
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      243309067,
+      440294871,
+      10446696,
+      20982462
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      243513859,
+      440297392,
+      10534232,
+      20980154
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      248660940,
+      359647188,
+      11249639,
+      22246574
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      249309192,
+      359647166,
+      11226891,
+      22246141
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      249216674,
+      359650246,
+      11247259,
+      22246110
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      248959252,
+      359647749,
+      11229016,
+      22246941
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      249294850,
+      359647731,
+      11276085,
+      22245906
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      248935973,
+      359650264,
+      11284718,
+      22246072
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      249063906,
+      359648635,
+      11225565,
+      22247262
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      249742144,
+      359647033,
+      11203208,
+      22248623
+    ],
+    [
+      "aa",
+      "a",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      249468070,
+      359646939,
+      11321377,
+      22246974
+    ],
+    [
+      "aa",
+      "b",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      248798937,
+      359650009,
+      11214399,
+      22246546
+    ],
+    [
+      "aa",
+      "a",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      242685722,
+      897736475,
+      10490932,
+      21168071
+    ],
+    [
+      "aa",
+      "b",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      243377593,
+      897737019,
+      10501136,
+      21170995
+    ],
+    [
+      "aa",
+      "b",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      241914403,
+      897736292,
+      10571321,
+      21170294
+    ],
+    [
+      "aa",
+      "a",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      243762978,
+      897735959,
+      10476316,
+      21168175
+    ],
+    [
+      "aa",
+      "a",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      242713688,
+      897738271,
+      10549424,
+      21170353
+    ],
+    [
+      "aa",
+      "b",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      247836477,
+      897736048,
+      10529897,
+      21170857
+    ],
+    [
+      "aa",
+      "b",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      245445365,
+      897736094,
+      10503344,
+      21170732
+    ],
+    [
+      "aa",
+      "a",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      242717265,
+      897738999,
+      10481559,
+      21167834
+    ],
+    [
+      "aa",
+      "a",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      240461378,
+      897736052,
+      10542193,
+      21167983
+    ],
+    [
+      "aa",
+      "b",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      243477338,
+      897736373,
+      10523428,
+      21168315
+    ],
+    [
+      "aa",
+      "a",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      236952445,
+      881427108,
+      10530772,
+      21157625
+    ],
+    [
+      "aa",
+      "b",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      237835092,
+      881424576,
+      10531515,
+      21157910
+    ],
+    [
+      "aa",
+      "b",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      241340765,
+      881425281,
+      10453505,
+      21158340
+    ],
+    [
+      "aa",
+      "a",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      238949604,
+      881426887,
+      10550139,
+      21157834
+    ],
+    [
+      "aa",
+      "a",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      243982352,
+      881427340,
+      10537039,
+      21157219
+    ],
+    [
+      "aa",
+      "b",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      239310481,
+      881424974,
+      10505673,
+      21160029
+    ],
+    [
+      "aa",
+      "b",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      242239149,
+      881426513,
+      10542833,
+      21158163
+    ],
+    [
+      "aa",
+      "a",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      235466319,
+      881424739,
+      10500007,
+      21157397
+    ],
+    [
+      "aa",
+      "a",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      236102335,
+      881424626,
+      10509997,
+      21160650
+    ],
+    [
+      "aa",
+      "b",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      239387617,
+      881425202,
+      10519705,
+      21158512
+    ],
+    [
+      "aa",
+      "a",
+      "parse-http/body64k @ http-body64k",
+      240088068,
+      782797782,
+      10968720,
+      22870774
+    ],
+    [
+      "aa",
+      "b",
+      "parse-http/body64k @ http-body64k",
+      241882156,
+      782797612,
+      10959255,
+      22870135
+    ],
+    [
+      "aa",
+      "b",
+      "parse-http/body64k @ http-body64k",
+      240939282,
+      782797638,
+      11022623,
+      22869840
+    ],
+    [
+      "aa",
+      "a",
+      "parse-http/body64k @ http-body64k",
+      239584271,
+      782797465,
+      11027549,
+      22869730
+    ],
+    [
+      "aa",
+      "a",
+      "parse-http/body64k @ http-body64k",
+      240793298,
+      782797284,
+      10942133,
+      22873334
+    ],
+    [
+      "aa",
+      "b",
+      "parse-http/body64k @ http-body64k",
+      241129312,
+      782799478,
+      11051014,
+      22872252
+    ],
+    [
+      "aa",
+      "b",
+      "parse-http/body64k @ http-body64k",
+      240878743,
+      782797476,
+      11036177,
+      22869247
+    ],
+    [
+      "aa",
+      "a",
+      "parse-http/body64k @ http-body64k",
+      241832431,
+      782797728,
+      10938383,
+      22869639
+    ],
+    [
+      "aa",
+      "a",
+      "parse-http/body64k @ http-body64k",
+      242500288,
+      782796795,
+      11042434,
+      22872427
+    ],
+    [
+      "aa",
+      "b",
+      "parse-http/body64k @ http-body64k",
+      241023091,
+      782798249,
+      10975990,
+      22870551
+    ],
+    [
+      "aa",
+      "a",
+      "render-template/4k @ template-4k",
+      247399237,
+      583460485,
+      10476514,
+      20782824
+    ],
+    [
+      "aa",
+      "b",
+      "render-template/4k @ template-4k",
+      244925059,
+      583461230,
+      10417675,
+      20784040
+    ],
+    [
+      "aa",
+      "b",
+      "render-template/4k @ template-4k",
+      243403064,
+      583460450,
+      10381197,
+      20783256
+    ],
+    [
+      "aa",
+      "a",
+      "render-template/4k @ template-4k",
+      243615544,
+      583463455,
+      10363339,
+      20785264
+    ],
+    [
+      "aa",
+      "a",
+      "render-template/4k @ template-4k",
+      244855909,
+      583460560,
+      10433674,
+      20784443
+    ],
+    [
+      "aa",
+      "b",
+      "render-template/4k @ template-4k",
+      243652679,
+      583463838,
+      10440936,
+      20784535
+    ],
+    [
+      "aa",
+      "b",
+      "render-template/4k @ template-4k",
+      243343704,
+      583461843,
+      10362306,
+      20783377
+    ],
+    [
+      "aa",
+      "a",
+      "render-template/4k @ template-4k",
+      243699449,
+      583461252,
+      10449847,
+      20783476
+    ],
+    [
+      "aa",
+      "a",
+      "render-template/4k @ template-4k",
+      243496429,
+      583463286,
+      10469420,
+      20783536
+    ],
+    [
+      "aa",
+      "b",
+      "render-template/4k @ template-4k",
+      245073692,
+      583461063,
+      10382931,
+      20783153
+    ],
+    [
+      "aa",
+      "a",
+      "count-template/4k @ template-4k",
+      243755990,
+      570592848,
+      10737779,
+      21897865
+    ],
+    [
+      "aa",
+      "b",
+      "count-template/4k @ template-4k",
+      243002957,
+      570593506,
+      10748672,
+      21895579
+    ],
+    [
+      "aa",
+      "b",
+      "count-template/4k @ template-4k",
+      244945547,
+      570593522,
+      10718973,
+      21895134
+    ],
+    [
+      "aa",
+      "a",
+      "count-template/4k @ template-4k",
+      244471867,
+      570594132,
+      10753767,
+      21895967
+    ],
+    [
+      "aa",
+      "a",
+      "count-template/4k @ template-4k",
+      246097230,
+      570593636,
+      10739566,
+      21898412
+    ],
+    [
+      "aa",
+      "b",
+      "count-template/4k @ template-4k",
+      245299962,
+      570593213,
+      10693190,
+      21898955
+    ],
+    [
+      "aa",
+      "b",
+      "count-template/4k @ template-4k",
+      242755328,
+      570594018,
+      10731653,
+      21895360
+    ],
+    [
+      "aa",
+      "a",
+      "count-template/4k @ template-4k",
+      243094247,
+      570593720,
+      10748922,
+      21897665
+    ],
+    [
+      "aa",
+      "a",
+      "count-template/4k @ template-4k",
+      245402481,
+      570593512,
+      10706308,
+      21894912
+    ],
+    [
+      "aa",
+      "b",
+      "count-template/4k @ template-4k",
+      245784723,
+      570593546,
+      10795051,
+      21895873
+    ],
+    [
+      "aa",
+      "a",
+      "boundary/9/absent @ short-absent",
+      244697468,
+      371943540,
+      10402252,
+      20966383
+    ],
+    [
+      "aa",
+      "b",
+      "boundary/9/absent @ short-absent",
+      248959377,
+      371943568,
+      10353080,
+      20965993
+    ],
+    [
+      "aa",
+      "b",
+      "boundary/9/absent @ short-absent",
+      246787240,
+      371944420,
+      10410726,
+      20967549
+    ],
+    [
+      "aa",
+      "a",
+      "boundary/9/absent @ short-absent",
+      245080583,
+      371946222,
+      10380332,
+      20965318
+    ],
+    [
+      "aa",
+      "a",
+      "boundary/9/absent @ short-absent",
+      247799746,
+      371945961,
+      10349041,
+      20964949
+    ],
+    [
+      "aa",
+      "b",
+      "boundary/9/absent @ short-absent",
+      245131201,
+      371943548,
+      10428227,
+      20967866
+    ],
+    [
+      "aa",
+      "b",
+      "boundary/9/absent @ short-absent",
+      245369361,
+      371943708,
+      10477783,
+      20969003
+    ],
+    [
+      "aa",
+      "a",
+      "boundary/9/absent @ short-absent",
+      246415578,
+      371943233,
+      10355035,
+      20965933
+    ],
+    [
+      "aa",
+      "a",
+      "boundary/9/absent @ short-absent",
+      244697186,
+      371943561,
+      10400207,
+      20967646
+    ],
+    [
+      "aa",
+      "b",
+      "boundary/9/absent @ short-absent",
+      245477665,
+      371943349,
+      10411596,
+      20965683
+    ],
+    [
+      "aa",
+      "a",
+      "boundary/31/early @ short-early",
+      240533693,
+      1148595037,
+      23416354,
+      61149839
+    ],
+    [
+      "aa",
+      "b",
+      "boundary/31/early @ short-early",
+      239852631,
+      1148597897,
+      23353836,
+      61151596
+    ],
+    [
+      "aa",
+      "b",
+      "boundary/31/early @ short-early",
+      240613569,
+      1148595485,
+      23552090,
+      61149357
+    ],
+    [
+      "aa",
+      "a",
+      "boundary/31/early @ short-early",
+      247362266,
+      1148594672,
+      23508958,
+      61149591
+    ],
+    [
+      "aa",
+      "a",
+      "boundary/31/early @ short-early",
+      239282304,
+      1148594640,
+      23607168,
+      61151752
+    ],
+    [
+      "aa",
+      "b",
+      "boundary/31/early @ short-early",
+      239215392,
+      1148597396,
+      23292929,
+      61148875
+    ],
+    [
+      "aa",
+      "b",
+      "boundary/31/early @ short-early",
+      247101180,
+      1148596829,
+      23367069,
+      61151323
+    ],
+    [
+      "aa",
+      "a",
+      "boundary/31/early @ short-early",
+      246876653,
+      1148594535,
+      23503576,
+      61149856
+    ],
+    [
+      "aa",
+      "a",
+      "boundary/31/early @ short-early",
+      239372060,
+      1148594835,
+      23359980,
+      61151672
+    ],
+    [
+      "aa",
+      "b",
+      "boundary/31/early @ short-early",
+      247590415,
+      1148597163,
+      23287985,
+      61149711
+    ],
+    [
+      "aa",
+      "a",
+      "boundary/32/early @ long-early",
+      252461884,
+      1056025755,
+      21882458,
+      56381034
+    ],
+    [
+      "aa",
+      "b",
+      "boundary/32/early @ long-early",
+      254362763,
+      1056024955,
+      22028411,
+      56381741
+    ],
+    [
+      "aa",
+      "b",
+      "boundary/32/early @ long-early",
+      253440982,
+      1056025160,
+      21809463,
+      56381530
+    ],
+    [
+      "aa",
+      "a",
+      "boundary/32/early @ long-early",
+      255447040,
+      1056024591,
+      21889875,
+      56381242
+    ],
+    [
+      "aa",
+      "a",
+      "boundary/32/early @ long-early",
+      254306712,
+      1056028058,
+      21839434,
+      56381553
+    ],
+    [
+      "aa",
+      "b",
+      "boundary/32/early @ long-early",
+      254608149,
+      1056024578,
+      21795782,
+      56380353
+    ],
+    [
+      "aa",
+      "b",
+      "boundary/32/early @ long-early",
+      253145932,
+      1056024649,
+      21993884,
+      56383858
+    ],
+    [
+      "aa",
+      "a",
+      "boundary/32/early @ long-early",
+      252738313,
+      1056025070,
+      21874450,
+      56381034
+    ],
+    [
+      "aa",
+      "a",
+      "boundary/32/early @ long-early",
+      251905000,
+      1056025417,
+      22007229,
+      56381537
+    ],
+    [
+      "aa",
+      "b",
+      "boundary/32/early @ long-early",
+      254557578,
+      1056027607,
+      21983920,
+      56380885
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      245952640,
+      435604909,
+      10468891,
+      20937298
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      223095353,
+      411725475,
+      10418160,
+      20935115
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      222816560,
+      411727624,
+      10450546,
+      20935070
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      251491759,
+      435604974,
+      10466708,
+      20936818
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      246515451,
+      435604687,
+      10429615,
+      20939610
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      229281776,
+      411725489,
+      10454389,
+      20935466
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      222672243,
+      411726094,
+      10492915,
+      20935088
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      246910662,
+      435605023,
+      10491111,
+      20937054
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      246765188,
+      435604948,
+      10424165,
+      20937370
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      222713215,
+      411725540,
+      10466885,
+      20935956
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      250472608,
+      357790042,
+      11307907,
+      22351730
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      233110557,
+      357371213,
+      11291265,
+      22350694
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      233241249,
+      357371407,
+      11294676,
+      22353059
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      251841060,
+      357790177,
+      11254714,
+      22352664
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      249852089,
+      357790760,
+      11323327,
+      22352270
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      233110680,
+      357368866,
+      11255535,
+      22350871
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      233846277,
+      357368614,
+      11233852,
+      22350172
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      249883794,
+      357790590,
+      11351546,
+      22351772
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      250262226,
+      357791416,
+      11328762,
+      22351806
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      233574437,
+      357368921,
+      11292579,
+      22353628
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      248497456,
+      495540534,
+      10463946,
+      20942544
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      235397831,
+      479246799,
+      10520957,
+      20940002
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      236416248,
+      479246511,
+      10469657,
+      20938875
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      248244516,
+      495536549,
+      10502672,
+      20942646
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      248554518,
+      495536812,
+      10511630,
+      20940633
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      236529856,
+      479246243,
+      10443053,
+      20939331
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      235499086,
+      479247235,
+      10481998,
+      20939538
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      247804051,
+      495537236,
+      10504751,
+      20941019
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      249131561,
+      495538147,
+      10455178,
+      20940724
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      236300113,
+      479249248,
+      10419308,
+      20941911
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      246527711,
+      319164939,
+      11568509,
+      22534191
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      238642034,
+      318942916,
+      11475862,
+      22529998
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      237563822,
+      318943805,
+      11515012,
+      22530051
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      245999429,
+      319165527,
+      11593300,
+      22530911
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      247156625,
+      319164899,
+      11478809,
+      22533238
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      237560944,
+      318945807,
+      11464983,
+      22532651
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      237295745,
+      318945754,
+      11549361,
+      22530169
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      247071511,
+      319165412,
+      11444865,
+      22530650
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      246198912,
+      319164563,
+      11566894,
+      22530043
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      237505248,
+      318942641,
+      11477307,
+      22529963
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      248406410,
+      456235084,
+      10408024,
+      20965469
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      226667996,
+      431128321,
+      10495570,
+      20963997
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      227969546,
+      431128476,
+      10449523,
+      20963656
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      248229709,
+      456238207,
+      10461270,
+      20962770
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      248130587,
+      456234603,
+      10504404,
+      20962264
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      227092179,
+      431131004,
+      10504164,
+      20963265
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      227241820,
+      431128501,
+      10413547,
+      20962958
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      248227793,
+      456237127,
+      10394766,
+      20961970
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      247741077,
+      456234744,
+      10474777,
+      20962702
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      226085827,
+      431128448,
+      10435563,
+      20960999
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      248185514,
+      346472827,
+      11381553,
+      22357921
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      231581475,
+      346066862,
+      11273908,
+      22355763
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      232214586,
+      346066821,
+      11237384,
+      22355137
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      248355486,
+      346473580,
+      11325775,
+      22358265
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      248214802,
+      346475739,
+      11322572,
+      22357058
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      232321219,
+      346070641,
+      11210112,
+      22356006
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      231571841,
+      346067061,
+      11238607,
+      22355646
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      248227946,
+      346473686,
+      11327867,
+      22357015
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      248464049,
+      346473242,
+      11343580,
+      22357144
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      232759679,
+      346067208,
+      11291058,
+      22355500
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      247090883,
+      472210848,
+      10452377,
+      20829937
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      235963082,
+      454181737,
+      10412320,
+      20828315
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      235600049,
+      454180546,
+      10458873,
+      20829186
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      246250306,
+      472210518,
+      10395338,
+      20830164
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      247585953,
+      472210541,
+      10397703,
+      20830409
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      235806077,
+      454184034,
+      10506646,
+      20828530
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      235897325,
+      454181343,
+      10407781,
+      20828697
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      247490769,
+      472210040,
+      10397406,
+      20830458
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      246303526,
+      472210411,
+      10476923,
+      20829884
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      235012727,
+      454181715,
+      10470860,
+      20829137
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      243268494,
+      371603479,
+      11721893,
+      23073772
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      233922695,
+      371335833,
+      11654069,
+      23072050
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      233821250,
+      371334782,
+      11679976,
+      23071555
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      243400178,
+      371604028,
+      11738719,
+      23072754
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      242771558,
+      371603472,
+      11738969,
+      23073419
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      233870936,
+      371335153,
+      11701248,
+      23072020
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      234281845,
+      371335166,
+      11694696,
+      23072400
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      242780918,
+      371603337,
+      11760764,
+      23073834
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      242624748,
+      371603740,
+      11728824,
+      23073332
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      234248553,
+      371334824,
+      11669008,
+      23072305
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      246492695,
+      503904783,
+      10522632,
+      21005333
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      230496596,
+      479929516,
+      10496508,
+      21004922
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      229759262,
+      479929253,
+      10499396,
+      21001880
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      246449740,
+      503902965,
+      10563564,
+      21003440
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      246420166,
+      503902894,
+      10577570,
+      21005008
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      229943200,
+      479929175,
+      10501631,
+      21003268
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      231066706,
+      479931097,
+      10504711,
+      21004643
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      246039261,
+      503902284,
+      10456794,
+      21006615
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      246907700,
+      503903255,
+      10470739,
+      21003772
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      229700132,
+      479929439,
+      10467366,
+      21002891
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      243562616,
+      327834392,
+      11346397,
+      22330568
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      234069809,
+      327483429,
+      11325183,
+      22329298
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      234117219,
+      327483263,
+      11306398,
+      22328500
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      242860601,
+      327833574,
+      11529856,
+      22329435
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      244218553,
+      327833559,
+      11332486,
+      22332329
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      234084542,
+      327484226,
+      11323275,
+      22329218
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      234946171,
+      327483671,
+      11305822,
+      22328776
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      243985999,
+      327836116,
+      11308409,
+      22330048
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      243980713,
+      327833874,
+      11371275,
+      22330710
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      234168730,
+      327486399,
+      11313564,
+      22328805
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      254536431,
+      458952266,
+      10474428,
+      21074274
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      222665897,
+      425002819,
+      10536338,
+      21075655
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      224736631,
+      425000405,
+      10502219,
+      21072948
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      246924387,
+      458951822,
+      10472021,
+      21074495
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      247256577,
+      458954440,
+      10533877,
+      21073409
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      223741234,
+      424999956,
+      10479687,
+      21073690
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      224171972,
+      425000300,
+      10537153,
+      21072399
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      246892563,
+      458951519,
+      10564252,
+      21073361
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      247796734,
+      458954223,
+      10565698,
+      21074157
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      223399289,
+      424999883,
+      10463295,
+      21073729
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      246262975,
+      322679664,
+      11234683,
+      22120669
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      229837393,
+      322158285,
+      11395138,
+      22120107
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      229395521,
+      322155148,
+      11170531,
+      22119780
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      246606331,
+      322677777,
+      11253868,
+      22121505
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      246076392,
+      322680039,
+      11211584,
+      22122068
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      230439618,
+      322158367,
+      11153064,
+      22119414
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      230827095,
+      322155974,
+      11218446,
+      22120026
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      247266533,
+      322677279,
+      11203768,
+      22120356
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      247681838,
+      322680727,
+      11149800,
+      22122554
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      229884160,
+      322155929,
+      11155607,
+      22120742
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      245295086,
+      465813003,
+      10484572,
+      20897018
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      226556792,
+      442130017,
+      10476457,
+      20895622
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      224737692,
+      442129848,
+      10524993,
+      20894296
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      244704217,
+      465813194,
+      10442066,
+      20897347
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      245923739,
+      465813405,
+      10410219,
+      20897118
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      224310480,
+      442130697,
+      10493895,
+      20896744
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      225712345,
+      442129905,
+      10488953,
+      20893449
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      245640687,
+      465813534,
+      10375421,
+      20897244
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      245945155,
+      465810952,
+      10464197,
+      20896985
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      224445620,
+      442131512,
+      10497996,
+      20892888
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      247455780,
+      353270069,
+      11477791,
+      22673807
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      233906635,
+      352912225,
+      11540844,
+      22672697
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      233976768,
+      352909496,
+      11528279,
+      22672570
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      247568345,
+      353269411,
+      11492178,
+      22675268
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      246917689,
+      353269386,
+      11598668,
+      22673883
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      233994034,
+      352914672,
+      11482074,
+      22674459
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      234292327,
+      352915381,
+      11439626,
+      22672442
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      246615736,
+      353270612,
+      11486547,
+      22673414
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      246903803,
+      353268550,
+      11545995,
+      22673600
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      234404839,
+      352915000,
+      11467563,
+      22672746
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      244321499,
+      461450829,
+      10542576,
+      20920449
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      226193985,
+      438625520,
+      10523039,
+      20917809
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      227052761,
+      438624804,
+      10446978,
+      20918888
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      244631557,
+      461453643,
+      10502461,
+      20919450
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      244852865,
+      461450955,
+      10531121,
+      20921136
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      227388494,
+      438624691,
+      10426732,
+      20917989
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      226850926,
+      438624892,
+      10475070,
+      20918158
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      245482330,
+      461450813,
+      10480600,
+      20918720
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      244997965,
+      461450967,
+      10442895,
+      20919155
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      226480674,
+      438624848,
+      10509806,
+      20917722
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      247448689,
+      359686377,
+      11375939,
+      22494398
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      235721496,
+      359309401,
+      11317310,
+      22494803
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      235559301,
+      359312014,
+      11369141,
+      22492728
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      247620285,
+      359689614,
+      11400626,
+      22493881
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      249591299,
+      359686195,
+      11377695,
+      22493057
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      235301794,
+      359308466,
+      11350747,
+      22495157
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      235380397,
+      359309593,
+      11376984,
+      22492910
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      248178944,
+      359686293,
+      11392748,
+      22494244
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      247524913,
+      359687021,
+      11396726,
+      22494229
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      235521064,
+      359311879,
+      11339558,
+      22495317
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      243679051,
+      440294573,
+      10473181,
+      20979457
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      221546494,
+      414215656,
+      10488858,
+      20977899
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      226580687,
+      414214032,
+      10505703,
+      20977758
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      244916092,
+      440294377,
+      10428101,
+      20979548
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      243077844,
+      440294661,
+      10477037,
+      20979711
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      221966075,
+      414213198,
+      10441284,
+      20978466
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      221923326,
+      414215803,
+      10468379,
+      20978894
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      244848921,
+      440297483,
+      10518617,
+      20979968
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      242352386,
+      440296758,
+      10524747,
+      20979042
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      221874440,
+      414212886,
+      10442321,
+      20977638
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      250565446,
+      359647623,
+      11234876,
+      22247185
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      231877662,
+      359182339,
+      11204954,
+      22247197
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      232399794,
+      359180408,
+      11160141,
+      22244893
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      249101096,
+      359648610,
+      11223095,
+      22245711
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      248981926,
+      359647241,
+      11247505,
+      22245889
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      232392265,
+      359180063,
+      11185489,
+      22248500
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      232273537,
+      359179650,
+      11207341,
+      22245351
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      249081845,
+      359647863,
+      11242531,
+      22248258
+    ],
+    [
+      "gcc15",
+      "a",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      249179169,
+      359647771,
+      11201313,
+      22246965
+    ],
+    [
+      "gcc15",
+      "b",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      231989058,
+      359180471,
+      11194323,
+      22244885
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      242603000,
+      897737043,
+      10553027,
+      21168029
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      242748603,
+      897736107,
+      10478636,
+      21168064
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      243759415,
+      897738923,
+      10542037,
+      21168032
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      242531490,
+      897737860,
+      10539407,
+      21168543
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      244768415,
+      897736283,
+      10489166,
+      21170419
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      238861661,
+      897735850,
+      10477469,
+      21167968
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      241881338,
+      897738448,
+      10514426,
+      21171122
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      242428252,
+      897735843,
+      10488277,
+      21167677
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      243124351,
+      897738738,
+      10612071,
+      21167904
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      242075217,
+      897736099,
+      10507670,
+      21167365
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      240864373,
+      881425019,
+      10445257,
+      21157356
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      238829053,
+      881424306,
+      10538642,
+      21160721
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      243682843,
+      881427652,
+      10490865,
+      21157959
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      241379788,
+      881424502,
+      10473836,
+      21160660
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      243264631,
+      881425252,
+      10525367,
+      21157858
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      238099101,
+      881425037,
+      10532313,
+      21157129
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      239227394,
+      881424996,
+      10516619,
+      21157861
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      241474522,
+      881427505,
+      10594412,
+      21161021
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      239046752,
+      881424331,
+      10579047,
+      21157838
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      240307816,
+      881424599,
+      10516941,
+      21157282
+    ],
+    [
+      "gcc15",
+      "a",
+      "parse-http/body64k @ http-body64k",
+      252514205,
+      782797616,
+      11026941,
+      22869840
+    ],
+    [
+      "gcc15",
+      "b",
+      "parse-http/body64k @ http-body64k",
+      242405877,
+      782799835,
+      11012555,
+      22872595
+    ],
+    [
+      "gcc15",
+      "b",
+      "parse-http/body64k @ http-body64k",
+      243364017,
+      782798232,
+      10993089,
+      22870018
+    ],
+    [
+      "gcc15",
+      "a",
+      "parse-http/body64k @ http-body64k",
+      240413380,
+      782797636,
+      11017130,
+      22870344
+    ],
+    [
+      "gcc15",
+      "a",
+      "parse-http/body64k @ http-body64k",
+      241399034,
+      782797842,
+      11033079,
+      22870083
+    ],
+    [
+      "gcc15",
+      "b",
+      "parse-http/body64k @ http-body64k",
+      242468793,
+      782799493,
+      10936297,
+      22869114
+    ],
+    [
+      "gcc15",
+      "b",
+      "parse-http/body64k @ http-body64k",
+      242975383,
+      782800238,
+      10974906,
+      22869201
+    ],
+    [
+      "gcc15",
+      "a",
+      "parse-http/body64k @ http-body64k",
+      240957672,
+      782797414,
+      10996433,
+      22871497
+    ],
+    [
+      "gcc15",
+      "a",
+      "parse-http/body64k @ http-body64k",
+      241336841,
+      782800585,
+      10960156,
+      22871898
+    ],
+    [
+      "gcc15",
+      "b",
+      "parse-http/body64k @ http-body64k",
+      245794404,
+      782797746,
+      11001812,
+      22869483
+    ],
+    [
+      "gcc15",
+      "a",
+      "render-template/4k @ template-4k",
+      243569930,
+      583461131,
+      10407902,
+      20782907
+    ],
+    [
+      "gcc15",
+      "b",
+      "render-template/4k @ template-4k",
+      206100770,
+      484256713,
+      10476932,
+      20771872
+    ],
+    [
+      "gcc15",
+      "b",
+      "render-template/4k @ template-4k",
+      206397861,
+      484258770,
+      10411086,
+      20771480
+    ],
+    [
+      "gcc15",
+      "a",
+      "render-template/4k @ template-4k",
+      246172549,
+      583460910,
+      10465585,
+      20785372
+    ],
+    [
+      "gcc15",
+      "a",
+      "render-template/4k @ template-4k",
+      244793672,
+      583461349,
+      10415220,
+      20785425
+    ],
+    [
+      "gcc15",
+      "b",
+      "render-template/4k @ template-4k",
+      208032039,
+      484255969,
+      10467123,
+      20769477
+    ],
+    [
+      "gcc15",
+      "b",
+      "render-template/4k @ template-4k",
+      205749267,
+      484256398,
+      10457220,
+      20769111
+    ],
+    [
+      "gcc15",
+      "a",
+      "render-template/4k @ template-4k",
+      244454389,
+      583461159,
+      10385380,
+      20786324
+    ],
+    [
+      "gcc15",
+      "a",
+      "render-template/4k @ template-4k",
+      242958381,
+      583460611,
+      10479491,
+      20783137
+    ],
+    [
+      "gcc15",
+      "b",
+      "render-template/4k @ template-4k",
+      209265031,
+      484256579,
+      10443778,
+      20772842
+    ],
+    [
+      "gcc15",
+      "a",
+      "count-template/4k @ template-4k",
+      244163694,
+      570596706,
+      10726968,
+      21895595
+    ],
+    [
+      "gcc15",
+      "b",
+      "count-template/4k @ template-4k",
+      205657133,
+      471468459,
+      10762691,
+      21893094
+    ],
+    [
+      "gcc15",
+      "b",
+      "count-template/4k @ template-4k",
+      205836245,
+      471468109,
+      10757860,
+      21894062
+    ],
+    [
+      "gcc15",
+      "a",
+      "count-template/4k @ template-4k",
+      244890342,
+      570593636,
+      10735729,
+      21895464
+    ],
+    [
+      "gcc15",
+      "a",
+      "count-template/4k @ template-4k",
+      243985109,
+      570596490,
+      10809115,
+      21896162
+    ],
+    [
+      "gcc15",
+      "b",
+      "count-template/4k @ template-4k",
+      206995394,
+      471469219,
+      10781296,
+      21894070
+    ],
+    [
+      "gcc15",
+      "b",
+      "count-template/4k @ template-4k",
+      208055712,
+      471471532,
+      10698615,
+      21893191
+    ],
+    [
+      "gcc15",
+      "a",
+      "count-template/4k @ template-4k",
+      242894051,
+      570596596,
+      10726845,
+      21898382
+    ],
+    [
+      "gcc15",
+      "a",
+      "count-template/4k @ template-4k",
+      243629506,
+      570593715,
+      10785603,
+      21896131
+    ],
+    [
+      "gcc15",
+      "b",
+      "count-template/4k @ template-4k",
+      207546061,
+      471471366,
+      10847614,
+      21893979
+    ],
+    [
+      "gcc15",
+      "a",
+      "boundary/9/absent @ short-absent",
+      247489635,
+      371943516,
+      10427056,
+      20966116
+    ],
+    [
+      "gcc15",
+      "b",
+      "boundary/9/absent @ short-absent",
+      223618946,
+      370082975,
+      10394718,
+      20965358
+    ],
+    [
+      "gcc15",
+      "b",
+      "boundary/9/absent @ short-absent",
+      225985230,
+      370080903,
+      10369996,
+      20965407
+    ],
+    [
+      "gcc15",
+      "a",
+      "boundary/9/absent @ short-absent",
+      245315701,
+      371944365,
+      10423942,
+      20964920
+    ],
+    [
+      "gcc15",
+      "a",
+      "boundary/9/absent @ short-absent",
+      247355778,
+      371943054,
+      10490508,
+      20965381
+    ],
+    [
+      "gcc15",
+      "b",
+      "boundary/9/absent @ short-absent",
+      225944068,
+      370083738,
+      10421553,
+      20968143
+    ],
+    [
+      "gcc15",
+      "b",
+      "boundary/9/absent @ short-absent",
+      226377249,
+      370081376,
+      10468204,
+      20965449
+    ],
+    [
+      "gcc15",
+      "a",
+      "boundary/9/absent @ short-absent",
+      246101314,
+      371943892,
+      10448992,
+      20968106
+    ],
+    [
+      "gcc15",
+      "a",
+      "boundary/9/absent @ short-absent",
+      244368106,
+      371942977,
+      10534167,
+      20968477
+    ],
+    [
+      "gcc15",
+      "b",
+      "boundary/9/absent @ short-absent",
+      226365994,
+      370080383,
+      10514689,
+      20964972
+    ],
+    [
+      "gcc15",
+      "a",
+      "boundary/31/early @ short-early",
+      239393601,
+      1148596583,
+      23615493,
+      61149759
+    ],
+    [
+      "gcc15",
+      "b",
+      "boundary/31/early @ short-early",
+      245014994,
+      1155592073,
+      23686694,
+      61149928
+    ],
+    [
+      "gcc15",
+      "b",
+      "boundary/31/early @ short-early",
+      245770029,
+      1155592414,
+      23489496,
+      61149332
+    ],
+    [
+      "gcc15",
+      "a",
+      "boundary/31/early @ short-early",
+      251956757,
+      1148596929,
+      23492276,
+      61148834
+    ],
+    [
+      "gcc15",
+      "a",
+      "boundary/31/early @ short-early",
+      241076784,
+      1148594873,
+      23516899,
+      61149551
+    ],
+    [
+      "gcc15",
+      "b",
+      "boundary/31/early @ short-early",
+      245170059,
+      1155593003,
+      23426429,
+      61149420
+    ],
+    [
+      "gcc15",
+      "b",
+      "boundary/31/early @ short-early",
+      246181918,
+      1155592500,
+      23270319,
+      61148771
+    ],
+    [
+      "gcc15",
+      "a",
+      "boundary/31/early @ short-early",
+      240863823,
+      1148594770,
+      23551477,
+      61149614
+    ],
+    [
+      "gcc15",
+      "a",
+      "boundary/31/early @ short-early",
+      240012098,
+      1148596677,
+      23608510,
+      61152745
+    ],
+    [
+      "gcc15",
+      "b",
+      "boundary/31/early @ short-early",
+      246158944,
+      1155592632,
+      23551178,
+      61150679
+    ],
+    [
+      "gcc15",
+      "a",
+      "boundary/32/early @ long-early",
+      252732624,
+      1056027523,
+      22002409,
+      56381233
+    ],
+    [
+      "gcc15",
+      "b",
+      "boundary/32/early @ long-early",
+      252339383,
+      1062196401,
+      21928030,
+      56380596
+    ],
+    [
+      "gcc15",
+      "b",
+      "boundary/32/early @ long-early",
+      252440075,
+      1062198204,
+      21818891,
+      56381466
+    ],
+    [
+      "gcc15",
+      "a",
+      "boundary/32/early @ long-early",
+      254171674,
+      1056025121,
+      22070217,
+      56380892
+    ],
+    [
+      "gcc15",
+      "a",
+      "boundary/32/early @ long-early",
+      250742082,
+      1056025049,
+      21969963,
+      56381055
+    ],
+    [
+      "gcc15",
+      "b",
+      "boundary/32/early @ long-early",
+      252681379,
+      1062195916,
+      21873496,
+      56381148
+    ],
+    [
+      "gcc15",
+      "b",
+      "boundary/32/early @ long-early",
+      252378358,
+      1062195237,
+      21891437,
+      56383676
+    ],
+    [
+      "gcc15",
+      "a",
+      "boundary/32/early @ long-early",
+      253665961,
+      1056027174,
+      22003762,
+      56381386
+    ],
+    [
+      "gcc15",
+      "a",
+      "boundary/32/early @ long-early",
+      257394110,
+      1056025079,
+      21935223,
+      56381422
+    ],
+    [
+      "gcc15",
+      "b",
+      "boundary/32/early @ long-early",
+      252788345,
+      1062195684,
+      21873856,
+      56383659
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      232755938,
+      392249457,
+      10314749,
+      20910817
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      210103736,
+      385236335,
+      10328809,
+      20912790
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      212317605,
+      385235596,
+      10321687,
+      20911355
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      232199005,
+      392252180,
+      10337852,
+      20910358
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      231952698,
+      392250059,
+      10289841,
+      20911570
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      210749914,
+      385236134,
+      10290787,
+      20913030
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      210612866,
+      385236136,
+      10318381,
+      20910834
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      231962315,
+      392251733,
+      10341341,
+      20911428
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      232476414,
+      392249648,
+      10286686,
+      20911520
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      210699916,
+      385235577,
+      10364393,
+      20910690
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      236889351,
+      338251459,
+      11055055,
+      21571099
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      218909793,
+      338126876,
+      10989827,
+      21569831
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      218633357,
+      338127664,
+      10975916,
+      21570230
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      236632643,
+      338251506,
+      11105001,
+      21569934
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      237604494,
+      338251081,
+      10975379,
+      21570339
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      218693218,
+      338127406,
+      11023513,
+      21571149
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      218601222,
+      338127991,
+      11018831,
+      21571089
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      237032753,
+      338251271,
+      10969371,
+      21571045
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      236771900,
+      338253308,
+      11043264,
+      21570514
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      218738915,
+      338126889,
+      11036095,
+      21570861
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      236717379,
+      444470509,
+      10284514,
+      20914693
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      224506994,
+      434656067,
+      10319901,
+      20916554
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      224932251,
+      434655687,
+      10343262,
+      20914185
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      236914726,
+      444470077,
+      10252207,
+      20915031
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      236244937,
+      444470280,
+      10335611,
+      20913938
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      224616800,
+      434659503,
+      10358258,
+      20914053
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      224929036,
+      434655658,
+      10294833,
+      20916839
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      236406905,
+      444470171,
+      10336681,
+      20914329
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      236231797,
+      444470911,
+      10294506,
+      20916652
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      225485101,
+      434656591,
+      10288329,
+      20913876
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      244932097,
+      303510666,
+      11296376,
+      21746402
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      227617920,
+      298478641,
+      11261701,
+      21724854
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      228068780,
+      298478553,
+      11220222,
+      21724897
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      244633569,
+      303507430,
+      11330771,
+      21749384
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      244642165,
+      303506946,
+      11246680,
+      21747090
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      228298235,
+      298478571,
+      11185263,
+      21724290
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      227804803,
+      298481754,
+      11224007,
+      21727551
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      244751733,
+      303506500,
+      11235973,
+      21748993
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      245180272,
+      303507114,
+      11185106,
+      21746565
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      227731203,
+      298480962,
+      11243417,
+      21724778
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      236106548,
+      411587779,
+      10294775,
+      20937716
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      214378280,
+      404211151,
+      10289545,
+      20937667
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      212959098,
+      404212298,
+      10338945,
+      20938408
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      236032834,
+      411585596,
+      10323291,
+      20937837
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      237143521,
+      411585463,
+      10263912,
+      20940157
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      214889390,
+      404210869,
+      10385226,
+      20937874
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      214874037,
+      404211026,
+      10378557,
+      20939477
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      236391213,
+      411587368,
+      10268734,
+      20938481
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      236146313,
+      411585230,
+      10317835,
+      20937877
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      212662311,
+      404211772,
+      10423216,
+      20940366
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      236518535,
+      327880479,
+      11018907,
+      21578466
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      220001202,
+      327764458,
+      11055623,
+      21574956
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      220568817,
+      327760760,
+      11002619,
+      21575819
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      236390692,
+      327881073,
+      11008135,
+      21576112
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      236324831,
+      327882627,
+      11070436,
+      21576538
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      219786756,
+      327761035,
+      11077258,
+      21575282
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      220285878,
+      327761081,
+      10958170,
+      21576251
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      236433814,
+      327879871,
+      11067555,
+      21576623
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      236499858,
+      327883225,
+      11030449,
+      21576216
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      220027804,
+      327763440,
+      11002877,
+      21578222
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      241907778,
+      435620743,
+      10290123,
+      20799168
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      228368627,
+      430324952,
+      10276497,
+      20794928
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      228445525,
+      430322197,
+      10297183,
+      20795600
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      241684790,
+      435621352,
+      10316128,
+      20796578
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      241825397,
+      435620571,
+      10356425,
+      20795806
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      229145024,
+      430325967,
+      10253010,
+      20795268
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      228102977,
+      430323875,
+      10286741,
+      20796105
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      243701489,
+      435618508,
+      10304749,
+      20795773
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      241445365,
+      435618434,
+      10297476,
+      20798770
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      228932146,
+      430322472,
+      10332851,
+      20795133
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      244162858,
+      356382091,
+      11481481,
+      22278344
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      231855444,
+      356300732,
+      11391333,
+      22280538
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      232136166,
+      356304430,
+      11474723,
+      22278131
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      244201693,
+      356379947,
+      11494286,
+      22278696
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      244478558,
+      356380243,
+      11475854,
+      22281757
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      231595059,
+      356303847,
+      11483529,
+      22281223
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      231519737,
+      356300805,
+      11502187,
+      22278387
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      244582621,
+      356382834,
+      11466464,
+      22278891
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      244199981,
+      356380170,
+      11489239,
+      22277890
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      231493174,
+      356301688,
+      11419270,
+      22278140
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      235625815,
+      441901656,
+      10330445,
+      20981684
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      219887104,
+      430514808,
+      10381202,
+      20980958
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      220040986,
+      430515260,
+      10393286,
+      20980756
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      235781903,
+      441899876,
+      10343085,
+      20981561
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      235263212,
+      441899528,
+      10376834,
+      20983869
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      218938188,
+      430518238,
+      10365941,
+      20983169
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      219866427,
+      430515372,
+      10347487,
+      20981412
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      235549303,
+      441898944,
+      10373197,
+      20981685
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      235210751,
+      441901078,
+      10373214,
+      20981035
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      223728835,
+      430515518,
+      10302451,
+      20980385
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      236993074,
+      309947048,
+      11122111,
+      21550235
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      219479521,
+      305490237,
+      11014124,
+      21536066
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      219806973,
+      305489675,
+      11045558,
+      21532867
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      238718624,
+      309946237,
+      11063100,
+      21552956
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      237289915,
+      309948760,
+      11149918,
+      21551885
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      219719695,
+      305492368,
+      11036823,
+      21534242
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      219494598,
+      305489807,
+      11017027,
+      21536081
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      237244121,
+      309946833,
+      11078298,
+      21550446
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      237619341,
+      309946202,
+      11027200,
+      21550296
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      219597411,
+      305492788,
+      11069694,
+      21533505
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      234111237,
+      403599476,
+      10366295,
+      21058031
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      209715572,
+      393629155,
+      10395469,
+      21057707
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      209083920,
+      393627850,
+      10333406,
+      21059749
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      234800701,
+      403599311,
+      10354432,
+      21058104
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      235811681,
+      403598736,
+      10312888,
+      21057219
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      209170334,
+      393630059,
+      10382821,
+      21057569
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      208563968,
+      393629586,
+      10348273,
+      21056934
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      237259883,
+      403598678,
+      10335233,
+      21058366
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      234658023,
+      403599525,
+      10396211,
+      21060887
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      209357767,
+      393629201,
+      10341744,
+      21057873
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      235535966,
+      303393015,
+      10875061,
+      21349234
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      216683070,
+      303239076,
+      10947606,
+      21348871
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      217187316,
+      303236363,
+      10875649,
+      21348978
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      235634099,
+      303389977,
+      10844163,
+      21346400
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      235508399,
+      303390383,
+      10928625,
+      21346487
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      216874546,
+      303238819,
+      10909302,
+      21346948
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      217386057,
+      303235769,
+      10868767,
+      21346660
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      235140859,
+      303392507,
+      10910896,
+      21349995
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      235411371,
+      303389765,
+      10926601,
+      21347391
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      217372666,
+      303236626,
+      10837827,
+      21346600
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      236023541,
+      422551517,
+      10299611,
+      20864891
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      215165787,
+      415596840,
+      10332890,
+      20864535
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      215145624,
+      415597022,
+      10278397,
+      20865051
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      235540724,
+      422551565,
+      10234824,
+      20865045
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      234853551,
+      422551296,
+      10318151,
+      20865260
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      216688406,
+      415595758,
+      10302197,
+      20864824
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      214663056,
+      415595777,
+      10311107,
+      20864602
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      235531876,
+      422553206,
+      10288251,
+      20867344
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      236267229,
+      422551270,
+      10256314,
+      20865008
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      214479497,
+      415596581,
+      10337447,
+      20865013
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      239970084,
+      337138946,
+      11270052,
+      21888536
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      226851400,
+      337033292,
+      11173080,
+      21887149
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      226193579,
+      337033899,
+      11268605,
+      21890805
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      240281904,
+      337138819,
+      11251052,
+      21887892
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      240408857,
+      337138536,
+      11203584,
+      21890768
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      226621740,
+      337035376,
+      11210162,
+      21887674
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      226784054,
+      337033714,
+      11184882,
+      21890017
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      240242318,
+      337138968,
+      11227142,
+      21891262
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      241390459,
+      337138255,
+      11258608,
+      21890719
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      226064579,
+      337033865,
+      11204785,
+      21888093
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      235328034,
+      420341445,
+      10300933,
+      20893225
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      216467605,
+      413636956,
+      10336655,
+      20891397
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      216736026,
+      413637481,
+      10327935,
+      20890700
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      235634146,
+      420341593,
+      10261645,
+      20891172
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      235137049,
+      420342351,
+      10294945,
+      20891748
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      217157926,
+      413636916,
+      10308931,
+      20891174
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      216932117,
+      413637537,
+      10318964,
+      20890907
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      235505899,
+      420341392,
+      10309243,
+      20890985
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      234776892,
+      420342231,
+      10325128,
+      20893647
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      216921352,
+      413637521,
+      10310654,
+      20890543
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      243812164,
+      344080778,
+      11130235,
+      21720070
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      228535216,
+      343967297,
+      11107019,
+      21719659
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      229138569,
+      343966593,
+      11071456,
+      21718804
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      243488760,
+      344078834,
+      11167168,
+      21719866
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      243869011,
+      344078309,
+      11110048,
+      21720234
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      229293525,
+      343967706,
+      11057771,
+      21721898
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      228836043,
+      343970019,
+      11159132,
+      21721254
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      243955463,
+      344078148,
+      11109200,
+      21721580
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      243800529,
+      344078926,
+      11092276,
+      21719489
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      228856850,
+      343970253,
+      11074709,
+      21719636
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      231789855,
+      394588098,
+      10366014,
+      20959851
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      209244909,
+      386930019,
+      10311847,
+      20957918
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      208716492,
+      386929798,
+      10297545,
+      20956178
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      231861952,
+      394588151,
+      10291308,
+      20956476
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      232431180,
+      394590008,
+      10310328,
+      20956623
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      209470737,
+      386930167,
+      10339115,
+      20955853
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      209163976,
+      386927530,
+      10321059,
+      20955896
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      231923648,
+      394590036,
+      10370268,
+      20959466
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      231259358,
+      394587281,
+      10412308,
+      20956672
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      209541086,
+      386928321,
+      10378865,
+      20955237
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      236078433,
+      340043548,
+      10933584,
+      21472213
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      218120678,
+      339905233,
+      10913489,
+      21471165
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      219407397,
+      339904665,
+      10910056,
+      21471289
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      235995331,
+      340042982,
+      10924426,
+      21471482
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      236021514,
+      340043169,
+      10985814,
+      21471811
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      218366344,
+      339905775,
+      10960726,
+      21471382
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      218057391,
+      339907286,
+      10902702,
+      21473530
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      235674744,
+      340043109,
+      10946310,
+      21472542
+    ],
+    [
+      "clang21",
+      "a",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      235743369,
+      340041943,
+      11009304,
+      21472168
+    ],
+    [
+      "clang21",
+      "b",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      218409626,
+      339905494,
+      10875955,
+      21471225
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      252366577,
+      849098013,
+      10358671,
+      21129319
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      252014857,
+      849095816,
+      10419790,
+      21128936
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      264588383,
+      849095858,
+      10391566,
+      21129345
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      254328891,
+      849095122,
+      10350513,
+      21129596
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      256261115,
+      849096737,
+      10381060,
+      21128389
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      257025195,
+      849095754,
+      10391928,
+      21128985
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      255209782,
+      849095760,
+      10417668,
+      21129316
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      255500893,
+      849098866,
+      10443173,
+      21129165
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      258892999,
+      849095378,
+      10362243,
+      21128913
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      263359184,
+      849098175,
+      10439311,
+      21129176
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      263913019,
+      833203668,
+      10394700,
+      21117343
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      251713696,
+      833203513,
+      10379132,
+      21120183
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      253102812,
+      833201052,
+      10392112,
+      21119851
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      249974615,
+      833201371,
+      10450586,
+      21120054
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      247027139,
+      833201204,
+      10336500,
+      21117526
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      252498945,
+      833201892,
+      10439587,
+      21118288
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      249545643,
+      833200935,
+      10378911,
+      21117539
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      250660620,
+      833201557,
+      10324129,
+      21120044
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      257195311,
+      833204321,
+      10424514,
+      21117204
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      252096341,
+      833203492,
+      10371032,
+      21120699
+    ],
+    [
+      "clang21",
+      "a",
+      "parse-http/body64k @ http-body64k",
+      236077628,
+      762966895,
+      10758961,
+      22264386
+    ],
+    [
+      "clang21",
+      "b",
+      "parse-http/body64k @ http-body64k",
+      225386103,
+      762967286,
+      10852704,
+      22264337
+    ],
+    [
+      "clang21",
+      "b",
+      "parse-http/body64k @ http-body64k",
+      233248968,
+      762964370,
+      10815956,
+      22264844
+    ],
+    [
+      "clang21",
+      "a",
+      "parse-http/body64k @ http-body64k",
+      232684505,
+      762964539,
+      10777217,
+      22264424
+    ],
+    [
+      "clang21",
+      "a",
+      "parse-http/body64k @ http-body64k",
+      232419581,
+      762964938,
+      10857265,
+      22266955
+    ],
+    [
+      "clang21",
+      "b",
+      "parse-http/body64k @ http-body64k",
+      228388697,
+      762964339,
+      10833581,
+      22266031
+    ],
+    [
+      "clang21",
+      "b",
+      "parse-http/body64k @ http-body64k",
+      227351584,
+      762964991,
+      10796334,
+      22264718
+    ],
+    [
+      "clang21",
+      "a",
+      "parse-http/body64k @ http-body64k",
+      235959295,
+      762963950,
+      10842433,
+      22264182
+    ],
+    [
+      "clang21",
+      "a",
+      "parse-http/body64k @ http-body64k",
+      236792264,
+      762963995,
+      10863257,
+      22264589
+    ],
+    [
+      "clang21",
+      "b",
+      "parse-http/body64k @ http-body64k",
+      240791517,
+      762965153,
+      10781225,
+      22264320
+    ],
+    [
+      "clang21",
+      "a",
+      "render-template/4k @ template-4k",
+      227753714,
+      477982648,
+      10240371,
+      20701780
+    ],
+    [
+      "clang21",
+      "b",
+      "render-template/4k @ template-4k",
+      194399495,
+      448845272,
+      10262502,
+      20694733
+    ],
+    [
+      "clang21",
+      "b",
+      "render-template/4k @ template-4k",
+      194771441,
+      448843238,
+      10236438,
+      20695047
+    ],
+    [
+      "clang21",
+      "a",
+      "render-template/4k @ template-4k",
+      226536554,
+      477979860,
+      10323361,
+      20699601
+    ],
+    [
+      "clang21",
+      "a",
+      "render-template/4k @ template-4k",
+      227160608,
+      477980103,
+      10239866,
+      20699670
+    ],
+    [
+      "clang21",
+      "b",
+      "render-template/4k @ template-4k",
+      196617193,
+      448842152,
+      10271834,
+      20695338
+    ],
+    [
+      "clang21",
+      "b",
+      "render-template/4k @ template-4k",
+      195954906,
+      448845479,
+      10322694,
+      20695153
+    ],
+    [
+      "clang21",
+      "a",
+      "render-template/4k @ template-4k",
+      226322584,
+      477982526,
+      10290232,
+      20699787
+    ],
+    [
+      "clang21",
+      "a",
+      "render-template/4k @ template-4k",
+      226818907,
+      477983531,
+      10185294,
+      20701488
+    ],
+    [
+      "clang21",
+      "b",
+      "render-template/4k @ template-4k",
+      195616562,
+      448845513,
+      10273250,
+      20695582
+    ],
+    [
+      "clang21",
+      "a",
+      "count-template/4k @ template-4k",
+      229154429,
+      465736484,
+      10691762,
+      21903059
+    ],
+    [
+      "clang21",
+      "b",
+      "count-template/4k @ template-4k",
+      199097898,
+      436621817,
+      10575634,
+      21902308
+    ],
+    [
+      "clang21",
+      "b",
+      "count-template/4k @ template-4k",
+      195483058,
+      436624860,
+      10737460,
+      21902973
+    ],
+    [
+      "clang21",
+      "a",
+      "count-template/4k @ template-4k",
+      228793069,
+      465735525,
+      10689714,
+      21903424
+    ],
+    [
+      "clang21",
+      "a",
+      "count-template/4k @ template-4k",
+      229251704,
+      465735448,
+      10632975,
+      21902592
+    ],
+    [
+      "clang21",
+      "b",
+      "count-template/4k @ template-4k",
+      196287736,
+      436621251,
+      10661404,
+      21902543
+    ],
+    [
+      "clang21",
+      "b",
+      "count-template/4k @ template-4k",
+      195406168,
+      436622155,
+      10631666,
+      21903340
+    ],
+    [
+      "clang21",
+      "a",
+      "count-template/4k @ template-4k",
+      230825334,
+      465734919,
+      10675354,
+      21902958
+    ],
+    [
+      "clang21",
+      "a",
+      "count-template/4k @ template-4k",
+      230014720,
+      465735490,
+      10655345,
+      21903508
+    ],
+    [
+      "clang21",
+      "b",
+      "count-template/4k @ template-4k",
+      193284212,
+      436622607,
+      10727903,
+      21902658
+    ],
+    [
+      "clang21",
+      "a",
+      "boundary/9/absent @ short-absent",
+      231423254,
+      348501257,
+      10242812,
+      20795452
+    ],
+    [
+      "clang21",
+      "b",
+      "boundary/9/absent @ short-absent",
+      205732468,
+      347952024,
+      10248013,
+      20799453
+    ],
+    [
+      "clang21",
+      "b",
+      "boundary/9/absent @ short-absent",
+      206461151,
+      347951516,
+      10267520,
+      20796450
+    ],
+    [
+      "clang21",
+      "a",
+      "boundary/9/absent @ short-absent",
+      231126245,
+      348498810,
+      10224142,
+      20796036
+    ],
+    [
+      "clang21",
+      "a",
+      "boundary/9/absent @ short-absent",
+      230867115,
+      348499089,
+      10249757,
+      20796545
+    ],
+    [
+      "clang21",
+      "b",
+      "boundary/9/absent @ short-absent",
+      206566423,
+      347950917,
+      10322913,
+      20795854
+    ],
+    [
+      "clang21",
+      "b",
+      "boundary/9/absent @ short-absent",
+      206730925,
+      347953967,
+      10268082,
+      20796730
+    ],
+    [
+      "clang21",
+      "a",
+      "boundary/9/absent @ short-absent",
+      231145600,
+      348498319,
+      10253828,
+      20796126
+    ],
+    [
+      "clang21",
+      "a",
+      "boundary/9/absent @ short-absent",
+      231254475,
+      348498452,
+      10320439,
+      20796641
+    ],
+    [
+      "clang21",
+      "b",
+      "boundary/9/absent @ short-absent",
+      206172474,
+      347950997,
+      10295341,
+      20796657
+    ],
+    [
+      "clang21",
+      "a",
+      "boundary/31/early @ short-early",
+      247288054,
+      850300186,
+      25991173,
+      63756527
+    ],
+    [
+      "clang21",
+      "b",
+      "boundary/31/early @ short-early",
+      237344020,
+      871292668,
+      25142824,
+      63755194
+    ],
+    [
+      "clang21",
+      "b",
+      "boundary/31/early @ short-early",
+      235687611,
+      871292760,
+      25158445,
+      63754734
+    ],
+    [
+      "clang21",
+      "a",
+      "boundary/31/early @ short-early",
+      233217004,
+      850300420,
+      26017532,
+      63754444
+    ],
+    [
+      "clang21",
+      "a",
+      "boundary/31/early @ short-early",
+      232785522,
+      850299751,
+      26009390,
+      63754075
+    ],
+    [
+      "clang21",
+      "b",
+      "boundary/31/early @ short-early",
+      234109776,
+      871293227,
+      25111684,
+      63756742
+    ],
+    [
+      "clang21",
+      "b",
+      "boundary/31/early @ short-early",
+      233024672,
+      871292935,
+      24799035,
+      63753870
+    ],
+    [
+      "clang21",
+      "a",
+      "boundary/31/early @ short-early",
+      234541857,
+      850299842,
+      25949522,
+      63753485
+    ],
+    [
+      "clang21",
+      "a",
+      "boundary/31/early @ short-early",
+      231949821,
+      850302719,
+      25952998,
+      63754353
+    ],
+    [
+      "clang21",
+      "b",
+      "boundary/31/early @ short-early",
+      235174278,
+      871292864,
+      25094662,
+      63754265
+    ],
+    [
+      "clang21",
+      "a",
+      "boundary/32/early @ long-early",
+      239518340,
+      789239216,
+      24094440,
+      58633123
+    ],
+    [
+      "clang21",
+      "b",
+      "boundary/32/early @ long-early",
+      235118670,
+      804046249,
+      22525396,
+      58630742
+    ],
+    [
+      "clang21",
+      "b",
+      "boundary/32/early @ long-early",
+      234703281,
+      804048614,
+      23346891,
+      58630676
+    ],
+    [
+      "clang21",
+      "a",
+      "boundary/32/early @ long-early",
+      238191333,
+      789236248,
+      24098569,
+      58633174
+    ],
+    [
+      "clang21",
+      "a",
+      "boundary/32/early @ long-early",
+      240162848,
+      789236985,
+      24083610,
+      58630314
+    ],
+    [
+      "clang21",
+      "b",
+      "boundary/32/early @ long-early",
+      234387001,
+      804045844,
+      23244668,
+      58630168
+    ],
+    [
+      "clang21",
+      "b",
+      "boundary/32/early @ long-early",
+      243261946,
+      804046004,
+      22860936,
+      58631128
+    ],
+    [
+      "clang21",
+      "a",
+      "boundary/32/early @ long-early",
+      237572275,
+      789236592,
+      24014038,
+      58630968
+    ],
+    [
+      "clang21",
+      "a",
+      "boundary/32/early @ long-early",
+      238226934,
+      789239449,
+      24090263,
+      58630821
+    ],
+    [
+      "clang21",
+      "b",
+      "boundary/32/early @ long-early",
+      238715104,
+      804048611,
+      23408913,
+      58630510
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      247068110,
+      435607768,
+      10447463,
+      20938103
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      246413073,
+      435605996,
+      10427214,
+      20937394
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      246608552,
+      435604861,
+      10508626,
+      20937535
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      246642744,
+      435604673,
+      10408191,
+      20939075
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      246213361,
+      435605652,
+      10720339,
+      20936997
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      245900052,
+      435606077,
+      10503215,
+      20936787
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      247088290,
+      435605128,
+      10415139,
+      20937133
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      246530018,
+      435608690,
+      10501775,
+      20937987
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      246197911,
+      435606504,
+      10483938,
+      20937430
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/en/post/clean @ moderation-en-post-clean",
+      247082186,
+      435605181,
+      10441255,
+      20937764
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      250059195,
+      357794112,
+      11370260,
+      22351598
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      249915304,
+      357790634,
+      11399308,
+      22352849
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      250016167,
+      357790017,
+      11339571,
+      22352577
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      251332636,
+      357790007,
+      11301682,
+      22351462
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      250155362,
+      357793640,
+      11309023,
+      22351977
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      250523357,
+      357790449,
+      11311146,
+      22353772
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      249909523,
+      357789952,
+      11348351,
+      22351568
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      250072072,
+      357790392,
+      11337245,
+      22351771
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      251141751,
+      357791072,
+      11302508,
+      22351877
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/en/thread/clean @ moderation-en-thread-clean",
+      250040778,
+      357789967,
+      11400856,
+      22354062
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      249737035,
+      495539314,
+      10483683,
+      20940729
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      249313537,
+      495536499,
+      10441942,
+      20940305
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      249955169,
+      495537388,
+      10580840,
+      20940542
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      251338675,
+      495537451,
+      10501763,
+      20940433
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      248895807,
+      495537664,
+      10433942,
+      20942490
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      248272370,
+      495536408,
+      10478967,
+      20939970
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      249663270,
+      495537582,
+      10460471,
+      20939903
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      251026988,
+      495537294,
+      10407200,
+      20940744
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      249777458,
+      495536606,
+      10575902,
+      20940633
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ru/post/clean @ moderation-ru-post-clean",
+      248649776,
+      495536773,
+      10478599,
+      20940532
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      247621122,
+      319165066,
+      11506553,
+      22531538
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      246508565,
+      319167258,
+      11527107,
+      22533242
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      246561302,
+      319165086,
+      11523570,
+      22530953
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      246980816,
+      319164842,
+      11491857,
+      22529973
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      246562136,
+      319165248,
+      11572439,
+      22533985
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      246560954,
+      319165431,
+      11598076,
+      22530771
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      246625664,
+      319164465,
+      11534075,
+      22531038
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      247768209,
+      319164825,
+      11584154,
+      22533653
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      246486699,
+      319164540,
+      11587172,
+      22530467
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ru/thread/clean @ moderation-ru-thread-clean",
+      247068363,
+      319168290,
+      11700522,
+      22533569
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      247422735,
+      456234743,
+      10495859,
+      20961683
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      247249229,
+      456237410,
+      10514838,
+      20962928
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      247951433,
+      456236644,
+      10452976,
+      20962485
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      247758582,
+      456234661,
+      10500742,
+      20962186
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      247713541,
+      456235383,
+      10510620,
+      20961688
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      248780837,
+      456236775,
+      10420208,
+      20962255
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      250470998,
+      456236735,
+      10506742,
+      20962191
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      247736519,
+      456236684,
+      10860990,
+      20963621
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      248186800,
+      456237025,
+      10408448,
+      20965387
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/es/post/clean @ moderation-es-post-clean",
+      247867247,
+      456235230,
+      10512023,
+      20962653
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      248162582,
+      346473451,
+      11401977,
+      22356437
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      248119146,
+      346473562,
+      11324981,
+      22356759
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      248478545,
+      346472918,
+      11323013,
+      22357538
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      249857588,
+      346473193,
+      11371702,
+      22356107
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      248731065,
+      346475255,
+      11324987,
+      22360440
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      247979920,
+      346473138,
+      11305085,
+      22357489
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      248353381,
+      346475152,
+      11354815,
+      22359395
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      248819815,
+      346476267,
+      11349514,
+      22356635
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      248373714,
+      346473069,
+      11351974,
+      22357139
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/es/thread/clean @ moderation-es-thread-clean",
+      248595626,
+      346472667,
+      11324794,
+      22356686
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      246750691,
+      472209956,
+      10417188,
+      20832589
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      246697748,
+      472210262,
+      10489477,
+      20830397
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      246124740,
+      472211204,
+      10485690,
+      20830818
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      246746846,
+      472210748,
+      10419671,
+      20832578
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      247150984,
+      472212167,
+      10446940,
+      20829542
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      246225600,
+      472210599,
+      10445030,
+      20833074
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      246623582,
+      472213408,
+      10470487,
+      20830187
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      247167522,
+      472213596,
+      10456565,
+      20830056
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      246279048,
+      472210079,
+      10478133,
+      20830376
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ar/post/clean @ moderation-ar-post-clean",
+      247185752,
+      472210176,
+      10395837,
+      20830232
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      242773679,
+      371604965,
+      11746719,
+      23073462
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      242945353,
+      371607156,
+      11811675,
+      23073420
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      244157631,
+      371603994,
+      11740711,
+      23072899
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      242695727,
+      371603936,
+      11766863,
+      23073881
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      245005786,
+      371604377,
+      11849304,
+      23073519
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      243268521,
+      371604046,
+      11732839,
+      23073615
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      242937726,
+      371603942,
+      11780347,
+      23073767
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      242654228,
+      371603838,
+      11723865,
+      23073574
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      243353672,
+      371604744,
+      11732702,
+      23073865
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ar/thread/clean @ moderation-ar-thread-clean",
+      242718728,
+      371604633,
+      11762876,
+      23073587
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      246810326,
+      503902155,
+      10508823,
+      21003532
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      246955714,
+      503905070,
+      10476704,
+      21002917
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      246691152,
+      503902195,
+      10506068,
+      21003603
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      246051571,
+      503902318,
+      10545863,
+      21005571
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      246743829,
+      503902879,
+      10474558,
+      21003460
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      246736347,
+      503902292,
+      10538328,
+      21003534
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      246590503,
+      503905326,
+      10546224,
+      21004182
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      246871203,
+      503902404,
+      10476412,
+      21001390
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      246334933,
+      503905717,
+      10546114,
+      21003227
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/hi/post/clean @ moderation-hi-post-clean",
+      246839868,
+      503904968,
+      10509693,
+      21003648
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      244669225,
+      327833869,
+      11349233,
+      22329461
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      244243220,
+      327833591,
+      11385757,
+      22330360
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      243460452,
+      327833322,
+      11421881,
+      22329754
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      244431368,
+      327836104,
+      11334704,
+      22329976
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      243672526,
+      327832980,
+      11347132,
+      22329293
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      243585288,
+      327835547,
+      11417823,
+      22330200
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      243915659,
+      327834010,
+      11309136,
+      22331185
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      243564504,
+      327833014,
+      11377816,
+      22329943
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      243696816,
+      327833580,
+      11355017,
+      22329700
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/hi/thread/clean @ moderation-hi-thread-clean",
+      243829983,
+      327833424,
+      11358509,
+      22330449
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      247092573,
+      458952429,
+      10559842,
+      21076576
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      247225095,
+      458955189,
+      10519134,
+      21074559
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      247494973,
+      458951743,
+      10486362,
+      21073642
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      247355745,
+      458951605,
+      10570622,
+      21076601
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      247042938,
+      458951727,
+      10532309,
+      21076693
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      248068633,
+      458954392,
+      10453928,
+      21073117
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      247248439,
+      458951657,
+      10549075,
+      21073696
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      247559122,
+      458952150,
+      10512971,
+      21074317
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      247436236,
+      458952277,
+      10470565,
+      21074457
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/zh/post/clean @ moderation-zh-post-clean",
+      247599084,
+      458954317,
+      10526183,
+      21076950
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      246072124,
+      322677813,
+      11243191,
+      22122521
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      246559650,
+      322678504,
+      11247326,
+      22123219
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      246433246,
+      322678090,
+      11360404,
+      22121426
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      246264909,
+      322677783,
+      11265837,
+      22121336
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      248746166,
+      322677425,
+      11209318,
+      22123361
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      246204306,
+      322677532,
+      11217784,
+      22121288
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      247237383,
+      322676928,
+      11242876,
+      22120584
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      246545895,
+      322680081,
+      11186226,
+      22120720
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      246340271,
+      322677399,
+      11218766,
+      22120597
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/zh/thread/clean @ moderation-zh-thread-clean",
+      247208231,
+      322677961,
+      11261129,
+      22121697
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      245558450,
+      465813838,
+      10416142,
+      20894934
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      244961209,
+      465813074,
+      10511738,
+      20897704
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      245796637,
+      465811304,
+      10420699,
+      20895442
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      245130967,
+      465810116,
+      10423711,
+      20895230
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      246734381,
+      465812496,
+      10502597,
+      20895754
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      245826411,
+      465813545,
+      10721517,
+      20895094
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      245186844,
+      465810829,
+      10451862,
+      20894354
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      246078825,
+      465812645,
+      10405924,
+      20896635
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      244983517,
+      465812648,
+      10479597,
+      20895115
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ja/post/clean @ moderation-ja-post-clean",
+      245764495,
+      465810537,
+      10443890,
+      20897393
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      246942498,
+      353269643,
+      11554933,
+      22673859
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      246748665,
+      353269636,
+      11569983,
+      22673310
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      247334177,
+      353269586,
+      11495828,
+      22674073
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      246760243,
+      353269103,
+      11563578,
+      22673926
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      246733324,
+      353270458,
+      11571798,
+      22674110
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      247446846,
+      353270046,
+      11688306,
+      22675682
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      246876109,
+      353270026,
+      11527985,
+      22675538
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      246970538,
+      353272001,
+      11567509,
+      22675843
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      247273438,
+      353270014,
+      11495763,
+      22674308
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ja/thread/clean @ moderation-ja-thread-clean",
+      246980422,
+      353271362,
+      11531546,
+      22674440
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      244312365,
+      461450908,
+      10469534,
+      20919930
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      244592108,
+      461451391,
+      10449536,
+      20919012
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      244982058,
+      461450735,
+      10467429,
+      20918940
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      245346629,
+      461451280,
+      10479819,
+      20921604
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      268303158,
+      461450801,
+      10449960,
+      20919428
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      245115965,
+      461453410,
+      10563069,
+      20920064
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      245027423,
+      461450984,
+      10462923,
+      20918960
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      245178731,
+      461453760,
+      10431406,
+      20919215
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      244616939,
+      461453010,
+      10544257,
+      20918837
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ko/post/clean @ moderation-ko-post-clean",
+      244884934,
+      461450154,
+      10479265,
+      20921250
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      248049220,
+      359686979,
+      11364552,
+      22496116
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      247555649,
+      359688440,
+      11641347,
+      22494147
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      247347959,
+      359687372,
+      11452255,
+      22494416
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      248302592,
+      359686439,
+      11404428,
+      22494356
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      247572709,
+      359686842,
+      11451809,
+      22495738
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      247600216,
+      359687127,
+      11411673,
+      22493277
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      247359605,
+      359688879,
+      11390674,
+      22494424
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      247580152,
+      359686806,
+      11482649,
+      22496299
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      247837748,
+      359686831,
+      11439528,
+      22493252
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/ko/thread/clean @ moderation-ko-thread-clean",
+      248082256,
+      359686397,
+      11402045,
+      22494009
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      242544205,
+      440294683,
+      10546175,
+      20979230
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      245259562,
+      440294225,
+      10503638,
+      20981697
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      243558754,
+      440294019,
+      10431196,
+      20979567
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      246855660,
+      440295018,
+      10480362,
+      20979671
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      242629277,
+      440294571,
+      10478813,
+      20979776
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      243820533,
+      440294445,
+      10398552,
+      20979463
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      243381160,
+      440297806,
+      10497273,
+      20979983
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      246300124,
+      440294407,
+      10531289,
+      20980089
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      243585816,
+      440297388,
+      10489841,
+      20979366
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/emoji/post/clean @ moderation-emoji-post-clean",
+      242812500,
+      440293896,
+      10454227,
+      20979441
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      249116351,
+      359647838,
+      11295383,
+      22247299
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      249609472,
+      359647476,
+      11238412,
+      22249186
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      249574567,
+      359647761,
+      11283610,
+      22245331
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      249279854,
+      359647603,
+      11236689,
+      22246193
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      250098851,
+      359649717,
+      11216844,
+      22245868
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      248893892,
+      359648004,
+      11335447,
+      22246301
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      248935320,
+      359650058,
+      11282414,
+      22246328
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      249382884,
+      359648396,
+      11227070,
+      22247690
+    ],
+    [
+      "aa2",
+      "a",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      249306653,
+      359648450,
+      11281663,
+      22245710
+    ],
+    [
+      "aa2",
+      "b",
+      "banlist12/emoji/thread/clean @ moderation-emoji-thread-clean",
+      250316983,
+      359647503,
+      11238294,
+      22246546
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      243792372,
+      897739304,
+      10514515,
+      21168752
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      243435782,
+      897737553,
+      10542811,
+      21170700
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      244727460,
+      897736310,
+      10583359,
+      21167790
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      244353383,
+      897736209,
+      10536997,
+      21171343
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      246542972,
+      897736752,
+      10615924,
+      21168911
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      246152796,
+      897738629,
+      10576862,
+      21169315
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      248224356,
+      897736526,
+      10539140,
+      21168643
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      238524441,
+      897736158,
+      10582820,
+      21171005
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      246100021,
+      897736026,
+      10576647,
+      21170892
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/pipe2/4k @ delimiter-pipe2-4k",
+      240794297,
+      897735723,
+      10487630,
+      21170405
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      244963726,
+      881424697,
+      10576816,
+      21157799
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      235440663,
+      881424776,
+      10553161,
+      21160153
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      239275012,
+      881426997,
+      10484268,
+      21160764
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      239618160,
+      881424952,
+      10517955,
+      21158341
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      241467868,
+      881425535,
+      10625632,
+      21157413
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      239611264,
+      881426809,
+      10550601,
+      21157887
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      239073872,
+      881427120,
+      10579730,
+      21158132
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      239490459,
+      881424988,
+      10562603,
+      21158107
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      239507043,
+      881427387,
+      10511775,
+      21158610
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/colon2/4k @ delimiter-colon2-4k",
+      238561340,
+      881425253,
+      10547436,
+      21157822
+    ],
+    [
+      "aa2",
+      "a",
+      "parse-http/body64k @ http-body64k",
+      241020064,
+      782797854,
+      11038643,
+      22869338
+    ],
+    [
+      "aa2",
+      "b",
+      "parse-http/body64k @ http-body64k",
+      240958156,
+      782797751,
+      10971734,
+      22869228
+    ],
+    [
+      "aa2",
+      "b",
+      "parse-http/body64k @ http-body64k",
+      241323022,
+      782800312,
+      11061781,
+      22869648
+    ],
+    [
+      "aa2",
+      "a",
+      "parse-http/body64k @ http-body64k",
+      239839881,
+      782800579,
+      11047276,
+      22870133
+    ],
+    [
+      "aa2",
+      "a",
+      "parse-http/body64k @ http-body64k",
+      241378811,
+      782799294,
+      10954152,
+      22870280
+    ],
+    [
+      "aa2",
+      "b",
+      "parse-http/body64k @ http-body64k",
+      239833497,
+      782801073,
+      11049305,
+      22869549
+    ],
+    [
+      "aa2",
+      "b",
+      "parse-http/body64k @ http-body64k",
+      240434253,
+      782797477,
+      11032856,
+      22871966
+    ],
+    [
+      "aa2",
+      "a",
+      "parse-http/body64k @ http-body64k",
+      241701831,
+      782797299,
+      10952384,
+      22869718
+    ],
+    [
+      "aa2",
+      "a",
+      "parse-http/body64k @ http-body64k",
+      243865294,
+      782797810,
+      11103613,
+      22872524
+    ],
+    [
+      "aa2",
+      "b",
+      "parse-http/body64k @ http-body64k",
+      240665350,
+      782796762,
+      11083862,
+      22869153
+    ],
+    [
+      "aa2",
+      "a",
+      "render-template/4k @ template-4k",
+      244033501,
+      583463908,
+      10397993,
+      20782245
+    ],
+    [
+      "aa2",
+      "b",
+      "render-template/4k @ template-4k",
+      243400911,
+      583461150,
+      10504158,
+      20783398
+    ],
+    [
+      "aa2",
+      "b",
+      "render-template/4k @ template-4k",
+      243626482,
+      583460769,
+      10453886,
+      20786142
+    ],
+    [
+      "aa2",
+      "a",
+      "render-template/4k @ template-4k",
+      253150158,
+      583461470,
+      10402482,
+      20783657
+    ],
+    [
+      "aa2",
+      "a",
+      "render-template/4k @ template-4k",
+      243586806,
+      583461325,
+      10482280,
+      20783765
+    ],
+    [
+      "aa2",
+      "b",
+      "render-template/4k @ template-4k",
+      243529065,
+      583461073,
+      10470316,
+      20783309
+    ],
+    [
+      "aa2",
+      "b",
+      "render-template/4k @ template-4k",
+      243619607,
+      583460419,
+      10385904,
+      20783448
+    ],
+    [
+      "aa2",
+      "a",
+      "render-template/4k @ template-4k",
+      243433164,
+      583461539,
+      10479898,
+      20784145
+    ],
+    [
+      "aa2",
+      "a",
+      "render-template/4k @ template-4k",
+      244745918,
+      583460473,
+      10436255,
+      20783525
+    ],
+    [
+      "aa2",
+      "b",
+      "render-template/4k @ template-4k",
+      245717801,
+      583460645,
+      10431434,
+      20786044
+    ],
+    [
+      "aa2",
+      "a",
+      "count-template/4k @ template-4k",
+      244434774,
+      570596948,
+      10836895,
+      21895835
+    ],
+    [
+      "aa2",
+      "b",
+      "count-template/4k @ template-4k",
+      244150921,
+      570594004,
+      10761744,
+      21895324
+    ],
+    [
+      "aa2",
+      "b",
+      "count-template/4k @ template-4k",
+      244888232,
+      570593398,
+      10730676,
+      21895504
+    ],
+    [
+      "aa2",
+      "a",
+      "count-template/4k @ template-4k",
+      243513928,
+      570593536,
+      10774409,
+      21897961
+    ],
+    [
+      "aa2",
+      "a",
+      "count-template/4k @ template-4k",
+      243907100,
+      570596457,
+      10750552,
+      21896604
+    ],
+    [
+      "aa2",
+      "b",
+      "count-template/4k @ template-4k",
+      245585062,
+      570596462,
+      10701939,
+      21896004
+    ],
+    [
+      "aa2",
+      "b",
+      "count-template/4k @ template-4k",
+      242535812,
+      570593430,
+      10777242,
+      21896344
+    ],
+    [
+      "aa2",
+      "a",
+      "count-template/4k @ template-4k",
+      243450572,
+      570593359,
+      10790016,
+      21894712
+    ],
+    [
+      "aa2",
+      "a",
+      "count-template/4k @ template-4k",
+      245830267,
+      570595657,
+      10749593,
+      21896228
+    ],
+    [
+      "aa2",
+      "b",
+      "count-template/4k @ template-4k",
+      244221436,
+      570595712,
+      10863967,
+      21895980
+    ],
+    [
+      "aa2",
+      "a",
+      "boundary/9/absent @ short-absent",
+      245033249,
+      371942314,
+      10481775,
+      20966261
+    ],
+    [
+      "aa2",
+      "b",
+      "boundary/9/absent @ short-absent",
+      248649377,
+      371943383,
+      10388501,
+      20965295
+    ],
+    [
+      "aa2",
+      "b",
+      "boundary/9/absent @ short-absent",
+      245807388,
+      371943056,
+      10480378,
+      20968714
+    ],
+    [
+      "aa2",
+      "a",
+      "boundary/9/absent @ short-absent",
+      246066139,
+      371943246,
+      10457741,
+      20966574
+    ],
+    [
+      "aa2",
+      "a",
+      "boundary/9/absent @ short-absent",
+      247027169,
+      371943765,
+      10411542,
+      20968244
+    ],
+    [
+      "aa2",
+      "b",
+      "boundary/9/absent @ short-absent",
+      246823951,
+      371943657,
+      10513087,
+      20966328
+    ],
+    [
+      "aa2",
+      "b",
+      "boundary/9/absent @ short-absent",
+      246551045,
+      371945996,
+      10494455,
+      20965985
+    ],
+    [
+      "aa2",
+      "a",
+      "boundary/9/absent @ short-absent",
+      245583131,
+      371943043,
+      10408474,
+      20966495
+    ],
+    [
+      "aa2",
+      "a",
+      "boundary/9/absent @ short-absent",
+      248348024,
+      371943165,
+      10469644,
+      20966369
+    ],
+    [
+      "aa2",
+      "b",
+      "boundary/9/absent @ short-absent",
+      245425545,
+      371946553,
+      10476221,
+      20966543
+    ],
+    [
+      "aa2",
+      "a",
+      "boundary/31/early @ short-early",
+      246399455,
+      1148594720,
+      23267662,
+      61148438
+    ],
+    [
+      "aa2",
+      "b",
+      "boundary/31/early @ short-early",
+      239950397,
+      1148596631,
+      23604355,
+      61149581
+    ],
+    [
+      "aa2",
+      "b",
+      "boundary/31/early @ short-early",
+      245248849,
+      1148594216,
+      23478111,
+      61149055
+    ],
+    [
+      "aa2",
+      "a",
+      "boundary/31/early @ short-early",
+      239725114,
+      1148596742,
+      23417381,
+      61151463
+    ],
+    [
+      "aa2",
+      "a",
+      "boundary/31/early @ short-early",
+      245668171,
+      1148594912,
+      23559915,
+      61149548
+    ],
+    [
+      "aa2",
+      "b",
+      "boundary/31/early @ short-early",
+      246332014,
+      1148594394,
+      23554522,
+      61152149
+    ],
+    [
+      "aa2",
+      "b",
+      "boundary/31/early @ short-early",
+      248673838,
+      1148594637,
+      23465766,
+      61151928
+    ],
+    [
+      "aa2",
+      "a",
+      "boundary/31/early @ short-early",
+      240351974,
+      1148597141,
+      23575566,
+      61149630
+    ],
+    [
+      "aa2",
+      "a",
+      "boundary/31/early @ short-early",
+      239353114,
+      1148595206,
+      23593003,
+      61148872
+    ],
+    [
+      "aa2",
+      "b",
+      "boundary/31/early @ short-early",
+      239234098,
+      1148594467,
+      23431664,
+      61149492
+    ],
+    [
+      "aa2",
+      "a",
+      "boundary/32/early @ long-early",
+      254304409,
+      1056024813,
+      21978434,
+      56381436
+    ],
+    [
+      "aa2",
+      "b",
+      "boundary/32/early @ long-early",
+      253362052,
+      1056027880,
+      22078834,
+      56381341
+    ],
+    [
+      "aa2",
+      "b",
+      "boundary/32/early @ long-early",
+      253526726,
+      1056025104,
+      21974718,
+      56381351
+    ],
+    [
+      "aa2",
+      "a",
+      "boundary/32/early @ long-early",
+      255277385,
+      1056028300,
+      21969285,
+      56384914
+    ],
+    [
+      "aa2",
+      "a",
+      "boundary/32/early @ long-early",
+      252694959,
+      1056028188,
+      21927498,
+      56381959
+    ],
+    [
+      "aa2",
+      "b",
+      "boundary/32/early @ long-early",
+      257542194,
+      1056027133,
+      21936715,
+      56381451
+    ],
+    [
+      "aa2",
+      "b",
+      "boundary/32/early @ long-early",
+      252962766,
+      1056024942,
+      21927820,
+      56381557
+    ],
+    [
+      "aa2",
+      "a",
+      "boundary/32/early @ long-early",
+      252674583,
+      1056023972,
+      21892794,
+      56378478
+    ],
+    [
+      "aa2",
+      "a",
+      "boundary/32/early @ long-early",
+      252608407,
+      1056027234,
+      21984545,
+      56383770
+    ],
+    [
+      "aa2",
+      "b",
+      "boundary/32/early @ long-early",
+      253365419,
+      1056024629,
+      22092854,
+      56381993
+    ]
+  ]
+}
