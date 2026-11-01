@@ -1,0 +1,1002 @@
+{
+  "schema": 1,
+  "suite": "error-routing",
+  "cases": [
+    {
+      "id": "errors.healthy",
+      "title": "Decide whether a request trace needs an alert: healthy trace",
+      "kind": "product",
+      "primary": true,
+      "operation": "any",
+      "description": "Scan 16 distinct structured log records for eight exact failure markers. No JSON parsing or disk I/O is part of the string operation.",
+      "origin": "Project-authored deterministic workload model; not a production trace.",
+      "contract": "Exact case-sensitive bytes; no word-boundary rules, normalization, or case folding.",
+      "lifetime": {
+        "dictionary_scope": "alert_rules",
+        "values_change_between_jobs": false,
+        "modes": [
+          {
+            "id": "request",
+            "label": "Complete request, including dictionary preparation"
+          },
+          {
+            "id": "worker",
+            "label": "Worker with the same dictionary already prepared"
+          }
+        ],
+        "pcre_note": "Pattern keys can remain cached when only replacement values change; report warm and fresh-process compilation separately."
+      },
+      "methods": [
+        "contains_loop",
+        "preg_match",
+        "matcher"
+      ],
+      "str_replace_note": "Not applicable to a search operation.",
+      "jobs": [
+        {
+          "id": "trace-1",
+          "dictionary": [
+            "Fatal error:",
+            "SQLSTATE[",
+            "Connection refused",
+            "TimeoutException",
+            "out of memory",
+            "signature verification failed",
+            "permission denied",
+            "upstream unavailable"
+          ],
+          "documents": [
+            {
+              "id": "trace-1-1",
+              "text": "{\"time\":\"2026-10-19T09:00:00.000Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-00-0000\",\"message\":\"GET /orders/1000 completed\",\"duration_ms\":1}\n{\"time\":\"2026-10-19T09:00:00.137Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-00-0001\",\"message\":\"support request 1001 received an attachment\",\"duration_ms\":20}\n{\"time\":\"2026-10-19T09:00:00.274Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-00-0002\",\"message\":\"payment for order 1002 was authorized\",\"duration_ms\":39}\n{\"time\":\"2026-10-19T09:00:00.411Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-00-0003\",\"message\":\"background job 1003 completed\",\"duration_ms\":58}\n{\"time\":\"2026-10-19T09:00:00.548Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-00-0004\",\"message\":\"session for customer 1004 was renewed\",\"duration_ms\":77}\n{\"time\":\"2026-10-19T09:00:00.685Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-00-0005\",\"message\":\"invoice for order 1005 was saved\",\"duration_ms\":96}\n{\"time\":\"2026-10-19T09:00:00.822Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-00-0006\",\"message\":\"items for order 1006 were reserved\",\"duration_ms\":115}\n{\"time\":\"2026-10-19T09:00:00.959Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-00-0007\",\"message\":\"product availability loaded\",\"duration_ms\":134}\n{\"time\":\"2026-10-19T09:00:01.096Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-00-0008\",\"message\":\"query returned 1008 product results\",\"duration_ms\":153}\n{\"time\":\"2026-10-19T09:00:01.233Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-00-0009\",\"message\":\"courier estimate for order 1009 was refreshed\",\"duration_ms\":172}\n{\"time\":\"2026-10-19T09:00:01.370Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-00-0010\",\"message\":\"image 1010 passed validation\",\"duration_ms\":191}\n{\"time\":\"2026-10-19T09:00:01.507Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-00-0011\",\"message\":\"order 1011 confirmation was queued\",\"duration_ms\":210}\n{\"time\":\"2026-10-19T09:00:01.644Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-00-0012\",\"message\":\"GET /orders/1012 completed\",\"duration_ms\":229}\n{\"time\":\"2026-10-19T09:00:01.781Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-00-0013\",\"message\":\"support request 1013 received an attachment\",\"duration_ms\":5}\n{\"time\":\"2026-10-19T09:00:01.918Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-00-0014\",\"message\":\"payment for order 1014 was authorized\",\"duration_ms\":24}\n{\"time\":\"2026-10-19T09:00:02.055Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-00-0015\",\"message\":\"background job 1015 completed\",\"duration_ms\":43}\n",
+              "expected": false,
+              "facts": {
+                "bytes": 2685,
+                "occurrences": 0,
+                "distinct_keywords": 0,
+                "first_match_offset": null,
+                "first_matching_dictionary_rank": null
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace-2",
+          "dictionary": [
+            "Fatal error:",
+            "SQLSTATE[",
+            "Connection refused",
+            "TimeoutException",
+            "out of memory",
+            "signature verification failed",
+            "permission denied",
+            "upstream unavailable"
+          ],
+          "documents": [
+            {
+              "id": "trace-2-1",
+              "text": "{\"time\":\"2026-10-19T09:01:00.000Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-01-0000\",\"message\":\"product availability loaded\",\"duration_ms\":8}\n{\"time\":\"2026-10-19T09:01:00.137Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-01-0001\",\"message\":\"query returned 1042 product results\",\"duration_ms\":27}\n{\"time\":\"2026-10-19T09:01:00.274Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-01-0002\",\"message\":\"courier estimate for order 1043 was refreshed\",\"duration_ms\":46}\n{\"time\":\"2026-10-19T09:01:00.411Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-01-0003\",\"message\":\"image 1044 passed validation\",\"duration_ms\":65}\n{\"time\":\"2026-10-19T09:01:00.548Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-01-0004\",\"message\":\"order 1045 confirmation was queued\",\"duration_ms\":84}\n{\"time\":\"2026-10-19T09:01:00.685Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-01-0005\",\"message\":\"GET /orders/1046 completed\",\"duration_ms\":103}\n{\"time\":\"2026-10-19T09:01:00.822Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-01-0006\",\"message\":\"support request 1047 received an attachment\",\"duration_ms\":122}\n{\"time\":\"2026-10-19T09:01:00.959Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-01-0007\",\"message\":\"payment for order 1048 was authorized\",\"duration_ms\":141}\n{\"time\":\"2026-10-19T09:01:01.096Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-01-0008\",\"message\":\"background job 1049 completed\",\"duration_ms\":160}\n{\"time\":\"2026-10-19T09:01:01.233Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-01-0009\",\"message\":\"session for customer 1050 was renewed\",\"duration_ms\":179}\n{\"time\":\"2026-10-19T09:01:01.370Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-01-0010\",\"message\":\"invoice for order 1051 was saved\",\"duration_ms\":198}\n{\"time\":\"2026-10-19T09:01:01.507Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-01-0011\",\"message\":\"items for order 1052 were reserved\",\"duration_ms\":217}\n{\"time\":\"2026-10-19T09:01:01.644Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-01-0012\",\"message\":\"product availability loaded\",\"duration_ms\":236}\n{\"time\":\"2026-10-19T09:01:01.781Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-01-0013\",\"message\":\"query returned 1054 product results\",\"duration_ms\":12}\n{\"time\":\"2026-10-19T09:01:01.918Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-01-0014\",\"message\":\"courier estimate for order 1055 was refreshed\",\"duration_ms\":31}\n{\"time\":\"2026-10-19T09:01:02.055Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-01-0015\",\"message\":\"image 1056 passed validation\",\"duration_ms\":50}\n",
+              "expected": false,
+              "facts": {
+                "bytes": 2691,
+                "occurrences": 0,
+                "distinct_keywords": 0,
+                "first_match_offset": null,
+                "first_matching_dictionary_rank": null
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace-3",
+          "dictionary": [
+            "Fatal error:",
+            "SQLSTATE[",
+            "Connection refused",
+            "TimeoutException",
+            "out of memory",
+            "signature verification failed",
+            "permission denied",
+            "upstream unavailable"
+          ],
+          "documents": [
+            {
+              "id": "trace-3-1",
+              "text": "{\"time\":\"2026-10-19T09:02:00.000Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-02-0000\",\"message\":\"payment for order 1082 was authorized\",\"duration_ms\":15}\n{\"time\":\"2026-10-19T09:02:00.137Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-02-0001\",\"message\":\"background job 1083 completed\",\"duration_ms\":34}\n{\"time\":\"2026-10-19T09:02:00.274Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-02-0002\",\"message\":\"session for customer 1084 was renewed\",\"duration_ms\":53}\n{\"time\":\"2026-10-19T09:02:00.411Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-02-0003\",\"message\":\"invoice for order 1085 was saved\",\"duration_ms\":72}\n{\"time\":\"2026-10-19T09:02:00.548Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-02-0004\",\"message\":\"items for order 1086 were reserved\",\"duration_ms\":91}\n{\"time\":\"2026-10-19T09:02:00.685Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-02-0005\",\"message\":\"product availability loaded\",\"duration_ms\":110}\n{\"time\":\"2026-10-19T09:02:00.822Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-02-0006\",\"message\":\"query returned 1088 product results\",\"duration_ms\":129}\n{\"time\":\"2026-10-19T09:02:00.959Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-02-0007\",\"message\":\"courier estimate for order 1089 was refreshed\",\"duration_ms\":148}\n{\"time\":\"2026-10-19T09:02:01.096Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-02-0008\",\"message\":\"image 1090 passed validation\",\"duration_ms\":167}\n{\"time\":\"2026-10-19T09:02:01.233Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-02-0009\",\"message\":\"order 1091 confirmation was queued\",\"duration_ms\":186}\n{\"time\":\"2026-10-19T09:02:01.370Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-02-0010\",\"message\":\"GET /orders/1092 completed\",\"duration_ms\":205}\n{\"time\":\"2026-10-19T09:02:01.507Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-02-0011\",\"message\":\"support request 1093 received an attachment\",\"duration_ms\":224}\n{\"time\":\"2026-10-19T09:02:01.644Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-02-0012\",\"message\":\"payment for order 1094 was authorized\",\"duration_ms\":243}\n{\"time\":\"2026-10-19T09:02:01.781Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-02-0013\",\"message\":\"background job 1095 completed\",\"duration_ms\":19}\n{\"time\":\"2026-10-19T09:02:01.918Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-02-0014\",\"message\":\"session for customer 1096 was renewed\",\"duration_ms\":38}\n{\"time\":\"2026-10-19T09:02:02.055Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-02-0015\",\"message\":\"invoice for order 1097 was saved\",\"duration_ms\":57}\n",
+              "expected": false,
+              "facts": {
+                "bytes": 2694,
+                "occurrences": 0,
+                "distinct_keywords": 0,
+                "first_match_offset": null,
+                "first_matching_dictionary_rank": null
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace-4",
+          "dictionary": [
+            "Fatal error:",
+            "SQLSTATE[",
+            "Connection refused",
+            "TimeoutException",
+            "out of memory",
+            "signature verification failed",
+            "permission denied",
+            "upstream unavailable"
+          ],
+          "documents": [
+            {
+              "id": "trace-4-1",
+              "text": "{\"time\":\"2026-10-19T09:03:00.000Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-03-0000\",\"message\":\"courier estimate for order 1123 was refreshed\",\"duration_ms\":22}\n{\"time\":\"2026-10-19T09:03:00.137Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-03-0001\",\"message\":\"image 1124 passed validation\",\"duration_ms\":41}\n{\"time\":\"2026-10-19T09:03:00.274Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-03-0002\",\"message\":\"order 1125 confirmation was queued\",\"duration_ms\":60}\n{\"time\":\"2026-10-19T09:03:00.411Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-03-0003\",\"message\":\"GET /orders/1126 completed\",\"duration_ms\":79}\n{\"time\":\"2026-10-19T09:03:00.548Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-03-0004\",\"message\":\"support request 1127 received an attachment\",\"duration_ms\":98}\n{\"time\":\"2026-10-19T09:03:00.685Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-03-0005\",\"message\":\"payment for order 1128 was authorized\",\"duration_ms\":117}\n{\"time\":\"2026-10-19T09:03:00.822Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-03-0006\",\"message\":\"background job 1129 completed\",\"duration_ms\":136}\n{\"time\":\"2026-10-19T09:03:00.959Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-03-0007\",\"message\":\"session for customer 1130 was renewed\",\"duration_ms\":155}\n{\"time\":\"2026-10-19T09:03:01.096Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-03-0008\",\"message\":\"invoice for order 1131 was saved\",\"duration_ms\":174}\n{\"time\":\"2026-10-19T09:03:01.233Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-03-0009\",\"message\":\"items for order 1132 were reserved\",\"duration_ms\":193}\n{\"time\":\"2026-10-19T09:03:01.370Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-03-0010\",\"message\":\"product availability loaded\",\"duration_ms\":212}\n{\"time\":\"2026-10-19T09:03:01.507Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-03-0011\",\"message\":\"query returned 1134 product results\",\"duration_ms\":231}\n{\"time\":\"2026-10-19T09:03:01.644Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-03-0012\",\"message\":\"courier estimate for order 1135 was refreshed\",\"duration_ms\":7}\n{\"time\":\"2026-10-19T09:03:01.781Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-03-0013\",\"message\":\"image 1136 passed validation\",\"duration_ms\":26}\n{\"time\":\"2026-10-19T09:03:01.918Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-03-0014\",\"message\":\"order 1137 confirmation was queued\",\"duration_ms\":45}\n{\"time\":\"2026-10-19T09:03:02.055Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-03-0015\",\"message\":\"GET /orders/1138 completed\",\"duration_ms\":64}\n",
+              "expected": false,
+              "facts": {
+                "bytes": 2679,
+                "occurrences": 0,
+                "distinct_keywords": 0,
+                "first_match_offset": null,
+                "first_matching_dictionary_rank": null
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace-5",
+          "dictionary": [
+            "Fatal error:",
+            "SQLSTATE[",
+            "Connection refused",
+            "TimeoutException",
+            "out of memory",
+            "signature verification failed",
+            "permission denied",
+            "upstream unavailable"
+          ],
+          "documents": [
+            {
+              "id": "trace-5-1",
+              "text": "{\"time\":\"2026-10-19T09:04:00.000Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-04-0000\",\"message\":\"session for customer 1164 was renewed\",\"duration_ms\":29}\n{\"time\":\"2026-10-19T09:04:00.137Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-04-0001\",\"message\":\"invoice for order 1165 was saved\",\"duration_ms\":48}\n{\"time\":\"2026-10-19T09:04:00.274Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-04-0002\",\"message\":\"items for order 1166 were reserved\",\"duration_ms\":67}\n{\"time\":\"2026-10-19T09:04:00.411Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-04-0003\",\"message\":\"product availability loaded\",\"duration_ms\":86}\n{\"time\":\"2026-10-19T09:04:00.548Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-04-0004\",\"message\":\"query returned 1168 product results\",\"duration_ms\":105}\n{\"time\":\"2026-10-19T09:04:00.685Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-04-0005\",\"message\":\"courier estimate for order 1169 was refreshed\",\"duration_ms\":124}\n{\"time\":\"2026-10-19T09:04:00.822Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-04-0006\",\"message\":\"image 1170 passed validation\",\"duration_ms\":143}\n{\"time\":\"2026-10-19T09:04:00.959Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-04-0007\",\"message\":\"order 1171 confirmation was queued\",\"duration_ms\":162}\n{\"time\":\"2026-10-19T09:04:01.096Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-04-0008\",\"message\":\"GET /orders/1172 completed\",\"duration_ms\":181}\n{\"time\":\"2026-10-19T09:04:01.233Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-04-0009\",\"message\":\"support request 1173 received an attachment\",\"duration_ms\":200}\n{\"time\":\"2026-10-19T09:04:01.370Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-04-0010\",\"message\":\"payment for order 1174 was authorized\",\"duration_ms\":219}\n{\"time\":\"2026-10-19T09:04:01.507Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-04-0011\",\"message\":\"background job 1175 completed\",\"duration_ms\":238}\n{\"time\":\"2026-10-19T09:04:01.644Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-04-0012\",\"message\":\"session for customer 1176 was renewed\",\"duration_ms\":14}\n{\"time\":\"2026-10-19T09:04:01.781Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-04-0013\",\"message\":\"invoice for order 1177 was saved\",\"duration_ms\":33}\n{\"time\":\"2026-10-19T09:04:01.918Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-04-0014\",\"message\":\"items for order 1178 were reserved\",\"duration_ms\":52}\n{\"time\":\"2026-10-19T09:04:02.055Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-04-0015\",\"message\":\"product availability loaded\",\"duration_ms\":71}\n",
+              "expected": false,
+              "facts": {
+                "bytes": 2684,
+                "occurrences": 0,
+                "distinct_keywords": 0,
+                "first_match_offset": null,
+                "first_matching_dictionary_rank": null
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace-6",
+          "dictionary": [
+            "Fatal error:",
+            "SQLSTATE[",
+            "Connection refused",
+            "TimeoutException",
+            "out of memory",
+            "signature verification failed",
+            "permission denied",
+            "upstream unavailable"
+          ],
+          "documents": [
+            {
+              "id": "trace-6-1",
+              "text": "{\"time\":\"2026-10-19T09:05:00.000Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-05-0000\",\"message\":\"order 1205 confirmation was queued\",\"duration_ms\":36}\n{\"time\":\"2026-10-19T09:05:00.137Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-05-0001\",\"message\":\"GET /orders/1206 completed\",\"duration_ms\":55}\n{\"time\":\"2026-10-19T09:05:00.274Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-05-0002\",\"message\":\"support request 1207 received an attachment\",\"duration_ms\":74}\n{\"time\":\"2026-10-19T09:05:00.411Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-05-0003\",\"message\":\"payment for order 1208 was authorized\",\"duration_ms\":93}\n{\"time\":\"2026-10-19T09:05:00.548Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-05-0004\",\"message\":\"background job 1209 completed\",\"duration_ms\":112}\n{\"time\":\"2026-10-19T09:05:00.685Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-05-0005\",\"message\":\"session for customer 1210 was renewed\",\"duration_ms\":131}\n{\"time\":\"2026-10-19T09:05:00.822Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-05-0006\",\"message\":\"invoice for order 1211 was saved\",\"duration_ms\":150}\n{\"time\":\"2026-10-19T09:05:00.959Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-05-0007\",\"message\":\"items for order 1212 were reserved\",\"duration_ms\":169}\n{\"time\":\"2026-10-19T09:05:01.096Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-05-0008\",\"message\":\"product availability loaded\",\"duration_ms\":188}\n{\"time\":\"2026-10-19T09:05:01.233Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-05-0009\",\"message\":\"query returned 1214 product results\",\"duration_ms\":207}\n{\"time\":\"2026-10-19T09:05:01.370Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-05-0010\",\"message\":\"courier estimate for order 1215 was refreshed\",\"duration_ms\":226}\n{\"time\":\"2026-10-19T09:05:01.507Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-05-0011\",\"message\":\"image 1216 passed validation\",\"duration_ms\":2}\n{\"time\":\"2026-10-19T09:05:01.644Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-05-0012\",\"message\":\"order 1217 confirmation was queued\",\"duration_ms\":21}\n{\"time\":\"2026-10-19T09:05:01.781Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-05-0013\",\"message\":\"GET /orders/1218 completed\",\"duration_ms\":40}\n{\"time\":\"2026-10-19T09:05:01.918Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-05-0014\",\"message\":\"support request 1219 received an attachment\",\"duration_ms\":59}\n{\"time\":\"2026-10-19T09:05:02.055Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-05-0015\",\"message\":\"payment for order 1220 was authorized\",\"duration_ms\":78}\n",
+              "expected": false,
+              "facts": {
+                "bytes": 2687,
+                "occurrences": 0,
+                "distinct_keywords": 0,
+                "first_match_offset": null,
+                "first_matching_dictionary_rank": null
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace-7",
+          "dictionary": [
+            "Fatal error:",
+            "SQLSTATE[",
+            "Connection refused",
+            "TimeoutException",
+            "out of memory",
+            "signature verification failed",
+            "permission denied",
+            "upstream unavailable"
+          ],
+          "documents": [
+            {
+              "id": "trace-7-1",
+              "text": "{\"time\":\"2026-10-19T09:06:00.000Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-06-0000\",\"message\":\"items for order 1246 were reserved\",\"duration_ms\":43}\n{\"time\":\"2026-10-19T09:06:00.137Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-06-0001\",\"message\":\"product availability loaded\",\"duration_ms\":62}\n{\"time\":\"2026-10-19T09:06:00.274Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-06-0002\",\"message\":\"query returned 1248 product results\",\"duration_ms\":81}\n{\"time\":\"2026-10-19T09:06:00.411Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-06-0003\",\"message\":\"courier estimate for order 1249 was refreshed\",\"duration_ms\":100}\n{\"time\":\"2026-10-19T09:06:00.548Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-06-0004\",\"message\":\"image 1250 passed validation\",\"duration_ms\":119}\n{\"time\":\"2026-10-19T09:06:00.685Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-06-0005\",\"message\":\"order 1251 confirmation was queued\",\"duration_ms\":138}\n{\"time\":\"2026-10-19T09:06:00.822Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-06-0006\",\"message\":\"GET /orders/1252 completed\",\"duration_ms\":157}\n{\"time\":\"2026-10-19T09:06:00.959Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-06-0007\",\"message\":\"support request 1253 received an attachment\",\"duration_ms\":176}\n{\"time\":\"2026-10-19T09:06:01.096Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-06-0008\",\"message\":\"payment for order 1254 was authorized\",\"duration_ms\":195}\n{\"time\":\"2026-10-19T09:06:01.233Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-06-0009\",\"message\":\"background job 1255 completed\",\"duration_ms\":214}\n{\"time\":\"2026-10-19T09:06:01.370Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-06-0010\",\"message\":\"session for customer 1256 was renewed\",\"duration_ms\":233}\n{\"time\":\"2026-10-19T09:06:01.507Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-06-0011\",\"message\":\"invoice for order 1257 was saved\",\"duration_ms\":9}\n{\"time\":\"2026-10-19T09:06:01.644Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-06-0012\",\"message\":\"items for order 1258 were reserved\",\"duration_ms\":28}\n{\"time\":\"2026-10-19T09:06:01.781Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-06-0013\",\"message\":\"product availability loaded\",\"duration_ms\":47}\n{\"time\":\"2026-10-19T09:06:01.918Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-06-0014\",\"message\":\"query returned 1260 product results\",\"duration_ms\":66}\n{\"time\":\"2026-10-19T09:06:02.055Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-06-0015\",\"message\":\"courier estimate for order 1261 was refreshed\",\"duration_ms\":85}\n",
+              "expected": false,
+              "facts": {
+                "bytes": 2696,
+                "occurrences": 0,
+                "distinct_keywords": 0,
+                "first_match_offset": null,
+                "first_matching_dictionary_rank": null
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace-8",
+          "dictionary": [
+            "Fatal error:",
+            "SQLSTATE[",
+            "Connection refused",
+            "TimeoutException",
+            "out of memory",
+            "signature verification failed",
+            "permission denied",
+            "upstream unavailable"
+          ],
+          "documents": [
+            {
+              "id": "trace-8-1",
+              "text": "{\"time\":\"2026-10-19T09:07:00.000Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-07-0000\",\"message\":\"support request 1287 received an attachment\",\"duration_ms\":50}\n{\"time\":\"2026-10-19T09:07:00.137Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-07-0001\",\"message\":\"payment for order 1288 was authorized\",\"duration_ms\":69}\n{\"time\":\"2026-10-19T09:07:00.274Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-07-0002\",\"message\":\"background job 1289 completed\",\"duration_ms\":88}\n{\"time\":\"2026-10-19T09:07:00.411Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-07-0003\",\"message\":\"session for customer 1290 was renewed\",\"duration_ms\":107}\n{\"time\":\"2026-10-19T09:07:00.548Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-07-0004\",\"message\":\"invoice for order 1291 was saved\",\"duration_ms\":126}\n{\"time\":\"2026-10-19T09:07:00.685Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-07-0005\",\"message\":\"items for order 1292 were reserved\",\"duration_ms\":145}\n{\"time\":\"2026-10-19T09:07:00.822Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-07-0006\",\"message\":\"product availability loaded\",\"duration_ms\":164}\n{\"time\":\"2026-10-19T09:07:00.959Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-07-0007\",\"message\":\"query returned 1294 product results\",\"duration_ms\":183}\n{\"time\":\"2026-10-19T09:07:01.096Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-07-0008\",\"message\":\"courier estimate for order 1295 was refreshed\",\"duration_ms\":202}\n{\"time\":\"2026-10-19T09:07:01.233Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-07-0009\",\"message\":\"image 1296 passed validation\",\"duration_ms\":221}\n{\"time\":\"2026-10-19T09:07:01.370Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-07-0010\",\"message\":\"order 1297 confirmation was queued\",\"duration_ms\":240}\n{\"time\":\"2026-10-19T09:07:01.507Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-07-0011\",\"message\":\"GET /orders/1298 completed\",\"duration_ms\":16}\n{\"time\":\"2026-10-19T09:07:01.644Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-07-0012\",\"message\":\"support request 1299 received an attachment\",\"duration_ms\":35}\n{\"time\":\"2026-10-19T09:07:01.781Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-07-0013\",\"message\":\"payment for order 1300 was authorized\",\"duration_ms\":54}\n{\"time\":\"2026-10-19T09:07:01.918Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-07-0014\",\"message\":\"background job 1301 completed\",\"duration_ms\":73}\n{\"time\":\"2026-10-19T09:07:02.055Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-07-0015\",\"message\":\"session for customer 1302 was renewed\",\"duration_ms\":92}\n",
+              "expected": false,
+              "facts": {
+                "bytes": 2704,
+                "occurrences": 0,
+                "distinct_keywords": 0,
+                "first_match_offset": null,
+                "first_matching_dictionary_rank": null
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "errors.first",
+      "title": "Decide whether a request trace needs an alert: error in the first record",
+      "kind": "product",
+      "primary": true,
+      "operation": "any",
+      "description": "Scan 16 distinct structured log records for eight exact failure markers. No JSON parsing or disk I/O is part of the string operation.",
+      "origin": "Project-authored deterministic workload model; not a production trace.",
+      "contract": "Exact case-sensitive bytes; no word-boundary rules, normalization, or case folding.",
+      "lifetime": {
+        "dictionary_scope": "alert_rules",
+        "values_change_between_jobs": false,
+        "modes": [
+          {
+            "id": "request",
+            "label": "Complete request, including dictionary preparation"
+          },
+          {
+            "id": "worker",
+            "label": "Worker with the same dictionary already prepared"
+          }
+        ],
+        "pcre_note": "Pattern keys can remain cached when only replacement values change; report warm and fresh-process compilation separately."
+      },
+      "methods": [
+        "contains_loop",
+        "preg_match",
+        "matcher"
+      ],
+      "str_replace_note": "Not applicable to a search operation.",
+      "jobs": [
+        {
+          "id": "trace-1",
+          "dictionary": [
+            "Fatal error:",
+            "SQLSTATE[",
+            "Connection refused",
+            "TimeoutException",
+            "out of memory",
+            "signature verification failed",
+            "permission denied",
+            "upstream unavailable"
+          ],
+          "documents": [
+            {
+              "id": "trace-1-1",
+              "text": "{\"time\":\"2026-10-19T09:00:00.000Z\",\"level\":\"ERROR\",\"event\":\"http.access\",\"request_id\":\"req-00-0000\",\"message\":\"Fatal error: while processing a queued delivery\",\"duration_ms\":1}\n{\"time\":\"2026-10-19T09:00:00.137Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-00-0001\",\"message\":\"support request 1001 received an attachment\",\"duration_ms\":20}\n{\"time\":\"2026-10-19T09:00:00.274Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-00-0002\",\"message\":\"payment for order 1002 was authorized\",\"duration_ms\":39}\n{\"time\":\"2026-10-19T09:00:00.411Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-00-0003\",\"message\":\"background job 1003 completed\",\"duration_ms\":58}\n{\"time\":\"2026-10-19T09:00:00.548Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-00-0004\",\"message\":\"session for customer 1004 was renewed\",\"duration_ms\":77}\n{\"time\":\"2026-10-19T09:00:00.685Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-00-0005\",\"message\":\"invoice for order 1005 was saved\",\"duration_ms\":96}\n{\"time\":\"2026-10-19T09:00:00.822Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-00-0006\",\"message\":\"items for order 1006 were reserved\",\"duration_ms\":115}\n{\"time\":\"2026-10-19T09:00:00.959Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-00-0007\",\"message\":\"product availability loaded\",\"duration_ms\":134}\n{\"time\":\"2026-10-19T09:00:01.096Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-00-0008\",\"message\":\"query returned 1008 product results\",\"duration_ms\":153}\n{\"time\":\"2026-10-19T09:00:01.233Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-00-0009\",\"message\":\"courier estimate for order 1009 was refreshed\",\"duration_ms\":172}\n{\"time\":\"2026-10-19T09:00:01.370Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-00-0010\",\"message\":\"image 1010 passed validation\",\"duration_ms\":191}\n{\"time\":\"2026-10-19T09:00:01.507Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-00-0011\",\"message\":\"order 1011 confirmation was queued\",\"duration_ms\":210}\n{\"time\":\"2026-10-19T09:00:01.644Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-00-0012\",\"message\":\"GET /orders/1012 completed\",\"duration_ms\":229}\n{\"time\":\"2026-10-19T09:00:01.781Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-00-0013\",\"message\":\"support request 1013 received an attachment\",\"duration_ms\":5}\n{\"time\":\"2026-10-19T09:00:01.918Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-00-0014\",\"message\":\"payment for order 1014 was authorized\",\"duration_ms\":24}\n{\"time\":\"2026-10-19T09:00:02.055Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-00-0015\",\"message\":\"background job 1015 completed\",\"duration_ms\":43}\n",
+              "expected": true,
+              "facts": {
+                "bytes": 2707,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 111,
+                "first_matching_dictionary_rank": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace-2",
+          "dictionary": [
+            "Fatal error:",
+            "SQLSTATE[",
+            "Connection refused",
+            "TimeoutException",
+            "out of memory",
+            "signature verification failed",
+            "permission denied",
+            "upstream unavailable"
+          ],
+          "documents": [
+            {
+              "id": "trace-2-1",
+              "text": "{\"time\":\"2026-10-19T09:01:00.000Z\",\"level\":\"ERROR\",\"event\":\"catalog.cache\",\"request_id\":\"req-01-0000\",\"message\":\"SQLSTATE[ while processing a queued delivery\",\"duration_ms\":8}\n{\"time\":\"2026-10-19T09:01:00.137Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-01-0001\",\"message\":\"query returned 1042 product results\",\"duration_ms\":27}\n{\"time\":\"2026-10-19T09:01:00.274Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-01-0002\",\"message\":\"courier estimate for order 1043 was refreshed\",\"duration_ms\":46}\n{\"time\":\"2026-10-19T09:01:00.411Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-01-0003\",\"message\":\"image 1044 passed validation\",\"duration_ms\":65}\n{\"time\":\"2026-10-19T09:01:00.548Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-01-0004\",\"message\":\"order 1045 confirmation was queued\",\"duration_ms\":84}\n{\"time\":\"2026-10-19T09:01:00.685Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-01-0005\",\"message\":\"GET /orders/1046 completed\",\"duration_ms\":103}\n{\"time\":\"2026-10-19T09:01:00.822Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-01-0006\",\"message\":\"support request 1047 received an attachment\",\"duration_ms\":122}\n{\"time\":\"2026-10-19T09:01:00.959Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-01-0007\",\"message\":\"payment for order 1048 was authorized\",\"duration_ms\":141}\n{\"time\":\"2026-10-19T09:01:01.096Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-01-0008\",\"message\":\"background job 1049 completed\",\"duration_ms\":160}\n{\"time\":\"2026-10-19T09:01:01.233Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-01-0009\",\"message\":\"session for customer 1050 was renewed\",\"duration_ms\":179}\n{\"time\":\"2026-10-19T09:01:01.370Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-01-0010\",\"message\":\"invoice for order 1051 was saved\",\"duration_ms\":198}\n{\"time\":\"2026-10-19T09:01:01.507Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-01-0011\",\"message\":\"items for order 1052 were reserved\",\"duration_ms\":217}\n{\"time\":\"2026-10-19T09:01:01.644Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-01-0012\",\"message\":\"product availability loaded\",\"duration_ms\":236}\n{\"time\":\"2026-10-19T09:01:01.781Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-01-0013\",\"message\":\"query returned 1054 product results\",\"duration_ms\":12}\n{\"time\":\"2026-10-19T09:01:01.918Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-01-0014\",\"message\":\"courier estimate for order 1055 was refreshed\",\"duration_ms\":31}\n{\"time\":\"2026-10-19T09:01:02.055Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-01-0015\",\"message\":\"image 1056 passed validation\",\"duration_ms\":50}\n",
+              "expected": true,
+              "facts": {
+                "bytes": 2708,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 113,
+                "first_matching_dictionary_rank": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace-3",
+          "dictionary": [
+            "Fatal error:",
+            "SQLSTATE[",
+            "Connection refused",
+            "TimeoutException",
+            "out of memory",
+            "signature verification failed",
+            "permission denied",
+            "upstream unavailable"
+          ],
+          "documents": [
+            {
+              "id": "trace-3-1",
+              "text": "{\"time\":\"2026-10-19T09:02:00.000Z\",\"level\":\"ERROR\",\"event\":\"payment.authorized\",\"request_id\":\"req-02-0000\",\"message\":\"Connection refused while processing a queued delivery\",\"duration_ms\":15}\n{\"time\":\"2026-10-19T09:02:00.137Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-02-0001\",\"message\":\"background job 1083 completed\",\"duration_ms\":34}\n{\"time\":\"2026-10-19T09:02:00.274Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-02-0002\",\"message\":\"session for customer 1084 was renewed\",\"duration_ms\":53}\n{\"time\":\"2026-10-19T09:02:00.411Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-02-0003\",\"message\":\"invoice for order 1085 was saved\",\"duration_ms\":72}\n{\"time\":\"2026-10-19T09:02:00.548Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-02-0004\",\"message\":\"items for order 1086 were reserved\",\"duration_ms\":91}\n{\"time\":\"2026-10-19T09:02:00.685Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-02-0005\",\"message\":\"product availability loaded\",\"duration_ms\":110}\n{\"time\":\"2026-10-19T09:02:00.822Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-02-0006\",\"message\":\"query returned 1088 product results\",\"duration_ms\":129}\n{\"time\":\"2026-10-19T09:02:00.959Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-02-0007\",\"message\":\"courier estimate for order 1089 was refreshed\",\"duration_ms\":148}\n{\"time\":\"2026-10-19T09:02:01.096Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-02-0008\",\"message\":\"image 1090 passed validation\",\"duration_ms\":167}\n{\"time\":\"2026-10-19T09:02:01.233Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-02-0009\",\"message\":\"order 1091 confirmation was queued\",\"duration_ms\":186}\n{\"time\":\"2026-10-19T09:02:01.370Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-02-0010\",\"message\":\"GET /orders/1092 completed\",\"duration_ms\":205}\n{\"time\":\"2026-10-19T09:02:01.507Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-02-0011\",\"message\":\"support request 1093 received an attachment\",\"duration_ms\":224}\n{\"time\":\"2026-10-19T09:02:01.644Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-02-0012\",\"message\":\"payment for order 1094 was authorized\",\"duration_ms\":243}\n{\"time\":\"2026-10-19T09:02:01.781Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-02-0013\",\"message\":\"background job 1095 completed\",\"duration_ms\":19}\n{\"time\":\"2026-10-19T09:02:01.918Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-02-0014\",\"message\":\"session for customer 1096 was renewed\",\"duration_ms\":38}\n{\"time\":\"2026-10-19T09:02:02.055Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-02-0015\",\"message\":\"invoice for order 1097 was saved\",\"duration_ms\":57}\n",
+              "expected": true,
+              "facts": {
+                "bytes": 2711,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 118,
+                "first_matching_dictionary_rank": 2
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace-4",
+          "dictionary": [
+            "Fatal error:",
+            "SQLSTATE[",
+            "Connection refused",
+            "TimeoutException",
+            "out of memory",
+            "signature verification failed",
+            "permission denied",
+            "upstream unavailable"
+          ],
+          "documents": [
+            {
+              "id": "trace-4-1",
+              "text": "{\"time\":\"2026-10-19T09:03:00.000Z\",\"level\":\"ERROR\",\"event\":\"delivery.updated\",\"request_id\":\"req-03-0000\",\"message\":\"TimeoutException while processing a queued delivery\",\"duration_ms\":22}\n{\"time\":\"2026-10-19T09:03:00.137Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-03-0001\",\"message\":\"image 1124 passed validation\",\"duration_ms\":41}\n{\"time\":\"2026-10-19T09:03:00.274Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-03-0002\",\"message\":\"order 1125 confirmation was queued\",\"duration_ms\":60}\n{\"time\":\"2026-10-19T09:03:00.411Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-03-0003\",\"message\":\"GET /orders/1126 completed\",\"duration_ms\":79}\n{\"time\":\"2026-10-19T09:03:00.548Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-03-0004\",\"message\":\"support request 1127 received an attachment\",\"duration_ms\":98}\n{\"time\":\"2026-10-19T09:03:00.685Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-03-0005\",\"message\":\"payment for order 1128 was authorized\",\"duration_ms\":117}\n{\"time\":\"2026-10-19T09:03:00.822Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-03-0006\",\"message\":\"background job 1129 completed\",\"duration_ms\":136}\n{\"time\":\"2026-10-19T09:03:00.959Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-03-0007\",\"message\":\"session for customer 1130 was renewed\",\"duration_ms\":155}\n{\"time\":\"2026-10-19T09:03:01.096Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-03-0008\",\"message\":\"invoice for order 1131 was saved\",\"duration_ms\":174}\n{\"time\":\"2026-10-19T09:03:01.233Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-03-0009\",\"message\":\"items for order 1132 were reserved\",\"duration_ms\":193}\n{\"time\":\"2026-10-19T09:03:01.370Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-03-0010\",\"message\":\"product availability loaded\",\"duration_ms\":212}\n{\"time\":\"2026-10-19T09:03:01.507Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-03-0011\",\"message\":\"query returned 1134 product results\",\"duration_ms\":231}\n{\"time\":\"2026-10-19T09:03:01.644Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-03-0012\",\"message\":\"courier estimate for order 1135 was refreshed\",\"duration_ms\":7}\n{\"time\":\"2026-10-19T09:03:01.781Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-03-0013\",\"message\":\"image 1136 passed validation\",\"duration_ms\":26}\n{\"time\":\"2026-10-19T09:03:01.918Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-03-0014\",\"message\":\"order 1137 confirmation was queued\",\"duration_ms\":45}\n{\"time\":\"2026-10-19T09:03:02.055Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-03-0015\",\"message\":\"GET /orders/1138 completed\",\"duration_ms\":64}\n",
+              "expected": true,
+              "facts": {
+                "bytes": 2686,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 116,
+                "first_matching_dictionary_rank": 3
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace-5",
+          "dictionary": [
+            "Fatal error:",
+            "SQLSTATE[",
+            "Connection refused",
+            "TimeoutException",
+            "out of memory",
+            "signature verification failed",
+            "permission denied",
+            "upstream unavailable"
+          ],
+          "documents": [
+            {
+              "id": "trace-5-1",
+              "text": "{\"time\":\"2026-10-19T09:04:00.000Z\",\"level\":\"ERROR\",\"event\":\"account.session\",\"request_id\":\"req-04-0000\",\"message\":\"out of memory while processing a queued delivery\",\"duration_ms\":29}\n{\"time\":\"2026-10-19T09:04:00.137Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-04-0001\",\"message\":\"invoice for order 1165 was saved\",\"duration_ms\":48}\n{\"time\":\"2026-10-19T09:04:00.274Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-04-0002\",\"message\":\"items for order 1166 were reserved\",\"duration_ms\":67}\n{\"time\":\"2026-10-19T09:04:00.411Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-04-0003\",\"message\":\"product availability loaded\",\"duration_ms\":86}\n{\"time\":\"2026-10-19T09:04:00.548Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-04-0004\",\"message\":\"query returned 1168 product results\",\"duration_ms\":105}\n{\"time\":\"2026-10-19T09:04:00.685Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-04-0005\",\"message\":\"courier estimate for order 1169 was refreshed\",\"duration_ms\":124}\n{\"time\":\"2026-10-19T09:04:00.822Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-04-0006\",\"message\":\"image 1170 passed validation\",\"duration_ms\":143}\n{\"time\":\"2026-10-19T09:04:00.959Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-04-0007\",\"message\":\"order 1171 confirmation was queued\",\"duration_ms\":162}\n{\"time\":\"2026-10-19T09:04:01.096Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-04-0008\",\"message\":\"GET /orders/1172 completed\",\"duration_ms\":181}\n{\"time\":\"2026-10-19T09:04:01.233Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-04-0009\",\"message\":\"support request 1173 received an attachment\",\"duration_ms\":200}\n{\"time\":\"2026-10-19T09:04:01.370Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-04-0010\",\"message\":\"payment for order 1174 was authorized\",\"duration_ms\":219}\n{\"time\":\"2026-10-19T09:04:01.507Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-04-0011\",\"message\":\"background job 1175 completed\",\"duration_ms\":238}\n{\"time\":\"2026-10-19T09:04:01.644Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-04-0012\",\"message\":\"session for customer 1176 was renewed\",\"duration_ms\":14}\n{\"time\":\"2026-10-19T09:04:01.781Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-04-0013\",\"message\":\"invoice for order 1177 was saved\",\"duration_ms\":33}\n{\"time\":\"2026-10-19T09:04:01.918Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-04-0014\",\"message\":\"items for order 1178 were reserved\",\"duration_ms\":52}\n{\"time\":\"2026-10-19T09:04:02.055Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-04-0015\",\"message\":\"product availability loaded\",\"duration_ms\":71}\n",
+              "expected": true,
+              "facts": {
+                "bytes": 2695,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 115,
+                "first_matching_dictionary_rank": 4
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace-6",
+          "dictionary": [
+            "Fatal error:",
+            "SQLSTATE[",
+            "Connection refused",
+            "TimeoutException",
+            "out of memory",
+            "signature verification failed",
+            "permission denied",
+            "upstream unavailable"
+          ],
+          "documents": [
+            {
+              "id": "trace-6-1",
+              "text": "{\"time\":\"2026-10-19T09:05:00.000Z\",\"level\":\"ERROR\",\"event\":\"mail.queued\",\"request_id\":\"req-05-0000\",\"message\":\"signature verification failed while processing a queued delivery\",\"duration_ms\":36}\n{\"time\":\"2026-10-19T09:05:00.137Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-05-0001\",\"message\":\"GET /orders/1206 completed\",\"duration_ms\":55}\n{\"time\":\"2026-10-19T09:05:00.274Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-05-0002\",\"message\":\"support request 1207 received an attachment\",\"duration_ms\":74}\n{\"time\":\"2026-10-19T09:05:00.411Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-05-0003\",\"message\":\"payment for order 1208 was authorized\",\"duration_ms\":93}\n{\"time\":\"2026-10-19T09:05:00.548Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-05-0004\",\"message\":\"background job 1209 completed\",\"duration_ms\":112}\n{\"time\":\"2026-10-19T09:05:00.685Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-05-0005\",\"message\":\"session for customer 1210 was renewed\",\"duration_ms\":131}\n{\"time\":\"2026-10-19T09:05:00.822Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-05-0006\",\"message\":\"invoice for order 1211 was saved\",\"duration_ms\":150}\n{\"time\":\"2026-10-19T09:05:00.959Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-05-0007\",\"message\":\"items for order 1212 were reserved\",\"duration_ms\":169}\n{\"time\":\"2026-10-19T09:05:01.096Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-05-0008\",\"message\":\"product availability loaded\",\"duration_ms\":188}\n{\"time\":\"2026-10-19T09:05:01.233Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-05-0009\",\"message\":\"query returned 1214 product results\",\"duration_ms\":207}\n{\"time\":\"2026-10-19T09:05:01.370Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-05-0010\",\"message\":\"courier estimate for order 1215 was refreshed\",\"duration_ms\":226}\n{\"time\":\"2026-10-19T09:05:01.507Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-05-0011\",\"message\":\"image 1216 passed validation\",\"duration_ms\":2}\n{\"time\":\"2026-10-19T09:05:01.644Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-05-0012\",\"message\":\"order 1217 confirmation was queued\",\"duration_ms\":21}\n{\"time\":\"2026-10-19T09:05:01.781Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-05-0013\",\"message\":\"GET /orders/1218 completed\",\"duration_ms\":40}\n{\"time\":\"2026-10-19T09:05:01.918Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-05-0014\",\"message\":\"support request 1219 received an attachment\",\"duration_ms\":59}\n{\"time\":\"2026-10-19T09:05:02.055Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-05-0015\",\"message\":\"payment for order 1220 was authorized\",\"duration_ms\":78}\n",
+              "expected": true,
+              "facts": {
+                "bytes": 2718,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 111,
+                "first_matching_dictionary_rank": 5
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace-7",
+          "dictionary": [
+            "Fatal error:",
+            "SQLSTATE[",
+            "Connection refused",
+            "TimeoutException",
+            "out of memory",
+            "signature verification failed",
+            "permission denied",
+            "upstream unavailable"
+          ],
+          "documents": [
+            {
+              "id": "trace-7-1",
+              "text": "{\"time\":\"2026-10-19T09:06:00.000Z\",\"level\":\"ERROR\",\"event\":\"stock.reserved\",\"request_id\":\"req-06-0000\",\"message\":\"permission denied while processing a queued delivery\",\"duration_ms\":43}\n{\"time\":\"2026-10-19T09:06:00.137Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-06-0001\",\"message\":\"product availability loaded\",\"duration_ms\":62}\n{\"time\":\"2026-10-19T09:06:00.274Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-06-0002\",\"message\":\"query returned 1248 product results\",\"duration_ms\":81}\n{\"time\":\"2026-10-19T09:06:00.411Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-06-0003\",\"message\":\"courier estimate for order 1249 was refreshed\",\"duration_ms\":100}\n{\"time\":\"2026-10-19T09:06:00.548Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-06-0004\",\"message\":\"image 1250 passed validation\",\"duration_ms\":119}\n{\"time\":\"2026-10-19T09:06:00.685Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-06-0005\",\"message\":\"order 1251 confirmation was queued\",\"duration_ms\":138}\n{\"time\":\"2026-10-19T09:06:00.822Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-06-0006\",\"message\":\"GET /orders/1252 completed\",\"duration_ms\":157}\n{\"time\":\"2026-10-19T09:06:00.959Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-06-0007\",\"message\":\"support request 1253 received an attachment\",\"duration_ms\":176}\n{\"time\":\"2026-10-19T09:06:01.096Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-06-0008\",\"message\":\"payment for order 1254 was authorized\",\"duration_ms\":195}\n{\"time\":\"2026-10-19T09:06:01.233Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-06-0009\",\"message\":\"background job 1255 completed\",\"duration_ms\":214}\n{\"time\":\"2026-10-19T09:06:01.370Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-06-0010\",\"message\":\"session for customer 1256 was renewed\",\"duration_ms\":233}\n{\"time\":\"2026-10-19T09:06:01.507Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-06-0011\",\"message\":\"invoice for order 1257 was saved\",\"duration_ms\":9}\n{\"time\":\"2026-10-19T09:06:01.644Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-06-0012\",\"message\":\"items for order 1258 were reserved\",\"duration_ms\":28}\n{\"time\":\"2026-10-19T09:06:01.781Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-06-0013\",\"message\":\"product availability loaded\",\"duration_ms\":47}\n{\"time\":\"2026-10-19T09:06:01.918Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-06-0014\",\"message\":\"query returned 1260 product results\",\"duration_ms\":66}\n{\"time\":\"2026-10-19T09:06:02.055Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-06-0015\",\"message\":\"courier estimate for order 1261 was refreshed\",\"duration_ms\":85}\n",
+              "expected": true,
+              "facts": {
+                "bytes": 2715,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 114,
+                "first_matching_dictionary_rank": 6
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace-8",
+          "dictionary": [
+            "Fatal error:",
+            "SQLSTATE[",
+            "Connection refused",
+            "TimeoutException",
+            "out of memory",
+            "signature verification failed",
+            "permission denied",
+            "upstream unavailable"
+          ],
+          "documents": [
+            {
+              "id": "trace-8-1",
+              "text": "{\"time\":\"2026-10-19T09:07:00.000Z\",\"level\":\"ERROR\",\"event\":\"support.opened\",\"request_id\":\"req-07-0000\",\"message\":\"upstream unavailable while processing a queued delivery\",\"duration_ms\":50}\n{\"time\":\"2026-10-19T09:07:00.137Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-07-0001\",\"message\":\"payment for order 1288 was authorized\",\"duration_ms\":69}\n{\"time\":\"2026-10-19T09:07:00.274Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-07-0002\",\"message\":\"background job 1289 completed\",\"duration_ms\":88}\n{\"time\":\"2026-10-19T09:07:00.411Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-07-0003\",\"message\":\"session for customer 1290 was renewed\",\"duration_ms\":107}\n{\"time\":\"2026-10-19T09:07:00.548Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-07-0004\",\"message\":\"invoice for order 1291 was saved\",\"duration_ms\":126}\n{\"time\":\"2026-10-19T09:07:00.685Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-07-0005\",\"message\":\"items for order 1292 were reserved\",\"duration_ms\":145}\n{\"time\":\"2026-10-19T09:07:00.822Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-07-0006\",\"message\":\"product availability loaded\",\"duration_ms\":164}\n{\"time\":\"2026-10-19T09:07:00.959Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-07-0007\",\"message\":\"query returned 1294 product results\",\"duration_ms\":183}\n{\"time\":\"2026-10-19T09:07:01.096Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-07-0008\",\"message\":\"courier estimate for order 1295 was refreshed\",\"duration_ms\":202}\n{\"time\":\"2026-10-19T09:07:01.233Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-07-0009\",\"message\":\"image 1296 passed validation\",\"duration_ms\":221}\n{\"time\":\"2026-10-19T09:07:01.370Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-07-0010\",\"message\":\"order 1297 confirmation was queued\",\"duration_ms\":240}\n{\"time\":\"2026-10-19T09:07:01.507Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-07-0011\",\"message\":\"GET /orders/1298 completed\",\"duration_ms\":16}\n{\"time\":\"2026-10-19T09:07:01.644Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-07-0012\",\"message\":\"support request 1299 received an attachment\",\"duration_ms\":35}\n{\"time\":\"2026-10-19T09:07:01.781Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-07-0013\",\"message\":\"payment for order 1300 was authorized\",\"duration_ms\":54}\n{\"time\":\"2026-10-19T09:07:01.918Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-07-0014\",\"message\":\"background job 1301 completed\",\"duration_ms\":73}\n{\"time\":\"2026-10-19T09:07:02.055Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-07-0015\",\"message\":\"session for customer 1302 was renewed\",\"duration_ms\":92}\n",
+              "expected": true,
+              "facts": {
+                "bytes": 2717,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 114,
+                "first_matching_dictionary_rank": 7
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "errors.middle",
+      "title": "Decide whether a request trace needs an alert: error in the middle record",
+      "kind": "product",
+      "primary": true,
+      "operation": "any",
+      "description": "Scan 16 distinct structured log records for eight exact failure markers. No JSON parsing or disk I/O is part of the string operation.",
+      "origin": "Project-authored deterministic workload model; not a production trace.",
+      "contract": "Exact case-sensitive bytes; no word-boundary rules, normalization, or case folding.",
+      "lifetime": {
+        "dictionary_scope": "alert_rules",
+        "values_change_between_jobs": false,
+        "modes": [
+          {
+            "id": "request",
+            "label": "Complete request, including dictionary preparation"
+          },
+          {
+            "id": "worker",
+            "label": "Worker with the same dictionary already prepared"
+          }
+        ],
+        "pcre_note": "Pattern keys can remain cached when only replacement values change; report warm and fresh-process compilation separately."
+      },
+      "methods": [
+        "contains_loop",
+        "preg_match",
+        "matcher"
+      ],
+      "str_replace_note": "Not applicable to a search operation.",
+      "jobs": [
+        {
+          "id": "trace-1",
+          "dictionary": [
+            "Fatal error:",
+            "SQLSTATE[",
+            "Connection refused",
+            "TimeoutException",
+            "out of memory",
+            "signature verification failed",
+            "permission denied",
+            "upstream unavailable"
+          ],
+          "documents": [
+            {
+              "id": "trace-1-1",
+              "text": "{\"time\":\"2026-10-19T09:00:00.000Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-00-0000\",\"message\":\"GET /orders/1000 completed\",\"duration_ms\":1}\n{\"time\":\"2026-10-19T09:00:00.137Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-00-0001\",\"message\":\"support request 1001 received an attachment\",\"duration_ms\":20}\n{\"time\":\"2026-10-19T09:00:00.274Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-00-0002\",\"message\":\"payment for order 1002 was authorized\",\"duration_ms\":39}\n{\"time\":\"2026-10-19T09:00:00.411Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-00-0003\",\"message\":\"background job 1003 completed\",\"duration_ms\":58}\n{\"time\":\"2026-10-19T09:00:00.548Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-00-0004\",\"message\":\"session for customer 1004 was renewed\",\"duration_ms\":77}\n{\"time\":\"2026-10-19T09:00:00.685Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-00-0005\",\"message\":\"invoice for order 1005 was saved\",\"duration_ms\":96}\n{\"time\":\"2026-10-19T09:00:00.822Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-00-0006\",\"message\":\"items for order 1006 were reserved\",\"duration_ms\":115}\n{\"time\":\"2026-10-19T09:00:00.959Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-00-0007\",\"message\":\"product availability loaded\",\"duration_ms\":134}\n{\"time\":\"2026-10-19T09:00:01.096Z\",\"level\":\"ERROR\",\"event\":\"search.completed\",\"request_id\":\"req-00-0008\",\"message\":\"Fatal error: while processing a queued delivery\",\"duration_ms\":153}\n{\"time\":\"2026-10-19T09:00:01.233Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-00-0009\",\"message\":\"courier estimate for order 1009 was refreshed\",\"duration_ms\":172}\n{\"time\":\"2026-10-19T09:00:01.370Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-00-0010\",\"message\":\"image 1010 passed validation\",\"duration_ms\":191}\n{\"time\":\"2026-10-19T09:00:01.507Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-00-0011\",\"message\":\"order 1011 confirmation was queued\",\"duration_ms\":210}\n{\"time\":\"2026-10-19T09:00:01.644Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-00-0012\",\"message\":\"GET /orders/1012 completed\",\"duration_ms\":229}\n{\"time\":\"2026-10-19T09:00:01.781Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-00-0013\",\"message\":\"support request 1013 received an attachment\",\"duration_ms\":5}\n{\"time\":\"2026-10-19T09:00:01.918Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-00-0014\",\"message\":\"payment for order 1014 was authorized\",\"duration_ms\":24}\n{\"time\":\"2026-10-19T09:00:02.055Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-00-0015\",\"message\":\"background job 1015 completed\",\"duration_ms\":43}\n",
+              "expected": true,
+              "facts": {
+                "bytes": 2697,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 1451,
+                "first_matching_dictionary_rank": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace-2",
+          "dictionary": [
+            "Fatal error:",
+            "SQLSTATE[",
+            "Connection refused",
+            "TimeoutException",
+            "out of memory",
+            "signature verification failed",
+            "permission denied",
+            "upstream unavailable"
+          ],
+          "documents": [
+            {
+              "id": "trace-2-1",
+              "text": "{\"time\":\"2026-10-19T09:01:00.000Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-01-0000\",\"message\":\"product availability loaded\",\"duration_ms\":8}\n{\"time\":\"2026-10-19T09:01:00.137Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-01-0001\",\"message\":\"query returned 1042 product results\",\"duration_ms\":27}\n{\"time\":\"2026-10-19T09:01:00.274Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-01-0002\",\"message\":\"courier estimate for order 1043 was refreshed\",\"duration_ms\":46}\n{\"time\":\"2026-10-19T09:01:00.411Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-01-0003\",\"message\":\"image 1044 passed validation\",\"duration_ms\":65}\n{\"time\":\"2026-10-19T09:01:00.548Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-01-0004\",\"message\":\"order 1045 confirmation was queued\",\"duration_ms\":84}\n{\"time\":\"2026-10-19T09:01:00.685Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-01-0005\",\"message\":\"GET /orders/1046 completed\",\"duration_ms\":103}\n{\"time\":\"2026-10-19T09:01:00.822Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-01-0006\",\"message\":\"support request 1047 received an attachment\",\"duration_ms\":122}\n{\"time\":\"2026-10-19T09:01:00.959Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-01-0007\",\"message\":\"payment for order 1048 was authorized\",\"duration_ms\":141}\n{\"time\":\"2026-10-19T09:01:01.096Z\",\"level\":\"ERROR\",\"event\":\"worker.finished\",\"request_id\":\"req-01-0008\",\"message\":\"SQLSTATE[ while processing a queued delivery\",\"duration_ms\":160}\n{\"time\":\"2026-10-19T09:01:01.233Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-01-0009\",\"message\":\"session for customer 1050 was renewed\",\"duration_ms\":179}\n{\"time\":\"2026-10-19T09:01:01.370Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-01-0010\",\"message\":\"invoice for order 1051 was saved\",\"duration_ms\":198}\n{\"time\":\"2026-10-19T09:01:01.507Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-01-0011\",\"message\":\"items for order 1052 were reserved\",\"duration_ms\":217}\n{\"time\":\"2026-10-19T09:01:01.644Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-01-0012\",\"message\":\"product availability loaded\",\"duration_ms\":236}\n{\"time\":\"2026-10-19T09:01:01.781Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-01-0013\",\"message\":\"query returned 1054 product results\",\"duration_ms\":12}\n{\"time\":\"2026-10-19T09:01:01.918Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-01-0014\",\"message\":\"courier estimate for order 1055 was refreshed\",\"duration_ms\":31}\n{\"time\":\"2026-10-19T09:01:02.055Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-01-0015\",\"message\":\"image 1056 passed validation\",\"duration_ms\":50}\n",
+              "expected": true,
+              "facts": {
+                "bytes": 2707,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 1460,
+                "first_matching_dictionary_rank": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace-3",
+          "dictionary": [
+            "Fatal error:",
+            "SQLSTATE[",
+            "Connection refused",
+            "TimeoutException",
+            "out of memory",
+            "signature verification failed",
+            "permission denied",
+            "upstream unavailable"
+          ],
+          "documents": [
+            {
+              "id": "trace-3-1",
+              "text": "{\"time\":\"2026-10-19T09:02:00.000Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-02-0000\",\"message\":\"payment for order 1082 was authorized\",\"duration_ms\":15}\n{\"time\":\"2026-10-19T09:02:00.137Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-02-0001\",\"message\":\"background job 1083 completed\",\"duration_ms\":34}\n{\"time\":\"2026-10-19T09:02:00.274Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-02-0002\",\"message\":\"session for customer 1084 was renewed\",\"duration_ms\":53}\n{\"time\":\"2026-10-19T09:02:00.411Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-02-0003\",\"message\":\"invoice for order 1085 was saved\",\"duration_ms\":72}\n{\"time\":\"2026-10-19T09:02:00.548Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-02-0004\",\"message\":\"items for order 1086 were reserved\",\"duration_ms\":91}\n{\"time\":\"2026-10-19T09:02:00.685Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-02-0005\",\"message\":\"product availability loaded\",\"duration_ms\":110}\n{\"time\":\"2026-10-19T09:02:00.822Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-02-0006\",\"message\":\"query returned 1088 product results\",\"duration_ms\":129}\n{\"time\":\"2026-10-19T09:02:00.959Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-02-0007\",\"message\":\"courier estimate for order 1089 was refreshed\",\"duration_ms\":148}\n{\"time\":\"2026-10-19T09:02:01.096Z\",\"level\":\"ERROR\",\"event\":\"upload.accepted\",\"request_id\":\"req-02-0008\",\"message\":\"Connection refused while processing a queued delivery\",\"duration_ms\":167}\n{\"time\":\"2026-10-19T09:02:01.233Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-02-0009\",\"message\":\"order 1091 confirmation was queued\",\"duration_ms\":186}\n{\"time\":\"2026-10-19T09:02:01.370Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-02-0010\",\"message\":\"GET /orders/1092 completed\",\"duration_ms\":205}\n{\"time\":\"2026-10-19T09:02:01.507Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-02-0011\",\"message\":\"support request 1093 received an attachment\",\"duration_ms\":224}\n{\"time\":\"2026-10-19T09:02:01.644Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-02-0012\",\"message\":\"payment for order 1094 was authorized\",\"duration_ms\":243}\n{\"time\":\"2026-10-19T09:02:01.781Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-02-0013\",\"message\":\"background job 1095 completed\",\"duration_ms\":19}\n{\"time\":\"2026-10-19T09:02:01.918Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-02-0014\",\"message\":\"session for customer 1096 was renewed\",\"duration_ms\":38}\n{\"time\":\"2026-10-19T09:02:02.055Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-02-0015\",\"message\":\"invoice for order 1097 was saved\",\"duration_ms\":57}\n",
+              "expected": true,
+              "facts": {
+                "bytes": 2720,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 1471,
+                "first_matching_dictionary_rank": 2
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace-4",
+          "dictionary": [
+            "Fatal error:",
+            "SQLSTATE[",
+            "Connection refused",
+            "TimeoutException",
+            "out of memory",
+            "signature verification failed",
+            "permission denied",
+            "upstream unavailable"
+          ],
+          "documents": [
+            {
+              "id": "trace-4-1",
+              "text": "{\"time\":\"2026-10-19T09:03:00.000Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-03-0000\",\"message\":\"courier estimate for order 1123 was refreshed\",\"duration_ms\":22}\n{\"time\":\"2026-10-19T09:03:00.137Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-03-0001\",\"message\":\"image 1124 passed validation\",\"duration_ms\":41}\n{\"time\":\"2026-10-19T09:03:00.274Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-03-0002\",\"message\":\"order 1125 confirmation was queued\",\"duration_ms\":60}\n{\"time\":\"2026-10-19T09:03:00.411Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-03-0003\",\"message\":\"GET /orders/1126 completed\",\"duration_ms\":79}\n{\"time\":\"2026-10-19T09:03:00.548Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-03-0004\",\"message\":\"support request 1127 received an attachment\",\"duration_ms\":98}\n{\"time\":\"2026-10-19T09:03:00.685Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-03-0005\",\"message\":\"payment for order 1128 was authorized\",\"duration_ms\":117}\n{\"time\":\"2026-10-19T09:03:00.822Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-03-0006\",\"message\":\"background job 1129 completed\",\"duration_ms\":136}\n{\"time\":\"2026-10-19T09:03:00.959Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-03-0007\",\"message\":\"session for customer 1130 was renewed\",\"duration_ms\":155}\n{\"time\":\"2026-10-19T09:03:01.096Z\",\"level\":\"ERROR\",\"event\":\"invoice.created\",\"request_id\":\"req-03-0008\",\"message\":\"TimeoutException while processing a queued delivery\",\"duration_ms\":174}\n{\"time\":\"2026-10-19T09:03:01.233Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-03-0009\",\"message\":\"items for order 1132 were reserved\",\"duration_ms\":193}\n{\"time\":\"2026-10-19T09:03:01.370Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-03-0010\",\"message\":\"product availability loaded\",\"duration_ms\":212}\n{\"time\":\"2026-10-19T09:03:01.507Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-03-0011\",\"message\":\"query returned 1134 product results\",\"duration_ms\":231}\n{\"time\":\"2026-10-19T09:03:01.644Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-03-0012\",\"message\":\"courier estimate for order 1135 was refreshed\",\"duration_ms\":7}\n{\"time\":\"2026-10-19T09:03:01.781Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-03-0013\",\"message\":\"image 1136 passed validation\",\"duration_ms\":26}\n{\"time\":\"2026-10-19T09:03:01.918Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-03-0014\",\"message\":\"order 1137 confirmation was queued\",\"duration_ms\":45}\n{\"time\":\"2026-10-19T09:03:02.055Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-03-0015\",\"message\":\"GET /orders/1138 completed\",\"duration_ms\":64}\n",
+              "expected": true,
+              "facts": {
+                "bytes": 2699,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 1465,
+                "first_matching_dictionary_rank": 3
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace-5",
+          "dictionary": [
+            "Fatal error:",
+            "SQLSTATE[",
+            "Connection refused",
+            "TimeoutException",
+            "out of memory",
+            "signature verification failed",
+            "permission denied",
+            "upstream unavailable"
+          ],
+          "documents": [
+            {
+              "id": "trace-5-1",
+              "text": "{\"time\":\"2026-10-19T09:04:00.000Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-04-0000\",\"message\":\"session for customer 1164 was renewed\",\"duration_ms\":29}\n{\"time\":\"2026-10-19T09:04:00.137Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-04-0001\",\"message\":\"invoice for order 1165 was saved\",\"duration_ms\":48}\n{\"time\":\"2026-10-19T09:04:00.274Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-04-0002\",\"message\":\"items for order 1166 were reserved\",\"duration_ms\":67}\n{\"time\":\"2026-10-19T09:04:00.411Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-04-0003\",\"message\":\"product availability loaded\",\"duration_ms\":86}\n{\"time\":\"2026-10-19T09:04:00.548Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-04-0004\",\"message\":\"query returned 1168 product results\",\"duration_ms\":105}\n{\"time\":\"2026-10-19T09:04:00.685Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-04-0005\",\"message\":\"courier estimate for order 1169 was refreshed\",\"duration_ms\":124}\n{\"time\":\"2026-10-19T09:04:00.822Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-04-0006\",\"message\":\"image 1170 passed validation\",\"duration_ms\":143}\n{\"time\":\"2026-10-19T09:04:00.959Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-04-0007\",\"message\":\"order 1171 confirmation was queued\",\"duration_ms\":162}\n{\"time\":\"2026-10-19T09:04:01.096Z\",\"level\":\"ERROR\",\"event\":\"http.access\",\"request_id\":\"req-04-0008\",\"message\":\"out of memory while processing a queued delivery\",\"duration_ms\":181}\n{\"time\":\"2026-10-19T09:04:01.233Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-04-0009\",\"message\":\"support request 1173 received an attachment\",\"duration_ms\":200}\n{\"time\":\"2026-10-19T09:04:01.370Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-04-0010\",\"message\":\"payment for order 1174 was authorized\",\"duration_ms\":219}\n{\"time\":\"2026-10-19T09:04:01.507Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-04-0011\",\"message\":\"background job 1175 completed\",\"duration_ms\":238}\n{\"time\":\"2026-10-19T09:04:01.644Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-04-0012\",\"message\":\"session for customer 1176 was renewed\",\"duration_ms\":14}\n{\"time\":\"2026-10-19T09:04:01.781Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-04-0013\",\"message\":\"invoice for order 1177 was saved\",\"duration_ms\":33}\n{\"time\":\"2026-10-19T09:04:01.918Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-04-0014\",\"message\":\"items for order 1178 were reserved\",\"duration_ms\":52}\n{\"time\":\"2026-10-19T09:04:02.055Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-04-0015\",\"message\":\"product availability loaded\",\"duration_ms\":71}\n",
+              "expected": true,
+              "facts": {
+                "bytes": 2707,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 1457,
+                "first_matching_dictionary_rank": 4
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace-6",
+          "dictionary": [
+            "Fatal error:",
+            "SQLSTATE[",
+            "Connection refused",
+            "TimeoutException",
+            "out of memory",
+            "signature verification failed",
+            "permission denied",
+            "upstream unavailable"
+          ],
+          "documents": [
+            {
+              "id": "trace-6-1",
+              "text": "{\"time\":\"2026-10-19T09:05:00.000Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-05-0000\",\"message\":\"order 1205 confirmation was queued\",\"duration_ms\":36}\n{\"time\":\"2026-10-19T09:05:00.137Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-05-0001\",\"message\":\"GET /orders/1206 completed\",\"duration_ms\":55}\n{\"time\":\"2026-10-19T09:05:00.274Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-05-0002\",\"message\":\"support request 1207 received an attachment\",\"duration_ms\":74}\n{\"time\":\"2026-10-19T09:05:00.411Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-05-0003\",\"message\":\"payment for order 1208 was authorized\",\"duration_ms\":93}\n{\"time\":\"2026-10-19T09:05:00.548Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-05-0004\",\"message\":\"background job 1209 completed\",\"duration_ms\":112}\n{\"time\":\"2026-10-19T09:05:00.685Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-05-0005\",\"message\":\"session for customer 1210 was renewed\",\"duration_ms\":131}\n{\"time\":\"2026-10-19T09:05:00.822Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-05-0006\",\"message\":\"invoice for order 1211 was saved\",\"duration_ms\":150}\n{\"time\":\"2026-10-19T09:05:00.959Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-05-0007\",\"message\":\"items for order 1212 were reserved\",\"duration_ms\":169}\n{\"time\":\"2026-10-19T09:05:01.096Z\",\"level\":\"ERROR\",\"event\":\"catalog.cache\",\"request_id\":\"req-05-0008\",\"message\":\"signature verification failed while processing a queued delivery\",\"duration_ms\":188}\n{\"time\":\"2026-10-19T09:05:01.233Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-05-0009\",\"message\":\"query returned 1214 product results\",\"duration_ms\":207}\n{\"time\":\"2026-10-19T09:05:01.370Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-05-0010\",\"message\":\"courier estimate for order 1215 was refreshed\",\"duration_ms\":226}\n{\"time\":\"2026-10-19T09:05:01.507Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-05-0011\",\"message\":\"image 1216 passed validation\",\"duration_ms\":2}\n{\"time\":\"2026-10-19T09:05:01.644Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-05-0012\",\"message\":\"order 1217 confirmation was queued\",\"duration_ms\":21}\n{\"time\":\"2026-10-19T09:05:01.781Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-05-0013\",\"message\":\"GET /orders/1218 completed\",\"duration_ms\":40}\n{\"time\":\"2026-10-19T09:05:01.918Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-05-0014\",\"message\":\"support request 1219 received an attachment\",\"duration_ms\":59}\n{\"time\":\"2026-10-19T09:05:02.055Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-05-0015\",\"message\":\"payment for order 1220 was authorized\",\"duration_ms\":78}\n",
+              "expected": true,
+              "facts": {
+                "bytes": 2724,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 1455,
+                "first_matching_dictionary_rank": 5
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace-7",
+          "dictionary": [
+            "Fatal error:",
+            "SQLSTATE[",
+            "Connection refused",
+            "TimeoutException",
+            "out of memory",
+            "signature verification failed",
+            "permission denied",
+            "upstream unavailable"
+          ],
+          "documents": [
+            {
+              "id": "trace-7-1",
+              "text": "{\"time\":\"2026-10-19T09:06:00.000Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-06-0000\",\"message\":\"items for order 1246 were reserved\",\"duration_ms\":43}\n{\"time\":\"2026-10-19T09:06:00.137Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-06-0001\",\"message\":\"product availability loaded\",\"duration_ms\":62}\n{\"time\":\"2026-10-19T09:06:00.274Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-06-0002\",\"message\":\"query returned 1248 product results\",\"duration_ms\":81}\n{\"time\":\"2026-10-19T09:06:00.411Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-06-0003\",\"message\":\"courier estimate for order 1249 was refreshed\",\"duration_ms\":100}\n{\"time\":\"2026-10-19T09:06:00.548Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-06-0004\",\"message\":\"image 1250 passed validation\",\"duration_ms\":119}\n{\"time\":\"2026-10-19T09:06:00.685Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-06-0005\",\"message\":\"order 1251 confirmation was queued\",\"duration_ms\":138}\n{\"time\":\"2026-10-19T09:06:00.822Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-06-0006\",\"message\":\"GET /orders/1252 completed\",\"duration_ms\":157}\n{\"time\":\"2026-10-19T09:06:00.959Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-06-0007\",\"message\":\"support request 1253 received an attachment\",\"duration_ms\":176}\n{\"time\":\"2026-10-19T09:06:01.096Z\",\"level\":\"ERROR\",\"event\":\"payment.authorized\",\"request_id\":\"req-06-0008\",\"message\":\"permission denied while processing a queued delivery\",\"duration_ms\":195}\n{\"time\":\"2026-10-19T09:06:01.233Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-06-0009\",\"message\":\"background job 1255 completed\",\"duration_ms\":214}\n{\"time\":\"2026-10-19T09:06:01.370Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-06-0010\",\"message\":\"session for customer 1256 was renewed\",\"duration_ms\":233}\n{\"time\":\"2026-10-19T09:06:01.507Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-06-0011\",\"message\":\"invoice for order 1257 was saved\",\"duration_ms\":9}\n{\"time\":\"2026-10-19T09:06:01.644Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-06-0012\",\"message\":\"items for order 1258 were reserved\",\"duration_ms\":28}\n{\"time\":\"2026-10-19T09:06:01.781Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-06-0013\",\"message\":\"product availability loaded\",\"duration_ms\":47}\n{\"time\":\"2026-10-19T09:06:01.918Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-06-0014\",\"message\":\"query returned 1260 product results\",\"duration_ms\":66}\n{\"time\":\"2026-10-19T09:06:02.055Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-06-0015\",\"message\":\"courier estimate for order 1261 was refreshed\",\"duration_ms\":85}\n",
+              "expected": true,
+              "facts": {
+                "bytes": 2712,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 1459,
+                "first_matching_dictionary_rank": 6
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace-8",
+          "dictionary": [
+            "Fatal error:",
+            "SQLSTATE[",
+            "Connection refused",
+            "TimeoutException",
+            "out of memory",
+            "signature verification failed",
+            "permission denied",
+            "upstream unavailable"
+          ],
+          "documents": [
+            {
+              "id": "trace-8-1",
+              "text": "{\"time\":\"2026-10-19T09:07:00.000Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-07-0000\",\"message\":\"support request 1287 received an attachment\",\"duration_ms\":50}\n{\"time\":\"2026-10-19T09:07:00.137Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-07-0001\",\"message\":\"payment for order 1288 was authorized\",\"duration_ms\":69}\n{\"time\":\"2026-10-19T09:07:00.274Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-07-0002\",\"message\":\"background job 1289 completed\",\"duration_ms\":88}\n{\"time\":\"2026-10-19T09:07:00.411Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-07-0003\",\"message\":\"session for customer 1290 was renewed\",\"duration_ms\":107}\n{\"time\":\"2026-10-19T09:07:00.548Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-07-0004\",\"message\":\"invoice for order 1291 was saved\",\"duration_ms\":126}\n{\"time\":\"2026-10-19T09:07:00.685Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-07-0005\",\"message\":\"items for order 1292 were reserved\",\"duration_ms\":145}\n{\"time\":\"2026-10-19T09:07:00.822Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-07-0006\",\"message\":\"product availability loaded\",\"duration_ms\":164}\n{\"time\":\"2026-10-19T09:07:00.959Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-07-0007\",\"message\":\"query returned 1294 product results\",\"duration_ms\":183}\n{\"time\":\"2026-10-19T09:07:01.096Z\",\"level\":\"ERROR\",\"event\":\"delivery.updated\",\"request_id\":\"req-07-0008\",\"message\":\"upstream unavailable while processing a queued delivery\",\"duration_ms\":202}\n{\"time\":\"2026-10-19T09:07:01.233Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-07-0009\",\"message\":\"image 1296 passed validation\",\"duration_ms\":221}\n{\"time\":\"2026-10-19T09:07:01.370Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-07-0010\",\"message\":\"order 1297 confirmation was queued\",\"duration_ms\":240}\n{\"time\":\"2026-10-19T09:07:01.507Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-07-0011\",\"message\":\"GET /orders/1298 completed\",\"duration_ms\":16}\n{\"time\":\"2026-10-19T09:07:01.644Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-07-0012\",\"message\":\"support request 1299 received an attachment\",\"duration_ms\":35}\n{\"time\":\"2026-10-19T09:07:01.781Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-07-0013\",\"message\":\"payment for order 1300 was authorized\",\"duration_ms\":54}\n{\"time\":\"2026-10-19T09:07:01.918Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-07-0014\",\"message\":\"background job 1301 completed\",\"duration_ms\":73}\n{\"time\":\"2026-10-19T09:07:02.055Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-07-0015\",\"message\":\"session for customer 1302 was renewed\",\"duration_ms\":92}\n",
+              "expected": true,
+              "facts": {
+                "bytes": 2715,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 1470,
+                "first_matching_dictionary_rank": 7
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "errors.last",
+      "title": "Decide whether a request trace needs an alert: error in the last record",
+      "kind": "product",
+      "primary": true,
+      "operation": "any",
+      "description": "Scan 16 distinct structured log records for eight exact failure markers. No JSON parsing or disk I/O is part of the string operation.",
+      "origin": "Project-authored deterministic workload model; not a production trace.",
+      "contract": "Exact case-sensitive bytes; no word-boundary rules, normalization, or case folding.",
+      "lifetime": {
+        "dictionary_scope": "alert_rules",
+        "values_change_between_jobs": false,
+        "modes": [
+          {
+            "id": "request",
+            "label": "Complete request, including dictionary preparation"
+          },
+          {
+            "id": "worker",
+            "label": "Worker with the same dictionary already prepared"
+          }
+        ],
+        "pcre_note": "Pattern keys can remain cached when only replacement values change; report warm and fresh-process compilation separately."
+      },
+      "methods": [
+        "contains_loop",
+        "preg_match",
+        "matcher"
+      ],
+      "str_replace_note": "Not applicable to a search operation.",
+      "jobs": [
+        {
+          "id": "trace-1",
+          "dictionary": [
+            "Fatal error:",
+            "SQLSTATE[",
+            "Connection refused",
+            "TimeoutException",
+            "out of memory",
+            "signature verification failed",
+            "permission denied",
+            "upstream unavailable"
+          ],
+          "documents": [
+            {
+              "id": "trace-1-1",
+              "text": "{\"time\":\"2026-10-19T09:00:00.000Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-00-0000\",\"message\":\"GET /orders/1000 completed\",\"duration_ms\":1}\n{\"time\":\"2026-10-19T09:00:00.137Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-00-0001\",\"message\":\"support request 1001 received an attachment\",\"duration_ms\":20}\n{\"time\":\"2026-10-19T09:00:00.274Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-00-0002\",\"message\":\"payment for order 1002 was authorized\",\"duration_ms\":39}\n{\"time\":\"2026-10-19T09:00:00.411Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-00-0003\",\"message\":\"background job 1003 completed\",\"duration_ms\":58}\n{\"time\":\"2026-10-19T09:00:00.548Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-00-0004\",\"message\":\"session for customer 1004 was renewed\",\"duration_ms\":77}\n{\"time\":\"2026-10-19T09:00:00.685Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-00-0005\",\"message\":\"invoice for order 1005 was saved\",\"duration_ms\":96}\n{\"time\":\"2026-10-19T09:00:00.822Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-00-0006\",\"message\":\"items for order 1006 were reserved\",\"duration_ms\":115}\n{\"time\":\"2026-10-19T09:00:00.959Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-00-0007\",\"message\":\"product availability loaded\",\"duration_ms\":134}\n{\"time\":\"2026-10-19T09:00:01.096Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-00-0008\",\"message\":\"query returned 1008 product results\",\"duration_ms\":153}\n{\"time\":\"2026-10-19T09:00:01.233Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-00-0009\",\"message\":\"courier estimate for order 1009 was refreshed\",\"duration_ms\":172}\n{\"time\":\"2026-10-19T09:00:01.370Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-00-0010\",\"message\":\"image 1010 passed validation\",\"duration_ms\":191}\n{\"time\":\"2026-10-19T09:00:01.507Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-00-0011\",\"message\":\"order 1011 confirmation was queued\",\"duration_ms\":210}\n{\"time\":\"2026-10-19T09:00:01.644Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-00-0012\",\"message\":\"GET /orders/1012 completed\",\"duration_ms\":229}\n{\"time\":\"2026-10-19T09:00:01.781Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-00-0013\",\"message\":\"support request 1013 received an attachment\",\"duration_ms\":5}\n{\"time\":\"2026-10-19T09:00:01.918Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-00-0014\",\"message\":\"payment for order 1014 was authorized\",\"duration_ms\":24}\n{\"time\":\"2026-10-19T09:00:02.055Z\",\"level\":\"ERROR\",\"event\":\"worker.finished\",\"request_id\":\"req-00-0015\",\"message\":\"Fatal error: while processing a queued delivery\",\"duration_ms\":43}\n",
+              "expected": true,
+              "facts": {
+                "bytes": 2704,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 2637,
+                "first_matching_dictionary_rank": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace-2",
+          "dictionary": [
+            "Fatal error:",
+            "SQLSTATE[",
+            "Connection refused",
+            "TimeoutException",
+            "out of memory",
+            "signature verification failed",
+            "permission denied",
+            "upstream unavailable"
+          ],
+          "documents": [
+            {
+              "id": "trace-2-1",
+              "text": "{\"time\":\"2026-10-19T09:01:00.000Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-01-0000\",\"message\":\"product availability loaded\",\"duration_ms\":8}\n{\"time\":\"2026-10-19T09:01:00.137Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-01-0001\",\"message\":\"query returned 1042 product results\",\"duration_ms\":27}\n{\"time\":\"2026-10-19T09:01:00.274Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-01-0002\",\"message\":\"courier estimate for order 1043 was refreshed\",\"duration_ms\":46}\n{\"time\":\"2026-10-19T09:01:00.411Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-01-0003\",\"message\":\"image 1044 passed validation\",\"duration_ms\":65}\n{\"time\":\"2026-10-19T09:01:00.548Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-01-0004\",\"message\":\"order 1045 confirmation was queued\",\"duration_ms\":84}\n{\"time\":\"2026-10-19T09:01:00.685Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-01-0005\",\"message\":\"GET /orders/1046 completed\",\"duration_ms\":103}\n{\"time\":\"2026-10-19T09:01:00.822Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-01-0006\",\"message\":\"support request 1047 received an attachment\",\"duration_ms\":122}\n{\"time\":\"2026-10-19T09:01:00.959Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-01-0007\",\"message\":\"payment for order 1048 was authorized\",\"duration_ms\":141}\n{\"time\":\"2026-10-19T09:01:01.096Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-01-0008\",\"message\":\"background job 1049 completed\",\"duration_ms\":160}\n{\"time\":\"2026-10-19T09:01:01.233Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-01-0009\",\"message\":\"session for customer 1050 was renewed\",\"duration_ms\":179}\n{\"time\":\"2026-10-19T09:01:01.370Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-01-0010\",\"message\":\"invoice for order 1051 was saved\",\"duration_ms\":198}\n{\"time\":\"2026-10-19T09:01:01.507Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-01-0011\",\"message\":\"items for order 1052 were reserved\",\"duration_ms\":217}\n{\"time\":\"2026-10-19T09:01:01.644Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-01-0012\",\"message\":\"product availability loaded\",\"duration_ms\":236}\n{\"time\":\"2026-10-19T09:01:01.781Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-01-0013\",\"message\":\"query returned 1054 product results\",\"duration_ms\":12}\n{\"time\":\"2026-10-19T09:01:01.918Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-01-0014\",\"message\":\"courier estimate for order 1055 was refreshed\",\"duration_ms\":31}\n{\"time\":\"2026-10-19T09:01:02.055Z\",\"level\":\"ERROR\",\"event\":\"upload.accepted\",\"request_id\":\"req-01-0015\",\"message\":\"SQLSTATE[ while processing a queued delivery\",\"duration_ms\":50}\n",
+              "expected": true,
+              "facts": {
+                "bytes": 2708,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 2644,
+                "first_matching_dictionary_rank": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace-3",
+          "dictionary": [
+            "Fatal error:",
+            "SQLSTATE[",
+            "Connection refused",
+            "TimeoutException",
+            "out of memory",
+            "signature verification failed",
+            "permission denied",
+            "upstream unavailable"
+          ],
+          "documents": [
+            {
+              "id": "trace-3-1",
+              "text": "{\"time\":\"2026-10-19T09:02:00.000Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-02-0000\",\"message\":\"payment for order 1082 was authorized\",\"duration_ms\":15}\n{\"time\":\"2026-10-19T09:02:00.137Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-02-0001\",\"message\":\"background job 1083 completed\",\"duration_ms\":34}\n{\"time\":\"2026-10-19T09:02:00.274Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-02-0002\",\"message\":\"session for customer 1084 was renewed\",\"duration_ms\":53}\n{\"time\":\"2026-10-19T09:02:00.411Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-02-0003\",\"message\":\"invoice for order 1085 was saved\",\"duration_ms\":72}\n{\"time\":\"2026-10-19T09:02:00.548Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-02-0004\",\"message\":\"items for order 1086 were reserved\",\"duration_ms\":91}\n{\"time\":\"2026-10-19T09:02:00.685Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-02-0005\",\"message\":\"product availability loaded\",\"duration_ms\":110}\n{\"time\":\"2026-10-19T09:02:00.822Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-02-0006\",\"message\":\"query returned 1088 product results\",\"duration_ms\":129}\n{\"time\":\"2026-10-19T09:02:00.959Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-02-0007\",\"message\":\"courier estimate for order 1089 was refreshed\",\"duration_ms\":148}\n{\"time\":\"2026-10-19T09:02:01.096Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-02-0008\",\"message\":\"image 1090 passed validation\",\"duration_ms\":167}\n{\"time\":\"2026-10-19T09:02:01.233Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-02-0009\",\"message\":\"order 1091 confirmation was queued\",\"duration_ms\":186}\n{\"time\":\"2026-10-19T09:02:01.370Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-02-0010\",\"message\":\"GET /orders/1092 completed\",\"duration_ms\":205}\n{\"time\":\"2026-10-19T09:02:01.507Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-02-0011\",\"message\":\"support request 1093 received an attachment\",\"duration_ms\":224}\n{\"time\":\"2026-10-19T09:02:01.644Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-02-0012\",\"message\":\"payment for order 1094 was authorized\",\"duration_ms\":243}\n{\"time\":\"2026-10-19T09:02:01.781Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-02-0013\",\"message\":\"background job 1095 completed\",\"duration_ms\":19}\n{\"time\":\"2026-10-19T09:02:01.918Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-02-0014\",\"message\":\"session for customer 1096 was renewed\",\"duration_ms\":38}\n{\"time\":\"2026-10-19T09:02:02.055Z\",\"level\":\"ERROR\",\"event\":\"invoice.created\",\"request_id\":\"req-02-0015\",\"message\":\"Connection refused while processing a queued delivery\",\"duration_ms\":57}\n",
+              "expected": true,
+              "facts": {
+                "bytes": 2716,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 2643,
+                "first_matching_dictionary_rank": 2
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace-4",
+          "dictionary": [
+            "Fatal error:",
+            "SQLSTATE[",
+            "Connection refused",
+            "TimeoutException",
+            "out of memory",
+            "signature verification failed",
+            "permission denied",
+            "upstream unavailable"
+          ],
+          "documents": [
+            {
+              "id": "trace-4-1",
+              "text": "{\"time\":\"2026-10-19T09:03:00.000Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-03-0000\",\"message\":\"courier estimate for order 1123 was refreshed\",\"duration_ms\":22}\n{\"time\":\"2026-10-19T09:03:00.137Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-03-0001\",\"message\":\"image 1124 passed validation\",\"duration_ms\":41}\n{\"time\":\"2026-10-19T09:03:00.274Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-03-0002\",\"message\":\"order 1125 confirmation was queued\",\"duration_ms\":60}\n{\"time\":\"2026-10-19T09:03:00.411Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-03-0003\",\"message\":\"GET /orders/1126 completed\",\"duration_ms\":79}\n{\"time\":\"2026-10-19T09:03:00.548Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-03-0004\",\"message\":\"support request 1127 received an attachment\",\"duration_ms\":98}\n{\"time\":\"2026-10-19T09:03:00.685Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-03-0005\",\"message\":\"payment for order 1128 was authorized\",\"duration_ms\":117}\n{\"time\":\"2026-10-19T09:03:00.822Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-03-0006\",\"message\":\"background job 1129 completed\",\"duration_ms\":136}\n{\"time\":\"2026-10-19T09:03:00.959Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-03-0007\",\"message\":\"session for customer 1130 was renewed\",\"duration_ms\":155}\n{\"time\":\"2026-10-19T09:03:01.096Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-03-0008\",\"message\":\"invoice for order 1131 was saved\",\"duration_ms\":174}\n{\"time\":\"2026-10-19T09:03:01.233Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-03-0009\",\"message\":\"items for order 1132 were reserved\",\"duration_ms\":193}\n{\"time\":\"2026-10-19T09:03:01.370Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-03-0010\",\"message\":\"product availability loaded\",\"duration_ms\":212}\n{\"time\":\"2026-10-19T09:03:01.507Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-03-0011\",\"message\":\"query returned 1134 product results\",\"duration_ms\":231}\n{\"time\":\"2026-10-19T09:03:01.644Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-03-0012\",\"message\":\"courier estimate for order 1135 was refreshed\",\"duration_ms\":7}\n{\"time\":\"2026-10-19T09:03:01.781Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-03-0013\",\"message\":\"image 1136 passed validation\",\"duration_ms\":26}\n{\"time\":\"2026-10-19T09:03:01.918Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-03-0014\",\"message\":\"order 1137 confirmation was queued\",\"duration_ms\":45}\n{\"time\":\"2026-10-19T09:03:02.055Z\",\"level\":\"ERROR\",\"event\":\"http.access\",\"request_id\":\"req-03-0015\",\"message\":\"TimeoutException while processing a queued delivery\",\"duration_ms\":64}\n",
+              "expected": true,
+              "facts": {
+                "bytes": 2705,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 2634,
+                "first_matching_dictionary_rank": 3
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace-5",
+          "dictionary": [
+            "Fatal error:",
+            "SQLSTATE[",
+            "Connection refused",
+            "TimeoutException",
+            "out of memory",
+            "signature verification failed",
+            "permission denied",
+            "upstream unavailable"
+          ],
+          "documents": [
+            {
+              "id": "trace-5-1",
+              "text": "{\"time\":\"2026-10-19T09:04:00.000Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-04-0000\",\"message\":\"session for customer 1164 was renewed\",\"duration_ms\":29}\n{\"time\":\"2026-10-19T09:04:00.137Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-04-0001\",\"message\":\"invoice for order 1165 was saved\",\"duration_ms\":48}\n{\"time\":\"2026-10-19T09:04:00.274Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-04-0002\",\"message\":\"items for order 1166 were reserved\",\"duration_ms\":67}\n{\"time\":\"2026-10-19T09:04:00.411Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-04-0003\",\"message\":\"product availability loaded\",\"duration_ms\":86}\n{\"time\":\"2026-10-19T09:04:00.548Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-04-0004\",\"message\":\"query returned 1168 product results\",\"duration_ms\":105}\n{\"time\":\"2026-10-19T09:04:00.685Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-04-0005\",\"message\":\"courier estimate for order 1169 was refreshed\",\"duration_ms\":124}\n{\"time\":\"2026-10-19T09:04:00.822Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-04-0006\",\"message\":\"image 1170 passed validation\",\"duration_ms\":143}\n{\"time\":\"2026-10-19T09:04:00.959Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-04-0007\",\"message\":\"order 1171 confirmation was queued\",\"duration_ms\":162}\n{\"time\":\"2026-10-19T09:04:01.096Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-04-0008\",\"message\":\"GET /orders/1172 completed\",\"duration_ms\":181}\n{\"time\":\"2026-10-19T09:04:01.233Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-04-0009\",\"message\":\"support request 1173 received an attachment\",\"duration_ms\":200}\n{\"time\":\"2026-10-19T09:04:01.370Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-04-0010\",\"message\":\"payment for order 1174 was authorized\",\"duration_ms\":219}\n{\"time\":\"2026-10-19T09:04:01.507Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-04-0011\",\"message\":\"background job 1175 completed\",\"duration_ms\":238}\n{\"time\":\"2026-10-19T09:04:01.644Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-04-0012\",\"message\":\"session for customer 1176 was renewed\",\"duration_ms\":14}\n{\"time\":\"2026-10-19T09:04:01.781Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-04-0013\",\"message\":\"invoice for order 1177 was saved\",\"duration_ms\":33}\n{\"time\":\"2026-10-19T09:04:01.918Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-04-0014\",\"message\":\"items for order 1178 were reserved\",\"duration_ms\":52}\n{\"time\":\"2026-10-19T09:04:02.055Z\",\"level\":\"ERROR\",\"event\":\"catalog.cache\",\"request_id\":\"req-04-0015\",\"message\":\"out of memory while processing a queued delivery\",\"duration_ms\":71}\n",
+              "expected": true,
+              "facts": {
+                "bytes": 2705,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 2637,
+                "first_matching_dictionary_rank": 4
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace-6",
+          "dictionary": [
+            "Fatal error:",
+            "SQLSTATE[",
+            "Connection refused",
+            "TimeoutException",
+            "out of memory",
+            "signature verification failed",
+            "permission denied",
+            "upstream unavailable"
+          ],
+          "documents": [
+            {
+              "id": "trace-6-1",
+              "text": "{\"time\":\"2026-10-19T09:05:00.000Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-05-0000\",\"message\":\"order 1205 confirmation was queued\",\"duration_ms\":36}\n{\"time\":\"2026-10-19T09:05:00.137Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-05-0001\",\"message\":\"GET /orders/1206 completed\",\"duration_ms\":55}\n{\"time\":\"2026-10-19T09:05:00.274Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-05-0002\",\"message\":\"support request 1207 received an attachment\",\"duration_ms\":74}\n{\"time\":\"2026-10-19T09:05:00.411Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-05-0003\",\"message\":\"payment for order 1208 was authorized\",\"duration_ms\":93}\n{\"time\":\"2026-10-19T09:05:00.548Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-05-0004\",\"message\":\"background job 1209 completed\",\"duration_ms\":112}\n{\"time\":\"2026-10-19T09:05:00.685Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-05-0005\",\"message\":\"session for customer 1210 was renewed\",\"duration_ms\":131}\n{\"time\":\"2026-10-19T09:05:00.822Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-05-0006\",\"message\":\"invoice for order 1211 was saved\",\"duration_ms\":150}\n{\"time\":\"2026-10-19T09:05:00.959Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-05-0007\",\"message\":\"items for order 1212 were reserved\",\"duration_ms\":169}\n{\"time\":\"2026-10-19T09:05:01.096Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-05-0008\",\"message\":\"product availability loaded\",\"duration_ms\":188}\n{\"time\":\"2026-10-19T09:05:01.233Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-05-0009\",\"message\":\"query returned 1214 product results\",\"duration_ms\":207}\n{\"time\":\"2026-10-19T09:05:01.370Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-05-0010\",\"message\":\"courier estimate for order 1215 was refreshed\",\"duration_ms\":226}\n{\"time\":\"2026-10-19T09:05:01.507Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-05-0011\",\"message\":\"image 1216 passed validation\",\"duration_ms\":2}\n{\"time\":\"2026-10-19T09:05:01.644Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-05-0012\",\"message\":\"order 1217 confirmation was queued\",\"duration_ms\":21}\n{\"time\":\"2026-10-19T09:05:01.781Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-05-0013\",\"message\":\"GET /orders/1218 completed\",\"duration_ms\":40}\n{\"time\":\"2026-10-19T09:05:01.918Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-05-0014\",\"message\":\"support request 1219 received an attachment\",\"duration_ms\":59}\n{\"time\":\"2026-10-19T09:05:02.055Z\",\"level\":\"ERROR\",\"event\":\"payment.authorized\",\"request_id\":\"req-05-0015\",\"message\":\"signature verification failed while processing a queued delivery\",\"duration_ms\":78}\n",
+              "expected": true,
+              "facts": {
+                "bytes": 2715,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 2631,
+                "first_matching_dictionary_rank": 5
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace-7",
+          "dictionary": [
+            "Fatal error:",
+            "SQLSTATE[",
+            "Connection refused",
+            "TimeoutException",
+            "out of memory",
+            "signature verification failed",
+            "permission denied",
+            "upstream unavailable"
+          ],
+          "documents": [
+            {
+              "id": "trace-7-1",
+              "text": "{\"time\":\"2026-10-19T09:06:00.000Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-06-0000\",\"message\":\"items for order 1246 were reserved\",\"duration_ms\":43}\n{\"time\":\"2026-10-19T09:06:00.137Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-06-0001\",\"message\":\"product availability loaded\",\"duration_ms\":62}\n{\"time\":\"2026-10-19T09:06:00.274Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-06-0002\",\"message\":\"query returned 1248 product results\",\"duration_ms\":81}\n{\"time\":\"2026-10-19T09:06:00.411Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-06-0003\",\"message\":\"courier estimate for order 1249 was refreshed\",\"duration_ms\":100}\n{\"time\":\"2026-10-19T09:06:00.548Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-06-0004\",\"message\":\"image 1250 passed validation\",\"duration_ms\":119}\n{\"time\":\"2026-10-19T09:06:00.685Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-06-0005\",\"message\":\"order 1251 confirmation was queued\",\"duration_ms\":138}\n{\"time\":\"2026-10-19T09:06:00.822Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-06-0006\",\"message\":\"GET /orders/1252 completed\",\"duration_ms\":157}\n{\"time\":\"2026-10-19T09:06:00.959Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-06-0007\",\"message\":\"support request 1253 received an attachment\",\"duration_ms\":176}\n{\"time\":\"2026-10-19T09:06:01.096Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-06-0008\",\"message\":\"payment for order 1254 was authorized\",\"duration_ms\":195}\n{\"time\":\"2026-10-19T09:06:01.233Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-06-0009\",\"message\":\"background job 1255 completed\",\"duration_ms\":214}\n{\"time\":\"2026-10-19T09:06:01.370Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-06-0010\",\"message\":\"session for customer 1256 was renewed\",\"duration_ms\":233}\n{\"time\":\"2026-10-19T09:06:01.507Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-06-0011\",\"message\":\"invoice for order 1257 was saved\",\"duration_ms\":9}\n{\"time\":\"2026-10-19T09:06:01.644Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-06-0012\",\"message\":\"items for order 1258 were reserved\",\"duration_ms\":28}\n{\"time\":\"2026-10-19T09:06:01.781Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-06-0013\",\"message\":\"product availability loaded\",\"duration_ms\":47}\n{\"time\":\"2026-10-19T09:06:01.918Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-06-0014\",\"message\":\"query returned 1260 product results\",\"duration_ms\":66}\n{\"time\":\"2026-10-19T09:06:02.055Z\",\"level\":\"ERROR\",\"event\":\"delivery.updated\",\"request_id\":\"req-06-0015\",\"message\":\"permission denied while processing a queued delivery\",\"duration_ms\":85}\n",
+              "expected": true,
+              "facts": {
+                "bytes": 2704,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 2632,
+                "first_matching_dictionary_rank": 6
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace-8",
+          "dictionary": [
+            "Fatal error:",
+            "SQLSTATE[",
+            "Connection refused",
+            "TimeoutException",
+            "out of memory",
+            "signature verification failed",
+            "permission denied",
+            "upstream unavailable"
+          ],
+          "documents": [
+            {
+              "id": "trace-8-1",
+              "text": "{\"time\":\"2026-10-19T09:07:00.000Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-07-0000\",\"message\":\"support request 1287 received an attachment\",\"duration_ms\":50}\n{\"time\":\"2026-10-19T09:07:00.137Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-07-0001\",\"message\":\"payment for order 1288 was authorized\",\"duration_ms\":69}\n{\"time\":\"2026-10-19T09:07:00.274Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-07-0002\",\"message\":\"background job 1289 completed\",\"duration_ms\":88}\n{\"time\":\"2026-10-19T09:07:00.411Z\",\"level\":\"DEBUG\",\"event\":\"account.session\",\"request_id\":\"req-07-0003\",\"message\":\"session for customer 1290 was renewed\",\"duration_ms\":107}\n{\"time\":\"2026-10-19T09:07:00.548Z\",\"level\":\"INFO\",\"event\":\"invoice.created\",\"request_id\":\"req-07-0004\",\"message\":\"invoice for order 1291 was saved\",\"duration_ms\":126}\n{\"time\":\"2026-10-19T09:07:00.685Z\",\"level\":\"INFO\",\"event\":\"stock.reserved\",\"request_id\":\"req-07-0005\",\"message\":\"items for order 1292 were reserved\",\"duration_ms\":145}\n{\"time\":\"2026-10-19T09:07:00.822Z\",\"level\":\"DEBUG\",\"event\":\"catalog.cache\",\"request_id\":\"req-07-0006\",\"message\":\"product availability loaded\",\"duration_ms\":164}\n{\"time\":\"2026-10-19T09:07:00.959Z\",\"level\":\"DEBUG\",\"event\":\"search.completed\",\"request_id\":\"req-07-0007\",\"message\":\"query returned 1294 product results\",\"duration_ms\":183}\n{\"time\":\"2026-10-19T09:07:01.096Z\",\"level\":\"INFO\",\"event\":\"delivery.updated\",\"request_id\":\"req-07-0008\",\"message\":\"courier estimate for order 1295 was refreshed\",\"duration_ms\":202}\n{\"time\":\"2026-10-19T09:07:01.233Z\",\"level\":\"INFO\",\"event\":\"upload.accepted\",\"request_id\":\"req-07-0009\",\"message\":\"image 1296 passed validation\",\"duration_ms\":221}\n{\"time\":\"2026-10-19T09:07:01.370Z\",\"level\":\"INFO\",\"event\":\"mail.queued\",\"request_id\":\"req-07-0010\",\"message\":\"order 1297 confirmation was queued\",\"duration_ms\":240}\n{\"time\":\"2026-10-19T09:07:01.507Z\",\"level\":\"INFO\",\"event\":\"http.access\",\"request_id\":\"req-07-0011\",\"message\":\"GET /orders/1298 completed\",\"duration_ms\":16}\n{\"time\":\"2026-10-19T09:07:01.644Z\",\"level\":\"INFO\",\"event\":\"support.opened\",\"request_id\":\"req-07-0012\",\"message\":\"support request 1299 received an attachment\",\"duration_ms\":35}\n{\"time\":\"2026-10-19T09:07:01.781Z\",\"level\":\"INFO\",\"event\":\"payment.authorized\",\"request_id\":\"req-07-0013\",\"message\":\"payment for order 1300 was authorized\",\"duration_ms\":54}\n{\"time\":\"2026-10-19T09:07:01.918Z\",\"level\":\"INFO\",\"event\":\"worker.finished\",\"request_id\":\"req-07-0014\",\"message\":\"background job 1301 completed\",\"duration_ms\":73}\n{\"time\":\"2026-10-19T09:07:02.055Z\",\"level\":\"ERROR\",\"event\":\"account.session\",\"request_id\":\"req-07-0015\",\"message\":\"upstream unavailable while processing a queued delivery\",\"duration_ms\":92}\n",
+              "expected": true,
+              "facts": {
+                "bytes": 2722,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 2647,
+                "first_matching_dictionary_rank": 7
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,770 @@
+{
+  "schema": 1,
+  "suite": "order-emails",
+  "cases": [
+    {
+      "id": "order.email",
+      "title": "Render one order confirmation email",
+      "kind": "product",
+      "primary": true,
+      "operation": "replace",
+      "description": "Ten literal placeholders. Customer, order, item and amount change between jobs. The prepared replacement map cannot be reused for another order. HTML/plain variants can share one map within an order.",
+      "origin": "Project-authored deterministic workload model; not a production trace.",
+      "contract": "Exact case-sensitive bytes; no word-boundary rules, normalization, or case folding.",
+      "lifetime": {
+        "dictionary_scope": "one_order",
+        "values_change_between_jobs": true,
+        "modes": [
+          {
+            "id": "request",
+            "label": "Complete request, including dictionary preparation"
+          }
+        ],
+        "pcre_note": "Pattern keys can remain cached when only replacement values change; report warm and fresh-process compilation separately."
+      },
+      "methods": [
+        "strtr",
+        "preg_replace_callback",
+        "replacer",
+        "str_replace"
+      ],
+      "str_replace_note": "Longest-first sequential replacement agrees on all saved inputs; this is not a general equivalence.",
+      "jobs": [
+        {
+          "id": "order-4100",
+          "dictionary": {
+            "{{order.number}}": "ORD-4100",
+            "{{customer.name}}": "Maya Chen",
+            "{{shop.name}}": "Orchard Supplies",
+            "{{order.items}}": "<tr><td>USB-C cable</td><td>2</td><td>$18.00</td></tr>",
+            "{{order.total}}": "$18.00",
+            "{{customer.email}}": "maya@example.test",
+            "{{delivery.address}}": "18 Orchard Lane",
+            "{{delivery.date}}": "October 22, 2026",
+            "{{tracking.url}}": "https://shop.example.test/track/ORD-4100",
+            "{{support.email}}": "support@example.test"
+          },
+          "documents": [
+            {
+              "id": "order-4100-1",
+              "text": "<!doctype html>\n<html><body><h1>Order {{order.number}} confirmed</h1>\n<p>Hello {{customer.name}}, thank you for shopping with {{shop.name}}.</p>\n<p>We have reserved your items and will send another message when the parcel leaves the warehouse.</p>\n<table><tr><th>Item</th><th>Quantity</th><th>Amount</th></tr>\n{{order.items}}</table>\n<p>Total paid: <strong>{{order.total}}</strong>. A receipt will be sent to {{customer.email}}.</p>\n<p>Your parcel will be delivered to {{delivery.address}}. Current estimate: {{delivery.date}}.</p>\n<p>You can check progress at <a href=\"{{tracking.url}}\">your tracking page</a>.</p>\n<p>If the address is incorrect, please reply before dispatch. For other questions contact {{support.email}}.</p>\n<footer>{{shop.name}} · Thank you for choosing reusable packaging.</footer>\n</body></html>",
+              "expected": {
+                "text": "<!doctype html>\n<html><body><h1>Order ORD-4100 confirmed</h1>\n<p>Hello Maya Chen, thank you for shopping with Orchard Supplies.</p>\n<p>We have reserved your items and will send another message when the parcel leaves the warehouse.</p>\n<table><tr><th>Item</th><th>Quantity</th><th>Amount</th></tr>\n<tr><td>USB-C cable</td><td>2</td><td>$18.00</td></tr></table>\n<p>Total paid: <strong>$18.00</strong>. A receipt will be sent to maya@example.test.</p>\n<p>Your parcel will be delivered to 18 Orchard Lane. Current estimate: October 22, 2026.</p>\n<p>You can check progress at <a href=\"https://shop.example.test/track/ORD-4100\">your tracking page</a>.</p>\n<p>If the address is incorrect, please reply before dispatch. For other questions contact support@example.test.</p>\n<footer>Orchard Supplies · Thank you for choosing reusable packaging.</footer>\n</body></html>",
+                "replacements": 11
+              },
+              "facts": {
+                "bytes": 820,
+                "occurrences": 11,
+                "distinct_keywords": 10,
+                "first_match_offset": 38,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 11,
+                "matched_source_bytes": 177,
+                "output_bytes": 860
+              }
+            }
+          ]
+        },
+        {
+          "id": "order-4101",
+          "dictionary": {
+            "{{order.number}}": "ORD-4101",
+            "{{customer.name}}": "Alex Rivera",
+            "{{shop.name}}": "Orchard Supplies",
+            "{{order.items}}": "<tr><td>Desk lamp</td><td>1</td><td>$39.00</td></tr>",
+            "{{order.total}}": "$39.00",
+            "{{customer.email}}": "alex@example.test",
+            "{{delivery.address}}": "42 Harbor Road",
+            "{{delivery.date}}": "October 23, 2026",
+            "{{tracking.url}}": "https://shop.example.test/track/ORD-4101",
+            "{{support.email}}": "support@example.test"
+          },
+          "documents": [
+            {
+              "id": "order-4101-1",
+              "text": "<!doctype html>\n<html><body><h1>Order {{order.number}} confirmed</h1>\n<p>Hello {{customer.name}}, thank you for shopping with {{shop.name}}.</p>\n<p>We have reserved your items and will send another message when the parcel leaves the warehouse.</p>\n<table><tr><th>Item</th><th>Quantity</th><th>Amount</th></tr>\n{{order.items}}</table>\n<p>Total paid: <strong>{{order.total}}</strong>. A receipt will be sent to {{customer.email}}.</p>\n<p>Your parcel will be delivered to {{delivery.address}}. Current estimate: {{delivery.date}}.</p>\n<p>You can check progress at <a href=\"{{tracking.url}}\">your tracking page</a>.</p>\n<p>If the address is incorrect, please reply before dispatch. For other questions contact {{support.email}}.</p>\n<footer>{{shop.name}} · Thank you for choosing reusable packaging.</footer>\n</body></html>",
+              "expected": {
+                "text": "<!doctype html>\n<html><body><h1>Order ORD-4101 confirmed</h1>\n<p>Hello Alex Rivera, thank you for shopping with Orchard Supplies.</p>\n<p>We have reserved your items and will send another message when the parcel leaves the warehouse.</p>\n<table><tr><th>Item</th><th>Quantity</th><th>Amount</th></tr>\n<tr><td>Desk lamp</td><td>1</td><td>$39.00</td></tr></table>\n<p>Total paid: <strong>$39.00</strong>. A receipt will be sent to alex@example.test.</p>\n<p>Your parcel will be delivered to 42 Harbor Road. Current estimate: October 23, 2026.</p>\n<p>You can check progress at <a href=\"https://shop.example.test/track/ORD-4101\">your tracking page</a>.</p>\n<p>If the address is incorrect, please reply before dispatch. For other questions contact support@example.test.</p>\n<footer>Orchard Supplies · Thank you for choosing reusable packaging.</footer>\n</body></html>",
+                "replacements": 11
+              },
+              "facts": {
+                "bytes": 820,
+                "occurrences": 11,
+                "distinct_keywords": 10,
+                "first_match_offset": 38,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 11,
+                "matched_source_bytes": 177,
+                "output_bytes": 859
+              }
+            }
+          ]
+        },
+        {
+          "id": "order-4102",
+          "dictionary": {
+            "{{order.number}}": "ORD-4102",
+            "{{customer.name}}": "Sam Taylor",
+            "{{shop.name}}": "Orchard Supplies",
+            "{{order.items}}": "<tr><td>Travel adapter</td><td>1</td><td>$24.50</td></tr>",
+            "{{order.total}}": "$24.50",
+            "{{customer.email}}": "sam@example.test",
+            "{{delivery.address}}": "7 Willow Street",
+            "{{delivery.date}}": "October 24, 2026",
+            "{{tracking.url}}": "https://shop.example.test/track/ORD-4102",
+            "{{support.email}}": "support@example.test"
+          },
+          "documents": [
+            {
+              "id": "order-4102-1",
+              "text": "<!doctype html>\n<html><body><h1>Order {{order.number}} confirmed</h1>\n<p>Hello {{customer.name}}, thank you for shopping with {{shop.name}}.</p>\n<p>We have reserved your items and will send another message when the parcel leaves the warehouse.</p>\n<table><tr><th>Item</th><th>Quantity</th><th>Amount</th></tr>\n{{order.items}}</table>\n<p>Total paid: <strong>{{order.total}}</strong>. A receipt will be sent to {{customer.email}}.</p>\n<p>Your parcel will be delivered to {{delivery.address}}. Current estimate: {{delivery.date}}.</p>\n<p>You can check progress at <a href=\"{{tracking.url}}\">your tracking page</a>.</p>\n<p>If the address is incorrect, please reply before dispatch. For other questions contact {{support.email}}.</p>\n<footer>{{shop.name}} · Thank you for choosing reusable packaging.</footer>\n</body></html>",
+              "expected": {
+                "text": "<!doctype html>\n<html><body><h1>Order ORD-4102 confirmed</h1>\n<p>Hello Sam Taylor, thank you for shopping with Orchard Supplies.</p>\n<p>We have reserved your items and will send another message when the parcel leaves the warehouse.</p>\n<table><tr><th>Item</th><th>Quantity</th><th>Amount</th></tr>\n<tr><td>Travel adapter</td><td>1</td><td>$24.50</td></tr></table>\n<p>Total paid: <strong>$24.50</strong>. A receipt will be sent to sam@example.test.</p>\n<p>Your parcel will be delivered to 7 Willow Street. Current estimate: October 24, 2026.</p>\n<p>You can check progress at <a href=\"https://shop.example.test/track/ORD-4102\">your tracking page</a>.</p>\n<p>If the address is incorrect, please reply before dispatch. For other questions contact support@example.test.</p>\n<footer>Orchard Supplies · Thank you for choosing reusable packaging.</footer>\n</body></html>",
+                "replacements": 11
+              },
+              "facts": {
+                "bytes": 820,
+                "occurrences": 11,
+                "distinct_keywords": 10,
+                "first_match_offset": 38,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 11,
+                "matched_source_bytes": 177,
+                "output_bytes": 863
+              }
+            }
+          ]
+        },
+        {
+          "id": "order-4103",
+          "dictionary": {
+            "{{order.number}}": "ORD-4103",
+            "{{customer.name}}": "Leila Haddad",
+            "{{shop.name}}": "Orchard Supplies",
+            "{{order.items}}": "<tr><td>Notebook</td><td>3</td><td>$15.00</td></tr>",
+            "{{order.total}}": "$15.00",
+            "{{customer.email}}": "leila@example.test",
+            "{{delivery.address}}": "29 Market Square",
+            "{{delivery.date}}": "October 25, 2026",
+            "{{tracking.url}}": "https://shop.example.test/track/ORD-4103",
+            "{{support.email}}": "support@example.test"
+          },
+          "documents": [
+            {
+              "id": "order-4103-1",
+              "text": "<!doctype html>\n<html><body><h1>Order {{order.number}} confirmed</h1>\n<p>Hello {{customer.name}}, thank you for shopping with {{shop.name}}.</p>\n<p>We have reserved your items and will send another message when the parcel leaves the warehouse.</p>\n<table><tr><th>Item</th><th>Quantity</th><th>Amount</th></tr>\n{{order.items}}</table>\n<p>Total paid: <strong>{{order.total}}</strong>. A receipt will be sent to {{customer.email}}.</p>\n<p>Your parcel will be delivered to {{delivery.address}}. Current estimate: {{delivery.date}}.</p>\n<p>You can check progress at <a href=\"{{tracking.url}}\">your tracking page</a>.</p>\n<p>If the address is incorrect, please reply before dispatch. For other questions contact {{support.email}}.</p>\n<footer>{{shop.name}} · Thank you for choosing reusable packaging.</footer>\n</body></html>",
+              "expected": {
+                "text": "<!doctype html>\n<html><body><h1>Order ORD-4103 confirmed</h1>\n<p>Hello Leila Haddad, thank you for shopping with Orchard Supplies.</p>\n<p>We have reserved your items and will send another message when the parcel leaves the warehouse.</p>\n<table><tr><th>Item</th><th>Quantity</th><th>Amount</th></tr>\n<tr><td>Notebook</td><td>3</td><td>$15.00</td></tr></table>\n<p>Total paid: <strong>$15.00</strong>. A receipt will be sent to leila@example.test.</p>\n<p>Your parcel will be delivered to 29 Market Square. Current estimate: October 25, 2026.</p>\n<p>You can check progress at <a href=\"https://shop.example.test/track/ORD-4103\">your tracking page</a>.</p>\n<p>If the address is incorrect, please reply before dispatch. For other questions contact support@example.test.</p>\n<footer>Orchard Supplies · Thank you for choosing reusable packaging.</footer>\n</body></html>",
+                "replacements": 11
+              },
+              "facts": {
+                "bytes": 820,
+                "occurrences": 11,
+                "distinct_keywords": 10,
+                "first_match_offset": 38,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 11,
+                "matched_source_bytes": 177,
+                "output_bytes": 862
+              }
+            }
+          ]
+        },
+        {
+          "id": "order-4104",
+          "dictionary": {
+            "{{order.number}}": "ORD-4104",
+            "{{customer.name}}": "Noah Martin",
+            "{{shop.name}}": "Orchard Supplies",
+            "{{order.items}}": "<tr><td>Water bottle</td><td>1</td><td>$21.00</td></tr>",
+            "{{order.total}}": "$21.00",
+            "{{customer.email}}": "noah@example.test",
+            "{{delivery.address}}": "63 Cedar Avenue",
+            "{{delivery.date}}": "October 26, 2026",
+            "{{tracking.url}}": "https://shop.example.test/track/ORD-4104",
+            "{{support.email}}": "support@example.test"
+          },
+          "documents": [
+            {
+              "id": "order-4104-1",
+              "text": "<!doctype html>\n<html><body><h1>Order {{order.number}} confirmed</h1>\n<p>Hello {{customer.name}}, thank you for shopping with {{shop.name}}.</p>\n<p>We have reserved your items and will send another message when the parcel leaves the warehouse.</p>\n<table><tr><th>Item</th><th>Quantity</th><th>Amount</th></tr>\n{{order.items}}</table>\n<p>Total paid: <strong>{{order.total}}</strong>. A receipt will be sent to {{customer.email}}.</p>\n<p>Your parcel will be delivered to {{delivery.address}}. Current estimate: {{delivery.date}}.</p>\n<p>You can check progress at <a href=\"{{tracking.url}}\">your tracking page</a>.</p>\n<p>If the address is incorrect, please reply before dispatch. For other questions contact {{support.email}}.</p>\n<footer>{{shop.name}} · Thank you for choosing reusable packaging.</footer>\n</body></html>",
+              "expected": {
+                "text": "<!doctype html>\n<html><body><h1>Order ORD-4104 confirmed</h1>\n<p>Hello Noah Martin, thank you for shopping with Orchard Supplies.</p>\n<p>We have reserved your items and will send another message when the parcel leaves the warehouse.</p>\n<table><tr><th>Item</th><th>Quantity</th><th>Amount</th></tr>\n<tr><td>Water bottle</td><td>1</td><td>$21.00</td></tr></table>\n<p>Total paid: <strong>$21.00</strong>. A receipt will be sent to noah@example.test.</p>\n<p>Your parcel will be delivered to 63 Cedar Avenue. Current estimate: October 26, 2026.</p>\n<p>You can check progress at <a href=\"https://shop.example.test/track/ORD-4104\">your tracking page</a>.</p>\n<p>If the address is incorrect, please reply before dispatch. For other questions contact support@example.test.</p>\n<footer>Orchard Supplies · Thank you for choosing reusable packaging.</footer>\n</body></html>",
+                "replacements": 11
+              },
+              "facts": {
+                "bytes": 820,
+                "occurrences": 11,
+                "distinct_keywords": 10,
+                "first_match_offset": 38,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 11,
+                "matched_source_bytes": 177,
+                "output_bytes": 863
+              }
+            }
+          ]
+        },
+        {
+          "id": "order-4105",
+          "dictionary": {
+            "{{order.number}}": "ORD-4105",
+            "{{customer.name}}": "Emma Wilson",
+            "{{shop.name}}": "Orchard Supplies",
+            "{{order.items}}": "<tr><td>Laptop sleeve</td><td>1</td><td>$28.00</td></tr>",
+            "{{order.total}}": "$28.00",
+            "{{customer.email}}": "emma@example.test",
+            "{{delivery.address}}": "5 Station Road",
+            "{{delivery.date}}": "October 27, 2026",
+            "{{tracking.url}}": "https://shop.example.test/track/ORD-4105",
+            "{{support.email}}": "support@example.test"
+          },
+          "documents": [
+            {
+              "id": "order-4105-1",
+              "text": "<!doctype html>\n<html><body><h1>Order {{order.number}} confirmed</h1>\n<p>Hello {{customer.name}}, thank you for shopping with {{shop.name}}.</p>\n<p>We have reserved your items and will send another message when the parcel leaves the warehouse.</p>\n<table><tr><th>Item</th><th>Quantity</th><th>Amount</th></tr>\n{{order.items}}</table>\n<p>Total paid: <strong>{{order.total}}</strong>. A receipt will be sent to {{customer.email}}.</p>\n<p>Your parcel will be delivered to {{delivery.address}}. Current estimate: {{delivery.date}}.</p>\n<p>You can check progress at <a href=\"{{tracking.url}}\">your tracking page</a>.</p>\n<p>If the address is incorrect, please reply before dispatch. For other questions contact {{support.email}}.</p>\n<footer>{{shop.name}} · Thank you for choosing reusable packaging.</footer>\n</body></html>",
+              "expected": {
+                "text": "<!doctype html>\n<html><body><h1>Order ORD-4105 confirmed</h1>\n<p>Hello Emma Wilson, thank you for shopping with Orchard Supplies.</p>\n<p>We have reserved your items and will send another message when the parcel leaves the warehouse.</p>\n<table><tr><th>Item</th><th>Quantity</th><th>Amount</th></tr>\n<tr><td>Laptop sleeve</td><td>1</td><td>$28.00</td></tr></table>\n<p>Total paid: <strong>$28.00</strong>. A receipt will be sent to emma@example.test.</p>\n<p>Your parcel will be delivered to 5 Station Road. Current estimate: October 27, 2026.</p>\n<p>You can check progress at <a href=\"https://shop.example.test/track/ORD-4105\">your tracking page</a>.</p>\n<p>If the address is incorrect, please reply before dispatch. For other questions contact support@example.test.</p>\n<footer>Orchard Supplies · Thank you for choosing reusable packaging.</footer>\n</body></html>",
+                "replacements": 11
+              },
+              "facts": {
+                "bytes": 820,
+                "occurrences": 11,
+                "distinct_keywords": 10,
+                "first_match_offset": 38,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 11,
+                "matched_source_bytes": 177,
+                "output_bytes": 863
+              }
+            }
+          ]
+        },
+        {
+          "id": "order-4106",
+          "dictionary": {
+            "{{order.number}}": "ORD-4106",
+            "{{customer.name}}": "Daniel Kim",
+            "{{shop.name}}": "Orchard Supplies",
+            "{{order.items}}": "<tr><td>Phone stand</td><td>2</td><td>$16.00</td></tr>",
+            "{{order.total}}": "$16.00",
+            "{{customer.email}}": "daniel@example.test",
+            "{{delivery.address}}": "11 Garden Walk",
+            "{{delivery.date}}": "October 28, 2026",
+            "{{tracking.url}}": "https://shop.example.test/track/ORD-4106",
+            "{{support.email}}": "support@example.test"
+          },
+          "documents": [
+            {
+              "id": "order-4106-1",
+              "text": "<!doctype html>\n<html><body><h1>Order {{order.number}} confirmed</h1>\n<p>Hello {{customer.name}}, thank you for shopping with {{shop.name}}.</p>\n<p>We have reserved your items and will send another message when the parcel leaves the warehouse.</p>\n<table><tr><th>Item</th><th>Quantity</th><th>Amount</th></tr>\n{{order.items}}</table>\n<p>Total paid: <strong>{{order.total}}</strong>. A receipt will be sent to {{customer.email}}.</p>\n<p>Your parcel will be delivered to {{delivery.address}}. Current estimate: {{delivery.date}}.</p>\n<p>You can check progress at <a href=\"{{tracking.url}}\">your tracking page</a>.</p>\n<p>If the address is incorrect, please reply before dispatch. For other questions contact {{support.email}}.</p>\n<footer>{{shop.name}} · Thank you for choosing reusable packaging.</footer>\n</body></html>",
+              "expected": {
+                "text": "<!doctype html>\n<html><body><h1>Order ORD-4106 confirmed</h1>\n<p>Hello Daniel Kim, thank you for shopping with Orchard Supplies.</p>\n<p>We have reserved your items and will send another message when the parcel leaves the warehouse.</p>\n<table><tr><th>Item</th><th>Quantity</th><th>Amount</th></tr>\n<tr><td>Phone stand</td><td>2</td><td>$16.00</td></tr></table>\n<p>Total paid: <strong>$16.00</strong>. A receipt will be sent to daniel@example.test.</p>\n<p>Your parcel will be delivered to 11 Garden Walk. Current estimate: October 28, 2026.</p>\n<p>You can check progress at <a href=\"https://shop.example.test/track/ORD-4106\">your tracking page</a>.</p>\n<p>If the address is incorrect, please reply before dispatch. For other questions contact support@example.test.</p>\n<footer>Orchard Supplies · Thank you for choosing reusable packaging.</footer>\n</body></html>",
+                "replacements": 11
+              },
+              "facts": {
+                "bytes": 820,
+                "occurrences": 11,
+                "distinct_keywords": 10,
+                "first_match_offset": 38,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 11,
+                "matched_source_bytes": 177,
+                "output_bytes": 862
+              }
+            }
+          ]
+        },
+        {
+          "id": "order-4107",
+          "dictionary": {
+            "{{order.number}}": "ORD-4107",
+            "{{customer.name}}": "Sofia Costa",
+            "{{shop.name}}": "Orchard Supplies",
+            "{{order.items}}": "<tr><td>Charging pad</td><td>1</td><td>$32.00</td></tr>",
+            "{{order.total}}": "$32.00",
+            "{{customer.email}}": "sofia@example.test",
+            "{{delivery.address}}": "32 Bridge Street",
+            "{{delivery.date}}": "October 29, 2026",
+            "{{tracking.url}}": "https://shop.example.test/track/ORD-4107",
+            "{{support.email}}": "support@example.test"
+          },
+          "documents": [
+            {
+              "id": "order-4107-1",
+              "text": "<!doctype html>\n<html><body><h1>Order {{order.number}} confirmed</h1>\n<p>Hello {{customer.name}}, thank you for shopping with {{shop.name}}.</p>\n<p>We have reserved your items and will send another message when the parcel leaves the warehouse.</p>\n<table><tr><th>Item</th><th>Quantity</th><th>Amount</th></tr>\n{{order.items}}</table>\n<p>Total paid: <strong>{{order.total}}</strong>. A receipt will be sent to {{customer.email}}.</p>\n<p>Your parcel will be delivered to {{delivery.address}}. Current estimate: {{delivery.date}}.</p>\n<p>You can check progress at <a href=\"{{tracking.url}}\">your tracking page</a>.</p>\n<p>If the address is incorrect, please reply before dispatch. For other questions contact {{support.email}}.</p>\n<footer>{{shop.name}} · Thank you for choosing reusable packaging.</footer>\n</body></html>",
+              "expected": {
+                "text": "<!doctype html>\n<html><body><h1>Order ORD-4107 confirmed</h1>\n<p>Hello Sofia Costa, thank you for shopping with Orchard Supplies.</p>\n<p>We have reserved your items and will send another message when the parcel leaves the warehouse.</p>\n<table><tr><th>Item</th><th>Quantity</th><th>Amount</th></tr>\n<tr><td>Charging pad</td><td>1</td><td>$32.00</td></tr></table>\n<p>Total paid: <strong>$32.00</strong>. A receipt will be sent to sofia@example.test.</p>\n<p>Your parcel will be delivered to 32 Bridge Street. Current estimate: October 29, 2026.</p>\n<p>You can check progress at <a href=\"https://shop.example.test/track/ORD-4107\">your tracking page</a>.</p>\n<p>If the address is incorrect, please reply before dispatch. For other questions contact support@example.test.</p>\n<footer>Orchard Supplies · Thank you for choosing reusable packaging.</footer>\n</body></html>",
+                "replacements": 11
+              },
+              "facts": {
+                "bytes": 820,
+                "occurrences": 11,
+                "distinct_keywords": 10,
+                "first_match_offset": 38,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 11,
+                "matched_source_bytes": 177,
+                "output_bytes": 865
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "order.email-pair",
+      "title": "Render HTML and plain-text confirmation for one order",
+      "kind": "product",
+      "primary": true,
+      "operation": "replace",
+      "description": "Ten literal placeholders. Customer, order, item and amount change between jobs. The prepared replacement map cannot be reused for another order. HTML/plain variants can share one map within an order.",
+      "origin": "Project-authored deterministic workload model; not a production trace.",
+      "contract": "Exact case-sensitive bytes; no word-boundary rules, normalization, or case folding.",
+      "lifetime": {
+        "dictionary_scope": "one_order",
+        "values_change_between_jobs": true,
+        "modes": [
+          {
+            "id": "request",
+            "label": "Complete request, including dictionary preparation"
+          }
+        ],
+        "pcre_note": "Pattern keys can remain cached when only replacement values change; report warm and fresh-process compilation separately."
+      },
+      "methods": [
+        "strtr",
+        "preg_replace_callback",
+        "replacer",
+        "str_replace"
+      ],
+      "str_replace_note": "Longest-first sequential replacement agrees on all saved inputs; this is not a general equivalence.",
+      "jobs": [
+        {
+          "id": "order-4100",
+          "dictionary": {
+            "{{order.number}}": "ORD-4100",
+            "{{customer.name}}": "Maya Chen",
+            "{{shop.name}}": "Orchard Supplies",
+            "{{order.items}}": "<tr><td>USB-C cable</td><td>2</td><td>$18.00</td></tr>",
+            "{{order.total}}": "$18.00",
+            "{{customer.email}}": "maya@example.test",
+            "{{delivery.address}}": "18 Orchard Lane",
+            "{{delivery.date}}": "October 22, 2026",
+            "{{tracking.url}}": "https://shop.example.test/track/ORD-4100",
+            "{{support.email}}": "support@example.test"
+          },
+          "documents": [
+            {
+              "id": "order-4100-1",
+              "text": "<!doctype html>\n<html><body><h1>Order {{order.number}} confirmed</h1>\n<p>Hello {{customer.name}}, thank you for shopping with {{shop.name}}.</p>\n<p>We have reserved your items and will send another message when the parcel leaves the warehouse.</p>\n<table><tr><th>Item</th><th>Quantity</th><th>Amount</th></tr>\n{{order.items}}</table>\n<p>Total paid: <strong>{{order.total}}</strong>. A receipt will be sent to {{customer.email}}.</p>\n<p>Your parcel will be delivered to {{delivery.address}}. Current estimate: {{delivery.date}}.</p>\n<p>You can check progress at <a href=\"{{tracking.url}}\">your tracking page</a>.</p>\n<p>If the address is incorrect, please reply before dispatch. For other questions contact {{support.email}}.</p>\n<footer>{{shop.name}} · Thank you for choosing reusable packaging.</footer>\n</body></html>",
+              "expected": {
+                "text": "<!doctype html>\n<html><body><h1>Order ORD-4100 confirmed</h1>\n<p>Hello Maya Chen, thank you for shopping with Orchard Supplies.</p>\n<p>We have reserved your items and will send another message when the parcel leaves the warehouse.</p>\n<table><tr><th>Item</th><th>Quantity</th><th>Amount</th></tr>\n<tr><td>USB-C cable</td><td>2</td><td>$18.00</td></tr></table>\n<p>Total paid: <strong>$18.00</strong>. A receipt will be sent to maya@example.test.</p>\n<p>Your parcel will be delivered to 18 Orchard Lane. Current estimate: October 22, 2026.</p>\n<p>You can check progress at <a href=\"https://shop.example.test/track/ORD-4100\">your tracking page</a>.</p>\n<p>If the address is incorrect, please reply before dispatch. For other questions contact support@example.test.</p>\n<footer>Orchard Supplies · Thank you for choosing reusable packaging.</footer>\n</body></html>",
+                "replacements": 11
+              },
+              "facts": {
+                "bytes": 820,
+                "occurrences": 11,
+                "distinct_keywords": 10,
+                "first_match_offset": 38,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 11,
+                "matched_source_bytes": 177,
+                "output_bytes": 860
+              }
+            },
+            {
+              "id": "order-4100-2",
+              "text": "Order {{order.number}} confirmed\nHello {{customer.name}}, your payment of {{order.total}} has been received.\nDelivery: {{delivery.address}}\nEstimate: {{delivery.date}}\nTracking: {{tracking.url}}\nWe will email {{customer.email}} after dispatch.\nQuestions: {{support.email}}\n{{shop.name}}",
+              "expected": {
+                "text": "Order ORD-4100 confirmed\nHello Maya Chen, your payment of $18.00 has been received.\nDelivery: 18 Orchard Lane\nEstimate: October 22, 2026\nTracking: https://shop.example.test/track/ORD-4100\nWe will email maya@example.test after dispatch.\nQuestions: support@example.test\nOrchard Supplies",
+                "replacements": 9
+              },
+              "facts": {
+                "bytes": 286,
+                "occurrences": 9,
+                "distinct_keywords": 9,
+                "first_match_offset": 6,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 9,
+                "matched_source_bytes": 149,
+                "output_bytes": 284
+              }
+            }
+          ]
+        },
+        {
+          "id": "order-4101",
+          "dictionary": {
+            "{{order.number}}": "ORD-4101",
+            "{{customer.name}}": "Alex Rivera",
+            "{{shop.name}}": "Orchard Supplies",
+            "{{order.items}}": "<tr><td>Desk lamp</td><td>1</td><td>$39.00</td></tr>",
+            "{{order.total}}": "$39.00",
+            "{{customer.email}}": "alex@example.test",
+            "{{delivery.address}}": "42 Harbor Road",
+            "{{delivery.date}}": "October 23, 2026",
+            "{{tracking.url}}": "https://shop.example.test/track/ORD-4101",
+            "{{support.email}}": "support@example.test"
+          },
+          "documents": [
+            {
+              "id": "order-4101-1",
+              "text": "<!doctype html>\n<html><body><h1>Order {{order.number}} confirmed</h1>\n<p>Hello {{customer.name}}, thank you for shopping with {{shop.name}}.</p>\n<p>We have reserved your items and will send another message when the parcel leaves the warehouse.</p>\n<table><tr><th>Item</th><th>Quantity</th><th>Amount</th></tr>\n{{order.items}}</table>\n<p>Total paid: <strong>{{order.total}}</strong>. A receipt will be sent to {{customer.email}}.</p>\n<p>Your parcel will be delivered to {{delivery.address}}. Current estimate: {{delivery.date}}.</p>\n<p>You can check progress at <a href=\"{{tracking.url}}\">your tracking page</a>.</p>\n<p>If the address is incorrect, please reply before dispatch. For other questions contact {{support.email}}.</p>\n<footer>{{shop.name}} · Thank you for choosing reusable packaging.</footer>\n</body></html>",
+              "expected": {
+                "text": "<!doctype html>\n<html><body><h1>Order ORD-4101 confirmed</h1>\n<p>Hello Alex Rivera, thank you for shopping with Orchard Supplies.</p>\n<p>We have reserved your items and will send another message when the parcel leaves the warehouse.</p>\n<table><tr><th>Item</th><th>Quantity</th><th>Amount</th></tr>\n<tr><td>Desk lamp</td><td>1</td><td>$39.00</td></tr></table>\n<p>Total paid: <strong>$39.00</strong>. A receipt will be sent to alex@example.test.</p>\n<p>Your parcel will be delivered to 42 Harbor Road. Current estimate: October 23, 2026.</p>\n<p>You can check progress at <a href=\"https://shop.example.test/track/ORD-4101\">your tracking page</a>.</p>\n<p>If the address is incorrect, please reply before dispatch. For other questions contact support@example.test.</p>\n<footer>Orchard Supplies · Thank you for choosing reusable packaging.</footer>\n</body></html>",
+                "replacements": 11
+              },
+              "facts": {
+                "bytes": 820,
+                "occurrences": 11,
+                "distinct_keywords": 10,
+                "first_match_offset": 38,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 11,
+                "matched_source_bytes": 177,
+                "output_bytes": 859
+              }
+            },
+            {
+              "id": "order-4101-2",
+              "text": "Order {{order.number}} confirmed\nHello {{customer.name}}, your payment of {{order.total}} has been received.\nDelivery: {{delivery.address}}\nEstimate: {{delivery.date}}\nTracking: {{tracking.url}}\nWe will email {{customer.email}} after dispatch.\nQuestions: {{support.email}}\n{{shop.name}}",
+              "expected": {
+                "text": "Order ORD-4101 confirmed\nHello Alex Rivera, your payment of $39.00 has been received.\nDelivery: 42 Harbor Road\nEstimate: October 23, 2026\nTracking: https://shop.example.test/track/ORD-4101\nWe will email alex@example.test after dispatch.\nQuestions: support@example.test\nOrchard Supplies",
+                "replacements": 9
+              },
+              "facts": {
+                "bytes": 286,
+                "occurrences": 9,
+                "distinct_keywords": 9,
+                "first_match_offset": 6,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 9,
+                "matched_source_bytes": 149,
+                "output_bytes": 285
+              }
+            }
+          ]
+        },
+        {
+          "id": "order-4102",
+          "dictionary": {
+            "{{order.number}}": "ORD-4102",
+            "{{customer.name}}": "Sam Taylor",
+            "{{shop.name}}": "Orchard Supplies",
+            "{{order.items}}": "<tr><td>Travel adapter</td><td>1</td><td>$24.50</td></tr>",
+            "{{order.total}}": "$24.50",
+            "{{customer.email}}": "sam@example.test",
+            "{{delivery.address}}": "7 Willow Street",
+            "{{delivery.date}}": "October 24, 2026",
+            "{{tracking.url}}": "https://shop.example.test/track/ORD-4102",
+            "{{support.email}}": "support@example.test"
+          },
+          "documents": [
+            {
+              "id": "order-4102-1",
+              "text": "<!doctype html>\n<html><body><h1>Order {{order.number}} confirmed</h1>\n<p>Hello {{customer.name}}, thank you for shopping with {{shop.name}}.</p>\n<p>We have reserved your items and will send another message when the parcel leaves the warehouse.</p>\n<table><tr><th>Item</th><th>Quantity</th><th>Amount</th></tr>\n{{order.items}}</table>\n<p>Total paid: <strong>{{order.total}}</strong>. A receipt will be sent to {{customer.email}}.</p>\n<p>Your parcel will be delivered to {{delivery.address}}. Current estimate: {{delivery.date}}.</p>\n<p>You can check progress at <a href=\"{{tracking.url}}\">your tracking page</a>.</p>\n<p>If the address is incorrect, please reply before dispatch. For other questions contact {{support.email}}.</p>\n<footer>{{shop.name}} · Thank you for choosing reusable packaging.</footer>\n</body></html>",
+              "expected": {
+                "text": "<!doctype html>\n<html><body><h1>Order ORD-4102 confirmed</h1>\n<p>Hello Sam Taylor, thank you for shopping with Orchard Supplies.</p>\n<p>We have reserved your items and will send another message when the parcel leaves the warehouse.</p>\n<table><tr><th>Item</th><th>Quantity</th><th>Amount</th></tr>\n<tr><td>Travel adapter</td><td>1</td><td>$24.50</td></tr></table>\n<p>Total paid: <strong>$24.50</strong>. A receipt will be sent to sam@example.test.</p>\n<p>Your parcel will be delivered to 7 Willow Street. Current estimate: October 24, 2026.</p>\n<p>You can check progress at <a href=\"https://shop.example.test/track/ORD-4102\">your tracking page</a>.</p>\n<p>If the address is incorrect, please reply before dispatch. For other questions contact support@example.test.</p>\n<footer>Orchard Supplies · Thank you for choosing reusable packaging.</footer>\n</body></html>",
+                "replacements": 11
+              },
+              "facts": {
+                "bytes": 820,
+                "occurrences": 11,
+                "distinct_keywords": 10,
+                "first_match_offset": 38,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 11,
+                "matched_source_bytes": 177,
+                "output_bytes": 863
+              }
+            },
+            {
+              "id": "order-4102-2",
+              "text": "Order {{order.number}} confirmed\nHello {{customer.name}}, your payment of {{order.total}} has been received.\nDelivery: {{delivery.address}}\nEstimate: {{delivery.date}}\nTracking: {{tracking.url}}\nWe will email {{customer.email}} after dispatch.\nQuestions: {{support.email}}\n{{shop.name}}",
+              "expected": {
+                "text": "Order ORD-4102 confirmed\nHello Sam Taylor, your payment of $24.50 has been received.\nDelivery: 7 Willow Street\nEstimate: October 24, 2026\nTracking: https://shop.example.test/track/ORD-4102\nWe will email sam@example.test after dispatch.\nQuestions: support@example.test\nOrchard Supplies",
+                "replacements": 9
+              },
+              "facts": {
+                "bytes": 286,
+                "occurrences": 9,
+                "distinct_keywords": 9,
+                "first_match_offset": 6,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 9,
+                "matched_source_bytes": 149,
+                "output_bytes": 284
+              }
+            }
+          ]
+        },
+        {
+          "id": "order-4103",
+          "dictionary": {
+            "{{order.number}}": "ORD-4103",
+            "{{customer.name}}": "Leila Haddad",
+            "{{shop.name}}": "Orchard Supplies",
+            "{{order.items}}": "<tr><td>Notebook</td><td>3</td><td>$15.00</td></tr>",
+            "{{order.total}}": "$15.00",
+            "{{customer.email}}": "leila@example.test",
+            "{{delivery.address}}": "29 Market Square",
+            "{{delivery.date}}": "October 25, 2026",
+            "{{tracking.url}}": "https://shop.example.test/track/ORD-4103",
+            "{{support.email}}": "support@example.test"
+          },
+          "documents": [
+            {
+              "id": "order-4103-1",
+              "text": "<!doctype html>\n<html><body><h1>Order {{order.number}} confirmed</h1>\n<p>Hello {{customer.name}}, thank you for shopping with {{shop.name}}.</p>\n<p>We have reserved your items and will send another message when the parcel leaves the warehouse.</p>\n<table><tr><th>Item</th><th>Quantity</th><th>Amount</th></tr>\n{{order.items}}</table>\n<p>Total paid: <strong>{{order.total}}</strong>. A receipt will be sent to {{customer.email}}.</p>\n<p>Your parcel will be delivered to {{delivery.address}}. Current estimate: {{delivery.date}}.</p>\n<p>You can check progress at <a href=\"{{tracking.url}}\">your tracking page</a>.</p>\n<p>If the address is incorrect, please reply before dispatch. For other questions contact {{support.email}}.</p>\n<footer>{{shop.name}} · Thank you for choosing reusable packaging.</footer>\n</body></html>",
+              "expected": {
+                "text": "<!doctype html>\n<html><body><h1>Order ORD-4103 confirmed</h1>\n<p>Hello Leila Haddad, thank you for shopping with Orchard Supplies.</p>\n<p>We have reserved your items and will send another message when the parcel leaves the warehouse.</p>\n<table><tr><th>Item</th><th>Quantity</th><th>Amount</th></tr>\n<tr><td>Notebook</td><td>3</td><td>$15.00</td></tr></table>\n<p>Total paid: <strong>$15.00</strong>. A receipt will be sent to leila@example.test.</p>\n<p>Your parcel will be delivered to 29 Market Square. Current estimate: October 25, 2026.</p>\n<p>You can check progress at <a href=\"https://shop.example.test/track/ORD-4103\">your tracking page</a>.</p>\n<p>If the address is incorrect, please reply before dispatch. For other questions contact support@example.test.</p>\n<footer>Orchard Supplies · Thank you for choosing reusable packaging.</footer>\n</body></html>",
+                "replacements": 11
+              },
+              "facts": {
+                "bytes": 820,
+                "occurrences": 11,
+                "distinct_keywords": 10,
+                "first_match_offset": 38,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 11,
+                "matched_source_bytes": 177,
+                "output_bytes": 862
+              }
+            },
+            {
+              "id": "order-4103-2",
+              "text": "Order {{order.number}} confirmed\nHello {{customer.name}}, your payment of {{order.total}} has been received.\nDelivery: {{delivery.address}}\nEstimate: {{delivery.date}}\nTracking: {{tracking.url}}\nWe will email {{customer.email}} after dispatch.\nQuestions: {{support.email}}\n{{shop.name}}",
+              "expected": {
+                "text": "Order ORD-4103 confirmed\nHello Leila Haddad, your payment of $15.00 has been received.\nDelivery: 29 Market Square\nEstimate: October 25, 2026\nTracking: https://shop.example.test/track/ORD-4103\nWe will email leila@example.test after dispatch.\nQuestions: support@example.test\nOrchard Supplies",
+                "replacements": 9
+              },
+              "facts": {
+                "bytes": 286,
+                "occurrences": 9,
+                "distinct_keywords": 9,
+                "first_match_offset": 6,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 9,
+                "matched_source_bytes": 149,
+                "output_bytes": 289
+              }
+            }
+          ]
+        },
+        {
+          "id": "order-4104",
+          "dictionary": {
+            "{{order.number}}": "ORD-4104",
+            "{{customer.name}}": "Noah Martin",
+            "{{shop.name}}": "Orchard Supplies",
+            "{{order.items}}": "<tr><td>Water bottle</td><td>1</td><td>$21.00</td></tr>",
+            "{{order.total}}": "$21.00",
+            "{{customer.email}}": "noah@example.test",
+            "{{delivery.address}}": "63 Cedar Avenue",
+            "{{delivery.date}}": "October 26, 2026",
+            "{{tracking.url}}": "https://shop.example.test/track/ORD-4104",
+            "{{support.email}}": "support@example.test"
+          },
+          "documents": [
+            {
+              "id": "order-4104-1",
+              "text": "<!doctype html>\n<html><body><h1>Order {{order.number}} confirmed</h1>\n<p>Hello {{customer.name}}, thank you for shopping with {{shop.name}}.</p>\n<p>We have reserved your items and will send another message when the parcel leaves the warehouse.</p>\n<table><tr><th>Item</th><th>Quantity</th><th>Amount</th></tr>\n{{order.items}}</table>\n<p>Total paid: <strong>{{order.total}}</strong>. A receipt will be sent to {{customer.email}}.</p>\n<p>Your parcel will be delivered to {{delivery.address}}. Current estimate: {{delivery.date}}.</p>\n<p>You can check progress at <a href=\"{{tracking.url}}\">your tracking page</a>.</p>\n<p>If the address is incorrect, please reply before dispatch. For other questions contact {{support.email}}.</p>\n<footer>{{shop.name}} · Thank you for choosing reusable packaging.</footer>\n</body></html>",
+              "expected": {
+                "text": "<!doctype html>\n<html><body><h1>Order ORD-4104 confirmed</h1>\n<p>Hello Noah Martin, thank you for shopping with Orchard Supplies.</p>\n<p>We have reserved your items and will send another message when the parcel leaves the warehouse.</p>\n<table><tr><th>Item</th><th>Quantity</th><th>Amount</th></tr>\n<tr><td>Water bottle</td><td>1</td><td>$21.00</td></tr></table>\n<p>Total paid: <strong>$21.00</strong>. A receipt will be sent to noah@example.test.</p>\n<p>Your parcel will be delivered to 63 Cedar Avenue. Current estimate: October 26, 2026.</p>\n<p>You can check progress at <a href=\"https://shop.example.test/track/ORD-4104\">your tracking page</a>.</p>\n<p>If the address is incorrect, please reply before dispatch. For other questions contact support@example.test.</p>\n<footer>Orchard Supplies · Thank you for choosing reusable packaging.</footer>\n</body></html>",
+                "replacements": 11
+              },
+              "facts": {
+                "bytes": 820,
+                "occurrences": 11,
+                "distinct_keywords": 10,
+                "first_match_offset": 38,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 11,
+                "matched_source_bytes": 177,
+                "output_bytes": 863
+              }
+            },
+            {
+              "id": "order-4104-2",
+              "text": "Order {{order.number}} confirmed\nHello {{customer.name}}, your payment of {{order.total}} has been received.\nDelivery: {{delivery.address}}\nEstimate: {{delivery.date}}\nTracking: {{tracking.url}}\nWe will email {{customer.email}} after dispatch.\nQuestions: {{support.email}}\n{{shop.name}}",
+              "expected": {
+                "text": "Order ORD-4104 confirmed\nHello Noah Martin, your payment of $21.00 has been received.\nDelivery: 63 Cedar Avenue\nEstimate: October 26, 2026\nTracking: https://shop.example.test/track/ORD-4104\nWe will email noah@example.test after dispatch.\nQuestions: support@example.test\nOrchard Supplies",
+                "replacements": 9
+              },
+              "facts": {
+                "bytes": 286,
+                "occurrences": 9,
+                "distinct_keywords": 9,
+                "first_match_offset": 6,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 9,
+                "matched_source_bytes": 149,
+                "output_bytes": 286
+              }
+            }
+          ]
+        },
+        {
+          "id": "order-4105",
+          "dictionary": {
+            "{{order.number}}": "ORD-4105",
+            "{{customer.name}}": "Emma Wilson",
+            "{{shop.name}}": "Orchard Supplies",
+            "{{order.items}}": "<tr><td>Laptop sleeve</td><td>1</td><td>$28.00</td></tr>",
+            "{{order.total}}": "$28.00",
+            "{{customer.email}}": "emma@example.test",
+            "{{delivery.address}}": "5 Station Road",
+            "{{delivery.date}}": "October 27, 2026",
+            "{{tracking.url}}": "https://shop.example.test/track/ORD-4105",
+            "{{support.email}}": "support@example.test"
+          },
+          "documents": [
+            {
+              "id": "order-4105-1",
+              "text": "<!doctype html>\n<html><body><h1>Order {{order.number}} confirmed</h1>\n<p>Hello {{customer.name}}, thank you for shopping with {{shop.name}}.</p>\n<p>We have reserved your items and will send another message when the parcel leaves the warehouse.</p>\n<table><tr><th>Item</th><th>Quantity</th><th>Amount</th></tr>\n{{order.items}}</table>\n<p>Total paid: <strong>{{order.total}}</strong>. A receipt will be sent to {{customer.email}}.</p>\n<p>Your parcel will be delivered to {{delivery.address}}. Current estimate: {{delivery.date}}.</p>\n<p>You can check progress at <a href=\"{{tracking.url}}\">your tracking page</a>.</p>\n<p>If the address is incorrect, please reply before dispatch. For other questions contact {{support.email}}.</p>\n<footer>{{shop.name}} · Thank you for choosing reusable packaging.</footer>\n</body></html>",
+              "expected": {
+                "text": "<!doctype html>\n<html><body><h1>Order ORD-4105 confirmed</h1>\n<p>Hello Emma Wilson, thank you for shopping with Orchard Supplies.</p>\n<p>We have reserved your items and will send another message when the parcel leaves the warehouse.</p>\n<table><tr><th>Item</th><th>Quantity</th><th>Amount</th></tr>\n<tr><td>Laptop sleeve</td><td>1</td><td>$28.00</td></tr></table>\n<p>Total paid: <strong>$28.00</strong>. A receipt will be sent to emma@example.test.</p>\n<p>Your parcel will be delivered to 5 Station Road. Current estimate: October 27, 2026.</p>\n<p>You can check progress at <a href=\"https://shop.example.test/track/ORD-4105\">your tracking page</a>.</p>\n<p>If the address is incorrect, please reply before dispatch. For other questions contact support@example.test.</p>\n<footer>Orchard Supplies · Thank you for choosing reusable packaging.</footer>\n</body></html>",
+                "replacements": 11
+              },
+              "facts": {
+                "bytes": 820,
+                "occurrences": 11,
+                "distinct_keywords": 10,
+                "first_match_offset": 38,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 11,
+                "matched_source_bytes": 177,
+                "output_bytes": 863
+              }
+            },
+            {
+              "id": "order-4105-2",
+              "text": "Order {{order.number}} confirmed\nHello {{customer.name}}, your payment of {{order.total}} has been received.\nDelivery: {{delivery.address}}\nEstimate: {{delivery.date}}\nTracking: {{tracking.url}}\nWe will email {{customer.email}} after dispatch.\nQuestions: {{support.email}}\n{{shop.name}}",
+              "expected": {
+                "text": "Order ORD-4105 confirmed\nHello Emma Wilson, your payment of $28.00 has been received.\nDelivery: 5 Station Road\nEstimate: October 27, 2026\nTracking: https://shop.example.test/track/ORD-4105\nWe will email emma@example.test after dispatch.\nQuestions: support@example.test\nOrchard Supplies",
+                "replacements": 9
+              },
+              "facts": {
+                "bytes": 286,
+                "occurrences": 9,
+                "distinct_keywords": 9,
+                "first_match_offset": 6,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 9,
+                "matched_source_bytes": 149,
+                "output_bytes": 285
+              }
+            }
+          ]
+        },
+        {
+          "id": "order-4106",
+          "dictionary": {
+            "{{order.number}}": "ORD-4106",
+            "{{customer.name}}": "Daniel Kim",
+            "{{shop.name}}": "Orchard Supplies",
+            "{{order.items}}": "<tr><td>Phone stand</td><td>2</td><td>$16.00</td></tr>",
+            "{{order.total}}": "$16.00",
+            "{{customer.email}}": "daniel@example.test",
+            "{{delivery.address}}": "11 Garden Walk",
+            "{{delivery.date}}": "October 28, 2026",
+            "{{tracking.url}}": "https://shop.example.test/track/ORD-4106",
+            "{{support.email}}": "support@example.test"
+          },
+          "documents": [
+            {
+              "id": "order-4106-1",
+              "text": "<!doctype html>\n<html><body><h1>Order {{order.number}} confirmed</h1>\n<p>Hello {{customer.name}}, thank you for shopping with {{shop.name}}.</p>\n<p>We have reserved your items and will send another message when the parcel leaves the warehouse.</p>\n<table><tr><th>Item</th><th>Quantity</th><th>Amount</th></tr>\n{{order.items}}</table>\n<p>Total paid: <strong>{{order.total}}</strong>. A receipt will be sent to {{customer.email}}.</p>\n<p>Your parcel will be delivered to {{delivery.address}}. Current estimate: {{delivery.date}}.</p>\n<p>You can check progress at <a href=\"{{tracking.url}}\">your tracking page</a>.</p>\n<p>If the address is incorrect, please reply before dispatch. For other questions contact {{support.email}}.</p>\n<footer>{{shop.name}} · Thank you for choosing reusable packaging.</footer>\n</body></html>",
+              "expected": {
+                "text": "<!doctype html>\n<html><body><h1>Order ORD-4106 confirmed</h1>\n<p>Hello Daniel Kim, thank you for shopping with Orchard Supplies.</p>\n<p>We have reserved your items and will send another message when the parcel leaves the warehouse.</p>\n<table><tr><th>Item</th><th>Quantity</th><th>Amount</th></tr>\n<tr><td>Phone stand</td><td>2</td><td>$16.00</td></tr></table>\n<p>Total paid: <strong>$16.00</strong>. A receipt will be sent to daniel@example.test.</p>\n<p>Your parcel will be delivered to 11 Garden Walk. Current estimate: October 28, 2026.</p>\n<p>You can check progress at <a href=\"https://shop.example.test/track/ORD-4106\">your tracking page</a>.</p>\n<p>If the address is incorrect, please reply before dispatch. For other questions contact support@example.test.</p>\n<footer>Orchard Supplies · Thank you for choosing reusable packaging.</footer>\n</body></html>",
+                "replacements": 11
+              },
+              "facts": {
+                "bytes": 820,
+                "occurrences": 11,
+                "distinct_keywords": 10,
+                "first_match_offset": 38,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 11,
+                "matched_source_bytes": 177,
+                "output_bytes": 862
+              }
+            },
+            {
+              "id": "order-4106-2",
+              "text": "Order {{order.number}} confirmed\nHello {{customer.name}}, your payment of {{order.total}} has been received.\nDelivery: {{delivery.address}}\nEstimate: {{delivery.date}}\nTracking: {{tracking.url}}\nWe will email {{customer.email}} after dispatch.\nQuestions: {{support.email}}\n{{shop.name}}",
+              "expected": {
+                "text": "Order ORD-4106 confirmed\nHello Daniel Kim, your payment of $16.00 has been received.\nDelivery: 11 Garden Walk\nEstimate: October 28, 2026\nTracking: https://shop.example.test/track/ORD-4106\nWe will email daniel@example.test after dispatch.\nQuestions: support@example.test\nOrchard Supplies",
+                "replacements": 9
+              },
+              "facts": {
+                "bytes": 286,
+                "occurrences": 9,
+                "distinct_keywords": 9,
+                "first_match_offset": 6,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 9,
+                "matched_source_bytes": 149,
+                "output_bytes": 286
+              }
+            }
+          ]
+        },
+        {
+          "id": "order-4107",
+          "dictionary": {
+            "{{order.number}}": "ORD-4107",
+            "{{customer.name}}": "Sofia Costa",
+            "{{shop.name}}": "Orchard Supplies",
+            "{{order.items}}": "<tr><td>Charging pad</td><td>1</td><td>$32.00</td></tr>",
+            "{{order.total}}": "$32.00",
+            "{{customer.email}}": "sofia@example.test",
+            "{{delivery.address}}": "32 Bridge Street",
+            "{{delivery.date}}": "October 29, 2026",
+            "{{tracking.url}}": "https://shop.example.test/track/ORD-4107",
+            "{{support.email}}": "support@example.test"
+          },
+          "documents": [
+            {
+              "id": "order-4107-1",
+              "text": "<!doctype html>\n<html><body><h1>Order {{order.number}} confirmed</h1>\n<p>Hello {{customer.name}}, thank you for shopping with {{shop.name}}.</p>\n<p>We have reserved your items and will send another message when the parcel leaves the warehouse.</p>\n<table><tr><th>Item</th><th>Quantity</th><th>Amount</th></tr>\n{{order.items}}</table>\n<p>Total paid: <strong>{{order.total}}</strong>. A receipt will be sent to {{customer.email}}.</p>\n<p>Your parcel will be delivered to {{delivery.address}}. Current estimate: {{delivery.date}}.</p>\n<p>You can check progress at <a href=\"{{tracking.url}}\">your tracking page</a>.</p>\n<p>If the address is incorrect, please reply before dispatch. For other questions contact {{support.email}}.</p>\n<footer>{{shop.name}} · Thank you for choosing reusable packaging.</footer>\n</body></html>",
+              "expected": {
+                "text": "<!doctype html>\n<html><body><h1>Order ORD-4107 confirmed</h1>\n<p>Hello Sofia Costa, thank you for shopping with Orchard Supplies.</p>\n<p>We have reserved your items and will send another message when the parcel leaves the warehouse.</p>\n<table><tr><th>Item</th><th>Quantity</th><th>Amount</th></tr>\n<tr><td>Charging pad</td><td>1</td><td>$32.00</td></tr></table>\n<p>Total paid: <strong>$32.00</strong>. A receipt will be sent to sofia@example.test.</p>\n<p>Your parcel will be delivered to 32 Bridge Street. Current estimate: October 29, 2026.</p>\n<p>You can check progress at <a href=\"https://shop.example.test/track/ORD-4107\">your tracking page</a>.</p>\n<p>If the address is incorrect, please reply before dispatch. For other questions contact support@example.test.</p>\n<footer>Orchard Supplies · Thank you for choosing reusable packaging.</footer>\n</body></html>",
+                "replacements": 11
+              },
+              "facts": {
+                "bytes": 820,
+                "occurrences": 11,
+                "distinct_keywords": 10,
+                "first_match_offset": 38,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 11,
+                "matched_source_bytes": 177,
+                "output_bytes": 865
+              }
+            },
+            {
+              "id": "order-4107-2",
+              "text": "Order {{order.number}} confirmed\nHello {{customer.name}}, your payment of {{order.total}} has been received.\nDelivery: {{delivery.address}}\nEstimate: {{delivery.date}}\nTracking: {{tracking.url}}\nWe will email {{customer.email}} after dispatch.\nQuestions: {{support.email}}\n{{shop.name}}",
+              "expected": {
+                "text": "Order ORD-4107 confirmed\nHello Sofia Costa, your payment of $32.00 has been received.\nDelivery: 32 Bridge Street\nEstimate: October 29, 2026\nTracking: https://shop.example.test/track/ORD-4107\nWe will email sofia@example.test after dispatch.\nQuestions: support@example.test\nOrchard Supplies",
+                "replacements": 9
+              },
+              "facts": {
+                "bytes": 286,
+                "occurrences": 9,
+                "distinct_keywords": 9,
+                "first_match_offset": 6,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 9,
+                "matched_source_bytes": 149,
+                "output_bytes": 288
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

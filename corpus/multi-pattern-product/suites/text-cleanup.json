@@ -1,0 +1,621 @@
+{
+  "schema": 1,
+  "suite": "text-cleanup",
+  "cases": [
+    {
+      "id": "punctuation.clean",
+      "title": "Leave ordinary ASCII customer text unchanged",
+      "kind": "product",
+      "primary": true,
+      "operation": "replace",
+      "description": "Eight typographic literals; the input has no configured character. This models an already-clean imported field.",
+      "origin": "Project-authored deterministic workload model; not a production trace.",
+      "contract": "Exact case-sensitive bytes; no word-boundary rules, normalization, or case folding.",
+      "lifetime": {
+        "dictionary_scope": "import_rules",
+        "values_change_between_jobs": false,
+        "modes": [
+          {
+            "id": "request",
+            "label": "Complete request, including dictionary preparation"
+          },
+          {
+            "id": "worker",
+            "label": "Worker with the same dictionary already prepared"
+          }
+        ],
+        "pcre_note": "Pattern keys can remain cached when only replacement values change; report warm and fresh-process compilation separately."
+      },
+      "methods": [
+        "strtr",
+        "preg_replace_callback",
+        "replacer",
+        "str_replace"
+      ],
+      "str_replace_note": "Longest-first sequential replacement agrees on all saved inputs; this is not a general equivalence.",
+      "jobs": [
+        {
+          "id": "plain-1",
+          "dictionary": {
+            "“": "\"",
+            "”": "\"",
+            "‘": "'",
+            "’": "'",
+            "–": "-",
+            "—": " - ",
+            "…": "...",
+            " ": " "
+          },
+          "documents": [
+            {
+              "id": "plain-1-1",
+              "text": "The parcel was delivered at 10:35. The customer confirmed that all three items were present.",
+              "expected": {
+                "text": "The parcel was delivered at 10:35. The customer confirmed that all three items were present.",
+                "replacements": 0
+              },
+              "facts": {
+                "bytes": 92,
+                "occurrences": 0,
+                "distinct_keywords": 0,
+                "first_match_offset": null,
+                "first_matching_dictionary_rank": null,
+                "selected_matches": 0,
+                "matched_source_bytes": 0,
+                "output_bytes": 92
+              }
+            }
+          ]
+        },
+        {
+          "id": "plain-2",
+          "dictionary": {
+            "“": "\"",
+            "”": "\"",
+            "‘": "'",
+            "’": "'",
+            "–": "-",
+            "—": " - ",
+            "…": "...",
+            " ": " "
+          },
+          "documents": [
+            {
+              "id": "plain-2-1",
+              "text": "Please keep this invoice for your records. A copy is available in your account under previous orders.",
+              "expected": {
+                "text": "Please keep this invoice for your records. A copy is available in your account under previous orders.",
+                "replacements": 0
+              },
+              "facts": {
+                "bytes": 101,
+                "occurrences": 0,
+                "distinct_keywords": 0,
+                "first_match_offset": null,
+                "first_matching_dictionary_rank": null,
+                "selected_matches": 0,
+                "matched_source_bytes": 0,
+                "output_bytes": 101
+              }
+            }
+          ]
+        },
+        {
+          "id": "plain-3",
+          "dictionary": {
+            "“": "\"",
+            "”": "\"",
+            "‘": "'",
+            "’": "'",
+            "–": "-",
+            "—": " - ",
+            "…": "...",
+            " ": " "
+          },
+          "documents": [
+            {
+              "id": "plain-3-1",
+              "text": "The new size guide uses centimetres. Measure the outside width before choosing a replacement sleeve.",
+              "expected": {
+                "text": "The new size guide uses centimetres. Measure the outside width before choosing a replacement sleeve.",
+                "replacements": 0
+              },
+              "facts": {
+                "bytes": 100,
+                "occurrences": 0,
+                "distinct_keywords": 0,
+                "first_match_offset": null,
+                "first_matching_dictionary_rank": null,
+                "selected_matches": 0,
+                "matched_source_bytes": 0,
+                "output_bytes": 100
+              }
+            }
+          ]
+        },
+        {
+          "id": "plain-4",
+          "dictionary": {
+            "“": "\"",
+            "”": "\"",
+            "‘": "'",
+            "’": "'",
+            "–": "-",
+            "—": " - ",
+            "…": "...",
+            " ": " "
+          },
+          "documents": [
+            {
+              "id": "plain-4-1",
+              "text": "We moved the pickup date to Friday because the delivery address was changed after checkout.",
+              "expected": {
+                "text": "We moved the pickup date to Friday because the delivery address was changed after checkout.",
+                "replacements": 0
+              },
+              "facts": {
+                "bytes": 91,
+                "occurrences": 0,
+                "distinct_keywords": 0,
+                "first_match_offset": null,
+                "first_matching_dictionary_rank": null,
+                "selected_matches": 0,
+                "matched_source_bytes": 0,
+                "output_bytes": 91
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "punctuation.mixed",
+      "title": "Normalize quotes, dashes and spaces in imported customer text",
+      "kind": "product",
+      "primary": true,
+      "operation": "replace",
+      "description": "Eight exact UTF-8 literals, with only the configured transformations. This is not Unicode normalization.",
+      "origin": "Project-authored deterministic workload model; not a production trace.",
+      "contract": "Exact case-sensitive bytes; no word-boundary rules, normalization, or case folding.",
+      "lifetime": {
+        "dictionary_scope": "import_rules",
+        "values_change_between_jobs": false,
+        "modes": [
+          {
+            "id": "request",
+            "label": "Complete request, including dictionary preparation"
+          },
+          {
+            "id": "worker",
+            "label": "Worker with the same dictionary already prepared"
+          }
+        ],
+        "pcre_note": "Pattern keys can remain cached when only replacement values change; report warm and fresh-process compilation separately."
+      },
+      "methods": [
+        "strtr",
+        "preg_replace_callback",
+        "replacer",
+        "str_replace"
+      ],
+      "str_replace_note": "Longest-first sequential replacement agrees on all saved inputs; this is not a general equivalence.",
+      "jobs": [
+        {
+          "id": "text-1",
+          "dictionary": {
+            "“": "\"",
+            "”": "\"",
+            "‘": "'",
+            "’": "'",
+            "–": "-",
+            "—": " - ",
+            "…": "...",
+            " ": " "
+          },
+          "documents": [
+            {
+              "id": "text-1-1",
+              "text": "“The new charger works well,” Maya wrote. “I’m keeping the old cable as a spare.” The parcel arrived on Tuesday — one day before the estimate.",
+              "expected": {
+                "text": "\"The new charger works well,\" Maya wrote. \"I'm keeping the old cable as a spare.\" The parcel arrived on Tuesday  -  one day before the estimate.",
+                "replacements": 6
+              },
+              "facts": {
+                "bytes": 154,
+                "occurrences": 6,
+                "distinct_keywords": 4,
+                "first_match_offset": 0,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 6,
+                "matched_source_bytes": 18,
+                "output_bytes": 144
+              }
+            }
+          ]
+        },
+        {
+          "id": "text-2",
+          "dictionary": {
+            "“": "\"",
+            "”": "\"",
+            "‘": "'",
+            "’": "'",
+            "–": "-",
+            "—": " - ",
+            "…": "...",
+            " ": " "
+          },
+          "documents": [
+            {
+              "id": "text-2-1",
+              "text": "The product description lists sizes 20–24 cm. Please check the measurement guide before ordering; the colour names in a supplier’s catalogue can differ from ours.",
+              "expected": {
+                "text": "The product description lists sizes 20-24 cm. Please check the measurement guide before ordering; the colour names in a supplier's catalogue can differ from ours.",
+                "replacements": 2
+              },
+              "facts": {
+                "bytes": 166,
+                "occurrences": 2,
+                "distinct_keywords": 2,
+                "first_match_offset": 38,
+                "first_matching_dictionary_rank": 3,
+                "selected_matches": 2,
+                "matched_source_bytes": 6,
+                "output_bytes": 162
+              }
+            }
+          ]
+        },
+        {
+          "id": "text-3",
+          "dictionary": {
+            "“": "\"",
+            "”": "\"",
+            "‘": "'",
+            "’": "'",
+            "–": "-",
+            "—": " - ",
+            "…": "...",
+            " ": " "
+          },
+          "documents": [
+            {
+              "id": "text-3-1",
+              "text": "Support replied: “We’ll send the missing clip today.” The replacement part is free — no need to return the complete item.",
+              "expected": {
+                "text": "Support replied: \"We'll send the missing clip today.\" The replacement part is free  -  no need to return the complete item.",
+                "replacements": 4
+              },
+              "facts": {
+                "bytes": 129,
+                "occurrences": 4,
+                "distinct_keywords": 4,
+                "first_match_offset": 17,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 4,
+                "matched_source_bytes": 12,
+                "output_bytes": 123
+              }
+            }
+          ]
+        },
+        {
+          "id": "text-4",
+          "dictionary": {
+            "“": "\"",
+            "”": "\"",
+            "‘": "'",
+            "’": "'",
+            "–": "-",
+            "—": " - ",
+            "…": "...",
+            " ": " "
+          },
+          "documents": [
+            {
+              "id": "text-4-1",
+              "text": "Delivery costs $5 per parcel. Orders placed after 16:00 are handled the next business day… the tracking email follows dispatch.",
+              "expected": {
+                "text": "Delivery costs $5 per parcel. Orders placed after 16:00 are handled the next business day... the tracking email follows dispatch.",
+                "replacements": 2
+              },
+              "facts": {
+                "bytes": 130,
+                "occurrences": 2,
+                "distinct_keywords": 2,
+                "first_match_offset": 17,
+                "first_matching_dictionary_rank": 6,
+                "selected_matches": 2,
+                "matched_source_bytes": 5,
+                "output_bytes": 129
+              }
+            }
+          ]
+        },
+        {
+          "id": "text-5",
+          "dictionary": {
+            "“": "\"",
+            "”": "\"",
+            "‘": "'",
+            "’": "'",
+            "–": "-",
+            "—": " - ",
+            "…": "...",
+            " ": " "
+          },
+          "documents": [
+            {
+              "id": "text-5-1",
+              "text": "I selected the ‘gift packaging’ option, but I don’t need a printed receipt. Please send the invoice to the email address on my account.",
+              "expected": {
+                "text": "I selected the 'gift packaging' option, but I don't need a printed receipt. Please send the invoice to the email address on my account.",
+                "replacements": 3
+              },
+              "facts": {
+                "bytes": 141,
+                "occurrences": 3,
+                "distinct_keywords": 2,
+                "first_match_offset": 15,
+                "first_matching_dictionary_rank": 2,
+                "selected_matches": 3,
+                "matched_source_bytes": 9,
+                "output_bytes": 135
+              }
+            }
+          ]
+        },
+        {
+          "id": "text-6",
+          "dictionary": {
+            "“": "\"",
+            "”": "\"",
+            "‘": "'",
+            "’": "'",
+            "–": "-",
+            "—": " - ",
+            "…": "...",
+            " ": " "
+          },
+          "documents": [
+            {
+              "id": "text-6-1",
+              "text": "The guide says “connect the blue cable first”. That step was easy — the diagram matches the sockets on the back of the device.",
+              "expected": {
+                "text": "The guide says \"connect the blue cable first\". That step was easy  -  the diagram matches the sockets on the back of the device.",
+                "replacements": 3
+              },
+              "facts": {
+                "bytes": 132,
+                "occurrences": 3,
+                "distinct_keywords": 3,
+                "first_match_offset": 15,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 3,
+                "matched_source_bytes": 9,
+                "output_bytes": 128
+              }
+            }
+          ]
+        },
+        {
+          "id": "text-7",
+          "dictionary": {
+            "“": "\"",
+            "”": "\"",
+            "‘": "'",
+            "’": "'",
+            "–": "-",
+            "—": " - ",
+            "…": "...",
+            " ": " "
+          },
+          "documents": [
+            {
+              "id": "text-7-1",
+              "text": "Our supplier’s update changes the model name from “Compact–2” to “Compact 2”. Existing warranty claims are unaffected.",
+              "expected": {
+                "text": "Our supplier's update changes the model name from \"Compact-2\" to \"Compact 2\". Existing warranty claims are unaffected.",
+                "replacements": 6
+              },
+              "facts": {
+                "bytes": 130,
+                "occurrences": 6,
+                "distinct_keywords": 4,
+                "first_match_offset": 12,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 6,
+                "matched_source_bytes": 18,
+                "output_bytes": 118
+              }
+            }
+          ]
+        },
+        {
+          "id": "text-8",
+          "dictionary": {
+            "“": "\"",
+            "”": "\"",
+            "‘": "'",
+            "’": "'",
+            "–": "-",
+            "—": " - ",
+            "…": "...",
+            " ": " "
+          },
+          "documents": [
+            {
+              "id": "text-8-1",
+              "text": "The customer asked, “Can I pick this up on Friday?” We’re checking stock at the pickup point and will confirm the collection time.",
+              "expected": {
+                "text": "The customer asked, \"Can I pick this up on Friday?\" We're checking stock at the pickup point and will confirm the collection time.",
+                "replacements": 3
+              },
+              "facts": {
+                "bytes": 136,
+                "occurrences": 3,
+                "distinct_keywords": 3,
+                "first_match_offset": 20,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 3,
+                "matched_source_bytes": 9,
+                "output_bytes": 130
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "spaces.mixed",
+      "title": "Replace four special space characters with ordinary spaces",
+      "kind": "product",
+      "primary": true,
+      "operation": "replace",
+      "description": "Every configured literal has the same replacement. Direct preg_replace is an eligible baseline, without a callback.",
+      "origin": "Project-authored deterministic workload model; not a production trace.",
+      "contract": "Exact case-sensitive bytes; no word-boundary rules, normalization, or case folding.",
+      "lifetime": {
+        "dictionary_scope": "import_rules",
+        "values_change_between_jobs": false,
+        "modes": [
+          {
+            "id": "request",
+            "label": "Complete request, including dictionary preparation"
+          },
+          {
+            "id": "worker",
+            "label": "Worker with the same dictionary already prepared"
+          }
+        ],
+        "pcre_note": "Pattern keys can remain cached when only replacement values change; report warm and fresh-process compilation separately."
+      },
+      "methods": [
+        "strtr",
+        "preg_replace_callback",
+        "replacer",
+        "str_replace",
+        "preg_replace"
+      ],
+      "str_replace_note": "Longest-first sequential replacement agrees on all saved inputs; this is not a general equivalence.",
+      "jobs": [
+        {
+          "id": "field-1",
+          "dictionary": {
+            " ": " ",
+            " ": " ",
+            " ": " ",
+            "　": " "
+          },
+          "documents": [
+            {
+              "id": "field-1-1",
+              "text": "Total: 49 USD; dispatch within 2 business days.",
+              "expected": {
+                "text": "Total: 49 USD; dispatch within 2 business days.",
+                "replacements": 2
+              },
+              "facts": {
+                "bytes": 50,
+                "occurrences": 2,
+                "distinct_keywords": 2,
+                "first_match_offset": 9,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 2,
+                "matched_source_bytes": 5,
+                "output_bytes": 47
+              }
+            }
+          ]
+        },
+        {
+          "id": "field-2",
+          "dictionary": {
+            " ": " ",
+            " ": " ",
+            " ": " ",
+            "　": " "
+          },
+          "documents": [
+            {
+              "id": "field-2-1",
+              "text": "Width 12 cm, height 8 cm. Colour: blue.",
+              "expected": {
+                "text": "Width 12 cm, height 8 cm. Colour: blue.",
+                "replacements": 2
+              },
+              "facts": {
+                "bytes": 43,
+                "occurrences": 2,
+                "distinct_keywords": 1,
+                "first_match_offset": 8,
+                "first_matching_dictionary_rank": 2,
+                "selected_matches": 2,
+                "matched_source_bytes": 6,
+                "output_bytes": 39
+              }
+            }
+          ]
+        },
+        {
+          "id": "field-3",
+          "dictionary": {
+            " ": " ",
+            " ": " ",
+            " ": " ",
+            "　": " "
+          },
+          "documents": [
+            {
+              "id": "field-3-1",
+              "text": "配送先：東京都　受取人：山田さん。",
+              "expected": {
+                "text": "配送先：東京都 受取人：山田さん。",
+                "replacements": 1
+              },
+              "facts": {
+                "bytes": 51,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 21,
+                "first_matching_dictionary_rank": 3,
+                "selected_matches": 1,
+                "matched_source_bytes": 3,
+                "output_bytes": 49
+              }
+            }
+          ]
+        },
+        {
+          "id": "field-4",
+          "dictionary": {
+            " ": " ",
+            " ": " ",
+            " ": " ",
+            "　": " "
+          },
+          "documents": [
+            {
+              "id": "field-4-1",
+              "text": "Invoice amount: 1 250 EUR. A tax receipt is attached.",
+              "expected": {
+                "text": "Invoice amount: 1 250 EUR. A tax receipt is attached.",
+                "replacements": 2
+              },
+              "facts": {
+                "bytes": 56,
+                "occurrences": 2,
+                "distinct_keywords": 2,
+                "first_match_offset": 17,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 2,
+                "matched_source_bytes": 5,
+                "output_bytes": 53
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

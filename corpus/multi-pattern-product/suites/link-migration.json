@@ -1,0 +1,597 @@
+{
+  "schema": 1,
+  "suite": "link-migration",
+  "cases": [
+    {
+      "id": "links.clean",
+      "title": "Check already-migrated content for old literal links",
+      "kind": "product",
+      "primary": true,
+      "operation": "replace",
+      "description": "Eight literal URL rules, including overlapping base/help/returns prefixes. Longest key at the earliest start wins. This is not URL parsing.",
+      "origin": "Project-authored deterministic workload model; not a production trace.",
+      "contract": "Exact case-sensitive bytes; no word-boundary rules, normalization, or case folding.",
+      "lifetime": {
+        "dictionary_scope": "migration_rules",
+        "values_change_between_jobs": false,
+        "modes": [
+          {
+            "id": "request",
+            "label": "Complete request, including dictionary preparation"
+          },
+          {
+            "id": "worker",
+            "label": "Worker with the same dictionary already prepared"
+          }
+        ],
+        "pcre_note": "Pattern keys can remain cached when only replacement values change; report warm and fresh-process compilation separately."
+      },
+      "methods": [
+        "strtr",
+        "preg_replace_callback",
+        "replacer",
+        "str_replace"
+      ],
+      "str_replace_note": "Longest-first sequential replacement agrees on all saved inputs; this is not a general equivalence.",
+      "jobs": [
+        {
+          "id": "page-1",
+          "dictionary": {
+            "http://old.example.test/help/returns": "https://shop.example.test/returns",
+            "http://old.example.test/help": "https://help.example.test/",
+            "http://old.example.test": "https://shop.example.test",
+            "https://cdn-old.example.test/images/": "https://assets.example.test/img/",
+            "https://docs-old.example.test/v1/": "https://docs.example.test/current/",
+            "https://old.example.test/account": "https://shop.example.test/account",
+            "http://old.example.test/search?q=": "https://shop.example.test/find?query=",
+            "https://old.example.test/contact": "https://help.example.test/contact"
+          },
+          "documents": [
+            {
+              "id": "page-1-1",
+              "text": "<p>The delivery guide is already at https://help.example.test/. Please use the order number when contacting support.</p>",
+              "expected": {
+                "text": "<p>The delivery guide is already at https://help.example.test/. Please use the order number when contacting support.</p>",
+                "replacements": 0
+              },
+              "facts": {
+                "bytes": 120,
+                "occurrences": 0,
+                "distinct_keywords": 0,
+                "first_match_offset": null,
+                "first_matching_dictionary_rank": null,
+                "selected_matches": 0,
+                "matched_source_bytes": 0,
+                "output_bytes": 120
+              }
+            }
+          ]
+        },
+        {
+          "id": "page-2",
+          "dictionary": {
+            "http://old.example.test/help/returns": "https://shop.example.test/returns",
+            "http://old.example.test/help": "https://help.example.test/",
+            "http://old.example.test": "https://shop.example.test",
+            "https://cdn-old.example.test/images/": "https://assets.example.test/img/",
+            "https://docs-old.example.test/v1/": "https://docs.example.test/current/",
+            "https://old.example.test/account": "https://shop.example.test/account",
+            "http://old.example.test/search?q=": "https://shop.example.test/find?query=",
+            "https://old.example.test/contact": "https://help.example.test/contact"
+          },
+          "documents": [
+            {
+              "id": "page-2-1",
+              "text": "<img src=\"https://assets.example.test/img/charger.webp\" alt=\"Charging port\">",
+              "expected": {
+                "text": "<img src=\"https://assets.example.test/img/charger.webp\" alt=\"Charging port\">",
+                "replacements": 0
+              },
+              "facts": {
+                "bytes": 76,
+                "occurrences": 0,
+                "distinct_keywords": 0,
+                "first_match_offset": null,
+                "first_matching_dictionary_rank": null,
+                "selected_matches": 0,
+                "matched_source_bytes": 0,
+                "output_bytes": 76
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "links.page",
+      "title": "Rewrite known legacy links in one content page",
+      "kind": "product",
+      "primary": true,
+      "operation": "replace",
+      "description": "Eight literal URL rules, including overlapping base/help/returns prefixes. Longest key at the earliest start wins. This is not URL parsing.",
+      "origin": "Project-authored deterministic workload model; not a production trace.",
+      "contract": "Exact case-sensitive bytes; no word-boundary rules, normalization, or case folding.",
+      "lifetime": {
+        "dictionary_scope": "migration_rules",
+        "values_change_between_jobs": false,
+        "modes": [
+          {
+            "id": "request",
+            "label": "Complete request, including dictionary preparation"
+          },
+          {
+            "id": "worker",
+            "label": "Worker with the same dictionary already prepared"
+          }
+        ],
+        "pcre_note": "Pattern keys can remain cached when only replacement values change; report warm and fresh-process compilation separately."
+      },
+      "methods": [
+        "strtr",
+        "preg_replace_callback",
+        "replacer",
+        "str_replace"
+      ],
+      "str_replace_note": "Longest-first sequential replacement agrees on all saved inputs; this is not a general equivalence.",
+      "jobs": [
+        {
+          "id": "page-1",
+          "dictionary": {
+            "http://old.example.test/help/returns": "https://shop.example.test/returns",
+            "http://old.example.test/help": "https://help.example.test/",
+            "http://old.example.test": "https://shop.example.test",
+            "https://cdn-old.example.test/images/": "https://assets.example.test/img/",
+            "https://docs-old.example.test/v1/": "https://docs.example.test/current/",
+            "https://old.example.test/account": "https://shop.example.test/account",
+            "http://old.example.test/search?q=": "https://shop.example.test/find?query=",
+            "https://old.example.test/contact": "https://help.example.test/contact"
+          },
+          "documents": [
+            {
+              "id": "page-1-1",
+              "text": "<article><h1>Return instructions</h1><p>Please open <a href=\"http://old.example.test/help/returns\">the return form</a> before posting your parcel. Include the order number and keep the postal receipt.</p></article>",
+              "expected": {
+                "text": "<article><h1>Return instructions</h1><p>Please open <a href=\"https://shop.example.test/returns\">the return form</a> before posting your parcel. Include the order number and keep the postal receipt.</p></article>",
+                "replacements": 1
+              },
+              "facts": {
+                "bytes": 214,
+                "occurrences": 3,
+                "distinct_keywords": 3,
+                "first_match_offset": 61,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 1,
+                "matched_source_bytes": 36,
+                "output_bytes": 211
+              }
+            }
+          ]
+        },
+        {
+          "id": "page-2",
+          "dictionary": {
+            "http://old.example.test/help/returns": "https://shop.example.test/returns",
+            "http://old.example.test/help": "https://help.example.test/",
+            "http://old.example.test": "https://shop.example.test",
+            "https://cdn-old.example.test/images/": "https://assets.example.test/img/",
+            "https://docs-old.example.test/v1/": "https://docs.example.test/current/",
+            "https://old.example.test/account": "https://shop.example.test/account",
+            "http://old.example.test/search?q=": "https://shop.example.test/find?query=",
+            "https://old.example.test/contact": "https://help.example.test/contact"
+          },
+          "documents": [
+            {
+              "id": "page-2-1",
+              "text": "<p>For account changes use <a href=\"https://old.example.test/account\">your profile</a>. If the reset email is missing, check the help page at http://old.example.test/help.</p>",
+              "expected": {
+                "text": "<p>For account changes use <a href=\"https://shop.example.test/account\">your profile</a>. If the reset email is missing, check the help page at https://help.example.test/.</p>",
+                "replacements": 2
+              },
+              "facts": {
+                "bytes": 175,
+                "occurrences": 3,
+                "distinct_keywords": 3,
+                "first_match_offset": 36,
+                "first_matching_dictionary_rank": 1,
+                "selected_matches": 2,
+                "matched_source_bytes": 60,
+                "output_bytes": 174
+              }
+            }
+          ]
+        },
+        {
+          "id": "page-3",
+          "dictionary": {
+            "http://old.example.test/help/returns": "https://shop.example.test/returns",
+            "http://old.example.test/help": "https://help.example.test/",
+            "http://old.example.test": "https://shop.example.test",
+            "https://cdn-old.example.test/images/": "https://assets.example.test/img/",
+            "https://docs-old.example.test/v1/": "https://docs.example.test/current/",
+            "https://old.example.test/account": "https://shop.example.test/account",
+            "http://old.example.test/search?q=": "https://shop.example.test/find?query=",
+            "https://old.example.test/contact": "https://help.example.test/contact"
+          },
+          "documents": [
+            {
+              "id": "page-3-1",
+              "text": "<figure><img src=\"https://cdn-old.example.test/images/cable-front.webp\" alt=\"Cable connector\"><figcaption>The connector has a marked top edge.</figcaption></figure>",
+              "expected": {
+                "text": "<figure><img src=\"https://assets.example.test/img/cable-front.webp\" alt=\"Cable connector\"><figcaption>The connector has a marked top edge.</figcaption></figure>",
+                "replacements": 1
+              },
+              "facts": {
+                "bytes": 164,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 18,
+                "first_matching_dictionary_rank": 3,
+                "selected_matches": 1,
+                "matched_source_bytes": 36,
+                "output_bytes": 160
+              }
+            }
+          ]
+        },
+        {
+          "id": "page-4",
+          "dictionary": {
+            "http://old.example.test/help/returns": "https://shop.example.test/returns",
+            "http://old.example.test/help": "https://help.example.test/",
+            "http://old.example.test": "https://shop.example.test",
+            "https://cdn-old.example.test/images/": "https://assets.example.test/img/",
+            "https://docs-old.example.test/v1/": "https://docs.example.test/current/",
+            "https://old.example.test/account": "https://shop.example.test/account",
+            "http://old.example.test/search?q=": "https://shop.example.test/find?query=",
+            "https://old.example.test/contact": "https://help.example.test/contact"
+          },
+          "documents": [
+            {
+              "id": "page-4-1",
+              "text": "The integration guide is at https://docs-old.example.test/v1/orders.html. Its examples use a test account and never require a live payment token.",
+              "expected": {
+                "text": "The integration guide is at https://docs.example.test/current/orders.html. Its examples use a test account and never require a live payment token.",
+                "replacements": 1
+              },
+              "facts": {
+                "bytes": 145,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 28,
+                "first_matching_dictionary_rank": 4,
+                "selected_matches": 1,
+                "matched_source_bytes": 33,
+                "output_bytes": 146
+              }
+            }
+          ]
+        },
+        {
+          "id": "page-5",
+          "dictionary": {
+            "http://old.example.test/help/returns": "https://shop.example.test/returns",
+            "http://old.example.test/help": "https://help.example.test/",
+            "http://old.example.test": "https://shop.example.test",
+            "https://cdn-old.example.test/images/": "https://assets.example.test/img/",
+            "https://docs-old.example.test/v1/": "https://docs.example.test/current/",
+            "https://old.example.test/account": "https://shop.example.test/account",
+            "http://old.example.test/search?q=": "https://shop.example.test/find?query=",
+            "https://old.example.test/contact": "https://help.example.test/contact"
+          },
+          "documents": [
+            {
+              "id": "page-5-1",
+              "text": "<p>Search the archived catalogue: <a href=\"http://old.example.test/search?q=desk+lamp\">desk lamps</a>. Updated stock appears on the product page.</p>",
+              "expected": {
+                "text": "<p>Search the archived catalogue: <a href=\"https://shop.example.test/find?query=desk+lamp\">desk lamps</a>. Updated stock appears on the product page.</p>",
+                "replacements": 1
+              },
+              "facts": {
+                "bytes": 149,
+                "occurrences": 2,
+                "distinct_keywords": 2,
+                "first_match_offset": 43,
+                "first_matching_dictionary_rank": 2,
+                "selected_matches": 1,
+                "matched_source_bytes": 33,
+                "output_bytes": 153
+              }
+            }
+          ]
+        },
+        {
+          "id": "page-6",
+          "dictionary": {
+            "http://old.example.test/help/returns": "https://shop.example.test/returns",
+            "http://old.example.test/help": "https://help.example.test/",
+            "http://old.example.test": "https://shop.example.test",
+            "https://cdn-old.example.test/images/": "https://assets.example.test/img/",
+            "https://docs-old.example.test/v1/": "https://docs.example.test/current/",
+            "https://old.example.test/account": "https://shop.example.test/account",
+            "http://old.example.test/search?q=": "https://shop.example.test/find?query=",
+            "https://old.example.test/contact": "https://help.example.test/contact"
+          },
+          "documents": [
+            {
+              "id": "page-6-1",
+              "text": "<p>The receipt footer still points to http://old.example.test. The customer service form is at https://old.example.test/contact.</p>",
+              "expected": {
+                "text": "<p>The receipt footer still points to https://shop.example.test. The customer service form is at https://help.example.test/contact.</p>",
+                "replacements": 2
+              },
+              "facts": {
+                "bytes": 132,
+                "occurrences": 2,
+                "distinct_keywords": 2,
+                "first_match_offset": 38,
+                "first_matching_dictionary_rank": 2,
+                "selected_matches": 2,
+                "matched_source_bytes": 55,
+                "output_bytes": 135
+              }
+            }
+          ]
+        },
+        {
+          "id": "page-7",
+          "dictionary": {
+            "http://old.example.test/help/returns": "https://shop.example.test/returns",
+            "http://old.example.test/help": "https://help.example.test/",
+            "http://old.example.test": "https://shop.example.test",
+            "https://cdn-old.example.test/images/": "https://assets.example.test/img/",
+            "https://docs-old.example.test/v1/": "https://docs.example.test/current/",
+            "https://old.example.test/account": "https://shop.example.test/account",
+            "http://old.example.test/search?q=": "https://shop.example.test/find?query=",
+            "https://old.example.test/contact": "https://help.example.test/contact"
+          },
+          "documents": [
+            {
+              "id": "page-7-1",
+              "text": "<p>Packaging photos are stored at https://cdn-old.example.test/images/box-side.jpg. Read http://old.example.test/help/returns if the parcel was damaged.</p>",
+              "expected": {
+                "text": "<p>Packaging photos are stored at https://assets.example.test/img/box-side.jpg. Read https://shop.example.test/returns if the parcel was damaged.</p>",
+                "replacements": 2
+              },
+              "facts": {
+                "bytes": 156,
+                "occurrences": 4,
+                "distinct_keywords": 4,
+                "first_match_offset": 34,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 2,
+                "matched_source_bytes": 72,
+                "output_bytes": 149
+              }
+            }
+          ]
+        },
+        {
+          "id": "page-8",
+          "dictionary": {
+            "http://old.example.test/help/returns": "https://shop.example.test/returns",
+            "http://old.example.test/help": "https://help.example.test/",
+            "http://old.example.test": "https://shop.example.test",
+            "https://cdn-old.example.test/images/": "https://assets.example.test/img/",
+            "https://docs-old.example.test/v1/": "https://docs.example.test/current/",
+            "https://old.example.test/account": "https://shop.example.test/account",
+            "http://old.example.test/search?q=": "https://shop.example.test/find?query=",
+            "https://old.example.test/contact": "https://help.example.test/contact"
+          },
+          "documents": [
+            {
+              "id": "page-8-1",
+              "text": "API documentation: https://docs-old.example.test/v1/refunds.html. Customer accounts remain accessible at https://old.example.test/account.",
+              "expected": {
+                "text": "API documentation: https://docs.example.test/current/refunds.html. Customer accounts remain accessible at https://shop.example.test/account.",
+                "replacements": 2
+              },
+              "facts": {
+                "bytes": 138,
+                "occurrences": 2,
+                "distinct_keywords": 2,
+                "first_match_offset": 19,
+                "first_matching_dictionary_rank": 4,
+                "selected_matches": 2,
+                "matched_source_bytes": 65,
+                "output_bytes": 140
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "links.batch",
+      "title": "Migrate eight different content pages with the same URL rules",
+      "kind": "product",
+      "primary": true,
+      "operation": "replace",
+      "description": "One publishing job updates eight saved pages; the same migration configuration is reused within the job.",
+      "origin": "Project-authored deterministic workload model; not a production trace.",
+      "contract": "Exact case-sensitive bytes; no word-boundary rules, normalization, or case folding.",
+      "lifetime": {
+        "dictionary_scope": "migration_rules",
+        "values_change_between_jobs": false,
+        "modes": [
+          {
+            "id": "request",
+            "label": "Complete request, including dictionary preparation"
+          },
+          {
+            "id": "worker",
+            "label": "Worker with the same dictionary already prepared"
+          }
+        ],
+        "pcre_note": "Pattern keys can remain cached when only replacement values change; report warm and fresh-process compilation separately."
+      },
+      "methods": [
+        "strtr",
+        "preg_replace_callback",
+        "replacer",
+        "str_replace"
+      ],
+      "str_replace_note": "Longest-first sequential replacement agrees on all saved inputs; this is not a general equivalence.",
+      "jobs": [
+        {
+          "id": "publishing-batch",
+          "dictionary": {
+            "http://old.example.test/help/returns": "https://shop.example.test/returns",
+            "http://old.example.test/help": "https://help.example.test/",
+            "http://old.example.test": "https://shop.example.test",
+            "https://cdn-old.example.test/images/": "https://assets.example.test/img/",
+            "https://docs-old.example.test/v1/": "https://docs.example.test/current/",
+            "https://old.example.test/account": "https://shop.example.test/account",
+            "http://old.example.test/search?q=": "https://shop.example.test/find?query=",
+            "https://old.example.test/contact": "https://help.example.test/contact"
+          },
+          "documents": [
+            {
+              "id": "publishing-batch-1",
+              "text": "<article><h1>Return instructions</h1><p>Please open <a href=\"http://old.example.test/help/returns\">the return form</a> before posting your parcel. Include the order number and keep the postal receipt.</p></article>",
+              "expected": {
+                "text": "<article><h1>Return instructions</h1><p>Please open <a href=\"https://shop.example.test/returns\">the return form</a> before posting your parcel. Include the order number and keep the postal receipt.</p></article>",
+                "replacements": 1
+              },
+              "facts": {
+                "bytes": 214,
+                "occurrences": 3,
+                "distinct_keywords": 3,
+                "first_match_offset": 61,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 1,
+                "matched_source_bytes": 36,
+                "output_bytes": 211
+              }
+            },
+            {
+              "id": "publishing-batch-2",
+              "text": "<p>For account changes use <a href=\"https://old.example.test/account\">your profile</a>. If the reset email is missing, check the help page at http://old.example.test/help.</p>",
+              "expected": {
+                "text": "<p>For account changes use <a href=\"https://shop.example.test/account\">your profile</a>. If the reset email is missing, check the help page at https://help.example.test/.</p>",
+                "replacements": 2
+              },
+              "facts": {
+                "bytes": 175,
+                "occurrences": 3,
+                "distinct_keywords": 3,
+                "first_match_offset": 36,
+                "first_matching_dictionary_rank": 1,
+                "selected_matches": 2,
+                "matched_source_bytes": 60,
+                "output_bytes": 174
+              }
+            },
+            {
+              "id": "publishing-batch-3",
+              "text": "<figure><img src=\"https://cdn-old.example.test/images/cable-front.webp\" alt=\"Cable connector\"><figcaption>The connector has a marked top edge.</figcaption></figure>",
+              "expected": {
+                "text": "<figure><img src=\"https://assets.example.test/img/cable-front.webp\" alt=\"Cable connector\"><figcaption>The connector has a marked top edge.</figcaption></figure>",
+                "replacements": 1
+              },
+              "facts": {
+                "bytes": 164,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 18,
+                "first_matching_dictionary_rank": 3,
+                "selected_matches": 1,
+                "matched_source_bytes": 36,
+                "output_bytes": 160
+              }
+            },
+            {
+              "id": "publishing-batch-4",
+              "text": "The integration guide is at https://docs-old.example.test/v1/orders.html. Its examples use a test account and never require a live payment token.",
+              "expected": {
+                "text": "The integration guide is at https://docs.example.test/current/orders.html. Its examples use a test account and never require a live payment token.",
+                "replacements": 1
+              },
+              "facts": {
+                "bytes": 145,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 28,
+                "first_matching_dictionary_rank": 4,
+                "selected_matches": 1,
+                "matched_source_bytes": 33,
+                "output_bytes": 146
+              }
+            },
+            {
+              "id": "publishing-batch-5",
+              "text": "<p>Search the archived catalogue: <a href=\"http://old.example.test/search?q=desk+lamp\">desk lamps</a>. Updated stock appears on the product page.</p>",
+              "expected": {
+                "text": "<p>Search the archived catalogue: <a href=\"https://shop.example.test/find?query=desk+lamp\">desk lamps</a>. Updated stock appears on the product page.</p>",
+                "replacements": 1
+              },
+              "facts": {
+                "bytes": 149,
+                "occurrences": 2,
+                "distinct_keywords": 2,
+                "first_match_offset": 43,
+                "first_matching_dictionary_rank": 2,
+                "selected_matches": 1,
+                "matched_source_bytes": 33,
+                "output_bytes": 153
+              }
+            },
+            {
+              "id": "publishing-batch-6",
+              "text": "<p>The receipt footer still points to http://old.example.test. The customer service form is at https://old.example.test/contact.</p>",
+              "expected": {
+                "text": "<p>The receipt footer still points to https://shop.example.test. The customer service form is at https://help.example.test/contact.</p>",
+                "replacements": 2
+              },
+              "facts": {
+                "bytes": 132,
+                "occurrences": 2,
+                "distinct_keywords": 2,
+                "first_match_offset": 38,
+                "first_matching_dictionary_rank": 2,
+                "selected_matches": 2,
+                "matched_source_bytes": 55,
+                "output_bytes": 135
+              }
+            },
+            {
+              "id": "publishing-batch-7",
+              "text": "<p>Packaging photos are stored at https://cdn-old.example.test/images/box-side.jpg. Read http://old.example.test/help/returns if the parcel was damaged.</p>",
+              "expected": {
+                "text": "<p>Packaging photos are stored at https://assets.example.test/img/box-side.jpg. Read https://shop.example.test/returns if the parcel was damaged.</p>",
+                "replacements": 2
+              },
+              "facts": {
+                "bytes": 156,
+                "occurrences": 4,
+                "distinct_keywords": 4,
+                "first_match_offset": 34,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 2,
+                "matched_source_bytes": 72,
+                "output_bytes": 149
+              }
+            },
+            {
+              "id": "publishing-batch-8",
+              "text": "API documentation: https://docs-old.example.test/v1/refunds.html. Customer accounts remain accessible at https://old.example.test/account.",
+              "expected": {
+                "text": "API documentation: https://docs.example.test/current/refunds.html. Customer accounts remain accessible at https://shop.example.test/account.",
+                "replacements": 2
+              },
+              "facts": {
+                "bytes": 138,
+                "occurrences": 2,
+                "distinct_keywords": 2,
+                "first_match_offset": 19,
+                "first_matching_dictionary_rank": 4,
+                "selected_matches": 2,
+                "matched_source_bytes": 65,
+                "output_bytes": 140
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

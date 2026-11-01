@@ -1,0 +1,479 @@
+{
+  "schema": 1,
+  "suite": "tenant-text",
+  "cases": [
+    {
+      "id": "tenant.notice",
+      "title": "Expand fixed tenant labels in one shop notice",
+      "kind": "product",
+      "primary": true,
+      "operation": "replace",
+      "description": "Six tenant-wide values reused across different notices. No per-customer values are in the map.",
+      "origin": "Project-authored deterministic workload model; not a production trace.",
+      "contract": "Exact case-sensitive bytes; no word-boundary rules, normalization, or case folding.",
+      "lifetime": {
+        "dictionary_scope": "tenant_configuration",
+        "values_change_between_jobs": false,
+        "modes": [
+          {
+            "id": "request",
+            "label": "Complete request, including dictionary preparation"
+          },
+          {
+            "id": "worker",
+            "label": "Worker with the same dictionary already prepared"
+          }
+        ],
+        "pcre_note": "Pattern keys can remain cached when only replacement values change; report warm and fresh-process compilation separately."
+      },
+      "methods": [
+        "strtr",
+        "preg_replace_callback",
+        "replacer",
+        "str_replace"
+      ],
+      "str_replace_note": "Longest-first sequential replacement agrees on all saved inputs; this is not a general equivalence.",
+      "jobs": [
+        {
+          "id": "notice-1",
+          "dictionary": {
+            "{{brand}}": "Orchard Supplies",
+            "{{support_email}}": "help@example.test",
+            "{{help_url}}": "https://help.example.test/",
+            "{{company}}": "Orchard Retail Ltd",
+            "{{returns_url}}": "https://shop.example.test/returns",
+            "{{account_url}}": "https://shop.example.test/account"
+          },
+          "documents": [
+            {
+              "id": "notice-1-1",
+              "text": "<section><h1>Welcome to {{brand}}</h1><p>Your basket is saved while you browse. Product availability is checked again at checkout.</p><p>Need advice? <a href=\"{{help_url}}\">Visit our help centre</a>.</p></section>",
+              "expected": {
+                "text": "<section><h1>Welcome to Orchard Supplies</h1><p>Your basket is saved while you browse. Product availability is checked again at checkout.</p><p>Need advice? <a href=\"https://help.example.test/\">Visit our help centre</a>.</p></section>",
+                "replacements": 2
+              },
+              "facts": {
+                "bytes": 213,
+                "occurrences": 2,
+                "distinct_keywords": 2,
+                "first_match_offset": 24,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 2,
+                "matched_source_bytes": 21,
+                "output_bytes": 234
+              }
+            }
+          ]
+        },
+        {
+          "id": "notice-2",
+          "dictionary": {
+            "{{brand}}": "Orchard Supplies",
+            "{{support_email}}": "help@example.test",
+            "{{help_url}}": "https://help.example.test/",
+            "{{company}}": "Orchard Retail Ltd",
+            "{{returns_url}}": "https://shop.example.test/returns",
+            "{{account_url}}": "https://shop.example.test/account"
+          },
+          "documents": [
+            {
+              "id": "notice-2-1",
+              "text": "<article><h1>Returns</h1><p>Unused items can be returned in their original packaging. Start your request at {{returns_url}} and include your order number.</p><p>Questions go to {{support_email}}.</p></article>",
+              "expected": {
+                "text": "<article><h1>Returns</h1><p>Unused items can be returned in their original packaging. Start your request at https://shop.example.test/returns and include your order number.</p><p>Questions go to help@example.test.</p></article>",
+                "replacements": 2
+              },
+              "facts": {
+                "bytes": 209,
+                "occurrences": 2,
+                "distinct_keywords": 2,
+                "first_match_offset": 108,
+                "first_matching_dictionary_rank": 1,
+                "selected_matches": 2,
+                "matched_source_bytes": 32,
+                "output_bytes": 227
+              }
+            }
+          ]
+        },
+        {
+          "id": "notice-3",
+          "dictionary": {
+            "{{brand}}": "Orchard Supplies",
+            "{{support_email}}": "help@example.test",
+            "{{help_url}}": "https://help.example.test/",
+            "{{company}}": "Orchard Retail Ltd",
+            "{{returns_url}}": "https://shop.example.test/returns",
+            "{{account_url}}": "https://shop.example.test/account"
+          },
+          "documents": [
+            {
+              "id": "notice-3-1",
+              "text": "<aside><h2>Account access</h2><p>Open {{account_url}} to review previous orders and delivery addresses. Password reset links expire after use.</p><p>{{brand}} support: {{support_email}}</p></aside>",
+              "expected": {
+                "text": "<aside><h2>Account access</h2><p>Open https://shop.example.test/account to review previous orders and delivery addresses. Password reset links expire after use.</p><p>Orchard Supplies support: help@example.test</p></aside>",
+                "replacements": 3
+              },
+              "facts": {
+                "bytes": 197,
+                "occurrences": 3,
+                "distinct_keywords": 3,
+                "first_match_offset": 38,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 3,
+                "matched_source_bytes": 41,
+                "output_bytes": 222
+              }
+            }
+          ]
+        },
+        {
+          "id": "notice-4",
+          "dictionary": {
+            "{{brand}}": "Orchard Supplies",
+            "{{support_email}}": "help@example.test",
+            "{{help_url}}": "https://help.example.test/",
+            "{{company}}": "Orchard Retail Ltd",
+            "{{returns_url}}": "https://shop.example.test/returns",
+            "{{account_url}}": "https://shop.example.test/account"
+          },
+          "documents": [
+            {
+              "id": "notice-4-1",
+              "text": "<footer><p>Sold by {{company}}. Order history is available in <a href=\"{{account_url}}\">your account</a>.</p><p><a href=\"{{help_url}}\">Help</a> and <a href=\"{{returns_url}}\">returns</a>.</p></footer>",
+              "expected": {
+                "text": "<footer><p>Sold by Orchard Retail Ltd. Order history is available in <a href=\"https://shop.example.test/account\">your account</a>.</p><p><a href=\"https://help.example.test/\">Help</a> and <a href=\"https://shop.example.test/returns\">returns</a>.</p></footer>",
+                "replacements": 4
+              },
+              "facts": {
+                "bytes": 199,
+                "occurrences": 4,
+                "distinct_keywords": 4,
+                "first_match_offset": 19,
+                "first_matching_dictionary_rank": 2,
+                "selected_matches": 4,
+                "matched_source_bytes": 53,
+                "output_bytes": 256
+              }
+            }
+          ]
+        },
+        {
+          "id": "notice-5",
+          "dictionary": {
+            "{{brand}}": "Orchard Supplies",
+            "{{support_email}}": "help@example.test",
+            "{{help_url}}": "https://help.example.test/",
+            "{{company}}": "Orchard Retail Ltd",
+            "{{returns_url}}": "https://shop.example.test/returns",
+            "{{account_url}}": "https://shop.example.test/account"
+          },
+          "documents": [
+            {
+              "id": "notice-5-1",
+              "text": "Delivery notice from {{brand}}: we send a tracking link after dispatch. Please keep the packaging until the contents have been checked. Help: {{help_url}}",
+              "expected": {
+                "text": "Delivery notice from Orchard Supplies: we send a tracking link after dispatch. Please keep the packaging until the contents have been checked. Help: https://help.example.test/",
+                "replacements": 2
+              },
+              "facts": {
+                "bytes": 154,
+                "occurrences": 2,
+                "distinct_keywords": 2,
+                "first_match_offset": 21,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 2,
+                "matched_source_bytes": 21,
+                "output_bytes": 175
+              }
+            }
+          ]
+        },
+        {
+          "id": "notice-6",
+          "dictionary": {
+            "{{brand}}": "Orchard Supplies",
+            "{{support_email}}": "help@example.test",
+            "{{help_url}}": "https://help.example.test/",
+            "{{company}}": "Orchard Retail Ltd",
+            "{{returns_url}}": "https://shop.example.test/returns",
+            "{{account_url}}": "https://shop.example.test/account"
+          },
+          "documents": [
+            {
+              "id": "notice-6-1",
+              "text": "Your feedback helps {{brand}} improve product instructions. Photos are optional. Do not include payment details in a public review. Contact {{support_email}} for private assistance.",
+              "expected": {
+                "text": "Your feedback helps Orchard Supplies improve product instructions. Photos are optional. Do not include payment details in a public review. Contact help@example.test for private assistance.",
+                "replacements": 2
+              },
+              "facts": {
+                "bytes": 181,
+                "occurrences": 2,
+                "distinct_keywords": 2,
+                "first_match_offset": 20,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 2,
+                "matched_source_bytes": 26,
+                "output_bytes": 188
+              }
+            }
+          ]
+        },
+        {
+          "id": "notice-7",
+          "dictionary": {
+            "{{brand}}": "Orchard Supplies",
+            "{{support_email}}": "help@example.test",
+            "{{help_url}}": "https://help.example.test/",
+            "{{company}}": "Orchard Retail Ltd",
+            "{{returns_url}}": "https://shop.example.test/returns",
+            "{{account_url}}": "https://shop.example.test/account"
+          },
+          "documents": [
+            {
+              "id": "notice-7-1",
+              "text": "<div class=\"notice\">The current shop operator is {{company}}. For delivery questions use {{support_email}}. Existing orders remain visible at {{account_url}}.</div>",
+              "expected": {
+                "text": "<div class=\"notice\">The current shop operator is Orchard Retail Ltd. For delivery questions use help@example.test. Existing orders remain visible at https://shop.example.test/account.</div>",
+                "replacements": 3
+              },
+              "facts": {
+                "bytes": 164,
+                "occurrences": 3,
+                "distinct_keywords": 3,
+                "first_match_offset": 49,
+                "first_matching_dictionary_rank": 1,
+                "selected_matches": 3,
+                "matched_source_bytes": 43,
+                "output_bytes": 189
+              }
+            }
+          ]
+        },
+        {
+          "id": "notice-8",
+          "dictionary": {
+            "{{brand}}": "Orchard Supplies",
+            "{{support_email}}": "help@example.test",
+            "{{help_url}}": "https://help.example.test/",
+            "{{company}}": "Orchard Retail Ltd",
+            "{{returns_url}}": "https://shop.example.test/returns",
+            "{{account_url}}": "https://shop.example.test/account"
+          },
+          "documents": [
+            {
+              "id": "notice-8-1",
+              "text": "Thank you for choosing {{brand}}. If an item needs to be exchanged, read the instructions at {{returns_url}} before sending the parcel. {{company}}",
+              "expected": {
+                "text": "Thank you for choosing Orchard Supplies. If an item needs to be exchanged, read the instructions at https://shop.example.test/returns before sending the parcel. Orchard Retail Ltd",
+                "replacements": 3
+              },
+              "facts": {
+                "bytes": 147,
+                "occurrences": 3,
+                "distinct_keywords": 3,
+                "first_match_offset": 23,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 3,
+                "matched_source_bytes": 35,
+                "output_bytes": 179
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tenant.pages",
+      "title": "Publish eight different shop pages using one tenant configuration",
+      "kind": "product",
+      "primary": true,
+      "operation": "replace",
+      "description": "One job is a batch of eight distinct page fragments sharing six tenant values. No paragraph is repeated to reach a target size.",
+      "origin": "Project-authored deterministic workload model; not a production trace.",
+      "contract": "Exact case-sensitive bytes; no word-boundary rules, normalization, or case folding.",
+      "lifetime": {
+        "dictionary_scope": "tenant_configuration",
+        "values_change_between_jobs": false,
+        "modes": [
+          {
+            "id": "request",
+            "label": "Complete request, including dictionary preparation"
+          },
+          {
+            "id": "worker",
+            "label": "Worker with the same dictionary already prepared"
+          }
+        ],
+        "pcre_note": "Pattern keys can remain cached when only replacement values change; report warm and fresh-process compilation separately."
+      },
+      "methods": [
+        "strtr",
+        "preg_replace_callback",
+        "replacer",
+        "str_replace"
+      ],
+      "str_replace_note": "Longest-first sequential replacement agrees on all saved inputs; this is not a general equivalence.",
+      "jobs": [
+        {
+          "id": "page-batch",
+          "dictionary": {
+            "{{brand}}": "Orchard Supplies",
+            "{{support_email}}": "help@example.test",
+            "{{help_url}}": "https://help.example.test/",
+            "{{company}}": "Orchard Retail Ltd",
+            "{{returns_url}}": "https://shop.example.test/returns",
+            "{{account_url}}": "https://shop.example.test/account"
+          },
+          "documents": [
+            {
+              "id": "page-batch-1",
+              "text": "<section><h1>Welcome to {{brand}}</h1><p>Your basket is saved while you browse. Product availability is checked again at checkout.</p><p>Need advice? <a href=\"{{help_url}}\">Visit our help centre</a>.</p></section>",
+              "expected": {
+                "text": "<section><h1>Welcome to Orchard Supplies</h1><p>Your basket is saved while you browse. Product availability is checked again at checkout.</p><p>Need advice? <a href=\"https://help.example.test/\">Visit our help centre</a>.</p></section>",
+                "replacements": 2
+              },
+              "facts": {
+                "bytes": 213,
+                "occurrences": 2,
+                "distinct_keywords": 2,
+                "first_match_offset": 24,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 2,
+                "matched_source_bytes": 21,
+                "output_bytes": 234
+              }
+            },
+            {
+              "id": "page-batch-2",
+              "text": "<article><h1>Returns</h1><p>Unused items can be returned in their original packaging. Start your request at {{returns_url}} and include your order number.</p><p>Questions go to {{support_email}}.</p></article>",
+              "expected": {
+                "text": "<article><h1>Returns</h1><p>Unused items can be returned in their original packaging. Start your request at https://shop.example.test/returns and include your order number.</p><p>Questions go to help@example.test.</p></article>",
+                "replacements": 2
+              },
+              "facts": {
+                "bytes": 209,
+                "occurrences": 2,
+                "distinct_keywords": 2,
+                "first_match_offset": 108,
+                "first_matching_dictionary_rank": 1,
+                "selected_matches": 2,
+                "matched_source_bytes": 32,
+                "output_bytes": 227
+              }
+            },
+            {
+              "id": "page-batch-3",
+              "text": "<aside><h2>Account access</h2><p>Open {{account_url}} to review previous orders and delivery addresses. Password reset links expire after use.</p><p>{{brand}} support: {{support_email}}</p></aside>",
+              "expected": {
+                "text": "<aside><h2>Account access</h2><p>Open https://shop.example.test/account to review previous orders and delivery addresses. Password reset links expire after use.</p><p>Orchard Supplies support: help@example.test</p></aside>",
+                "replacements": 3
+              },
+              "facts": {
+                "bytes": 197,
+                "occurrences": 3,
+                "distinct_keywords": 3,
+                "first_match_offset": 38,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 3,
+                "matched_source_bytes": 41,
+                "output_bytes": 222
+              }
+            },
+            {
+              "id": "page-batch-4",
+              "text": "<footer><p>Sold by {{company}}. Order history is available in <a href=\"{{account_url}}\">your account</a>.</p><p><a href=\"{{help_url}}\">Help</a> and <a href=\"{{returns_url}}\">returns</a>.</p></footer>",
+              "expected": {
+                "text": "<footer><p>Sold by Orchard Retail Ltd. Order history is available in <a href=\"https://shop.example.test/account\">your account</a>.</p><p><a href=\"https://help.example.test/\">Help</a> and <a href=\"https://shop.example.test/returns\">returns</a>.</p></footer>",
+                "replacements": 4
+              },
+              "facts": {
+                "bytes": 199,
+                "occurrences": 4,
+                "distinct_keywords": 4,
+                "first_match_offset": 19,
+                "first_matching_dictionary_rank": 2,
+                "selected_matches": 4,
+                "matched_source_bytes": 53,
+                "output_bytes": 256
+              }
+            },
+            {
+              "id": "page-batch-5",
+              "text": "Delivery notice from {{brand}}: we send a tracking link after dispatch. Please keep the packaging until the contents have been checked. Help: {{help_url}}",
+              "expected": {
+                "text": "Delivery notice from Orchard Supplies: we send a tracking link after dispatch. Please keep the packaging until the contents have been checked. Help: https://help.example.test/",
+                "replacements": 2
+              },
+              "facts": {
+                "bytes": 154,
+                "occurrences": 2,
+                "distinct_keywords": 2,
+                "first_match_offset": 21,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 2,
+                "matched_source_bytes": 21,
+                "output_bytes": 175
+              }
+            },
+            {
+              "id": "page-batch-6",
+              "text": "Your feedback helps {{brand}} improve product instructions. Photos are optional. Do not include payment details in a public review. Contact {{support_email}} for private assistance.",
+              "expected": {
+                "text": "Your feedback helps Orchard Supplies improve product instructions. Photos are optional. Do not include payment details in a public review. Contact help@example.test for private assistance.",
+                "replacements": 2
+              },
+              "facts": {
+                "bytes": 181,
+                "occurrences": 2,
+                "distinct_keywords": 2,
+                "first_match_offset": 20,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 2,
+                "matched_source_bytes": 26,
+                "output_bytes": 188
+              }
+            },
+            {
+              "id": "page-batch-7",
+              "text": "<div class=\"notice\">The current shop operator is {{company}}. For delivery questions use {{support_email}}. Existing orders remain visible at {{account_url}}.</div>",
+              "expected": {
+                "text": "<div class=\"notice\">The current shop operator is Orchard Retail Ltd. For delivery questions use help@example.test. Existing orders remain visible at https://shop.example.test/account.</div>",
+                "replacements": 3
+              },
+              "facts": {
+                "bytes": 164,
+                "occurrences": 3,
+                "distinct_keywords": 3,
+                "first_match_offset": 49,
+                "first_matching_dictionary_rank": 1,
+                "selected_matches": 3,
+                "matched_source_bytes": 43,
+                "output_bytes": 189
+              }
+            },
+            {
+              "id": "page-batch-8",
+              "text": "Thank you for choosing {{brand}}. If an item needs to be exchanged, read the instructions at {{returns_url}} before sending the parcel. {{company}}",
+              "expected": {
+                "text": "Thank you for choosing Orchard Supplies. If an item needs to be exchanged, read the instructions at https://shop.example.test/returns before sending the parcel. Orchard Retail Ltd",
+                "replacements": 3
+              },
+              "facts": {
+                "bytes": 147,
+                "occurrences": 3,
+                "distinct_keywords": 3,
+                "first_match_offset": 23,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 3,
+                "matched_source_bytes": 35,
+                "output_bytes": 179
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

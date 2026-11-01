@@ -1,0 +1,389 @@
+{
+  "schema": 1,
+  "suite": "synthetic",
+  "cases": [
+    {
+      "id": "control.prefix",
+      "title": "Synthetic control: 64 literals sharing a long prefix",
+      "kind": "synthetic",
+      "primary": false,
+      "operation": "replace",
+      "description": "Dictionary-shape control only; not an application workload. Two selected keys occur in distinct positions.",
+      "origin": "Project-authored deterministic workload model; not a production trace.",
+      "contract": "Exact case-sensitive bytes; no word-boundary rules, normalization, or case folding.",
+      "lifetime": {
+        "dictionary_scope": "control",
+        "values_change_between_jobs": false,
+        "modes": [
+          {
+            "id": "request",
+            "label": "Complete request, including dictionary preparation"
+          },
+          {
+            "id": "worker",
+            "label": "Worker with the same dictionary already prepared"
+          }
+        ],
+        "pcre_note": "Pattern keys can remain cached when only replacement values change; report warm and fresh-process compilation separately."
+      },
+      "methods": [
+        "strtr",
+        "preg_replace_callback",
+        "replacer",
+        "preg_replace"
+      ],
+      "str_replace_note": "Excluded: no equivalence with this replacement policy is claimed.",
+      "jobs": [
+        {
+          "id": "shape",
+          "dictionary": {
+            "same-component-same-component-same-component-0000": "[value]",
+            "same-component-same-component-same-component-0001": "[value]",
+            "same-component-same-component-same-component-0002": "[value]",
+            "same-component-same-component-same-component-0003": "[value]",
+            "same-component-same-component-same-component-0004": "[value]",
+            "same-component-same-component-same-component-0005": "[value]",
+            "same-component-same-component-same-component-0006": "[value]",
+            "same-component-same-component-same-component-0007": "[value]",
+            "same-component-same-component-same-component-0008": "[value]",
+            "same-component-same-component-same-component-0009": "[value]",
+            "same-component-same-component-same-component-000a": "[value]",
+            "same-component-same-component-same-component-000b": "[value]",
+            "same-component-same-component-same-component-000c": "[value]",
+            "same-component-same-component-same-component-000d": "[value]",
+            "same-component-same-component-same-component-000e": "[value]",
+            "same-component-same-component-same-component-000f": "[value]",
+            "same-component-same-component-same-component-0010": "[value]",
+            "same-component-same-component-same-component-0011": "[value]",
+            "same-component-same-component-same-component-0012": "[value]",
+            "same-component-same-component-same-component-0013": "[value]",
+            "same-component-same-component-same-component-0014": "[value]",
+            "same-component-same-component-same-component-0015": "[value]",
+            "same-component-same-component-same-component-0016": "[value]",
+            "same-component-same-component-same-component-0017": "[value]",
+            "same-component-same-component-same-component-0018": "[value]",
+            "same-component-same-component-same-component-0019": "[value]",
+            "same-component-same-component-same-component-001a": "[value]",
+            "same-component-same-component-same-component-001b": "[value]",
+            "same-component-same-component-same-component-001c": "[value]",
+            "same-component-same-component-same-component-001d": "[value]",
+            "same-component-same-component-same-component-001e": "[value]",
+            "same-component-same-component-same-component-001f": "[value]",
+            "same-component-same-component-same-component-0020": "[value]",
+            "same-component-same-component-same-component-0021": "[value]",
+            "same-component-same-component-same-component-0022": "[value]",
+            "same-component-same-component-same-component-0023": "[value]",
+            "same-component-same-component-same-component-0024": "[value]",
+            "same-component-same-component-same-component-0025": "[value]",
+            "same-component-same-component-same-component-0026": "[value]",
+            "same-component-same-component-same-component-0027": "[value]",
+            "same-component-same-component-same-component-0028": "[value]",
+            "same-component-same-component-same-component-0029": "[value]",
+            "same-component-same-component-same-component-002a": "[value]",
+            "same-component-same-component-same-component-002b": "[value]",
+            "same-component-same-component-same-component-002c": "[value]",
+            "same-component-same-component-same-component-002d": "[value]",
+            "same-component-same-component-same-component-002e": "[value]",
+            "same-component-same-component-same-component-002f": "[value]",
+            "same-component-same-component-same-component-0030": "[value]",
+            "same-component-same-component-same-component-0031": "[value]",
+            "same-component-same-component-same-component-0032": "[value]",
+            "same-component-same-component-same-component-0033": "[value]",
+            "same-component-same-component-same-component-0034": "[value]",
+            "same-component-same-component-same-component-0035": "[value]",
+            "same-component-same-component-same-component-0036": "[value]",
+            "same-component-same-component-same-component-0037": "[value]",
+            "same-component-same-component-same-component-0038": "[value]",
+            "same-component-same-component-same-component-0039": "[value]",
+            "same-component-same-component-same-component-003a": "[value]",
+            "same-component-same-component-same-component-003b": "[value]",
+            "same-component-same-component-same-component-003c": "[value]",
+            "same-component-same-component-same-component-003d": "[value]",
+            "same-component-same-component-same-component-003e": "[value]",
+            "same-component-same-component-same-component-003f": "[value]"
+          },
+          "documents": [
+            {
+              "id": "shape-1",
+              "text": "First value: same-component-same-component-same-component-0007. This is a saved control input. Last value: same-component-same-component-same-component-0033.",
+              "expected": {
+                "text": "First value: [value]. This is a saved control input. Last value: [value].",
+                "replacements": 2
+              },
+              "facts": {
+                "bytes": 157,
+                "occurrences": 2,
+                "distinct_keywords": 2,
+                "first_match_offset": 13,
+                "first_matching_dictionary_rank": 7,
+                "selected_matches": 2,
+                "matched_source_bytes": 98,
+                "output_bytes": 73
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "control.suffix",
+      "title": "Synthetic control: 64 literals sharing a long suffix",
+      "kind": "synthetic",
+      "primary": false,
+      "operation": "replace",
+      "description": "Dictionary-shape control only; not an application workload. Two selected keys occur in distinct positions.",
+      "origin": "Project-authored deterministic workload model; not a production trace.",
+      "contract": "Exact case-sensitive bytes; no word-boundary rules, normalization, or case folding.",
+      "lifetime": {
+        "dictionary_scope": "control",
+        "values_change_between_jobs": false,
+        "modes": [
+          {
+            "id": "request",
+            "label": "Complete request, including dictionary preparation"
+          },
+          {
+            "id": "worker",
+            "label": "Worker with the same dictionary already prepared"
+          }
+        ],
+        "pcre_note": "Pattern keys can remain cached when only replacement values change; report warm and fresh-process compilation separately."
+      },
+      "methods": [
+        "strtr",
+        "preg_replace_callback",
+        "replacer",
+        "preg_replace"
+      ],
+      "str_replace_note": "Excluded: no equivalence with this replacement policy is claimed.",
+      "jobs": [
+        {
+          "id": "shape",
+          "dictionary": {
+            "0000same-component-same-component-same-component-": "[value]",
+            "0001same-component-same-component-same-component-": "[value]",
+            "0002same-component-same-component-same-component-": "[value]",
+            "0003same-component-same-component-same-component-": "[value]",
+            "0004same-component-same-component-same-component-": "[value]",
+            "0005same-component-same-component-same-component-": "[value]",
+            "0006same-component-same-component-same-component-": "[value]",
+            "0007same-component-same-component-same-component-": "[value]",
+            "0008same-component-same-component-same-component-": "[value]",
+            "0009same-component-same-component-same-component-": "[value]",
+            "000asame-component-same-component-same-component-": "[value]",
+            "000bsame-component-same-component-same-component-": "[value]",
+            "000csame-component-same-component-same-component-": "[value]",
+            "000dsame-component-same-component-same-component-": "[value]",
+            "000esame-component-same-component-same-component-": "[value]",
+            "000fsame-component-same-component-same-component-": "[value]",
+            "0010same-component-same-component-same-component-": "[value]",
+            "0011same-component-same-component-same-component-": "[value]",
+            "0012same-component-same-component-same-component-": "[value]",
+            "0013same-component-same-component-same-component-": "[value]",
+            "0014same-component-same-component-same-component-": "[value]",
+            "0015same-component-same-component-same-component-": "[value]",
+            "0016same-component-same-component-same-component-": "[value]",
+            "0017same-component-same-component-same-component-": "[value]",
+            "0018same-component-same-component-same-component-": "[value]",
+            "0019same-component-same-component-same-component-": "[value]",
+            "001asame-component-same-component-same-component-": "[value]",
+            "001bsame-component-same-component-same-component-": "[value]",
+            "001csame-component-same-component-same-component-": "[value]",
+            "001dsame-component-same-component-same-component-": "[value]",
+            "001esame-component-same-component-same-component-": "[value]",
+            "001fsame-component-same-component-same-component-": "[value]",
+            "0020same-component-same-component-same-component-": "[value]",
+            "0021same-component-same-component-same-component-": "[value]",
+            "0022same-component-same-component-same-component-": "[value]",
+            "0023same-component-same-component-same-component-": "[value]",
+            "0024same-component-same-component-same-component-": "[value]",
+            "0025same-component-same-component-same-component-": "[value]",
+            "0026same-component-same-component-same-component-": "[value]",
+            "0027same-component-same-component-same-component-": "[value]",
+            "0028same-component-same-component-same-component-": "[value]",
+            "0029same-component-same-component-same-component-": "[value]",
+            "002asame-component-same-component-same-component-": "[value]",
+            "002bsame-component-same-component-same-component-": "[value]",
+            "002csame-component-same-component-same-component-": "[value]",
+            "002dsame-component-same-component-same-component-": "[value]",
+            "002esame-component-same-component-same-component-": "[value]",
+            "002fsame-component-same-component-same-component-": "[value]",
+            "0030same-component-same-component-same-component-": "[value]",
+            "0031same-component-same-component-same-component-": "[value]",
+            "0032same-component-same-component-same-component-": "[value]",
+            "0033same-component-same-component-same-component-": "[value]",
+            "0034same-component-same-component-same-component-": "[value]",
+            "0035same-component-same-component-same-component-": "[value]",
+            "0036same-component-same-component-same-component-": "[value]",
+            "0037same-component-same-component-same-component-": "[value]",
+            "0038same-component-same-component-same-component-": "[value]",
+            "0039same-component-same-component-same-component-": "[value]",
+            "003asame-component-same-component-same-component-": "[value]",
+            "003bsame-component-same-component-same-component-": "[value]",
+            "003csame-component-same-component-same-component-": "[value]",
+            "003dsame-component-same-component-same-component-": "[value]",
+            "003esame-component-same-component-same-component-": "[value]",
+            "003fsame-component-same-component-same-component-": "[value]"
+          },
+          "documents": [
+            {
+              "id": "shape-1",
+              "text": "First value: 0007same-component-same-component-same-component-. This is a saved control input. Last value: 0033same-component-same-component-same-component-.",
+              "expected": {
+                "text": "First value: [value]. This is a saved control input. Last value: [value].",
+                "replacements": 2
+              },
+              "facts": {
+                "bytes": 157,
+                "occurrences": 2,
+                "distinct_keywords": 2,
+                "first_match_offset": 13,
+                "first_matching_dictionary_rank": 7,
+                "selected_matches": 2,
+                "matched_source_bytes": 98,
+                "output_bytes": 73
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "control.overlaps",
+      "title": "Synthetic control: nested repeated-byte literals",
+      "kind": "synthetic",
+      "primary": false,
+      "operation": "replace",
+      "description": "Nested-key control for longest-match selection; intentionally repetitive and excluded from product summaries.",
+      "origin": "Project-authored deterministic workload model; not a production trace.",
+      "contract": "Exact case-sensitive bytes; no word-boundary rules, normalization, or case folding.",
+      "lifetime": {
+        "dictionary_scope": "control",
+        "values_change_between_jobs": false,
+        "modes": [
+          {
+            "id": "request",
+            "label": "Complete request, including dictionary preparation"
+          },
+          {
+            "id": "worker",
+            "label": "Worker with the same dictionary already prepared"
+          }
+        ],
+        "pcre_note": "Pattern keys can remain cached when only replacement values change; report warm and fresh-process compilation separately."
+      },
+      "methods": [
+        "strtr",
+        "preg_replace_callback",
+        "replacer",
+        "preg_replace"
+      ],
+      "str_replace_note": "Excluded: no equivalence with this replacement policy is claimed.",
+      "jobs": [
+        {
+          "id": "overlap",
+          "dictionary": {
+            "a": "X",
+            "aa": "X",
+            "aaa": "X",
+            "aaaa": "X",
+            "aaaaa": "X",
+            "aaaaaa": "X",
+            "aaaaaaa": "X",
+            "aaaaaaaa": "X",
+            "aaaaaaaaa": "X",
+            "aaaaaaaaaa": "X",
+            "aaaaaaaaaaa": "X",
+            "aaaaaaaaaaaa": "X",
+            "aaaaaaaaaaaaa": "X",
+            "aaaaaaaaaaaaaa": "X",
+            "aaaaaaaaaaaaaaa": "X",
+            "aaaaaaaaaaaaaaaa": "X"
+          },
+          "documents": [
+            {
+              "id": "overlap-1",
+              "text": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "expected": {
+                "text": "XXXXXXXXbXX",
+                "replacements": 10
+              },
+              "facts": {
+                "bytes": 160,
+                "occurrences": 2304,
+                "distinct_keywords": 16,
+                "first_match_offset": 0,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 10,
+                "matched_source_bytes": 159,
+                "output_bytes": 11
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "control.escaping",
+      "title": "Correctness control: regex punctuation and literal replacement bytes",
+      "kind": "synthetic",
+      "primary": false,
+      "operation": "replace",
+      "description": "Escaping check: keys contain regex metacharacters; values contain dollar signs and backslashes. Callback replacement must preserve them literally.",
+      "origin": "Project-authored deterministic workload model; not a production trace.",
+      "contract": "Exact case-sensitive bytes; no word-boundary rules, normalization, or case folding.",
+      "lifetime": {
+        "dictionary_scope": "control",
+        "values_change_between_jobs": false,
+        "modes": [
+          {
+            "id": "request",
+            "label": "Complete request, including dictionary preparation"
+          },
+          {
+            "id": "worker",
+            "label": "Worker with the same dictionary already prepared"
+          }
+        ],
+        "pcre_note": "Pattern keys can remain cached when only replacement values change; report warm and fresh-process compilation separately."
+      },
+      "methods": [
+        "strtr",
+        "preg_replace_callback",
+        "replacer"
+      ],
+      "str_replace_note": "Excluded: no equivalence with this replacement policy is claimed.",
+      "jobs": [
+        {
+          "id": "escaping",
+          "dictionary": {
+            "C++": "$1",
+            "v1.2": "\\release",
+            "[id]": "~value~",
+            "a|b": "kept"
+          },
+          "documents": [
+            {
+              "id": "escaping-1",
+              "text": "C++ v1.2 [id] a|b; C+ and v1x2 must stay unchanged.",
+              "expected": {
+                "text": "$1 \\release ~value~ kept; C+ and v1x2 must stay unchanged.",
+                "replacements": 4
+              },
+              "facts": {
+                "bytes": 51,
+                "occurrences": 4,
+                "distinct_keywords": 4,
+                "first_match_offset": 0,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 4,
+                "matched_source_bytes": 14,
+                "output_bytes": 58
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

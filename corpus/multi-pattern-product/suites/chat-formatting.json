@@ -1,0 +1,518 @@
+{
+  "schema": 1,
+  "suite": "chat-formatting",
+  "cases": [
+    {
+      "id": "chat.plain",
+      "title": "Check plain support replies for configured emoticons",
+      "kind": "product",
+      "primary": true,
+      "operation": "replace",
+      "description": "Twelve literal chat conventions; the ordinary reply has none. No parsing or word-boundary logic is implied.",
+      "origin": "Project-authored deterministic workload model; not a production trace.",
+      "contract": "Exact case-sensitive bytes; no word-boundary rules, normalization, or case folding.",
+      "lifetime": {
+        "dictionary_scope": "chat_format_rules",
+        "values_change_between_jobs": false,
+        "modes": [
+          {
+            "id": "request",
+            "label": "Complete request, including dictionary preparation"
+          },
+          {
+            "id": "worker",
+            "label": "Worker with the same dictionary already prepared"
+          }
+        ],
+        "pcre_note": "Pattern keys can remain cached when only replacement values change; report warm and fresh-process compilation separately."
+      },
+      "methods": [
+        "strtr",
+        "preg_replace_callback",
+        "replacer",
+        "str_replace"
+      ],
+      "str_replace_note": "Longest-first sequential replacement agrees on all saved inputs; this is not a general equivalence.",
+      "jobs": [
+        {
+          "id": "reply-1",
+          "dictionary": {
+            ":))": "😄",
+            ":)": "🙂",
+            ":-)": "🙂",
+            ":(": "🙁",
+            ":-(": "🙁",
+            ";-)": "😉",
+            ";)": "😉",
+            ":D": "😃",
+            ":-D": "😃",
+            ":P": "😛",
+            "<3": "❤️",
+            "(^_^)": "😊"
+          },
+          "documents": [
+            {
+              "id": "reply-1-1",
+              "text": "Thank you for the update. The delivery address has been corrected.",
+              "expected": {
+                "text": "Thank you for the update. The delivery address has been corrected.",
+                "replacements": 0
+              },
+              "facts": {
+                "bytes": 66,
+                "occurrences": 0,
+                "distinct_keywords": 0,
+                "first_match_offset": null,
+                "first_matching_dictionary_rank": null,
+                "selected_matches": 0,
+                "matched_source_bytes": 0,
+                "output_bytes": 66
+              }
+            }
+          ]
+        },
+        {
+          "id": "reply-2",
+          "dictionary": {
+            ":))": "😄",
+            ":)": "🙂",
+            ":-)": "🙂",
+            ":(": "🙁",
+            ":-(": "🙁",
+            ";-)": "😉",
+            ";)": "😉",
+            ":D": "😃",
+            ":-D": "😃",
+            ":P": "😛",
+            "<3": "❤️",
+            "(^_^)": "😊"
+          },
+          "documents": [
+            {
+              "id": "reply-2-1",
+              "text": "We have attached a copy of your receipt. Please keep it for your records.",
+              "expected": {
+                "text": "We have attached a copy of your receipt. Please keep it for your records.",
+                "replacements": 0
+              },
+              "facts": {
+                "bytes": 73,
+                "occurrences": 0,
+                "distinct_keywords": 0,
+                "first_match_offset": null,
+                "first_matching_dictionary_rank": null,
+                "selected_matches": 0,
+                "matched_source_bytes": 0,
+                "output_bytes": 73
+              }
+            }
+          ]
+        },
+        {
+          "id": "reply-3",
+          "dictionary": {
+            ":))": "😄",
+            ":)": "🙂",
+            ":-)": "🙂",
+            ":(": "🙁",
+            ":-(": "🙁",
+            ";-)": "😉",
+            ";)": "😉",
+            ":D": "😃",
+            ":-D": "😃",
+            ":P": "😛",
+            "<3": "❤️",
+            "(^_^)": "😊"
+          },
+          "documents": [
+            {
+              "id": "reply-3-1",
+              "text": "The replacement part will be included in tomorrow's dispatch.",
+              "expected": {
+                "text": "The replacement part will be included in tomorrow's dispatch.",
+                "replacements": 0
+              },
+              "facts": {
+                "bytes": 61,
+                "occurrences": 0,
+                "distinct_keywords": 0,
+                "first_match_offset": null,
+                "first_matching_dictionary_rank": null,
+                "selected_matches": 0,
+                "matched_source_bytes": 0,
+                "output_bytes": 61
+              }
+            }
+          ]
+        },
+        {
+          "id": "reply-4",
+          "dictionary": {
+            ":))": "😄",
+            ":)": "🙂",
+            ":-)": "🙂",
+            ":(": "🙁",
+            ":-(": "🙁",
+            ";-)": "😉",
+            ";)": "😉",
+            ":D": "😃",
+            ":-D": "😃",
+            ":P": "😛",
+            "<3": "❤️",
+            "(^_^)": "😊"
+          },
+          "documents": [
+            {
+              "id": "reply-4-1",
+              "text": "Your parcel is ready for collection at the selected pickup point.",
+              "expected": {
+                "text": "Your parcel is ready for collection at the selected pickup point.",
+                "replacements": 0
+              },
+              "facts": {
+                "bytes": 65,
+                "occurrences": 0,
+                "distinct_keywords": 0,
+                "first_match_offset": null,
+                "first_matching_dictionary_rank": null,
+                "selected_matches": 0,
+                "matched_source_bytes": 0,
+                "output_bytes": 65
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "chat.emoticons",
+      "title": "Render configured emoticons in short customer replies",
+      "kind": "product",
+      "primary": true,
+      "operation": "replace",
+      "description": "Eight distinct short replies with one literal emoticon each; :)) must take priority over its :) prefix.",
+      "origin": "Project-authored deterministic workload model; not a production trace.",
+      "contract": "Exact case-sensitive bytes; no word-boundary rules, normalization, or case folding.",
+      "lifetime": {
+        "dictionary_scope": "chat_format_rules",
+        "values_change_between_jobs": false,
+        "modes": [
+          {
+            "id": "request",
+            "label": "Complete request, including dictionary preparation"
+          },
+          {
+            "id": "worker",
+            "label": "Worker with the same dictionary already prepared"
+          }
+        ],
+        "pcre_note": "Pattern keys can remain cached when only replacement values change; report warm and fresh-process compilation separately."
+      },
+      "methods": [
+        "strtr",
+        "preg_replace_callback",
+        "replacer",
+        "str_replace"
+      ],
+      "str_replace_note": "Longest-first sequential replacement agrees on all saved inputs; this is not a general equivalence.",
+      "jobs": [
+        {
+          "id": "reply-1",
+          "dictionary": {
+            ":))": "😄",
+            ":)": "🙂",
+            ":-)": "🙂",
+            ":(": "🙁",
+            ":-(": "🙁",
+            ";-)": "😉",
+            ";)": "😉",
+            ":D": "😃",
+            ":-D": "😃",
+            ":P": "😛",
+            "<3": "❤️",
+            "(^_^)": "😊"
+          },
+          "documents": [
+            {
+              "id": "reply-1-1",
+              "text": "Thanks for checking the address :) The courier can leave it with the receptionist.",
+              "expected": {
+                "text": "Thanks for checking the address 🙂 The courier can leave it with the receptionist.",
+                "replacements": 1
+              },
+              "facts": {
+                "bytes": 82,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 32,
+                "first_matching_dictionary_rank": 1,
+                "selected_matches": 1,
+                "matched_source_bytes": 2,
+                "output_bytes": 84
+              }
+            }
+          ]
+        },
+        {
+          "id": "reply-2",
+          "dictionary": {
+            ":))": "😄",
+            ":)": "🙂",
+            ":-)": "🙂",
+            ":(": "🙁",
+            ":-(": "🙁",
+            ";-)": "😉",
+            ";)": "😉",
+            ":D": "😃",
+            ":-D": "😃",
+            ":P": "😛",
+            "<3": "❤️",
+            "(^_^)": "😊"
+          },
+          "documents": [
+            {
+              "id": "reply-2-1",
+              "text": "That fixed the problem :D I can download the invoice now. Thank you!",
+              "expected": {
+                "text": "That fixed the problem 😃 I can download the invoice now. Thank you!",
+                "replacements": 1
+              },
+              "facts": {
+                "bytes": 68,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 23,
+                "first_matching_dictionary_rank": 7,
+                "selected_matches": 1,
+                "matched_source_bytes": 2,
+                "output_bytes": 70
+              }
+            }
+          ]
+        },
+        {
+          "id": "reply-3",
+          "dictionary": {
+            ":))": "😄",
+            ":)": "🙂",
+            ":-)": "🙂",
+            ":(": "🙁",
+            ":-(": "🙁",
+            ";-)": "😉",
+            ";)": "😉",
+            ":D": "😃",
+            ":-D": "😃",
+            ":P": "😛",
+            "<3": "❤️",
+            "(^_^)": "😊"
+          },
+          "documents": [
+            {
+              "id": "reply-3-1",
+              "text": "The colour is perfect <3 I will order the matching cover next week.",
+              "expected": {
+                "text": "The colour is perfect ❤️ I will order the matching cover next week.",
+                "replacements": 1
+              },
+              "facts": {
+                "bytes": 67,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 22,
+                "first_matching_dictionary_rank": 10,
+                "selected_matches": 1,
+                "matched_source_bytes": 2,
+                "output_bytes": 71
+              }
+            }
+          ]
+        },
+        {
+          "id": "reply-4",
+          "dictionary": {
+            ":))": "😄",
+            ":)": "🙂",
+            ":-)": "🙂",
+            ":(": "🙁",
+            ":-(": "🙁",
+            ";-)": "😉",
+            ";)": "😉",
+            ":D": "😃",
+            ":-D": "😃",
+            ":P": "😛",
+            "<3": "❤️",
+            "(^_^)": "😊"
+          },
+          "documents": [
+            {
+              "id": "reply-4-1",
+              "text": "I selected the wrong pickup point :( Can it still be changed before dispatch?",
+              "expected": {
+                "text": "I selected the wrong pickup point 🙁 Can it still be changed before dispatch?",
+                "replacements": 1
+              },
+              "facts": {
+                "bytes": 77,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 34,
+                "first_matching_dictionary_rank": 3,
+                "selected_matches": 1,
+                "matched_source_bytes": 2,
+                "output_bytes": 79
+              }
+            }
+          ]
+        },
+        {
+          "id": "reply-5",
+          "dictionary": {
+            ":))": "😄",
+            ":)": "🙂",
+            ":-)": "🙂",
+            ":(": "🙁",
+            ":-(": "🙁",
+            ";-)": "😉",
+            ";)": "😉",
+            ":D": "😃",
+            ":-D": "😃",
+            ":P": "😛",
+            "<3": "❤️",
+            "(^_^)": "😊"
+          },
+          "documents": [
+            {
+              "id": "reply-5-1",
+              "text": "Your suggestion worked (^_^) The app remembers my saved filters again.",
+              "expected": {
+                "text": "Your suggestion worked 😊 The app remembers my saved filters again.",
+                "replacements": 1
+              },
+              "facts": {
+                "bytes": 70,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 23,
+                "first_matching_dictionary_rank": 11,
+                "selected_matches": 1,
+                "matched_source_bytes": 5,
+                "output_bytes": 69
+              }
+            }
+          ]
+        },
+        {
+          "id": "reply-6",
+          "dictionary": {
+            ":))": "😄",
+            ":)": "🙂",
+            ":-)": "🙂",
+            ":(": "🙁",
+            ":-(": "🙁",
+            ";-)": "😉",
+            ";)": "😉",
+            ":D": "😃",
+            ":-D": "😃",
+            ":P": "😛",
+            "<3": "❤️",
+            "(^_^)": "😊"
+          },
+          "documents": [
+            {
+              "id": "reply-6-1",
+              "text": "The gift arrived just in time :)) Please pass my thanks to the packing team.",
+              "expected": {
+                "text": "The gift arrived just in time 😄 Please pass my thanks to the packing team.",
+                "replacements": 1
+              },
+              "facts": {
+                "bytes": 76,
+                "occurrences": 2,
+                "distinct_keywords": 2,
+                "first_match_offset": 30,
+                "first_matching_dictionary_rank": 0,
+                "selected_matches": 1,
+                "matched_source_bytes": 3,
+                "output_bytes": 77
+              }
+            }
+          ]
+        },
+        {
+          "id": "reply-7",
+          "dictionary": {
+            ":))": "😄",
+            ":)": "🙂",
+            ":-)": "🙂",
+            ":(": "🙁",
+            ":-(": "🙁",
+            ";-)": "😉",
+            ";)": "😉",
+            ":D": "😃",
+            ":-D": "😃",
+            ":P": "😛",
+            "<3": "❤️",
+            "(^_^)": "😊"
+          },
+          "documents": [
+            {
+              "id": "reply-7-1",
+              "text": "I kept the tiny instruction card ;-) It has the support address and a QR code.",
+              "expected": {
+                "text": "I kept the tiny instruction card 😉 It has the support address and a QR code.",
+                "replacements": 1
+              },
+              "facts": {
+                "bytes": 78,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 33,
+                "first_matching_dictionary_rank": 5,
+                "selected_matches": 1,
+                "matched_source_bytes": 3,
+                "output_bytes": 79
+              }
+            }
+          ]
+        },
+        {
+          "id": "reply-8",
+          "dictionary": {
+            ":))": "😄",
+            ":)": "🙂",
+            ":-)": "🙂",
+            ":(": "🙁",
+            ":-(": "🙁",
+            ";-)": "😉",
+            ";)": "😉",
+            ":D": "😃",
+            ":-D": "😃",
+            ":P": "😛",
+            "<3": "❤️",
+            "(^_^)": "😊"
+          },
+          "documents": [
+            {
+              "id": "reply-8-1",
+              "text": "The replacement clip fits :-) We do not need to return the full stand.",
+              "expected": {
+                "text": "The replacement clip fits 🙂 We do not need to return the full stand.",
+                "replacements": 1
+              },
+              "facts": {
+                "bytes": 70,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "first_match_offset": 26,
+                "first_matching_dictionary_rank": 2,
+                "selected_matches": 1,
+                "matched_source_bytes": 3,
+                "output_bytes": 71
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
