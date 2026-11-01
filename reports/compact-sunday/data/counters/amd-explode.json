@@ -1,0 +1,2035 @@
+{
+  "format": 2,
+  "kind": "compare",
+  "harness": 2,
+  "date": "2026-11-01T02:40:01+00:00",
+  "suite": "reports/compact-sunday/suites/explode.php",
+  "elapsed_s": 77.1,
+  "complete": true,
+  "config": {
+    "passes": 5,
+    "cpu": 15,
+    "target_ms": 50,
+    "filter": null,
+    "control": true,
+    "wait_idle": 120,
+    "events": "cycles:u,instructions:u"
+  },
+  "env": {
+    "cpu_model": "AMD Ryzen 9 5950X 16-Core Processor",
+    "kernel": "7.0.0-38-generic",
+    "cpu": 15,
+    "cpu_siblings": "15,31",
+    "hybrid_pcores": null,
+    "cpu_is_pcore": null,
+    "governor": "performance",
+    "epp": "performance",
+    "turbo": true,
+    "on_ac": null,
+    "load": 0.1416015625,
+    "busy_pct": {
+      "15": 0,
+      "31": 0
+    },
+    "idle_cpu": 1
+  },
+  "groups": [
+    {
+      "name": "aa",
+      "a": "compact-base-gcc15",
+      "b": "compact-base-gcc15"
+    },
+    {
+      "name": "gcc15",
+      "a": "compact-base-gcc15",
+      "b": "compact-head-gcc15"
+    },
+    {
+      "name": "clang21",
+      "a": "compact-base-clang21",
+      "b": "compact-head-clang21"
+    },
+    {
+      "name": "aa2",
+      "a": "compact-base-gcc15",
+      "b": "compact-base-gcc15"
+    }
+  ],
+  "builds": {
+    "compact-base-gcc15": {
+      "php": "BUILD_DIR/compact-base-gcc15/sapi/cli/php",
+      "build": {
+        "name": "compact-base-gcc15",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:43:27+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-gcc15/sapi/cli/php"
+      },
+      "sha1": "962804b78072507bf9e2d5006aad239718872788"
+    },
+    "compact-head-gcc15": {
+      "php": "BUILD_DIR/compact-head-gcc15/sapi/cli/php",
+      "build": {
+        "name": "compact-head-gcc15",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:45:00+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-gcc15/sapi/cli/php"
+      },
+      "sha1": "119eb9050525232350b88606c134772a58b1c579"
+    },
+    "compact-base-clang21": {
+      "php": "BUILD_DIR/compact-base-clang21/sapi/cli/php",
+      "build": {
+        "name": "compact-base-clang21",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:44:13+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang-21",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-clang21/sapi/cli/php"
+      },
+      "sha1": "c33890a4894d3839f124ea0c422c5d1f2607bbef"
+    },
+    "compact-head-clang21": {
+      "php": "BUILD_DIR/compact-head-clang21/sapi/cli/php",
+      "build": {
+        "name": "compact-head-clang21",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:45:46+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang-21",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-clang21/sapi/cli/php"
+      },
+      "sha1": "3f96b0e59e376ce2f730c99c2b01fad1a484a268"
+    }
+  },
+  "sources": {
+    "suite": "f43662ed77272aef2ade2091d3a879a932d5d7d4",
+    "harness": "c3113f45c2a11bcb63f0b1fb7a4e44ef6843325d",
+    "corpus": "e5c81343e158d86e921e121508cb8b101980f980"
+  },
+  "machine_warnings": [
+    "turbo boost is on: thermal and frequency drift between rounds (sudo CAPTURE_PATH/bench tune on)"
+  ],
+  "cases": {
+    "explode/en/absent @ explode-en-absent": {
+      "input_len": 4096,
+      "input_chars": 4096,
+      "n": 78572
+    },
+    "explode/en/start @ explode-en-start": {
+      "input_len": 4119,
+      "input_chars": 4119,
+      "n": 72880
+    },
+    "explode/en/middle @ explode-en-middle": {
+      "input_len": 4119,
+      "input_chars": 4119,
+      "n": 69140
+    },
+    "explode/en/end @ explode-en-end": {
+      "input_len": 4119,
+      "input_chars": 4119,
+      "n": 72213
+    },
+    "explode/en/repeated @ explode-en-repeated": {
+      "input_len": 3531,
+      "input_chars": 3531,
+      "n": 58190
+    }
+  },
+  "warnings": [],
+  "marks": [],
+  "rows": [
+    [
+      "aa",
+      "a",
+      "explode/en/absent @ explode-en-absent",
+      246180384,
+      382956333,
+      8405972,
+      15628175
+    ],
+    [
+      "aa",
+      "b",
+      "explode/en/absent @ explode-en-absent",
+      246482415,
+      382956109,
+      8420623,
+      15627957
+    ],
+    [
+      "aa",
+      "b",
+      "explode/en/absent @ explode-en-absent",
+      248665248,
+      382958382,
+      8388819,
+      15625806
+    ],
+    [
+      "aa",
+      "a",
+      "explode/en/absent @ explode-en-absent",
+      248228021,
+      382956837,
+      8376761,
+      15626043
+    ],
+    [
+      "aa",
+      "a",
+      "explode/en/absent @ explode-en-absent",
+      246749374,
+      382956012,
+      8407700,
+      15628189
+    ],
+    [
+      "aa",
+      "b",
+      "explode/en/absent @ explode-en-absent",
+      246312433,
+      382955802,
+      8413379,
+      15625844
+    ],
+    [
+      "aa",
+      "b",
+      "explode/en/absent @ explode-en-absent",
+      247650834,
+      382956948,
+      8373325,
+      15626121
+    ],
+    [
+      "aa",
+      "a",
+      "explode/en/absent @ explode-en-absent",
+      246179167,
+      382956783,
+      8375615,
+      15626277
+    ],
+    [
+      "aa",
+      "a",
+      "explode/en/absent @ explode-en-absent",
+      246398608,
+      382956824,
+      8396923,
+      15625902
+    ],
+    [
+      "aa",
+      "b",
+      "explode/en/absent @ explode-en-absent",
+      247037040,
+      382955754,
+      8365986,
+      15625942
+    ],
+    [
+      "aa",
+      "a",
+      "explode/en/start @ explode-en-start",
+      246950502,
+      438609886,
+      8352447,
+      15464404
+    ],
+    [
+      "aa",
+      "b",
+      "explode/en/start @ explode-en-start",
+      247470489,
+      438610615,
+      8323662,
+      15462597
+    ],
+    [
+      "aa",
+      "b",
+      "explode/en/start @ explode-en-start",
+      247983740,
+      438610563,
+      8345949,
+      15461982
+    ],
+    [
+      "aa",
+      "a",
+      "explode/en/start @ explode-en-start",
+      246861091,
+      438610042,
+      8360731,
+      15464782
+    ],
+    [
+      "aa",
+      "a",
+      "explode/en/start @ explode-en-start",
+      251017017,
+      438609764,
+      8329729,
+      15461463
+    ],
+    [
+      "aa",
+      "b",
+      "explode/en/start @ explode-en-start",
+      247822159,
+      438609119,
+      8350238,
+      15464595
+    ],
+    [
+      "aa",
+      "b",
+      "explode/en/start @ explode-en-start",
+      246874882,
+      438609206,
+      8334511,
+      15464775
+    ],
+    [
+      "aa",
+      "a",
+      "explode/en/start @ explode-en-start",
+      247136450,
+      438609587,
+      8353114,
+      15463195
+    ],
+    [
+      "aa",
+      "a",
+      "explode/en/start @ explode-en-start",
+      247558840,
+      438610515,
+      8320807,
+      15461896
+    ],
+    [
+      "aa",
+      "b",
+      "explode/en/start @ explode-en-start",
+      247103800,
+      438609438,
+      8354036,
+      15461770
+    ],
+    [
+      "aa",
+      "a",
+      "explode/en/middle @ explode-en-middle",
+      246995941,
+      424948610,
+      8322061,
+      15356344
+    ],
+    [
+      "aa",
+      "b",
+      "explode/en/middle @ explode-en-middle",
+      247581733,
+      424946054,
+      8286303,
+      15354736
+    ],
+    [
+      "aa",
+      "b",
+      "explode/en/middle @ explode-en-middle",
+      247855948,
+      424945646,
+      8307467,
+      15354970
+    ],
+    [
+      "aa",
+      "a",
+      "explode/en/middle @ explode-en-middle",
+      247442027,
+      424945802,
+      8324292,
+      15354396
+    ],
+    [
+      "aa",
+      "a",
+      "explode/en/middle @ explode-en-middle",
+      247269120,
+      424948873,
+      8286724,
+      15354797
+    ],
+    [
+      "aa",
+      "b",
+      "explode/en/middle @ explode-en-middle",
+      246839278,
+      424945804,
+      8294801,
+      15357078
+    ],
+    [
+      "aa",
+      "b",
+      "explode/en/middle @ explode-en-middle",
+      246940758,
+      424945808,
+      8311256,
+      15354126
+    ],
+    [
+      "aa",
+      "a",
+      "explode/en/middle @ explode-en-middle",
+      247433577,
+      424949374,
+      8286319,
+      15354305
+    ],
+    [
+      "aa",
+      "a",
+      "explode/en/middle @ explode-en-middle",
+      246873502,
+      424945898,
+      8314365,
+      15356005
+    ],
+    [
+      "aa",
+      "b",
+      "explode/en/middle @ explode-en-middle",
+      246745360,
+      424945927,
+      8324017,
+      15353229
+    ],
+    [
+      "aa",
+      "a",
+      "explode/en/end @ explode-en-end",
+      249937403,
+      414931389,
+      8317505,
+      15442783
+    ],
+    [
+      "aa",
+      "b",
+      "explode/en/end @ explode-en-end",
+      246866028,
+      414931130,
+      8336742,
+      15445181
+    ],
+    [
+      "aa",
+      "b",
+      "explode/en/end @ explode-en-end",
+      247795060,
+      414930547,
+      8340099,
+      15443529
+    ],
+    [
+      "aa",
+      "a",
+      "explode/en/end @ explode-en-end",
+      247219003,
+      414931414,
+      8334216,
+      15442094
+    ],
+    [
+      "aa",
+      "a",
+      "explode/en/end @ explode-en-end",
+      247144301,
+      414933486,
+      8332292,
+      15442808
+    ],
+    [
+      "aa",
+      "b",
+      "explode/en/end @ explode-en-end",
+      246768162,
+      414932078,
+      8364270,
+      15442249
+    ],
+    [
+      "aa",
+      "b",
+      "explode/en/end @ explode-en-end",
+      247172342,
+      414935334,
+      8320912,
+      15445263
+    ],
+    [
+      "aa",
+      "a",
+      "explode/en/end @ explode-en-end",
+      246862863,
+      414931185,
+      8339390,
+      15444688
+    ],
+    [
+      "aa",
+      "a",
+      "explode/en/end @ explode-en-end",
+      247162798,
+      414931611,
+      8356189,
+      15442315
+    ],
+    [
+      "aa",
+      "b",
+      "explode/en/end @ explode-en-end",
+      247512790,
+      414931171,
+      8320426,
+      15442050
+    ],
+    [
+      "aa",
+      "a",
+      "explode/en/repeated @ explode-en-repeated",
+      237771210,
+      780880764,
+      8234228,
+      15037668
+    ],
+    [
+      "aa",
+      "b",
+      "explode/en/repeated @ explode-en-repeated",
+      233493714,
+      780883396,
+      8198017,
+      15036086
+    ],
+    [
+      "aa",
+      "b",
+      "explode/en/repeated @ explode-en-repeated",
+      233523536,
+      780880729,
+      8206507,
+      15038122
+    ],
+    [
+      "aa",
+      "a",
+      "explode/en/repeated @ explode-en-repeated",
+      233865084,
+      780882362,
+      8255121,
+      15035169
+    ],
+    [
+      "aa",
+      "a",
+      "explode/en/repeated @ explode-en-repeated",
+      233633058,
+      780880731,
+      8186923,
+      15035458
+    ],
+    [
+      "aa",
+      "b",
+      "explode/en/repeated @ explode-en-repeated",
+      235368476,
+      780880297,
+      8225629,
+      15035327
+    ],
+    [
+      "aa",
+      "b",
+      "explode/en/repeated @ explode-en-repeated",
+      234604343,
+      780881329,
+      8180304,
+      15038191
+    ],
+    [
+      "aa",
+      "a",
+      "explode/en/repeated @ explode-en-repeated",
+      233816591,
+      780882663,
+      8215592,
+      15037813
+    ],
+    [
+      "aa",
+      "a",
+      "explode/en/repeated @ explode-en-repeated",
+      239950484,
+      780881023,
+      8241339,
+      15034967
+    ],
+    [
+      "aa",
+      "b",
+      "explode/en/repeated @ explode-en-repeated",
+      232966920,
+      780880381,
+      8208659,
+      15035562
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/en/absent @ explode-en-absent",
+      247725176,
+      382959187,
+      8384710,
+      15625143
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/en/absent @ explode-en-absent",
+      227590142,
+      371720617,
+      8416478,
+      15626713
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/en/absent @ explode-en-absent",
+      223718134,
+      371719713,
+      8411601,
+      15628009
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/en/absent @ explode-en-absent",
+      246746300,
+      382956468,
+      8426341,
+      15626052
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/en/absent @ explode-en-absent",
+      246872882,
+      382956614,
+      8386931,
+      15628494
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/en/absent @ explode-en-absent",
+      226075917,
+      371720247,
+      8401228,
+      15627631
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/en/absent @ explode-en-absent",
+      224191431,
+      371722675,
+      8454381,
+      15624937
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/en/absent @ explode-en-absent",
+      246206045,
+      382958037,
+      8417418,
+      15625324
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/en/absent @ explode-en-absent",
+      246289372,
+      382956184,
+      8388324,
+      15624895
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/en/absent @ explode-en-absent",
+      223953306,
+      371719555,
+      8392480,
+      15625441
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/en/start @ explode-en-start",
+      252394030,
+      438610538,
+      8437088,
+      15461976
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/en/start @ explode-en-start",
+      226634462,
+      417766197,
+      8345655,
+      15461891
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/en/start @ explode-en-start",
+      227243936,
+      417766593,
+      8326908,
+      15461324
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/en/start @ explode-en-start",
+      247481818,
+      438610532,
+      8337272,
+      15461768
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/en/start @ explode-en-start",
+      247226084,
+      438610545,
+      8340063,
+      15462909
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/en/start @ explode-en-start",
+      225200553,
+      417766495,
+      8518240,
+      15462181
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/en/start @ explode-en-start",
+      226395534,
+      417765407,
+      8341165,
+      15461752
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/en/start @ explode-en-start",
+      246907350,
+      438610845,
+      8339301,
+      15462333
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/en/start @ explode-en-start",
+      246795819,
+      438610939,
+      8375183,
+      15464935
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/en/start @ explode-en-start",
+      225631109,
+      417768629,
+      8374745,
+      15461633
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/en/middle @ explode-en-middle",
+      248661685,
+      424946213,
+      8292463,
+      15356872
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/en/middle @ explode-en-middle",
+      224148015,
+      405171740,
+      8348169,
+      15356732
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/en/middle @ explode-en-middle",
+      224473569,
+      405171658,
+      8328754,
+      15354571
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/en/middle @ explode-en-middle",
+      247185323,
+      424948243,
+      8366778,
+      15353973
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/en/middle @ explode-en-middle",
+      247523980,
+      424945279,
+      8322835,
+      15354004
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/en/middle @ explode-en-middle",
+      224804531,
+      405172651,
+      8293169,
+      15355617
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/en/middle @ explode-en-middle",
+      224501036,
+      405172430,
+      8304478,
+      15354121
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/en/middle @ explode-en-middle",
+      246911152,
+      424945859,
+      8328332,
+      15353423
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/en/middle @ explode-en-middle",
+      248753580,
+      424948679,
+      8296271,
+      15356340
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/en/middle @ explode-en-middle",
+      224429734,
+      405171518,
+      8306252,
+      15354353
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/en/end @ explode-en-end",
+      246819461,
+      414930788,
+      8325291,
+      15442853
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/en/end @ explode-en-end",
+      226369715,
+      404604261,
+      8347621,
+      15445597
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/en/end @ explode-en-end",
+      226762822,
+      404604385,
+      8343581,
+      15442792
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/en/end @ explode-en-end",
+      247092531,
+      414931400,
+      8325680,
+      15443102
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/en/end @ explode-en-end",
+      247411997,
+      414931372,
+      8324365,
+      15445018
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/en/end @ explode-en-end",
+      225850270,
+      404604796,
+      8362104,
+      15444816
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/en/end @ explode-en-end",
+      226003187,
+      404604506,
+      8356802,
+      15442142
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/en/end @ explode-en-end",
+      247797084,
+      414931417,
+      8320567,
+      15444700
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/en/end @ explode-en-end",
+      246872519,
+      414931211,
+      8335689,
+      15442234
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/en/end @ explode-en-end",
+      225542316,
+      404605035,
+      8350676,
+      15445050
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/en/repeated @ explode-en-repeated",
+      233857335,
+      780880504,
+      8188712,
+      15037820
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/en/repeated @ explode-en-repeated",
+      204810926,
+      672703155,
+      8226160,
+      15034184
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/en/repeated @ explode-en-repeated",
+      208981810,
+      672702849,
+      8253280,
+      15036843
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/en/repeated @ explode-en-repeated",
+      246351321,
+      780880852,
+      8281244,
+      15035928
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/en/repeated @ explode-en-repeated",
+      236332965,
+      780880190,
+      8203136,
+      15035950
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/en/repeated @ explode-en-repeated",
+      209383046,
+      672702579,
+      8226169,
+      15034320
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/en/repeated @ explode-en-repeated",
+      204080116,
+      672705800,
+      8209053,
+      15034404
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/en/repeated @ explode-en-repeated",
+      235328484,
+      780880740,
+      8228821,
+      15035389
+    ],
+    [
+      "gcc15",
+      "a",
+      "explode/en/repeated @ explode-en-repeated",
+      233846282,
+      780879966,
+      8231658,
+      15035803
+    ],
+    [
+      "gcc15",
+      "b",
+      "explode/en/repeated @ explode-en-repeated",
+      209677870,
+      672703577,
+      8198104,
+      15033583
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/en/absent @ explode-en-absent",
+      230412771,
+      350186129,
+      8547641,
+      15857801
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/en/absent @ explode-en-absent",
+      208024650,
+      346888427,
+      8468494,
+      15855829
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/en/absent @ explode-en-absent",
+      207555196,
+      346885746,
+      8483781,
+      15854983
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/en/absent @ explode-en-absent",
+      231179655,
+      350186648,
+      8543161,
+      15854692
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/en/absent @ explode-en-absent",
+      230336618,
+      350186644,
+      8516849,
+      15855654
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/en/absent @ explode-en-absent",
+      207232843,
+      346887121,
+      8504078,
+      15855745
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/en/absent @ explode-en-absent",
+      207211763,
+      346886269,
+      8458006,
+      15855426
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/en/absent @ explode-en-absent",
+      230335531,
+      350186585,
+      8511530,
+      15856011
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/en/absent @ explode-en-absent",
+      230607618,
+      350185720,
+      8535503,
+      15858432
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/en/absent @ explode-en-absent",
+      206842764,
+      346885710,
+      8492205,
+      15855316
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/en/start @ explode-en-start",
+      232933152,
+      396266726,
+      8418260,
+      15680974
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/en/start @ explode-en-start",
+      209771654,
+      390146777,
+      8404389,
+      15679927
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/en/start @ explode-en-start",
+      209076570,
+      390144546,
+      8455795,
+      15679795
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/en/start @ explode-en-start",
+      233024825,
+      396266401,
+      8470337,
+      15682898
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/en/start @ explode-en-start",
+      233170172,
+      396269317,
+      8430320,
+      15679970
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/en/start @ explode-en-start",
+      208757880,
+      390146739,
+      8392009,
+      15680245
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/en/start @ explode-en-start",
+      208851069,
+      390145105,
+      8414046,
+      15683616
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/en/start @ explode-en-start",
+      233185245,
+      396268899,
+      8435551,
+      15680345
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/en/start @ explode-en-start",
+      233211815,
+      396269417,
+      8450549,
+      15683489
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/en/start @ explode-en-start",
+      209965544,
+      390144969,
+      8415705,
+      15680113
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/en/middle @ explode-en-middle",
+      232191367,
+      384088160,
+      8386468,
+      15565504
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/en/middle @ explode-en-middle",
+      207784537,
+      378280260,
+      8352210,
+      15565107
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/en/middle @ explode-en-middle",
+      207893811,
+      378282553,
+      8327454,
+      15568549
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/en/middle @ explode-en-middle",
+      231533576,
+      384087386,
+      8423746,
+      15567472
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/en/middle @ explode-en-middle",
+      231481700,
+      384087468,
+      8478293,
+      15567795
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/en/middle @ explode-en-middle",
+      209809002,
+      378279827,
+      8371495,
+      15565389
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/en/middle @ explode-en-middle",
+      208437656,
+      378280404,
+      8378650,
+      15564824
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/en/middle @ explode-en-middle",
+      231519908,
+      384088236,
+      8403654,
+      15565103
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/en/middle @ explode-en-middle",
+      231396042,
+      384090509,
+      8407601,
+      15565094
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/en/middle @ explode-en-middle",
+      208225771,
+      378280370,
+      8373413,
+      15564058
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/en/end @ explode-en-end",
+      233994935,
+      384458253,
+      8433533,
+      15659547
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/en/end @ explode-en-end",
+      209306345,
+      381424679,
+      8444542,
+      15662017
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/en/end @ explode-en-end",
+      210129007,
+      381424738,
+      8414690,
+      15660200
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/en/end @ explode-en-end",
+      231555740,
+      384460572,
+      8447422,
+      15659262
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/en/end @ explode-en-end",
+      231188760,
+      384457511,
+      8425180,
+      15659399
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/en/end @ explode-en-end",
+      210223972,
+      381427208,
+      8360860,
+      15659639
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/en/end @ explode-en-end",
+      209760373,
+      381427674,
+      8459687,
+      15659627
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/en/end @ explode-en-end",
+      231399973,
+      384458545,
+      8460300,
+      15659990
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/en/end @ explode-en-end",
+      233243551,
+      384458133,
+      8447669,
+      15662186
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/en/end @ explode-en-end",
+      209319720,
+      381424959,
+      8409822,
+      15659091
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/en/repeated @ explode-en-repeated",
+      236075950,
+      649563844,
+      8300057,
+      15227328
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/en/repeated @ explode-en-repeated",
+      212457610,
+      617790997,
+      8242652,
+      15230438
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/en/repeated @ explode-en-repeated",
+      201200126,
+      617793824,
+      8246208,
+      15227611
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/en/repeated @ explode-en-repeated",
+      239477640,
+      649563348,
+      8293643,
+      15229853
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/en/repeated @ explode-en-repeated",
+      240301976,
+      649563538,
+      8255193,
+      15228185
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/en/repeated @ explode-en-repeated",
+      210471331,
+      617791492,
+      8239959,
+      15227172
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/en/repeated @ explode-en-repeated",
+      221528030,
+      617791277,
+      8192696,
+      15227302
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/en/repeated @ explode-en-repeated",
+      236851260,
+      649565914,
+      8281763,
+      15230348
+    ],
+    [
+      "clang21",
+      "a",
+      "explode/en/repeated @ explode-en-repeated",
+      237588618,
+      649563622,
+      8315208,
+      15228169
+    ],
+    [
+      "clang21",
+      "b",
+      "explode/en/repeated @ explode-en-repeated",
+      215240091,
+      617790952,
+      8248473,
+      15227242
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/en/absent @ explode-en-absent",
+      246713616,
+      382956920,
+      8385565,
+      15624952
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/en/absent @ explode-en-absent",
+      246916590,
+      382956197,
+      8461243,
+      15625703
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/en/absent @ explode-en-absent",
+      246430990,
+      382956333,
+      8431768,
+      15625558
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/en/absent @ explode-en-absent",
+      246948279,
+      382956366,
+      8389796,
+      15626007
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/en/absent @ explode-en-absent",
+      246122631,
+      382958554,
+      8440932,
+      15625051
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/en/absent @ explode-en-absent",
+      246216062,
+      382956410,
+      8438237,
+      15626026
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/en/absent @ explode-en-absent",
+      246553740,
+      382956655,
+      8457027,
+      15626520
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/en/absent @ explode-en-absent",
+      246404616,
+      382955393,
+      8399932,
+      15627774
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/en/absent @ explode-en-absent",
+      246266196,
+      382956456,
+      8414469,
+      15625203
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/en/absent @ explode-en-absent",
+      246640097,
+      382956203,
+      8407144,
+      15625312
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/en/start @ explode-en-start",
+      249632665,
+      438610854,
+      8362412,
+      15461664
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/en/start @ explode-en-start",
+      246952407,
+      438609835,
+      8342598,
+      15462854
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/en/start @ explode-en-start",
+      248595367,
+      438610025,
+      8349045,
+      15462307
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/en/start @ explode-en-start",
+      246973797,
+      438610990,
+      8355201,
+      15461522
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/en/start @ explode-en-start",
+      247587602,
+      438609290,
+      8347999,
+      15462859
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/en/start @ explode-en-start",
+      247349848,
+      438610305,
+      8342356,
+      15461636
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/en/start @ explode-en-start",
+      247045092,
+      438609425,
+      8338787,
+      15462170
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/en/start @ explode-en-start",
+      246792490,
+      438611980,
+      8360602,
+      15462477
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/en/start @ explode-en-start",
+      247325317,
+      438610571,
+      8317301,
+      15463203
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/en/start @ explode-en-start",
+      246928477,
+      438609775,
+      8378016,
+      15464867
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/en/middle @ explode-en-middle",
+      246872440,
+      424949790,
+      8308022,
+      15357268
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/en/middle @ explode-en-middle",
+      247199224,
+      424948094,
+      8333431,
+      15354466
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/en/middle @ explode-en-middle",
+      248155015,
+      424945602,
+      8318491,
+      15353297
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/en/middle @ explode-en-middle",
+      246903010,
+      424948551,
+      8337442,
+      15356992
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/en/middle @ explode-en-middle",
+      247432305,
+      424949183,
+      8297869,
+      15354466
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/en/middle @ explode-en-middle",
+      246890443,
+      424947964,
+      8324208,
+      15354714
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/en/middle @ explode-en-middle",
+      247652123,
+      424946027,
+      8319935,
+      15354283
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/en/middle @ explode-en-middle",
+      247286856,
+      424948745,
+      8319873,
+      15353785
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/en/middle @ explode-en-middle",
+      247075944,
+      424946770,
+      8298192,
+      15354196
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/en/middle @ explode-en-middle",
+      248369865,
+      424945555,
+      8335553,
+      15354008
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/en/end @ explode-en-end",
+      247455363,
+      414931424,
+      8346004,
+      15443169
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/en/end @ explode-en-end",
+      246974267,
+      414931143,
+      8334789,
+      15442642
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/en/end @ explode-en-end",
+      247199022,
+      414931695,
+      8410939,
+      15442181
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/en/end @ explode-en-end",
+      247417911,
+      414934763,
+      8335790,
+      15442466
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/en/end @ explode-en-end",
+      246997929,
+      414931960,
+      8343354,
+      15443115
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/en/end @ explode-en-end",
+      246842789,
+      414930794,
+      8364628,
+      15446301
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/en/end @ explode-en-end",
+      247380954,
+      414931174,
+      8330175,
+      15443344
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/en/end @ explode-en-end",
+      247636436,
+      414931592,
+      8323881,
+      15441731
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/en/end @ explode-en-end",
+      247143777,
+      414931363,
+      8345426,
+      15442727
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/en/end @ explode-en-end",
+      247333883,
+      414931318,
+      8333181,
+      15442854
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/en/repeated @ explode-en-repeated",
+      238797231,
+      780883046,
+      8243826,
+      15036358
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/en/repeated @ explode-en-repeated",
+      233998688,
+      780880889,
+      8218029,
+      15034565
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/en/repeated @ explode-en-repeated",
+      234491618,
+      780883178,
+      8231300,
+      15036034
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/en/repeated @ explode-en-repeated",
+      238499703,
+      780879838,
+      8220871,
+      15035481
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/en/repeated @ explode-en-repeated",
+      239455607,
+      780880675,
+      8230112,
+      15036383
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/en/repeated @ explode-en-repeated",
+      234055442,
+      780880850,
+      8164823,
+      15037630
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/en/repeated @ explode-en-repeated",
+      238811853,
+      780883407,
+      8214708,
+      15035538
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/en/repeated @ explode-en-repeated",
+      234354678,
+      780880825,
+      8214733,
+      15035443
+    ],
+    [
+      "aa2",
+      "a",
+      "explode/en/repeated @ explode-en-repeated",
+      235278231,
+      780879532,
+      8238710,
+      15035447
+    ],
+    [
+      "aa2",
+      "b",
+      "explode/en/repeated @ explode-en-repeated",
+      235739475,
+      780883109,
+      8185715,
+      15036088
+    ]
+  ]
+}

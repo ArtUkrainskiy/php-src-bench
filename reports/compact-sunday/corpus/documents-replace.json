@@ -1,0 +1,413 @@
+{
+  "format": 1,
+  "status": "corpus candidate; no new timings",
+  "suite": "documents-replace",
+  "languages": [
+    "en"
+  ],
+  "needle_range_bytes": [
+    16,
+    19
+  ],
+  "inputs": {
+    "documents-replace-receipt-shorter": {
+      "text": "<!doctype html>\n<html lang=\"en\"><head><meta charset=\"utf-8\"><title>Your order receipt</title></head>\n<body><header><a href=\"https://shop.example.test/\">North Street Supplies</a></header>\n<main><h1>Thank you, {{customer.name}}</h1>\n<p>We have received order {{order.reference}}. A confirmation will be sent to\n{{customer.email}}. Please keep this receipt until your delivery is complete.</p>\n<section><h2>Delivery details</h2><address>{{customer.address}}</address>\n<p>Telephone: {{customer.phone}}. The courier will contact you before delivery.</p>\n<p>Delivery is scheduled for {{delivery.date}}. Follow the parcel at\n<a href=\"{{tracking.url}}\">the tracking page</a>.</p></section>\n<section><h2>Items</h2><table><thead><tr><th>Product</th><th>Details</th>\n<th>Quantity</th><th>Price</th></tr></thead><tbody>\n<tr><td>USB-C travel charger</td><td>45 W, two ports</td><td>1</td><td>GBP 29.90</td></tr>\n<tr><td>Braided charging cable</td><td>2 m, graphite</td><td>1</td><td>GBP 12.50</td></tr>\n<tr><td>Laptop stand</td><td>Adjustable aluminium</td><td>1</td><td>GBP 34.00</td></tr>\n<tr><td>Compact keyboard</td><td>UK layout, wireless</td><td>1</td><td>GBP 59.00</td></tr>\n<tr><td>Notebook refill</td><td>A5, dotted pages</td><td>1</td><td>GBP 6.40</td></tr>\n<tr><td>Desk organiser</td><td>Oak finish, three trays</td><td>1</td><td>GBP 24.90</td></tr>\n<tr><td>Insulated bottle</td><td>500 ml, navy</td><td>1</td><td>GBP 18.00</td></tr>\n<tr><td>Protective sleeve</td><td>14 inch, water resistant</td><td>1</td><td>GBP 21.00</td></tr>\n</tbody></table><p>Delivery: GBP 4.95. VAT is included in the listed prices.</p></section>\n<section><h2>Changes and cancellations</h2>\n<p>Before dispatch, you can update delivery instructions in your account.\nChanges to the delivery address may require a new shipping quote. If an item\nhas already left the warehouse, contact support before placing a replacement order.</p>\n<p>For returns, keep the original accessories and include the order reference.\nRefunds are sent to the original payment method after the returned parcel is checked.</p></section>\n<footer><p>Questions? Write to {{support.email}} from {{customer.email}},\nor use the contact form in your account. Never send card details by email.</p>\n<p>North Street Supplies, 18 Market Road. This is an order confirmation,\nnot a subscription message. Please check your receipt for incorrect quantities.</p></footer>\n</main></body></html>",
+      "bytes": 2422,
+      "sha256": "58ca12b0dca680ea481e604b173bf985940b7647d4398f87c490f4b8991af756"
+    },
+    "documents-replace-support-shorter": {
+      "text": "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\">\n<title>Help with your order</title></head><body><header><h1>Customer help</h1></header>\n<main><p>Hello {{customer.name}}, this page contains guidance for order {{order.reference}}.</p>\n<p>Your contact email is {{customer.email}}. Check {{customer.phone}} and\n{{customer.address}} before submitting a delivery enquiry.</p>\n<section id=\"help-0\"><h2>Delivery address</h2><p>Open the order details page and choose Edit delivery instructions. Once a parcel is dispatched, the courier decides whether an address correction is possible.</p></section>\n<section id=\"help-1\"><h2>Missing item</h2><p>Compare the contents with the packing list. Some orders arrive in separate parcels. Send a photograph of the label if the tracking page marks every parcel delivered.</p></section>\n<section id=\"help-2\"><h2>Payment pending</h2><p>A pending card authorisation can appear before the final charge. Check the order status before paying again; your bank may take several days to release a hold.</p></section>\n<section id=\"help-3\"><h2>Invoice download</h2><p>Invoices are available from the billing section after dispatch. Check the company name and tax address before requesting a corrected document.</p></section>\n<section id=\"help-4\"><h2>Return collection</h2><p>Choose a collection date when creating the return request. Pack fragile accessories separately and keep the collection receipt until the refund arrives.</p></section>\n<section id=\"help-5\"><h2>Replacement parts</h2><p>Include the model number, a description of the missing part and a clear photograph. Support will confirm compatibility before sending a replacement.</p></section>\n<section id=\"help-6\"><h2>Account access</h2><p>Use the password reset page if you cannot sign in. We will never ask for your current password, a payment PIN or remote access to your computer.</p></section>\n<section id=\"help-7\"><h2>Warranty details</h2><p>Keep the invoice and the serial number. Normal wear and accidental damage may need a separate assessment; explain when the problem first appeared.</p></section>\n<aside><h2>Still need help?</h2><p>Send your question to {{support.email}},\ninclude {{order.reference}}, and tell us which steps you have already tried.\nA copy of the response will be sent to {{customer.email}}.</p>\n<a href=\"{{tracking.url}}\">Track this order</a></aside></main>\n<footer>Help centre · Privacy · Accessibility · Contact preferences</footer></body></html>",
+      "bytes": 2475,
+      "sha256": "7342c01933882b954bd99262918de2f7a54f77f2cd74eb2560674122b4a85207"
+    },
+    "documents-ireplace-receipt-shorter": {
+      "text": "<!doctype html>\n<html lang=\"en\"><head><meta charset=\"utf-8\"><title>Your order receipt</title></head>\n<body><header><a href=\"https://shop.example.test/\">North Street Supplies</a></header>\n<main><h1>Thank you, {{customer.name}}</h1>\n<p>We have received order {{order.reference}}. A confirmation will be sent to\n{{CUSTOMER.EMAIL}}. Please keep this receipt until your delivery is complete.</p>\n<section><h2>Delivery details</h2><address>{{customer.address}}</address>\n<p>Telephone: {{customer.phone}}. The courier will contact you before delivery.</p>\n<p>Delivery is scheduled for {{delivery.date}}. Follow the parcel at\n<a href=\"{{tracking.url}}\">the tracking page</a>.</p></section>\n<section><h2>Items</h2><table><thead><tr><th>Product</th><th>Details</th>\n<th>Quantity</th><th>Price</th></tr></thead><tbody>\n<tr><td>USB-C travel charger</td><td>45 W, two ports</td><td>1</td><td>GBP 29.90</td></tr>\n<tr><td>Braided charging cable</td><td>2 m, graphite</td><td>1</td><td>GBP 12.50</td></tr>\n<tr><td>Laptop stand</td><td>Adjustable aluminium</td><td>1</td><td>GBP 34.00</td></tr>\n<tr><td>Compact keyboard</td><td>UK layout, wireless</td><td>1</td><td>GBP 59.00</td></tr>\n<tr><td>Notebook refill</td><td>A5, dotted pages</td><td>1</td><td>GBP 6.40</td></tr>\n<tr><td>Desk organiser</td><td>Oak finish, three trays</td><td>1</td><td>GBP 24.90</td></tr>\n<tr><td>Insulated bottle</td><td>500 ml, navy</td><td>1</td><td>GBP 18.00</td></tr>\n<tr><td>Protective sleeve</td><td>14 inch, water resistant</td><td>1</td><td>GBP 21.00</td></tr>\n</tbody></table><p>Delivery: GBP 4.95. VAT is included in the listed prices.</p></section>\n<section><h2>Changes and cancellations</h2>\n<p>Before dispatch, you can update delivery instructions in your account.\nChanges to the delivery address may require a new shipping quote. If an item\nhas already left the warehouse, contact support before placing a replacement order.</p>\n<p>For returns, keep the original accessories and include the order reference.\nRefunds are sent to the original payment method after the returned parcel is checked.</p></section>\n<footer><p>Questions? Write to {{support.email}} from {{customer.email}},\nor use the contact form in your account. Never send card details by email.</p>\n<p>North Street Supplies, 18 Market Road. This is an order confirmation,\nnot a subscription message. Please check your receipt for incorrect quantities.</p></footer>\n</main></body></html>",
+      "bytes": 2422,
+      "sha256": "4736bad7c54ad487c642f2cd3565b75d90b3a99fe51aee4f3ec42853d3da1392"
+    }
+  },
+  "cases": [
+    {
+      "name": "documents/replace/receipt/shorter",
+      "api": "str_replace",
+      "family": "core",
+      "panel": "product",
+      "state": "document",
+      "input": "documents-replace-receipt-shorter",
+      "bytes": 2422,
+      "sha256": "58ca12b0dca680ea481e604b173bf985940b7647d4398f87c490f4b8991af756",
+      "needles": [
+        "{{customer.email}}"
+      ],
+      "needle_bytes": [
+        18
+      ],
+      "ascii_folded_fixture": false,
+      "positions": [
+        309
+      ],
+      "position_unit": "UTF-8 bytes",
+      "entry_remaining_bytes": 2422,
+      "entry_path": "compact Sunday",
+      "code": "str_replace('{{customer.email}}', '[redacted]', $s)",
+      "expected": "<!doctype html>\n<html lang=\"en\"><head><meta charset=\"utf-8\"><title>Your order receipt</title></head>\n<body><header><a href=\"https://shop.example.test/\">North Street Supplies</a></header>\n<main><h1>Thank you, {{customer.name}}</h1>\n<p>We have received order {{order.reference}}. A confirmation will be sent to\n[redacted]. Please keep this receipt until your delivery is complete.</p>\n<section><h2>Delivery details</h2><address>{{customer.address}}</address>\n<p>Telephone: {{customer.phone}}. The courier will contact you before delivery.</p>\n<p>Delivery is scheduled for {{delivery.date}}. Follow the parcel at\n<a href=\"{{tracking.url}}\">the tracking page</a>.</p></section>\n<section><h2>Items</h2><table><thead><tr><th>Product</th><th>Details</th>\n<th>Quantity</th><th>Price</th></tr></thead><tbody>\n<tr><td>USB-C travel charger</td><td>45 W, two ports</td><td>1</td><td>GBP 29.90</td></tr>\n<tr><td>Braided charging cable</td><td>2 m, graphite</td><td>1</td><td>GBP 12.50</td></tr>\n<tr><td>Laptop stand</td><td>Adjustable aluminium</td><td>1</td><td>GBP 34.00</td></tr>\n<tr><td>Compact keyboard</td><td>UK layout, wireless</td><td>1</td><td>GBP 59.00</td></tr>\n<tr><td>Notebook refill</td><td>A5, dotted pages</td><td>1</td><td>GBP 6.40</td></tr>\n<tr><td>Desk organiser</td><td>Oak finish, three trays</td><td>1</td><td>GBP 24.90</td></tr>\n<tr><td>Insulated bottle</td><td>500 ml, navy</td><td>1</td><td>GBP 18.00</td></tr>\n<tr><td>Protective sleeve</td><td>14 inch, water resistant</td><td>1</td><td>GBP 21.00</td></tr>\n</tbody></table><p>Delivery: GBP 4.95. VAT is included in the listed prices.</p></section>\n<section><h2>Changes and cancellations</h2>\n<p>Before dispatch, you can update delivery instructions in your account.\nChanges to the delivery address may require a new shipping quote. If an item\nhas already left the warehouse, contact support before placing a replacement order.</p>\n<p>For returns, keep the original accessories and include the order reference.\nRefunds are sent to the original payment method after the returned parcel is checked.</p></section>\n<footer><p>Questions? Write to {{support.email}} from [redacted],\nor use the contact form in your account. Never send card details by email.</p>\n<p>North Street Supplies, 18 Market Road. This is an order confirmation,\nnot a subscription message. Please check your receipt for incorrect quantities.</p></footer>\n</main></body></html>",
+      "benchmark": true,
+      "repeated_search_may_enter_inline": true,
+      "suite": "documents-replace",
+      "language": "en",
+      "fixture_kind": "constructed complete document",
+      "document": "receipt",
+      "replacement_kind": "shorter",
+      "replacement_bytes": 10,
+      "match_count": 2
+    },
+    {
+      "name": "documents/replace/receipt/equal",
+      "api": "str_replace",
+      "family": "core",
+      "panel": "product",
+      "state": "document",
+      "input": "documents-replace-receipt-shorter",
+      "bytes": 2422,
+      "sha256": "58ca12b0dca680ea481e604b173bf985940b7647d4398f87c490f4b8991af756",
+      "needles": [
+        "{{customer.email}}"
+      ],
+      "needle_bytes": [
+        18
+      ],
+      "ascii_folded_fixture": false,
+      "positions": [
+        309
+      ],
+      "position_unit": "UTF-8 bytes",
+      "entry_remaining_bytes": 2422,
+      "entry_path": "compact Sunday",
+      "code": "str_replace('{{customer.email}}', 'reader@example.org', $s)",
+      "expected": "<!doctype html>\n<html lang=\"en\"><head><meta charset=\"utf-8\"><title>Your order receipt</title></head>\n<body><header><a href=\"https://shop.example.test/\">North Street Supplies</a></header>\n<main><h1>Thank you, {{customer.name}}</h1>\n<p>We have received order {{order.reference}}. A confirmation will be sent to\nreader@example.org. Please keep this receipt until your delivery is complete.</p>\n<section><h2>Delivery details</h2><address>{{customer.address}}</address>\n<p>Telephone: {{customer.phone}}. The courier will contact you before delivery.</p>\n<p>Delivery is scheduled for {{delivery.date}}. Follow the parcel at\n<a href=\"{{tracking.url}}\">the tracking page</a>.</p></section>\n<section><h2>Items</h2><table><thead><tr><th>Product</th><th>Details</th>\n<th>Quantity</th><th>Price</th></tr></thead><tbody>\n<tr><td>USB-C travel charger</td><td>45 W, two ports</td><td>1</td><td>GBP 29.90</td></tr>\n<tr><td>Braided charging cable</td><td>2 m, graphite</td><td>1</td><td>GBP 12.50</td></tr>\n<tr><td>Laptop stand</td><td>Adjustable aluminium</td><td>1</td><td>GBP 34.00</td></tr>\n<tr><td>Compact keyboard</td><td>UK layout, wireless</td><td>1</td><td>GBP 59.00</td></tr>\n<tr><td>Notebook refill</td><td>A5, dotted pages</td><td>1</td><td>GBP 6.40</td></tr>\n<tr><td>Desk organiser</td><td>Oak finish, three trays</td><td>1</td><td>GBP 24.90</td></tr>\n<tr><td>Insulated bottle</td><td>500 ml, navy</td><td>1</td><td>GBP 18.00</td></tr>\n<tr><td>Protective sleeve</td><td>14 inch, water resistant</td><td>1</td><td>GBP 21.00</td></tr>\n</tbody></table><p>Delivery: GBP 4.95. VAT is included in the listed prices.</p></section>\n<section><h2>Changes and cancellations</h2>\n<p>Before dispatch, you can update delivery instructions in your account.\nChanges to the delivery address may require a new shipping quote. If an item\nhas already left the warehouse, contact support before placing a replacement order.</p>\n<p>For returns, keep the original accessories and include the order reference.\nRefunds are sent to the original payment method after the returned parcel is checked.</p></section>\n<footer><p>Questions? Write to {{support.email}} from reader@example.org,\nor use the contact form in your account. Never send card details by email.</p>\n<p>North Street Supplies, 18 Market Road. This is an order confirmation,\nnot a subscription message. Please check your receipt for incorrect quantities.</p></footer>\n</main></body></html>",
+      "benchmark": true,
+      "repeated_search_may_enter_inline": true,
+      "suite": "documents-replace",
+      "language": "en",
+      "fixture_kind": "constructed complete document",
+      "document": "receipt",
+      "replacement_kind": "equal",
+      "replacement_bytes": 18,
+      "match_count": 2
+    },
+    {
+      "name": "documents/replace/receipt/longer",
+      "api": "str_replace",
+      "family": "core",
+      "panel": "product",
+      "state": "document",
+      "input": "documents-replace-receipt-shorter",
+      "bytes": 2422,
+      "sha256": "58ca12b0dca680ea481e604b173bf985940b7647d4398f87c490f4b8991af756",
+      "needles": [
+        "{{customer.email}}"
+      ],
+      "needle_bytes": [
+        18
+      ],
+      "ascii_folded_fixture": false,
+      "positions": [
+        309
+      ],
+      "position_unit": "UTF-8 bytes",
+      "entry_remaining_bytes": 2422,
+      "entry_path": "compact Sunday",
+      "code": "str_replace('{{customer.email}}', 'confirmed-customer@example.test', $s)",
+      "expected": "<!doctype html>\n<html lang=\"en\"><head><meta charset=\"utf-8\"><title>Your order receipt</title></head>\n<body><header><a href=\"https://shop.example.test/\">North Street Supplies</a></header>\n<main><h1>Thank you, {{customer.name}}</h1>\n<p>We have received order {{order.reference}}. A confirmation will be sent to\nconfirmed-customer@example.test. Please keep this receipt until your delivery is complete.</p>\n<section><h2>Delivery details</h2><address>{{customer.address}}</address>\n<p>Telephone: {{customer.phone}}. The courier will contact you before delivery.</p>\n<p>Delivery is scheduled for {{delivery.date}}. Follow the parcel at\n<a href=\"{{tracking.url}}\">the tracking page</a>.</p></section>\n<section><h2>Items</h2><table><thead><tr><th>Product</th><th>Details</th>\n<th>Quantity</th><th>Price</th></tr></thead><tbody>\n<tr><td>USB-C travel charger</td><td>45 W, two ports</td><td>1</td><td>GBP 29.90</td></tr>\n<tr><td>Braided charging cable</td><td>2 m, graphite</td><td>1</td><td>GBP 12.50</td></tr>\n<tr><td>Laptop stand</td><td>Adjustable aluminium</td><td>1</td><td>GBP 34.00</td></tr>\n<tr><td>Compact keyboard</td><td>UK layout, wireless</td><td>1</td><td>GBP 59.00</td></tr>\n<tr><td>Notebook refill</td><td>A5, dotted pages</td><td>1</td><td>GBP 6.40</td></tr>\n<tr><td>Desk organiser</td><td>Oak finish, three trays</td><td>1</td><td>GBP 24.90</td></tr>\n<tr><td>Insulated bottle</td><td>500 ml, navy</td><td>1</td><td>GBP 18.00</td></tr>\n<tr><td>Protective sleeve</td><td>14 inch, water resistant</td><td>1</td><td>GBP 21.00</td></tr>\n</tbody></table><p>Delivery: GBP 4.95. VAT is included in the listed prices.</p></section>\n<section><h2>Changes and cancellations</h2>\n<p>Before dispatch, you can update delivery instructions in your account.\nChanges to the delivery address may require a new shipping quote. If an item\nhas already left the warehouse, contact support before placing a replacement order.</p>\n<p>For returns, keep the original accessories and include the order reference.\nRefunds are sent to the original payment method after the returned parcel is checked.</p></section>\n<footer><p>Questions? Write to {{support.email}} from confirmed-customer@example.test,\nor use the contact form in your account. Never send card details by email.</p>\n<p>North Street Supplies, 18 Market Road. This is an order confirmation,\nnot a subscription message. Please check your receipt for incorrect quantities.</p></footer>\n</main></body></html>",
+      "benchmark": true,
+      "repeated_search_may_enter_inline": true,
+      "suite": "documents-replace",
+      "language": "en",
+      "fixture_kind": "constructed complete document",
+      "document": "receipt",
+      "replacement_kind": "longer",
+      "replacement_bytes": 31,
+      "match_count": 2
+    },
+    {
+      "name": "documents/replace/receipt/array",
+      "api": "str_replace",
+      "family": "core",
+      "panel": "product",
+      "state": "document",
+      "input": "documents-replace-receipt-shorter",
+      "bytes": 2422,
+      "sha256": "58ca12b0dca680ea481e604b173bf985940b7647d4398f87c490f4b8991af756",
+      "needles": [
+        "{{customer.email}}",
+        "{{order.reference}}",
+        "{{tracking.url}}"
+      ],
+      "needle_bytes": [
+        18,
+        19,
+        16
+      ],
+      "ascii_folded_fixture": false,
+      "positions": [
+        309,
+        257,
+        627
+      ],
+      "position_unit": "UTF-8 bytes",
+      "entry_remaining_bytes": 2422,
+      "entry_path": "compact Sunday",
+      "code": "str_replace(['{{customer.email}}', '{{order.reference}}', '{{tracking.url}}'], ['reader@example.org', 'order-2026-00142', 'https://tracking.example.test/parcel/42'], $s)",
+      "expected": "<!doctype html>\n<html lang=\"en\"><head><meta charset=\"utf-8\"><title>Your order receipt</title></head>\n<body><header><a href=\"https://shop.example.test/\">North Street Supplies</a></header>\n<main><h1>Thank you, {{customer.name}}</h1>\n<p>We have received order order-2026-00142. A confirmation will be sent to\nreader@example.org. Please keep this receipt until your delivery is complete.</p>\n<section><h2>Delivery details</h2><address>{{customer.address}}</address>\n<p>Telephone: {{customer.phone}}. The courier will contact you before delivery.</p>\n<p>Delivery is scheduled for {{delivery.date}}. Follow the parcel at\n<a href=\"https://tracking.example.test/parcel/42\">the tracking page</a>.</p></section>\n<section><h2>Items</h2><table><thead><tr><th>Product</th><th>Details</th>\n<th>Quantity</th><th>Price</th></tr></thead><tbody>\n<tr><td>USB-C travel charger</td><td>45 W, two ports</td><td>1</td><td>GBP 29.90</td></tr>\n<tr><td>Braided charging cable</td><td>2 m, graphite</td><td>1</td><td>GBP 12.50</td></tr>\n<tr><td>Laptop stand</td><td>Adjustable aluminium</td><td>1</td><td>GBP 34.00</td></tr>\n<tr><td>Compact keyboard</td><td>UK layout, wireless</td><td>1</td><td>GBP 59.00</td></tr>\n<tr><td>Notebook refill</td><td>A5, dotted pages</td><td>1</td><td>GBP 6.40</td></tr>\n<tr><td>Desk organiser</td><td>Oak finish, three trays</td><td>1</td><td>GBP 24.90</td></tr>\n<tr><td>Insulated bottle</td><td>500 ml, navy</td><td>1</td><td>GBP 18.00</td></tr>\n<tr><td>Protective sleeve</td><td>14 inch, water resistant</td><td>1</td><td>GBP 21.00</td></tr>\n</tbody></table><p>Delivery: GBP 4.95. VAT is included in the listed prices.</p></section>\n<section><h2>Changes and cancellations</h2>\n<p>Before dispatch, you can update delivery instructions in your account.\nChanges to the delivery address may require a new shipping quote. If an item\nhas already left the warehouse, contact support before placing a replacement order.</p>\n<p>For returns, keep the original accessories and include the order reference.\nRefunds are sent to the original payment method after the returned parcel is checked.</p></section>\n<footer><p>Questions? Write to {{support.email}} from reader@example.org,\nor use the contact form in your account. Never send card details by email.</p>\n<p>North Street Supplies, 18 Market Road. This is an order confirmation,\nnot a subscription message. Please check your receipt for incorrect quantities.</p></footer>\n</main></body></html>",
+      "benchmark": true,
+      "repeated_search_may_enter_inline": true,
+      "suite": "documents-replace",
+      "language": "en",
+      "fixture_kind": "constructed complete document",
+      "document": "receipt",
+      "replacement_kind": "three sequential search/replacement pairs"
+    },
+    {
+      "name": "documents/replace/support/shorter",
+      "api": "str_replace",
+      "family": "core",
+      "panel": "product",
+      "state": "document",
+      "input": "documents-replace-support-shorter",
+      "bytes": 2475,
+      "sha256": "7342c01933882b954bd99262918de2f7a54f77f2cd74eb2560674122b4a85207",
+      "needles": [
+        "{{customer.email}}"
+      ],
+      "needle_bytes": [
+        18
+      ],
+      "ascii_folded_fixture": false,
+      "positions": [
+        270
+      ],
+      "position_unit": "UTF-8 bytes",
+      "entry_remaining_bytes": 2475,
+      "entry_path": "compact Sunday",
+      "code": "str_replace('{{customer.email}}', '[redacted]', $s)",
+      "expected": "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\">\n<title>Help with your order</title></head><body><header><h1>Customer help</h1></header>\n<main><p>Hello {{customer.name}}, this page contains guidance for order {{order.reference}}.</p>\n<p>Your contact email is [redacted]. Check {{customer.phone}} and\n{{customer.address}} before submitting a delivery enquiry.</p>\n<section id=\"help-0\"><h2>Delivery address</h2><p>Open the order details page and choose Edit delivery instructions. Once a parcel is dispatched, the courier decides whether an address correction is possible.</p></section>\n<section id=\"help-1\"><h2>Missing item</h2><p>Compare the contents with the packing list. Some orders arrive in separate parcels. Send a photograph of the label if the tracking page marks every parcel delivered.</p></section>\n<section id=\"help-2\"><h2>Payment pending</h2><p>A pending card authorisation can appear before the final charge. Check the order status before paying again; your bank may take several days to release a hold.</p></section>\n<section id=\"help-3\"><h2>Invoice download</h2><p>Invoices are available from the billing section after dispatch. Check the company name and tax address before requesting a corrected document.</p></section>\n<section id=\"help-4\"><h2>Return collection</h2><p>Choose a collection date when creating the return request. Pack fragile accessories separately and keep the collection receipt until the refund arrives.</p></section>\n<section id=\"help-5\"><h2>Replacement parts</h2><p>Include the model number, a description of the missing part and a clear photograph. Support will confirm compatibility before sending a replacement.</p></section>\n<section id=\"help-6\"><h2>Account access</h2><p>Use the password reset page if you cannot sign in. We will never ask for your current password, a payment PIN or remote access to your computer.</p></section>\n<section id=\"help-7\"><h2>Warranty details</h2><p>Keep the invoice and the serial number. Normal wear and accidental damage may need a separate assessment; explain when the problem first appeared.</p></section>\n<aside><h2>Still need help?</h2><p>Send your question to {{support.email}},\ninclude {{order.reference}}, and tell us which steps you have already tried.\nA copy of the response will be sent to [redacted].</p>\n<a href=\"{{tracking.url}}\">Track this order</a></aside></main>\n<footer>Help centre · Privacy · Accessibility · Contact preferences</footer></body></html>",
+      "benchmark": true,
+      "repeated_search_may_enter_inline": true,
+      "suite": "documents-replace",
+      "language": "en",
+      "fixture_kind": "constructed complete document",
+      "document": "support",
+      "replacement_kind": "shorter",
+      "replacement_bytes": 10,
+      "match_count": 2
+    },
+    {
+      "name": "documents/replace/support/equal",
+      "api": "str_replace",
+      "family": "core",
+      "panel": "product",
+      "state": "document",
+      "input": "documents-replace-support-shorter",
+      "bytes": 2475,
+      "sha256": "7342c01933882b954bd99262918de2f7a54f77f2cd74eb2560674122b4a85207",
+      "needles": [
+        "{{customer.email}}"
+      ],
+      "needle_bytes": [
+        18
+      ],
+      "ascii_folded_fixture": false,
+      "positions": [
+        270
+      ],
+      "position_unit": "UTF-8 bytes",
+      "entry_remaining_bytes": 2475,
+      "entry_path": "compact Sunday",
+      "code": "str_replace('{{customer.email}}', 'reader@example.org', $s)",
+      "expected": "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\">\n<title>Help with your order</title></head><body><header><h1>Customer help</h1></header>\n<main><p>Hello {{customer.name}}, this page contains guidance for order {{order.reference}}.</p>\n<p>Your contact email is reader@example.org. Check {{customer.phone}} and\n{{customer.address}} before submitting a delivery enquiry.</p>\n<section id=\"help-0\"><h2>Delivery address</h2><p>Open the order details page and choose Edit delivery instructions. Once a parcel is dispatched, the courier decides whether an address correction is possible.</p></section>\n<section id=\"help-1\"><h2>Missing item</h2><p>Compare the contents with the packing list. Some orders arrive in separate parcels. Send a photograph of the label if the tracking page marks every parcel delivered.</p></section>\n<section id=\"help-2\"><h2>Payment pending</h2><p>A pending card authorisation can appear before the final charge. Check the order status before paying again; your bank may take several days to release a hold.</p></section>\n<section id=\"help-3\"><h2>Invoice download</h2><p>Invoices are available from the billing section after dispatch. Check the company name and tax address before requesting a corrected document.</p></section>\n<section id=\"help-4\"><h2>Return collection</h2><p>Choose a collection date when creating the return request. Pack fragile accessories separately and keep the collection receipt until the refund arrives.</p></section>\n<section id=\"help-5\"><h2>Replacement parts</h2><p>Include the model number, a description of the missing part and a clear photograph. Support will confirm compatibility before sending a replacement.</p></section>\n<section id=\"help-6\"><h2>Account access</h2><p>Use the password reset page if you cannot sign in. We will never ask for your current password, a payment PIN or remote access to your computer.</p></section>\n<section id=\"help-7\"><h2>Warranty details</h2><p>Keep the invoice and the serial number. Normal wear and accidental damage may need a separate assessment; explain when the problem first appeared.</p></section>\n<aside><h2>Still need help?</h2><p>Send your question to {{support.email}},\ninclude {{order.reference}}, and tell us which steps you have already tried.\nA copy of the response will be sent to reader@example.org.</p>\n<a href=\"{{tracking.url}}\">Track this order</a></aside></main>\n<footer>Help centre · Privacy · Accessibility · Contact preferences</footer></body></html>",
+      "benchmark": true,
+      "repeated_search_may_enter_inline": true,
+      "suite": "documents-replace",
+      "language": "en",
+      "fixture_kind": "constructed complete document",
+      "document": "support",
+      "replacement_kind": "equal",
+      "replacement_bytes": 18,
+      "match_count": 2
+    },
+    {
+      "name": "documents/replace/support/longer",
+      "api": "str_replace",
+      "family": "core",
+      "panel": "product",
+      "state": "document",
+      "input": "documents-replace-support-shorter",
+      "bytes": 2475,
+      "sha256": "7342c01933882b954bd99262918de2f7a54f77f2cd74eb2560674122b4a85207",
+      "needles": [
+        "{{customer.email}}"
+      ],
+      "needle_bytes": [
+        18
+      ],
+      "ascii_folded_fixture": false,
+      "positions": [
+        270
+      ],
+      "position_unit": "UTF-8 bytes",
+      "entry_remaining_bytes": 2475,
+      "entry_path": "compact Sunday",
+      "code": "str_replace('{{customer.email}}', 'confirmed-customer@example.test', $s)",
+      "expected": "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\">\n<title>Help with your order</title></head><body><header><h1>Customer help</h1></header>\n<main><p>Hello {{customer.name}}, this page contains guidance for order {{order.reference}}.</p>\n<p>Your contact email is confirmed-customer@example.test. Check {{customer.phone}} and\n{{customer.address}} before submitting a delivery enquiry.</p>\n<section id=\"help-0\"><h2>Delivery address</h2><p>Open the order details page and choose Edit delivery instructions. Once a parcel is dispatched, the courier decides whether an address correction is possible.</p></section>\n<section id=\"help-1\"><h2>Missing item</h2><p>Compare the contents with the packing list. Some orders arrive in separate parcels. Send a photograph of the label if the tracking page marks every parcel delivered.</p></section>\n<section id=\"help-2\"><h2>Payment pending</h2><p>A pending card authorisation can appear before the final charge. Check the order status before paying again; your bank may take several days to release a hold.</p></section>\n<section id=\"help-3\"><h2>Invoice download</h2><p>Invoices are available from the billing section after dispatch. Check the company name and tax address before requesting a corrected document.</p></section>\n<section id=\"help-4\"><h2>Return collection</h2><p>Choose a collection date when creating the return request. Pack fragile accessories separately and keep the collection receipt until the refund arrives.</p></section>\n<section id=\"help-5\"><h2>Replacement parts</h2><p>Include the model number, a description of the missing part and a clear photograph. Support will confirm compatibility before sending a replacement.</p></section>\n<section id=\"help-6\"><h2>Account access</h2><p>Use the password reset page if you cannot sign in. We will never ask for your current password, a payment PIN or remote access to your computer.</p></section>\n<section id=\"help-7\"><h2>Warranty details</h2><p>Keep the invoice and the serial number. Normal wear and accidental damage may need a separate assessment; explain when the problem first appeared.</p></section>\n<aside><h2>Still need help?</h2><p>Send your question to {{support.email}},\ninclude {{order.reference}}, and tell us which steps you have already tried.\nA copy of the response will be sent to confirmed-customer@example.test.</p>\n<a href=\"{{tracking.url}}\">Track this order</a></aside></main>\n<footer>Help centre · Privacy · Accessibility · Contact preferences</footer></body></html>",
+      "benchmark": true,
+      "repeated_search_may_enter_inline": true,
+      "suite": "documents-replace",
+      "language": "en",
+      "fixture_kind": "constructed complete document",
+      "document": "support",
+      "replacement_kind": "longer",
+      "replacement_bytes": 31,
+      "match_count": 2
+    },
+    {
+      "name": "documents/replace/support/array",
+      "api": "str_replace",
+      "family": "core",
+      "panel": "product",
+      "state": "document",
+      "input": "documents-replace-support-shorter",
+      "bytes": 2475,
+      "sha256": "7342c01933882b954bd99262918de2f7a54f77f2cd74eb2560674122b4a85207",
+      "needles": [
+        "{{customer.email}}",
+        "{{order.reference}}",
+        "{{tracking.url}}"
+      ],
+      "needle_bytes": [
+        18,
+        19,
+        16
+      ],
+      "ascii_folded_fixture": false,
+      "positions": [
+        270,
+        220,
+        2328
+      ],
+      "position_unit": "UTF-8 bytes",
+      "entry_remaining_bytes": 2475,
+      "entry_path": "compact Sunday",
+      "code": "str_replace(['{{customer.email}}', '{{order.reference}}', '{{tracking.url}}'], ['reader@example.org', 'order-2026-00142', 'https://tracking.example.test/parcel/42'], $s)",
+      "expected": "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\">\n<title>Help with your order</title></head><body><header><h1>Customer help</h1></header>\n<main><p>Hello {{customer.name}}, this page contains guidance for order order-2026-00142.</p>\n<p>Your contact email is reader@example.org. Check {{customer.phone}} and\n{{customer.address}} before submitting a delivery enquiry.</p>\n<section id=\"help-0\"><h2>Delivery address</h2><p>Open the order details page and choose Edit delivery instructions. Once a parcel is dispatched, the courier decides whether an address correction is possible.</p></section>\n<section id=\"help-1\"><h2>Missing item</h2><p>Compare the contents with the packing list. Some orders arrive in separate parcels. Send a photograph of the label if the tracking page marks every parcel delivered.</p></section>\n<section id=\"help-2\"><h2>Payment pending</h2><p>A pending card authorisation can appear before the final charge. Check the order status before paying again; your bank may take several days to release a hold.</p></section>\n<section id=\"help-3\"><h2>Invoice download</h2><p>Invoices are available from the billing section after dispatch. Check the company name and tax address before requesting a corrected document.</p></section>\n<section id=\"help-4\"><h2>Return collection</h2><p>Choose a collection date when creating the return request. Pack fragile accessories separately and keep the collection receipt until the refund arrives.</p></section>\n<section id=\"help-5\"><h2>Replacement parts</h2><p>Include the model number, a description of the missing part and a clear photograph. Support will confirm compatibility before sending a replacement.</p></section>\n<section id=\"help-6\"><h2>Account access</h2><p>Use the password reset page if you cannot sign in. We will never ask for your current password, a payment PIN or remote access to your computer.</p></section>\n<section id=\"help-7\"><h2>Warranty details</h2><p>Keep the invoice and the serial number. Normal wear and accidental damage may need a separate assessment; explain when the problem first appeared.</p></section>\n<aside><h2>Still need help?</h2><p>Send your question to {{support.email}},\ninclude order-2026-00142, and tell us which steps you have already tried.\nA copy of the response will be sent to reader@example.org.</p>\n<a href=\"https://tracking.example.test/parcel/42\">Track this order</a></aside></main>\n<footer>Help centre · Privacy · Accessibility · Contact preferences</footer></body></html>",
+      "benchmark": true,
+      "repeated_search_may_enter_inline": true,
+      "suite": "documents-replace",
+      "language": "en",
+      "fixture_kind": "constructed complete document",
+      "document": "support",
+      "replacement_kind": "three sequential search/replacement pairs"
+    },
+    {
+      "name": "documents/ireplace/receipt/shorter",
+      "api": "str_ireplace",
+      "family": "core",
+      "panel": "product",
+      "state": "document",
+      "input": "documents-ireplace-receipt-shorter",
+      "bytes": 2422,
+      "sha256": "4736bad7c54ad487c642f2cd3565b75d90b3a99fe51aee4f3ec42853d3da1392",
+      "needles": [
+        "{{customer.email}}"
+      ],
+      "needle_bytes": [
+        18
+      ],
+      "ascii_folded_fixture": true,
+      "positions": [
+        309
+      ],
+      "position_unit": "UTF-8 bytes",
+      "entry_remaining_bytes": 2422,
+      "entry_path": "compact Sunday",
+      "code": "str_ireplace('{{customer.email}}', '[redacted]', $s)",
+      "expected": "<!doctype html>\n<html lang=\"en\"><head><meta charset=\"utf-8\"><title>Your order receipt</title></head>\n<body><header><a href=\"https://shop.example.test/\">North Street Supplies</a></header>\n<main><h1>Thank you, {{customer.name}}</h1>\n<p>We have received order {{order.reference}}. A confirmation will be sent to\n[redacted]. Please keep this receipt until your delivery is complete.</p>\n<section><h2>Delivery details</h2><address>{{customer.address}}</address>\n<p>Telephone: {{customer.phone}}. The courier will contact you before delivery.</p>\n<p>Delivery is scheduled for {{delivery.date}}. Follow the parcel at\n<a href=\"{{tracking.url}}\">the tracking page</a>.</p></section>\n<section><h2>Items</h2><table><thead><tr><th>Product</th><th>Details</th>\n<th>Quantity</th><th>Price</th></tr></thead><tbody>\n<tr><td>USB-C travel charger</td><td>45 W, two ports</td><td>1</td><td>GBP 29.90</td></tr>\n<tr><td>Braided charging cable</td><td>2 m, graphite</td><td>1</td><td>GBP 12.50</td></tr>\n<tr><td>Laptop stand</td><td>Adjustable aluminium</td><td>1</td><td>GBP 34.00</td></tr>\n<tr><td>Compact keyboard</td><td>UK layout, wireless</td><td>1</td><td>GBP 59.00</td></tr>\n<tr><td>Notebook refill</td><td>A5, dotted pages</td><td>1</td><td>GBP 6.40</td></tr>\n<tr><td>Desk organiser</td><td>Oak finish, three trays</td><td>1</td><td>GBP 24.90</td></tr>\n<tr><td>Insulated bottle</td><td>500 ml, navy</td><td>1</td><td>GBP 18.00</td></tr>\n<tr><td>Protective sleeve</td><td>14 inch, water resistant</td><td>1</td><td>GBP 21.00</td></tr>\n</tbody></table><p>Delivery: GBP 4.95. VAT is included in the listed prices.</p></section>\n<section><h2>Changes and cancellations</h2>\n<p>Before dispatch, you can update delivery instructions in your account.\nChanges to the delivery address may require a new shipping quote. If an item\nhas already left the warehouse, contact support before placing a replacement order.</p>\n<p>For returns, keep the original accessories and include the order reference.\nRefunds are sent to the original payment method after the returned parcel is checked.</p></section>\n<footer><p>Questions? Write to {{support.email}} from [redacted],\nor use the contact form in your account. Never send card details by email.</p>\n<p>North Street Supplies, 18 Market Road. This is an order confirmation,\nnot a subscription message. Please check your receipt for incorrect quantities.</p></footer>\n</main></body></html>",
+      "benchmark": true,
+      "repeated_search_may_enter_inline": true,
+      "suite": "documents-replace",
+      "language": "en",
+      "fixture_kind": "constructed complete document",
+      "document": "receipt",
+      "replacement_kind": "shorter",
+      "replacement_bytes": 10,
+      "mixed_case": true
+    },
+    {
+      "name": "documents/ireplace/receipt/equal",
+      "api": "str_ireplace",
+      "family": "core",
+      "panel": "product",
+      "state": "document",
+      "input": "documents-ireplace-receipt-shorter",
+      "bytes": 2422,
+      "sha256": "4736bad7c54ad487c642f2cd3565b75d90b3a99fe51aee4f3ec42853d3da1392",
+      "needles": [
+        "{{customer.email}}"
+      ],
+      "needle_bytes": [
+        18
+      ],
+      "ascii_folded_fixture": true,
+      "positions": [
+        309
+      ],
+      "position_unit": "UTF-8 bytes",
+      "entry_remaining_bytes": 2422,
+      "entry_path": "compact Sunday",
+      "code": "str_ireplace('{{customer.email}}', 'reader@example.org', $s)",
+      "expected": "<!doctype html>\n<html lang=\"en\"><head><meta charset=\"utf-8\"><title>Your order receipt</title></head>\n<body><header><a href=\"https://shop.example.test/\">North Street Supplies</a></header>\n<main><h1>Thank you, {{customer.name}}</h1>\n<p>We have received order {{order.reference}}. A confirmation will be sent to\nreader@example.org. Please keep this receipt until your delivery is complete.</p>\n<section><h2>Delivery details</h2><address>{{customer.address}}</address>\n<p>Telephone: {{customer.phone}}. The courier will contact you before delivery.</p>\n<p>Delivery is scheduled for {{delivery.date}}. Follow the parcel at\n<a href=\"{{tracking.url}}\">the tracking page</a>.</p></section>\n<section><h2>Items</h2><table><thead><tr><th>Product</th><th>Details</th>\n<th>Quantity</th><th>Price</th></tr></thead><tbody>\n<tr><td>USB-C travel charger</td><td>45 W, two ports</td><td>1</td><td>GBP 29.90</td></tr>\n<tr><td>Braided charging cable</td><td>2 m, graphite</td><td>1</td><td>GBP 12.50</td></tr>\n<tr><td>Laptop stand</td><td>Adjustable aluminium</td><td>1</td><td>GBP 34.00</td></tr>\n<tr><td>Compact keyboard</td><td>UK layout, wireless</td><td>1</td><td>GBP 59.00</td></tr>\n<tr><td>Notebook refill</td><td>A5, dotted pages</td><td>1</td><td>GBP 6.40</td></tr>\n<tr><td>Desk organiser</td><td>Oak finish, three trays</td><td>1</td><td>GBP 24.90</td></tr>\n<tr><td>Insulated bottle</td><td>500 ml, navy</td><td>1</td><td>GBP 18.00</td></tr>\n<tr><td>Protective sleeve</td><td>14 inch, water resistant</td><td>1</td><td>GBP 21.00</td></tr>\n</tbody></table><p>Delivery: GBP 4.95. VAT is included in the listed prices.</p></section>\n<section><h2>Changes and cancellations</h2>\n<p>Before dispatch, you can update delivery instructions in your account.\nChanges to the delivery address may require a new shipping quote. If an item\nhas already left the warehouse, contact support before placing a replacement order.</p>\n<p>For returns, keep the original accessories and include the order reference.\nRefunds are sent to the original payment method after the returned parcel is checked.</p></section>\n<footer><p>Questions? Write to {{support.email}} from reader@example.org,\nor use the contact form in your account. Never send card details by email.</p>\n<p>North Street Supplies, 18 Market Road. This is an order confirmation,\nnot a subscription message. Please check your receipt for incorrect quantities.</p></footer>\n</main></body></html>",
+      "benchmark": true,
+      "repeated_search_may_enter_inline": true,
+      "suite": "documents-replace",
+      "language": "en",
+      "fixture_kind": "constructed complete document",
+      "document": "receipt",
+      "replacement_kind": "equal",
+      "replacement_bytes": 18,
+      "mixed_case": true
+    },
+    {
+      "name": "documents/ireplace/receipt/longer",
+      "api": "str_ireplace",
+      "family": "core",
+      "panel": "product",
+      "state": "document",
+      "input": "documents-ireplace-receipt-shorter",
+      "bytes": 2422,
+      "sha256": "4736bad7c54ad487c642f2cd3565b75d90b3a99fe51aee4f3ec42853d3da1392",
+      "needles": [
+        "{{customer.email}}"
+      ],
+      "needle_bytes": [
+        18
+      ],
+      "ascii_folded_fixture": true,
+      "positions": [
+        309
+      ],
+      "position_unit": "UTF-8 bytes",
+      "entry_remaining_bytes": 2422,
+      "entry_path": "compact Sunday",
+      "code": "str_ireplace('{{customer.email}}', 'confirmed-customer@example.test', $s)",
+      "expected": "<!doctype html>\n<html lang=\"en\"><head><meta charset=\"utf-8\"><title>Your order receipt</title></head>\n<body><header><a href=\"https://shop.example.test/\">North Street Supplies</a></header>\n<main><h1>Thank you, {{customer.name}}</h1>\n<p>We have received order {{order.reference}}. A confirmation will be sent to\nconfirmed-customer@example.test. Please keep this receipt until your delivery is complete.</p>\n<section><h2>Delivery details</h2><address>{{customer.address}}</address>\n<p>Telephone: {{customer.phone}}. The courier will contact you before delivery.</p>\n<p>Delivery is scheduled for {{delivery.date}}. Follow the parcel at\n<a href=\"{{tracking.url}}\">the tracking page</a>.</p></section>\n<section><h2>Items</h2><table><thead><tr><th>Product</th><th>Details</th>\n<th>Quantity</th><th>Price</th></tr></thead><tbody>\n<tr><td>USB-C travel charger</td><td>45 W, two ports</td><td>1</td><td>GBP 29.90</td></tr>\n<tr><td>Braided charging cable</td><td>2 m, graphite</td><td>1</td><td>GBP 12.50</td></tr>\n<tr><td>Laptop stand</td><td>Adjustable aluminium</td><td>1</td><td>GBP 34.00</td></tr>\n<tr><td>Compact keyboard</td><td>UK layout, wireless</td><td>1</td><td>GBP 59.00</td></tr>\n<tr><td>Notebook refill</td><td>A5, dotted pages</td><td>1</td><td>GBP 6.40</td></tr>\n<tr><td>Desk organiser</td><td>Oak finish, three trays</td><td>1</td><td>GBP 24.90</td></tr>\n<tr><td>Insulated bottle</td><td>500 ml, navy</td><td>1</td><td>GBP 18.00</td></tr>\n<tr><td>Protective sleeve</td><td>14 inch, water resistant</td><td>1</td><td>GBP 21.00</td></tr>\n</tbody></table><p>Delivery: GBP 4.95. VAT is included in the listed prices.</p></section>\n<section><h2>Changes and cancellations</h2>\n<p>Before dispatch, you can update delivery instructions in your account.\nChanges to the delivery address may require a new shipping quote. If an item\nhas already left the warehouse, contact support before placing a replacement order.</p>\n<p>For returns, keep the original accessories and include the order reference.\nRefunds are sent to the original payment method after the returned parcel is checked.</p></section>\n<footer><p>Questions? Write to {{support.email}} from confirmed-customer@example.test,\nor use the contact form in your account. Never send card details by email.</p>\n<p>North Street Supplies, 18 Market Road. This is an order confirmation,\nnot a subscription message. Please check your receipt for incorrect quantities.</p></footer>\n</main></body></html>",
+      "benchmark": true,
+      "repeated_search_may_enter_inline": true,
+      "suite": "documents-replace",
+      "language": "en",
+      "fixture_kind": "constructed complete document",
+      "document": "receipt",
+      "replacement_kind": "longer",
+      "replacement_bytes": 31,
+      "mixed_case": true
+    }
+  ]
+}

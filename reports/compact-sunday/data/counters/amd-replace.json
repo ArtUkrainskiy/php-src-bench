@@ -1,0 +1,5685 @@
+{
+  "format": 2,
+  "kind": "compare",
+  "harness": 2,
+  "date": "2026-11-01T02:36:10+00:00",
+  "suite": "reports/compact-sunday/suites/replace.php",
+  "elapsed_s": 230.2,
+  "complete": true,
+  "config": {
+    "passes": 5,
+    "cpu": 15,
+    "target_ms": 50,
+    "filter": null,
+    "control": true,
+    "wait_idle": 120,
+    "events": "cycles:u,instructions:u"
+  },
+  "env": {
+    "cpu_model": "AMD Ryzen 9 5950X 16-Core Processor",
+    "kernel": "7.0.0-38-generic",
+    "cpu": 15,
+    "cpu_siblings": "15,31",
+    "hybrid_pcores": null,
+    "cpu_is_pcore": null,
+    "governor": "performance",
+    "epp": "performance",
+    "turbo": true,
+    "on_ac": null,
+    "load": 0.1220703125,
+    "busy_pct": {
+      "15": 0,
+      "31": 0
+    },
+    "idle_cpu": 1
+  },
+  "groups": [
+    {
+      "name": "aa",
+      "a": "compact-base-gcc15",
+      "b": "compact-base-gcc15"
+    },
+    {
+      "name": "gcc15",
+      "a": "compact-base-gcc15",
+      "b": "compact-head-gcc15"
+    },
+    {
+      "name": "clang21",
+      "a": "compact-base-clang21",
+      "b": "compact-head-clang21"
+    },
+    {
+      "name": "aa2",
+      "a": "compact-base-gcc15",
+      "b": "compact-base-gcc15"
+    }
+  ],
+  "builds": {
+    "compact-base-gcc15": {
+      "php": "BUILD_DIR/compact-base-gcc15/sapi/cli/php",
+      "build": {
+        "name": "compact-base-gcc15",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:43:27+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-gcc15/sapi/cli/php"
+      },
+      "sha1": "962804b78072507bf9e2d5006aad239718872788"
+    },
+    "compact-head-gcc15": {
+      "php": "BUILD_DIR/compact-head-gcc15/sapi/cli/php",
+      "build": {
+        "name": "compact-head-gcc15",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:45:00+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-gcc15/sapi/cli/php"
+      },
+      "sha1": "119eb9050525232350b88606c134772a58b1c579"
+    },
+    "compact-base-clang21": {
+      "php": "BUILD_DIR/compact-base-clang21/sapi/cli/php",
+      "build": {
+        "name": "compact-base-clang21",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:44:13+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang-21",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-clang21/sapi/cli/php"
+      },
+      "sha1": "c33890a4894d3839f124ea0c422c5d1f2607bbef"
+    },
+    "compact-head-clang21": {
+      "php": "BUILD_DIR/compact-head-clang21/sapi/cli/php",
+      "build": {
+        "name": "compact-head-clang21",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:45:46+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang-21",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-clang21/sapi/cli/php"
+      },
+      "sha1": "3f96b0e59e376ce2f730c99c2b01fad1a484a268"
+    }
+  },
+  "sources": {
+    "suite": "47e4d2417d666b2bc81af45e66b948aa79e306ed",
+    "harness": "c3113f45c2a11bcb63f0b1fb7a4e44ef6843325d",
+    "corpus": "e5c81343e158d86e921e121508cb8b101980f980"
+  },
+  "machine_warnings": [
+    "turbo boost is on: thermal and frequency drift between rounds (sudo CAPTURE_PATH/bench tune on)"
+  ],
+  "cases": {
+    "str_replace/en/absent @ str_replace-en-absent": {
+      "input_len": 4096,
+      "input_chars": 4096,
+      "n": 67792
+    },
+    "str_replace/en/start @ str_replace-en-start": {
+      "input_len": 4116,
+      "input_chars": 4116,
+      "n": 32547
+    },
+    "str_replace/en/middle @ str_replace-en-middle": {
+      "input_len": 4116,
+      "input_chars": 4116,
+      "n": 32130
+    },
+    "str_replace/en/end @ str_replace-en-end": {
+      "input_len": 4116,
+      "input_chars": 4116,
+      "n": 32837
+    },
+    "str_ireplace/en/absent @ str_replace-en-absent": {
+      "input_len": 4096,
+      "input_chars": 4096,
+      "n": 58349
+    },
+    "str_ireplace/en/start @ str_ireplace-en-start": {
+      "input_len": 4116,
+      "input_chars": 4116,
+      "n": 29797
+    },
+    "str_ireplace/en/middle @ str_ireplace-en-middle": {
+      "input_len": 4116,
+      "input_chars": 4116,
+      "n": 29226
+    },
+    "str_ireplace/en/end @ str_ireplace-en-end": {
+      "input_len": 4116,
+      "input_chars": 4116,
+      "n": 29485
+    },
+    "strtr/en/absent @ str_replace-en-absent": {
+      "input_len": 4096,
+      "input_chars": 4096,
+      "n": 67884
+    },
+    "strtr/en/start @ str_replace-en-start": {
+      "input_len": 4116,
+      "input_chars": 4116,
+      "n": 32613
+    },
+    "strtr/en/middle @ str_replace-en-middle": {
+      "input_len": 4116,
+      "input_chars": 4116,
+      "n": 32332
+    },
+    "strtr/en/end @ str_replace-en-end": {
+      "input_len": 4116,
+      "input_chars": 4116,
+      "n": 32926
+    },
+    "str_replace/en/repeated @ str_replace-en-repeated": {
+      "input_len": 3480,
+      "input_chars": 3480,
+      "n": 35146
+    },
+    "str_ireplace/en/repeated @ str_ireplace-en-repeated": {
+      "input_len": 3480,
+      "input_chars": 3480,
+      "n": 31717
+    },
+    "strtr/en/repeated @ str_replace-en-repeated": {
+      "input_len": 3480,
+      "input_chars": 3480,
+      "n": 35201
+    }
+  },
+  "warnings": [],
+  "marks": [],
+  "rows": [
+    [
+      "aa",
+      "a",
+      "str_replace/en/absent @ str_replace-en-absent",
+      249317461,
+      372919148,
+      9103804,
+      17474633
+    ],
+    [
+      "aa",
+      "b",
+      "str_replace/en/absent @ str_replace-en-absent",
+      248837846,
+      372919469,
+      9121912,
+      17474801
+    ],
+    [
+      "aa",
+      "b",
+      "str_replace/en/absent @ str_replace-en-absent",
+      248709345,
+      372918753,
+      9097749,
+      17474943
+    ],
+    [
+      "aa",
+      "a",
+      "str_replace/en/absent @ str_replace-en-absent",
+      249359387,
+      372918540,
+      9098690,
+      17474178
+    ],
+    [
+      "aa",
+      "a",
+      "str_replace/en/absent @ str_replace-en-absent",
+      248901591,
+      372916005,
+      9136670,
+      17474970
+    ],
+    [
+      "aa",
+      "b",
+      "str_replace/en/absent @ str_replace-en-absent",
+      248931435,
+      372916633,
+      9131918,
+      17474268
+    ],
+    [
+      "aa",
+      "b",
+      "str_replace/en/absent @ str_replace-en-absent",
+      249403579,
+      372916449,
+      9119582,
+      17474974
+    ],
+    [
+      "aa",
+      "a",
+      "str_replace/en/absent @ str_replace-en-absent",
+      248951142,
+      372915418,
+      9083150,
+      17475560
+    ],
+    [
+      "aa",
+      "a",
+      "str_replace/en/absent @ str_replace-en-absent",
+      249306569,
+      372916979,
+      9094516,
+      17475020
+    ],
+    [
+      "aa",
+      "b",
+      "str_replace/en/absent @ str_replace-en-absent",
+      249394450,
+      372915963,
+      9080537,
+      17474779
+    ],
+    [
+      "aa",
+      "a",
+      "str_replace/en/start @ str_replace-en-start",
+      248289696,
+      400978920,
+      8867537,
+      16459924
+    ],
+    [
+      "aa",
+      "b",
+      "str_replace/en/start @ str_replace-en-start",
+      248215381,
+      400977996,
+      8772186,
+      16460047
+    ],
+    [
+      "aa",
+      "b",
+      "str_replace/en/start @ str_replace-en-start",
+      248295460,
+      400978276,
+      8783644,
+      16458974
+    ],
+    [
+      "aa",
+      "a",
+      "str_replace/en/start @ str_replace-en-start",
+      248252317,
+      400977909,
+      8749875,
+      16458971
+    ],
+    [
+      "aa",
+      "a",
+      "str_replace/en/start @ str_replace-en-start",
+      247787222,
+      400980469,
+      8774028,
+      16458407
+    ],
+    [
+      "aa",
+      "b",
+      "str_replace/en/start @ str_replace-en-start",
+      248428039,
+      400978192,
+      8781285,
+      16459671
+    ],
+    [
+      "aa",
+      "b",
+      "str_replace/en/start @ str_replace-en-start",
+      247921936,
+      400977218,
+      8771136,
+      16459372
+    ],
+    [
+      "aa",
+      "a",
+      "str_replace/en/start @ str_replace-en-start",
+      247722243,
+      400977637,
+      8801736,
+      16458943
+    ],
+    [
+      "aa",
+      "a",
+      "str_replace/en/start @ str_replace-en-start",
+      268857566,
+      400980542,
+      8770243,
+      16458671
+    ],
+    [
+      "aa",
+      "b",
+      "str_replace/en/start @ str_replace-en-start",
+      247971343,
+      400977441,
+      8792826,
+      16458793
+    ],
+    [
+      "aa",
+      "a",
+      "str_replace/en/middle @ str_replace-en-middle",
+      247296118,
+      395816142,
+      8765829,
+      16449558
+    ],
+    [
+      "aa",
+      "b",
+      "str_replace/en/middle @ str_replace-en-middle",
+      247605455,
+      395813751,
+      8772662,
+      16447464
+    ],
+    [
+      "aa",
+      "b",
+      "str_replace/en/middle @ str_replace-en-middle",
+      247046589,
+      395813395,
+      8904590,
+      16447541
+    ],
+    [
+      "aa",
+      "a",
+      "str_replace/en/middle @ str_replace-en-middle",
+      248229221,
+      395813702,
+      8823147,
+      16449515
+    ],
+    [
+      "aa",
+      "a",
+      "str_replace/en/middle @ str_replace-en-middle",
+      247879775,
+      395815034,
+      8798438,
+      16446570
+    ],
+    [
+      "aa",
+      "b",
+      "str_replace/en/middle @ str_replace-en-middle",
+      247089819,
+      395815173,
+      8795497,
+      16446924
+    ],
+    [
+      "aa",
+      "b",
+      "str_replace/en/middle @ str_replace-en-middle",
+      247135581,
+      395817527,
+      8808951,
+      16447744
+    ],
+    [
+      "aa",
+      "a",
+      "str_replace/en/middle @ str_replace-en-middle",
+      247764671,
+      395816541,
+      8763772,
+      16446431
+    ],
+    [
+      "aa",
+      "a",
+      "str_replace/en/middle @ str_replace-en-middle",
+      247382279,
+      395816364,
+      8825622,
+      16450086
+    ],
+    [
+      "aa",
+      "b",
+      "str_replace/en/middle @ str_replace-en-middle",
+      247558947,
+      395814894,
+      8832545,
+      16450123
+    ],
+    [
+      "aa",
+      "a",
+      "str_replace/en/end @ str_replace-en-end",
+      247988724,
+      383264749,
+      8749014,
+      16466555
+    ],
+    [
+      "aa",
+      "b",
+      "str_replace/en/end @ str_replace-en-end",
+      247421532,
+      383263790,
+      8793560,
+      16467041
+    ],
+    [
+      "aa",
+      "b",
+      "str_replace/en/end @ str_replace-en-end",
+      247417774,
+      383264299,
+      8781072,
+      16466776
+    ],
+    [
+      "aa",
+      "a",
+      "str_replace/en/end @ str_replace-en-end",
+      248170225,
+      383264343,
+      8795932,
+      16468679
+    ],
+    [
+      "aa",
+      "a",
+      "str_replace/en/end @ str_replace-en-end",
+      247674774,
+      383264112,
+      8805358,
+      16466276
+    ],
+    [
+      "aa",
+      "b",
+      "str_replace/en/end @ str_replace-en-end",
+      247575714,
+      383263366,
+      8831597,
+      16469194
+    ],
+    [
+      "aa",
+      "b",
+      "str_replace/en/end @ str_replace-en-end",
+      247954079,
+      383266570,
+      8742895,
+      16466645
+    ],
+    [
+      "aa",
+      "a",
+      "str_replace/en/end @ str_replace-en-end",
+      247451716,
+      383265017,
+      8793264,
+      16467130
+    ],
+    [
+      "aa",
+      "a",
+      "str_replace/en/end @ str_replace-en-end",
+      247589767,
+      383264360,
+      8785983,
+      16467114
+    ],
+    [
+      "aa",
+      "b",
+      "str_replace/en/end @ str_replace-en-end",
+      248231551,
+      383263843,
+      8759587,
+      16466745
+    ],
+    [
+      "aa",
+      "a",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      247469112,
+      511136565,
+      9059544,
+      17205896
+    ],
+    [
+      "aa",
+      "b",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      247406651,
+      511139374,
+      9019153,
+      17204104
+    ],
+    [
+      "aa",
+      "b",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      248433141,
+      511136042,
+      9022012,
+      17203896
+    ],
+    [
+      "aa",
+      "a",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      247580527,
+      511139135,
+      8993874,
+      17204158
+    ],
+    [
+      "aa",
+      "a",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      247337304,
+      511136112,
+      9035812,
+      17206917
+    ],
+    [
+      "aa",
+      "b",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      248443214,
+      511136031,
+      9015914,
+      17204653
+    ],
+    [
+      "aa",
+      "b",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      247534418,
+      511136199,
+      9050712,
+      17206290
+    ],
+    [
+      "aa",
+      "a",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      247590303,
+      511136724,
+      9017079,
+      17203349
+    ],
+    [
+      "aa",
+      "a",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      247597007,
+      511136250,
+      9033847,
+      17206685
+    ],
+    [
+      "aa",
+      "b",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      247577059,
+      511135717,
+      9184307,
+      17204139
+    ],
+    [
+      "aa",
+      "a",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      247039831,
+      478989907,
+      8746668,
+      16382690
+    ],
+    [
+      "aa",
+      "b",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      247592797,
+      478992370,
+      8711382,
+      16383647
+    ],
+    [
+      "aa",
+      "b",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      247438377,
+      478990178,
+      8803105,
+      16383108
+    ],
+    [
+      "aa",
+      "a",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      247096269,
+      478992573,
+      8735130,
+      16385931
+    ],
+    [
+      "aa",
+      "a",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      247548093,
+      478988954,
+      8761107,
+      16382676
+    ],
+    [
+      "aa",
+      "b",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      247145440,
+      478989110,
+      8760470,
+      16383368
+    ],
+    [
+      "aa",
+      "b",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      247107178,
+      478989599,
+      8765316,
+      16385040
+    ],
+    [
+      "aa",
+      "a",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      247540428,
+      478991123,
+      8780969,
+      16383737
+    ],
+    [
+      "aa",
+      "a",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      247005834,
+      478991240,
+      8798267,
+      16385798
+    ],
+    [
+      "aa",
+      "b",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      247371271,
+      478989756,
+      8804753,
+      16382383
+    ],
+    [
+      "aa",
+      "a",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      247692797,
+      475923863,
+      8755504,
+      16367178
+    ],
+    [
+      "aa",
+      "b",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      246935969,
+      475924597,
+      8817154,
+      16366441
+    ],
+    [
+      "aa",
+      "b",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      247002050,
+      475927159,
+      8793712,
+      16367041
+    ],
+    [
+      "aa",
+      "a",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      247730556,
+      475925116,
+      8752094,
+      16369924
+    ],
+    [
+      "aa",
+      "a",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      247214734,
+      475925195,
+      8747999,
+      16369332
+    ],
+    [
+      "aa",
+      "b",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      247502220,
+      475926797,
+      8762777,
+      16366850
+    ],
+    [
+      "aa",
+      "b",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      247858504,
+      475924022,
+      8737256,
+      16367015
+    ],
+    [
+      "aa",
+      "a",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      247954370,
+      475925207,
+      8757033,
+      16367388
+    ],
+    [
+      "aa",
+      "a",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      247197109,
+      475927131,
+      8792032,
+      16367850
+    ],
+    [
+      "aa",
+      "b",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      248206431,
+      475924937,
+      8731138,
+      16368300
+    ],
+    [
+      "aa",
+      "a",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      246781447,
+      465909576,
+      8794643,
+      16374040
+    ],
+    [
+      "aa",
+      "b",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      247149345,
+      465913542,
+      8734927,
+      16375960
+    ],
+    [
+      "aa",
+      "b",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      247566532,
+      465910144,
+      8728779,
+      16374295
+    ],
+    [
+      "aa",
+      "a",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      247173368,
+      465910113,
+      8774487,
+      16373746
+    ],
+    [
+      "aa",
+      "a",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      246969694,
+      465910131,
+      8790824,
+      16376544
+    ],
+    [
+      "aa",
+      "b",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      247767175,
+      465909526,
+      8732638,
+      16373808
+    ],
+    [
+      "aa",
+      "b",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      246825672,
+      465910266,
+      8761962,
+      16373868
+    ],
+    [
+      "aa",
+      "a",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      247266478,
+      465909975,
+      8785037,
+      16377134
+    ],
+    [
+      "aa",
+      "a",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      246944970,
+      465910600,
+      8729392,
+      16373827
+    ],
+    [
+      "aa",
+      "b",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      247043525,
+      465912663,
+      8809121,
+      16376567
+    ],
+    [
+      "aa",
+      "a",
+      "strtr/en/absent @ str_replace-en-absent",
+      247817537,
+      368038169,
+      9122979,
+      17475824
+    ],
+    [
+      "aa",
+      "b",
+      "strtr/en/absent @ str_replace-en-absent",
+      248287617,
+      368038544,
+      9090512,
+      17476861
+    ],
+    [
+      "aa",
+      "b",
+      "strtr/en/absent @ str_replace-en-absent",
+      247272049,
+      368040664,
+      9143157,
+      17476913
+    ],
+    [
+      "aa",
+      "a",
+      "strtr/en/absent @ str_replace-en-absent",
+      247625549,
+      368040927,
+      9240398,
+      17478324
+    ],
+    [
+      "aa",
+      "a",
+      "strtr/en/absent @ str_replace-en-absent",
+      248034542,
+      368037973,
+      9095128,
+      17479254
+    ],
+    [
+      "aa",
+      "b",
+      "strtr/en/absent @ str_replace-en-absent",
+      247554258,
+      368040551,
+      9129353,
+      17476539
+    ],
+    [
+      "aa",
+      "b",
+      "strtr/en/absent @ str_replace-en-absent",
+      247519286,
+      368039110,
+      9119063,
+      17478965
+    ],
+    [
+      "aa",
+      "a",
+      "strtr/en/absent @ str_replace-en-absent",
+      248063797,
+      368040964,
+      9101276,
+      17477101
+    ],
+    [
+      "aa",
+      "a",
+      "strtr/en/absent @ str_replace-en-absent",
+      247506015,
+      368038105,
+      9136340,
+      17479621
+    ],
+    [
+      "aa",
+      "b",
+      "strtr/en/absent @ str_replace-en-absent",
+      247529836,
+      368037926,
+      9137241,
+      17477461
+    ],
+    [
+      "aa",
+      "a",
+      "strtr/en/start @ str_replace-en-start",
+      248224706,
+      399183826,
+      8770771,
+      16460855
+    ],
+    [
+      "aa",
+      "b",
+      "strtr/en/start @ str_replace-en-start",
+      247549955,
+      399182524,
+      8755420,
+      16461848
+    ],
+    [
+      "aa",
+      "b",
+      "strtr/en/start @ str_replace-en-start",
+      247642882,
+      399183036,
+      8756588,
+      16460537
+    ],
+    [
+      "aa",
+      "a",
+      "strtr/en/start @ str_replace-en-start",
+      248134851,
+      399183707,
+      8823140,
+      16463657
+    ],
+    [
+      "aa",
+      "a",
+      "strtr/en/start @ str_replace-en-start",
+      247509046,
+      399185043,
+      8830116,
+      16461719
+    ],
+    [
+      "aa",
+      "b",
+      "strtr/en/start @ str_replace-en-start",
+      247482376,
+      399182452,
+      8796116,
+      16463310
+    ],
+    [
+      "aa",
+      "b",
+      "strtr/en/start @ str_replace-en-start",
+      248170992,
+      399183281,
+      8762907,
+      16460807
+    ],
+    [
+      "aa",
+      "a",
+      "strtr/en/start @ str_replace-en-start",
+      247686136,
+      399184747,
+      8816095,
+      16460811
+    ],
+    [
+      "aa",
+      "a",
+      "strtr/en/start @ str_replace-en-start",
+      250448493,
+      399184138,
+      8832018,
+      16461156
+    ],
+    [
+      "aa",
+      "b",
+      "strtr/en/start @ str_replace-en-start",
+      248140870,
+      399183378,
+      8797042,
+      16460791
+    ],
+    [
+      "aa",
+      "a",
+      "strtr/en/middle @ str_replace-en-middle",
+      247883992,
+      395651224,
+      8782390,
+      16455266
+    ],
+    [
+      "aa",
+      "b",
+      "strtr/en/middle @ str_replace-en-middle",
+      247716302,
+      395650928,
+      8760171,
+      16452671
+    ],
+    [
+      "aa",
+      "b",
+      "strtr/en/middle @ str_replace-en-middle",
+      248348558,
+      395651421,
+      8798516,
+      16453068
+    ],
+    [
+      "aa",
+      "a",
+      "strtr/en/middle @ str_replace-en-middle",
+      250752838,
+      395651815,
+      8774977,
+      16453379
+    ],
+    [
+      "aa",
+      "a",
+      "strtr/en/middle @ str_replace-en-middle",
+      247931189,
+      395653675,
+      8816369,
+      16452874
+    ],
+    [
+      "aa",
+      "b",
+      "strtr/en/middle @ str_replace-en-middle",
+      265737650,
+      395651276,
+      8757870,
+      16453074
+    ],
+    [
+      "aa",
+      "b",
+      "strtr/en/middle @ str_replace-en-middle",
+      247944236,
+      395650845,
+      8801204,
+      16452948
+    ],
+    [
+      "aa",
+      "a",
+      "strtr/en/middle @ str_replace-en-middle",
+      247672223,
+      395650706,
+      8771432,
+      16455028
+    ],
+    [
+      "aa",
+      "a",
+      "strtr/en/middle @ str_replace-en-middle",
+      248408128,
+      395654289,
+      8760829,
+      16452603
+    ],
+    [
+      "aa",
+      "b",
+      "strtr/en/middle @ str_replace-en-middle",
+      247727054,
+      395651423,
+      9014465,
+      16453431
+    ],
+    [
+      "aa",
+      "a",
+      "strtr/en/end @ str_replace-en-end",
+      247580863,
+      381660113,
+      8760566,
+      16469897
+    ],
+    [
+      "aa",
+      "b",
+      "strtr/en/end @ str_replace-en-end",
+      248353466,
+      381660312,
+      8751152,
+      16472163
+    ],
+    [
+      "aa",
+      "b",
+      "strtr/en/end @ str_replace-en-end",
+      247458735,
+      381660378,
+      8798153,
+      16469171
+    ],
+    [
+      "aa",
+      "a",
+      "strtr/en/end @ str_replace-en-end",
+      247998121,
+      381660543,
+      8795898,
+      16471615
+    ],
+    [
+      "aa",
+      "a",
+      "strtr/en/end @ str_replace-en-end",
+      247704468,
+      381660225,
+      8776927,
+      16472188
+    ],
+    [
+      "aa",
+      "b",
+      "strtr/en/end @ str_replace-en-end",
+      247282441,
+      381659671,
+      8816254,
+      16472002
+    ],
+    [
+      "aa",
+      "b",
+      "strtr/en/end @ str_replace-en-end",
+      247177471,
+      381662213,
+      8784635,
+      16469143
+    ],
+    [
+      "aa",
+      "a",
+      "strtr/en/end @ str_replace-en-end",
+      247819634,
+      381660366,
+      8791091,
+      16470354
+    ],
+    [
+      "aa",
+      "a",
+      "strtr/en/end @ str_replace-en-end",
+      247351639,
+      381659764,
+      8816783,
+      16469887
+    ],
+    [
+      "aa",
+      "b",
+      "strtr/en/end @ str_replace-en-end",
+      247473366,
+      381660240,
+      8775930,
+      16469770
+    ],
+    [
+      "aa",
+      "a",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      247370160,
+      728630693,
+      8801970,
+      16532059
+    ],
+    [
+      "aa",
+      "b",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      247554013,
+      728632256,
+      8798020,
+      16528723
+    ],
+    [
+      "aa",
+      "b",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      247694282,
+      728630322,
+      8795835,
+      16528019
+    ],
+    [
+      "aa",
+      "a",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      249960623,
+      728630039,
+      8810927,
+      16531887
+    ],
+    [
+      "aa",
+      "a",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      245469652,
+      728630505,
+      8829209,
+      16528527
+    ],
+    [
+      "aa",
+      "b",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      245593343,
+      728630223,
+      8800086,
+      16529015
+    ],
+    [
+      "aa",
+      "b",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      246566455,
+      728629676,
+      8843708,
+      16528416
+    ],
+    [
+      "aa",
+      "a",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      246175445,
+      728632530,
+      8785344,
+      16529515
+    ],
+    [
+      "aa",
+      "a",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      245360919,
+      728630893,
+      8846147,
+      16528445
+    ],
+    [
+      "aa",
+      "b",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      248982608,
+      728629502,
+      8774557,
+      16528545
+    ],
+    [
+      "aa",
+      "a",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      245889374,
+      767154099,
+      8810180,
+      16433375
+    ],
+    [
+      "aa",
+      "b",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      244505092,
+      767152571,
+      8788889,
+      16434451
+    ],
+    [
+      "aa",
+      "b",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      245978772,
+      767153113,
+      8776633,
+      16432269
+    ],
+    [
+      "aa",
+      "a",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      244772183,
+      767149990,
+      8814530,
+      16432761
+    ],
+    [
+      "aa",
+      "a",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      243969433,
+      767150222,
+      8770255,
+      16433536
+    ],
+    [
+      "aa",
+      "b",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      246316691,
+      767150581,
+      8761192,
+      16432976
+    ],
+    [
+      "aa",
+      "b",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      245380565,
+      767150820,
+      8792314,
+      16432678
+    ],
+    [
+      "aa",
+      "a",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      243985715,
+      767150713,
+      8783098,
+      16432534
+    ],
+    [
+      "aa",
+      "a",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      243701877,
+      767150278,
+      8787069,
+      16432774
+    ],
+    [
+      "aa",
+      "b",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      244524329,
+      767150561,
+      8813645,
+      16432806
+    ],
+    [
+      "aa",
+      "a",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      245282478,
+      725275801,
+      8821908,
+      16530492
+    ],
+    [
+      "aa",
+      "b",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      244608221,
+      725275359,
+      8792929,
+      16530253
+    ],
+    [
+      "aa",
+      "b",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      243918719,
+      725276001,
+      8790313,
+      16530706
+    ],
+    [
+      "aa",
+      "a",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      244668434,
+      725275712,
+      8814039,
+      16530595
+    ],
+    [
+      "aa",
+      "a",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      245737327,
+      725278581,
+      8821091,
+      16531437
+    ],
+    [
+      "aa",
+      "b",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      247052605,
+      725278762,
+      8820093,
+      16530664
+    ],
+    [
+      "aa",
+      "b",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      243883189,
+      725277626,
+      8842795,
+      16531360
+    ],
+    [
+      "aa",
+      "a",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      244501819,
+      725278229,
+      8792655,
+      16530545
+    ],
+    [
+      "aa",
+      "a",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      243720428,
+      725275519,
+      8836494,
+      16530702
+    ],
+    [
+      "aa",
+      "b",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      245826368,
+      725275854,
+      8794016,
+      16530596
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_replace/en/absent @ str_replace-en-absent",
+      249405030,
+      372916166,
+      9127287,
+      17474191
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_replace/en/absent @ str_replace-en-absent",
+      226447750,
+      363223778,
+      9111890,
+      17476980
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_replace/en/absent @ str_replace-en-absent",
+      226737722,
+      363222104,
+      9092396,
+      17474158
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_replace/en/absent @ str_replace-en-absent",
+      249308416,
+      372916584,
+      9129447,
+      17475008
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_replace/en/absent @ str_replace-en-absent",
+      248982656,
+      372916224,
+      9158197,
+      17475070
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_replace/en/absent @ str_replace-en-absent",
+      226229227,
+      363224841,
+      9111742,
+      17474326
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_replace/en/absent @ str_replace-en-absent",
+      226583461,
+      363224805,
+      9174114,
+      17474690
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_replace/en/absent @ str_replace-en-absent",
+      248705480,
+      372915818,
+      9145720,
+      17477425
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_replace/en/absent @ str_replace-en-absent",
+      250796464,
+      372916238,
+      9111514,
+      17474752
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_replace/en/absent @ str_replace-en-absent",
+      226735838,
+      363222671,
+      9072233,
+      17475462
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_replace/en/start @ str_replace-en-start",
+      249367298,
+      400978327,
+      8783820,
+      16458699
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_replace/en/start @ str_replace-en-start",
+      224957010,
+      382359320,
+      8787627,
+      16461804
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_replace/en/start @ str_replace-en-start",
+      225071620,
+      382362954,
+      8808216,
+      16458382
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_replace/en/start @ str_replace-en-start",
+      247928247,
+      400978823,
+      8781717,
+      16461424
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_replace/en/start @ str_replace-en-start",
+      247700008,
+      400977935,
+      8791211,
+      16460091
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_replace/en/start @ str_replace-en-start",
+      225402359,
+      382362827,
+      8791793,
+      16459405
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_replace/en/start @ str_replace-en-start",
+      224549259,
+      382361382,
+      8769932,
+      16458761
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_replace/en/start @ str_replace-en-start",
+      247842731,
+      400977240,
+      8762903,
+      16459425
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_replace/en/start @ str_replace-en-start",
+      248499648,
+      400977134,
+      8838182,
+      16458928
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_replace/en/start @ str_replace-en-start",
+      224784914,
+      382361747,
+      8805333,
+      16458966
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_replace/en/middle @ str_replace-en-middle",
+      247348328,
+      395814479,
+      8786850,
+      16448240
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_replace/en/middle @ str_replace-en-middle",
+      224161117,
+      377437886,
+      8799552,
+      16449192
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_replace/en/middle @ str_replace-en-middle",
+      223857473,
+      377435397,
+      8753117,
+      16447088
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_replace/en/middle @ str_replace-en-middle",
+      247308782,
+      395817068,
+      8767256,
+      16448060
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_replace/en/middle @ str_replace-en-middle",
+      247873944,
+      395814096,
+      8794332,
+      16446728
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_replace/en/middle @ str_replace-en-middle",
+      223809755,
+      377434770,
+      8796774,
+      16446347
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_replace/en/middle @ str_replace-en-middle",
+      223844238,
+      377435056,
+      8798865,
+      16447632
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_replace/en/middle @ str_replace-en-middle",
+      247782409,
+      395813709,
+      8798811,
+      16448045
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_replace/en/middle @ str_replace-en-middle",
+      247230099,
+      395814630,
+      8768188,
+      16448244
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_replace/en/middle @ str_replace-en-middle",
+      224372953,
+      377435715,
+      8768500,
+      16448976
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_replace/en/end @ str_replace-en-end",
+      248087024,
+      383264605,
+      8825023,
+      16469065
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_replace/en/end @ str_replace-en-end",
+      225551174,
+      373871758,
+      8804430,
+      16466803
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_replace/en/end @ str_replace-en-end",
+      225603133,
+      373872544,
+      8784355,
+      16466819
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_replace/en/end @ str_replace-en-end",
+      247426963,
+      383266460,
+      8805100,
+      16467056
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_replace/en/end @ str_replace-en-end",
+      247317553,
+      383266205,
+      8774620,
+      16469207
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_replace/en/end @ str_replace-en-end",
+      225444666,
+      373872164,
+      8781431,
+      16466431
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_replace/en/end @ str_replace-en-end",
+      226870766,
+      373872297,
+      8791574,
+      16467085
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_replace/en/end @ str_replace-en-end",
+      247464763,
+      383264333,
+      8794013,
+      16466694
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_replace/en/end @ str_replace-en-end",
+      247415255,
+      383263445,
+      8797108,
+      16467504
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_replace/en/end @ str_replace-en-end",
+      225831309,
+      373872932,
+      8757605,
+      16466105
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      247723598,
+      511138240,
+      9013314,
+      17206534
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      227788067,
+      502792838,
+      9023504,
+      17207317
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      228024261,
+      502792429,
+      8996283,
+      17203651
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      247420695,
+      511135722,
+      9065999,
+      17203881
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      247457652,
+      511135975,
+      9055691,
+      17204079
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      227513921,
+      502791786,
+      8996213,
+      17203344
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      228425473,
+      502794617,
+      9003781,
+      17203660
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      247527210,
+      511137277,
+      9000178,
+      17204619
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      247525870,
+      511135972,
+      9049514,
+      17203521
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      227672361,
+      502791968,
+      9055588,
+      17205013
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      246900377,
+      478991015,
+      8769012,
+      16386015
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      226330626,
+      461945235,
+      8724531,
+      16382385
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      226099396,
+      461945395,
+      8760234,
+      16382363
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      247208338,
+      478989131,
+      8795459,
+      16383665
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      247648207,
+      478989386,
+      8759646,
+      16383780
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      225777808,
+      461945448,
+      8789007,
+      16383012
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      225843792,
+      461948471,
+      8750382,
+      16383545
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      249595962,
+      478989653,
+      8735305,
+      16385258
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      247169612,
+      478991477,
+      8791198,
+      16383366
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      225699888,
+      461945282,
+      8773930,
+      16382060
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      247455774,
+      475925488,
+      8786417,
+      16369723
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      225773287,
+      459206880,
+      8763632,
+      16366289
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      225029318,
+      459207787,
+      8770466,
+      16366389
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      247452193,
+      475924765,
+      8828582,
+      16367232
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      247599477,
+      475925018,
+      8755185,
+      16368930
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      225159939,
+      459207065,
+      8776425,
+      16366026
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      225679268,
+      459206239,
+      8761457,
+      16368794
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      247063396,
+      475923801,
+      8757922,
+      16366608
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      247257824,
+      475924581,
+      8737451,
+      16367288
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      225468502,
+      459208884,
+      8769274,
+      16367240
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      247053705,
+      465912657,
+      8773468,
+      16375706
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      226462347,
+      457477211,
+      8769931,
+      16373751
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      227446782,
+      457477301,
+      8756742,
+      16373218
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      246957534,
+      465909793,
+      8757039,
+      16373196
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      246936016,
+      465909702,
+      8776205,
+      16373863
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      226946158,
+      457478155,
+      8776713,
+      16376421
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      226660886,
+      457476224,
+      8794030,
+      16373693
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      246903445,
+      465910405,
+      8789329,
+      16376376
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      247473170,
+      465912527,
+      8744591,
+      16373648
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      226766896,
+      457477787,
+      8732623,
+      16373643
+    ],
+    [
+      "gcc15",
+      "a",
+      "strtr/en/absent @ str_replace-en-absent",
+      247315056,
+      368037930,
+      9088071,
+      17479690
+    ],
+    [
+      "gcc15",
+      "b",
+      "strtr/en/absent @ str_replace-en-absent",
+      225257098,
+      358330635,
+      9089740,
+      17477576
+    ],
+    [
+      "gcc15",
+      "b",
+      "strtr/en/absent @ str_replace-en-absent",
+      224961258,
+      358333192,
+      9080543,
+      17476597
+    ],
+    [
+      "gcc15",
+      "a",
+      "strtr/en/absent @ str_replace-en-absent",
+      247586872,
+      368038340,
+      9110733,
+      17477569
+    ],
+    [
+      "gcc15",
+      "a",
+      "strtr/en/absent @ str_replace-en-absent",
+      247826762,
+      368038225,
+      9095686,
+      17477232
+    ],
+    [
+      "gcc15",
+      "b",
+      "strtr/en/absent @ str_replace-en-absent",
+      225451482,
+      358330944,
+      9117773,
+      17479480
+    ],
+    [
+      "gcc15",
+      "b",
+      "strtr/en/absent @ str_replace-en-absent",
+      224911532,
+      358331698,
+      9154215,
+      17476436
+    ],
+    [
+      "gcc15",
+      "a",
+      "strtr/en/absent @ str_replace-en-absent",
+      248160991,
+      368038729,
+      9080705,
+      17476781
+    ],
+    [
+      "gcc15",
+      "a",
+      "strtr/en/absent @ str_replace-en-absent",
+      247545320,
+      368041131,
+      9084884,
+      17476662
+    ],
+    [
+      "gcc15",
+      "b",
+      "strtr/en/absent @ str_replace-en-absent",
+      224911102,
+      358330936,
+      9129627,
+      17477553
+    ],
+    [
+      "gcc15",
+      "a",
+      "strtr/en/start @ str_replace-en-start",
+      263041742,
+      399183242,
+      8819538,
+      16460615
+    ],
+    [
+      "gcc15",
+      "b",
+      "strtr/en/start @ str_replace-en-start",
+      224384891,
+      380527666,
+      8778251,
+      16460888
+    ],
+    [
+      "gcc15",
+      "b",
+      "strtr/en/start @ str_replace-en-start",
+      224901041,
+      380527229,
+      8771480,
+      16460340
+    ],
+    [
+      "gcc15",
+      "a",
+      "strtr/en/start @ str_replace-en-start",
+      248585398,
+      399182564,
+      8775461,
+      16461486
+    ],
+    [
+      "gcc15",
+      "a",
+      "strtr/en/start @ str_replace-en-start",
+      247688678,
+      399183334,
+      8812899,
+      16461414
+    ],
+    [
+      "gcc15",
+      "b",
+      "strtr/en/start @ str_replace-en-start",
+      225142332,
+      380527586,
+      8811881,
+      16459460
+    ],
+    [
+      "gcc15",
+      "b",
+      "strtr/en/start @ str_replace-en-start",
+      224828466,
+      380529976,
+      8767061,
+      16460341
+    ],
+    [
+      "gcc15",
+      "a",
+      "strtr/en/start @ str_replace-en-start",
+      247525376,
+      399182436,
+      8774306,
+      16460565
+    ],
+    [
+      "gcc15",
+      "a",
+      "strtr/en/start @ str_replace-en-start",
+      247581382,
+      399183133,
+      8750122,
+      16460895
+    ],
+    [
+      "gcc15",
+      "b",
+      "strtr/en/start @ str_replace-en-start",
+      224931791,
+      380527725,
+      8752899,
+      16460354
+    ],
+    [
+      "gcc15",
+      "a",
+      "strtr/en/middle @ str_replace-en-middle",
+      247890701,
+      395653224,
+      8767516,
+      16453888
+    ],
+    [
+      "gcc15",
+      "b",
+      "strtr/en/middle @ str_replace-en-middle",
+      223989562,
+      377157082,
+      8768518,
+      16452143
+    ],
+    [
+      "gcc15",
+      "b",
+      "strtr/en/middle @ str_replace-en-middle",
+      224265352,
+      377157531,
+      8784205,
+      16451744
+    ],
+    [
+      "gcc15",
+      "a",
+      "strtr/en/middle @ str_replace-en-middle",
+      247701793,
+      395651662,
+      8768607,
+      16452087
+    ],
+    [
+      "gcc15",
+      "a",
+      "strtr/en/middle @ str_replace-en-middle",
+      247816228,
+      395650796,
+      8782381,
+      16453999
+    ],
+    [
+      "gcc15",
+      "b",
+      "strtr/en/middle @ str_replace-en-middle",
+      224555128,
+      377157073,
+      8757551,
+      16453454
+    ],
+    [
+      "gcc15",
+      "b",
+      "strtr/en/middle @ str_replace-en-middle",
+      224210050,
+      377159214,
+      8786300,
+      16452796
+    ],
+    [
+      "gcc15",
+      "a",
+      "strtr/en/middle @ str_replace-en-middle",
+      247861105,
+      395651181,
+      8772814,
+      16455577
+    ],
+    [
+      "gcc15",
+      "a",
+      "strtr/en/middle @ str_replace-en-middle",
+      248438070,
+      395650249,
+      8777430,
+      16453148
+    ],
+    [
+      "gcc15",
+      "b",
+      "strtr/en/middle @ str_replace-en-middle",
+      224161185,
+      377156791,
+      8770372,
+      16452302
+    ],
+    [
+      "gcc15",
+      "a",
+      "strtr/en/end @ str_replace-en-end",
+      247244121,
+      381662588,
+      8793421,
+      16469446
+    ],
+    [
+      "gcc15",
+      "b",
+      "strtr/en/end @ str_replace-en-end",
+      226681576,
+      372242497,
+      8736379,
+      16469360
+    ],
+    [
+      "gcc15",
+      "b",
+      "strtr/en/end @ str_replace-en-end",
+      225325895,
+      372243363,
+      8864425,
+      16471272
+    ],
+    [
+      "gcc15",
+      "a",
+      "strtr/en/end @ str_replace-en-end",
+      247269648,
+      381661115,
+      8770691,
+      16472802
+    ],
+    [
+      "gcc15",
+      "a",
+      "strtr/en/end @ str_replace-en-end",
+      247973947,
+      381659262,
+      8762707,
+      16471827
+    ],
+    [
+      "gcc15",
+      "b",
+      "strtr/en/end @ str_replace-en-end",
+      225410630,
+      372243100,
+      8794406,
+      16471150
+    ],
+    [
+      "gcc15",
+      "b",
+      "strtr/en/end @ str_replace-en-end",
+      225738981,
+      372243550,
+      8819785,
+      16469571
+    ],
+    [
+      "gcc15",
+      "a",
+      "strtr/en/end @ str_replace-en-end",
+      247860621,
+      381659918,
+      8824338,
+      16469746
+    ],
+    [
+      "gcc15",
+      "a",
+      "strtr/en/end @ str_replace-en-end",
+      247521014,
+      381661727,
+      8794731,
+      16469546
+    ],
+    [
+      "gcc15",
+      "b",
+      "strtr/en/end @ str_replace-en-end",
+      225165919,
+      372243151,
+      8777923,
+      16469120
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      247197071,
+      728630390,
+      8795098,
+      16528490
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      205833052,
+      597953622,
+      8809849,
+      16527757
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      204218574,
+      597953802,
+      8937081,
+      16527728
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      247352900,
+      728629635,
+      8807237,
+      16529315
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      245824622,
+      728629784,
+      8779366,
+      16529408
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      204597960,
+      597956858,
+      8812722,
+      16524785
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      204941345,
+      597953033,
+      8821641,
+      16525346
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      245325826,
+      728629941,
+      8807141,
+      16528857
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      245386613,
+      728629972,
+      8785969,
+      16529801
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      204614723,
+      597953369,
+      8792009,
+      16524911
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      244089514,
+      767152701,
+      8801034,
+      16432806
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      204433557,
+      649224220,
+      8742604,
+      16428462
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      207845803,
+      649222680,
+      8779972,
+      16428692
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      242078785,
+      767151315,
+      8758531,
+      16435580
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      244890756,
+      767149914,
+      8758754,
+      16433832
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      204600430,
+      649223615,
+      8740045,
+      16429535
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      207586167,
+      649224031,
+      8795314,
+      16429064
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      242448208,
+      767150933,
+      8784126,
+      16433222
+    ],
+    [
+      "gcc15",
+      "a",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      244994126,
+      767149835,
+      8789178,
+      16433707
+    ],
+    [
+      "gcc15",
+      "b",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      204115548,
+      649223496,
+      8780156,
+      16429547
+    ],
+    [
+      "gcc15",
+      "a",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      244093472,
+      725276092,
+      8786019,
+      16532779
+    ],
+    [
+      "gcc15",
+      "b",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      204533461,
+      594397426,
+      8808326,
+      16526522
+    ],
+    [
+      "gcc15",
+      "b",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      202565002,
+      594394833,
+      8806886,
+      16529007
+    ],
+    [
+      "gcc15",
+      "a",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      244175373,
+      725275796,
+      8784018,
+      16530559
+    ],
+    [
+      "gcc15",
+      "a",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      251556894,
+      725276046,
+      8784196,
+      16532509
+    ],
+    [
+      "gcc15",
+      "b",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      202979160,
+      594393963,
+      8798159,
+      16527054
+    ],
+    [
+      "gcc15",
+      "b",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      202657327,
+      594397274,
+      8794845,
+      16526154
+    ],
+    [
+      "gcc15",
+      "a",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      248019161,
+      725276245,
+      8804451,
+      16530748
+    ],
+    [
+      "gcc15",
+      "a",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      251183345,
+      725276144,
+      8779782,
+      16532458
+    ],
+    [
+      "gcc15",
+      "b",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      210104432,
+      594395017,
+      8822123,
+      16526667
+    ],
+    [
+      "clang21",
+      "a",
+      "str_replace/en/absent @ str_replace-en-absent",
+      230801555,
+      341473721,
+      9282774,
+      17554045
+    ],
+    [
+      "clang21",
+      "b",
+      "str_replace/en/absent @ str_replace-en-absent",
+      206000935,
+      338628484,
+      9211902,
+      17553879
+    ],
+    [
+      "clang21",
+      "b",
+      "str_replace/en/absent @ str_replace-en-absent",
+      205601691,
+      338625220,
+      9206056,
+      17556349
+    ],
+    [
+      "clang21",
+      "a",
+      "str_replace/en/absent @ str_replace-en-absent",
+      230650552,
+      341473256,
+      9235392,
+      17554895
+    ],
+    [
+      "clang21",
+      "a",
+      "str_replace/en/absent @ str_replace-en-absent",
+      230116391,
+      341473379,
+      9263701,
+      17554218
+    ],
+    [
+      "clang21",
+      "b",
+      "str_replace/en/absent @ str_replace-en-absent",
+      206251737,
+      338626530,
+      9230787,
+      17553562
+    ],
+    [
+      "clang21",
+      "b",
+      "str_replace/en/absent @ str_replace-en-absent",
+      206311882,
+      338626069,
+      9198933,
+      17554234
+    ],
+    [
+      "clang21",
+      "a",
+      "str_replace/en/absent @ str_replace-en-absent",
+      230330329,
+      341476231,
+      9250774,
+      17554069
+    ],
+    [
+      "clang21",
+      "a",
+      "str_replace/en/absent @ str_replace-en-absent",
+      230135636,
+      341475677,
+      9255549,
+      17556098
+    ],
+    [
+      "clang21",
+      "b",
+      "str_replace/en/absent @ str_replace-en-absent",
+      205791611,
+      338627767,
+      9216121,
+      17556756
+    ],
+    [
+      "clang21",
+      "a",
+      "str_replace/en/start @ str_replace-en-start",
+      231972231,
+      361735315,
+      8885345,
+      16467664
+    ],
+    [
+      "clang21",
+      "b",
+      "str_replace/en/start @ str_replace-en-start",
+      205554746,
+      356266770,
+      8883728,
+      16467860
+    ],
+    [
+      "clang21",
+      "b",
+      "str_replace/en/start @ str_replace-en-start",
+      205145130,
+      356266508,
+      8833938,
+      16467133
+    ],
+    [
+      "clang21",
+      "a",
+      "str_replace/en/start @ str_replace-en-start",
+      231523120,
+      361734445,
+      8871735,
+      16467531
+    ],
+    [
+      "clang21",
+      "a",
+      "str_replace/en/start @ str_replace-en-start",
+      231521851,
+      361734362,
+      8864821,
+      16468498
+    ],
+    [
+      "clang21",
+      "b",
+      "str_replace/en/start @ str_replace-en-start",
+      206356221,
+      356267702,
+      8875651,
+      16467359
+    ],
+    [
+      "clang21",
+      "b",
+      "str_replace/en/start @ str_replace-en-start",
+      206388149,
+      356269152,
+      8844252,
+      16468482
+    ],
+    [
+      "clang21",
+      "a",
+      "str_replace/en/start @ str_replace-en-start",
+      231557860,
+      361738406,
+      8888437,
+      16470099
+    ],
+    [
+      "clang21",
+      "a",
+      "str_replace/en/start @ str_replace-en-start",
+      232146482,
+      361734916,
+      8848485,
+      16467107
+    ],
+    [
+      "clang21",
+      "b",
+      "str_replace/en/start @ str_replace-en-start",
+      206018175,
+      356266899,
+      8854364,
+      16469885
+    ],
+    [
+      "clang21",
+      "a",
+      "str_replace/en/middle @ str_replace-en-middle",
+      231154385,
+      357138340,
+      8876802,
+      16455468
+    ],
+    [
+      "clang21",
+      "b",
+      "str_replace/en/middle @ str_replace-en-middle",
+      205309373,
+      351739631,
+      8825413,
+      16456848
+    ],
+    [
+      "clang21",
+      "b",
+      "str_replace/en/middle @ str_replace-en-middle",
+      205758486,
+      351741963,
+      8878677,
+      16457984
+    ],
+    [
+      "clang21",
+      "a",
+      "str_replace/en/middle @ str_replace-en-middle",
+      230795622,
+      357137408,
+      8835501,
+      16454702
+    ],
+    [
+      "clang21",
+      "a",
+      "str_replace/en/middle @ str_replace-en-middle",
+      230878775,
+      357140414,
+      8829035,
+      16455326
+    ],
+    [
+      "clang21",
+      "b",
+      "str_replace/en/middle @ str_replace-en-middle",
+      205649965,
+      351742691,
+      8790465,
+      16454939
+    ],
+    [
+      "clang21",
+      "b",
+      "str_replace/en/middle @ str_replace-en-middle",
+      204918429,
+      351742275,
+      8833756,
+      16454381
+    ],
+    [
+      "clang21",
+      "a",
+      "str_replace/en/middle @ str_replace-en-middle",
+      231045904,
+      357137722,
+      8848833,
+      16454821
+    ],
+    [
+      "clang21",
+      "a",
+      "str_replace/en/middle @ str_replace-en-middle",
+      230712391,
+      357137302,
+      8885736,
+      16457644
+    ],
+    [
+      "clang21",
+      "b",
+      "str_replace/en/middle @ str_replace-en-middle",
+      205302629,
+      351742612,
+      8840405,
+      16454543
+    ],
+    [
+      "clang21",
+      "a",
+      "str_replace/en/end @ str_replace-en-end",
+      231236884,
+      353261495,
+      8866574,
+      16477530
+    ],
+    [
+      "clang21",
+      "b",
+      "str_replace/en/end @ str_replace-en-end",
+      207025199,
+      350502609,
+      8895552,
+      16476583
+    ],
+    [
+      "clang21",
+      "b",
+      "str_replace/en/end @ str_replace-en-end",
+      206623863,
+      350503239,
+      8873874,
+      16476484
+    ],
+    [
+      "clang21",
+      "a",
+      "str_replace/en/end @ str_replace-en-end",
+      231226169,
+      353263127,
+      8852702,
+      16476914
+    ],
+    [
+      "clang21",
+      "a",
+      "str_replace/en/end @ str_replace-en-end",
+      230893186,
+      353261592,
+      8876587,
+      16479626
+    ],
+    [
+      "clang21",
+      "b",
+      "str_replace/en/end @ str_replace-en-end",
+      206758514,
+      350504139,
+      8880128,
+      16476833
+    ],
+    [
+      "clang21",
+      "b",
+      "str_replace/en/end @ str_replace-en-end",
+      207281442,
+      350503431,
+      8859181,
+      16476401
+    ],
+    [
+      "clang21",
+      "a",
+      "str_replace/en/end @ str_replace-en-end",
+      230750297,
+      353261240,
+      8864125,
+      16476574
+    ],
+    [
+      "clang21",
+      "a",
+      "str_replace/en/end @ str_replace-en-end",
+      230793387,
+      353260951,
+      8869692,
+      16476871
+    ],
+    [
+      "clang21",
+      "b",
+      "str_replace/en/end @ str_replace-en-end",
+      207242693,
+      350503133,
+      8851356,
+      16476566
+    ],
+    [
+      "clang21",
+      "a",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      234377743,
+      516274173,
+      9214933,
+      17265836
+    ],
+    [
+      "clang21",
+      "b",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      213838618,
+      513826656,
+      9144107,
+      17264899
+    ],
+    [
+      "clang21",
+      "b",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      213685819,
+      513824161,
+      9116120,
+      17265530
+    ],
+    [
+      "clang21",
+      "a",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      234904763,
+      516273921,
+      9153296,
+      17265920
+    ],
+    [
+      "clang21",
+      "a",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      235110731,
+      516274731,
+      9189970,
+      17265719
+    ],
+    [
+      "clang21",
+      "b",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      214620344,
+      513823772,
+      9149721,
+      17267653
+    ],
+    [
+      "clang21",
+      "b",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      214401226,
+      513826625,
+      9151557,
+      17265843
+    ],
+    [
+      "clang21",
+      "a",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      235374040,
+      516274619,
+      9140622,
+      17265578
+    ],
+    [
+      "clang21",
+      "a",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      234537887,
+      516275045,
+      9145187,
+      17268398
+    ],
+    [
+      "clang21",
+      "b",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      213446693,
+      513823660,
+      9141146,
+      17265533
+    ],
+    [
+      "clang21",
+      "a",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      232978043,
+      450060591,
+      8831926,
+      16386060
+    ],
+    [
+      "clang21",
+      "b",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      210901505,
+      445053857,
+      8828221,
+      16385946
+    ],
+    [
+      "clang21",
+      "b",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      210007698,
+      445057433,
+      8845011,
+      16386312
+    ],
+    [
+      "clang21",
+      "a",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      232909483,
+      450063010,
+      8844205,
+      16386840
+    ],
+    [
+      "clang21",
+      "a",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      233291988,
+      450063200,
+      8843383,
+      16389360
+    ],
+    [
+      "clang21",
+      "b",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      210686327,
+      445055013,
+      8829334,
+      16385799
+    ],
+    [
+      "clang21",
+      "b",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      210079099,
+      445054300,
+      8863020,
+      16385652
+    ],
+    [
+      "clang21",
+      "a",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      233399065,
+      450061222,
+      8834788,
+      16388276
+    ],
+    [
+      "clang21",
+      "a",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      233131725,
+      450063393,
+      8861415,
+      16386058
+    ],
+    [
+      "clang21",
+      "b",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      210017080,
+      445057181,
+      8832893,
+      16386207
+    ],
+    [
+      "clang21",
+      "a",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      234678627,
+      451319278,
+      8823374,
+      16369411
+    ],
+    [
+      "clang21",
+      "b",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      227472567,
+      446409068,
+      8819045,
+      16371674
+    ],
+    [
+      "clang21",
+      "b",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      210322858,
+      446408850,
+      8807397,
+      16368984
+    ],
+    [
+      "clang21",
+      "a",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      234274654,
+      451319348,
+      8815377,
+      16372127
+    ],
+    [
+      "clang21",
+      "a",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      234280605,
+      451318923,
+      8834863,
+      16369145
+    ],
+    [
+      "clang21",
+      "b",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      211025970,
+      446409118,
+      8852886,
+      16369557
+    ],
+    [
+      "clang21",
+      "b",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      210744138,
+      446408370,
+      8796804,
+      16369163
+    ],
+    [
+      "clang21",
+      "a",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      234886658,
+      451319123,
+      8841635,
+      16371069
+    ],
+    [
+      "clang21",
+      "a",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      233825436,
+      451319146,
+      8841949,
+      16369891
+    ],
+    [
+      "clang21",
+      "b",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      210970757,
+      446409340,
+      8847451,
+      16368809
+    ],
+    [
+      "clang21",
+      "a",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      232288272,
+      454356149,
+      8828468,
+      16376715
+    ],
+    [
+      "clang21",
+      "b",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      212271980,
+      451878427,
+      8807537,
+      16377037
+    ],
+    [
+      "clang21",
+      "b",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      212825111,
+      451878876,
+      8837461,
+      16376923
+    ],
+    [
+      "clang21",
+      "a",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      232492384,
+      454355989,
+      8865685,
+      16380754
+    ],
+    [
+      "clang21",
+      "a",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      232885642,
+      454357687,
+      8803091,
+      16379490
+    ],
+    [
+      "clang21",
+      "b",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      212544749,
+      451881469,
+      8799288,
+      16377096
+    ],
+    [
+      "clang21",
+      "b",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      212589376,
+      451878926,
+      8816900,
+      16376964
+    ],
+    [
+      "clang21",
+      "a",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      232527368,
+      454356397,
+      8838338,
+      16379330
+    ],
+    [
+      "clang21",
+      "a",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      232865801,
+      454356405,
+      8817688,
+      16377098
+    ],
+    [
+      "clang21",
+      "b",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      212185359,
+      451881520,
+      8830413,
+      16377113
+    ],
+    [
+      "clang21",
+      "a",
+      "strtr/en/absent @ str_replace-en-absent",
+      229344525,
+      337233160,
+      9260737,
+      17557848
+    ],
+    [
+      "clang21",
+      "b",
+      "strtr/en/absent @ str_replace-en-absent",
+      204943046,
+      334384715,
+      9248778,
+      17559555
+    ],
+    [
+      "clang21",
+      "b",
+      "strtr/en/absent @ str_replace-en-absent",
+      204932682,
+      334380757,
+      9284310,
+      17557167
+    ],
+    [
+      "clang21",
+      "a",
+      "strtr/en/absent @ str_replace-en-absent",
+      229288409,
+      337232535,
+      9256429,
+      17556881
+    ],
+    [
+      "clang21",
+      "a",
+      "strtr/en/absent @ str_replace-en-absent",
+      229647033,
+      337232183,
+      9237920,
+      17559567
+    ],
+    [
+      "clang21",
+      "b",
+      "strtr/en/absent @ str_replace-en-absent",
+      205169185,
+      334380900,
+      9211951,
+      17557371
+    ],
+    [
+      "clang21",
+      "b",
+      "strtr/en/absent @ str_replace-en-absent",
+      204720150,
+      334381462,
+      9242039,
+      17559783
+    ],
+    [
+      "clang21",
+      "a",
+      "strtr/en/absent @ str_replace-en-absent",
+      229438178,
+      337233024,
+      9255479,
+      17557163
+    ],
+    [
+      "clang21",
+      "a",
+      "strtr/en/absent @ str_replace-en-absent",
+      229349506,
+      337232581,
+      9257818,
+      17557963
+    ],
+    [
+      "clang21",
+      "b",
+      "strtr/en/absent @ str_replace-en-absent",
+      205327070,
+      334380634,
+      9271423,
+      17557088
+    ],
+    [
+      "clang21",
+      "a",
+      "strtr/en/start @ str_replace-en-start",
+      231912311,
+      360190435,
+      8833121,
+      16470008
+    ],
+    [
+      "clang21",
+      "b",
+      "strtr/en/start @ str_replace-en-start",
+      205494944,
+      354708485,
+      8879785,
+      16472444
+    ],
+    [
+      "clang21",
+      "b",
+      "strtr/en/start @ str_replace-en-start",
+      206133358,
+      354708899,
+      8907148,
+      16472536
+    ],
+    [
+      "clang21",
+      "a",
+      "strtr/en/start @ str_replace-en-start",
+      232220460,
+      360187783,
+      8849942,
+      16469557
+    ],
+    [
+      "clang21",
+      "a",
+      "strtr/en/start @ str_replace-en-start",
+      231520485,
+      360187230,
+      8876287,
+      16470200
+    ],
+    [
+      "clang21",
+      "b",
+      "strtr/en/start @ str_replace-en-start",
+      206633084,
+      354708473,
+      8867590,
+      16472574
+    ],
+    [
+      "clang21",
+      "b",
+      "strtr/en/start @ str_replace-en-start",
+      205901929,
+      354708596,
+      8848733,
+      16472461
+    ],
+    [
+      "clang21",
+      "a",
+      "strtr/en/start @ str_replace-en-start",
+      231693420,
+      360187973,
+      8885423,
+      16471026
+    ],
+    [
+      "clang21",
+      "a",
+      "strtr/en/start @ str_replace-en-start",
+      231582126,
+      360187720,
+      8839124,
+      16470317
+    ],
+    [
+      "clang21",
+      "b",
+      "strtr/en/start @ str_replace-en-start",
+      206346260,
+      354708295,
+      8836671,
+      16469714
+    ],
+    [
+      "clang21",
+      "a",
+      "strtr/en/middle @ str_replace-en-middle",
+      231805047,
+      357055528,
+      8892915,
+      16461389
+    ],
+    [
+      "clang21",
+      "b",
+      "strtr/en/middle @ str_replace-en-middle",
+      205875177,
+      351626570,
+      8852738,
+      16461994
+    ],
+    [
+      "clang21",
+      "b",
+      "strtr/en/middle @ str_replace-en-middle",
+      208312545,
+      351623845,
+      8822213,
+      16464430
+    ],
+    [
+      "clang21",
+      "a",
+      "strtr/en/middle @ str_replace-en-middle",
+      231740259,
+      357058171,
+      8854193,
+      16464447
+    ],
+    [
+      "clang21",
+      "a",
+      "strtr/en/middle @ str_replace-en-middle",
+      231527194,
+      357055999,
+      8865739,
+      16461927
+    ],
+    [
+      "clang21",
+      "b",
+      "strtr/en/middle @ str_replace-en-middle",
+      206637118,
+      351624097,
+      8824294,
+      16461816
+    ],
+    [
+      "clang21",
+      "b",
+      "strtr/en/middle @ str_replace-en-middle",
+      206928865,
+      351623846,
+      8880001,
+      16460553
+    ],
+    [
+      "clang21",
+      "a",
+      "strtr/en/middle @ str_replace-en-middle",
+      231692240,
+      357055598,
+      8848165,
+      16461682
+    ],
+    [
+      "clang21",
+      "a",
+      "strtr/en/middle @ str_replace-en-middle",
+      231881409,
+      357055745,
+      8887828,
+      16461853
+    ],
+    [
+      "clang21",
+      "b",
+      "strtr/en/middle @ str_replace-en-middle",
+      206664506,
+      351625972,
+      8864865,
+      16460922
+    ],
+    [
+      "clang21",
+      "a",
+      "strtr/en/end @ str_replace-en-end",
+      230458391,
+      351905243,
+      8877119,
+      16481929
+    ],
+    [
+      "clang21",
+      "b",
+      "strtr/en/end @ str_replace-en-end",
+      207620219,
+      349139346,
+      8863878,
+      16478779
+    ],
+    [
+      "clang21",
+      "b",
+      "strtr/en/end @ str_replace-en-end",
+      207647586,
+      349142104,
+      8867953,
+      16479450
+    ],
+    [
+      "clang21",
+      "a",
+      "strtr/en/end @ str_replace-en-end",
+      230628892,
+      351905738,
+      8907972,
+      16479672
+    ],
+    [
+      "clang21",
+      "a",
+      "strtr/en/end @ str_replace-en-end",
+      230669489,
+      351905464,
+      8891251,
+      16482575
+    ],
+    [
+      "clang21",
+      "b",
+      "strtr/en/end @ str_replace-en-end",
+      207084028,
+      349142227,
+      8894927,
+      16481800
+    ],
+    [
+      "clang21",
+      "b",
+      "strtr/en/end @ str_replace-en-end",
+      207102940,
+      349139733,
+      8880297,
+      16478793
+    ],
+    [
+      "clang21",
+      "a",
+      "strtr/en/end @ str_replace-en-end",
+      230715572,
+      351908420,
+      8874735,
+      16479602
+    ],
+    [
+      "clang21",
+      "a",
+      "strtr/en/end @ str_replace-en-end",
+      231619974,
+      351908795,
+      8895530,
+      16480183
+    ],
+    [
+      "clang21",
+      "b",
+      "strtr/en/end @ str_replace-en-end",
+      207085617,
+      349140131,
+      8888284,
+      16479410
+    ],
+    [
+      "clang21",
+      "a",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      244966436,
+      588942127,
+      8904382,
+      16545275
+    ],
+    [
+      "clang21",
+      "b",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      202505121,
+      550561794,
+      8928063,
+      16546317
+    ],
+    [
+      "clang21",
+      "b",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      200593155,
+      550563305,
+      8890168,
+      16543961
+    ],
+    [
+      "clang21",
+      "a",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      244426766,
+      588941275,
+      8863328,
+      16547562
+    ],
+    [
+      "clang21",
+      "a",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      244164565,
+      588944843,
+      8886663,
+      16545363
+    ],
+    [
+      "clang21",
+      "b",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      199880922,
+      550563304,
+      8893708,
+      16544003
+    ],
+    [
+      "clang21",
+      "b",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      197451485,
+      550561446,
+      8879218,
+      16544698
+    ],
+    [
+      "clang21",
+      "a",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      244057864,
+      588941463,
+      8878891,
+      16547879
+    ],
+    [
+      "clang21",
+      "a",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      244158100,
+      588941537,
+      8902797,
+      16545742
+    ],
+    [
+      "clang21",
+      "b",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      198165048,
+      550561692,
+      8854997,
+      16547173
+    ],
+    [
+      "clang21",
+      "a",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      246038795,
+      642861882,
+      8871442,
+      16442780
+    ],
+    [
+      "clang21",
+      "b",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      206487564,
+      608226385,
+      8847260,
+      16444455
+    ],
+    [
+      "clang21",
+      "b",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      204570945,
+      608225812,
+      8814177,
+      16441416
+    ],
+    [
+      "clang21",
+      "a",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      244718129,
+      642862885,
+      8870359,
+      16443359
+    ],
+    [
+      "clang21",
+      "a",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      244471434,
+      642862391,
+      8860935,
+      16442780
+    ],
+    [
+      "clang21",
+      "b",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      205267328,
+      608226075,
+      8857748,
+      16443773
+    ],
+    [
+      "clang21",
+      "b",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      203556999,
+      608226186,
+      8828649,
+      16441319
+    ],
+    [
+      "clang21",
+      "a",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      244634049,
+      642862313,
+      8887596,
+      16441939
+    ],
+    [
+      "clang21",
+      "a",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      246618369,
+      642861929,
+      8827737,
+      16442860
+    ],
+    [
+      "clang21",
+      "b",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      208382824,
+      608225986,
+      8813715,
+      16441478
+    ],
+    [
+      "clang21",
+      "a",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      241763803,
+      585721463,
+      8917909,
+      16547943
+    ],
+    [
+      "clang21",
+      "b",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      202298246,
+      547281010,
+      8876455,
+      16545939
+    ],
+    [
+      "clang21",
+      "b",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      203493914,
+      547280510,
+      8853324,
+      16546273
+    ],
+    [
+      "clang21",
+      "a",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      243121845,
+      585721312,
+      8899856,
+      16549656
+    ],
+    [
+      "clang21",
+      "a",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      243484260,
+      585721106,
+      8890663,
+      16547528
+    ],
+    [
+      "clang21",
+      "b",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      201832841,
+      547281655,
+      8903667,
+      16545870
+    ],
+    [
+      "clang21",
+      "b",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      201548709,
+      547283220,
+      8886694,
+      16545714
+    ],
+    [
+      "clang21",
+      "a",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      243525671,
+      585723788,
+      8857862,
+      16546900
+    ],
+    [
+      "clang21",
+      "a",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      244007044,
+      585721051,
+      8877681,
+      16549427
+    ],
+    [
+      "clang21",
+      "b",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      200887393,
+      547283091,
+      8855569,
+      16545767
+    ],
+    [
+      "aa2",
+      "a",
+      "str_replace/en/absent @ str_replace-en-absent",
+      249416900,
+      372916965,
+      9126930,
+      17475094
+    ],
+    [
+      "aa2",
+      "b",
+      "str_replace/en/absent @ str_replace-en-absent",
+      250236954,
+      372915844,
+      9116516,
+      17474629
+    ],
+    [
+      "aa2",
+      "b",
+      "str_replace/en/absent @ str_replace-en-absent",
+      248898273,
+      372915899,
+      9130354,
+      17474814
+    ],
+    [
+      "aa2",
+      "a",
+      "str_replace/en/absent @ str_replace-en-absent",
+      249431641,
+      372918933,
+      9082438,
+      17474576
+    ],
+    [
+      "aa2",
+      "a",
+      "str_replace/en/absent @ str_replace-en-absent",
+      249085041,
+      372915283,
+      9150810,
+      17474883
+    ],
+    [
+      "aa2",
+      "b",
+      "str_replace/en/absent @ str_replace-en-absent",
+      248841118,
+      372915884,
+      9118530,
+      17474364
+    ],
+    [
+      "aa2",
+      "b",
+      "str_replace/en/absent @ str_replace-en-absent",
+      249563555,
+      372915567,
+      9121587,
+      17474371
+    ],
+    [
+      "aa2",
+      "a",
+      "str_replace/en/absent @ str_replace-en-absent",
+      248883852,
+      372915636,
+      9119223,
+      17474608
+    ],
+    [
+      "aa2",
+      "a",
+      "str_replace/en/absent @ str_replace-en-absent",
+      248723708,
+      372916771,
+      9139205,
+      17474728
+    ],
+    [
+      "aa2",
+      "b",
+      "str_replace/en/absent @ str_replace-en-absent",
+      249974749,
+      372916031,
+      9125767,
+      17473776
+    ],
+    [
+      "aa2",
+      "a",
+      "str_replace/en/start @ str_replace-en-start",
+      248193248,
+      400977932,
+      8780677,
+      16459544
+    ],
+    [
+      "aa2",
+      "b",
+      "str_replace/en/start @ str_replace-en-start",
+      247980162,
+      400977721,
+      8830870,
+      16459319
+    ],
+    [
+      "aa2",
+      "b",
+      "str_replace/en/start @ str_replace-en-start",
+      248252096,
+      400978066,
+      8794492,
+      16458941
+    ],
+    [
+      "aa2",
+      "a",
+      "str_replace/en/start @ str_replace-en-start",
+      247797108,
+      400977660,
+      8797622,
+      16459249
+    ],
+    [
+      "aa2",
+      "a",
+      "str_replace/en/start @ str_replace-en-start",
+      248228587,
+      400980493,
+      8788469,
+      16459116
+    ],
+    [
+      "aa2",
+      "b",
+      "str_replace/en/start @ str_replace-en-start",
+      248318816,
+      400978363,
+      8803446,
+      16460034
+    ],
+    [
+      "aa2",
+      "b",
+      "str_replace/en/start @ str_replace-en-start",
+      247974148,
+      400977729,
+      8768499,
+      16461395
+    ],
+    [
+      "aa2",
+      "a",
+      "str_replace/en/start @ str_replace-en-start",
+      247951462,
+      400977609,
+      8808937,
+      16459456
+    ],
+    [
+      "aa2",
+      "a",
+      "str_replace/en/start @ str_replace-en-start",
+      248552882,
+      400977062,
+      8781585,
+      16459179
+    ],
+    [
+      "aa2",
+      "b",
+      "str_replace/en/start @ str_replace-en-start",
+      247743150,
+      400977840,
+      8792931,
+      16460236
+    ],
+    [
+      "aa2",
+      "a",
+      "str_replace/en/middle @ str_replace-en-middle",
+      247725471,
+      395816195,
+      8815325,
+      16448385
+    ],
+    [
+      "aa2",
+      "b",
+      "str_replace/en/middle @ str_replace-en-middle",
+      249095483,
+      395816589,
+      8764747,
+      16447951
+    ],
+    [
+      "aa2",
+      "b",
+      "str_replace/en/middle @ str_replace-en-middle",
+      247246074,
+      395813809,
+      8749080,
+      16447740
+    ],
+    [
+      "aa2",
+      "a",
+      "str_replace/en/middle @ str_replace-en-middle",
+      247281355,
+      395816852,
+      8780112,
+      16449087
+    ],
+    [
+      "aa2",
+      "a",
+      "str_replace/en/middle @ str_replace-en-middle",
+      247922652,
+      395814080,
+      8795292,
+      16447099
+    ],
+    [
+      "aa2",
+      "b",
+      "str_replace/en/middle @ str_replace-en-middle",
+      247497482,
+      395814599,
+      8873997,
+      16447485
+    ],
+    [
+      "aa2",
+      "b",
+      "str_replace/en/middle @ str_replace-en-middle",
+      247727985,
+      395814637,
+      8817574,
+      16446902
+    ],
+    [
+      "aa2",
+      "a",
+      "str_replace/en/middle @ str_replace-en-middle",
+      247812722,
+      395813862,
+      8772701,
+      16450032
+    ],
+    [
+      "aa2",
+      "a",
+      "str_replace/en/middle @ str_replace-en-middle",
+      247210797,
+      395814808,
+      8764931,
+      16447915
+    ],
+    [
+      "aa2",
+      "b",
+      "str_replace/en/middle @ str_replace-en-middle",
+      247592835,
+      395814560,
+      8834533,
+      16447371
+    ],
+    [
+      "aa2",
+      "a",
+      "str_replace/en/end @ str_replace-en-end",
+      248133277,
+      383264372,
+      8753491,
+      16465950
+    ],
+    [
+      "aa2",
+      "b",
+      "str_replace/en/end @ str_replace-en-end",
+      247565908,
+      383265930,
+      8784482,
+      16467244
+    ],
+    [
+      "aa2",
+      "b",
+      "str_replace/en/end @ str_replace-en-end",
+      247362680,
+      383264066,
+      8793411,
+      16466671
+    ],
+    [
+      "aa2",
+      "a",
+      "str_replace/en/end @ str_replace-en-end",
+      247977446,
+      383266435,
+      8767508,
+      16466609
+    ],
+    [
+      "aa2",
+      "a",
+      "str_replace/en/end @ str_replace-en-end",
+      247621703,
+      383264123,
+      8856568,
+      16467022
+    ],
+    [
+      "aa2",
+      "b",
+      "str_replace/en/end @ str_replace-en-end",
+      248353338,
+      383264085,
+      8772494,
+      16466469
+    ],
+    [
+      "aa2",
+      "b",
+      "str_replace/en/end @ str_replace-en-end",
+      248060819,
+      383266887,
+      8784342,
+      16466174
+    ],
+    [
+      "aa2",
+      "a",
+      "str_replace/en/end @ str_replace-en-end",
+      247483602,
+      383267543,
+      8792090,
+      16466683
+    ],
+    [
+      "aa2",
+      "a",
+      "str_replace/en/end @ str_replace-en-end",
+      247324250,
+      383263504,
+      8845272,
+      16466001
+    ],
+    [
+      "aa2",
+      "b",
+      "str_replace/en/end @ str_replace-en-end",
+      248121516,
+      383264484,
+      8751960,
+      16466850
+    ],
+    [
+      "aa2",
+      "a",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      247329640,
+      511136521,
+      9020460,
+      17204303
+    ],
+    [
+      "aa2",
+      "b",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      247633741,
+      511136366,
+      9013814,
+      17204397
+    ],
+    [
+      "aa2",
+      "b",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      248194688,
+      511135107,
+      9036159,
+      17206715
+    ],
+    [
+      "aa2",
+      "a",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      247653989,
+      511135900,
+      9031275,
+      17203501
+    ],
+    [
+      "aa2",
+      "a",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      247573711,
+      511136577,
+      9028709,
+      17206100
+    ],
+    [
+      "aa2",
+      "b",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      247996148,
+      511135795,
+      9062015,
+      17206617
+    ],
+    [
+      "aa2",
+      "b",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      247511133,
+      511136247,
+      9010959,
+      17204028
+    ],
+    [
+      "aa2",
+      "a",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      247847811,
+      511135530,
+      9055405,
+      17203615
+    ],
+    [
+      "aa2",
+      "a",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      247992035,
+      511136177,
+      8990263,
+      17204296
+    ],
+    [
+      "aa2",
+      "b",
+      "str_ireplace/en/absent @ str_replace-en-absent",
+      247498765,
+      511136203,
+      9056621,
+      17204442
+    ],
+    [
+      "aa2",
+      "a",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      247058263,
+      478991803,
+      8751371,
+      16383877
+    ],
+    [
+      "aa2",
+      "b",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      247740743,
+      478989867,
+      8745285,
+      16385515
+    ],
+    [
+      "aa2",
+      "b",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      247167408,
+      478990596,
+      8780469,
+      16386279
+    ],
+    [
+      "aa2",
+      "a",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      247373796,
+      478991461,
+      8784418,
+      16384427
+    ],
+    [
+      "aa2",
+      "a",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      247610561,
+      478990004,
+      8759960,
+      16382846
+    ],
+    [
+      "aa2",
+      "b",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      247119024,
+      478988991,
+      8740057,
+      16382512
+    ],
+    [
+      "aa2",
+      "b",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      247156633,
+      478989180,
+      8768947,
+      16383688
+    ],
+    [
+      "aa2",
+      "a",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      247950666,
+      478989244,
+      8764982,
+      16385527
+    ],
+    [
+      "aa2",
+      "a",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      246890853,
+      478989010,
+      8763658,
+      16382988
+    ],
+    [
+      "aa2",
+      "b",
+      "str_ireplace/en/start @ str_ireplace-en-start",
+      247131356,
+      478991709,
+      8752416,
+      16383178
+    ],
+    [
+      "aa2",
+      "a",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      247780559,
+      475924527,
+      8723411,
+      16367204
+    ],
+    [
+      "aa2",
+      "b",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      247189096,
+      475924946,
+      8784646,
+      16367464
+    ],
+    [
+      "aa2",
+      "b",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      246915103,
+      475924829,
+      8768574,
+      16367524
+    ],
+    [
+      "aa2",
+      "a",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      247873480,
+      475924475,
+      8731080,
+      16367095
+    ],
+    [
+      "aa2",
+      "a",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      247354058,
+      475925335,
+      8758244,
+      16369813
+    ],
+    [
+      "aa2",
+      "b",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      246843166,
+      475924670,
+      8748746,
+      16367339
+    ],
+    [
+      "aa2",
+      "b",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      247540240,
+      475924605,
+      8759075,
+      16367346
+    ],
+    [
+      "aa2",
+      "a",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      247067327,
+      475924690,
+      8745749,
+      16367770
+    ],
+    [
+      "aa2",
+      "a",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      247366029,
+      475923904,
+      8727331,
+      16367335
+    ],
+    [
+      "aa2",
+      "b",
+      "str_ireplace/en/middle @ str_ireplace-en-middle",
+      247858019,
+      475925156,
+      8779125,
+      16367421
+    ],
+    [
+      "aa2",
+      "a",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      246963490,
+      465909408,
+      8750134,
+      16374187
+    ],
+    [
+      "aa2",
+      "b",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      247547859,
+      465912256,
+      8765256,
+      16373025
+    ],
+    [
+      "aa2",
+      "b",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      248396898,
+      465910695,
+      8747483,
+      16375932
+    ],
+    [
+      "aa2",
+      "a",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      246966230,
+      465910317,
+      8746249,
+      16376195
+    ],
+    [
+      "aa2",
+      "a",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      246973420,
+      465910380,
+      8787279,
+      16373455
+    ],
+    [
+      "aa2",
+      "b",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      247675370,
+      465912281,
+      8782535,
+      16374392
+    ],
+    [
+      "aa2",
+      "b",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      247021264,
+      465909914,
+      8782989,
+      16376556
+    ],
+    [
+      "aa2",
+      "a",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      247241689,
+      465910576,
+      8787931,
+      16375865
+    ],
+    [
+      "aa2",
+      "a",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      247648836,
+      465910021,
+      8749275,
+      16372909
+    ],
+    [
+      "aa2",
+      "b",
+      "str_ireplace/en/end @ str_ireplace-en-end",
+      247037827,
+      465910664,
+      8735969,
+      16373123
+    ],
+    [
+      "aa2",
+      "a",
+      "strtr/en/absent @ str_replace-en-absent",
+      247533002,
+      368040630,
+      9081309,
+      17479656
+    ],
+    [
+      "aa2",
+      "b",
+      "strtr/en/absent @ str_replace-en-absent",
+      248072809,
+      368037731,
+      9081989,
+      17476947
+    ],
+    [
+      "aa2",
+      "b",
+      "strtr/en/absent @ str_replace-en-absent",
+      247515393,
+      368041424,
+      9123245,
+      17476986
+    ],
+    [
+      "aa2",
+      "a",
+      "strtr/en/absent @ str_replace-en-absent",
+      247290000,
+      368038281,
+      9104882,
+      17477135
+    ],
+    [
+      "aa2",
+      "a",
+      "strtr/en/absent @ str_replace-en-absent",
+      247891144,
+      368041437,
+      9074633,
+      17479508
+    ],
+    [
+      "aa2",
+      "b",
+      "strtr/en/absent @ str_replace-en-absent",
+      247535313,
+      368037378,
+      9122531,
+      17476380
+    ],
+    [
+      "aa2",
+      "b",
+      "strtr/en/absent @ str_replace-en-absent",
+      247547837,
+      368040472,
+      9099103,
+      17479533
+    ],
+    [
+      "aa2",
+      "a",
+      "strtr/en/absent @ str_replace-en-absent",
+      248004837,
+      368038464,
+      9093557,
+      17479071
+    ],
+    [
+      "aa2",
+      "a",
+      "strtr/en/absent @ str_replace-en-absent",
+      247332616,
+      368037824,
+      9106414,
+      17477342
+    ],
+    [
+      "aa2",
+      "b",
+      "strtr/en/absent @ str_replace-en-absent",
+      247661822,
+      368037982,
+      9102516,
+      17476704
+    ],
+    [
+      "aa2",
+      "a",
+      "strtr/en/start @ str_replace-en-start",
+      248245459,
+      399184803,
+      8760428,
+      16460902
+    ],
+    [
+      "aa2",
+      "b",
+      "strtr/en/start @ str_replace-en-start",
+      249114554,
+      399185314,
+      8789694,
+      16464269
+    ],
+    [
+      "aa2",
+      "b",
+      "strtr/en/start @ str_replace-en-start",
+      247395050,
+      399183529,
+      8784960,
+      16460897
+    ],
+    [
+      "aa2",
+      "a",
+      "strtr/en/start @ str_replace-en-start",
+      248167629,
+      399183034,
+      8773357,
+      16460556
+    ],
+    [
+      "aa2",
+      "a",
+      "strtr/en/start @ str_replace-en-start",
+      247708877,
+      399183295,
+      8803554,
+      16461002
+    ],
+    [
+      "aa2",
+      "b",
+      "strtr/en/start @ str_replace-en-start",
+      247755857,
+      399182280,
+      8766893,
+      16461945
+    ],
+    [
+      "aa2",
+      "b",
+      "strtr/en/start @ str_replace-en-start",
+      247880501,
+      399185439,
+      8783200,
+      16460958
+    ],
+    [
+      "aa2",
+      "a",
+      "strtr/en/start @ str_replace-en-start",
+      247702650,
+      399183577,
+      8790828,
+      16461273
+    ],
+    [
+      "aa2",
+      "a",
+      "strtr/en/start @ str_replace-en-start",
+      247469463,
+      399183068,
+      8771042,
+      16460283
+    ],
+    [
+      "aa2",
+      "b",
+      "strtr/en/start @ str_replace-en-start",
+      248878451,
+      399185387,
+      8800024,
+      16460534
+    ],
+    [
+      "aa2",
+      "a",
+      "strtr/en/middle @ str_replace-en-middle",
+      248274869,
+      395651094,
+      8837060,
+      16452447
+    ],
+    [
+      "aa2",
+      "b",
+      "strtr/en/middle @ str_replace-en-middle",
+      248122801,
+      395653952,
+      8757969,
+      16452738
+    ],
+    [
+      "aa2",
+      "b",
+      "strtr/en/middle @ str_replace-en-middle",
+      249256942,
+      395651134,
+      8758770,
+      16455483
+    ],
+    [
+      "aa2",
+      "a",
+      "strtr/en/middle @ str_replace-en-middle",
+      247845284,
+      395651150,
+      8767464,
+      16453014
+    ],
+    [
+      "aa2",
+      "a",
+      "strtr/en/middle @ str_replace-en-middle",
+      247858333,
+      395651000,
+      8780834,
+      16453311
+    ],
+    [
+      "aa2",
+      "b",
+      "strtr/en/middle @ str_replace-en-middle",
+      251273903,
+      395652065,
+      8744820,
+      16452736
+    ],
+    [
+      "aa2",
+      "b",
+      "strtr/en/middle @ str_replace-en-middle",
+      247914429,
+      395651897,
+      8827963,
+      16452666
+    ],
+    [
+      "aa2",
+      "a",
+      "strtr/en/middle @ str_replace-en-middle",
+      248130227,
+      395650028,
+      8741860,
+      16453196
+    ],
+    [
+      "aa2",
+      "a",
+      "strtr/en/middle @ str_replace-en-middle",
+      248482816,
+      395650763,
+      8807727,
+      16453187
+    ],
+    [
+      "aa2",
+      "b",
+      "strtr/en/middle @ str_replace-en-middle",
+      247699277,
+      395650870,
+      8777306,
+      16452951
+    ],
+    [
+      "aa2",
+      "a",
+      "strtr/en/end @ str_replace-en-end",
+      247367139,
+      381660178,
+      8779951,
+      16468821
+    ],
+    [
+      "aa2",
+      "b",
+      "strtr/en/end @ str_replace-en-end",
+      247890497,
+      381662440,
+      8766613,
+      16469196
+    ],
+    [
+      "aa2",
+      "b",
+      "strtr/en/end @ str_replace-en-end",
+      248194867,
+      381662424,
+      8841561,
+      16471533
+    ],
+    [
+      "aa2",
+      "a",
+      "strtr/en/end @ str_replace-en-end",
+      247356641,
+      381662125,
+      8786239,
+      16468949
+    ],
+    [
+      "aa2",
+      "a",
+      "strtr/en/end @ str_replace-en-end",
+      247841240,
+      381660170,
+      8774520,
+      16469168
+    ],
+    [
+      "aa2",
+      "b",
+      "strtr/en/end @ str_replace-en-end",
+      247474429,
+      381660249,
+      8826772,
+      16469364
+    ],
+    [
+      "aa2",
+      "b",
+      "strtr/en/end @ str_replace-en-end",
+      247341240,
+      381660198,
+      8789512,
+      16471984
+    ],
+    [
+      "aa2",
+      "a",
+      "strtr/en/end @ str_replace-en-end",
+      248014239,
+      381660105,
+      8757726,
+      16469464
+    ],
+    [
+      "aa2",
+      "a",
+      "strtr/en/end @ str_replace-en-end",
+      247688860,
+      381660158,
+      8792623,
+      16471113
+    ],
+    [
+      "aa2",
+      "b",
+      "strtr/en/end @ str_replace-en-end",
+      247329767,
+      381661291,
+      8750837,
+      16469186
+    ],
+    [
+      "aa2",
+      "a",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      246347431,
+      728630476,
+      8826734,
+      16528965
+    ],
+    [
+      "aa2",
+      "b",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      245317607,
+      728630996,
+      8796730,
+      16528565
+    ],
+    [
+      "aa2",
+      "b",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      246558838,
+      728630088,
+      8787662,
+      16529386
+    ],
+    [
+      "aa2",
+      "a",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      245806760,
+      728630228,
+      8791554,
+      16529319
+    ],
+    [
+      "aa2",
+      "a",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      245909705,
+      728632951,
+      8795120,
+      16530665
+    ],
+    [
+      "aa2",
+      "b",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      246000349,
+      728630242,
+      8776803,
+      16528614
+    ],
+    [
+      "aa2",
+      "b",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      245972776,
+      728632494,
+      8812439,
+      16529451
+    ],
+    [
+      "aa2",
+      "a",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      246604112,
+      728633150,
+      8891899,
+      16529621
+    ],
+    [
+      "aa2",
+      "a",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      245223281,
+      728631885,
+      8879533,
+      16528234
+    ],
+    [
+      "aa2",
+      "b",
+      "str_replace/en/repeated @ str_replace-en-repeated",
+      246374660,
+      728629907,
+      8782411,
+      16529379
+    ],
+    [
+      "aa2",
+      "a",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      243567442,
+      767150506,
+      8769094,
+      16432831
+    ],
+    [
+      "aa2",
+      "b",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      245093907,
+      767150811,
+      8786640,
+      16435431
+    ],
+    [
+      "aa2",
+      "b",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      246033576,
+      767152523,
+      8740968,
+      16435321
+    ],
+    [
+      "aa2",
+      "a",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      246058690,
+      767149619,
+      8803482,
+      16432909
+    ],
+    [
+      "aa2",
+      "a",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      244448887,
+      767153090,
+      8801294,
+      16432753
+    ],
+    [
+      "aa2",
+      "b",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      244595132,
+      767150724,
+      8782644,
+      16432451
+    ],
+    [
+      "aa2",
+      "b",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      245592930,
+      767150724,
+      8777633,
+      16433064
+    ],
+    [
+      "aa2",
+      "a",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      243895840,
+      767150252,
+      8766682,
+      16430809
+    ],
+    [
+      "aa2",
+      "a",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      245613141,
+      767150715,
+      8766270,
+      16433530
+    ],
+    [
+      "aa2",
+      "b",
+      "str_ireplace/en/repeated @ str_ireplace-en-repeated",
+      244501916,
+      767151387,
+      8772835,
+      16432456
+    ],
+    [
+      "aa2",
+      "a",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      243910657,
+      725276022,
+      8833514,
+      16531106
+    ],
+    [
+      "aa2",
+      "b",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      246723761,
+      725276390,
+      8778542,
+      16529921
+    ],
+    [
+      "aa2",
+      "b",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      247040482,
+      725275671,
+      8847923,
+      16533064
+    ],
+    [
+      "aa2",
+      "a",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      245078810,
+      725275713,
+      8823398,
+      16530877
+    ],
+    [
+      "aa2",
+      "a",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      247053799,
+      725275996,
+      8798813,
+      16529981
+    ],
+    [
+      "aa2",
+      "b",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      244807272,
+      725278157,
+      8795022,
+      16530064
+    ],
+    [
+      "aa2",
+      "b",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      251447543,
+      725275748,
+      8882449,
+      16530720
+    ],
+    [
+      "aa2",
+      "a",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      247246218,
+      725275999,
+      8802283,
+      16531036
+    ],
+    [
+      "aa2",
+      "a",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      247512838,
+      725276703,
+      8790836,
+      16530282
+    ],
+    [
+      "aa2",
+      "b",
+      "strtr/en/repeated @ str_replace-en-repeated",
+      244016881,
+      725276169,
+      8784963,
+      16530273
+    ]
+  ]
+}

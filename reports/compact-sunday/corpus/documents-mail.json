@@ -1,0 +1,235 @@
+{
+  "format": 1,
+  "status": "corpus candidate; no new timings",
+  "suite": "documents-mail",
+  "languages": [
+    "en"
+  ],
+  "needle_range_bytes": [
+    21,
+    23
+  ],
+  "inputs": {
+    "documents-explode-mail_receipt-all": {
+      "text": "From: orders@example.test\r\nTo: customer@example.test\r\nSubject: Your order receipt\r\nMIME-Version: 1.0\r\nContent-Type: multipart/mixed; boundary=\"message-boundary-42\"\r\n\r\n--message-boundary-42\r\nContent-Type: text/plain; charset=UTF-8\r\n\r\nYour payment has been received.\r\nPlease check the item list and keep the receipt for your records.\r\n--message-boundary-42\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n<!doctype html>\r\n<html lang=\"en\"><head><meta charset=\"utf-8\"><title>Your order receipt</title></head>\r\n<body><header><a href=\"https://shop.example.test/\">North Street Supplies</a></header>\r\n<main><h1>Thank you, {{customer.name}}</h1>\r\n<p>We have received order {{order.reference}}. A confirmation will be sent to\r\n{{customer.email}}. Please keep this receipt until your delivery is complete.</p>\r\n<section><h2>Delivery details</h2><address>{{customer.address}}</address>\r\n<p>Telephone: {{customer.phone}}. The courier will contact you before delivery.</p>\r\n<p>Delivery is scheduled for {{delivery.date}}. Follow the parcel at\r\n<a href=\"{{tracking.url}}\">the tracking page</a>.</p></section>\r\n<section><h2>Items</h2><table><thead><tr><th>Product</th><th>Details</th>\r\n<th>Quantity</th><th>Price</th></tr></thead><tbody>\r\n<tr><td>USB-C travel charger</td><td>45 W, two ports</td><td>1</td><td>GBP 29.90</td></tr>\r\n<tr><td>Braided charging cable</td><td>2 m, graphite</td><td>1</td><td>GBP 12.50</td></tr>\r\n<tr><td>Laptop stand</td><td>Adjustable aluminium</td><td>1</td><td>GBP 34.00</td></tr>\r\n<tr><td>Compact keyboard</td><td>UK layout, wireless</td><td>1</td><td>GBP 59.00</td></tr>\r\n<tr><td>Notebook refill</td><td>A5, dotted pages</td><td>1</td><td>GBP 6.40</td></tr>\r\n<tr><td>Desk organiser</td><td>Oak finish, three trays</td><td>1</td><td>GBP 24.90</td></tr>\r\n<tr><td>Insulated bottle</td><td>500 ml, navy</td><td>1</td><td>GBP 18.00</td></tr>\r\n<tr><td>Protective sleeve</td><td>14 inch, water resistant</td><td>1</td><td>GBP 21.00</td></tr>\r\n</tbody></table><p>Delivery: GBP 4.95. VAT is included in the listed prices.</p></section>\r\n<section><h2>Changes and cancellations</h2>\r\n<p>Before dispatch, you can update delivery instructions in your account.\r\nChanges to the delivery address may require a new shipping quote. If an item\r\nhas already left the warehouse, contact support before placing a replacement order.</p>\r\n<p>For returns, keep the original accessories and include the order reference.\r\nRefunds are sent to the original payment method after the returned parcel is checked.</p></section>\r\n<footer><p>Questions? Write to {{support.email}} from {{customer.email}},\r\nor use the contact form in your account. Never send card details by email.</p>\r\n<p>North Street Supplies, 18 Market Road. This is an order confirmation,\r\nnot a subscription message. Please check your receipt for incorrect quantities.</p></footer>\r\n</main></body></html>\r\n--message-boundary-42--\r\n",
+      "bytes": 2878,
+      "sha256": "c93de89c9bc7b4783a763813602648b3b830a7fe47d430d4440a617e0abef4f3"
+    },
+    "documents-explode-mail_delivery-all": {
+      "text": "From: orders@example.test\r\nTo: customer@example.test\r\nSubject: Delivery documents\r\nMIME-Version: 1.0\r\nContent-Type: multipart/mixed; boundary=\"message-boundary-42\"\r\n\r\n--message-boundary-42\r\nContent-Type: text/plain; charset=UTF-8\r\n\r\nYour parcel is ready for collection.\r\nThe attached document lists the items and delivery status.\r\n--message-boundary-42\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n<!doctype html>\r\n<html lang=\"en\"><head><meta charset=\"utf-8\"><title>Your order receipt</title></head>\r\n<body><header><a href=\"https://shop.example.test/\">North Street Supplies</a></header>\r\n<main><h1>Thank you, {{customer.name}}</h1>\r\n<p>We have received order {{order.reference}}. A confirmation will be sent to\r\n{{customer.email}}. Please keep this receipt until your delivery is complete.</p>\r\n<section><h2>Delivery details</h2><address>{{customer.address}}</address>\r\n<p>Telephone: {{customer.phone}}. The courier will contact you before delivery.</p>\r\n<p>Delivery is scheduled for {{delivery.date}}. Follow the parcel at\r\n<a href=\"{{tracking.url}}\">the tracking page</a>.</p></section>\r\n<section><h2>Items</h2><table><thead><tr><th>Product</th><th>Details</th>\r\n<th>Quantity</th><th>Price</th></tr></thead><tbody>\r\n<tr><td>USB-C travel charger</td><td>45 W, two ports</td><td>1</td><td>GBP 29.90</td></tr>\r\n<tr><td>Braided charging cable</td><td>2 m, graphite</td><td>1</td><td>GBP 12.50</td></tr>\r\n<tr><td>Laptop stand</td><td>Adjustable aluminium</td><td>1</td><td>GBP 34.00</td></tr>\r\n<tr><td>Compact keyboard</td><td>UK layout, wireless</td><td>1</td><td>GBP 59.00</td></tr>\r\n<tr><td>Notebook refill</td><td>A5, dotted pages</td><td>1</td><td>GBP 6.40</td></tr>\r\n<tr><td>Desk organiser</td><td>Oak finish, three trays</td><td>1</td><td>GBP 24.90</td></tr>\r\n<tr><td>Insulated bottle</td><td>500 ml, navy</td><td>1</td><td>GBP 18.00</td></tr>\r\n<tr><td>Protective sleeve</td><td>14 inch, water resistant</td><td>1</td><td>GBP 21.00</td></tr>\r\n</tbody></table><p>Delivery: GBP 4.95. VAT is included in the listed prices.</p></section>\r\n<section><h2>Changes and cancellations</h2>\r\n<p>Before dispatch, you can update delivery instructions in your account.\r\nChanges to the delivery address may require a new shipping quote. If an item\r\nhas already left the warehouse, contact support before placing a replacement order.</p>\r\n<p>For returns, keep the original accessories and include the order reference.\r\nRefunds are sent to the original payment method after the returned parcel is checked.</p></section>\r\n<footer><p>Questions? Write to {{support.email}} from {{customer.email}},\r\nor use the contact form in your account. Never send card details by email.</p>\r\n<p>North Street Supplies, 18 Market Road. This is an order confirmation,\r\nnot a subscription message. Please check your receipt for incorrect quantities.</p></footer>\r\n</main></body></html>\r\n--message-boundary-42\r\nContent-Type: application/json\r\nContent-Disposition: attachment; filename=\"delivery.json\"\r\n\r\n{\r\n  \"order\": \"order-2026-00142\",\r\n  \"items\": [\r\n    [\r\n      \"USB-C travel charger\",\r\n      \"45 W, two ports\",\r\n      \"29.90\"\r\n    ],\r\n    [\r\n      \"Braided charging cable\",\r\n      \"2 m, graphite\",\r\n      \"12.50\"\r\n    ],\r\n    [\r\n      \"Laptop stand\",\r\n      \"Adjustable aluminium\",\r\n      \"34.00\"\r\n    ],\r\n    [\r\n      \"Compact keyboard\",\r\n      \"UK layout, wireless\",\r\n      \"59.00\"\r\n    ],\r\n    [\r\n      \"Notebook refill\",\r\n      \"A5, dotted pages\",\r\n      \"6.40\"\r\n    ],\r\n    [\r\n      \"Desk organiser\",\r\n      \"Oak finish, three trays\",\r\n      \"24.90\"\r\n    ],\r\n    [\r\n      \"Insulated bottle\",\r\n      \"500 ml, navy\",\r\n      \"18.00\"\r\n    ],\r\n    [\r\n      \"Protective sleeve\",\r\n      \"14 inch, water resistant\",\r\n      \"21.00\"\r\n    ]\r\n  ],\r\n  \"status\": \"dispatched\"\r\n}\r\n--message-boundary-42--\r\n",
+      "bytes": 3764,
+      "sha256": "bd7b36122c4c2737611b7be6258261606172debc6d3efc047b374d834b566393"
+    }
+  },
+  "cases": [
+    {
+      "name": "documents/explode/mail_receipt/all",
+      "api": "explode",
+      "family": "core",
+      "panel": "product",
+      "state": "document",
+      "input": "documents-explode-mail_receipt-all",
+      "bytes": 2878,
+      "sha256": "c93de89c9bc7b4783a763813602648b3b830a7fe47d430d4440a617e0abef4f3",
+      "needles": [
+        "--message-boundary-42"
+      ],
+      "needle_bytes": [
+        21
+      ],
+      "ascii_folded_fixture": false,
+      "positions": [
+        167
+      ],
+      "position_unit": "UTF-8 bytes",
+      "entry_remaining_bytes": 2878,
+      "entry_path": "compact Sunday",
+      "code": "explode('--message-boundary-42', $s)",
+      "expected": [
+        "From: orders@example.test\r\nTo: customer@example.test\r\nSubject: Your order receipt\r\nMIME-Version: 1.0\r\nContent-Type: multipart/mixed; boundary=\"message-boundary-42\"\r\n\r\n",
+        "\r\nContent-Type: text/plain; charset=UTF-8\r\n\r\nYour payment has been received.\r\nPlease check the item list and keep the receipt for your records.\r\n",
+        "\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n<!doctype html>\r\n<html lang=\"en\"><head><meta charset=\"utf-8\"><title>Your order receipt</title></head>\r\n<body><header><a href=\"https://shop.example.test/\">North Street Supplies</a></header>\r\n<main><h1>Thank you, {{customer.name}}</h1>\r\n<p>We have received order {{order.reference}}. A confirmation will be sent to\r\n{{customer.email}}. Please keep this receipt until your delivery is complete.</p>\r\n<section><h2>Delivery details</h2><address>{{customer.address}}</address>\r\n<p>Telephone: {{customer.phone}}. The courier will contact you before delivery.</p>\r\n<p>Delivery is scheduled for {{delivery.date}}. Follow the parcel at\r\n<a href=\"{{tracking.url}}\">the tracking page</a>.</p></section>\r\n<section><h2>Items</h2><table><thead><tr><th>Product</th><th>Details</th>\r\n<th>Quantity</th><th>Price</th></tr></thead><tbody>\r\n<tr><td>USB-C travel charger</td><td>45 W, two ports</td><td>1</td><td>GBP 29.90</td></tr>\r\n<tr><td>Braided charging cable</td><td>2 m, graphite</td><td>1</td><td>GBP 12.50</td></tr>\r\n<tr><td>Laptop stand</td><td>Adjustable aluminium</td><td>1</td><td>GBP 34.00</td></tr>\r\n<tr><td>Compact keyboard</td><td>UK layout, wireless</td><td>1</td><td>GBP 59.00</td></tr>\r\n<tr><td>Notebook refill</td><td>A5, dotted pages</td><td>1</td><td>GBP 6.40</td></tr>\r\n<tr><td>Desk organiser</td><td>Oak finish, three trays</td><td>1</td><td>GBP 24.90</td></tr>\r\n<tr><td>Insulated bottle</td><td>500 ml, navy</td><td>1</td><td>GBP 18.00</td></tr>\r\n<tr><td>Protective sleeve</td><td>14 inch, water resistant</td><td>1</td><td>GBP 21.00</td></tr>\r\n</tbody></table><p>Delivery: GBP 4.95. VAT is included in the listed prices.</p></section>\r\n<section><h2>Changes and cancellations</h2>\r\n<p>Before dispatch, you can update delivery instructions in your account.\r\nChanges to the delivery address may require a new shipping quote. If an item\r\nhas already left the warehouse, contact support before placing a replacement order.</p>\r\n<p>For returns, keep the original accessories and include the order reference.\r\nRefunds are sent to the original payment method after the returned parcel is checked.</p></section>\r\n<footer><p>Questions? Write to {{support.email}} from {{customer.email}},\r\nor use the contact form in your account. Never send card details by email.</p>\r\n<p>North Street Supplies, 18 Market Road. This is an order confirmation,\r\nnot a subscription message. Please check your receipt for incorrect quantities.</p></footer>\r\n</main></body></html>\r\n",
+        "--\r\n"
+      ],
+      "benchmark": true,
+      "repeated_search_may_enter_inline": true,
+      "suite": "documents-mail",
+      "language": "en",
+      "fixture_kind": "constructed complete document",
+      "document": "mail_receipt",
+      "split_limit": null
+    },
+    {
+      "name": "documents/explode/mail_receipt/limit2",
+      "api": "explode",
+      "family": "core",
+      "panel": "product",
+      "state": "document",
+      "input": "documents-explode-mail_receipt-all",
+      "bytes": 2878,
+      "sha256": "c93de89c9bc7b4783a763813602648b3b830a7fe47d430d4440a617e0abef4f3",
+      "needles": [
+        "--message-boundary-42"
+      ],
+      "needle_bytes": [
+        21
+      ],
+      "ascii_folded_fixture": false,
+      "positions": [
+        167
+      ],
+      "position_unit": "UTF-8 bytes",
+      "entry_remaining_bytes": 2878,
+      "entry_path": "compact Sunday",
+      "code": "explode('--message-boundary-42', $s, 2)",
+      "expected": [
+        "From: orders@example.test\r\nTo: customer@example.test\r\nSubject: Your order receipt\r\nMIME-Version: 1.0\r\nContent-Type: multipart/mixed; boundary=\"message-boundary-42\"\r\n\r\n",
+        "\r\nContent-Type: text/plain; charset=UTF-8\r\n\r\nYour payment has been received.\r\nPlease check the item list and keep the receipt for your records.\r\n--message-boundary-42\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n<!doctype html>\r\n<html lang=\"en\"><head><meta charset=\"utf-8\"><title>Your order receipt</title></head>\r\n<body><header><a href=\"https://shop.example.test/\">North Street Supplies</a></header>\r\n<main><h1>Thank you, {{customer.name}}</h1>\r\n<p>We have received order {{order.reference}}. A confirmation will be sent to\r\n{{customer.email}}. Please keep this receipt until your delivery is complete.</p>\r\n<section><h2>Delivery details</h2><address>{{customer.address}}</address>\r\n<p>Telephone: {{customer.phone}}. The courier will contact you before delivery.</p>\r\n<p>Delivery is scheduled for {{delivery.date}}. Follow the parcel at\r\n<a href=\"{{tracking.url}}\">the tracking page</a>.</p></section>\r\n<section><h2>Items</h2><table><thead><tr><th>Product</th><th>Details</th>\r\n<th>Quantity</th><th>Price</th></tr></thead><tbody>\r\n<tr><td>USB-C travel charger</td><td>45 W, two ports</td><td>1</td><td>GBP 29.90</td></tr>\r\n<tr><td>Braided charging cable</td><td>2 m, graphite</td><td>1</td><td>GBP 12.50</td></tr>\r\n<tr><td>Laptop stand</td><td>Adjustable aluminium</td><td>1</td><td>GBP 34.00</td></tr>\r\n<tr><td>Compact keyboard</td><td>UK layout, wireless</td><td>1</td><td>GBP 59.00</td></tr>\r\n<tr><td>Notebook refill</td><td>A5, dotted pages</td><td>1</td><td>GBP 6.40</td></tr>\r\n<tr><td>Desk organiser</td><td>Oak finish, three trays</td><td>1</td><td>GBP 24.90</td></tr>\r\n<tr><td>Insulated bottle</td><td>500 ml, navy</td><td>1</td><td>GBP 18.00</td></tr>\r\n<tr><td>Protective sleeve</td><td>14 inch, water resistant</td><td>1</td><td>GBP 21.00</td></tr>\r\n</tbody></table><p>Delivery: GBP 4.95. VAT is included in the listed prices.</p></section>\r\n<section><h2>Changes and cancellations</h2>\r\n<p>Before dispatch, you can update delivery instructions in your account.\r\nChanges to the delivery address may require a new shipping quote. If an item\r\nhas already left the warehouse, contact support before placing a replacement order.</p>\r\n<p>For returns, keep the original accessories and include the order reference.\r\nRefunds are sent to the original payment method after the returned parcel is checked.</p></section>\r\n<footer><p>Questions? Write to {{support.email}} from {{customer.email}},\r\nor use the contact form in your account. Never send card details by email.</p>\r\n<p>North Street Supplies, 18 Market Road. This is an order confirmation,\r\nnot a subscription message. Please check your receipt for incorrect quantities.</p></footer>\r\n</main></body></html>\r\n--message-boundary-42--\r\n"
+      ],
+      "benchmark": true,
+      "repeated_search_may_enter_inline": true,
+      "suite": "documents-mail",
+      "language": "en",
+      "fixture_kind": "constructed complete document",
+      "document": "mail_receipt",
+      "split_limit": 2
+    },
+    {
+      "name": "documents/stream/mail_receipt/closing",
+      "api": "stream_get_line",
+      "family": "core",
+      "panel": "product",
+      "state": "document",
+      "input": "documents-explode-mail_receipt-all",
+      "bytes": 2878,
+      "sha256": "c93de89c9bc7b4783a763813602648b3b830a7fe47d430d4440a617e0abef4f3",
+      "needles": [
+        "--message-boundary-42--"
+      ],
+      "needle_bytes": [
+        23
+      ],
+      "ascii_folded_fixture": false,
+      "positions": [
+        2853
+      ],
+      "position_unit": "UTF-8 bytes",
+      "entry_remaining_bytes": 2878,
+      "entry_path": "compact Sunday",
+      "code": "compact_read_record($GLOBALS['compact_mail_receipt'], strlen($s), '--message-boundary-42--')",
+      "expected": "From: orders@example.test\r\nTo: customer@example.test\r\nSubject: Your order receipt\r\nMIME-Version: 1.0\r\nContent-Type: multipart/mixed; boundary=\"message-boundary-42\"\r\n\r\n--message-boundary-42\r\nContent-Type: text/plain; charset=UTF-8\r\n\r\nYour payment has been received.\r\nPlease check the item list and keep the receipt for your records.\r\n--message-boundary-42\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n<!doctype html>\r\n<html lang=\"en\"><head><meta charset=\"utf-8\"><title>Your order receipt</title></head>\r\n<body><header><a href=\"https://shop.example.test/\">North Street Supplies</a></header>\r\n<main><h1>Thank you, {{customer.name}}</h1>\r\n<p>We have received order {{order.reference}}. A confirmation will be sent to\r\n{{customer.email}}. Please keep this receipt until your delivery is complete.</p>\r\n<section><h2>Delivery details</h2><address>{{customer.address}}</address>\r\n<p>Telephone: {{customer.phone}}. The courier will contact you before delivery.</p>\r\n<p>Delivery is scheduled for {{delivery.date}}. Follow the parcel at\r\n<a href=\"{{tracking.url}}\">the tracking page</a>.</p></section>\r\n<section><h2>Items</h2><table><thead><tr><th>Product</th><th>Details</th>\r\n<th>Quantity</th><th>Price</th></tr></thead><tbody>\r\n<tr><td>USB-C travel charger</td><td>45 W, two ports</td><td>1</td><td>GBP 29.90</td></tr>\r\n<tr><td>Braided charging cable</td><td>2 m, graphite</td><td>1</td><td>GBP 12.50</td></tr>\r\n<tr><td>Laptop stand</td><td>Adjustable aluminium</td><td>1</td><td>GBP 34.00</td></tr>\r\n<tr><td>Compact keyboard</td><td>UK layout, wireless</td><td>1</td><td>GBP 59.00</td></tr>\r\n<tr><td>Notebook refill</td><td>A5, dotted pages</td><td>1</td><td>GBP 6.40</td></tr>\r\n<tr><td>Desk organiser</td><td>Oak finish, three trays</td><td>1</td><td>GBP 24.90</td></tr>\r\n<tr><td>Insulated bottle</td><td>500 ml, navy</td><td>1</td><td>GBP 18.00</td></tr>\r\n<tr><td>Protective sleeve</td><td>14 inch, water resistant</td><td>1</td><td>GBP 21.00</td></tr>\r\n</tbody></table><p>Delivery: GBP 4.95. VAT is included in the listed prices.</p></section>\r\n<section><h2>Changes and cancellations</h2>\r\n<p>Before dispatch, you can update delivery instructions in your account.\r\nChanges to the delivery address may require a new shipping quote. If an item\r\nhas already left the warehouse, contact support before placing a replacement order.</p>\r\n<p>For returns, keep the original accessories and include the order reference.\r\nRefunds are sent to the original payment method after the returned parcel is checked.</p></section>\r\n<footer><p>Questions? Write to {{support.email}} from {{customer.email}},\r\nor use the contact form in your account. Never send card details by email.</p>\r\n<p>North Street Supplies, 18 Market Road. This is an order confirmation,\r\nnot a subscription message. Please check your receipt for incorrect quantities.</p></footer>\r\n</main></body></html>\r\n",
+      "benchmark": true,
+      "repeated_search_may_enter_inline": false,
+      "setup": "$GLOBALS['compact_mail_receipt'] = fopen('php://memory', 'w+b'); fwrite($GLOBALS['compact_mail_receipt'], $s)",
+      "suite": "documents-mail",
+      "language": "en",
+      "document": "mail_receipt",
+      "fixture_kind": "constructed complete MIME message"
+    },
+    {
+      "name": "documents/explode/mail_delivery/all",
+      "api": "explode",
+      "family": "core",
+      "panel": "product",
+      "state": "document",
+      "input": "documents-explode-mail_delivery-all",
+      "bytes": 3764,
+      "sha256": "bd7b36122c4c2737611b7be6258261606172debc6d3efc047b374d834b566393",
+      "needles": [
+        "--message-boundary-42"
+      ],
+      "needle_bytes": [
+        21
+      ],
+      "ascii_folded_fixture": false,
+      "positions": [
+        167
+      ],
+      "position_unit": "UTF-8 bytes",
+      "entry_remaining_bytes": 3764,
+      "entry_path": "compact Sunday",
+      "code": "explode('--message-boundary-42', $s)",
+      "expected": [
+        "From: orders@example.test\r\nTo: customer@example.test\r\nSubject: Delivery documents\r\nMIME-Version: 1.0\r\nContent-Type: multipart/mixed; boundary=\"message-boundary-42\"\r\n\r\n",
+        "\r\nContent-Type: text/plain; charset=UTF-8\r\n\r\nYour parcel is ready for collection.\r\nThe attached document lists the items and delivery status.\r\n",
+        "\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n<!doctype html>\r\n<html lang=\"en\"><head><meta charset=\"utf-8\"><title>Your order receipt</title></head>\r\n<body><header><a href=\"https://shop.example.test/\">North Street Supplies</a></header>\r\n<main><h1>Thank you, {{customer.name}}</h1>\r\n<p>We have received order {{order.reference}}. A confirmation will be sent to\r\n{{customer.email}}. Please keep this receipt until your delivery is complete.</p>\r\n<section><h2>Delivery details</h2><address>{{customer.address}}</address>\r\n<p>Telephone: {{customer.phone}}. The courier will contact you before delivery.</p>\r\n<p>Delivery is scheduled for {{delivery.date}}. Follow the parcel at\r\n<a href=\"{{tracking.url}}\">the tracking page</a>.</p></section>\r\n<section><h2>Items</h2><table><thead><tr><th>Product</th><th>Details</th>\r\n<th>Quantity</th><th>Price</th></tr></thead><tbody>\r\n<tr><td>USB-C travel charger</td><td>45 W, two ports</td><td>1</td><td>GBP 29.90</td></tr>\r\n<tr><td>Braided charging cable</td><td>2 m, graphite</td><td>1</td><td>GBP 12.50</td></tr>\r\n<tr><td>Laptop stand</td><td>Adjustable aluminium</td><td>1</td><td>GBP 34.00</td></tr>\r\n<tr><td>Compact keyboard</td><td>UK layout, wireless</td><td>1</td><td>GBP 59.00</td></tr>\r\n<tr><td>Notebook refill</td><td>A5, dotted pages</td><td>1</td><td>GBP 6.40</td></tr>\r\n<tr><td>Desk organiser</td><td>Oak finish, three trays</td><td>1</td><td>GBP 24.90</td></tr>\r\n<tr><td>Insulated bottle</td><td>500 ml, navy</td><td>1</td><td>GBP 18.00</td></tr>\r\n<tr><td>Protective sleeve</td><td>14 inch, water resistant</td><td>1</td><td>GBP 21.00</td></tr>\r\n</tbody></table><p>Delivery: GBP 4.95. VAT is included in the listed prices.</p></section>\r\n<section><h2>Changes and cancellations</h2>\r\n<p>Before dispatch, you can update delivery instructions in your account.\r\nChanges to the delivery address may require a new shipping quote. If an item\r\nhas already left the warehouse, contact support before placing a replacement order.</p>\r\n<p>For returns, keep the original accessories and include the order reference.\r\nRefunds are sent to the original payment method after the returned parcel is checked.</p></section>\r\n<footer><p>Questions? Write to {{support.email}} from {{customer.email}},\r\nor use the contact form in your account. Never send card details by email.</p>\r\n<p>North Street Supplies, 18 Market Road. This is an order confirmation,\r\nnot a subscription message. Please check your receipt for incorrect quantities.</p></footer>\r\n</main></body></html>\r\n",
+        "\r\nContent-Type: application/json\r\nContent-Disposition: attachment; filename=\"delivery.json\"\r\n\r\n{\r\n  \"order\": \"order-2026-00142\",\r\n  \"items\": [\r\n    [\r\n      \"USB-C travel charger\",\r\n      \"45 W, two ports\",\r\n      \"29.90\"\r\n    ],\r\n    [\r\n      \"Braided charging cable\",\r\n      \"2 m, graphite\",\r\n      \"12.50\"\r\n    ],\r\n    [\r\n      \"Laptop stand\",\r\n      \"Adjustable aluminium\",\r\n      \"34.00\"\r\n    ],\r\n    [\r\n      \"Compact keyboard\",\r\n      \"UK layout, wireless\",\r\n      \"59.00\"\r\n    ],\r\n    [\r\n      \"Notebook refill\",\r\n      \"A5, dotted pages\",\r\n      \"6.40\"\r\n    ],\r\n    [\r\n      \"Desk organiser\",\r\n      \"Oak finish, three trays\",\r\n      \"24.90\"\r\n    ],\r\n    [\r\n      \"Insulated bottle\",\r\n      \"500 ml, navy\",\r\n      \"18.00\"\r\n    ],\r\n    [\r\n      \"Protective sleeve\",\r\n      \"14 inch, water resistant\",\r\n      \"21.00\"\r\n    ]\r\n  ],\r\n  \"status\": \"dispatched\"\r\n}\r\n",
+        "--\r\n"
+      ],
+      "benchmark": true,
+      "repeated_search_may_enter_inline": true,
+      "suite": "documents-mail",
+      "language": "en",
+      "fixture_kind": "constructed complete document",
+      "document": "mail_delivery",
+      "split_limit": null
+    },
+    {
+      "name": "documents/explode/mail_delivery/limit2",
+      "api": "explode",
+      "family": "core",
+      "panel": "product",
+      "state": "document",
+      "input": "documents-explode-mail_delivery-all",
+      "bytes": 3764,
+      "sha256": "bd7b36122c4c2737611b7be6258261606172debc6d3efc047b374d834b566393",
+      "needles": [
+        "--message-boundary-42"
+      ],
+      "needle_bytes": [
+        21
+      ],
+      "ascii_folded_fixture": false,
+      "positions": [
+        167
+      ],
+      "position_unit": "UTF-8 bytes",
+      "entry_remaining_bytes": 3764,
+      "entry_path": "compact Sunday",
+      "code": "explode('--message-boundary-42', $s, 2)",
+      "expected": [
+        "From: orders@example.test\r\nTo: customer@example.test\r\nSubject: Delivery documents\r\nMIME-Version: 1.0\r\nContent-Type: multipart/mixed; boundary=\"message-boundary-42\"\r\n\r\n",
+        "\r\nContent-Type: text/plain; charset=UTF-8\r\n\r\nYour parcel is ready for collection.\r\nThe attached document lists the items and delivery status.\r\n--message-boundary-42\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n<!doctype html>\r\n<html lang=\"en\"><head><meta charset=\"utf-8\"><title>Your order receipt</title></head>\r\n<body><header><a href=\"https://shop.example.test/\">North Street Supplies</a></header>\r\n<main><h1>Thank you, {{customer.name}}</h1>\r\n<p>We have received order {{order.reference}}. A confirmation will be sent to\r\n{{customer.email}}. Please keep this receipt until your delivery is complete.</p>\r\n<section><h2>Delivery details</h2><address>{{customer.address}}</address>\r\n<p>Telephone: {{customer.phone}}. The courier will contact you before delivery.</p>\r\n<p>Delivery is scheduled for {{delivery.date}}. Follow the parcel at\r\n<a href=\"{{tracking.url}}\">the tracking page</a>.</p></section>\r\n<section><h2>Items</h2><table><thead><tr><th>Product</th><th>Details</th>\r\n<th>Quantity</th><th>Price</th></tr></thead><tbody>\r\n<tr><td>USB-C travel charger</td><td>45 W, two ports</td><td>1</td><td>GBP 29.90</td></tr>\r\n<tr><td>Braided charging cable</td><td>2 m, graphite</td><td>1</td><td>GBP 12.50</td></tr>\r\n<tr><td>Laptop stand</td><td>Adjustable aluminium</td><td>1</td><td>GBP 34.00</td></tr>\r\n<tr><td>Compact keyboard</td><td>UK layout, wireless</td><td>1</td><td>GBP 59.00</td></tr>\r\n<tr><td>Notebook refill</td><td>A5, dotted pages</td><td>1</td><td>GBP 6.40</td></tr>\r\n<tr><td>Desk organiser</td><td>Oak finish, three trays</td><td>1</td><td>GBP 24.90</td></tr>\r\n<tr><td>Insulated bottle</td><td>500 ml, navy</td><td>1</td><td>GBP 18.00</td></tr>\r\n<tr><td>Protective sleeve</td><td>14 inch, water resistant</td><td>1</td><td>GBP 21.00</td></tr>\r\n</tbody></table><p>Delivery: GBP 4.95. VAT is included in the listed prices.</p></section>\r\n<section><h2>Changes and cancellations</h2>\r\n<p>Before dispatch, you can update delivery instructions in your account.\r\nChanges to the delivery address may require a new shipping quote. If an item\r\nhas already left the warehouse, contact support before placing a replacement order.</p>\r\n<p>For returns, keep the original accessories and include the order reference.\r\nRefunds are sent to the original payment method after the returned parcel is checked.</p></section>\r\n<footer><p>Questions? Write to {{support.email}} from {{customer.email}},\r\nor use the contact form in your account. Never send card details by email.</p>\r\n<p>North Street Supplies, 18 Market Road. This is an order confirmation,\r\nnot a subscription message. Please check your receipt for incorrect quantities.</p></footer>\r\n</main></body></html>\r\n--message-boundary-42\r\nContent-Type: application/json\r\nContent-Disposition: attachment; filename=\"delivery.json\"\r\n\r\n{\r\n  \"order\": \"order-2026-00142\",\r\n  \"items\": [\r\n    [\r\n      \"USB-C travel charger\",\r\n      \"45 W, two ports\",\r\n      \"29.90\"\r\n    ],\r\n    [\r\n      \"Braided charging cable\",\r\n      \"2 m, graphite\",\r\n      \"12.50\"\r\n    ],\r\n    [\r\n      \"Laptop stand\",\r\n      \"Adjustable aluminium\",\r\n      \"34.00\"\r\n    ],\r\n    [\r\n      \"Compact keyboard\",\r\n      \"UK layout, wireless\",\r\n      \"59.00\"\r\n    ],\r\n    [\r\n      \"Notebook refill\",\r\n      \"A5, dotted pages\",\r\n      \"6.40\"\r\n    ],\r\n    [\r\n      \"Desk organiser\",\r\n      \"Oak finish, three trays\",\r\n      \"24.90\"\r\n    ],\r\n    [\r\n      \"Insulated bottle\",\r\n      \"500 ml, navy\",\r\n      \"18.00\"\r\n    ],\r\n    [\r\n      \"Protective sleeve\",\r\n      \"14 inch, water resistant\",\r\n      \"21.00\"\r\n    ]\r\n  ],\r\n  \"status\": \"dispatched\"\r\n}\r\n--message-boundary-42--\r\n"
+      ],
+      "benchmark": true,
+      "repeated_search_may_enter_inline": true,
+      "suite": "documents-mail",
+      "language": "en",
+      "fixture_kind": "constructed complete document",
+      "document": "mail_delivery",
+      "split_limit": 2
+    },
+    {
+      "name": "documents/stream/mail_delivery/closing",
+      "api": "stream_get_line",
+      "family": "core",
+      "panel": "product",
+      "state": "document",
+      "input": "documents-explode-mail_delivery-all",
+      "bytes": 3764,
+      "sha256": "bd7b36122c4c2737611b7be6258261606172debc6d3efc047b374d834b566393",
+      "needles": [
+        "--message-boundary-42--"
+      ],
+      "needle_bytes": [
+        23
+      ],
+      "ascii_folded_fixture": false,
+      "positions": [
+        3739
+      ],
+      "position_unit": "UTF-8 bytes",
+      "entry_remaining_bytes": 3764,
+      "entry_path": "compact Sunday",
+      "code": "compact_read_record($GLOBALS['compact_mail_delivery'], strlen($s), '--message-boundary-42--')",
+      "expected": "From: orders@example.test\r\nTo: customer@example.test\r\nSubject: Delivery documents\r\nMIME-Version: 1.0\r\nContent-Type: multipart/mixed; boundary=\"message-boundary-42\"\r\n\r\n--message-boundary-42\r\nContent-Type: text/plain; charset=UTF-8\r\n\r\nYour parcel is ready for collection.\r\nThe attached document lists the items and delivery status.\r\n--message-boundary-42\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n<!doctype html>\r\n<html lang=\"en\"><head><meta charset=\"utf-8\"><title>Your order receipt</title></head>\r\n<body><header><a href=\"https://shop.example.test/\">North Street Supplies</a></header>\r\n<main><h1>Thank you, {{customer.name}}</h1>\r\n<p>We have received order {{order.reference}}. A confirmation will be sent to\r\n{{customer.email}}. Please keep this receipt until your delivery is complete.</p>\r\n<section><h2>Delivery details</h2><address>{{customer.address}}</address>\r\n<p>Telephone: {{customer.phone}}. The courier will contact you before delivery.</p>\r\n<p>Delivery is scheduled for {{delivery.date}}. Follow the parcel at\r\n<a href=\"{{tracking.url}}\">the tracking page</a>.</p></section>\r\n<section><h2>Items</h2><table><thead><tr><th>Product</th><th>Details</th>\r\n<th>Quantity</th><th>Price</th></tr></thead><tbody>\r\n<tr><td>USB-C travel charger</td><td>45 W, two ports</td><td>1</td><td>GBP 29.90</td></tr>\r\n<tr><td>Braided charging cable</td><td>2 m, graphite</td><td>1</td><td>GBP 12.50</td></tr>\r\n<tr><td>Laptop stand</td><td>Adjustable aluminium</td><td>1</td><td>GBP 34.00</td></tr>\r\n<tr><td>Compact keyboard</td><td>UK layout, wireless</td><td>1</td><td>GBP 59.00</td></tr>\r\n<tr><td>Notebook refill</td><td>A5, dotted pages</td><td>1</td><td>GBP 6.40</td></tr>\r\n<tr><td>Desk organiser</td><td>Oak finish, three trays</td><td>1</td><td>GBP 24.90</td></tr>\r\n<tr><td>Insulated bottle</td><td>500 ml, navy</td><td>1</td><td>GBP 18.00</td></tr>\r\n<tr><td>Protective sleeve</td><td>14 inch, water resistant</td><td>1</td><td>GBP 21.00</td></tr>\r\n</tbody></table><p>Delivery: GBP 4.95. VAT is included in the listed prices.</p></section>\r\n<section><h2>Changes and cancellations</h2>\r\n<p>Before dispatch, you can update delivery instructions in your account.\r\nChanges to the delivery address may require a new shipping quote. If an item\r\nhas already left the warehouse, contact support before placing a replacement order.</p>\r\n<p>For returns, keep the original accessories and include the order reference.\r\nRefunds are sent to the original payment method after the returned parcel is checked.</p></section>\r\n<footer><p>Questions? Write to {{support.email}} from {{customer.email}},\r\nor use the contact form in your account. Never send card details by email.</p>\r\n<p>North Street Supplies, 18 Market Road. This is an order confirmation,\r\nnot a subscription message. Please check your receipt for incorrect quantities.</p></footer>\r\n</main></body></html>\r\n--message-boundary-42\r\nContent-Type: application/json\r\nContent-Disposition: attachment; filename=\"delivery.json\"\r\n\r\n{\r\n  \"order\": \"order-2026-00142\",\r\n  \"items\": [\r\n    [\r\n      \"USB-C travel charger\",\r\n      \"45 W, two ports\",\r\n      \"29.90\"\r\n    ],\r\n    [\r\n      \"Braided charging cable\",\r\n      \"2 m, graphite\",\r\n      \"12.50\"\r\n    ],\r\n    [\r\n      \"Laptop stand\",\r\n      \"Adjustable aluminium\",\r\n      \"34.00\"\r\n    ],\r\n    [\r\n      \"Compact keyboard\",\r\n      \"UK layout, wireless\",\r\n      \"59.00\"\r\n    ],\r\n    [\r\n      \"Notebook refill\",\r\n      \"A5, dotted pages\",\r\n      \"6.40\"\r\n    ],\r\n    [\r\n      \"Desk organiser\",\r\n      \"Oak finish, three trays\",\r\n      \"24.90\"\r\n    ],\r\n    [\r\n      \"Insulated bottle\",\r\n      \"500 ml, navy\",\r\n      \"18.00\"\r\n    ],\r\n    [\r\n      \"Protective sleeve\",\r\n      \"14 inch, water resistant\",\r\n      \"21.00\"\r\n    ]\r\n  ],\r\n  \"status\": \"dispatched\"\r\n}\r\n",
+      "benchmark": true,
+      "repeated_search_may_enter_inline": false,
+      "setup": "$GLOBALS['compact_mail_delivery'] = fopen('php://memory', 'w+b'); fwrite($GLOBALS['compact_mail_delivery'], $s)",
+      "suite": "documents-mail",
+      "language": "en",
+      "document": "mail_delivery",
+      "fixture_kind": "constructed complete MIME message"
+    }
+  ]
+}

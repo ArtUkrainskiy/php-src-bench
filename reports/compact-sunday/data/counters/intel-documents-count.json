@@ -1,0 +1,1447 @@
+{
+  "format": 2,
+  "kind": "compare",
+  "harness": 2,
+  "date": "2026-11-01T04:55:04+00:00",
+  "suite": "reports/compact-sunday/suites/documents-count.php",
+  "elapsed_s": 49.6,
+  "complete": true,
+  "config": {
+    "passes": 5,
+    "cpu": 2,
+    "target_ms": 50,
+    "filter": null,
+    "control": true,
+    "wait_idle": 120,
+    "events": "cpu_core/cycles/u,cpu_core/instructions/u"
+  },
+  "env": {
+    "cpu_model": "13th Gen Intel(R) Core(TM) i7-13700H",
+    "kernel": "7.0.0-38-generic",
+    "cpu": 2,
+    "cpu_siblings": "2-3",
+    "hybrid_pcores": "0-11",
+    "cpu_is_pcore": true,
+    "governor": "powersave",
+    "epp": "balance_performance",
+    "turbo": true,
+    "on_ac": true,
+    "load": 0.5390625,
+    "busy_pct": {
+      "2": 0,
+      "3": 3.2
+    },
+    "idle_cpu": 2
+  },
+  "groups": [
+    {
+      "name": "aa",
+      "a": "compact-base-gcc14",
+      "b": "compact-base-gcc14"
+    },
+    {
+      "name": "gcc14",
+      "a": "compact-base-gcc14",
+      "b": "compact-head-gcc14"
+    },
+    {
+      "name": "clang20",
+      "a": "compact-base-clang20",
+      "b": "compact-head-clang20"
+    },
+    {
+      "name": "gcc13",
+      "a": "compact-base-gcc13",
+      "b": "compact-head-gcc13"
+    },
+    {
+      "name": "clang18",
+      "a": "compact-base-clang18",
+      "b": "compact-head-clang18"
+    },
+    {
+      "name": "aa2",
+      "a": "compact-base-gcc14",
+      "b": "compact-base-gcc14"
+    }
+  ],
+  "builds": {
+    "compact-base-gcc14": {
+      "php": "BUILD_DIR/compact-base-gcc14/sapi/cli/php",
+      "build": {
+        "name": "compact-base-gcc14",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:46:09+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "ac3a91d21845157f2be60236a99e484774abd3cd",
+        "cc": "gcc-14 (Ubuntu 14.2.0-4ubuntu2~24.04.1) 14.2.0",
+        "cc_command": "gcc-14",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-gcc14/sapi/cli/php"
+      },
+      "sha1": "29994ee8008df58a38654def392c9ce84a02c527"
+    },
+    "compact-head-gcc14": {
+      "php": "BUILD_DIR/compact-head-gcc14/sapi/cli/php",
+      "build": {
+        "name": "compact-head-gcc14",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:53:33+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "ac3a91d21845157f2be60236a99e484774abd3cd",
+        "cc": "gcc-14 (Ubuntu 14.2.0-4ubuntu2~24.04.1) 14.2.0",
+        "cc_command": "gcc-14",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-gcc14/sapi/cli/php"
+      },
+      "sha1": "eb2fd20710ece4e824a9d4dfc0f19897891fa4a6"
+    },
+    "compact-base-clang20": {
+      "php": "BUILD_DIR/compact-base-clang20/sapi/cli/php",
+      "build": {
+        "name": "compact-base-clang20",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:49:34+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "1d7363572b7d241702924894eced9e166dfe2ea0",
+        "cc": "Ubuntu clang version 20.1.2 (0ubuntu1~24.04.3)",
+        "cc_command": "clang-20",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-clang20/sapi/cli/php"
+      },
+      "sha1": "2479fffae5b6ae555283eaa61d5de46779a1bc74"
+    },
+    "compact-head-clang20": {
+      "php": "BUILD_DIR/compact-head-clang20/sapi/cli/php",
+      "build": {
+        "name": "compact-head-clang20",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:57:25+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "1d7363572b7d241702924894eced9e166dfe2ea0",
+        "cc": "Ubuntu clang version 20.1.2 (0ubuntu1~24.04.3)",
+        "cc_command": "clang-20",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-clang20/sapi/cli/php"
+      },
+      "sha1": "1577211fd1cee3181dd7eedbe88345254f0c9217"
+    },
+    "compact-base-gcc13": {
+      "php": "BUILD_DIR/compact-base-gcc13/sapi/cli/php",
+      "build": {
+        "name": "compact-base-gcc13",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:44:22+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "7d7501a4b803974f6a9a1a155f1d477e1e470510",
+        "cc": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+        "cc_command": "gcc",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-gcc13/sapi/cli/php"
+      },
+      "sha1": "77cb6a44e3c6456b1b85f1c5e91a81365c7b4cc7"
+    },
+    "compact-head-gcc13": {
+      "php": "BUILD_DIR/compact-head-gcc13/sapi/cli/php",
+      "build": {
+        "name": "compact-head-gcc13",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:51:26+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "7d7501a4b803974f6a9a1a155f1d477e1e470510",
+        "cc": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+        "cc_command": "gcc",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-gcc13/sapi/cli/php"
+      },
+      "sha1": "0def7d7b7cd90023ff48823de1a7fb0916094ab4"
+    },
+    "compact-base-clang18": {
+      "php": "BUILD_DIR/compact-base-clang18/sapi/cli/php",
+      "build": {
+        "name": "compact-base-clang18",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:47:49+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "096800019d14b925a3b777447a14fa3b0d669985",
+        "cc": "Ubuntu clang version 18.1.3 (1ubuntu1)",
+        "cc_command": "clang",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-clang18/sapi/cli/php"
+      },
+      "sha1": "afd9859494a5f84bbad4a39c8569b7d63f361611"
+    },
+    "compact-head-clang18": {
+      "php": "BUILD_DIR/compact-head-clang18/sapi/cli/php",
+      "build": {
+        "name": "compact-head-clang18",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:55:30+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "096800019d14b925a3b777447a14fa3b0d669985",
+        "cc": "Ubuntu clang version 18.1.3 (1ubuntu1)",
+        "cc_command": "clang",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-clang18/sapi/cli/php"
+      },
+      "sha1": "192e4a4a5f2f9207a910d137978397dd12769e99"
+    }
+  },
+  "sources": {
+    "suite": "4b39abeda75830ca7ebed1a6efc3374f6504b545",
+    "harness": "c3113f45c2a11bcb63f0b1fb7a4e44ef6843325d",
+    "corpus": "e5c81343e158d86e921e121508cb8b101980f980"
+  },
+  "machine_warnings": [
+    "CPU governor is 'powersave': frequency scaling adds noise (sudo CAPTURE_PATH/bench tune on)",
+    "turbo boost is on: thermal and frequency drift between rounds (sudo CAPTURE_PATH/bench tune on)"
+  ],
+  "cases": {
+    "documents/count/receipt @ documents-count-receipt": {
+      "input_len": 2422,
+      "input_chars": 2422,
+      "n": 103003
+    },
+    "documents/count/support @ documents-count-support": {
+      "input_len": 2475,
+      "input_chars": 2472,
+      "n": 91485
+    }
+  },
+  "warnings": [],
+  "marks": [],
+  "rows": [
+    [
+      "aa",
+      "a",
+      "documents/count/receipt @ documents-count-receipt",
+      197236297,
+      370469005,
+      8694996,
+      16030979
+    ],
+    [
+      "aa",
+      "b",
+      "documents/count/receipt @ documents-count-receipt",
+      196757420,
+      370471607,
+      8640236,
+      16032229
+    ],
+    [
+      "aa",
+      "b",
+      "documents/count/receipt @ documents-count-receipt",
+      197596416,
+      370468567,
+      8885813,
+      16031562
+    ],
+    [
+      "aa",
+      "a",
+      "documents/count/receipt @ documents-count-receipt",
+      196712997,
+      370468403,
+      8612158,
+      16031391
+    ],
+    [
+      "aa",
+      "a",
+      "documents/count/receipt @ documents-count-receipt",
+      196305943,
+      370468584,
+      8781523,
+      16028925
+    ],
+    [
+      "aa",
+      "b",
+      "documents/count/receipt @ documents-count-receipt",
+      196260934,
+      370469020,
+      8652013,
+      16031602
+    ],
+    [
+      "aa",
+      "b",
+      "documents/count/receipt @ documents-count-receipt",
+      196515927,
+      370469579,
+      8818036,
+      16029104
+    ],
+    [
+      "aa",
+      "a",
+      "documents/count/receipt @ documents-count-receipt",
+      197709354,
+      370469270,
+      8759495,
+      16028541
+    ],
+    [
+      "aa",
+      "a",
+      "documents/count/receipt @ documents-count-receipt",
+      197377054,
+      370468754,
+      8794605,
+      16031759
+    ],
+    [
+      "aa",
+      "b",
+      "documents/count/receipt @ documents-count-receipt",
+      196816488,
+      370469436,
+      8802823,
+      16029523
+    ],
+    [
+      "aa",
+      "a",
+      "documents/count/support @ documents-count-support",
+      197862312,
+      373683873,
+      8397795,
+      15696356
+    ],
+    [
+      "aa",
+      "b",
+      "documents/count/support @ documents-count-support",
+      198073699,
+      373686782,
+      8620812,
+      15696542
+    ],
+    [
+      "aa",
+      "b",
+      "documents/count/support @ documents-count-support",
+      197713444,
+      373686384,
+      8541669,
+      15695741
+    ],
+    [
+      "aa",
+      "a",
+      "documents/count/support @ documents-count-support",
+      197918230,
+      373682430,
+      8537133,
+      15696773
+    ],
+    [
+      "aa",
+      "a",
+      "documents/count/support @ documents-count-support",
+      197726331,
+      373683291,
+      8652548,
+      15696795
+    ],
+    [
+      "aa",
+      "b",
+      "documents/count/support @ documents-count-support",
+      197745588,
+      373682620,
+      8513780,
+      15696247
+    ],
+    [
+      "aa",
+      "b",
+      "documents/count/support @ documents-count-support",
+      197850063,
+      373682453,
+      8479534,
+      15695960
+    ],
+    [
+      "aa",
+      "a",
+      "documents/count/support @ documents-count-support",
+      197902061,
+      373682715,
+      8463604,
+      15699253
+    ],
+    [
+      "aa",
+      "a",
+      "documents/count/support @ documents-count-support",
+      197580260,
+      373685742,
+      8373206,
+      15698374
+    ],
+    [
+      "aa",
+      "b",
+      "documents/count/support @ documents-count-support",
+      198104581,
+      373683401,
+      8664803,
+      15696099
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/count/receipt @ documents-count-receipt",
+      197617796,
+      370469183,
+      8889262,
+      16029124
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/count/receipt @ documents-count-receipt",
+      190766521,
+      341216472,
+      8679725,
+      16031754
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/count/receipt @ documents-count-receipt",
+      190606590,
+      341216004,
+      8675430,
+      16031707
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/count/receipt @ documents-count-receipt",
+      197127792,
+      370471400,
+      8683518,
+      16028589
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/count/receipt @ documents-count-receipt",
+      197523121,
+      370469113,
+      8776568,
+      16028299
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/count/receipt @ documents-count-receipt",
+      190635557,
+      341218482,
+      8713340,
+      16029041
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/count/receipt @ documents-count-receipt",
+      190605148,
+      341215878,
+      8536402,
+      16028280
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/count/receipt @ documents-count-receipt",
+      196007747,
+      370471532,
+      8870468,
+      16029137
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/count/receipt @ documents-count-receipt",
+      197142334,
+      370469136,
+      8683746,
+      16031140
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/count/receipt @ documents-count-receipt",
+      190717187,
+      341216346,
+      8763389,
+      16029385
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/count/support @ documents-count-support",
+      197711562,
+      373684064,
+      8484287,
+      15695790
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/count/support @ documents-count-support",
+      195254743,
+      347703695,
+      8492273,
+      15695393
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/count/support @ documents-count-support",
+      194879426,
+      347701425,
+      8493170,
+      15698733
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/count/support @ documents-count-support",
+      197886781,
+      373682873,
+      8571379,
+      15697218
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/count/support @ documents-count-support",
+      197978657,
+      373684661,
+      8577554,
+      15696558
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/count/support @ documents-count-support",
+      195242363,
+      347701543,
+      8493947,
+      15698134
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/count/support @ documents-count-support",
+      194859256,
+      347701912,
+      8693864,
+      15695554
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/count/support @ documents-count-support",
+      198029942,
+      373682384,
+      8843021,
+      15697938
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/count/support @ documents-count-support",
+      198025040,
+      373683279,
+      8432697,
+      15698580
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/count/support @ documents-count-support",
+      195017585,
+      347701898,
+      8394504,
+      15695222
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/count/receipt @ documents-count-receipt",
+      192047990,
+      359033196,
+      8437690,
+      16126748
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/count/receipt @ documents-count-receipt",
+      190404397,
+      319273712,
+      8736310,
+      16125790
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/count/receipt @ documents-count-receipt",
+      190568879,
+      319270756,
+      8542729,
+      16125518
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/count/receipt @ documents-count-receipt",
+      191784816,
+      359030728,
+      8653955,
+      16129635
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/count/receipt @ documents-count-receipt",
+      192166264,
+      359029764,
+      8707903,
+      16126175
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/count/receipt @ documents-count-receipt",
+      190657081,
+      319270680,
+      8442748,
+      16128408
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/count/receipt @ documents-count-receipt",
+      190639065,
+      319271356,
+      8468418,
+      16126462
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/count/receipt @ documents-count-receipt",
+      192135590,
+      359032936,
+      8665887,
+      16126958
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/count/receipt @ documents-count-receipt",
+      191831967,
+      359029939,
+      8669478,
+      16126205
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/count/receipt @ documents-count-receipt",
+      190349498,
+      319273607,
+      8536439,
+      16126451
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/count/support @ documents-count-support",
+      196974340,
+      365435257,
+      8565204,
+      15770051
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/count/support @ documents-count-support",
+      195529741,
+      325912469,
+      8557084,
+      15771433
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/count/support @ documents-count-support",
+      195590143,
+      325912868,
+      8552830,
+      15769097
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/count/support @ documents-count-support",
+      196669071,
+      365434947,
+      8600267,
+      15772631
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/count/support @ documents-count-support",
+      196580394,
+      365432577,
+      8510638,
+      15770005
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/count/support @ documents-count-support",
+      195737007,
+      325910424,
+      8361932,
+      15771576
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/count/support @ documents-count-support",
+      195537226,
+      325910320,
+      8267208,
+      15769330
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/count/support @ documents-count-support",
+      196802646,
+      365432371,
+      8381247,
+      15772014
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/count/support @ documents-count-support",
+      197354090,
+      365432441,
+      8305106,
+      15769456
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/count/support @ documents-count-support",
+      195332834,
+      325910269,
+      8490933,
+      15769015
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/count/receipt @ documents-count-receipt",
+      194089631,
+      354601574,
+      8621990,
+      16027079
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/count/receipt @ documents-count-receipt",
+      195573025,
+      325348848,
+      8612405,
+      16024021
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/count/receipt @ documents-count-receipt",
+      194695410,
+      325349044,
+      8557324,
+      16026864
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/count/receipt @ documents-count-receipt",
+      193890370,
+      354601787,
+      8589663,
+      16023879
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/count/receipt @ documents-count-receipt",
+      194600826,
+      354601770,
+      8791611,
+      16024601
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/count/receipt @ documents-count-receipt",
+      195015725,
+      325352133,
+      8643542,
+      16027649
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/count/receipt @ documents-count-receipt",
+      194071872,
+      325351767,
+      8800705,
+      16023564
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/count/receipt @ documents-count-receipt",
+      194010833,
+      354601458,
+      8712543,
+      16025061
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/count/receipt @ documents-count-receipt",
+      194020080,
+      354602180,
+      8849136,
+      16027388
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/count/receipt @ documents-count-receipt",
+      194590358,
+      325349296,
+      8907992,
+      16024706
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/count/support @ documents-count-support",
+      198115762,
+      357488531,
+      8651126,
+      15695161
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/count/support @ documents-count-support",
+      217607613,
+      331504627,
+      8596731,
+      15691576
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/count/support @ documents-count-support",
+      195233866,
+      331505122,
+      8454341,
+      15690440
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/count/support @ documents-count-support",
+      198245969,
+      357489294,
+      8618466,
+      15691612
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/count/support @ documents-count-support",
+      198324348,
+      357485997,
+      8730198,
+      15691681
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/count/support @ documents-count-support",
+      195570168,
+      331503570,
+      8511312,
+      15691531
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/count/support @ documents-count-support",
+      195518330,
+      331507342,
+      8688068,
+      15691205
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/count/support @ documents-count-support",
+      197935721,
+      357486719,
+      8489977,
+      15691544
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/count/support @ documents-count-support",
+      197686495,
+      357486199,
+      8599803,
+      15692029
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/count/support @ documents-count-support",
+      195440442,
+      331504501,
+      8500537,
+      15695008
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/count/receipt @ documents-count-receipt",
+      194103518,
+      364746473,
+      8482216,
+      17107505
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/count/receipt @ documents-count-receipt",
+      191799011,
+      324989283,
+      8700525,
+      17104102
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/count/receipt @ documents-count-receipt",
+      191875422,
+      324987472,
+      8631131,
+      17103448
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/count/receipt @ documents-count-receipt",
+      194197017,
+      364748519,
+      8712575,
+      17104370
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/count/receipt @ documents-count-receipt",
+      194096749,
+      364746499,
+      8601770,
+      17106871
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/count/receipt @ documents-count-receipt",
+      192200158,
+      324989335,
+      8702418,
+      17106495
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/count/receipt @ documents-count-receipt",
+      192186978,
+      324987569,
+      8554612,
+      17103565
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/count/receipt @ documents-count-receipt",
+      193807189,
+      364746535,
+      8585871,
+      17107518
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/count/receipt @ documents-count-receipt",
+      194172241,
+      364746816,
+      8525978,
+      17106785
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/count/receipt @ documents-count-receipt",
+      191591039,
+      324986687,
+      8495230,
+      17103346
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/count/support @ documents-count-support",
+      199023234,
+      370506258,
+      8505798,
+      16635593
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/count/support @ documents-count-support",
+      196762855,
+      330981678,
+      8356325,
+      16632506
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/count/support @ documents-count-support",
+      196953239,
+      330981281,
+      8417444,
+      16635259
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/count/support @ documents-count-support",
+      198994390,
+      370505552,
+      8471177,
+      16635179
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/count/support @ documents-count-support",
+      199556261,
+      370503341,
+      8410559,
+      16632325
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/count/support @ documents-count-support",
+      197527743,
+      330978991,
+      8482567,
+      16634874
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/count/support @ documents-count-support",
+      196682736,
+      330984048,
+      8616084,
+      16634192
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/count/support @ documents-count-support",
+      199647300,
+      370503489,
+      8543383,
+      16632468
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/count/support @ documents-count-support",
+      199775974,
+      370503373,
+      8466071,
+      16632412
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/count/support @ documents-count-support",
+      196720676,
+      330981452,
+      8497756,
+      16634847
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/count/receipt @ documents-count-receipt",
+      197417945,
+      370471229,
+      8581219,
+      16029673
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/count/receipt @ documents-count-receipt",
+      196734688,
+      370468449,
+      8645618,
+      16031527
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/count/receipt @ documents-count-receipt",
+      197593707,
+      370468687,
+      8879383,
+      16029363
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/count/receipt @ documents-count-receipt",
+      196849751,
+      370470931,
+      8830064,
+      16031477
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/count/receipt @ documents-count-receipt",
+      197422589,
+      370471645,
+      8551616,
+      16029477
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/count/receipt @ documents-count-receipt",
+      197485296,
+      370471499,
+      8803656,
+      16028965
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/count/receipt @ documents-count-receipt",
+      197080595,
+      370472386,
+      8679192,
+      16031745
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/count/receipt @ documents-count-receipt",
+      197462496,
+      370471958,
+      8588613,
+      16032448
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/count/receipt @ documents-count-receipt",
+      196585607,
+      370469622,
+      8714668,
+      16029114
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/count/receipt @ documents-count-receipt",
+      197405552,
+      370472086,
+      8811358,
+      16031949
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/count/support @ documents-count-support",
+      197941634,
+      373687173,
+      8597909,
+      15699372
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/count/support @ documents-count-support",
+      198082781,
+      373685843,
+      8470717,
+      15695478
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/count/support @ documents-count-support",
+      198018098,
+      373685756,
+      8574499,
+      15695901
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/count/support @ documents-count-support",
+      198270073,
+      373683213,
+      8485899,
+      15696982
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/count/support @ documents-count-support",
+      198089832,
+      373686721,
+      8656467,
+      15696584
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/count/support @ documents-count-support",
+      198537986,
+      373686086,
+      8657257,
+      15695913
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/count/support @ documents-count-support",
+      197573572,
+      373685993,
+      8594552,
+      15696569
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/count/support @ documents-count-support",
+      197731919,
+      373683395,
+      8694979,
+      15695963
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/count/support @ documents-count-support",
+      198074722,
+      373683499,
+      8585409,
+      15696993
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/count/support @ documents-count-support",
+      197815579,
+      373683831,
+      8479415,
+      15698794
+    ]
+  ]
+}

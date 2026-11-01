@@ -1,0 +1,3130 @@
+{
+  "format": 2,
+  "kind": "compare",
+  "harness": 2,
+  "date": "2026-11-01T02:55:58+00:00",
+  "suite": "reports/compact-sunday/suites/documents-search.php",
+  "elapsed_s": 123.6,
+  "complete": true,
+  "config": {
+    "passes": 5,
+    "cpu": 15,
+    "target_ms": 50,
+    "filter": null,
+    "control": true,
+    "wait_idle": 120,
+    "events": "cycles:u,instructions:u"
+  },
+  "env": {
+    "cpu_model": "AMD Ryzen 9 5950X 16-Core Processor",
+    "kernel": "7.0.0-38-generic",
+    "cpu": 15,
+    "cpu_siblings": "15,31",
+    "hybrid_pcores": null,
+    "cpu_is_pcore": null,
+    "governor": "performance",
+    "epp": "performance",
+    "turbo": true,
+    "on_ac": null,
+    "load": 0.25634765625,
+    "busy_pct": {
+      "15": 0,
+      "31": 0
+    },
+    "idle_cpu": 1
+  },
+  "groups": [
+    {
+      "name": "aa",
+      "a": "compact-base-gcc15",
+      "b": "compact-base-gcc15"
+    },
+    {
+      "name": "gcc15",
+      "a": "compact-base-gcc15",
+      "b": "compact-head-gcc15"
+    },
+    {
+      "name": "clang21",
+      "a": "compact-base-clang21",
+      "b": "compact-head-clang21"
+    },
+    {
+      "name": "aa2",
+      "a": "compact-base-gcc15",
+      "b": "compact-base-gcc15"
+    }
+  ],
+  "builds": {
+    "compact-base-gcc15": {
+      "php": "BUILD_DIR/compact-base-gcc15/sapi/cli/php",
+      "build": {
+        "name": "compact-base-gcc15",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:43:27+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-gcc15/sapi/cli/php"
+      },
+      "sha1": "962804b78072507bf9e2d5006aad239718872788"
+    },
+    "compact-head-gcc15": {
+      "php": "BUILD_DIR/compact-head-gcc15/sapi/cli/php",
+      "build": {
+        "name": "compact-head-gcc15",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:45:00+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-gcc15/sapi/cli/php"
+      },
+      "sha1": "119eb9050525232350b88606c134772a58b1c579"
+    },
+    "compact-base-clang21": {
+      "php": "BUILD_DIR/compact-base-clang21/sapi/cli/php",
+      "build": {
+        "name": "compact-base-clang21",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:44:13+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang-21",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-clang21/sapi/cli/php"
+      },
+      "sha1": "c33890a4894d3839f124ea0c422c5d1f2607bbef"
+    },
+    "compact-head-clang21": {
+      "php": "BUILD_DIR/compact-head-clang21/sapi/cli/php",
+      "build": {
+        "name": "compact-head-clang21",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:45:46+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang-21",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-clang21/sapi/cli/php"
+      },
+      "sha1": "3f96b0e59e376ce2f730c99c2b01fad1a484a268"
+    }
+  },
+  "sources": {
+    "suite": "cdcbd31cd18a29a2f34a4b1f3bbbf30f81156dc3",
+    "harness": "c3113f45c2a11bcb63f0b1fb7a4e44ef6843325d",
+    "corpus": "e5c81343e158d86e921e121508cb8b101980f980"
+  },
+  "machine_warnings": [
+    "turbo boost is on: thermal and frequency drift between rounds (sudo CAPTURE_PATH/bench tune on)"
+  ],
+  "cases": {
+    "documents/search/receipt/absent @ documents-search-receipt-absent": {
+      "input_len": 2422,
+      "input_chars": 2422,
+      "n": 118955
+    },
+    "documents/search/receipt/present @ documents-search-receipt-present": {
+      "input_len": 2422,
+      "input_chars": 2422,
+      "n": 686337
+    },
+    "documents/search/support/absent @ documents-search-support-absent": {
+      "input_len": 2475,
+      "input_chars": 2472,
+      "n": 109963
+    },
+    "documents/search/support/present @ documents-search-support-present": {
+      "input_len": 2475,
+      "input_chars": 2472,
+      "n": 736639
+    },
+    "documents/search/log_short/absent @ documents-search-log_short-absent": {
+      "input_len": 4251,
+      "input_chars": 4251,
+      "n": 66277
+    },
+    "documents/search/log_short/present @ documents-search-log_short-present": {
+      "input_len": 4251,
+      "input_chars": 4251,
+      "n": 119410
+    },
+    "documents/search/log_long/absent @ documents-search-log_long-absent": {
+      "input_len": 68022,
+      "input_chars": 68022,
+      "n": 4077
+    },
+    "documents/search/log_long/present @ documents-search-log_long-present": {
+      "input_len": 68022,
+      "input_chars": 68022,
+      "n": 8031
+    }
+  },
+  "warnings": [],
+  "marks": [],
+  "rows": [
+    [
+      "aa",
+      "a",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      248835429,
+      389006458,
+      10705346,
+      21786743
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      248428823,
+      389006655,
+      10672039,
+      21786614
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      248362553,
+      389006209,
+      10716435,
+      21786800
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      249622672,
+      389008262,
+      10704131,
+      21786015
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      248396648,
+      389008710,
+      10752116,
+      21785877
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      248366463,
+      389006013,
+      10695329,
+      21789412
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      248950975,
+      389008717,
+      10684582,
+      21786682
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      248375258,
+      389009148,
+      10706069,
+      21786196
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      248255554,
+      389008440,
+      10691716,
+      21786516
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      249025538,
+      389006594,
+      10698813,
+      21787872
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      253692400,
+      668988748,
+      16196580,
+      38238421
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      253870416,
+      668988508,
+      16080645,
+      38237679
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      254839722,
+      668988787,
+      16094741,
+      38238681
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      254096975,
+      668990255,
+      15969224,
+      38237544
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      254450606,
+      668988923,
+      16101224,
+      38238858
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      257565885,
+      668987788,
+      15972284,
+      38238251
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      254641573,
+      668988881,
+      15973128,
+      38240514
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      254284715,
+      668989821,
+      15966768,
+      38238120
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      254011532,
+      668987789,
+      16067466,
+      38241403
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      254026879,
+      668988054,
+      16119147,
+      38238539
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/support/absent @ documents-search-support-absent",
+      250459715,
+      399255342,
+      10632189,
+      21526521
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/support/absent @ documents-search-support-absent",
+      244847760,
+      399255110,
+      10642242,
+      21525668
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/support/absent @ documents-search-support-absent",
+      247207123,
+      399256273,
+      10644814,
+      21525522
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/support/absent @ documents-search-support-absent",
+      248825111,
+      399255899,
+      10583417,
+      21526286
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/support/absent @ documents-search-support-absent",
+      249131573,
+      399255937,
+      10603448,
+      21526923
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/support/absent @ documents-search-support-absent",
+      251433318,
+      399256221,
+      10635629,
+      21526436
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/support/absent @ documents-search-support-absent",
+      249930162,
+      399258266,
+      10624806,
+      21526565
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/support/absent @ documents-search-support-absent",
+      251001991,
+      399256608,
+      10609299,
+      21526585
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/support/absent @ documents-search-support-absent",
+      247142268,
+      399256179,
+      10644262,
+      21526468
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/support/absent @ documents-search-support-absent",
+      246736196,
+      399255196,
+      10618312,
+      21526706
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/support/present @ documents-search-support-present",
+      254394685,
+      740986113,
+      16633704,
+      39697784
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/support/present @ documents-search-support-present",
+      254773072,
+      740983765,
+      16438420,
+      39700155
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/support/present @ documents-search-support-present",
+      253454433,
+      740983534,
+      16477308,
+      39697209
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/support/present @ documents-search-support-present",
+      255282069,
+      740984043,
+      16498545,
+      39700215
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/support/present @ documents-search-support-present",
+      267561742,
+      740984181,
+      16561457,
+      39697415
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/support/present @ documents-search-support-present",
+      254527433,
+      740983255,
+      16495404,
+      39697731
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/support/present @ documents-search-support-present",
+      254783830,
+      740984000,
+      16569122,
+      39701164
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/support/present @ documents-search-support-present",
+      254652997,
+      740986246,
+      16526177,
+      39699849
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/support/present @ documents-search-support-present",
+      253369618,
+      740983884,
+      16505489,
+      39697703
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/support/present @ documents-search-support-present",
+      255483785,
+      740984251,
+      16596407,
+      39700615
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      249650750,
+      440088696,
+      10203415,
+      20283625
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      249428819,
+      440091167,
+      10232043,
+      20284431
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      249945693,
+      440088678,
+      10166772,
+      20283858
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      249380768,
+      440091138,
+      10222365,
+      20287158
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      249078586,
+      440088997,
+      10224578,
+      20286388
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      249386125,
+      440088729,
+      10202667,
+      20283549
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      249652624,
+      440089636,
+      10193893,
+      20284605
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      249626046,
+      440088246,
+      10257720,
+      20286249
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      250162529,
+      440088669,
+      10207105,
+      20283998
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      248911602,
+      440091000,
+      10222119,
+      20283755
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      249545276,
+      439762769,
+      10738204,
+      21822048
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      249842393,
+      439765162,
+      10681953,
+      21822332
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      249014427,
+      439762752,
+      10739366,
+      21824357
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      248806220,
+      439763187,
+      10751948,
+      21821550
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      249290189,
+      439764303,
+      10725311,
+      21821360
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      310202500,
+      439764166,
+      10714991,
+      21822349
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      249350456,
+      439763229,
+      10697110,
+      21822660
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      249892396,
+      439762775,
+      10700450,
+      21822546
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      248574177,
+      439763383,
+      10688096,
+      21822979
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      249355908,
+      439763416,
+      10718629,
+      21822257
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      248960077,
+      395299827,
+      9812605,
+      19331580
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      248894907,
+      395298270,
+      9816348,
+      19331066
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      249390908,
+      395298248,
+      9850307,
+      19331365
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      249742680,
+      395298025,
+      9821705,
+      19331550
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      247945535,
+      395298201,
+      9804897,
+      19334173
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      248299244,
+      395297325,
+      9825080,
+      19334556
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      248912663,
+      395297979,
+      9800936,
+      19331662
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      248703842,
+      395299965,
+      9838491,
+      19331634
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      248220617,
+      395298727,
+      9813363,
+      19331128
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      249134293,
+      395299033,
+      9852664,
+      19333073
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      248558202,
+      402236820,
+      9795670,
+      19401219
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      248432095,
+      402237414,
+      9804770,
+      19402452
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      248856609,
+      402236770,
+      9826027,
+      19404125
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      248273256,
+      402237586,
+      9837349,
+      19401242
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      248376022,
+      402237674,
+      9845903,
+      19401636
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      248732529,
+      402240472,
+      9841441,
+      19401476
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      248296855,
+      402237956,
+      9847176,
+      19402031
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      247988919,
+      402237249,
+      9844204,
+      19402452
+    ],
+    [
+      "aa",
+      "a",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      249127565,
+      402236814,
+      9809846,
+      19401789
+    ],
+    [
+      "aa",
+      "b",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      248290289,
+      402237414,
+      9810187,
+      19402446
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      248353317,
+      389006206,
+      10733372,
+      21787198
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      224097547,
+      371998154,
+      10696824,
+      21786493
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      223675895,
+      371996674,
+      10724542,
+      21785824
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      248389612,
+      389005775,
+      10728887,
+      21788773
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      248902180,
+      389006293,
+      10671530,
+      21785909
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      224059723,
+      371995841,
+      10777591,
+      21788401
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      223711779,
+      371998683,
+      10733063,
+      21784873
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      249026960,
+      389006147,
+      10702547,
+      21786651
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      248748966,
+      389006745,
+      10693523,
+      21786492
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      225080781,
+      371995792,
+      10734956,
+      21785746
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      253959537,
+      668988141,
+      16162566,
+      38241058
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      216765837,
+      570845088,
+      16062586,
+      38240804
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      217120212,
+      570843435,
+      16049492,
+      38237956
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      255366618,
+      668988818,
+      16112228,
+      38238484
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      253733594,
+      668988415,
+      16091016,
+      38238327
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      216496003,
+      570841358,
+      16036723,
+      38238559
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      220603487,
+      570841864,
+      15997943,
+      38238032
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      254188912,
+      668988632,
+      15967905,
+      38237429
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      253312131,
+      668990633,
+      16128541,
+      38238599
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      216595100,
+      570841048,
+      16115070,
+      38241034
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/support/absent @ documents-search-support-absent",
+      245451175,
+      399255723,
+      10614888,
+      21526463
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/support/absent @ documents-search-support-absent",
+      223523582,
+      383533140,
+      10655374,
+      21526795
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/support/absent @ documents-search-support-absent",
+      223205156,
+      383530856,
+      10645697,
+      21525895
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/support/absent @ documents-search-support-absent",
+      247584081,
+      399255281,
+      10621004,
+      21526772
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/support/absent @ documents-search-support-absent",
+      244996980,
+      399255136,
+      10624627,
+      21527974
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/support/absent @ documents-search-support-absent",
+      224748286,
+      383530160,
+      10612260,
+      21526319
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/support/absent @ documents-search-support-absent",
+      223967141,
+      383531607,
+      10666661,
+      21526057
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/support/absent @ documents-search-support-absent",
+      246555696,
+      399257886,
+      10654884,
+      21527073
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/support/absent @ documents-search-support-absent",
+      251234821,
+      399258490,
+      10635927,
+      21526801
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/support/absent @ documents-search-support-absent",
+      224701837,
+      383530519,
+      10606390,
+      21526044
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/support/present @ documents-search-support-present",
+      254223770,
+      740983871,
+      16590885,
+      39697746
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/support/present @ documents-search-support-present",
+      216934414,
+      635645101,
+      16538480,
+      39697448
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/support/present @ documents-search-support-present",
+      215522597,
+      635646901,
+      16507149,
+      39699343
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/support/present @ documents-search-support-present",
+      254840886,
+      740984489,
+      16609911,
+      39699853
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/support/present @ documents-search-support-present",
+      255702739,
+      740986386,
+      16560527,
+      39700619
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/support/present @ documents-search-support-present",
+      216951725,
+      635644788,
+      16611214,
+      39697035
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/support/present @ documents-search-support-present",
+      218291739,
+      635644145,
+      16469496,
+      39699824
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/support/present @ documents-search-support-present",
+      256435545,
+      740984447,
+      16502029,
+      39699576
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/support/present @ documents-search-support-present",
+      254650091,
+      740985075,
+      16501949,
+      39698293
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/support/present @ documents-search-support-present",
+      218381747,
+      635644557,
+      16591302,
+      39699403
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      248880271,
+      440088690,
+      10234410,
+      20283944
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      226381607,
+      430610645,
+      10208233,
+      20283730
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      227078761,
+      430613748,
+      10240474,
+      20283470
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      249989312,
+      440089275,
+      10201562,
+      20285081
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      249422080,
+      440092772,
+      10228257,
+      20284111
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      226681921,
+      430611427,
+      10214845,
+      20283802
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      225917656,
+      430610978,
+      10229972,
+      20283571
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      249297334,
+      440088811,
+      10225154,
+      20286699
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      249276279,
+      440088600,
+      10232207,
+      20284176
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      226495227,
+      430610060,
+      10245411,
+      20284246
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      248819766,
+      439763592,
+      10727034,
+      21823404
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      224255986,
+      422686890,
+      10687857,
+      21820884
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      225468976,
+      422688140,
+      10724043,
+      21821400
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      249322126,
+      439763466,
+      10747109,
+      21822188
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      249543734,
+      439765774,
+      10702819,
+      21821639
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      224452645,
+      422686732,
+      10733153,
+      21821593
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      225414670,
+      422687613,
+      10715824,
+      21822950
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      248880254,
+      439765648,
+      10709235,
+      21822157
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      249674850,
+      439763016,
+      10717769,
+      21825272
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      224393561,
+      422687672,
+      10765558,
+      21821302
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      248907877,
+      395300206,
+      9810904,
+      19334005
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      228360391,
+      394714098,
+      9820818,
+      19330699
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      227087010,
+      394714265,
+      9865038,
+      19333322
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      248481509,
+      395298274,
+      9839211,
+      19331620
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      249390082,
+      395298799,
+      9817133,
+      19332084
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      228580116,
+      394717788,
+      9813850,
+      19331302
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      228025956,
+      394715540,
+      9832411,
+      19331764
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      248382330,
+      395297742,
+      9828875,
+      19331745
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      248705154,
+      395300775,
+      9826094,
+      19331299
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      229709544,
+      394717034,
+      9839546,
+      19331206
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      249201036,
+      402237208,
+      9794787,
+      19401815
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      227661149,
+      401091028,
+      9838401,
+      19403035
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      227788725,
+      401088582,
+      9851804,
+      19403804
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      251649208,
+      402235484,
+      9815359,
+      19404506
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      248245037,
+      402237387,
+      9815627,
+      19401665
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      227671072,
+      401088980,
+      9883035,
+      19403741
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      227669621,
+      401089430,
+      9862121,
+      19400578
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      248498073,
+      402237107,
+      9816792,
+      19401524
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      248731870,
+      402239727,
+      9818336,
+      19401428
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      228423079,
+      401088656,
+      9872644,
+      19401241
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      232240478,
+      349035510,
+      10968632,
+      21546028
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      205460219,
+      344038371,
+      10950255,
+      21547736
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      206635277,
+      344038587,
+      10939658,
+      21547807
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      230095022,
+      349035099,
+      11050266,
+      21545205
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      230795850,
+      349034797,
+      11041818,
+      21547408
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      206580939,
+      344038552,
+      10934082,
+      21545348
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      205977470,
+      344039118,
+      10992683,
+      21545343
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      230140802,
+      349037133,
+      11003961,
+      21544979
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      230472199,
+      349035062,
+      11069833,
+      21545831
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      206432624,
+      344041415,
+      10980928,
+      21548198
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      253151033,
+      544971263,
+      17478220,
+      39134992
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      210280895,
+      516142602,
+      17055650,
+      39132774
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      214069981,
+      516146049,
+      17057640,
+      39132189
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      252516899,
+      544969574,
+      17486967,
+      39132343
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      252659058,
+      544972128,
+      17417158,
+      39135028
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      212470341,
+      516142573,
+      17066652,
+      39133233
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      211366935,
+      516143447,
+      17059901,
+      39133383
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      253829484,
+      544968724,
+      17434844,
+      39132381
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      253234226,
+      544968925,
+      17438148,
+      39132167
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      214438134,
+      516143469,
+      17056643,
+      39132136
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/support/absent @ documents-search-support-absent",
+      229387351,
+      360731858,
+      10960988,
+      21266706
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/support/absent @ documents-search-support-absent",
+      206218019,
+      356111107,
+      10885223,
+      21266842
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/support/absent @ documents-search-support-absent",
+      206822717,
+      356110449,
+      10836729,
+      21269813
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/support/absent @ documents-search-support-absent",
+      231458721,
+      360731945,
+      10895237,
+      21267199
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/support/absent @ documents-search-support-absent",
+      228480951,
+      360729779,
+      10938443,
+      21267354
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/support/absent @ documents-search-support-absent",
+      205012014,
+      356110431,
+      10848060,
+      21266977
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/support/absent @ documents-search-support-absent",
+      207580138,
+      356112883,
+      10841883,
+      21266219
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/support/absent @ documents-search-support-absent",
+      231578447,
+      360729861,
+      10886794,
+      21269463
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/support/absent @ documents-search-support-absent",
+      228067533,
+      360731785,
+      10927679,
+      21266484
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/support/absent @ documents-search-support-absent",
+      206674209,
+      356111356,
+      10770762,
+      21269699
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/support/present @ documents-search-support-present",
+      256174731,
+      610120826,
+      18051332,
+      40692226
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/support/present @ documents-search-support-present",
+      214500616,
+      579180921,
+      17566578,
+      40691501
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/support/present @ documents-search-support-present",
+      216796611,
+      579184345,
+      17615941,
+      40691299
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/support/present @ documents-search-support-present",
+      255971636,
+      610122733,
+      18056253,
+      40691771
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/support/present @ documents-search-support-present",
+      256183067,
+      610122045,
+      17990879,
+      40693931
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/support/present @ documents-search-support-present",
+      213959876,
+      579183864,
+      17577111,
+      40691136
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/support/present @ documents-search-support-present",
+      217149662,
+      579181698,
+      17582694,
+      40692047
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/support/present @ documents-search-support-present",
+      262987795,
+      610120306,
+      18086419,
+      40692212
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/support/present @ documents-search-support-present",
+      256096508,
+      610122612,
+      18004023,
+      40691544
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/support/present @ documents-search-support-present",
+      217968313,
+      579183603,
+      17606927,
+      40691408
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      233506265,
+      407646066,
+      10417886,
+      19918816
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      215286340,
+      404861817,
+      10396661,
+      19918734
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      214690425,
+      404862061,
+      10414291,
+      19919092
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      232089854,
+      407646528,
+      10434221,
+      19919146
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      232172636,
+      407645956,
+      10425523,
+      19918949
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      215533827,
+      404862398,
+      10408044,
+      19918254
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      216141385,
+      404861729,
+      10364915,
+      19919601
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      232150929,
+      407646170,
+      10388156,
+      19919033
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      233852050,
+      407645962,
+      10460259,
+      19919206
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      215016891,
+      404864151,
+      10393929,
+      19918534
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      232169696,
+      399621669,
+      11039320,
+      21563594
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      212446392,
+      394606897,
+      10979285,
+      21565783
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      212533276,
+      394605782,
+      10996150,
+      21565688
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      231065883,
+      399621949,
+      11010750,
+      21563687
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      232059661,
+      399621766,
+      11034800,
+      21565848
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      212473625,
+      394606490,
+      11003232,
+      21565995
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      211528960,
+      394606398,
+      10996914,
+      21563749
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      231577147,
+      399622588,
+      11071619,
+      21563425
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      230913177,
+      399622089,
+      11036636,
+      21566461
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      213235435,
+      394606736,
+      10959520,
+      21565534
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      235204942,
+      373287683,
+      9837516,
+      18185832
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      215844681,
+      373117513,
+      9813000,
+      18186720
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      216284280,
+      373117455,
+      9810834,
+      18183325
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      234234686,
+      373287757,
+      9796594,
+      18183462
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      237330949,
+      373288112,
+      9791363,
+      18183036
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      216220190,
+      373117430,
+      9816366,
+      18185584
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      215683268,
+      373117299,
+      9815604,
+      18183445
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      234633117,
+      373288546,
+      9806242,
+      18183245
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      235390662,
+      373288264,
+      9801475,
+      18183477
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      215647863,
+      373117556,
+      9833683,
+      18186842
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      234195449,
+      379681589,
+      9838714,
+      18263793
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      215680382,
+      379344846,
+      9872942,
+      18264246
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      215624048,
+      379346463,
+      9829503,
+      18264952
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      234611942,
+      379681701,
+      9860333,
+      18264280
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      234003299,
+      379682472,
+      9805810,
+      18264508
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      215271398,
+      379346884,
+      9821783,
+      18264027
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      215449170,
+      379343891,
+      9786368,
+      18265754
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      234968058,
+      379682287,
+      9800623,
+      18264031
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      233831544,
+      379683594,
+      9822834,
+      18266735
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      215200392,
+      379345024,
+      9831641,
+      18263594
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      249020708,
+      389005901,
+      10733764,
+      21785656
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      248407907,
+      389007427,
+      10709451,
+      21786118
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      248747233,
+      389007153,
+      10722340,
+      21785885
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      249014128,
+      389006358,
+      10709817,
+      21786070
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      248248394,
+      389006202,
+      10722298,
+      21786831
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      248375649,
+      389006292,
+      10704941,
+      21786674
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      248793050,
+      389008751,
+      10697726,
+      21786738
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      250619950,
+      389005860,
+      10741832,
+      21788433
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      248437171,
+      389006117,
+      10714331,
+      21788525
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/receipt/absent @ documents-search-receipt-absent",
+      248844625,
+      389006807,
+      10693028,
+      21785628
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      255351058,
+      668988497,
+      16156573,
+      38238487
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      254681506,
+      668990063,
+      16100186,
+      38241312
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      255717902,
+      668988076,
+      16044466,
+      38238368
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      254002148,
+      668988379,
+      16019076,
+      38238280
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      254281544,
+      668990373,
+      16158950,
+      38238377
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      254438604,
+      668987897,
+      15931037,
+      38237998
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      253935700,
+      668987983,
+      16108185,
+      38238203
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      253998364,
+      668990396,
+      16144815,
+      38237639
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      257326203,
+      668988624,
+      16054279,
+      38238020
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/receipt/present @ documents-search-receipt-present",
+      254068608,
+      668987469,
+      16104964,
+      38238941
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/support/absent @ documents-search-support-absent",
+      247945072,
+      399255784,
+      10634302,
+      21529182
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/support/absent @ documents-search-support-absent",
+      245248968,
+      399254972,
+      10608111,
+      21525762
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/support/absent @ documents-search-support-absent",
+      249711865,
+      399256292,
+      10652060,
+      21527113
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/support/absent @ documents-search-support-absent",
+      250333560,
+      399255981,
+      10659207,
+      21526826
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/support/absent @ documents-search-support-absent",
+      249658541,
+      399256202,
+      10642851,
+      21529372
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/support/absent @ documents-search-support-absent",
+      246888473,
+      399255469,
+      10643717,
+      21526693
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/support/absent @ documents-search-support-absent",
+      247690523,
+      399255869,
+      10639059,
+      21528980
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/support/absent @ documents-search-support-absent",
+      250921702,
+      399255887,
+      10601170,
+      21525986
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/support/absent @ documents-search-support-absent",
+      247139058,
+      399257662,
+      10672972,
+      21526535
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/support/absent @ documents-search-support-absent",
+      249584050,
+      399255962,
+      10604119,
+      21527176
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/support/present @ documents-search-support-present",
+      257152459,
+      740984072,
+      16540366,
+      39697428
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/support/present @ documents-search-support-present",
+      254524976,
+      740984496,
+      16568997,
+      39697602
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/support/present @ documents-search-support-present",
+      254559139,
+      740984307,
+      16584581,
+      39699444
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/support/present @ documents-search-support-present",
+      255389260,
+      740985353,
+      16521609,
+      39698495
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/support/present @ documents-search-support-present",
+      254741483,
+      740984278,
+      16587552,
+      39700068
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/support/present @ documents-search-support-present",
+      254649718,
+      740986034,
+      16570511,
+      39698376
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/support/present @ documents-search-support-present",
+      255694362,
+      740984881,
+      16568406,
+      39698316
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/support/present @ documents-search-support-present",
+      254827944,
+      740984372,
+      16524129,
+      39697637
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/support/present @ documents-search-support-present",
+      254837043,
+      740983954,
+      16605119,
+      39700009
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/support/present @ documents-search-support-present",
+      254735066,
+      740984262,
+      16454255,
+      39697708
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      249505978,
+      440088389,
+      10250596,
+      20283314
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      249732490,
+      440088565,
+      10204226,
+      20284855
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      250125556,
+      440088815,
+      10199124,
+      20283298
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      249704641,
+      440091784,
+      10259715,
+      20284096
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      249075096,
+      440089542,
+      10257705,
+      20283802
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      249597483,
+      440090951,
+      10178444,
+      20287506
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      249279342,
+      440088961,
+      10256472,
+      20283371
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      249497740,
+      440088205,
+      10254627,
+      20284055
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      250019172,
+      440088587,
+      10189999,
+      20287042
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/log_short/absent @ documents-search-log_short-absent",
+      249285445,
+      440088737,
+      10248870,
+      20284430
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      248616448,
+      439762534,
+      10730845,
+      21822193
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      249870040,
+      439765332,
+      10704592,
+      21822845
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      248660230,
+      439766606,
+      10697854,
+      21824618
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      249764670,
+      439766705,
+      10720760,
+      21821902
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      249851904,
+      439762712,
+      10802732,
+      21822226
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      248635875,
+      439763995,
+      10721339,
+      21822247
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      249650278,
+      439763052,
+      10713672,
+      21822801
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      248611953,
+      439763161,
+      10713887,
+      21822219
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      249247466,
+      439762633,
+      10866950,
+      21824403
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/log_short/present @ documents-search-log_short-present",
+      249246100,
+      439763967,
+      10716330,
+      21821550
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      249241886,
+      395298073,
+      9816150,
+      19331031
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      248663073,
+      395300510,
+      9824482,
+      19330564
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      248577588,
+      395298379,
+      9809259,
+      19330822
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      249352180,
+      395297490,
+      9790583,
+      19330688
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      248654495,
+      395297118,
+      9812861,
+      19331761
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      248444881,
+      395298336,
+      9818272,
+      19333520
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      249345010,
+      395300332,
+      9818711,
+      19330892
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      248703987,
+      395297333,
+      9858083,
+      19331772
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      248410993,
+      395299918,
+      9805216,
+      19331398
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/log_long/absent @ documents-search-log_long-absent",
+      249167763,
+      395298018,
+      9802135,
+      19331132
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      248199759,
+      402236868,
+      9811680,
+      19401603
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      248556574,
+      402237022,
+      9814219,
+      19401863
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      248815823,
+      402238074,
+      9795971,
+      19403738
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      247911095,
+      402236862,
+      9840934,
+      19401955
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      247920612,
+      402237631,
+      9843991,
+      19401306
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      248421388,
+      402237623,
+      9882561,
+      19401153
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      248524878,
+      402237539,
+      9815921,
+      19402363
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      248035409,
+      402239934,
+      9829639,
+      19403923
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      249185408,
+      402239661,
+      9785423,
+      19402097
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/search/log_long/present @ documents-search-log_long-present",
+      248490495,
+      402238101,
+      9809887,
+      19401391
+    ]
+  ]
+}

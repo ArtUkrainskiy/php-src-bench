@@ -1,0 +1,2400 @@
+{
+  "format": 2,
+  "kind": "compare",
+  "harness": 2,
+  "date": "2026-11-01T03:02:59+00:00",
+  "suite": "reports/compact-sunday/suites/documents-repeated.php",
+  "elapsed_s": 92.3,
+  "complete": true,
+  "config": {
+    "passes": 5,
+    "cpu": 15,
+    "target_ms": 50,
+    "filter": null,
+    "control": true,
+    "wait_idle": 120,
+    "events": "cycles:u,instructions:u"
+  },
+  "env": {
+    "cpu_model": "AMD Ryzen 9 5950X 16-Core Processor",
+    "kernel": "7.0.0-38-generic",
+    "cpu": 15,
+    "cpu_siblings": "15,31",
+    "hybrid_pcores": null,
+    "cpu_is_pcore": null,
+    "governor": "performance",
+    "epp": "performance",
+    "turbo": true,
+    "on_ac": null,
+    "load": 0.16552734375,
+    "busy_pct": {
+      "15": 0,
+      "31": 0
+    },
+    "idle_cpu": 1
+  },
+  "groups": [
+    {
+      "name": "aa",
+      "a": "compact-base-gcc15",
+      "b": "compact-base-gcc15"
+    },
+    {
+      "name": "gcc15",
+      "a": "compact-base-gcc15",
+      "b": "compact-head-gcc15"
+    },
+    {
+      "name": "clang21",
+      "a": "compact-base-clang21",
+      "b": "compact-head-clang21"
+    },
+    {
+      "name": "aa2",
+      "a": "compact-base-gcc15",
+      "b": "compact-base-gcc15"
+    }
+  ],
+  "builds": {
+    "compact-base-gcc15": {
+      "php": "BUILD_DIR/compact-base-gcc15/sapi/cli/php",
+      "build": {
+        "name": "compact-base-gcc15",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:43:27+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-gcc15/sapi/cli/php"
+      },
+      "sha1": "962804b78072507bf9e2d5006aad239718872788"
+    },
+    "compact-head-gcc15": {
+      "php": "BUILD_DIR/compact-head-gcc15/sapi/cli/php",
+      "build": {
+        "name": "compact-head-gcc15",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:45:00+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-gcc15/sapi/cli/php"
+      },
+      "sha1": "119eb9050525232350b88606c134772a58b1c579"
+    },
+    "compact-base-clang21": {
+      "php": "BUILD_DIR/compact-base-clang21/sapi/cli/php",
+      "build": {
+        "name": "compact-base-clang21",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:44:13+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang-21",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-clang21/sapi/cli/php"
+      },
+      "sha1": "c33890a4894d3839f124ea0c422c5d1f2607bbef"
+    },
+    "compact-head-clang21": {
+      "php": "BUILD_DIR/compact-head-clang21/sapi/cli/php",
+      "build": {
+        "name": "compact-head-clang21",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:45:46+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang-21",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-clang21/sapi/cli/php"
+      },
+      "sha1": "3f96b0e59e376ce2f730c99c2b01fad1a484a268"
+    }
+  },
+  "sources": {
+    "suite": "b5b7d712406f2b0852cab30693993931f7a01925",
+    "harness": "c3113f45c2a11bcb63f0b1fb7a4e44ef6843325d",
+    "corpus": "e5c81343e158d86e921e121508cb8b101980f980"
+  },
+  "machine_warnings": [
+    "turbo boost is on: thermal and frequency drift between rounds (sudo CAPTURE_PATH/bench tune on)"
+  ],
+  "cases": {
+    "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3": {
+      "input_len": 14919,
+      "input_chars": 14919,
+      "n": 17897
+    },
+    "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3": {
+      "input_len": 14919,
+      "input_chars": 14919,
+      "n": 8775
+    },
+    "documents/repeated/explode/3 @ documents-repeated-substr_count-3": {
+      "input_len": 14919,
+      "input_chars": 14919,
+      "n": 19840
+    },
+    "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23": {
+      "input_len": 15339,
+      "input_chars": 15339,
+      "n": 15831
+    },
+    "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23": {
+      "input_len": 15339,
+      "input_chars": 15339,
+      "n": 7897
+    },
+    "documents/repeated/explode/23 @ documents-repeated-substr_count-23": {
+      "input_len": 15339,
+      "input_chars": 15339,
+      "n": 15218
+    }
+  },
+  "warnings": [],
+  "marks": [],
+  "rows": [
+    [
+      "aa",
+      "a",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      246915427,
+      382099264,
+      8484871,
+      15543210
+    ],
+    [
+      "aa",
+      "b",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      246481833,
+      382099890,
+      8508898,
+      15542640
+    ],
+    [
+      "aa",
+      "b",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      246498907,
+      382100804,
+      8535442,
+      15543128
+    ],
+    [
+      "aa",
+      "a",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      246830578,
+      382098438,
+      8431130,
+      15543518
+    ],
+    [
+      "aa",
+      "a",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      246379643,
+      382098902,
+      8410666,
+      15545440
+    ],
+    [
+      "aa",
+      "b",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      246309891,
+      382098109,
+      8490943,
+      15545835
+    ],
+    [
+      "aa",
+      "b",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      245737505,
+      382097598,
+      8451072,
+      15543288
+    ],
+    [
+      "aa",
+      "a",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      245950034,
+      382097483,
+      8479319,
+      15542973
+    ],
+    [
+      "aa",
+      "a",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      246784024,
+      382098647,
+      8489554,
+      15545280
+    ],
+    [
+      "aa",
+      "b",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      245102913,
+      382098736,
+      8423860,
+      15543348
+    ],
+    [
+      "aa",
+      "a",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      251558919,
+      391268062,
+      8456333,
+      15432160
+    ],
+    [
+      "aa",
+      "b",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      246754452,
+      391265426,
+      8551538,
+      15432955
+    ],
+    [
+      "aa",
+      "b",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      250471650,
+      391264622,
+      8490469,
+      15433320
+    ],
+    [
+      "aa",
+      "a",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      246584519,
+      391266177,
+      8445926,
+      15434913
+    ],
+    [
+      "aa",
+      "a",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      246763893,
+      391265821,
+      8482162,
+      15433125
+    ],
+    [
+      "aa",
+      "b",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      247181396,
+      391264922,
+      8421413,
+      15432184
+    ],
+    [
+      "aa",
+      "b",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      247189305,
+      391267944,
+      8518154,
+      15435286
+    ],
+    [
+      "aa",
+      "a",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      246339304,
+      391265511,
+      8464169,
+      15436247
+    ],
+    [
+      "aa",
+      "a",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      246896685,
+      391265180,
+      8429823,
+      15432655
+    ],
+    [
+      "aa",
+      "b",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      246616071,
+      391265637,
+      8435117,
+      15434378
+    ],
+    [
+      "aa",
+      "a",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      245765410,
+      405751226,
+      8619554,
+      15730514
+    ],
+    [
+      "aa",
+      "b",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      246682829,
+      405751240,
+      8535272,
+      15729955
+    ],
+    [
+      "aa",
+      "b",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      244972482,
+      405751067,
+      8638094,
+      15730107
+    ],
+    [
+      "aa",
+      "a",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      245180025,
+      405752435,
+      8551382,
+      15732287
+    ],
+    [
+      "aa",
+      "a",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      245458274,
+      405754039,
+      8563427,
+      15732657
+    ],
+    [
+      "aa",
+      "b",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      247160732,
+      405752259,
+      8603086,
+      15731774
+    ],
+    [
+      "aa",
+      "b",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      245912614,
+      405751652,
+      8566259,
+      15730381
+    ],
+    [
+      "aa",
+      "a",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      246808005,
+      405751484,
+      8486201,
+      15730920
+    ],
+    [
+      "aa",
+      "a",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      246228493,
+      405752568,
+      8596477,
+      15730290
+    ],
+    [
+      "aa",
+      "b",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      246178222,
+      405752246,
+      8538159,
+      15733302
+    ],
+    [
+      "aa",
+      "a",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      238142830,
+      448780141,
+      8391100,
+      15497495
+    ],
+    [
+      "aa",
+      "b",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      237428561,
+      448782142,
+      8413707,
+      15494666
+    ],
+    [
+      "aa",
+      "b",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      237557937,
+      448780796,
+      8437109,
+      15497332
+    ],
+    [
+      "aa",
+      "a",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      238337459,
+      448779501,
+      8386916,
+      15497319
+    ],
+    [
+      "aa",
+      "a",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      238601690,
+      448780273,
+      8473436,
+      15498331
+    ],
+    [
+      "aa",
+      "b",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      237868529,
+      448780909,
+      8497103,
+      15495516
+    ],
+    [
+      "aa",
+      "b",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      238536570,
+      448780205,
+      8413397,
+      15495077
+    ],
+    [
+      "aa",
+      "a",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      238506738,
+      448780183,
+      8488529,
+      15497717
+    ],
+    [
+      "aa",
+      "a",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      238775465,
+      448781010,
+      8489188,
+      15495532
+    ],
+    [
+      "aa",
+      "b",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      238828503,
+      448782599,
+      8454489,
+      15494721
+    ],
+    [
+      "aa",
+      "a",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      245631082,
+      472533798,
+      8508363,
+      15432339
+    ],
+    [
+      "aa",
+      "b",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      244678954,
+      472531651,
+      8480856,
+      15429786
+    ],
+    [
+      "aa",
+      "b",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      244430524,
+      472531389,
+      8430846,
+      15429719
+    ],
+    [
+      "aa",
+      "a",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      246019344,
+      472531286,
+      8434295,
+      15432201
+    ],
+    [
+      "aa",
+      "a",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      244081789,
+      472532221,
+      8481320,
+      15429832
+    ],
+    [
+      "aa",
+      "b",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      245317927,
+      472532357,
+      8432489,
+      15430205
+    ],
+    [
+      "aa",
+      "b",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      245485857,
+      472529477,
+      8482037,
+      15429971
+    ],
+    [
+      "aa",
+      "a",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      243985057,
+      472532644,
+      8512812,
+      15429358
+    ],
+    [
+      "aa",
+      "a",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      244440127,
+      472531766,
+      8439039,
+      15432010
+    ],
+    [
+      "aa",
+      "b",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      244197298,
+      472531221,
+      8539963,
+      15430194
+    ],
+    [
+      "aa",
+      "a",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      243577407,
+      527456071,
+      8537109,
+      15625777
+    ],
+    [
+      "aa",
+      "b",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      243699209,
+      527455775,
+      8511932,
+      15626204
+    ],
+    [
+      "aa",
+      "b",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      243337188,
+      527457057,
+      8543267,
+      15623753
+    ],
+    [
+      "aa",
+      "a",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      244937135,
+      527458905,
+      8506120,
+      15625963
+    ],
+    [
+      "aa",
+      "a",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      244897660,
+      527459115,
+      8534415,
+      15624152
+    ],
+    [
+      "aa",
+      "b",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      243813645,
+      527458913,
+      8550933,
+      15623920
+    ],
+    [
+      "aa",
+      "b",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      242922002,
+      527458872,
+      8535698,
+      15624355
+    ],
+    [
+      "aa",
+      "a",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      244099099,
+      527456614,
+      8523023,
+      15623859
+    ],
+    [
+      "aa",
+      "a",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      243229293,
+      527457156,
+      8543563,
+      15623787
+    ],
+    [
+      "aa",
+      "b",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      244818920,
+      527456550,
+      8544691,
+      15622135
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      248119012,
+      382098017,
+      8417431,
+      15542899
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      221050866,
+      371860102,
+      8428455,
+      15545292
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      225346445,
+      371860272,
+      8450279,
+      15542091
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      246452327,
+      382098682,
+      8449732,
+      15543011
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      246508795,
+      382100882,
+      8491773,
+      15543161
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      224028322,
+      371860182,
+      8437000,
+      15541710
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      225523458,
+      371860583,
+      8447942,
+      15545344
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      246203184,
+      382098238,
+      8443488,
+      15543426
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      245969454,
+      382097940,
+      8618200,
+      15543323
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      225321220,
+      371863274,
+      8394705,
+      15542439
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      246936664,
+      391267707,
+      8449425,
+      15435457
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      224950920,
+      381227872,
+      8497574,
+      15431264
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      226590765,
+      381227554,
+      8450694,
+      15431522
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      247194469,
+      391266261,
+      8453478,
+      15434286
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      247049054,
+      391264933,
+      8488846,
+      15433282
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      226694321,
+      381227125,
+      8484906,
+      15432311
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      224479936,
+      381224668,
+      8437766,
+      15431657
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      246467862,
+      391265362,
+      8466551,
+      15435728
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      247144160,
+      391267757,
+      8437888,
+      15432608
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      228179504,
+      381225473,
+      8466659,
+      15431290
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      244968973,
+      405752155,
+      8524273,
+      15730011
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      225184287,
+      394403244,
+      8559700,
+      15729464
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      224520643,
+      394404355,
+      8516927,
+      15729100
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      245139303,
+      405751580,
+      8560483,
+      15730602
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      245544416,
+      405752008,
+      8510946,
+      15732141
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      225126018,
+      394402154,
+      8555301,
+      15729640
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      225316862,
+      394401992,
+      8558121,
+      15729207
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      246367448,
+      405753664,
+      8541060,
+      15730078
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      250214645,
+      405752120,
+      8535069,
+      15732710
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      224490732,
+      394404550,
+      8546974,
+      15732814
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      238111859,
+      448783103,
+      8409949,
+      15495326
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      209687064,
+      396708830,
+      8428227,
+      15491649
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      208842922,
+      396708019,
+      8454321,
+      15493998
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      238119604,
+      448780138,
+      8397703,
+      15498127
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      237889255,
+      448780382,
+      8427387,
+      15495583
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      210981609,
+      396709559,
+      8428068,
+      15492194
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      209354111,
+      396708842,
+      8404873,
+      15490943
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      237688682,
+      448780647,
+      8510595,
+      15495253
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      236032080,
+      448782433,
+      8489330,
+      15494815
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      209565095,
+      396708429,
+      8441731,
+      15494605
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      245252298,
+      472532491,
+      8426291,
+      15432177
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      216816788,
+      420577823,
+      8430374,
+      15425400
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      218296564,
+      420578494,
+      8456787,
+      15423493
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      244692166,
+      472534965,
+      8478913,
+      15430154
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      244042493,
+      472532193,
+      8479459,
+      15432390
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      217366584,
+      420581030,
+      8434852,
+      15424857
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      215685056,
+      420579100,
+      8472127,
+      15423545
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      247587267,
+      472531626,
+      8486874,
+      15432451
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      244415535,
+      472531834,
+      8416855,
+      15431533
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      218368007,
+      420579162,
+      8429425,
+      15423623
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      242249553,
+      527458641,
+      8559477,
+      15623666
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      219120385,
+      477400588,
+      8476814,
+      15620166
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      215764634,
+      477400508,
+      8569914,
+      15620378
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      243099263,
+      527458273,
+      8492443,
+      15623484
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      242883837,
+      527459149,
+      8539907,
+      15624673
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      217646821,
+      477400580,
+      8558144,
+      15622581
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      215719251,
+      477401553,
+      8496124,
+      15623083
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      243892273,
+      527459044,
+      8488117,
+      15623985
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      243032902,
+      527456273,
+      8554400,
+      15626527
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      218251684,
+      477400471,
+      8481153,
+      15623201
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      236480088,
+      352621627,
+      8498099,
+      15453533
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      211012367,
+      349616816,
+      8518150,
+      15455074
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      210319301,
+      349613885,
+      8553959,
+      15455072
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      235747012,
+      352621346,
+      8533262,
+      15453018
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      236003207,
+      352621568,
+      8510595,
+      15454846
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      210064104,
+      349614241,
+      8487551,
+      15455214
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      210899158,
+      349614737,
+      8473896,
+      15452660
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      235753620,
+      352620893,
+      8522266,
+      15452520
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      235711513,
+      352621546,
+      8511374,
+      15452893
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      210113242,
+      349614778,
+      8495115,
+      15451874
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      236974239,
+      362091499,
+      8555135,
+      15338495
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      211185599,
+      359143556,
+      8528011,
+      15338875
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      210492472,
+      359142057,
+      8515074,
+      15338426
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      237575448,
+      362091452,
+      8515303,
+      15338608
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      237350707,
+      362091971,
+      8519009,
+      15338904
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      210980913,
+      359142691,
+      8506380,
+      15340871
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      211324144,
+      359142678,
+      8512772,
+      15340820
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      245746124,
+      362090997,
+      8501885,
+      15338624
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      236770021,
+      362094368,
+      8505058,
+      15342205
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      210311316,
+      359142821,
+      8563168,
+      15337786
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      231529552,
+      373603099,
+      8610048,
+      15660454
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      208346604,
+      370269295,
+      8605300,
+      15660179
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      209389506,
+      370266802,
+      8634537,
+      15659628
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      231848621,
+      373600895,
+      8623319,
+      15660573
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      231981407,
+      373602660,
+      8583247,
+      15659803
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      209879140,
+      370269012,
+      8653054,
+      15660489
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      208916664,
+      370266999,
+      8652912,
+      15659684
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      231735820,
+      373603192,
+      8625489,
+      15662339
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      231955683,
+      373603684,
+      8655532,
+      15659791
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      208952862,
+      370267001,
+      8638043,
+      15662391
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      222583799,
+      381446738,
+      8469565,
+      15393848
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      198715251,
+      366151881,
+      8491913,
+      15393773
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      203188769,
+      366151404,
+      8479692,
+      15392480
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      223369504,
+      381445087,
+      8465535,
+      15396418
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      223285269,
+      381444979,
+      8489188,
+      15393808
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      199438556,
+      366151030,
+      8512114,
+      15394898
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      201531598,
+      366151318,
+      8521845,
+      15392579
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      223970131,
+      381445536,
+      8481514,
+      15393637
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      223217276,
+      381444725,
+      8480885,
+      15394049
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      201371524,
+      366151500,
+      8461266,
+      15392734
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      231192560,
+      406172104,
+      8543966,
+      15324357
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      207296510,
+      390913394,
+      8585118,
+      15325337
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      207442602,
+      390912430,
+      8524920,
+      15322890
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      231122176,
+      406171722,
+      8497432,
+      15324118
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      232127411,
+      406171900,
+      8503514,
+      15324920
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      207251758,
+      390912197,
+      8494470,
+      15322946
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      207422781,
+      390914628,
+      8543197,
+      15324983
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      230897809,
+      406171721,
+      8485834,
+      15325284
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      231443758,
+      406171569,
+      8476091,
+      15326644
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      207260858,
+      390912513,
+      8516526,
+      15325228
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      234636256,
+      456320177,
+      8602759,
+      15538263
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      208745628,
+      441616931,
+      8608106,
+      15537047
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      208146564,
+      441616295,
+      8592169,
+      15539142
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      232821098,
+      456318547,
+      8592915,
+      15538182
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      285922571,
+      456320614,
+      8564578,
+      15540637
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      211815459,
+      441617979,
+      8606561,
+      15536992
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      211418227,
+      441619059,
+      8607552,
+      15537196
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      235704021,
+      456317746,
+      8542127,
+      15537889
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      234366232,
+      456317865,
+      8638991,
+      15538329
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      211898810,
+      441616838,
+      8629390,
+      15539958
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      246776176,
+      382097977,
+      8417692,
+      15543672
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      246678232,
+      382098191,
+      8528818,
+      15544512
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      246298073,
+      382097815,
+      8476431,
+      15543111
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      246622220,
+      382097467,
+      8416897,
+      15543411
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      245530059,
+      382098081,
+      8459396,
+      15542309
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      249569305,
+      382098799,
+      8431575,
+      15543485
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      247318120,
+      382097997,
+      8408236,
+      15543945
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      246044661,
+      382098320,
+      8484360,
+      15543594
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      247245730,
+      382099851,
+      8490663,
+      15543371
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/repeated/substr_count/3 @ documents-repeated-substr_count-3",
+      257432061,
+      382098638,
+      8476039,
+      15542883
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      247135623,
+      391267092,
+      8487986,
+      15433070
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      246802827,
+      391265721,
+      8531363,
+      15433619
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      247345462,
+      391265081,
+      8406266,
+      15432208
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      246163453,
+      391267544,
+      8490090,
+      15433348
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      246737139,
+      391267708,
+      8473641,
+      15432295
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      246818695,
+      391265190,
+      8433137,
+      15433602
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      246204990,
+      391265197,
+      8475665,
+      15435101
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      248590932,
+      391266013,
+      8450389,
+      15435113
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      247170064,
+      391267581,
+      8418818,
+      15433666
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/repeated/str_replace/3 @ documents-repeated-substr_count-3",
+      247129517,
+      391264963,
+      8543273,
+      15433998
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      245867997,
+      405752222,
+      8545967,
+      15730518
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      246035146,
+      405754809,
+      8546791,
+      15729789
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      245070358,
+      405751611,
+      8532692,
+      15729947
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      245340474,
+      405754093,
+      8563815,
+      15732587
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      245860343,
+      405751150,
+      8583017,
+      15730147
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      246334790,
+      405751650,
+      8591362,
+      15729903
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      245734886,
+      405751689,
+      8607300,
+      15730491
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      245641713,
+      405751515,
+      8563983,
+      15730332
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      245971078,
+      405751521,
+      8623948,
+      15733708
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/repeated/explode/3 @ documents-repeated-substr_count-3",
+      245771973,
+      405750646,
+      8587292,
+      15730602
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      237657922,
+      448780462,
+      8437505,
+      15495744
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      240561824,
+      448780447,
+      8457576,
+      15495350
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      238893007,
+      448780229,
+      8419738,
+      15494639
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      237699231,
+      448783246,
+      8492622,
+      15497865
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      237274494,
+      448783281,
+      8457178,
+      15495313
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      238141114,
+      448780833,
+      8479914,
+      15496177
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      239205231,
+      448783367,
+      8400139,
+      15495396
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      238540953,
+      448782056,
+      8490268,
+      15495526
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      237260703,
+      448782631,
+      8467795,
+      15497362
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/repeated/substr_count/23 @ documents-repeated-substr_count-23",
+      237510473,
+      448781929,
+      8476043,
+      15498316
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      245237946,
+      472531307,
+      8458123,
+      15429341
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      244108881,
+      472534200,
+      8466013,
+      15430168
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      245541561,
+      472531191,
+      8437107,
+      15429507
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      244219047,
+      472532826,
+      8442968,
+      15430603
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      244140597,
+      472532165,
+      8456308,
+      15429659
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      244601941,
+      472531455,
+      8443362,
+      15429310
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      244133200,
+      472533107,
+      8455183,
+      15430451
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      244478419,
+      472533107,
+      8469584,
+      15429732
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      247157016,
+      472535159,
+      8432454,
+      15429417
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/repeated/str_replace/23 @ documents-repeated-substr_count-23",
+      247061655,
+      472532101,
+      8514474,
+      15432571
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      243683062,
+      527455849,
+      8588822,
+      15626682
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      243393962,
+      527456060,
+      8515515,
+      15625762
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      244384768,
+      527456238,
+      8537810,
+      15623342
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      243437735,
+      527456063,
+      8515004,
+      15626749
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      243858251,
+      527456724,
+      8508837,
+      15623777
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      242141115,
+      527456295,
+      8500355,
+      15624640
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      243579247,
+      527456734,
+      8548887,
+      15623661
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      246360147,
+      527456738,
+      8498810,
+      15623654
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      251575442,
+      527458250,
+      8517275,
+      15623788
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/repeated/explode/23 @ documents-repeated-substr_count-23",
+      244610944,
+      527456604,
+      8540446,
+      15624302
+    ]
+  ]
+}

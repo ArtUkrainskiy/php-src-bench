@@ -1,0 +1,1670 @@
+{
+  "format": 2,
+  "kind": "compare",
+  "harness": 2,
+  "date": "2026-11-01T02:42:23+00:00",
+  "suite": "reports/compact-sunday/suites/search-long.php",
+  "elapsed_s": 62.2,
+  "complete": true,
+  "config": {
+    "passes": 5,
+    "cpu": 15,
+    "target_ms": 50,
+    "filter": null,
+    "control": true,
+    "wait_idle": 120,
+    "events": "cycles:u,instructions:u"
+  },
+  "env": {
+    "cpu_model": "AMD Ryzen 9 5950X 16-Core Processor",
+    "kernel": "7.0.0-38-generic",
+    "cpu": 15,
+    "cpu_siblings": "15,31",
+    "hybrid_pcores": null,
+    "cpu_is_pcore": null,
+    "governor": "performance",
+    "epp": "performance",
+    "turbo": true,
+    "on_ac": null,
+    "load": 0.36865234375,
+    "busy_pct": {
+      "15": 0,
+      "31": 0
+    },
+    "idle_cpu": 1
+  },
+  "groups": [
+    {
+      "name": "aa",
+      "a": "compact-base-gcc15",
+      "b": "compact-base-gcc15"
+    },
+    {
+      "name": "gcc15",
+      "a": "compact-base-gcc15",
+      "b": "compact-head-gcc15"
+    },
+    {
+      "name": "clang21",
+      "a": "compact-base-clang21",
+      "b": "compact-head-clang21"
+    },
+    {
+      "name": "aa2",
+      "a": "compact-base-gcc15",
+      "b": "compact-base-gcc15"
+    }
+  ],
+  "builds": {
+    "compact-base-gcc15": {
+      "php": "BUILD_DIR/compact-base-gcc15/sapi/cli/php",
+      "build": {
+        "name": "compact-base-gcc15",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:43:27+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-gcc15/sapi/cli/php"
+      },
+      "sha1": "962804b78072507bf9e2d5006aad239718872788"
+    },
+    "compact-head-gcc15": {
+      "php": "BUILD_DIR/compact-head-gcc15/sapi/cli/php",
+      "build": {
+        "name": "compact-head-gcc15",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:45:00+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-gcc15/sapi/cli/php"
+      },
+      "sha1": "119eb9050525232350b88606c134772a58b1c579"
+    },
+    "compact-base-clang21": {
+      "php": "BUILD_DIR/compact-base-clang21/sapi/cli/php",
+      "build": {
+        "name": "compact-base-clang21",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:44:13+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang-21",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-clang21/sapi/cli/php"
+      },
+      "sha1": "c33890a4894d3839f124ea0c422c5d1f2607bbef"
+    },
+    "compact-head-clang21": {
+      "php": "BUILD_DIR/compact-head-clang21/sapi/cli/php",
+      "build": {
+        "name": "compact-head-clang21",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:45:46+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang-21",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-clang21/sapi/cli/php"
+      },
+      "sha1": "3f96b0e59e376ce2f730c99c2b01fad1a484a268"
+    }
+  },
+  "sources": {
+    "suite": "a8a3475e56f8d13ab52048c1167f434f1bd4213a",
+    "harness": "c3113f45c2a11bcb63f0b1fb7a4e44ef6843325d",
+    "corpus": "e5c81343e158d86e921e121508cb8b101980f980"
+  },
+  "machine_warnings": [
+    "turbo boost is on: thermal and frequency drift between rounds (sudo CAPTURE_PATH/bench tune on)"
+  ],
+  "cases": {
+    "strpos/en/64k/absent @ strpos-en-64k-absent": {
+      "input_len": 65536,
+      "input_chars": 65536,
+      "n": 5252
+    },
+    "strpos/en/64k/start @ strpos-en-64k-start": {
+      "input_len": 65554,
+      "input_chars": 65554,
+      "n": 1913441
+    },
+    "strpos/en/64k/middle @ strpos-en-64k-middle": {
+      "input_len": 65554,
+      "input_chars": 65554,
+      "n": 10469
+    },
+    "strpos/en/64k/end @ strpos-en-64k-end": {
+      "input_len": 65554,
+      "input_chars": 65554,
+      "n": 5289
+    }
+  },
+  "warnings": [],
+  "marks": [],
+  "rows": [
+    [
+      "aa",
+      "a",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      248946871,
+      365902266,
+      10438008,
+      20989746
+    ],
+    [
+      "aa",
+      "b",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      248264808,
+      365900125,
+      10445583,
+      20990198
+    ],
+    [
+      "aa",
+      "b",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      248439106,
+      365901055,
+      10497748,
+      20990521
+    ],
+    [
+      "aa",
+      "a",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      249009125,
+      365900083,
+      10418386,
+      20989720
+    ],
+    [
+      "aa",
+      "a",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      248810662,
+      365899724,
+      10462878,
+      20992466
+    ],
+    [
+      "aa",
+      "b",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      248457208,
+      365899781,
+      10508844,
+      20989007
+    ],
+    [
+      "aa",
+      "b",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      248529910,
+      365902847,
+      10460842,
+      20993039
+    ],
+    [
+      "aa",
+      "a",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      248516323,
+      365900204,
+      10469629,
+      20990004
+    ],
+    [
+      "aa",
+      "a",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      248394447,
+      365899682,
+      10502008,
+      20990194
+    ],
+    [
+      "aa",
+      "b",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      249410265,
+      365900796,
+      10453796,
+      20989495
+    ],
+    [
+      "aa",
+      "a",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      258598302,
+      1142055461,
+      28547525,
+      76263182
+    ],
+    [
+      "aa",
+      "b",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      262944027,
+      1142055374,
+      28512676,
+      76262368
+    ],
+    [
+      "aa",
+      "b",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      262329622,
+      1142058921,
+      28503198,
+      76262284
+    ],
+    [
+      "aa",
+      "a",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      256882808,
+      1142055722,
+      28547867,
+      76262525
+    ],
+    [
+      "aa",
+      "a",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      254228769,
+      1142055143,
+      28405957,
+      76264113
+    ],
+    [
+      "aa",
+      "b",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      258874471,
+      1142058415,
+      28405626,
+      76262548
+    ],
+    [
+      "aa",
+      "b",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      262143677,
+      1142057922,
+      28143754,
+      76263123
+    ],
+    [
+      "aa",
+      "a",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      259473214,
+      1142055411,
+      28554111,
+      76262412
+    ],
+    [
+      "aa",
+      "a",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      267463429,
+      1142055843,
+      28317176,
+      76262941
+    ],
+    [
+      "aa",
+      "b",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      256115301,
+      1142055213,
+      28549968,
+      76263380
+    ],
+    [
+      "aa",
+      "a",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      246415837,
+      369627840,
+      10460493,
+      21109261
+    ],
+    [
+      "aa",
+      "b",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      247348030,
+      369629104,
+      10468614,
+      21108931
+    ],
+    [
+      "aa",
+      "b",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      247093347,
+      369628404,
+      10489466,
+      21111700
+    ],
+    [
+      "aa",
+      "a",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      246259846,
+      369627912,
+      10450270,
+      21109538
+    ],
+    [
+      "aa",
+      "a",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      246867464,
+      369628759,
+      10493914,
+      21110003
+    ],
+    [
+      "aa",
+      "b",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      246130698,
+      369630883,
+      10467600,
+      21108830
+    ],
+    [
+      "aa",
+      "b",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      246527366,
+      369627773,
+      10505716,
+      21109001
+    ],
+    [
+      "aa",
+      "a",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      247411514,
+      369628583,
+      10531422,
+      21109636
+    ],
+    [
+      "aa",
+      "a",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      246306080,
+      369628025,
+      10450424,
+      21112562
+    ],
+    [
+      "aa",
+      "b",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      246629823,
+      369628410,
+      10469029,
+      21112174
+    ],
+    [
+      "aa",
+      "a",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      250326996,
+      369003106,
+      10447415,
+      20991250
+    ],
+    [
+      "aa",
+      "b",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      250079011,
+      369002908,
+      10457655,
+      20991519
+    ],
+    [
+      "aa",
+      "b",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      250080010,
+      369005351,
+      10439981,
+      20990920
+    ],
+    [
+      "aa",
+      "a",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      250817844,
+      369006112,
+      10449286,
+      20990396
+    ],
+    [
+      "aa",
+      "a",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      250024222,
+      369002405,
+      10467403,
+      20993850
+    ],
+    [
+      "aa",
+      "b",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      251341897,
+      369002432,
+      10486520,
+      20991068
+    ],
+    [
+      "aa",
+      "b",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      249988063,
+      369002927,
+      10503557,
+      20992769
+    ],
+    [
+      "aa",
+      "a",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      250335790,
+      369002831,
+      10510903,
+      20990598
+    ],
+    [
+      "aa",
+      "a",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      249748477,
+      369003138,
+      10434847,
+      20990534
+    ],
+    [
+      "aa",
+      "b",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      250695891,
+      369002901,
+      10450225,
+      20992159
+    ],
+    [
+      "gcc15",
+      "a",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      248274524,
+      365902016,
+      10459822,
+      20990517
+    ],
+    [
+      "gcc15",
+      "b",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      227368078,
+      365149148,
+      10438205,
+      20990449
+    ],
+    [
+      "gcc15",
+      "b",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      227444768,
+      365151501,
+      10442415,
+      20990582
+    ],
+    [
+      "gcc15",
+      "a",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      248449027,
+      365900401,
+      10469978,
+      20989719
+    ],
+    [
+      "gcc15",
+      "a",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      248284450,
+      365900717,
+      10452752,
+      20990533
+    ],
+    [
+      "gcc15",
+      "b",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      228082157,
+      365149457,
+      10439350,
+      20992500
+    ],
+    [
+      "gcc15",
+      "b",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      227143139,
+      365148157,
+      10451837,
+      20989575
+    ],
+    [
+      "gcc15",
+      "a",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      248390909,
+      365900741,
+      10447434,
+      20990185
+    ],
+    [
+      "gcc15",
+      "a",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      249230258,
+      365900403,
+      10435446,
+      20989837
+    ],
+    [
+      "gcc15",
+      "b",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      227649626,
+      365148872,
+      10477606,
+      20992581
+    ],
+    [
+      "gcc15",
+      "a",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      254450172,
+      1142055580,
+      28527711,
+      76262602
+    ],
+    [
+      "gcc15",
+      "b",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      191299924,
+      868432283,
+      28535518,
+      76262790
+    ],
+    [
+      "gcc15",
+      "b",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      190290202,
+      868432390,
+      28211743,
+      76261512
+    ],
+    [
+      "gcc15",
+      "a",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      254954243,
+      1142055354,
+      28401197,
+      76262608
+    ],
+    [
+      "gcc15",
+      "a",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      260909216,
+      1142055107,
+      28511016,
+      76263062
+    ],
+    [
+      "gcc15",
+      "b",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      197906462,
+      868432747,
+      28466409,
+      76262243
+    ],
+    [
+      "gcc15",
+      "b",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      209349618,
+      868433790,
+      28267021,
+      76263135
+    ],
+    [
+      "gcc15",
+      "a",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      257184283,
+      1142058484,
+      28103356,
+      76265251
+    ],
+    [
+      "gcc15",
+      "a",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      256149435,
+      1142054856,
+      28583962,
+      76262499
+    ],
+    [
+      "gcc15",
+      "b",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      197632764,
+      868433601,
+      28371777,
+      76265155
+    ],
+    [
+      "gcc15",
+      "a",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      246716387,
+      369628783,
+      10518888,
+      21109760
+    ],
+    [
+      "gcc15",
+      "b",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      224980978,
+      368134474,
+      10489971,
+      21108805
+    ],
+    [
+      "gcc15",
+      "b",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      225147690,
+      368130218,
+      10463564,
+      21109124
+    ],
+    [
+      "gcc15",
+      "a",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      246993401,
+      369628555,
+      10454147,
+      21111698
+    ],
+    [
+      "gcc15",
+      "a",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      246244533,
+      369628905,
+      10519562,
+      21109699
+    ],
+    [
+      "gcc15",
+      "b",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      225002697,
+      368131166,
+      10454576,
+      21109639
+    ],
+    [
+      "gcc15",
+      "b",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      225659733,
+      368131059,
+      10493944,
+      21109176
+    ],
+    [
+      "gcc15",
+      "a",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      246532213,
+      369628994,
+      10495458,
+      21111451
+    ],
+    [
+      "gcc15",
+      "a",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      246519556,
+      369628122,
+      10506739,
+      21110192
+    ],
+    [
+      "gcc15",
+      "b",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      225495110,
+      368134066,
+      10466876,
+      21110100
+    ],
+    [
+      "gcc15",
+      "a",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      249953699,
+      369002901,
+      10481722,
+      20990477
+    ],
+    [
+      "gcc15",
+      "b",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      229124098,
+      368246725,
+      10506016,
+      20990483
+    ],
+    [
+      "gcc15",
+      "b",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      229427233,
+      368247336,
+      10441440,
+      20990978
+    ],
+    [
+      "gcc15",
+      "a",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      250048597,
+      369002812,
+      10487887,
+      20991049
+    ],
+    [
+      "gcc15",
+      "a",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      249517505,
+      369002912,
+      10465556,
+      20990160
+    ],
+    [
+      "gcc15",
+      "b",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      229291832,
+      368245448,
+      10427503,
+      20991229
+    ],
+    [
+      "gcc15",
+      "b",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      228616931,
+      368249040,
+      10449754,
+      20991117
+    ],
+    [
+      "gcc15",
+      "a",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      249796250,
+      369002894,
+      10472667,
+      20991414
+    ],
+    [
+      "gcc15",
+      "a",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      250354912,
+      369003109,
+      10443572,
+      20992884
+    ],
+    [
+      "gcc15",
+      "b",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      228653966,
+      368249092,
+      10456248,
+      20991300
+    ],
+    [
+      "clang21",
+      "a",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      232583334,
+      342668541,
+      10635143,
+      19978496
+    ],
+    [
+      "clang21",
+      "b",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      210486468,
+      342447430,
+      10655737,
+      19978970
+    ],
+    [
+      "clang21",
+      "b",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      210270094,
+      342447403,
+      10666877,
+      19978957
+    ],
+    [
+      "clang21",
+      "a",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      231463397,
+      342671479,
+      10645091,
+      19978748
+    ],
+    [
+      "clang21",
+      "a",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      232017967,
+      342670838,
+      10687643,
+      19978986
+    ],
+    [
+      "clang21",
+      "b",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      209950895,
+      342450014,
+      10708536,
+      19980953
+    ],
+    [
+      "clang21",
+      "b",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      210251672,
+      342447369,
+      10682154,
+      19978462
+    ],
+    [
+      "clang21",
+      "a",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      232167087,
+      342670436,
+      10652539,
+      19978408
+    ],
+    [
+      "clang21",
+      "a",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      232005893,
+      342667703,
+      10707074,
+      19979009
+    ],
+    [
+      "clang21",
+      "b",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      209987104,
+      342449348,
+      10669225,
+      19982168
+    ],
+    [
+      "clang21",
+      "a",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      225244984,
+      832974232,
+      32263665,
+      79072028
+    ],
+    [
+      "clang21",
+      "b",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      183957160,
+      752608927,
+      30907598,
+      79071605
+    ],
+    [
+      "clang21",
+      "b",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      173611025,
+      752609961,
+      31126642,
+      79072477
+    ],
+    [
+      "clang21",
+      "a",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      225271491,
+      832973567,
+      32238570,
+      79072066
+    ],
+    [
+      "clang21",
+      "a",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      225569046,
+      832973933,
+      32213435,
+      79072114
+    ],
+    [
+      "clang21",
+      "b",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      174689176,
+      752609434,
+      31055003,
+      79071768
+    ],
+    [
+      "clang21",
+      "b",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      184772856,
+      752609563,
+      31039297,
+      79071419
+    ],
+    [
+      "clang21",
+      "a",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      223164011,
+      832977437,
+      32203888,
+      79073825
+    ],
+    [
+      "clang21",
+      "a",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      224928604,
+      832974252,
+      32277876,
+      79072182
+    ],
+    [
+      "clang21",
+      "b",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      174319610,
+      752611940,
+      31087119,
+      79072458
+    ],
+    [
+      "clang21",
+      "a",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      230766469,
+      345639866,
+      10686147,
+      20110673
+    ],
+    [
+      "clang21",
+      "b",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      208366850,
+      345200536,
+      10684756,
+      20110288
+    ],
+    [
+      "clang21",
+      "b",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      209016817,
+      345199746,
+      10682372,
+      20110713
+    ],
+    [
+      "clang21",
+      "a",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      230569145,
+      345642137,
+      10687488,
+      20110486
+    ],
+    [
+      "clang21",
+      "a",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      230701372,
+      345640442,
+      10746119,
+      20111330
+    ],
+    [
+      "clang21",
+      "b",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      208439603,
+      345202839,
+      10692041,
+      20110421
+    ],
+    [
+      "clang21",
+      "b",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      208572506,
+      345202319,
+      10675216,
+      20109901
+    ],
+    [
+      "clang21",
+      "a",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      230200272,
+      345642308,
+      10707689,
+      20110007
+    ],
+    [
+      "clang21",
+      "a",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      230563001,
+      345640182,
+      10703651,
+      20110828
+    ],
+    [
+      "clang21",
+      "b",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      208122295,
+      345200131,
+      10684684,
+      20110136
+    ],
+    [
+      "clang21",
+      "a",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      233089820,
+      345630640,
+      10653501,
+      19983001
+    ],
+    [
+      "clang21",
+      "b",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      211909658,
+      345408710,
+      10660096,
+      19983018
+    ],
+    [
+      "clang21",
+      "b",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      211499200,
+      345411416,
+      10716882,
+      19980562
+    ],
+    [
+      "clang21",
+      "a",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      233772993,
+      345630956,
+      10661226,
+      19981850
+    ],
+    [
+      "clang21",
+      "a",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      233505807,
+      345633137,
+      10644302,
+      19980503
+    ],
+    [
+      "clang21",
+      "b",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      211676544,
+      345411605,
+      10685378,
+      19980596
+    ],
+    [
+      "clang21",
+      "b",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      211562364,
+      345409006,
+      10674138,
+      19980227
+    ],
+    [
+      "clang21",
+      "a",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      234172408,
+      345630061,
+      10662419,
+      19983073
+    ],
+    [
+      "clang21",
+      "a",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      233317500,
+      345630594,
+      10646506,
+      19982850
+    ],
+    [
+      "clang21",
+      "b",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      211443706,
+      345411098,
+      10706348,
+      19980293
+    ],
+    [
+      "aa2",
+      "a",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      249200601,
+      365902355,
+      10483173,
+      20992621
+    ],
+    [
+      "aa2",
+      "b",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      248376089,
+      365900183,
+      10529354,
+      20989627
+    ],
+    [
+      "aa2",
+      "b",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      248467068,
+      365900565,
+      10495777,
+      20992680
+    ],
+    [
+      "aa2",
+      "a",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      248916266,
+      365899953,
+      10476751,
+      20992721
+    ],
+    [
+      "aa2",
+      "a",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      248333650,
+      365901048,
+      10449203,
+      20990940
+    ],
+    [
+      "aa2",
+      "b",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      248581833,
+      365899353,
+      10522281,
+      20991782
+    ],
+    [
+      "aa2",
+      "b",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      249329674,
+      365900310,
+      10447000,
+      20990565
+    ],
+    [
+      "aa2",
+      "a",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      248451180,
+      365901382,
+      10458293,
+      20990166
+    ],
+    [
+      "aa2",
+      "a",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      248438897,
+      365900479,
+      10431489,
+      20990658
+    ],
+    [
+      "aa2",
+      "b",
+      "strpos/en/64k/absent @ strpos-en-64k-absent",
+      249230513,
+      365903285,
+      10429512,
+      20989736
+    ],
+    [
+      "aa2",
+      "a",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      262839679,
+      1142057520,
+      28530214,
+      76263529
+    ],
+    [
+      "aa2",
+      "b",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      259142914,
+      1142058150,
+      28457386,
+      76262127
+    ],
+    [
+      "aa2",
+      "b",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      259131135,
+      1142056117,
+      28478672,
+      76262244
+    ],
+    [
+      "aa2",
+      "a",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      262934993,
+      1142054485,
+      28543773,
+      76265643
+    ],
+    [
+      "aa2",
+      "a",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      253837630,
+      1142055219,
+      28334007,
+      76263111
+    ],
+    [
+      "aa2",
+      "b",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      264246604,
+      1142055200,
+      28311867,
+      76265800
+    ],
+    [
+      "aa2",
+      "b",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      253950915,
+      1142055726,
+      28090898,
+      76262913
+    ],
+    [
+      "aa2",
+      "a",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      256137345,
+      1142055259,
+      28539655,
+      76262026
+    ],
+    [
+      "aa2",
+      "a",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      261127461,
+      1142055625,
+      28168992,
+      76262798
+    ],
+    [
+      "aa2",
+      "b",
+      "strpos/en/64k/start @ strpos-en-64k-start",
+      258601571,
+      1142055110,
+      28443052,
+      76263139
+    ],
+    [
+      "aa2",
+      "a",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      246378580,
+      369629393,
+      10504540,
+      21109158
+    ],
+    [
+      "aa2",
+      "b",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      246630445,
+      369628425,
+      10482128,
+      21109494
+    ],
+    [
+      "aa2",
+      "b",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      246026116,
+      369629095,
+      10489337,
+      21109160
+    ],
+    [
+      "aa2",
+      "a",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      246801554,
+      369629189,
+      10520019,
+      21109023
+    ],
+    [
+      "aa2",
+      "a",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      246740378,
+      369629011,
+      10518755,
+      21110594
+    ],
+    [
+      "aa2",
+      "b",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      246309740,
+      369629037,
+      10485494,
+      21109395
+    ],
+    [
+      "aa2",
+      "b",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      246584397,
+      369629123,
+      10494812,
+      21108673
+    ],
+    [
+      "aa2",
+      "a",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      245980741,
+      369628630,
+      10469239,
+      21112122
+    ],
+    [
+      "aa2",
+      "a",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      246514435,
+      369628840,
+      10483069,
+      21111498
+    ],
+    [
+      "aa2",
+      "b",
+      "strpos/en/64k/middle @ strpos-en-64k-middle",
+      246622208,
+      369631088,
+      10605743,
+      21109054
+    ],
+    [
+      "aa2",
+      "a",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      250725507,
+      369002359,
+      10457994,
+      20990907
+    ],
+    [
+      "aa2",
+      "b",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      250193754,
+      369002293,
+      10464240,
+      20991451
+    ],
+    [
+      "aa2",
+      "b",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      249729482,
+      369003189,
+      10493280,
+      20990937
+    ],
+    [
+      "aa2",
+      "a",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      251439943,
+      369003015,
+      10460680,
+      20991308
+    ],
+    [
+      "aa2",
+      "a",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      249822528,
+      369002559,
+      10467719,
+      20991164
+    ],
+    [
+      "aa2",
+      "b",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      249873879,
+      369003173,
+      10455447,
+      20994322
+    ],
+    [
+      "aa2",
+      "b",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      250196640,
+      369003620,
+      10485427,
+      20993499
+    ],
+    [
+      "aa2",
+      "a",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      250048570,
+      369003511,
+      10463340,
+      20991118
+    ],
+    [
+      "aa2",
+      "a",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      250711286,
+      369005617,
+      10484801,
+      20992850
+    ],
+    [
+      "aa2",
+      "b",
+      "strpos/en/64k/end @ strpos-en-64k-end",
+      250155072,
+      369002390,
+      10464750,
+      20991054
+    ]
+  ]
+}

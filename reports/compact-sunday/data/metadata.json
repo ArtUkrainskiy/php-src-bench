@@ -1,0 +1,985 @@
+{
+  "format": 1,
+  "captures": {
+    "amd": {
+      "builds": {
+        "compact-base-gcc15": {
+          "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+          "sha1": "962804b78072507bf9e2d5006aad239718872788",
+          "sha256": "3acb21533696e324ab5e7bab7c814c9610d047bba683074ee19a42a7ffd3be1f",
+          "metadata": {
+            "name": "compact-base-gcc15",
+            "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+            "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+            "subject": "Merge branch 'PHP-8.6'",
+            "snapshot": false,
+            "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+            "base_subject": "Merge branch 'PHP-8.6'",
+            "built_at": "2026-10-31T14:43:27+00:00",
+            "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+            "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+            "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+            "ldflags": "-Wl,-O1 -pie",
+            "profile": "docker",
+            "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+            "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+            "cc_command": "gcc-15",
+            "configure_extra": "",
+            "pr": null,
+            "version": "8.7.0-dev",
+            "debug": false,
+            "slim": true
+          }
+        },
+        "compact-head-gcc15": {
+          "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+          "sha1": "119eb9050525232350b88606c134772a58b1c579",
+          "sha256": "3bcc8b37cf03b0cc75f567f110f0941ed1fff8eeb000604d454f69081c29908f",
+          "metadata": {
+            "name": "compact-head-gcc15",
+            "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+            "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+            "subject": "Reduce Sunday shift-table setup for short needles",
+            "snapshot": false,
+            "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+            "base_subject": "Reduce Sunday shift-table setup for short needles",
+            "built_at": "2026-10-31T14:45:00+00:00",
+            "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+            "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+            "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+            "ldflags": "-Wl,-O1 -pie",
+            "profile": "docker",
+            "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+            "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+            "cc_command": "gcc-15",
+            "configure_extra": "",
+            "pr": null,
+            "version": "8.7.0-dev",
+            "debug": false,
+            "slim": true
+          }
+        },
+        "compact-base-clang21": {
+          "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+          "sha1": "c33890a4894d3839f124ea0c422c5d1f2607bbef",
+          "sha256": "072cbde0429988feeb2652fc03cf47b14b357168fce12c13731da8c345bb5a00",
+          "metadata": {
+            "name": "compact-base-clang21",
+            "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+            "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+            "subject": "Merge branch 'PHP-8.6'",
+            "snapshot": false,
+            "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+            "base_subject": "Merge branch 'PHP-8.6'",
+            "built_at": "2026-10-31T14:44:13+00:00",
+            "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+            "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+            "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+            "ldflags": "-Wl,-O1 -pie",
+            "profile": "docker",
+            "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+            "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+            "cc_command": "clang-21",
+            "configure_extra": "",
+            "pr": null,
+            "version": "8.7.0-dev",
+            "debug": false,
+            "slim": true
+          }
+        },
+        "compact-head-clang21": {
+          "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+          "sha1": "3f96b0e59e376ce2f730c99c2b01fad1a484a268",
+          "sha256": "387bbce82a614abf23fe0496cb4db2662efe240888e95f15868c96362982a357",
+          "metadata": {
+            "name": "compact-head-clang21",
+            "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+            "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+            "subject": "Reduce Sunday shift-table setup for short needles",
+            "snapshot": false,
+            "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+            "base_subject": "Reduce Sunday shift-table setup for short needles",
+            "built_at": "2026-10-31T14:45:46+00:00",
+            "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+            "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+            "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+            "ldflags": "-Wl,-O1 -pie",
+            "profile": "docker",
+            "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+            "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+            "cc_command": "clang-21",
+            "configure_extra": "",
+            "pr": null,
+            "version": "8.7.0-dev",
+            "debug": false,
+            "slim": true
+          }
+        }
+      },
+      "modules": {
+        "base": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "head": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "unchanged_extension_sources_and_headers": true,
+        "icu_package": {
+          "version": "78.2-2ubuntu1",
+          "sha256": "335d24663b21e07b3850565d70d173399cf8b9bb59ad3be17bd5c98e9fadce0a"
+        },
+        "compilers": {
+          "gcc15": {
+            "configure": [
+              "./configure",
+              "--disable-all",
+              "--disable-cgi",
+              "--disable-phpdbg",
+              "--enable-cli",
+              "--enable-werror",
+              "--enable-mbstring=shared",
+              "--enable-intl=shared"
+            ],
+            "cflags": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+            "ldflags": "-Wl,-O1",
+            "modules": {
+              "mbstring": {
+                "path": "CAPTURE_PATH/mbstring.so",
+                "sha256": "25cc7247eae58358d15323dc95756bf912d2d3222ce493e3481e196a1c86bcc5"
+              },
+              "intl": {
+                "path": "CAPTURE_PATH/intl.so",
+                "sha256": "5f3d329edcad2885367c264a6e720f2f4ad2185b422156a9281ca0aa7e583dd2"
+              }
+            }
+          },
+          "clang21": {
+            "configure": [
+              "./configure",
+              "--disable-all",
+              "--disable-cgi",
+              "--disable-phpdbg",
+              "--enable-cli",
+              "--enable-werror",
+              "--enable-mbstring=shared",
+              "--enable-intl=shared"
+            ],
+            "cflags": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+            "ldflags": "-Wl,-O1",
+            "modules": {
+              "mbstring": {
+                "path": "CAPTURE_PATH/mbstring.so",
+                "sha256": "445ecebe1a9b21f7f4d6bb5ff3be543ec01e2e69c7d05e8eff8dfb1f9926707b"
+              },
+              "intl": {
+                "path": "CAPTURE_PATH/intl.so",
+                "sha256": "7353bbd1dd1232c0c14ab7da4e88f15185761dfa4d391ae261e7ef6622ce8ae0"
+              }
+            }
+          }
+        }
+      },
+      "fixture_hashes": {
+        "coverage.md": "b60faaf706026b49597d5650bb6f1bbf2637dfe6fc9f506c6b39baca04c8a460",
+        "README.md": "09f101f990824d40bdf1c19bf27fa789ab28f79506135b0a0888832db23474b7",
+        "tools/validate.php": "8d382308d4a2e324249f6c5d0a2ad4e677ba0ea1d1214945cc0199c273da45d0",
+        "tools/applications.py": "3b548477efb5c14ee791285f2121bce07cd351f0364662526142952322b05514",
+        "tools/load.php": "aef8bdd0cec9831104379bb760cf86f0f246cf1f29fda582c481f5649c5c26e4",
+        "tools/functions.php": "eeebf2a38635b4eb956cbe867a81b6b15f76b942cbd84f3ef5fa443011aa18ff",
+        "tools/check.py": "1c0b1d72f010ce84aeb31134af84824dd74caf83b0a4bceb90104d8794216214",
+        "tools/generate.py": "941b850b0249aaef3f84bcb4fe0e0e2b6a1625cae6c25cca0ce2ecf02077fc43",
+        "tools/texts.json": "1477c65f797673460af8de6a67da07806b3711501fa65c99221330d000928458",
+        "suites/stream-get-line.php": "0a1aac06d82be68e1c23596a80da7a070902d7acd5b06cd9b14adc73ad37b777",
+        "suites/intl-ascii.php": "ea8e23d7fd609543200916466f70a00e5e0e281c72ade708a9af78c7cd638751",
+        "suites/controls-prefix.php": "e4ad9fa5ef33326d7cecd170af17a550d3f1b5f39e6182e9188769992eb8c8bd",
+        "suites/replace.php": "9c4a9db61702165f3073b79c14daaec8d0d3c6b63ccefedd054a0bf326289511",
+        "suites/search.php": "23f1b26d91680d79cd6d286fde95a3ab02fe3a152220f0594dab9fe22a377067",
+        "suites/documents-repeated.php": "6e23756539a75b601287935909af06e32d5a666ec544139580525a4d05e4f9cf",
+        "suites/documents-moderation.php": "8af74993c972ba9a6cb04b91b14a263b3538cc294af8cdd83cac32e11ca9067b",
+        "suites/explode.php": "342d0ec5110a59415e1f81cbc6e01ed8d5ad62e3fdd0936c79ec91e0bd3a3945",
+        "suites/moderation-short.php": "bf347acb6cdb20c50c010b60f4a83be7a4350e9ca42a926a8d3f7a9af0d966a1",
+        "suites/documents-mail.php": "4411f410662b2bfc0c63c3264bb15f356b8f06b30f6ec441a6a3369dc394cc91",
+        "suites/moderation-medium.php": "1d17c2a8e86bac9468206731c8248684374bda9cd51a0c68a00a911e18f0d734",
+        "suites/controls-routing.php": "7cde36f1be7aa9dc45a9e589c0c609fa666e0c870b367ad5b4717b88648810af",
+        "suites/mbstring.php": "d79b27705ccb03d0ff99dfa9c59297c8f9f4f924a894bcda3afada22f7749053",
+        "suites/controls-lengths.php": "22cfff2e18d2758e1391e4eb438582f3a5e4db9852e0bbdbfa5c3c684422f35c",
+        "suites/search-long.php": "bcd0139aec6d775f2201dcaf0fb641d0b018930bfa7e0cf53cd334038b230a09",
+        "suites/documents-replace.php": "08353fb8c0c5cd6796e576911494788802a8193926fb0a0e926499ccb6ac5eeb",
+        "suites/moderation-long.php": "f11d1b50396ea8d48d62234d12a457aa06ed4c272c4113590fb1ff8d81686e63",
+        "suites/documents-count.php": "d7a52ba0fbe7c8123e5f22bbbc28723dff26a5e776f78e075f97576b58ff1619",
+        "suites/substr-count.php": "d7e2cf905574fd1cc1863ce76db4f409b22d7ff5190475cba767e82a6ebad529",
+        "suites/documents-search.php": "630b31407c85e7ae69f2646f6361a12230e0f69a379a088477961a65795d6d7a",
+        "corpus/documents-replace.json": "28c41b54fcd5ab444505c7fff3d8dda1fcf1b55951c557bef1d8c3b580223a30",
+        "corpus/index.json": "f9c5907940928b6b034f6407e09450ce2e1dd003fdb74a244307b8d634936a37",
+        "corpus/search.json": "f76a0e6c001f0b18a4dd99cd105e2ddfd966f39a029258a7c4453837934de4a6",
+        "corpus/documents-moderation.json": "db2c2d41567ecb444c42ef5c4962ed477c5e0e36229bfa912bebcc30220067f7",
+        "corpus/stream-get-line.json": "d9cc96432a589fb3ac0613bbada14b940bdf71e6e8faa1ec2750e9dc79f77cfd",
+        "corpus/moderation-long.json": "b3bdeb73fa962e3c13b22c14dd31adea5ac0917b2d13e0d2a411ec9b688aadd2",
+        "corpus/documents-count.json": "e24a201f23f018394649edce5346ba59c8b4cb77fca817e3ca82289836b5e415",
+        "corpus/substr-count.json": "bd7d17ef5dba1be6c62b60c55f086b685831b612b180466da95d8ea39c412e8a",
+        "corpus/documents-mail.json": "ffca16e3b1654f251deb1a4ac5c6d3134ca52bc6347cef7711b8064aa67937e2",
+        "corpus/intl-ascii.json": "be30cd20e62b93b6cc127500e75428123f9e9a3de323925ec19c82d2da15d250",
+        "corpus/documents-search.json": "bb58d8034ffd366425d98abae887a77e44decd6f567ff872d23ae6cfeb3af490",
+        "corpus/search-long.json": "d873c6b825d3b48c1c823122355ef685b6b1214821032929e66440bfe22b9397",
+        "corpus/moderation-medium.json": "dfedec4dbbe79a0a7f8430c9e0b048a92ef27038319bf7243445960a839782a0",
+        "corpus/controls-routing.json": "d2b6610f8cf711fc96c8f923e2125980079322ea0656187c729d10d48952e28f",
+        "corpus/controls-lengths.json": "9a2491633bc59d9a393107f3e2f27903118b998bd4b8ca8b7c46f8c60df624c0",
+        "corpus/README.md": "cb57d8e3e2bbf2b4398804c79fdab347e061a63b4bfc4fe4a88a87dd4df97102",
+        "corpus/moderation-short.json": "a17bda0f7f543c1d554d7c31755a5cf702fab421362961be564cd18f57c97813",
+        "corpus/controls-prefix.json": "9ecedf37ac67d46d242b3251bd7c25bec8e070f76ddd5bc6eeee122c0f676379",
+        "corpus/mbstring.json": "a85cbe9d70fe606bc1586c1ffadea2a5a773f605159ac75ff43a3aac2fcfb109",
+        "corpus/documents-repeated.json": "6a6e255b59bc4147b1c18c619388bf79fbfb6319add2bb755bc09f6aa6c174f9",
+        "corpus/replace.json": "7af28fe396454bd929dc1b1de6ed477fe6f10ae7899163b3077d4bdd32237c92",
+        "corpus/explode.json": "d442a823a52029527b9dd6fa0beb3319840eb558adf2daec9a67fda0ee996cd4"
+      },
+      "protocol": {
+        "elapsed": {
+          "rounds": 5,
+          "samples": 5,
+          "target_ms": 200,
+          "warmup_ms": 500
+        },
+        "counter_passes": 5,
+        "counter_target_ms": 50,
+        "cpu": 15,
+        "corpus_sha256": "f9c5907940928b6b034f6407e09450ce2e1dd003fdb74a244307b8d634936a37"
+      }
+    },
+    "intel": {
+      "builds": {
+        "compact-base-gcc13": {
+          "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+          "sha1": "77cb6a44e3c6456b1b85f1c5e91a81365c7b4cc7",
+          "sha256": "efb69b3109cdd7b3cb06866f98175084044b693c4a680a7f88d2ec432ff15090",
+          "metadata": {
+            "name": "compact-base-gcc13",
+            "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+            "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+            "subject": "Merge branch 'PHP-8.6'",
+            "snapshot": false,
+            "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+            "base_subject": "Merge branch 'PHP-8.6'",
+            "built_at": "2026-10-31T14:44:22+00:00",
+            "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+            "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+            "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+            "ldflags": "-Wl,-O1 -pie",
+            "profile": "docker",
+            "config_key": "7d7501a4b803974f6a9a1a155f1d477e1e470510",
+            "cc": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+            "cc_command": "gcc",
+            "configure_extra": "",
+            "pr": null,
+            "version": "8.7.0-dev",
+            "debug": false,
+            "slim": true
+          }
+        },
+        "compact-head-gcc13": {
+          "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+          "sha1": "0def7d7b7cd90023ff48823de1a7fb0916094ab4",
+          "sha256": "30a6c6443ba7a1a3d3ef0534f69a6686caacc545435eea4385ca4b0e192b9c03",
+          "metadata": {
+            "name": "compact-head-gcc13",
+            "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+            "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+            "subject": "Reduce Sunday shift-table setup for short needles",
+            "snapshot": false,
+            "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+            "base_subject": "Reduce Sunday shift-table setup for short needles",
+            "built_at": "2026-10-31T14:51:26+00:00",
+            "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+            "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+            "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+            "ldflags": "-Wl,-O1 -pie",
+            "profile": "docker",
+            "config_key": "7d7501a4b803974f6a9a1a155f1d477e1e470510",
+            "cc": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+            "cc_command": "gcc",
+            "configure_extra": "",
+            "pr": null,
+            "version": "8.7.0-dev",
+            "debug": false,
+            "slim": true
+          }
+        },
+        "compact-base-gcc14": {
+          "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+          "sha1": "29994ee8008df58a38654def392c9ce84a02c527",
+          "sha256": "0b815fac7907344891ab698b46cf17787babfc779127ddcdc37e356571e26460",
+          "metadata": {
+            "name": "compact-base-gcc14",
+            "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+            "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+            "subject": "Merge branch 'PHP-8.6'",
+            "snapshot": false,
+            "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+            "base_subject": "Merge branch 'PHP-8.6'",
+            "built_at": "2026-10-31T14:46:09+00:00",
+            "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+            "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+            "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+            "ldflags": "-Wl,-O1 -pie",
+            "profile": "docker",
+            "config_key": "ac3a91d21845157f2be60236a99e484774abd3cd",
+            "cc": "gcc-14 (Ubuntu 14.2.0-4ubuntu2~24.04.1) 14.2.0",
+            "cc_command": "gcc-14",
+            "configure_extra": "",
+            "pr": null,
+            "version": "8.7.0-dev",
+            "debug": false,
+            "slim": true
+          }
+        },
+        "compact-head-gcc14": {
+          "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+          "sha1": "eb2fd20710ece4e824a9d4dfc0f19897891fa4a6",
+          "sha256": "51f7b67d56ac81367dc41759485b65448a8b7cf58d4d37b09744252f6d1ce44c",
+          "metadata": {
+            "name": "compact-head-gcc14",
+            "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+            "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+            "subject": "Reduce Sunday shift-table setup for short needles",
+            "snapshot": false,
+            "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+            "base_subject": "Reduce Sunday shift-table setup for short needles",
+            "built_at": "2026-10-31T14:53:33+00:00",
+            "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+            "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+            "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+            "ldflags": "-Wl,-O1 -pie",
+            "profile": "docker",
+            "config_key": "ac3a91d21845157f2be60236a99e484774abd3cd",
+            "cc": "gcc-14 (Ubuntu 14.2.0-4ubuntu2~24.04.1) 14.2.0",
+            "cc_command": "gcc-14",
+            "configure_extra": "",
+            "pr": null,
+            "version": "8.7.0-dev",
+            "debug": false,
+            "slim": true
+          }
+        },
+        "compact-base-clang18": {
+          "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+          "sha1": "afd9859494a5f84bbad4a39c8569b7d63f361611",
+          "sha256": "c5d3e64bab22ba4b4c1167d45597522cec01c3f09b4fd1897191c8961a4376fb",
+          "metadata": {
+            "name": "compact-base-clang18",
+            "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+            "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+            "subject": "Merge branch 'PHP-8.6'",
+            "snapshot": false,
+            "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+            "base_subject": "Merge branch 'PHP-8.6'",
+            "built_at": "2026-10-31T14:47:49+00:00",
+            "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+            "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+            "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+            "ldflags": "-Wl,-O1 -pie",
+            "profile": "docker",
+            "config_key": "096800019d14b925a3b777447a14fa3b0d669985",
+            "cc": "Ubuntu clang version 18.1.3 (1ubuntu1)",
+            "cc_command": "clang",
+            "configure_extra": "",
+            "pr": null,
+            "version": "8.7.0-dev",
+            "debug": false,
+            "slim": true
+          }
+        },
+        "compact-head-clang18": {
+          "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+          "sha1": "192e4a4a5f2f9207a910d137978397dd12769e99",
+          "sha256": "8aa134e3e1110216facc1d921ed8a481e9c345c18a008dbe934a8b33f0c2d0b7",
+          "metadata": {
+            "name": "compact-head-clang18",
+            "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+            "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+            "subject": "Reduce Sunday shift-table setup for short needles",
+            "snapshot": false,
+            "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+            "base_subject": "Reduce Sunday shift-table setup for short needles",
+            "built_at": "2026-10-31T14:55:30+00:00",
+            "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+            "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+            "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+            "ldflags": "-Wl,-O1 -pie",
+            "profile": "docker",
+            "config_key": "096800019d14b925a3b777447a14fa3b0d669985",
+            "cc": "Ubuntu clang version 18.1.3 (1ubuntu1)",
+            "cc_command": "clang",
+            "configure_extra": "",
+            "pr": null,
+            "version": "8.7.0-dev",
+            "debug": false,
+            "slim": true
+          }
+        },
+        "compact-base-clang20": {
+          "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+          "sha1": "2479fffae5b6ae555283eaa61d5de46779a1bc74",
+          "sha256": "e3d809362ffcc7eca79835248bc265b39bd0096bffa65e6bd2d358f7e85aeed1",
+          "metadata": {
+            "name": "compact-base-clang20",
+            "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+            "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+            "subject": "Merge branch 'PHP-8.6'",
+            "snapshot": false,
+            "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+            "base_subject": "Merge branch 'PHP-8.6'",
+            "built_at": "2026-10-31T14:49:34+00:00",
+            "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+            "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+            "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+            "ldflags": "-Wl,-O1 -pie",
+            "profile": "docker",
+            "config_key": "1d7363572b7d241702924894eced9e166dfe2ea0",
+            "cc": "Ubuntu clang version 20.1.2 (0ubuntu1~24.04.3)",
+            "cc_command": "clang-20",
+            "configure_extra": "",
+            "pr": null,
+            "version": "8.7.0-dev",
+            "debug": false,
+            "slim": true
+          }
+        },
+        "compact-head-clang20": {
+          "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+          "sha1": "1577211fd1cee3181dd7eedbe88345254f0c9217",
+          "sha256": "32e009a7966d12532ea643eb6c03d9a0f1a73eba645d3df64f5a458313827d24",
+          "metadata": {
+            "name": "compact-head-clang20",
+            "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+            "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+            "subject": "Reduce Sunday shift-table setup for short needles",
+            "snapshot": false,
+            "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+            "base_subject": "Reduce Sunday shift-table setup for short needles",
+            "built_at": "2026-10-31T14:57:25+00:00",
+            "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+            "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+            "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+            "ldflags": "-Wl,-O1 -pie",
+            "profile": "docker",
+            "config_key": "1d7363572b7d241702924894eced9e166dfe2ea0",
+            "cc": "Ubuntu clang version 20.1.2 (0ubuntu1~24.04.3)",
+            "cc_command": "clang-20",
+            "configure_extra": "",
+            "pr": null,
+            "version": "8.7.0-dev",
+            "debug": false,
+            "slim": true
+          }
+        }
+      },
+      "modules": null,
+      "fixture_hashes": {
+        "coverage.md": "b60faaf706026b49597d5650bb6f1bbf2637dfe6fc9f506c6b39baca04c8a460",
+        "README.md": "09f101f990824d40bdf1c19bf27fa789ab28f79506135b0a0888832db23474b7",
+        "tools/validate.php": "8d382308d4a2e324249f6c5d0a2ad4e677ba0ea1d1214945cc0199c273da45d0",
+        "tools/applications.py": "3b548477efb5c14ee791285f2121bce07cd351f0364662526142952322b05514",
+        "tools/load.php": "aef8bdd0cec9831104379bb760cf86f0f246cf1f29fda582c481f5649c5c26e4",
+        "tools/functions.php": "eeebf2a38635b4eb956cbe867a81b6b15f76b942cbd84f3ef5fa443011aa18ff",
+        "tools/check.py": "1c0b1d72f010ce84aeb31134af84824dd74caf83b0a4bceb90104d8794216214",
+        "tools/generate.py": "941b850b0249aaef3f84bcb4fe0e0e2b6a1625cae6c25cca0ce2ecf02077fc43",
+        "tools/texts.json": "1477c65f797673460af8de6a67da07806b3711501fa65c99221330d000928458",
+        "suites/stream-get-line.php": "0a1aac06d82be68e1c23596a80da7a070902d7acd5b06cd9b14adc73ad37b777",
+        "suites/intl-ascii.php": "ea8e23d7fd609543200916466f70a00e5e0e281c72ade708a9af78c7cd638751",
+        "suites/controls-prefix.php": "e4ad9fa5ef33326d7cecd170af17a550d3f1b5f39e6182e9188769992eb8c8bd",
+        "suites/replace.php": "9c4a9db61702165f3073b79c14daaec8d0d3c6b63ccefedd054a0bf326289511",
+        "suites/search.php": "23f1b26d91680d79cd6d286fde95a3ab02fe3a152220f0594dab9fe22a377067",
+        "suites/documents-repeated.php": "6e23756539a75b601287935909af06e32d5a666ec544139580525a4d05e4f9cf",
+        "suites/documents-moderation.php": "8af74993c972ba9a6cb04b91b14a263b3538cc294af8cdd83cac32e11ca9067b",
+        "suites/explode.php": "342d0ec5110a59415e1f81cbc6e01ed8d5ad62e3fdd0936c79ec91e0bd3a3945",
+        "suites/moderation-short.php": "bf347acb6cdb20c50c010b60f4a83be7a4350e9ca42a926a8d3f7a9af0d966a1",
+        "suites/documents-mail.php": "4411f410662b2bfc0c63c3264bb15f356b8f06b30f6ec441a6a3369dc394cc91",
+        "suites/moderation-medium.php": "1d17c2a8e86bac9468206731c8248684374bda9cd51a0c68a00a911e18f0d734",
+        "suites/controls-routing.php": "7cde36f1be7aa9dc45a9e589c0c609fa666e0c870b367ad5b4717b88648810af",
+        "suites/mbstring.php": "d79b27705ccb03d0ff99dfa9c59297c8f9f4f924a894bcda3afada22f7749053",
+        "suites/controls-lengths.php": "22cfff2e18d2758e1391e4eb438582f3a5e4db9852e0bbdbfa5c3c684422f35c",
+        "suites/search-long.php": "bcd0139aec6d775f2201dcaf0fb641d0b018930bfa7e0cf53cd334038b230a09",
+        "suites/documents-replace.php": "08353fb8c0c5cd6796e576911494788802a8193926fb0a0e926499ccb6ac5eeb",
+        "suites/moderation-long.php": "f11d1b50396ea8d48d62234d12a457aa06ed4c272c4113590fb1ff8d81686e63",
+        "suites/documents-count.php": "d7a52ba0fbe7c8123e5f22bbbc28723dff26a5e776f78e075f97576b58ff1619",
+        "suites/substr-count.php": "d7e2cf905574fd1cc1863ce76db4f409b22d7ff5190475cba767e82a6ebad529",
+        "suites/documents-search.php": "630b31407c85e7ae69f2646f6361a12230e0f69a379a088477961a65795d6d7a",
+        "corpus/documents-replace.json": "28c41b54fcd5ab444505c7fff3d8dda1fcf1b55951c557bef1d8c3b580223a30",
+        "corpus/index.json": "f9c5907940928b6b034f6407e09450ce2e1dd003fdb74a244307b8d634936a37",
+        "corpus/search.json": "f76a0e6c001f0b18a4dd99cd105e2ddfd966f39a029258a7c4453837934de4a6",
+        "corpus/documents-moderation.json": "db2c2d41567ecb444c42ef5c4962ed477c5e0e36229bfa912bebcc30220067f7",
+        "corpus/stream-get-line.json": "d9cc96432a589fb3ac0613bbada14b940bdf71e6e8faa1ec2750e9dc79f77cfd",
+        "corpus/moderation-long.json": "b3bdeb73fa962e3c13b22c14dd31adea5ac0917b2d13e0d2a411ec9b688aadd2",
+        "corpus/documents-count.json": "e24a201f23f018394649edce5346ba59c8b4cb77fca817e3ca82289836b5e415",
+        "corpus/substr-count.json": "bd7d17ef5dba1be6c62b60c55f086b685831b612b180466da95d8ea39c412e8a",
+        "corpus/documents-mail.json": "ffca16e3b1654f251deb1a4ac5c6d3134ca52bc6347cef7711b8064aa67937e2",
+        "corpus/intl-ascii.json": "be30cd20e62b93b6cc127500e75428123f9e9a3de323925ec19c82d2da15d250",
+        "corpus/documents-search.json": "bb58d8034ffd366425d98abae887a77e44decd6f567ff872d23ae6cfeb3af490",
+        "corpus/search-long.json": "d873c6b825d3b48c1c823122355ef685b6b1214821032929e66440bfe22b9397",
+        "corpus/moderation-medium.json": "dfedec4dbbe79a0a7f8430c9e0b048a92ef27038319bf7243445960a839782a0",
+        "corpus/controls-routing.json": "d2b6610f8cf711fc96c8f923e2125980079322ea0656187c729d10d48952e28f",
+        "corpus/controls-lengths.json": "9a2491633bc59d9a393107f3e2f27903118b998bd4b8ca8b7c46f8c60df624c0",
+        "corpus/README.md": "cb57d8e3e2bbf2b4398804c79fdab347e061a63b4bfc4fe4a88a87dd4df97102",
+        "corpus/moderation-short.json": "a17bda0f7f543c1d554d7c31755a5cf702fab421362961be564cd18f57c97813",
+        "corpus/controls-prefix.json": "9ecedf37ac67d46d242b3251bd7c25bec8e070f76ddd5bc6eeee122c0f676379",
+        "corpus/mbstring.json": "a85cbe9d70fe606bc1586c1ffadea2a5a773f605159ac75ff43a3aac2fcfb109",
+        "corpus/documents-repeated.json": "6a6e255b59bc4147b1c18c619388bf79fbfb6319add2bb755bc09f6aa6c174f9",
+        "corpus/replace.json": "7af28fe396454bd929dc1b1de6ed477fe6f10ae7899163b3077d4bdd32237c92",
+        "corpus/explode.json": "d442a823a52029527b9dd6fa0beb3319840eb558adf2daec9a67fda0ee996cd4"
+      },
+      "protocol": {
+        "elapsed": {
+          "rounds": 5,
+          "samples": 5,
+          "target_ms": 200,
+          "warmup_ms": 500
+        },
+        "counter_passes": 5,
+        "counter_target_ms": 50,
+        "cpu": 2,
+        "corpus_sha256": "f9c5907940928b6b034f6407e09450ce2e1dd003fdb74a244307b8d634936a37"
+      }
+    },
+    "intel-extensions": {
+      "builds": {
+        "compact-base-gcc13": {
+          "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+          "sha1": "77cb6a44e3c6456b1b85f1c5e91a81365c7b4cc7",
+          "sha256": "efb69b3109cdd7b3cb06866f98175084044b693c4a680a7f88d2ec432ff15090",
+          "metadata": {
+            "name": "compact-base-gcc13",
+            "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+            "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+            "subject": "Merge branch 'PHP-8.6'",
+            "snapshot": false,
+            "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+            "base_subject": "Merge branch 'PHP-8.6'",
+            "built_at": "2026-10-31T14:44:22+00:00",
+            "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+            "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+            "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+            "ldflags": "-Wl,-O1 -pie",
+            "profile": "docker",
+            "config_key": "7d7501a4b803974f6a9a1a155f1d477e1e470510",
+            "cc": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+            "cc_command": "gcc",
+            "configure_extra": "",
+            "pr": null,
+            "version": "8.7.0-dev",
+            "debug": false,
+            "slim": true
+          }
+        },
+        "compact-head-gcc13": {
+          "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+          "sha1": "0def7d7b7cd90023ff48823de1a7fb0916094ab4",
+          "sha256": "30a6c6443ba7a1a3d3ef0534f69a6686caacc545435eea4385ca4b0e192b9c03",
+          "metadata": {
+            "name": "compact-head-gcc13",
+            "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+            "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+            "subject": "Reduce Sunday shift-table setup for short needles",
+            "snapshot": false,
+            "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+            "base_subject": "Reduce Sunday shift-table setup for short needles",
+            "built_at": "2026-10-31T14:51:26+00:00",
+            "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+            "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+            "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+            "ldflags": "-Wl,-O1 -pie",
+            "profile": "docker",
+            "config_key": "7d7501a4b803974f6a9a1a155f1d477e1e470510",
+            "cc": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+            "cc_command": "gcc",
+            "configure_extra": "",
+            "pr": null,
+            "version": "8.7.0-dev",
+            "debug": false,
+            "slim": true
+          }
+        },
+        "compact-base-gcc14": {
+          "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+          "sha1": "29994ee8008df58a38654def392c9ce84a02c527",
+          "sha256": "0b815fac7907344891ab698b46cf17787babfc779127ddcdc37e356571e26460",
+          "metadata": {
+            "name": "compact-base-gcc14",
+            "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+            "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+            "subject": "Merge branch 'PHP-8.6'",
+            "snapshot": false,
+            "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+            "base_subject": "Merge branch 'PHP-8.6'",
+            "built_at": "2026-10-31T14:46:09+00:00",
+            "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+            "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+            "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+            "ldflags": "-Wl,-O1 -pie",
+            "profile": "docker",
+            "config_key": "ac3a91d21845157f2be60236a99e484774abd3cd",
+            "cc": "gcc-14 (Ubuntu 14.2.0-4ubuntu2~24.04.1) 14.2.0",
+            "cc_command": "gcc-14",
+            "configure_extra": "",
+            "pr": null,
+            "version": "8.7.0-dev",
+            "debug": false,
+            "slim": true
+          }
+        },
+        "compact-head-gcc14": {
+          "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+          "sha1": "eb2fd20710ece4e824a9d4dfc0f19897891fa4a6",
+          "sha256": "51f7b67d56ac81367dc41759485b65448a8b7cf58d4d37b09744252f6d1ce44c",
+          "metadata": {
+            "name": "compact-head-gcc14",
+            "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+            "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+            "subject": "Reduce Sunday shift-table setup for short needles",
+            "snapshot": false,
+            "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+            "base_subject": "Reduce Sunday shift-table setup for short needles",
+            "built_at": "2026-10-31T14:53:33+00:00",
+            "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+            "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+            "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+            "ldflags": "-Wl,-O1 -pie",
+            "profile": "docker",
+            "config_key": "ac3a91d21845157f2be60236a99e484774abd3cd",
+            "cc": "gcc-14 (Ubuntu 14.2.0-4ubuntu2~24.04.1) 14.2.0",
+            "cc_command": "gcc-14",
+            "configure_extra": "",
+            "pr": null,
+            "version": "8.7.0-dev",
+            "debug": false,
+            "slim": true
+          }
+        },
+        "compact-base-clang18": {
+          "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+          "sha1": "afd9859494a5f84bbad4a39c8569b7d63f361611",
+          "sha256": "c5d3e64bab22ba4b4c1167d45597522cec01c3f09b4fd1897191c8961a4376fb",
+          "metadata": {
+            "name": "compact-base-clang18",
+            "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+            "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+            "subject": "Merge branch 'PHP-8.6'",
+            "snapshot": false,
+            "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+            "base_subject": "Merge branch 'PHP-8.6'",
+            "built_at": "2026-10-31T14:47:49+00:00",
+            "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+            "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+            "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+            "ldflags": "-Wl,-O1 -pie",
+            "profile": "docker",
+            "config_key": "096800019d14b925a3b777447a14fa3b0d669985",
+            "cc": "Ubuntu clang version 18.1.3 (1ubuntu1)",
+            "cc_command": "clang",
+            "configure_extra": "",
+            "pr": null,
+            "version": "8.7.0-dev",
+            "debug": false,
+            "slim": true
+          }
+        },
+        "compact-head-clang18": {
+          "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+          "sha1": "192e4a4a5f2f9207a910d137978397dd12769e99",
+          "sha256": "8aa134e3e1110216facc1d921ed8a481e9c345c18a008dbe934a8b33f0c2d0b7",
+          "metadata": {
+            "name": "compact-head-clang18",
+            "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+            "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+            "subject": "Reduce Sunday shift-table setup for short needles",
+            "snapshot": false,
+            "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+            "base_subject": "Reduce Sunday shift-table setup for short needles",
+            "built_at": "2026-10-31T14:55:30+00:00",
+            "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+            "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+            "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+            "ldflags": "-Wl,-O1 -pie",
+            "profile": "docker",
+            "config_key": "096800019d14b925a3b777447a14fa3b0d669985",
+            "cc": "Ubuntu clang version 18.1.3 (1ubuntu1)",
+            "cc_command": "clang",
+            "configure_extra": "",
+            "pr": null,
+            "version": "8.7.0-dev",
+            "debug": false,
+            "slim": true
+          }
+        },
+        "compact-base-clang20": {
+          "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+          "sha1": "2479fffae5b6ae555283eaa61d5de46779a1bc74",
+          "sha256": "e3d809362ffcc7eca79835248bc265b39bd0096bffa65e6bd2d358f7e85aeed1",
+          "metadata": {
+            "name": "compact-base-clang20",
+            "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+            "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+            "subject": "Merge branch 'PHP-8.6'",
+            "snapshot": false,
+            "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+            "base_subject": "Merge branch 'PHP-8.6'",
+            "built_at": "2026-10-31T14:49:34+00:00",
+            "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+            "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+            "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+            "ldflags": "-Wl,-O1 -pie",
+            "profile": "docker",
+            "config_key": "1d7363572b7d241702924894eced9e166dfe2ea0",
+            "cc": "Ubuntu clang version 20.1.2 (0ubuntu1~24.04.3)",
+            "cc_command": "clang-20",
+            "configure_extra": "",
+            "pr": null,
+            "version": "8.7.0-dev",
+            "debug": false,
+            "slim": true
+          }
+        },
+        "compact-head-clang20": {
+          "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+          "sha1": "1577211fd1cee3181dd7eedbe88345254f0c9217",
+          "sha256": "32e009a7966d12532ea643eb6c03d9a0f1a73eba645d3df64f5a458313827d24",
+          "metadata": {
+            "name": "compact-head-clang20",
+            "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+            "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+            "subject": "Reduce Sunday shift-table setup for short needles",
+            "snapshot": false,
+            "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+            "base_subject": "Reduce Sunday shift-table setup for short needles",
+            "built_at": "2026-10-31T14:57:25+00:00",
+            "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+            "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+            "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+            "ldflags": "-Wl,-O1 -pie",
+            "profile": "docker",
+            "config_key": "1d7363572b7d241702924894eced9e166dfe2ea0",
+            "cc": "Ubuntu clang version 20.1.2 (0ubuntu1~24.04.3)",
+            "cc_command": "clang-20",
+            "configure_extra": "",
+            "pr": null,
+            "version": "8.7.0-dev",
+            "debug": false,
+            "slim": true
+          }
+        }
+      },
+      "modules": {
+        "base": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "head": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "unchanged_extension_sources_and_headers": true,
+        "icu_version": "74.2",
+        "private_compiler_packages": [
+          {
+            "name": "g++-14",
+            "version": "14.2.0-4ubuntu2~24.04.1",
+            "sha256": "1022aa40afd9d3c5e60a9e4172e01efc4a2854c27098d4b2f6bda7fe26748d35"
+          },
+          {
+            "name": "g++-14-x86-64-linux-gnu",
+            "version": "14.2.0-4ubuntu2~24.04.1",
+            "sha256": "437bfbb2285ef9023d80a6cbcf5054f902814239317438801fcb873c4b4de8ac"
+          },
+          {
+            "name": "libstdc++-14-dev",
+            "version": "14.2.0-4ubuntu2~24.04.1",
+            "sha256": "6d223262b8cbe6d5150435056d58dffa8159d8582fc0df47fb45ea550cd37424"
+          }
+        ],
+        "compilers": {
+          "gcc14": {
+            "cc": "gcc-14",
+            "cxx": "CAPTURE_PATH/g++-14",
+            "cflags": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+            "cxxflags": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+            "ldflags": "-Wl,-O1",
+            "configure": [
+              "./configure",
+              "--disable-all",
+              "--disable-cgi",
+              "--disable-phpdbg",
+              "--enable-cli",
+              "--enable-werror",
+              "--enable-mbstring=shared",
+              "--enable-intl=shared"
+            ],
+            "cc_version": "gcc-14 (Ubuntu 14.2.0-4ubuntu2~24.04.1) 14.2.0",
+            "cxx_version": "g++-14 (Ubuntu 14.2.0-4ubuntu2~24.04.1) 14.2.0",
+            "modules": {
+              "mbstring": {
+                "path": "CAPTURE_PATH/mbstring.so",
+                "sha256": "278218c0b805f6ba1cde406f3b97bfe3bd68956f691a38866378e9bec07e5fc1"
+              },
+              "intl": {
+                "path": "CAPTURE_PATH/intl.so",
+                "sha256": "5a8ba86e55dc80043843d6db276f969fc2e15f3758d64eafe596a38d3143c2e8"
+              }
+            }
+          },
+          "clang20": {
+            "cc": "clang-20",
+            "cxx": "clang++-20",
+            "cflags": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+            "cxxflags": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 --gcc-install-dir=/usr/lib/gcc/x86_64-linux-gnu/13",
+            "ldflags": "-Wl,-O1",
+            "configure": [
+              "./configure",
+              "--disable-all",
+              "--disable-cgi",
+              "--disable-phpdbg",
+              "--enable-cli",
+              "--enable-werror",
+              "--enable-mbstring=shared",
+              "--enable-intl=shared"
+            ],
+            "cc_version": "Ubuntu clang version 20.1.2 (0ubuntu1~24.04.3)",
+            "cxx_version": "Ubuntu clang version 20.1.2 (0ubuntu1~24.04.3)",
+            "modules": {
+              "mbstring": {
+                "path": "CAPTURE_PATH/mbstring.so",
+                "sha256": "79e7a240d97678a24503746c753454d9d659d03e4f97750350a58dee15d73cc4"
+              },
+              "intl": {
+                "path": "CAPTURE_PATH/intl.so",
+                "sha256": "e72bccc4b685217a00ab45c059b30f33285f63be4fb8a512c8416882a2efd48f"
+              }
+            }
+          },
+          "gcc13": {
+            "cc": "gcc",
+            "cxx": "g++",
+            "cflags": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+            "cxxflags": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+            "ldflags": "-Wl,-O1",
+            "configure": [
+              "./configure",
+              "--disable-all",
+              "--disable-cgi",
+              "--disable-phpdbg",
+              "--enable-cli",
+              "--enable-werror",
+              "--enable-mbstring=shared",
+              "--enable-intl=shared"
+            ],
+            "cc_version": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+            "cxx_version": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+            "modules": {
+              "mbstring": {
+                "path": "CAPTURE_PATH/mbstring.so",
+                "sha256": "f9543999f5308937af99bd41d9e433e3dde5e045ee5817fc4ce1306b297fb17a"
+              },
+              "intl": {
+                "path": "CAPTURE_PATH/intl.so",
+                "sha256": "458fde000ecff43dc3af1ce263f4c7f2eeadb27f4afd0c2aca15e8dcbd4d094f"
+              }
+            }
+          },
+          "clang18": {
+            "cc": "clang",
+            "cxx": "clang++",
+            "cflags": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+            "cxxflags": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 --gcc-install-dir=/usr/lib/gcc/x86_64-linux-gnu/13",
+            "ldflags": "-Wl,-O1",
+            "configure": [
+              "./configure",
+              "--disable-all",
+              "--disable-cgi",
+              "--disable-phpdbg",
+              "--enable-cli",
+              "--enable-werror",
+              "--enable-mbstring=shared",
+              "--enable-intl=shared"
+            ],
+            "cc_version": "Ubuntu clang version 18.1.3 (1ubuntu1)",
+            "cxx_version": "Ubuntu clang version 18.1.3 (1ubuntu1)",
+            "modules": {
+              "mbstring": {
+                "path": "CAPTURE_PATH/mbstring.so",
+                "sha256": "1ab405f6775108a514e9014993c6486d545d0b60178b94a462b9fede3e2191cc"
+              },
+              "intl": {
+                "path": "CAPTURE_PATH/intl.so",
+                "sha256": "24b143f7fcc3ace1b2125e0936e9eb58b343ce76c6e0f67196510916ac031345"
+              }
+            }
+          }
+        }
+      },
+      "fixture_hashes": {
+        "coverage.md": "b60faaf706026b49597d5650bb6f1bbf2637dfe6fc9f506c6b39baca04c8a460",
+        "README.md": "09f101f990824d40bdf1c19bf27fa789ab28f79506135b0a0888832db23474b7",
+        "tools/validate.php": "8d382308d4a2e324249f6c5d0a2ad4e677ba0ea1d1214945cc0199c273da45d0",
+        "tools/applications.py": "3b548477efb5c14ee791285f2121bce07cd351f0364662526142952322b05514",
+        "tools/load.php": "aef8bdd0cec9831104379bb760cf86f0f246cf1f29fda582c481f5649c5c26e4",
+        "tools/functions.php": "eeebf2a38635b4eb956cbe867a81b6b15f76b942cbd84f3ef5fa443011aa18ff",
+        "tools/check.py": "1c0b1d72f010ce84aeb31134af84824dd74caf83b0a4bceb90104d8794216214",
+        "tools/generate.py": "941b850b0249aaef3f84bcb4fe0e0e2b6a1625cae6c25cca0ce2ecf02077fc43",
+        "tools/texts.json": "1477c65f797673460af8de6a67da07806b3711501fa65c99221330d000928458",
+        "suites/stream-get-line.php": "0a1aac06d82be68e1c23596a80da7a070902d7acd5b06cd9b14adc73ad37b777",
+        "suites/intl-ascii.php": "ea8e23d7fd609543200916466f70a00e5e0e281c72ade708a9af78c7cd638751",
+        "suites/controls-prefix.php": "e4ad9fa5ef33326d7cecd170af17a550d3f1b5f39e6182e9188769992eb8c8bd",
+        "suites/replace.php": "9c4a9db61702165f3073b79c14daaec8d0d3c6b63ccefedd054a0bf326289511",
+        "suites/search.php": "23f1b26d91680d79cd6d286fde95a3ab02fe3a152220f0594dab9fe22a377067",
+        "suites/documents-repeated.php": "6e23756539a75b601287935909af06e32d5a666ec544139580525a4d05e4f9cf",
+        "suites/documents-moderation.php": "8af74993c972ba9a6cb04b91b14a263b3538cc294af8cdd83cac32e11ca9067b",
+        "suites/explode.php": "342d0ec5110a59415e1f81cbc6e01ed8d5ad62e3fdd0936c79ec91e0bd3a3945",
+        "suites/moderation-short.php": "bf347acb6cdb20c50c010b60f4a83be7a4350e9ca42a926a8d3f7a9af0d966a1",
+        "suites/documents-mail.php": "4411f410662b2bfc0c63c3264bb15f356b8f06b30f6ec441a6a3369dc394cc91",
+        "suites/moderation-medium.php": "1d17c2a8e86bac9468206731c8248684374bda9cd51a0c68a00a911e18f0d734",
+        "suites/controls-routing.php": "7cde36f1be7aa9dc45a9e589c0c609fa666e0c870b367ad5b4717b88648810af",
+        "suites/mbstring.php": "d79b27705ccb03d0ff99dfa9c59297c8f9f4f924a894bcda3afada22f7749053",
+        "suites/controls-lengths.php": "22cfff2e18d2758e1391e4eb438582f3a5e4db9852e0bbdbfa5c3c684422f35c",
+        "suites/search-long.php": "bcd0139aec6d775f2201dcaf0fb641d0b018930bfa7e0cf53cd334038b230a09",
+        "suites/documents-replace.php": "08353fb8c0c5cd6796e576911494788802a8193926fb0a0e926499ccb6ac5eeb",
+        "suites/moderation-long.php": "f11d1b50396ea8d48d62234d12a457aa06ed4c272c4113590fb1ff8d81686e63",
+        "suites/documents-count.php": "d7a52ba0fbe7c8123e5f22bbbc28723dff26a5e776f78e075f97576b58ff1619",
+        "suites/substr-count.php": "d7e2cf905574fd1cc1863ce76db4f409b22d7ff5190475cba767e82a6ebad529",
+        "suites/documents-search.php": "630b31407c85e7ae69f2646f6361a12230e0f69a379a088477961a65795d6d7a",
+        "corpus/documents-replace.json": "28c41b54fcd5ab444505c7fff3d8dda1fcf1b55951c557bef1d8c3b580223a30",
+        "corpus/index.json": "f9c5907940928b6b034f6407e09450ce2e1dd003fdb74a244307b8d634936a37",
+        "corpus/search.json": "f76a0e6c001f0b18a4dd99cd105e2ddfd966f39a029258a7c4453837934de4a6",
+        "corpus/documents-moderation.json": "db2c2d41567ecb444c42ef5c4962ed477c5e0e36229bfa912bebcc30220067f7",
+        "corpus/stream-get-line.json": "d9cc96432a589fb3ac0613bbada14b940bdf71e6e8faa1ec2750e9dc79f77cfd",
+        "corpus/moderation-long.json": "b3bdeb73fa962e3c13b22c14dd31adea5ac0917b2d13e0d2a411ec9b688aadd2",
+        "corpus/documents-count.json": "e24a201f23f018394649edce5346ba59c8b4cb77fca817e3ca82289836b5e415",
+        "corpus/substr-count.json": "bd7d17ef5dba1be6c62b60c55f086b685831b612b180466da95d8ea39c412e8a",
+        "corpus/documents-mail.json": "ffca16e3b1654f251deb1a4ac5c6d3134ca52bc6347cef7711b8064aa67937e2",
+        "corpus/intl-ascii.json": "be30cd20e62b93b6cc127500e75428123f9e9a3de323925ec19c82d2da15d250",
+        "corpus/documents-search.json": "bb58d8034ffd366425d98abae887a77e44decd6f567ff872d23ae6cfeb3af490",
+        "corpus/search-long.json": "d873c6b825d3b48c1c823122355ef685b6b1214821032929e66440bfe22b9397",
+        "corpus/moderation-medium.json": "dfedec4dbbe79a0a7f8430c9e0b048a92ef27038319bf7243445960a839782a0",
+        "corpus/controls-routing.json": "d2b6610f8cf711fc96c8f923e2125980079322ea0656187c729d10d48952e28f",
+        "corpus/controls-lengths.json": "9a2491633bc59d9a393107f3e2f27903118b998bd4b8ca8b7c46f8c60df624c0",
+        "corpus/README.md": "cb57d8e3e2bbf2b4398804c79fdab347e061a63b4bfc4fe4a88a87dd4df97102",
+        "corpus/moderation-short.json": "a17bda0f7f543c1d554d7c31755a5cf702fab421362961be564cd18f57c97813",
+        "corpus/controls-prefix.json": "9ecedf37ac67d46d242b3251bd7c25bec8e070f76ddd5bc6eeee122c0f676379",
+        "corpus/mbstring.json": "a85cbe9d70fe606bc1586c1ffadea2a5a773f605159ac75ff43a3aac2fcfb109",
+        "corpus/documents-repeated.json": "6a6e255b59bc4147b1c18c619388bf79fbfb6319add2bb755bc09f6aa6c174f9",
+        "corpus/replace.json": "7af28fe396454bd929dc1b1de6ed477fe6f10ae7899163b3077d4bdd32237c92",
+        "corpus/explode.json": "d442a823a52029527b9dd6fa0beb3319840eb558adf2daec9a67fda0ee996cd4"
+      },
+      "protocol": {
+        "elapsed": {
+          "rounds": 5,
+          "samples": 5,
+          "target_ms": 200,
+          "warmup_ms": 500
+        },
+        "counter_passes": 5,
+        "counter_target_ms": 50,
+        "cpu": 2,
+        "corpus_sha256": "f9c5907940928b6b034f6407e09450ce2e1dd003fdb74a244307b8d634936a37"
+      }
+    }
+  },
+  "supplemental_suite": {
+    "file": "suites/prefix-default-offset.php",
+    "sha256": "b1a1d7c514757ad289dd4bbc422e54753fd606698c35d9794b7ada8acbc65027",
+    "scope": "Two additional diagnostic comparisons; outside the 205-case corpus"
+  },
+  "measured_tree": {
+    "master": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+    "measured_candidate": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+    "branch_candidate": "9d99948ae82c2c43db0d89f51e0c10bb37583663",
+    "candidate_tree": "08d401e0e4c8737284e03ef8c021752d74987675",
+    "identical_source_tree": true
+  }
+}

@@ -1,0 +1,7145 @@
+{
+  "format": 2,
+  "kind": "compare",
+  "harness": 2,
+  "date": "2026-11-01T03:08:43+00:00",
+  "suite": "reports/compact-sunday/suites/controls-routing.php",
+  "elapsed_s": 293.3,
+  "complete": true,
+  "config": {
+    "passes": 5,
+    "cpu": 15,
+    "target_ms": 50,
+    "filter": null,
+    "control": true,
+    "wait_idle": 120,
+    "events": "cycles:u,instructions:u"
+  },
+  "env": {
+    "cpu_model": "AMD Ryzen 9 5950X 16-Core Processor",
+    "kernel": "7.0.0-38-generic",
+    "cpu": 15,
+    "cpu_siblings": "15,31",
+    "hybrid_pcores": null,
+    "cpu_is_pcore": null,
+    "governor": "performance",
+    "epp": "performance",
+    "turbo": true,
+    "on_ac": null,
+    "load": 0.31494140625,
+    "busy_pct": {
+      "15": 0,
+      "31": 0
+    },
+    "idle_cpu": 1
+  },
+  "groups": [
+    {
+      "name": "aa",
+      "a": "compact-base-gcc15",
+      "b": "compact-base-gcc15"
+    },
+    {
+      "name": "gcc15",
+      "a": "compact-base-gcc15",
+      "b": "compact-head-gcc15"
+    },
+    {
+      "name": "clang21",
+      "a": "compact-base-clang21",
+      "b": "compact-head-clang21"
+    },
+    {
+      "name": "aa2",
+      "a": "compact-base-gcc15",
+      "b": "compact-base-gcc15"
+    }
+  ],
+  "builds": {
+    "compact-base-gcc15": {
+      "php": "BUILD_DIR/compact-base-gcc15/sapi/cli/php",
+      "build": {
+        "name": "compact-base-gcc15",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:43:27+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-gcc15/sapi/cli/php"
+      },
+      "sha1": "962804b78072507bf9e2d5006aad239718872788"
+    },
+    "compact-head-gcc15": {
+      "php": "BUILD_DIR/compact-head-gcc15/sapi/cli/php",
+      "build": {
+        "name": "compact-head-gcc15",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:45:00+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-gcc15/sapi/cli/php"
+      },
+      "sha1": "119eb9050525232350b88606c134772a58b1c579"
+    },
+    "compact-base-clang21": {
+      "php": "BUILD_DIR/compact-base-clang21/sapi/cli/php",
+      "build": {
+        "name": "compact-base-clang21",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:44:13+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang-21",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-clang21/sapi/cli/php"
+      },
+      "sha1": "c33890a4894d3839f124ea0c422c5d1f2607bbef"
+    },
+    "compact-head-clang21": {
+      "php": "BUILD_DIR/compact-head-clang21/sapi/cli/php",
+      "build": {
+        "name": "compact-head-clang21",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:45:46+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang-21",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-clang21/sapi/cli/php"
+      },
+      "sha1": "3f96b0e59e376ce2f730c99c2b01fad1a484a268"
+    }
+  },
+  "sources": {
+    "suite": "d4a61369227a15a0802940c3ef90172c6172c7f1",
+    "harness": "c3113f45c2a11bcb63f0b1fb7a4e44ef6843325d",
+    "corpus": "e5c81343e158d86e921e121508cb8b101980f980"
+  },
+  "machine_warnings": [
+    "turbo boost is on: thermal and frequency drift between rounds (sudo CAPTURE_PATH/bench tune on)"
+  ],
+  "cases": {
+    "controls/haystack-1023/absent @ controls-haystack-1023-absent": {
+      "input_len": 1023,
+      "input_chars": 1023,
+      "n": 276948
+    },
+    "controls/haystack-1023/origin @ controls-haystack-1023-origin": {
+      "input_len": 1023,
+      "input_chars": 1023,
+      "n": 3054833
+    },
+    "controls/haystack-1024/absent @ controls-haystack-1024-absent": {
+      "input_len": 1024,
+      "input_chars": 1024,
+      "n": 251287
+    },
+    "controls/haystack-1024/origin @ controls-haystack-1024-origin": {
+      "input_len": 1024,
+      "input_chars": 1024,
+      "n": 1839799
+    },
+    "controls/haystack-1025/absent @ controls-haystack-1025-absent": {
+      "input_len": 1025,
+      "input_chars": 1025,
+      "n": 251110
+    },
+    "controls/haystack-1025/origin @ controls-haystack-1025-origin": {
+      "input_len": 1025,
+      "input_chars": 1025,
+      "n": 1834401
+    },
+    "controls/needle-8/absent @ controls-needle-8-absent": {
+      "input_len": 4096,
+      "input_chars": 4096,
+      "n": 57199
+    },
+    "controls/needle-8/origin @ controls-needle-8-origin": {
+      "input_len": 4096,
+      "input_chars": 4096,
+      "n": 3173025
+    },
+    "controls/needle-9/absent @ controls-needle-8-absent": {
+      "input_len": 4096,
+      "input_chars": 4096,
+      "n": 42799
+    },
+    "controls/needle-9/origin @ controls-needle-9-origin": {
+      "input_len": 4096,
+      "input_chars": 4096,
+      "n": 2120265
+    },
+    "controls/needle-31/absent @ controls-needle-8-absent": {
+      "input_len": 4096,
+      "input_chars": 4096,
+      "n": 113767
+    },
+    "controls/needle-31/origin @ controls-needle-31-origin": {
+      "input_len": 4096,
+      "input_chars": 4096,
+      "n": 1453931
+    },
+    "controls/needle-32/absent @ controls-needle-8-absent": {
+      "input_len": 4096,
+      "input_chars": 4096,
+      "n": 107156
+    },
+    "controls/needle-32/origin @ controls-needle-32-origin": {
+      "input_len": 4096,
+      "input_chars": 4096,
+      "n": 1434913
+    },
+    "controls/needle-64/absent @ controls-needle-8-absent": {
+      "input_len": 4096,
+      "input_chars": 4096,
+      "n": 215051
+    },
+    "controls/needle-256/absent @ controls-needle-8-absent": {
+      "input_len": 4096,
+      "input_chars": 4096,
+      "n": 424661
+    },
+    "controls/remaining-1023/absent @ controls-remaining-1023-absent": {
+      "input_len": 3072,
+      "input_chars": 3072,
+      "n": 226619
+    },
+    "controls/remaining-1024/absent @ controls-remaining-1023-absent": {
+      "input_len": 3072,
+      "input_chars": 3072,
+      "n": 256575
+    },
+    "controls/stream/buffer-seam @ controls-stream-buffer-seam": {
+      "input_len": 12299,
+      "input_chars": 12299,
+      "n": 33185
+    }
+  },
+  "warnings": [],
+  "marks": [],
+  "rows": [
+    [
+      "aa",
+      "a",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      246497296,
+      592529892,
+      10744795,
+      22563661
+    ],
+    [
+      "aa",
+      "b",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      245909414,
+      592529381,
+      10767592,
+      22561434
+    ],
+    [
+      "aa",
+      "b",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      246190369,
+      592528382,
+      10809742,
+      22564104
+    ],
+    [
+      "aa",
+      "a",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      246958704,
+      592527601,
+      10667060,
+      22561269
+    ],
+    [
+      "aa",
+      "a",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      245883260,
+      592530236,
+      10761612,
+      22561846
+    ],
+    [
+      "aa",
+      "b",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      246093462,
+      592527784,
+      10797095,
+      22560441
+    ],
+    [
+      "aa",
+      "b",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      246636762,
+      592527138,
+      10741596,
+      22561376
+    ],
+    [
+      "aa",
+      "a",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      249986494,
+      592530509,
+      10762069,
+      22561111
+    ],
+    [
+      "aa",
+      "a",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      249718150,
+      592527404,
+      10792143,
+      22561953
+    ],
+    [
+      "aa",
+      "b",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      248429809,
+      592527709,
+      10755405,
+      22563846
+    ],
+    [
+      "aa",
+      "a",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      244515984,
+      796572784,
+      37146452,
+      103117274
+    ],
+    [
+      "aa",
+      "b",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      244521354,
+      796574872,
+      37189735,
+      103117869
+    ],
+    [
+      "aa",
+      "b",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      244948415,
+      796572090,
+      36927340,
+      103118140
+    ],
+    [
+      "aa",
+      "a",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      244495836,
+      796574801,
+      36986272,
+      103117601
+    ],
+    [
+      "aa",
+      "a",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      244533249,
+      796572541,
+      36927229,
+      103118712
+    ],
+    [
+      "aa",
+      "b",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      247968300,
+      796572784,
+      36487710,
+      103120262
+    ],
+    [
+      "aa",
+      "b",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      244475883,
+      796572779,
+      37178525,
+      103118387
+    ],
+    [
+      "aa",
+      "a",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      244526424,
+      796573098,
+      37183713,
+      103120010
+    ],
+    [
+      "aa",
+      "a",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      245057919,
+      796573611,
+      36785484,
+      103117662
+    ],
+    [
+      "aa",
+      "b",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      244498414,
+      796573197,
+      37161022,
+      103117684
+    ],
+    [
+      "aa",
+      "a",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      249318390,
+      461325097,
+      10596025,
+      21816371
+    ],
+    [
+      "aa",
+      "b",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      250036188,
+      461324955,
+      10472897,
+      21817489
+    ],
+    [
+      "aa",
+      "b",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      249700987,
+      461325231,
+      10597575,
+      21816649
+    ],
+    [
+      "aa",
+      "a",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      249564308,
+      461328103,
+      10510453,
+      21816496
+    ],
+    [
+      "aa",
+      "a",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      249225836,
+      461325909,
+      10491419,
+      21816792
+    ],
+    [
+      "aa",
+      "b",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      248854036,
+      461325557,
+      10563599,
+      21816869
+    ],
+    [
+      "aa",
+      "b",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      249755908,
+      461325728,
+      10562024,
+      21816228
+    ],
+    [
+      "aa",
+      "a",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      250184675,
+      461324235,
+      10444435,
+      21816692
+    ],
+    [
+      "aa",
+      "a",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      249028956,
+      461327148,
+      10547653,
+      21815911
+    ],
+    [
+      "aa",
+      "b",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      250967046,
+      461325233,
+      10515968,
+      21816480
+    ],
+    [
+      "aa",
+      "a",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      244515432,
+      1109218069,
+      25598780,
+      67882704
+    ],
+    [
+      "aa",
+      "b",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      243998316,
+      1109215601,
+      25649013,
+      67882357
+    ],
+    [
+      "aa",
+      "b",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      259039233,
+      1109219006,
+      25651750,
+      67884764
+    ],
+    [
+      "aa",
+      "a",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      244158006,
+      1109217716,
+      25341023,
+      67883613
+    ],
+    [
+      "aa",
+      "a",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      244706887,
+      1109216947,
+      25491359,
+      67882393
+    ],
+    [
+      "aa",
+      "b",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      244826154,
+      1109216182,
+      25380844,
+      67885234
+    ],
+    [
+      "aa",
+      "b",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      244919701,
+      1109216111,
+      25592206,
+      67884281
+    ],
+    [
+      "aa",
+      "a",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      249637048,
+      1109218884,
+      25277263,
+      67881694
+    ],
+    [
+      "aa",
+      "a",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      245011760,
+      1109215789,
+      25525951,
+      67882661
+    ],
+    [
+      "aa",
+      "b",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      245363142,
+      1109216313,
+      25357463,
+      67883251
+    ],
+    [
+      "aa",
+      "a",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      249351608,
+      461010840,
+      10523695,
+      21811474
+    ],
+    [
+      "aa",
+      "b",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      250432643,
+      461010590,
+      10525786,
+      21811500
+    ],
+    [
+      "aa",
+      "b",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      249216237,
+      461010494,
+      10510014,
+      21811939
+    ],
+    [
+      "aa",
+      "a",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      249566029,
+      461010323,
+      10527747,
+      21812004
+    ],
+    [
+      "aa",
+      "a",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      248986359,
+      461010573,
+      10555793,
+      21813721
+    ],
+    [
+      "aa",
+      "b",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      250240799,
+      461010532,
+      10523420,
+      21811478
+    ],
+    [
+      "aa",
+      "b",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      249374174,
+      461009845,
+      10513590,
+      21811785
+    ],
+    [
+      "aa",
+      "a",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      249694899,
+      461009870,
+      10542127,
+      21814054
+    ],
+    [
+      "aa",
+      "a",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      250239353,
+      461013187,
+      10487412,
+      21814605
+    ],
+    [
+      "aa",
+      "b",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      249610808,
+      461012944,
+      10536714,
+      21811602
+    ],
+    [
+      "aa",
+      "a",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      243781441,
+      1106004765,
+      25515772,
+      67725815
+    ],
+    [
+      "aa",
+      "b",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      244608370,
+      1106004216,
+      25439374,
+      67725977
+    ],
+    [
+      "aa",
+      "b",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      244146447,
+      1106004390,
+      25584812,
+      67726866
+    ],
+    [
+      "aa",
+      "a",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      243817717,
+      1106007702,
+      25203751,
+      67726194
+    ],
+    [
+      "aa",
+      "a",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      244295349,
+      1106004091,
+      25603422,
+      67728109
+    ],
+    [
+      "aa",
+      "b",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      243576124,
+      1106004571,
+      25390402,
+      67725214
+    ],
+    [
+      "aa",
+      "b",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      244070527,
+      1106006313,
+      25413346,
+      67726471
+    ],
+    [
+      "aa",
+      "a",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      244460335,
+      1106004192,
+      25496289,
+      67726421
+    ],
+    [
+      "aa",
+      "a",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      244046398,
+      1106006474,
+      25635589,
+      67726356
+    ],
+    [
+      "aa",
+      "b",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      243566910,
+      1106004217,
+      25603022,
+      67726086
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      244806807,
+      496939710,
+      8676422,
+      16231572
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      244645774,
+      496941660,
+      8723499,
+      16231938
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      244219217,
+      496942369,
+      8710032,
+      16231850
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      244637402,
+      496939398,
+      8705619,
+      16233998
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      244177879,
+      496939984,
+      8736233,
+      16233742
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      244113072,
+      496939770,
+      8703259,
+      16231197
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      244794593,
+      496941861,
+      8699598,
+      16231809
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      244254480,
+      496940152,
+      8689623,
+      16231273
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      249950132,
+      496939848,
+      8902063,
+      16231942
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      244745489,
+      496942521,
+      8699584,
+      16231200
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      250439755,
+      833212510,
+      38055031,
+      106585855
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      253592600,
+      833214955,
+      38313991,
+      106582086
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      250711283,
+      833213116,
+      38058469,
+      106583009
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      250431994,
+      833213325,
+      38056695,
+      106582041
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      253604867,
+      833212239,
+      37967059,
+      106584244
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      250909859,
+      833212303,
+      37760077,
+      106583273
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      250522270,
+      833215250,
+      38094380,
+      106584724
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      250451663,
+      833212444,
+      38354102,
+      106582383
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      253571813,
+      833212116,
+      38120141,
+      106582671
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      250439426,
+      833211858,
+      38057461,
+      106582485
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      246805689,
+      367972027,
+      8565575,
+      15814373
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      247431705,
+      367972112,
+      8534389,
+      15813988
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      251008439,
+      367974009,
+      8639409,
+      15817276
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      246766684,
+      367971193,
+      8614984,
+      15814079
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      247341160,
+      367972091,
+      8556931,
+      15815982
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      246894519,
+      367971917,
+      8609176,
+      15814343
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      246916081,
+      367972095,
+      8630824,
+      15814050
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      247328237,
+      367971583,
+      8506009,
+      15814196
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      246909585,
+      367971727,
+      8568772,
+      15813970
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      246829888,
+      367973532,
+      8600750,
+      15814438
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      249384418,
+      1083188446,
+      27967839,
+      76053047
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      248904189,
+      1083188777,
+      28309030,
+      76052674
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      248913375,
+      1083185461,
+      28116032,
+      76053623
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      249334572,
+      1083185569,
+      28258905,
+      76052909
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      248932109,
+      1083185840,
+      27885585,
+      76055418
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      251916748,
+      1083188572,
+      28252637,
+      76052411
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      249474135,
+      1083185658,
+      28188784,
+      76055356
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      248901305,
+      1083185949,
+      28344482,
+      76052359
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      248909539,
+      1083188072,
+      28310185,
+      76053140
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      249472791,
+      1083185734,
+      28011210,
+      76053966
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      248152697,
+      407985496,
+      9221488,
+      17870675
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      247618636,
+      407985922,
+      9270314,
+      17869630
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      248702491,
+      407981639,
+      9208348,
+      17869726
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      247682031,
+      407982112,
+      9275761,
+      17867319
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      248174634,
+      407982469,
+      9205098,
+      17870341
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      248261398,
+      407983015,
+      9202983,
+      17869988
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      247612905,
+      407983061,
+      9214825,
+      17867768
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      248137751,
+      407984908,
+      9281996,
+      17867598
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      248531167,
+      407984981,
+      9232076,
+      17868070
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      248197644,
+      407982481,
+      9270179,
+      17868502
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      273046200,
+      1163178888,
+      21964864,
+      56729838
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      266808856,
+      1163179616,
+      21915750,
+      56729668
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      274941815,
+      1163178696,
+      22045194,
+      56730747
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      273660816,
+      1163178382,
+      21760068,
+      56729500
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      273830635,
+      1163178630,
+      21942979,
+      56732847
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      251062705,
+      1163179343,
+      21992195,
+      56732035
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      273572107,
+      1163178953,
+      21986801,
+      56729708
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      264407416,
+      1163179125,
+      21642128,
+      56730526
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      246597913,
+      1163179991,
+      21911590,
+      56730774
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      271845122,
+      1163182255,
+      21975451,
+      56729663
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      246835705,
+      396161529,
+      9134416,
+      17676400
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      246354545,
+      396162089,
+      9237169,
+      17677111
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      248310106,
+      396159498,
+      9163717,
+      17676150
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      247037871,
+      396159362,
+      9150157,
+      17676097
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      246450335,
+      396161409,
+      9190333,
+      17676092
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      246570650,
+      396159292,
+      9156488,
+      17676530
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      246909699,
+      396158428,
+      9134564,
+      17675305
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      246226955,
+      396159541,
+      9353960,
+      17675860
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      246332764,
+      396162423,
+      9141475,
+      17675963
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      247060786,
+      396159120,
+      9130432,
+      17678786
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      246525169,
+      1166809347,
+      21658558,
+      56178964
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      250476914,
+      1166811770,
+      21755783,
+      56181090
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      247119227,
+      1166809014,
+      21753680,
+      56181042
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      246562907,
+      1166809308,
+      21701801,
+      56178290
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      246416962,
+      1166809455,
+      21726054,
+      56178150
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      247008603,
+      1166811015,
+      21751956,
+      56178167
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      246666180,
+      1166808873,
+      21807589,
+      56181917
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      246080797,
+      1166808339,
+      21773664,
+      56177674
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      247026879,
+      1166809721,
+      21743786,
+      56178632
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      246823825,
+      1166808740,
+      21827195,
+      56178942
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      247485824,
+      492420041,
+      10196750,
+      20806927
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      247140698,
+      492421471,
+      10152497,
+      20804739
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      247599377,
+      492422133,
+      10171050,
+      20804534
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      247261269,
+      492422688,
+      10244027,
+      20804413
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      249393900,
+      492420497,
+      10183396,
+      20805001
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      247154938,
+      492422481,
+      10250908,
+      20805118
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      247461119,
+      492419675,
+      10206501,
+      20805725
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      248000250,
+      492419835,
+      10185037,
+      20806691
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      247199567,
+      492419104,
+      10190580,
+      20804869
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      248144964,
+      492420210,
+      10211839,
+      20804600
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      247900183,
+      1049909508,
+      12121253,
+      26888109
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      246715468,
+      1049909236,
+      12180180,
+      26891228
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      247912334,
+      1049909953,
+      12131795,
+      26887912
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      247744126,
+      1049909855,
+      12156004,
+      26887617
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      247789960,
+      1049909349,
+      12221943,
+      26887572
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      247271359,
+      1049912057,
+      12407777,
+      26886940
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      248015864,
+      1049909556,
+      12096409,
+      26887214
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      247625631,
+      1049909910,
+      12237189,
+      26888345
+    ],
+    [
+      "aa",
+      "a",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      248729375,
+      1049909815,
+      12213847,
+      26887820
+    ],
+    [
+      "aa",
+      "b",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      248507893,
+      1049909942,
+      12180915,
+      26890447
+    ],
+    [
+      "aa",
+      "a",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      253465025,
+      597653190,
+      10340688,
+      21128187
+    ],
+    [
+      "aa",
+      "b",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      253827280,
+      597655587,
+      10337826,
+      21127108
+    ],
+    [
+      "aa",
+      "b",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      251955055,
+      597655412,
+      10229724,
+      21127531
+    ],
+    [
+      "aa",
+      "a",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      253214202,
+      597656238,
+      10287801,
+      21127081
+    ],
+    [
+      "aa",
+      "a",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      253108444,
+      597653194,
+      10290088,
+      21127127
+    ],
+    [
+      "aa",
+      "b",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      247740634,
+      597653479,
+      10240868,
+      21126728
+    ],
+    [
+      "aa",
+      "b",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      255517492,
+      597656374,
+      10324198,
+      21127848
+    ],
+    [
+      "aa",
+      "a",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      253988625,
+      597653252,
+      10354348,
+      21127216
+    ],
+    [
+      "aa",
+      "a",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      254009605,
+      597652620,
+      10222150,
+      21129924
+    ],
+    [
+      "aa",
+      "b",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      252170313,
+      597653780,
+      10403273,
+      21127022
+    ],
+    [
+      "aa",
+      "a",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      249143814,
+      443812057,
+      10585902,
+      21995299
+    ],
+    [
+      "aa",
+      "b",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      248108445,
+      443811248,
+      10519574,
+      21994505
+    ],
+    [
+      "aa",
+      "b",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      247688796,
+      443813957,
+      10579515,
+      21995170
+    ],
+    [
+      "aa",
+      "a",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      247482375,
+      443812311,
+      10618138,
+      21994792
+    ],
+    [
+      "aa",
+      "a",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      249107182,
+      443811830,
+      10571956,
+      21997380
+    ],
+    [
+      "aa",
+      "b",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      249629528,
+      443811847,
+      10631563,
+      21996964
+    ],
+    [
+      "aa",
+      "b",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      248327757,
+      443811437,
+      10549307,
+      21994635
+    ],
+    [
+      "aa",
+      "a",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      248223314,
+      443811943,
+      10550348,
+      21996638
+    ],
+    [
+      "aa",
+      "a",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      247697246,
+      443814739,
+      10647484,
+      21994490
+    ],
+    [
+      "aa",
+      "b",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      247682058,
+      443811686,
+      10550385,
+      21995232
+    ],
+    [
+      "aa",
+      "a",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      244425618,
+      399119272,
+      8555094,
+      15753458
+    ],
+    [
+      "aa",
+      "b",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      247096234,
+      399119865,
+      8611314,
+      15756409
+    ],
+    [
+      "aa",
+      "b",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      244118203,
+      399122077,
+      8641064,
+      15754261
+    ],
+    [
+      "aa",
+      "a",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      244179521,
+      399120073,
+      8566266,
+      15753808
+    ],
+    [
+      "aa",
+      "a",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      244306359,
+      399119483,
+      8599136,
+      15754514
+    ],
+    [
+      "aa",
+      "b",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      244097468,
+      399119174,
+      8545455,
+      15754826
+    ],
+    [
+      "aa",
+      "b",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      244881368,
+      399119354,
+      8569927,
+      15753858
+    ],
+    [
+      "aa",
+      "a",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      243880643,
+      399119722,
+      8651107,
+      15754089
+    ],
+    [
+      "aa",
+      "a",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      244077512,
+      399122581,
+      8574922,
+      15753686
+    ],
+    [
+      "aa",
+      "b",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      243919772,
+      399119843,
+      8559915,
+      15753962
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      247007530,
+      592530306,
+      10761721,
+      22561344
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      245927435,
+      592527625,
+      10708934,
+      22560805
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      246806830,
+      592527713,
+      10728530,
+      22561596
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      245867575,
+      592527868,
+      10757668,
+      22561568
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      247791187,
+      592527314,
+      10779002,
+      22561706
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      246640883,
+      592530448,
+      10736309,
+      22561382
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      250058073,
+      592527051,
+      10688300,
+      22563720
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      247829274,
+      592529702,
+      10796344,
+      22561211
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      246375544,
+      592527548,
+      10802950,
+      22561464
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      246921558,
+      592529980,
+      10784923,
+      22561079
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      247531257,
+      796573751,
+      37190552,
+      103117496
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      244576445,
+      796573082,
+      36710910,
+      103118561
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      244596470,
+      796572476,
+      36934596,
+      103120137
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      244498608,
+      796572585,
+      37211221,
+      103118325
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      244973769,
+      796572588,
+      37148761,
+      103117216
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      244591506,
+      796572583,
+      36680688,
+      103117684
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      244571258,
+      796574848,
+      36683474,
+      103118773
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      245070332,
+      796572842,
+      36432723,
+      103118119
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      244472681,
+      796572136,
+      37119427,
+      103117543
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      246056585,
+      796574602,
+      36982054,
+      103119960
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      249702843,
+      461324155,
+      10532400,
+      21816379
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      227908582,
+      425390872,
+      10526640,
+      21819868
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      228074498,
+      425391516,
+      10534034,
+      21816454
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      250827747,
+      461327006,
+      10537381,
+      21817045
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      249318844,
+      461324971,
+      10569257,
+      21816847
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      227513303,
+      425393230,
+      10531148,
+      21816622
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      227657555,
+      425390213,
+      10534403,
+      21816787
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      248983671,
+      461325574,
+      10518576,
+      21815941
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      249552588,
+      461325276,
+      10518097,
+      21815727
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      227325592,
+      425391722,
+      10497160,
+      21816448
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      244023291,
+      1109215512,
+      25470110,
+      67883022
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      191470909,
+      846124701,
+      25540053,
+      67884760
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      221219578,
+      846126315,
+      25574962,
+      67881816
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      244544572,
+      1109219433,
+      25624421,
+      67882387
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      246909420,
+      1109219185,
+      25409258,
+      67881863
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      191953766,
+      846125535,
+      25419026,
+      67882090
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      191459998,
+      846124917,
+      25628635,
+      67882171
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      244765014,
+      1109218292,
+      25453355,
+      67882457
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      244653417,
+      1109215738,
+      25337695,
+      67882676
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      191636390,
+      846124970,
+      25646709,
+      67884193
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      248952915,
+      461009949,
+      10557326,
+      21812057
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      228091807,
+      425101882,
+      10481304,
+      21811059
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      226336296,
+      425101675,
+      10536751,
+      21812095
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      249288154,
+      461010493,
+      10589344,
+      21813894
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      249775440,
+      461013127,
+      10507523,
+      21812149
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      227585973,
+      425101646,
+      10464927,
+      21812028
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      224965885,
+      425103424,
+      10539191,
+      21813943
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      249575017,
+      461010116,
+      10486126,
+      21811426
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      248989039,
+      461010305,
+      10501295,
+      21814023
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      226735844,
+      425104772,
+      10544301,
+      21811463
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      244157513,
+      1106003731,
+      25559190,
+      67727300
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      190942776,
+      843685148,
+      25364560,
+      67725869
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      194356134,
+      843685084,
+      25338834,
+      67725583
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      244456366,
+      1106004483,
+      25526816,
+      67726570
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      244019534,
+      1106006744,
+      25627929,
+      67726366
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      191361797,
+      843684421,
+      25368446,
+      67725052
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      191567606,
+      843684835,
+      25290380,
+      67728379
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      244850553,
+      1106005305,
+      25618487,
+      67726354
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      245503602,
+      1106003895,
+      25577924,
+      67726261
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      191679536,
+      843685014,
+      25484466,
+      67728381
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      244224172,
+      496939983,
+      8748360,
+      16234399
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      245138749,
+      496939819,
+      8689465,
+      16234265
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      245155732,
+      496938967,
+      8685472,
+      16231894
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      244257833,
+      496939826,
+      8756383,
+      16234555
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      244200650,
+      496941825,
+      8691013,
+      16231477
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      245094814,
+      496939161,
+      8662309,
+      16232211
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      244302146,
+      496940634,
+      8686444,
+      16231634
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      244232443,
+      496939304,
+      8684932,
+      16231511
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      244650346,
+      496939324,
+      8667565,
+      16230933
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      244246509,
+      496940010,
+      8681501,
+      16234472
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      250446597,
+      833215165,
+      38179905,
+      106582417
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      253597494,
+      833212466,
+      37967668,
+      106584980
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      253869839,
+      833214858,
+      38328762,
+      106582451
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      250436677,
+      833213587,
+      38122876,
+      106583081
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      250442614,
+      833212829,
+      37974563,
+      106583010
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      253442590,
+      833212280,
+      37972577,
+      106582313
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      239699318,
+      833214047,
+      38092179,
+      106581963
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      250958933,
+      833211828,
+      37962082,
+      106582461
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      253587052,
+      833212423,
+      37972834,
+      106584874
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      251287324,
+      833215634,
+      37775501,
+      106584824
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      247341024,
+      367973856,
+      8519376,
+      15814305
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      224476503,
+      361850503,
+      8585291,
+      15813946
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      224218661,
+      361850500,
+      8591043,
+      15813026
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      247182771,
+      367971863,
+      8506546,
+      15813727
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      246754333,
+      367971390,
+      8573214,
+      15814542
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      224617372,
+      361853750,
+      8596207,
+      15813816
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      224758319,
+      361851497,
+      8529712,
+      15814723
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      246827471,
+      367971528,
+      8624312,
+      15813016
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      246851850,
+      367973031,
+      8557476,
+      15816586
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      224269663,
+      361851103,
+      8539204,
+      15816010
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      248924542,
+      1083186067,
+      28074755,
+      76055642
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      183164735,
+      779987330,
+      28306573,
+      76055280
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      183593885,
+      779990594,
+      27853341,
+      76053825
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      248897019,
+      1083188817,
+      28352777,
+      76053209
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      248893570,
+      1083186691,
+      28282499,
+      76054894
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      183096574,
+      779990231,
+      28269726,
+      76052637
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      183157053,
+      779990407,
+      28042690,
+      76052232
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      248939750,
+      1083185647,
+      28157058,
+      76052239
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      249406606,
+      1083186554,
+      28315237,
+      76055091
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      183176150,
+      779990892,
+      28301174,
+      76052626
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      248455351,
+      407983574,
+      9246554,
+      17868099
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      224396421,
+      391713704,
+      9196044,
+      17868532
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      223112828,
+      391714058,
+      9266682,
+      17867260
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      248198087,
+      407982849,
+      9260903,
+      17868150
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      248787563,
+      407982781,
+      9184872,
+      17867885
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      223332408,
+      391715404,
+      9249505,
+      17867567
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      223632496,
+      391716393,
+      9224692,
+      17867545
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      249169424,
+      407983115,
+      9180461,
+      17867752
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      248110556,
+      407984568,
+      9256046,
+      17870027
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      223843875,
+      391713683,
+      9265054,
+      17867754
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      260643288,
+      1163178654,
+      21871127,
+      56730094
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      201233378,
+      955266494,
+      21694673,
+      56729237
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      201227320,
+      955267259,
+      21969443,
+      56730004
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      273910291,
+      1163179032,
+      21984452,
+      56730298
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      266736546,
+      1163180208,
+      21993617,
+      56730313
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      210786568,
+      955266924,
+      21788910,
+      56729677
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      208951656,
+      955266949,
+      21895951,
+      56729427
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      246311224,
+      1163179059,
+      21948712,
+      56730343
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      251064636,
+      1163178414,
+      21959647,
+      56732864
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      201119751,
+      955266927,
+      21821973,
+      56729226
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      246316797,
+      396162034,
+      9169392,
+      17676043
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      250641372,
+      396694848,
+      9166089,
+      17676350
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      251609072,
+      396694295,
+      9154052,
+      17678067
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      246588680,
+      396158309,
+      9179064,
+      17676740
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      246270954,
+      396158684,
+      9183187,
+      17675993
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      250919760,
+      396695592,
+      9172949,
+      17678198
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      249533440,
+      396697881,
+      9209315,
+      17676671
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      246750408,
+      396159333,
+      9188671,
+      17676636
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      245920548,
+      396159635,
+      9123221,
+      17676439
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      249891402,
+      396695143,
+      9141343,
+      17678191
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      246471269,
+      1166808577,
+      21771320,
+      56180291
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      247965613,
+      1173983666,
+      21665161,
+      56178494
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      247560090,
+      1173982592,
+      21785921,
+      56180112
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      246979097,
+      1166809333,
+      21768864,
+      56179204
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      247133894,
+      1166811116,
+      21721703,
+      56178995
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      247564313,
+      1173983891,
+      21686083,
+      56180872
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      247825174,
+      1173983776,
+      21661085,
+      56179013
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      247329429,
+      1166809467,
+      21631101,
+      56178111
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      284482836,
+      1166809155,
+      21677927,
+      56178285
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      247558726,
+      1173985940,
+      21698128,
+      56178285
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      249179624,
+      492421912,
+      10136071,
+      20804709
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      244529316,
+      493495411,
+      10188678,
+      20804481
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      244851540,
+      493495732,
+      10234771,
+      20807823
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      247606329,
+      492419696,
+      10136305,
+      20806567
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      247210798,
+      492419985,
+      10151198,
+      20804558
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      243430855,
+      493498214,
+      10191323,
+      20805369
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      249894380,
+      493497510,
+      10163253,
+      20804588
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      247112172,
+      492422182,
+      10167450,
+      20803839
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      246728350,
+      492419435,
+      10231602,
+      20804629
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      242869436,
+      493494600,
+      10183273,
+      20804791
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      247367757,
+      1049912973,
+      12177638,
+      26890680
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      244810754,
+      1052032499,
+      12216428,
+      26888715
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      246197359,
+      1052035681,
+      12121052,
+      26887917
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      249329772,
+      1049909756,
+      12198923,
+      26888112
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      247199797,
+      1049910579,
+      12154102,
+      26887834
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      246236042,
+      1052033057,
+      12162185,
+      26887087
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      245095797,
+      1052033612,
+      12177292,
+      26888295
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      247244859,
+      1049909348,
+      12242693,
+      26888461
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      248656028,
+      1049910490,
+      12190343,
+      26887081
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      247107228,
+      1052033016,
+      12211468,
+      26890728
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      255360260,
+      597655843,
+      10326885,
+      21128050
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      246534218,
+      597653653,
+      10267649,
+      21127380
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      253439743,
+      597653484,
+      10268587,
+      21126715
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      245480564,
+      597654099,
+      10228827,
+      21126652
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      253440112,
+      597655955,
+      10256190,
+      21128918
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      252162227,
+      597653764,
+      10332848,
+      21129123
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      253464936,
+      597653323,
+      10280175,
+      21126509
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      249383420,
+      597652724,
+      10236195,
+      21127352
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      259517128,
+      597653815,
+      10294395,
+      21129383
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      253262652,
+      597653616,
+      10307916,
+      21126328
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      249701411,
+      443813804,
+      10547005,
+      21997054
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      226131930,
+      407121233,
+      10596374,
+      21994125
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      225375256,
+      407121478,
+      10557080,
+      21994521
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      249852694,
+      443812042,
+      10543455,
+      21997434
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      247639028,
+      443815654,
+      10562952,
+      21995548
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      227882342,
+      407120907,
+      10600435,
+      21997116
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      237313195,
+      407123730,
+      10543660,
+      21995580
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      247647635,
+      443811238,
+      10592076,
+      21994710
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      249190479,
+      443814989,
+      10620501,
+      21995235
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      227780366,
+      407121756,
+      10546010,
+      21996862
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      243861101,
+      399119817,
+      8591629,
+      15757264
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      224893806,
+      394373277,
+      8591019,
+      15753594
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      225560004,
+      394376540,
+      8542088,
+      15753932
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      244226925,
+      399119194,
+      8596661,
+      15754135
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      243983408,
+      399119341,
+      8568490,
+      15756362
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      225358218,
+      394374105,
+      8557288,
+      15753329
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      225315881,
+      394374109,
+      8549344,
+      15755875
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      244325799,
+      399119460,
+      8610067,
+      15754762
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      245362840,
+      399119879,
+      8532880,
+      15756827
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      225366830,
+      394374138,
+      8582034,
+      15754019
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      246352688,
+      578450063,
+      11307697,
+      23158188
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      247410843,
+      578447758,
+      11103878,
+      23161888
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      246468268,
+      578449550,
+      11140646,
+      23158429
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      246386898,
+      578447147,
+      11256473,
+      23158105
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      249890879,
+      578447556,
+      11246286,
+      23157858
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      247048993,
+      578446437,
+      11103324,
+      23160492
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      246692571,
+      578447058,
+      11129658,
+      23161671
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      249635679,
+      578447555,
+      11256828,
+      23159258
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      246697925,
+      578447579,
+      11292940,
+      23159421
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      246730584,
+      578447118,
+      11087038,
+      23158760
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      202132427,
+      778288483,
+      42731589,
+      109271262
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      201949464,
+      778287635,
+      40985398,
+      109271289
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      202216968,
+      778289824,
+      40994691,
+      109271278
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      202145394,
+      778287044,
+      42684386,
+      109274058
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      201852576,
+      778288102,
+      42828363,
+      109272867
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      201980657,
+      778289897,
+      40984216,
+      109270986
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      202035570,
+      778288419,
+      40240547,
+      109273695
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      201747718,
+      778287605,
+      42751054,
+      109271329
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      201843842,
+      778287791,
+      42929827,
+      109271064
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      202419554,
+      778286863,
+      40221122,
+      109273462
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      233604098,
+      398295165,
+      10972713,
+      22361215
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      205477699,
+      387743822,
+      10871123,
+      22364399
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      207591853,
+      387743302,
+      10801054,
+      22363996
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      232283836,
+      398295217,
+      10989023,
+      22361736
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      233077058,
+      398295066,
+      10980526,
+      22362234
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      208766560,
+      387740565,
+      10804575,
+      22362332
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      206440825,
+      387744303,
+      10869671,
+      22362163
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      231683057,
+      398294758,
+      10967216,
+      22361917
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      231682289,
+      398295320,
+      10971707,
+      22361903
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      205504795,
+      387740769,
+      10791067,
+      22362297
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      214025063,
+      803855281,
+      29018370,
+      71604542
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      175146348,
+      726580943,
+      27620258,
+      71605360
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      161984651,
+      726581640,
+      27412483,
+      71605137
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      217547330,
+      803852770,
+      29026946,
+      71604869
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      220148735,
+      803852789,
+      28898917,
+      71605073
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      160349489,
+      726581670,
+      27904217,
+      71605145
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      163144128,
+      726581485,
+      27871638,
+      71604421
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      209680027,
+      803853525,
+      28928231,
+      71607512
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      215480237,
+      803852400,
+      28987779,
+      71607793
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      174248818,
+      726581339,
+      27877376,
+      71605316
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      232454437,
+      398025091,
+      10944966,
+      22356504
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      207147210,
+      387478611,
+      10834970,
+      22356215
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      207188382,
+      387480826,
+      10828870,
+      22356637
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      231060360,
+      398025329,
+      10966776,
+      22359476
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      231763262,
+      398024957,
+      10965713,
+      22356665
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      207049280,
+      387478069,
+      10845619,
+      22359051
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      208572578,
+      387478444,
+      10780251,
+      22359022
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      231335037,
+      398024360,
+      10957156,
+      22358938
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      233063848,
+      398025001,
+      10996768,
+      22357035
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      205020288,
+      387480484,
+      10782527,
+      22359393
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      209353875,
+      801537190,
+      28920597,
+      71437980
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      160876717,
+      724491566,
+      27802894,
+      71437124
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      160897781,
+      724492136,
+      27184273,
+      71439843
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      209847005,
+      801536977,
+      28907320,
+      71437326
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      209872121,
+      801536737,
+      28882012,
+      71437926
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      169921913,
+      724494488,
+      27789264,
+      71437159
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      176194714,
+      724492050,
+      27850080,
+      71440268
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      210436938,
+      801537479,
+      28937314,
+      71438493
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      208675465,
+      801539293,
+      28879599,
+      71440196
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      160365444,
+      724492774,
+      27235822,
+      71437512
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      245780868,
+      470637825,
+      8765900,
+      16360157
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      246504740,
+      470638179,
+      8730428,
+      16355957
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      259139461,
+      470638152,
+      8768192,
+      16356653
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      244765754,
+      470641105,
+      8808509,
+      16357013
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      246090319,
+      470638679,
+      8728546,
+      16356631
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      245929188,
+      470637732,
+      8729215,
+      16355811
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      245669097,
+      470637941,
+      8765077,
+      16356713
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      245833527,
+      470638426,
+      8722457,
+      16356045
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      245693409,
+      470640914,
+      8791496,
+      16355616
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      245545111,
+      470638366,
+      8778954,
+      16357764
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      206957687,
+      814185819,
+      44069478,
+      112940148
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      203815507,
+      814185580,
+      42267926,
+      112939878
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      206332928,
+      814186123,
+      41832995,
+      112939597
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      209505043,
+      814185428,
+      44037390,
+      112939351
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      206509662,
+      814185766,
+      44057302,
+      112941029
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      206476398,
+      814185247,
+      42242683,
+      112941533
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      204097105,
+      814184924,
+      42225198,
+      112938855
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      206160538,
+      814188079,
+      44106795,
+      112939536
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      203551921,
+      814188299,
+      44079828,
+      112939433
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      206812632,
+      814187249,
+      41987633,
+      112939182
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      229584593,
+      340550043,
+      8604385,
+      15912812
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      206546701,
+      338750556,
+      8553887,
+      15909756
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      206943082,
+      338750401,
+      8562370,
+      15909434
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      229547292,
+      340548350,
+      8621859,
+      15909252
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      231215962,
+      340547694,
+      8625769,
+      15909515
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      206926881,
+      338749678,
+      8563238,
+      15909901
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      206920187,
+      338750421,
+      8599891,
+      15909585
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      229532889,
+      340548098,
+      8607644,
+      15910081
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      229807966,
+      340548122,
+      8569735,
+      15909634
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      206508981,
+      338750260,
+      8589571,
+      15909726
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      214843874,
+      794842892,
+      32120155,
+      80303433
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      154240319,
+      705790072,
+      30548015,
+      80303863
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      157484046,
+      705790786,
+      30944741,
+      80303797
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      209580413,
+      794841252,
+      32191052,
+      80303670
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      209916277,
+      794843394,
+      32101206,
+      80306626
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      154924437,
+      705790029,
+      30899962,
+      80304200
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      153893861,
+      705791618,
+      30905997,
+      80305836
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      214200208,
+      794840652,
+      32152335,
+      80304065
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      217306048,
+      794841105,
+      32106979,
+      80306014
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      154122997,
+      705788983,
+      30936209,
+      80304059
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      229762132,
+      363511215,
+      9379669,
+      18106257
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      206634847,
+      358732920,
+      9404323,
+      18105692
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      206161704,
+      358732487,
+      9357541,
+      18106180
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      229432452,
+      363510936,
+      9390800,
+      18108324
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      229676212,
+      363511255,
+      9409731,
+      18105610
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      204019178,
+      358735335,
+      9337037,
+      18105028
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      204399499,
+      358732733,
+      9346793,
+      18106054
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      229422219,
+      363510950,
+      9411598,
+      18107979
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      230439666,
+      363510156,
+      9404460,
+      18106221
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      206104502,
+      358732153,
+      9321965,
+      18105430
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      218743592,
+      868042197,
+      24612823,
+      59650843
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      168623191,
+      806977456,
+      23732875,
+      59649154
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      180636665,
+      806977156,
+      23735427,
+      59648438
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      219031497,
+      868042507,
+      24601343,
+      59648494
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      218640964,
+      868042614,
+      24608109,
+      59647888
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      180688028,
+      806976533,
+      23691654,
+      59649028
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      179268902,
+      806979809,
+      23755899,
+      59648184
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      219852078,
+      868042085,
+      24728851,
+      59649435
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      220859347,
+      868044585,
+      24533439,
+      59648139
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      168011175,
+      806977365,
+      23543609,
+      59648041
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      226943251,
+      351807601,
+      9314626,
+      17900871
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      228399558,
+      333054970,
+      9305424,
+      17901557
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      227880376,
+      333054284,
+      9306383,
+      17901334
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      227099432,
+      351807624,
+      9336358,
+      17900855
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      227986806,
+      351809912,
+      9322883,
+      17901374
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      227985379,
+      333057209,
+      9300076,
+      17900977
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      227937814,
+      333058034,
+      9368045,
+      17901361
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      227632821,
+      351807742,
+      9309726,
+      17901645
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      227121593,
+      351807885,
+      9327846,
+      17902856
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      228065398,
+      333055392,
+      9276005,
+      17900559
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      218900440,
+      854009011,
+      24325177,
+      59058860
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      229781212,
+      876967621,
+      23245936,
+      59059059
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      227771519,
+      876968046,
+      22844994,
+      59058770
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      221919913,
+      854010493,
+      24373290,
+      59058330
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      219015031,
+      854008767,
+      24453169,
+      59061895
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      228568585,
+      876967099,
+      22883881,
+      59060748
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      229436483,
+      876967686,
+      23497387,
+      59058639
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      221938026,
+      854009462,
+      24439408,
+      59058664
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      218686777,
+      854009048,
+      24394436,
+      59058841
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      228920715,
+      876967203,
+      23147443,
+      59059300
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      224245349,
+      403614820,
+      10575383,
+      21248430
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      224805518,
+      390283005,
+      10453235,
+      21247837
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      225447134,
+      390281963,
+      10430472,
+      21245184
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      222133911,
+      403615688,
+      10613731,
+      21245295
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      222450855,
+      403614738,
+      10521475,
+      21245768
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      224516451,
+      390281323,
+      10350966,
+      21244710
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      224969018,
+      390282292,
+      10490076,
+      21245451
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      222021583,
+      403614862,
+      10541235,
+      21247291
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      224186179,
+      403615719,
+      10510602,
+      21248420
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      224509272,
+      390284451,
+      10466733,
+      21247351
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      187511859,
+      639275570,
+      12957027,
+      27748450
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      196427010,
+      663056467,
+      12387922,
+      27751573
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      196206553,
+      663055929,
+      12437091,
+      27748243
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      186435065,
+      639277572,
+      13024668,
+      27751040
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      189182703,
+      639277388,
+      12961232,
+      27748288
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      195654258,
+      663056094,
+      12720351,
+      27748012
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      195512454,
+      663056622,
+      12685991,
+      27751172
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      188623150,
+      639274793,
+      12865400,
+      27748262
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      187670109,
+      639278161,
+      12956064,
+      27748166
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      195257683,
+      663055764,
+      12683188,
+      27748411
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      250630640,
+      594050290,
+      10657547,
+      21602023
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      251599028,
+      594049790,
+      10431874,
+      21602296
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      250865347,
+      594050619,
+      10582082,
+      21603236
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      250944353,
+      594049982,
+      10648333,
+      21605635
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      251091067,
+      594050566,
+      10701710,
+      21603149
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      251030103,
+      594052193,
+      10578210,
+      21602504
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      251021812,
+      594052127,
+      10534677,
+      21602007
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      251587939,
+      594050124,
+      10671738,
+      21602372
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      250615603,
+      594050631,
+      10676153,
+      21602424
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      250766064,
+      594049851,
+      10523335,
+      21602002
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      230121143,
+      380206256,
+      11015600,
+      22530193
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      204276783,
+      369427201,
+      10901215,
+      22529683
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      202026491,
+      369427579,
+      10861650,
+      22530372
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      231223566,
+      380204011,
+      11058833,
+      22530904
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      230075135,
+      380203243,
+      11045701,
+      22532245
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      203668356,
+      369427207,
+      10873069,
+      22529380
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      203330981,
+      369429725,
+      10895160,
+      22529737
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      230047246,
+      380203906,
+      11010209,
+      22529376
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      230877955,
+      380205493,
+      10955470,
+      22529642
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      202142995,
+      369426729,
+      10890320,
+      22532094
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      228942213,
+      376495417,
+      8592875,
+      15760522
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      211664537,
+      375098960,
+      8544319,
+      15758447
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      209941166,
+      375098954,
+      8579436,
+      15758389
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      229932669,
+      376492203,
+      8614201,
+      15760848
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      230154674,
+      376493586,
+      8583726,
+      15761185
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      210611430,
+      375100952,
+      8577567,
+      15757581
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      209703912,
+      375102190,
+      8587711,
+      15760802
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      229919762,
+      376492265,
+      8612072,
+      15759251
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      234101941,
+      376492896,
+      8634142,
+      15758504
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      210378455,
+      375098822,
+      8632004,
+      15757902
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      246536149,
+      592528134,
+      10662217,
+      22561471
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      246049832,
+      592527374,
+      10761191,
+      22560680
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      246048007,
+      592526789,
+      10778221,
+      22562643
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      246628747,
+      592527354,
+      10743100,
+      22563449
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      247416767,
+      592528220,
+      10765441,
+      22561982
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      246749115,
+      592529844,
+      10788140,
+      22560903
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      246802583,
+      592528362,
+      10763264,
+      22561175
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      246004850,
+      592529980,
+      10796479,
+      22561333
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      245860076,
+      592527909,
+      10788868,
+      22560965
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/haystack-1023/absent @ controls-haystack-1023-absent",
+      246357402,
+      592528597,
+      10713655,
+      22560934
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      247495249,
+      796571718,
+      36944027,
+      103118096
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      244518276,
+      796573215,
+      36737764,
+      103120464
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      245040521,
+      796575455,
+      36775055,
+      103117984
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      244518822,
+      796574082,
+      36826323,
+      103119149
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      244560801,
+      796575299,
+      37058081,
+      103118138
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      244951257,
+      796572841,
+      36883980,
+      103118215
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      244547002,
+      796574300,
+      37039771,
+      103118170
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      244479150,
+      796574913,
+      36828793,
+      103117739
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      253620869,
+      796575249,
+      36690668,
+      103117810
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/haystack-1023/origin @ controls-haystack-1023-origin",
+      247421214,
+      796575066,
+      36705944,
+      103117638
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      249382361,
+      461325868,
+      10517491,
+      21818827
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      251604730,
+      461325048,
+      10487088,
+      21816991
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      249305438,
+      461327814,
+      10555603,
+      21816574
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      249825155,
+      461325017,
+      10543018,
+      21816174
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      249628356,
+      461328488,
+      10472678,
+      21819404
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      249805356,
+      461324878,
+      10556580,
+      21816477
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      249694269,
+      461325044,
+      10568141,
+      21818900
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      249548750,
+      461325214,
+      10482205,
+      21817687
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      247994215,
+      461325666,
+      10585970,
+      21819601
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/haystack-1024/absent @ controls-haystack-1024-absent",
+      249346196,
+      461327397,
+      10527968,
+      21817664
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      244574954,
+      1109216167,
+      25490200,
+      67882292
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      244489166,
+      1109215312,
+      25385986,
+      67882624
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      244447855,
+      1109219070,
+      25554551,
+      67882749
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      244688238,
+      1109216579,
+      25598351,
+      67882670
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      244560284,
+      1109216600,
+      25565176,
+      67882617
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      244303313,
+      1109215734,
+      25572686,
+      67883068
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      244544272,
+      1109216525,
+      25489931,
+      67885083
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      245192818,
+      1109216432,
+      25632571,
+      67885214
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      244904824,
+      1109216336,
+      25466498,
+      67884704
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/haystack-1024/origin @ controls-haystack-1024-origin",
+      245090961,
+      1109216597,
+      25469031,
+      67882129
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      249974353,
+      461010018,
+      10591709,
+      21810946
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      249910161,
+      461010573,
+      10506455,
+      21813951
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      249827612,
+      461009735,
+      10488668,
+      21811666
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      249107446,
+      461010918,
+      10561739,
+      21812323
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      248771165,
+      461010346,
+      10536804,
+      21811299
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      249970289,
+      461013040,
+      10511905,
+      21811987
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      251920665,
+      461011521,
+      10522278,
+      21811918
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      249461414,
+      461009788,
+      10597008,
+      21812310
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      249478741,
+      461010778,
+      10414010,
+      21812749
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/haystack-1025/absent @ controls-haystack-1025-absent",
+      249583495,
+      461010028,
+      10473808,
+      21811747
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      244226467,
+      1106004571,
+      25498874,
+      67728158
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      244350130,
+      1106006782,
+      25509020,
+      67726098
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      243334485,
+      1106004836,
+      25468664,
+      67727582
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      243566564,
+      1106004763,
+      25448629,
+      67726027
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      244470836,
+      1106004960,
+      25509393,
+      67726783
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      243875924,
+      1106004584,
+      25410104,
+      67727612
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      243669186,
+      1106006526,
+      25398694,
+      67725612
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      244352911,
+      1106006869,
+      25426214,
+      67728009
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      243182470,
+      1106004992,
+      25594242,
+      67725506
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/haystack-1025/origin @ controls-haystack-1025-origin",
+      243977890,
+      1106004488,
+      25599048,
+      67727077
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      245224076,
+      496939271,
+      8670250,
+      16231416
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      244618984,
+      496941843,
+      8725879,
+      16232823
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      244250156,
+      496939040,
+      8720913,
+      16231415
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      244742271,
+      496939652,
+      8686670,
+      16233877
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      244200944,
+      496941227,
+      8695857,
+      16234282
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      244205641,
+      496939267,
+      8715090,
+      16232250
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      244730175,
+      496939256,
+      8666046,
+      16231879
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      245166495,
+      496941952,
+      8701880,
+      16231427
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      244166841,
+      496939913,
+      8700002,
+      16232525
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-8/absent @ controls-needle-8-absent",
+      244585695,
+      496940001,
+      8654416,
+      16231676
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      250420927,
+      833213300,
+      38163496,
+      106582900
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      250475641,
+      833212678,
+      38064148,
+      106582795
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      260547415,
+      833215333,
+      37860745,
+      106583124
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      250434141,
+      833215174,
+      38283907,
+      106583005
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      250472938,
+      833212625,
+      38270494,
+      106583097
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      250937401,
+      833212451,
+      38121723,
+      106583579
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      250437036,
+      833212391,
+      37744484,
+      106582448
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      253582860,
+      833215334,
+      37929457,
+      106584355
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      250357009,
+      833212735,
+      38102241,
+      106582525
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-8/origin @ controls-needle-8-origin",
+      253062460,
+      833211829,
+      38286387,
+      106582426
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      246808433,
+      367971869,
+      8570911,
+      15813064
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      247430174,
+      367971768,
+      8513035,
+      15816325
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      246803240,
+      367973787,
+      8562266,
+      15813631
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      247304804,
+      367973552,
+      8562744,
+      15813639
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      247398577,
+      367973977,
+      8531164,
+      15813746
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      246788217,
+      367971157,
+      8591196,
+      15815284
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      246764814,
+      367972051,
+      8536323,
+      15813769
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      247269916,
+      367971042,
+      8531438,
+      15813965
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      246829171,
+      367971315,
+      8579014,
+      15815007
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-9/absent @ controls-needle-8-absent",
+      246793068,
+      367971628,
+      8610618,
+      15814017
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      249451623,
+      1083186260,
+      28009611,
+      76053274
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      248989566,
+      1083185752,
+      28023162,
+      76054343
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      246229161,
+      1083186613,
+      28120664,
+      76052703
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      249432632,
+      1083186242,
+      28251058,
+      76053690
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      248949336,
+      1083186002,
+      28095426,
+      76054781
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      248903974,
+      1083186139,
+      28270029,
+      76053390
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      249367618,
+      1083188875,
+      28265914,
+      76052421
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      248917659,
+      1083186578,
+      28290660,
+      76052603
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      248969536,
+      1083188838,
+      28052873,
+      76053042
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-9/origin @ controls-needle-9-origin",
+      249484567,
+      1083186411,
+      28259311,
+      76053197
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      247755460,
+      407986210,
+      9226676,
+      17870018
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      247693463,
+      407983037,
+      9240175,
+      17867523
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      248531749,
+      407982865,
+      9223704,
+      17867729
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      247712124,
+      407984831,
+      9268387,
+      17867523
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      248190701,
+      407982518,
+      9228318,
+      17870592
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      248752311,
+      407981727,
+      9196157,
+      17870442
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      248176809,
+      407982764,
+      9251903,
+      17868244
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      247501748,
+      407983245,
+      9293204,
+      17870426
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      248299668,
+      407982405,
+      9192421,
+      17867829
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-31/absent @ controls-needle-8-absent",
+      247344664,
+      407982296,
+      9283092,
+      17868671
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      271421136,
+      1163181367,
+      21901226,
+      56730532
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      246784084,
+      1163178711,
+      21937536,
+      56730611
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      268556358,
+      1163178921,
+      21961832,
+      56729494
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      246800048,
+      1163181666,
+      21968449,
+      56729890
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      271621175,
+      1163178662,
+      21829705,
+      56729639
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      268040043,
+      1163181851,
+      21827952,
+      56729753
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      251086341,
+      1163178806,
+      21869325,
+      56732493
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      255142555,
+      1163179727,
+      21960877,
+      56732439
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      278571689,
+      1163180227,
+      21766944,
+      56732449
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-31/origin @ controls-needle-31-origin",
+      270658303,
+      1163179811,
+      21854643,
+      56730714
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      248210786,
+      396158698,
+      9110342,
+      17678611
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      246577057,
+      396159834,
+      9205959,
+      17677096
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      246587232,
+      396158748,
+      9148337,
+      17676263
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      247409309,
+      396159203,
+      9111632,
+      17675573
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      246928208,
+      396159888,
+      9182221,
+      17679174
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      246217917,
+      396158465,
+      9191567,
+      17677164
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      246806910,
+      396161642,
+      9136486,
+      17678272
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      246392270,
+      396158854,
+      9138070,
+      17677110
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      246498214,
+      396159387,
+      9185498,
+      17675695
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-32/absent @ controls-needle-8-absent",
+      246505098,
+      396158437,
+      9154082,
+      17676013
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      246659734,
+      1166808377,
+      21661933,
+      56178510
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      246708117,
+      1166811536,
+      21675044,
+      56178369
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      247302145,
+      1166808849,
+      21756480,
+      56181361
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      246389122,
+      1166809128,
+      21572046,
+      56178550
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      246298017,
+      1166809577,
+      21793949,
+      56178912
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      247027942,
+      1166809365,
+      21416993,
+      56178264
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      246335310,
+      1166809647,
+      21578115,
+      56178311
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      246634996,
+      1166809844,
+      21543127,
+      56178320
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      246823071,
+      1166811021,
+      21740818,
+      56178529
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-32/origin @ controls-needle-32-origin",
+      246625805,
+      1166810193,
+      21655325,
+      56179291
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      247416921,
+      492420266,
+      10163530,
+      20804836
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      247174872,
+      492421951,
+      10162915,
+      20806480
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      247432674,
+      492420218,
+      10208967,
+      20805400
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      247995581,
+      492421555,
+      10273073,
+      20806800
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      247615381,
+      492422388,
+      10155054,
+      20804181
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      246774353,
+      492420378,
+      10191498,
+      20805678
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      246747683,
+      492420235,
+      10211314,
+      20804800
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      250822123,
+      492420088,
+      10158385,
+      20804921
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      248652136,
+      492419973,
+      10197164,
+      20805127
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-64/absent @ controls-needle-8-absent",
+      246881498,
+      492420191,
+      10173057,
+      20804988
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      248147268,
+      1049911079,
+      12079298,
+      26890920
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      247960060,
+      1049909787,
+      12241065,
+      26888314
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      247466987,
+      1049909930,
+      12197895,
+      26888082
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      247302471,
+      1049911924,
+      12144067,
+      26890397
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      247448788,
+      1049909212,
+      12145780,
+      26889748
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      247566124,
+      1049911023,
+      12229040,
+      26887787
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      248188407,
+      1049912933,
+      12068986,
+      26887504
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      247539898,
+      1049910117,
+      12167963,
+      26888024
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      247323967,
+      1049909504,
+      12155264,
+      26888131
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/needle-256/absent @ controls-needle-8-absent",
+      249396677,
+      1049910242,
+      12137992,
+      26890218
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      253103190,
+      597653515,
+      10294549,
+      21129796
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      251647221,
+      597653183,
+      10230459,
+      21127262
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      256594910,
+      597652976,
+      10277818,
+      21127499
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      253022510,
+      597656364,
+      10313139,
+      21126458
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      252755465,
+      597653288,
+      10309172,
+      21129349
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      254237210,
+      597654326,
+      10294667,
+      21127271
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      253081987,
+      597653073,
+      10345590,
+      21129152
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      253939039,
+      597655884,
+      10314074,
+      21129500
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      252807412,
+      597653990,
+      10285873,
+      21127254
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/remaining-1023/absent @ controls-remaining-1023-absent",
+      253715933,
+      597653485,
+      10310233,
+      21126810
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      247745452,
+      443811400,
+      10592667,
+      21994524
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      249705744,
+      443811307,
+      10564333,
+      21995391
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      247662560,
+      443811347,
+      10567876,
+      21997005
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      248304384,
+      443811496,
+      10601543,
+      21994953
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      248518611,
+      443813810,
+      10530162,
+      21998190
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      248252036,
+      443811141,
+      10555598,
+      21995226
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      248528874,
+      443812408,
+      10610558,
+      21994801
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      248137527,
+      443811827,
+      10537116,
+      21995029
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      247908232,
+      443812008,
+      10597201,
+      21997065
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/remaining-1024/absent @ controls-remaining-1023-absent",
+      247673736,
+      443812373,
+      10588257,
+      21994656
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      245093889,
+      399122008,
+      8548417,
+      15755726
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      243732017,
+      399120254,
+      8594213,
+      15753428
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      247196514,
+      399120253,
+      8640802,
+      15754668
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      244314257,
+      399122660,
+      8570274,
+      15753344
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      244531585,
+      399118875,
+      8591694,
+      15756835
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      244282220,
+      399119808,
+      8587227,
+      15757791
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      244479664,
+      399119514,
+      8535101,
+      15753071
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      243855104,
+      399119712,
+      8571585,
+      15753848
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      243967230,
+      399118920,
+      8578198,
+      15756340
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/stream/buffer-seam @ controls-stream-buffer-seam",
+      245438990,
+      399120012,
+      8551788,
+      15753730
+    ]
+  ]
+}

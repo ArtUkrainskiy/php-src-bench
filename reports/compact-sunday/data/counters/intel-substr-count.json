@@ -1,0 +1,3082 @@
+{
+  "format": 2,
+  "kind": "compare",
+  "harness": 2,
+  "date": "2026-11-01T04:30:40+00:00",
+  "suite": "reports/compact-sunday/suites/substr-count.php",
+  "elapsed_s": 122.9,
+  "complete": true,
+  "config": {
+    "passes": 5,
+    "cpu": 2,
+    "target_ms": 50,
+    "filter": null,
+    "control": true,
+    "wait_idle": 120,
+    "events": "cpu_core/cycles/u,cpu_core/instructions/u"
+  },
+  "env": {
+    "cpu_model": "13th Gen Intel(R) Core(TM) i7-13700H",
+    "kernel": "7.0.0-38-generic",
+    "cpu": 2,
+    "cpu_siblings": "2-3",
+    "hybrid_pcores": "0-11",
+    "cpu_is_pcore": true,
+    "governor": "powersave",
+    "epp": "balance_performance",
+    "turbo": true,
+    "on_ac": true,
+    "load": 0.296875,
+    "busy_pct": {
+      "2": 3.3,
+      "3": 0
+    },
+    "idle_cpu": 2
+  },
+  "groups": [
+    {
+      "name": "aa",
+      "a": "compact-base-gcc14",
+      "b": "compact-base-gcc14"
+    },
+    {
+      "name": "gcc14",
+      "a": "compact-base-gcc14",
+      "b": "compact-head-gcc14"
+    },
+    {
+      "name": "clang20",
+      "a": "compact-base-clang20",
+      "b": "compact-head-clang20"
+    },
+    {
+      "name": "gcc13",
+      "a": "compact-base-gcc13",
+      "b": "compact-head-gcc13"
+    },
+    {
+      "name": "clang18",
+      "a": "compact-base-clang18",
+      "b": "compact-head-clang18"
+    },
+    {
+      "name": "aa2",
+      "a": "compact-base-gcc14",
+      "b": "compact-base-gcc14"
+    }
+  ],
+  "builds": {
+    "compact-base-gcc14": {
+      "php": "BUILD_DIR/compact-base-gcc14/sapi/cli/php",
+      "build": {
+        "name": "compact-base-gcc14",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:46:09+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "ac3a91d21845157f2be60236a99e484774abd3cd",
+        "cc": "gcc-14 (Ubuntu 14.2.0-4ubuntu2~24.04.1) 14.2.0",
+        "cc_command": "gcc-14",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-gcc14/sapi/cli/php"
+      },
+      "sha1": "29994ee8008df58a38654def392c9ce84a02c527"
+    },
+    "compact-head-gcc14": {
+      "php": "BUILD_DIR/compact-head-gcc14/sapi/cli/php",
+      "build": {
+        "name": "compact-head-gcc14",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:53:33+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "ac3a91d21845157f2be60236a99e484774abd3cd",
+        "cc": "gcc-14 (Ubuntu 14.2.0-4ubuntu2~24.04.1) 14.2.0",
+        "cc_command": "gcc-14",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-gcc14/sapi/cli/php"
+      },
+      "sha1": "eb2fd20710ece4e824a9d4dfc0f19897891fa4a6"
+    },
+    "compact-base-clang20": {
+      "php": "BUILD_DIR/compact-base-clang20/sapi/cli/php",
+      "build": {
+        "name": "compact-base-clang20",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:49:34+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "1d7363572b7d241702924894eced9e166dfe2ea0",
+        "cc": "Ubuntu clang version 20.1.2 (0ubuntu1~24.04.3)",
+        "cc_command": "clang-20",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-clang20/sapi/cli/php"
+      },
+      "sha1": "2479fffae5b6ae555283eaa61d5de46779a1bc74"
+    },
+    "compact-head-clang20": {
+      "php": "BUILD_DIR/compact-head-clang20/sapi/cli/php",
+      "build": {
+        "name": "compact-head-clang20",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:57:25+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "1d7363572b7d241702924894eced9e166dfe2ea0",
+        "cc": "Ubuntu clang version 20.1.2 (0ubuntu1~24.04.3)",
+        "cc_command": "clang-20",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-clang20/sapi/cli/php"
+      },
+      "sha1": "1577211fd1cee3181dd7eedbe88345254f0c9217"
+    },
+    "compact-base-gcc13": {
+      "php": "BUILD_DIR/compact-base-gcc13/sapi/cli/php",
+      "build": {
+        "name": "compact-base-gcc13",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:44:22+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "7d7501a4b803974f6a9a1a155f1d477e1e470510",
+        "cc": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+        "cc_command": "gcc",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-gcc13/sapi/cli/php"
+      },
+      "sha1": "77cb6a44e3c6456b1b85f1c5e91a81365c7b4cc7"
+    },
+    "compact-head-gcc13": {
+      "php": "BUILD_DIR/compact-head-gcc13/sapi/cli/php",
+      "build": {
+        "name": "compact-head-gcc13",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:51:26+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "7d7501a4b803974f6a9a1a155f1d477e1e470510",
+        "cc": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+        "cc_command": "gcc",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-gcc13/sapi/cli/php"
+      },
+      "sha1": "0def7d7b7cd90023ff48823de1a7fb0916094ab4"
+    },
+    "compact-base-clang18": {
+      "php": "BUILD_DIR/compact-base-clang18/sapi/cli/php",
+      "build": {
+        "name": "compact-base-clang18",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:47:49+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "096800019d14b925a3b777447a14fa3b0d669985",
+        "cc": "Ubuntu clang version 18.1.3 (1ubuntu1)",
+        "cc_command": "clang",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-clang18/sapi/cli/php"
+      },
+      "sha1": "afd9859494a5f84bbad4a39c8569b7d63f361611"
+    },
+    "compact-head-clang18": {
+      "php": "BUILD_DIR/compact-head-clang18/sapi/cli/php",
+      "build": {
+        "name": "compact-head-clang18",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:55:30+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "096800019d14b925a3b777447a14fa3b0d669985",
+        "cc": "Ubuntu clang version 18.1.3 (1ubuntu1)",
+        "cc_command": "clang",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-clang18/sapi/cli/php"
+      },
+      "sha1": "192e4a4a5f2f9207a910d137978397dd12769e99"
+    }
+  },
+  "sources": {
+    "suite": "c3baabcff2e9e5dadfb34f933cb8bd08155ff7f3",
+    "harness": "c3113f45c2a11bcb63f0b1fb7a4e44ef6843325d",
+    "corpus": "e5c81343e158d86e921e121508cb8b101980f980"
+  },
+  "machine_warnings": [
+    "CPU governor is 'powersave': frequency scaling adds noise (sudo CAPTURE_PATH/bench tune on)",
+    "turbo boost is on: thermal and frequency drift between rounds (sudo CAPTURE_PATH/bench tune on)"
+  ],
+  "cases": {
+    "substr_count/en/absent @ substr_count-en-absent": {
+      "input_len": 4096,
+      "input_chars": 4096,
+      "n": 53778
+    },
+    "substr_count/en/start @ substr_count-en-start": {
+      "input_len": 4114,
+      "input_chars": 4114,
+      "n": 52313
+    },
+    "substr_count/en/middle @ substr_count-en-middle": {
+      "input_len": 4114,
+      "input_chars": 4114,
+      "n": 51599
+    },
+    "substr_count/en/end @ substr_count-en-end": {
+      "input_len": 4114,
+      "input_chars": 4114,
+      "n": 53156
+    },
+    "substr_count/en/repeated @ substr_count-en-repeated": {
+      "input_len": 3480,
+      "input_chars": 3480,
+      "n": 67768
+    }
+  },
+  "warnings": [],
+  "marks": [],
+  "rows": [
+    [
+      "aa",
+      "a",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197810414,
+      291196634,
+      8298383,
+      15251171
+    ],
+    [
+      "aa",
+      "b",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197766760,
+      291192743,
+      8365310,
+      15252110
+    ],
+    [
+      "aa",
+      "b",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197927962,
+      291195620,
+      8232203,
+      15251690
+    ],
+    [
+      "aa",
+      "a",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197720124,
+      291192698,
+      8242416,
+      15251011
+    ],
+    [
+      "aa",
+      "a",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197996082,
+      291193653,
+      8469049,
+      15254855
+    ],
+    [
+      "aa",
+      "b",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197821560,
+      291192924,
+      8615265,
+      15251727
+    ],
+    [
+      "aa",
+      "b",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197668659,
+      291196412,
+      8280596,
+      15251597
+    ],
+    [
+      "aa",
+      "a",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197901226,
+      291193315,
+      8525103,
+      15250901
+    ],
+    [
+      "aa",
+      "a",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197851731,
+      291192986,
+      8536564,
+      15252424
+    ],
+    [
+      "aa",
+      "b",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197888493,
+      291192845,
+      8451492,
+      15251149
+    ],
+    [
+      "aa",
+      "a",
+      "substr_count/en/start @ substr_count-en-start",
+      197931501,
+      307384650,
+      8261224,
+      15209946
+    ],
+    [
+      "aa",
+      "b",
+      "substr_count/en/start @ substr_count-en-start",
+      197845547,
+      307384433,
+      8444121,
+      15213151
+    ],
+    [
+      "aa",
+      "b",
+      "substr_count/en/start @ substr_count-en-start",
+      197308086,
+      307384009,
+      8230912,
+      15209962
+    ],
+    [
+      "aa",
+      "a",
+      "substr_count/en/start @ substr_count-en-start",
+      197558490,
+      307387151,
+      8219149,
+      15209003
+    ],
+    [
+      "aa",
+      "a",
+      "substr_count/en/start @ substr_count-en-start",
+      197911547,
+      307387103,
+      8311120,
+      15210669
+    ],
+    [
+      "aa",
+      "b",
+      "substr_count/en/start @ substr_count-en-start",
+      197410169,
+      307385131,
+      8419635,
+      15212285
+    ],
+    [
+      "aa",
+      "b",
+      "substr_count/en/start @ substr_count-en-start",
+      197506402,
+      307387443,
+      8366609,
+      15209845
+    ],
+    [
+      "aa",
+      "a",
+      "substr_count/en/start @ substr_count-en-start",
+      197933738,
+      307385934,
+      8505732,
+      15212991
+    ],
+    [
+      "aa",
+      "a",
+      "substr_count/en/start @ substr_count-en-start",
+      197635177,
+      307383797,
+      8342331,
+      15212790
+    ],
+    [
+      "aa",
+      "b",
+      "substr_count/en/start @ substr_count-en-start",
+      197384674,
+      307384496,
+      8772062,
+      15209348
+    ],
+    [
+      "aa",
+      "a",
+      "substr_count/en/middle @ substr_count-en-middle",
+      197574788,
+      304150450,
+      8458167,
+      15190345
+    ],
+    [
+      "aa",
+      "b",
+      "substr_count/en/middle @ substr_count-en-middle",
+      197475258,
+      304149970,
+      8298817,
+      15192742
+    ],
+    [
+      "aa",
+      "b",
+      "substr_count/en/middle @ substr_count-en-middle",
+      198038951,
+      304150170,
+      8318444,
+      15189509
+    ],
+    [
+      "aa",
+      "a",
+      "substr_count/en/middle @ substr_count-en-middle",
+      198208287,
+      304153624,
+      8288381,
+      15191831
+    ],
+    [
+      "aa",
+      "a",
+      "substr_count/en/middle @ substr_count-en-middle",
+      197488135,
+      304153106,
+      8268116,
+      15189998
+    ],
+    [
+      "aa",
+      "b",
+      "substr_count/en/middle @ substr_count-en-middle",
+      198263249,
+      304150279,
+      8410973,
+      15192189
+    ],
+    [
+      "aa",
+      "b",
+      "substr_count/en/middle @ substr_count-en-middle",
+      198098905,
+      304153215,
+      8583870,
+      15189444
+    ],
+    [
+      "aa",
+      "a",
+      "substr_count/en/middle @ substr_count-en-middle",
+      197881547,
+      304152666,
+      8282362,
+      15189513
+    ],
+    [
+      "aa",
+      "a",
+      "substr_count/en/middle @ substr_count-en-middle",
+      197897542,
+      304150200,
+      8455357,
+      15189411
+    ],
+    [
+      "aa",
+      "b",
+      "substr_count/en/middle @ substr_count-en-middle",
+      197824431,
+      304150707,
+      8572424,
+      15191543
+    ],
+    [
+      "aa",
+      "a",
+      "substr_count/en/end @ substr_count-en-end",
+      197418632,
+      294202661,
+      8375476,
+      15236452
+    ],
+    [
+      "aa",
+      "b",
+      "substr_count/en/end @ substr_count-en-end",
+      198122788,
+      294206757,
+      8482334,
+      15233615
+    ],
+    [
+      "aa",
+      "b",
+      "substr_count/en/end @ substr_count-en-end",
+      197730392,
+      294206209,
+      8330548,
+      15236875
+    ],
+    [
+      "aa",
+      "a",
+      "substr_count/en/end @ substr_count-en-end",
+      197607198,
+      294206551,
+      8399156,
+      15234106
+    ],
+    [
+      "aa",
+      "a",
+      "substr_count/en/end @ substr_count-en-end",
+      197639777,
+      294203321,
+      8257044,
+      15233543
+    ],
+    [
+      "aa",
+      "b",
+      "substr_count/en/end @ substr_count-en-end",
+      197713957,
+      294203081,
+      8510616,
+      15234701
+    ],
+    [
+      "aa",
+      "b",
+      "substr_count/en/end @ substr_count-en-end",
+      197653191,
+      294203576,
+      8645641,
+      15234166
+    ],
+    [
+      "aa",
+      "a",
+      "substr_count/en/end @ substr_count-en-end",
+      197745298,
+      294205694,
+      8524849,
+      15233285
+    ],
+    [
+      "aa",
+      "a",
+      "substr_count/en/end @ substr_count-en-end",
+      197946788,
+      294205941,
+      8447876,
+      15237025
+    ],
+    [
+      "aa",
+      "b",
+      "substr_count/en/end @ substr_count-en-end",
+      197779069,
+      294203090,
+      8601379,
+      15233898
+    ],
+    [
+      "aa",
+      "a",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      187985689,
+      648888344,
+      8593957,
+      15657641
+    ],
+    [
+      "aa",
+      "b",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      190950389,
+      648884842,
+      8644532,
+      15654935
+    ],
+    [
+      "aa",
+      "b",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      184713208,
+      648885159,
+      8567304,
+      15654876
+    ],
+    [
+      "aa",
+      "a",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      185788889,
+      648885071,
+      8548286,
+      15654741
+    ],
+    [
+      "aa",
+      "a",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      190354451,
+      648888095,
+      8747134,
+      15657358
+    ],
+    [
+      "aa",
+      "b",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      183546056,
+      648887951,
+      8699751,
+      15657843
+    ],
+    [
+      "aa",
+      "b",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      219913852,
+      648888222,
+      8725070,
+      15657570
+    ],
+    [
+      "aa",
+      "a",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      188544726,
+      648887944,
+      8464437,
+      15653893
+    ],
+    [
+      "aa",
+      "a",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      187699414,
+      648888562,
+      8738442,
+      15655185
+    ],
+    [
+      "aa",
+      "b",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      190331421,
+      648887771,
+      8412415,
+      15653849
+    ],
+    [
+      "gcc14",
+      "a",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197828319,
+      291193049,
+      8394116,
+      15252079
+    ],
+    [
+      "gcc14",
+      "b",
+      "substr_count/en/absent @ substr_count-en-absent",
+      195935885,
+      283556808,
+      8275772,
+      15254641
+    ],
+    [
+      "gcc14",
+      "b",
+      "substr_count/en/absent @ substr_count-en-absent",
+      196127582,
+      283559305,
+      8385822,
+      15254406
+    ],
+    [
+      "gcc14",
+      "a",
+      "substr_count/en/absent @ substr_count-en-absent",
+      198057829,
+      291194138,
+      8550458,
+      15251749
+    ],
+    [
+      "gcc14",
+      "a",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197467010,
+      291193053,
+      8300854,
+      15251704
+    ],
+    [
+      "gcc14",
+      "b",
+      "substr_count/en/absent @ substr_count-en-absent",
+      196121564,
+      283556808,
+      8603275,
+      15251407
+    ],
+    [
+      "gcc14",
+      "b",
+      "substr_count/en/absent @ substr_count-en-absent",
+      195800467,
+      283557281,
+      8276744,
+      15254750
+    ],
+    [
+      "gcc14",
+      "a",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197653172,
+      291192617,
+      8350343,
+      15255054
+    ],
+    [
+      "gcc14",
+      "a",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197747037,
+      291194632,
+      8316608,
+      15254455
+    ],
+    [
+      "gcc14",
+      "b",
+      "substr_count/en/absent @ substr_count-en-absent",
+      196116132,
+      283556230,
+      8266391,
+      15252182
+    ],
+    [
+      "gcc14",
+      "a",
+      "substr_count/en/start @ substr_count-en-start",
+      197341924,
+      307385016,
+      8514350,
+      15209373
+    ],
+    [
+      "gcc14",
+      "b",
+      "substr_count/en/start @ substr_count-en-start",
+      194570297,
+      292527799,
+      8514991,
+      15209538
+    ],
+    [
+      "gcc14",
+      "b",
+      "substr_count/en/start @ substr_count-en-start",
+      194292478,
+      292527498,
+      8667227,
+      15209350
+    ],
+    [
+      "gcc14",
+      "a",
+      "substr_count/en/start @ substr_count-en-start",
+      197439796,
+      307384190,
+      8396267,
+      15212559
+    ],
+    [
+      "gcc14",
+      "a",
+      "substr_count/en/start @ substr_count-en-start",
+      197625192,
+      307384663,
+      8317550,
+      15209903
+    ],
+    [
+      "gcc14",
+      "b",
+      "substr_count/en/start @ substr_count-en-start",
+      194379542,
+      292527214,
+      8606245,
+      15209324
+    ],
+    [
+      "gcc14",
+      "b",
+      "substr_count/en/start @ substr_count-en-start",
+      194042116,
+      292528474,
+      8314425,
+      15209136
+    ],
+    [
+      "gcc14",
+      "a",
+      "substr_count/en/start @ substr_count-en-start",
+      197890114,
+      307384887,
+      8378655,
+      15212519
+    ],
+    [
+      "gcc14",
+      "a",
+      "substr_count/en/start @ substr_count-en-start",
+      198261923,
+      307385294,
+      8370402,
+      15212467
+    ],
+    [
+      "gcc14",
+      "b",
+      "substr_count/en/start @ substr_count-en-start",
+      194013905,
+      292527326,
+      8614508,
+      15213322
+    ],
+    [
+      "gcc14",
+      "a",
+      "substr_count/en/middle @ substr_count-en-middle",
+      198206450,
+      304149500,
+      8388631,
+      15189395
+    ],
+    [
+      "gcc14",
+      "b",
+      "substr_count/en/middle @ substr_count-en-middle",
+      194599099,
+      289496993,
+      8345592,
+      15189436
+    ],
+    [
+      "gcc14",
+      "b",
+      "substr_count/en/middle @ substr_count-en-middle",
+      194094063,
+      289496956,
+      8439153,
+      15189664
+    ],
+    [
+      "gcc14",
+      "a",
+      "substr_count/en/middle @ substr_count-en-middle",
+      197661036,
+      304150912,
+      8350132,
+      15189216
+    ],
+    [
+      "gcc14",
+      "a",
+      "substr_count/en/middle @ substr_count-en-middle",
+      198156209,
+      304150013,
+      8422665,
+      15189622
+    ],
+    [
+      "gcc14",
+      "b",
+      "substr_count/en/middle @ substr_count-en-middle",
+      194190477,
+      289498515,
+      8354233,
+      15188792
+    ],
+    [
+      "gcc14",
+      "b",
+      "substr_count/en/middle @ substr_count-en-middle",
+      195013058,
+      289496431,
+      8389400,
+      15191753
+    ],
+    [
+      "gcc14",
+      "a",
+      "substr_count/en/middle @ substr_count-en-middle",
+      198139294,
+      304153564,
+      8300338,
+      15189343
+    ],
+    [
+      "gcc14",
+      "a",
+      "substr_count/en/middle @ substr_count-en-middle",
+      197694552,
+      304150315,
+      8539226,
+      15192437
+    ],
+    [
+      "gcc14",
+      "b",
+      "substr_count/en/middle @ substr_count-en-middle",
+      194683086,
+      289499087,
+      8468956,
+      15189150
+    ],
+    [
+      "gcc14",
+      "a",
+      "substr_count/en/end @ substr_count-en-end",
+      198218116,
+      294202781,
+      8453200,
+      15234951
+    ],
+    [
+      "gcc14",
+      "b",
+      "substr_count/en/end @ substr_count-en-end",
+      195893911,
+      286657604,
+      8389172,
+      15233873
+    ],
+    [
+      "gcc14",
+      "b",
+      "substr_count/en/end @ substr_count-en-end",
+      195769611,
+      286657061,
+      8577092,
+      15234993
+    ],
+    [
+      "gcc14",
+      "a",
+      "substr_count/en/end @ substr_count-en-end",
+      197858750,
+      294203330,
+      8433006,
+      15237007
+    ],
+    [
+      "gcc14",
+      "a",
+      "substr_count/en/end @ substr_count-en-end",
+      197623450,
+      294203117,
+      8367950,
+      15237185
+    ],
+    [
+      "gcc14",
+      "b",
+      "substr_count/en/end @ substr_count-en-end",
+      196166981,
+      286655135,
+      8406209,
+      15233967
+    ],
+    [
+      "gcc14",
+      "b",
+      "substr_count/en/end @ substr_count-en-end",
+      195782817,
+      286655197,
+      8266533,
+      15236080
+    ],
+    [
+      "gcc14",
+      "a",
+      "substr_count/en/end @ substr_count-en-end",
+      197536756,
+      294203929,
+      8512422,
+      15234225
+    ],
+    [
+      "gcc14",
+      "a",
+      "substr_count/en/end @ substr_count-en-end",
+      197658717,
+      294203324,
+      8598083,
+      15236708
+    ],
+    [
+      "gcc14",
+      "b",
+      "substr_count/en/end @ substr_count-en-end",
+      195940175,
+      286654918,
+      8455362,
+      15236819
+    ],
+    [
+      "gcc14",
+      "a",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      187137840,
+      648885445,
+      8640314,
+      15654515
+    ],
+    [
+      "gcc14",
+      "b",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      167103970,
+      523784287,
+      8628006,
+      15652574
+    ],
+    [
+      "gcc14",
+      "b",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      166710080,
+      523783782,
+      8595501,
+      15652734
+    ],
+    [
+      "gcc14",
+      "a",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      178991941,
+      648885601,
+      8705979,
+      15657492
+    ],
+    [
+      "gcc14",
+      "a",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      184056635,
+      648885188,
+      8676934,
+      15657668
+    ],
+    [
+      "gcc14",
+      "b",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      166391444,
+      523787010,
+      8596127,
+      15655057
+    ],
+    [
+      "gcc14",
+      "b",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      166537494,
+      523783872,
+      8652748,
+      15655898
+    ],
+    [
+      "gcc14",
+      "a",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      185857526,
+      648885194,
+      8647254,
+      15654172
+    ],
+    [
+      "gcc14",
+      "a",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      190189761,
+      648885629,
+      8689469,
+      15657364
+    ],
+    [
+      "gcc14",
+      "b",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      165776364,
+      523784236,
+      8751739,
+      15656754
+    ],
+    [
+      "clang20",
+      "a",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197139120,
+      300601866,
+      8471267,
+      15197655
+    ],
+    [
+      "clang20",
+      "b",
+      "substr_count/en/absent @ substr_count-en-absent",
+      195905332,
+      265002520,
+      8529228,
+      15194514
+    ],
+    [
+      "clang20",
+      "b",
+      "substr_count/en/absent @ substr_count-en-absent",
+      195422355,
+      265000582,
+      8426910,
+      15194203
+    ],
+    [
+      "clang20",
+      "a",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197218107,
+      300604595,
+      8213090,
+      15195663
+    ],
+    [
+      "clang20",
+      "a",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197297549,
+      300601851,
+      8345429,
+      15197963
+    ],
+    [
+      "clang20",
+      "b",
+      "substr_count/en/absent @ substr_count-en-absent",
+      195414214,
+      265002879,
+      8173776,
+      15194152
+    ],
+    [
+      "clang20",
+      "b",
+      "substr_count/en/absent @ substr_count-en-absent",
+      195649962,
+      265002390,
+      8223971,
+      15195260
+    ],
+    [
+      "clang20",
+      "a",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197507985,
+      300602067,
+      8268365,
+      15195096
+    ],
+    [
+      "clang20",
+      "a",
+      "substr_count/en/absent @ substr_count-en-absent",
+      196799095,
+      300602407,
+      8451319,
+      15195595
+    ],
+    [
+      "clang20",
+      "b",
+      "substr_count/en/absent @ substr_count-en-absent",
+      195830203,
+      265000820,
+      8356863,
+      15193966
+    ],
+    [
+      "clang20",
+      "a",
+      "substr_count/en/start @ substr_count-en-start",
+      195974108,
+      309420907,
+      8294575,
+      15150616
+    ],
+    [
+      "clang20",
+      "b",
+      "substr_count/en/start @ substr_count-en-start",
+      194259387,
+      272170792,
+      8406165,
+      15150835
+    ],
+    [
+      "clang20",
+      "b",
+      "substr_count/en/start @ substr_count-en-start",
+      194635913,
+      272172829,
+      8432892,
+      15149441
+    ],
+    [
+      "clang20",
+      "a",
+      "substr_count/en/start @ substr_count-en-start",
+      196380324,
+      309417606,
+      8459790,
+      15150957
+    ],
+    [
+      "clang20",
+      "a",
+      "substr_count/en/start @ substr_count-en-start",
+      195934125,
+      309417447,
+      8388659,
+      15150636
+    ],
+    [
+      "clang20",
+      "b",
+      "substr_count/en/start @ substr_count-en-start",
+      194128595,
+      272170144,
+      8352119,
+      15150264
+    ],
+    [
+      "clang20",
+      "b",
+      "substr_count/en/start @ substr_count-en-start",
+      194442990,
+      272170067,
+      8332597,
+      15149124
+    ],
+    [
+      "clang20",
+      "a",
+      "substr_count/en/start @ substr_count-en-start",
+      195968416,
+      309417734,
+      8153271,
+      15150093
+    ],
+    [
+      "clang20",
+      "a",
+      "substr_count/en/start @ substr_count-en-start",
+      196378247,
+      309420093,
+      8526797,
+      15150502
+    ],
+    [
+      "clang20",
+      "b",
+      "substr_count/en/start @ substr_count-en-start",
+      194392094,
+      272170817,
+      8455011,
+      15149848
+    ],
+    [
+      "clang20",
+      "a",
+      "substr_count/en/middle @ substr_count-en-middle",
+      196228236,
+      306204979,
+      8403153,
+      15128469
+    ],
+    [
+      "clang20",
+      "b",
+      "substr_count/en/middle @ substr_count-en-middle",
+      194555104,
+      269362441,
+      8372226,
+      15127199
+    ],
+    [
+      "clang20",
+      "b",
+      "substr_count/en/middle @ substr_count-en-middle",
+      194663927,
+      269365635,
+      8279943,
+      15128333
+    ],
+    [
+      "clang20",
+      "a",
+      "substr_count/en/middle @ substr_count-en-middle",
+      195823942,
+      306208029,
+      8129824,
+      15130775
+    ],
+    [
+      "clang20",
+      "a",
+      "substr_count/en/middle @ substr_count-en-middle",
+      196138934,
+      306207758,
+      8398472,
+      15128054
+    ],
+    [
+      "clang20",
+      "b",
+      "substr_count/en/middle @ substr_count-en-middle",
+      194471575,
+      269363181,
+      8447060,
+      15127285
+    ],
+    [
+      "clang20",
+      "b",
+      "substr_count/en/middle @ substr_count-en-middle",
+      194176628,
+      269362850,
+      8293466,
+      15127429
+    ],
+    [
+      "clang20",
+      "a",
+      "substr_count/en/middle @ substr_count-en-middle",
+      196096009,
+      306205750,
+      8304898,
+      15128741
+    ],
+    [
+      "clang20",
+      "a",
+      "substr_count/en/middle @ substr_count-en-middle",
+      196006129,
+      306207865,
+      8483558,
+      15130579
+    ],
+    [
+      "clang20",
+      "b",
+      "substr_count/en/middle @ substr_count-en-middle",
+      194706444,
+      269365719,
+      8391608,
+      15127958
+    ],
+    [
+      "clang20",
+      "a",
+      "substr_count/en/end @ substr_count-en-end",
+      197190951,
+      304192546,
+      8439860,
+      15176119
+    ],
+    [
+      "clang20",
+      "b",
+      "substr_count/en/end @ substr_count-en-end",
+      196358702,
+      268789326,
+      8356929,
+      15175377
+    ],
+    [
+      "clang20",
+      "b",
+      "substr_count/en/end @ substr_count-en-end",
+      195773402,
+      268789795,
+      8139331,
+      15175577
+    ],
+    [
+      "clang20",
+      "a",
+      "substr_count/en/end @ substr_count-en-end",
+      197070996,
+      304192130,
+      8357706,
+      15178372
+    ],
+    [
+      "clang20",
+      "a",
+      "substr_count/en/end @ substr_count-en-end",
+      196882302,
+      304191749,
+      8461428,
+      15178661
+    ],
+    [
+      "clang20",
+      "b",
+      "substr_count/en/end @ substr_count-en-end",
+      195814649,
+      268789845,
+      8478473,
+      15177376
+    ],
+    [
+      "clang20",
+      "b",
+      "substr_count/en/end @ substr_count-en-end",
+      196088797,
+      268789876,
+      8407094,
+      15175845
+    ],
+    [
+      "clang20",
+      "a",
+      "substr_count/en/end @ substr_count-en-end",
+      196756706,
+      304194909,
+      8328203,
+      15176750
+    ],
+    [
+      "clang20",
+      "a",
+      "substr_count/en/end @ substr_count-en-end",
+      196771086,
+      304192686,
+      8241059,
+      15176116
+    ],
+    [
+      "clang20",
+      "b",
+      "substr_count/en/end @ substr_count-en-end",
+      196403055,
+      268789834,
+      8419482,
+      15178872
+    ],
+    [
+      "clang20",
+      "a",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      166436309,
+      542804051,
+      8351834,
+      15630574
+    ],
+    [
+      "clang20",
+      "b",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      164239433,
+      477475820,
+      8404068,
+      15630158
+    ],
+    [
+      "clang20",
+      "b",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      164511667,
+      477475721,
+      8533152,
+      15630230
+    ],
+    [
+      "clang20",
+      "a",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      166283808,
+      542805201,
+      8600145,
+      15632821
+    ],
+    [
+      "clang20",
+      "a",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      165906097,
+      542807506,
+      8487015,
+      15630259
+    ],
+    [
+      "clang20",
+      "b",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      164592120,
+      477475463,
+      8427935,
+      15632405
+    ],
+    [
+      "clang20",
+      "b",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      164759895,
+      477478599,
+      8511925,
+      15630169
+    ],
+    [
+      "clang20",
+      "a",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      165689524,
+      542805454,
+      8488612,
+      15630948
+    ],
+    [
+      "clang20",
+      "a",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      166095353,
+      542805283,
+      8656669,
+      15632793
+    ],
+    [
+      "clang20",
+      "b",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      164606027,
+      477476040,
+      8542306,
+      15629590
+    ],
+    [
+      "gcc13",
+      "a",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197778177,
+      274409523,
+      8588762,
+      15247788
+    ],
+    [
+      "gcc13",
+      "b",
+      "substr_count/en/absent @ substr_count-en-absent",
+      196252384,
+      266775443,
+      8533947,
+      15246935
+    ],
+    [
+      "gcc13",
+      "b",
+      "substr_count/en/absent @ substr_count-en-absent",
+      196409424,
+      266773565,
+      8563600,
+      15249729
+    ],
+    [
+      "gcc13",
+      "a",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197750029,
+      274412435,
+      8484466,
+      15249972
+    ],
+    [
+      "gcc13",
+      "a",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197871237,
+      274410338,
+      8379073,
+      15250070
+    ],
+    [
+      "gcc13",
+      "b",
+      "substr_count/en/absent @ substr_count-en-absent",
+      196470145,
+      266772950,
+      8621971,
+      15250338
+    ],
+    [
+      "gcc13",
+      "b",
+      "substr_count/en/absent @ substr_count-en-absent",
+      196313026,
+      266773498,
+      8636929,
+      15247271
+    ],
+    [
+      "gcc13",
+      "a",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197846792,
+      274410266,
+      8630796,
+      15249954
+    ],
+    [
+      "gcc13",
+      "a",
+      "substr_count/en/absent @ substr_count-en-absent",
+      198002077,
+      274409569,
+      8661853,
+      15247263
+    ],
+    [
+      "gcc13",
+      "b",
+      "substr_count/en/absent @ substr_count-en-absent",
+      196115804,
+      266772984,
+      8555458,
+      15250066
+    ],
+    [
+      "gcc13",
+      "a",
+      "substr_count/en/start @ substr_count-en-start",
+      198569686,
+      290794657,
+      8546545,
+      15208260
+    ],
+    [
+      "gcc13",
+      "b",
+      "substr_count/en/start @ substr_count-en-start",
+      195760010,
+      275939880,
+      8590098,
+      15204827
+    ],
+    [
+      "gcc13",
+      "b",
+      "substr_count/en/start @ substr_count-en-start",
+      195461679,
+      275940030,
+      8450720,
+      15205155
+    ],
+    [
+      "gcc13",
+      "a",
+      "substr_count/en/start @ substr_count-en-start",
+      198567215,
+      290798882,
+      8525747,
+      15205386
+    ],
+    [
+      "gcc13",
+      "a",
+      "substr_count/en/start @ substr_count-en-start",
+      198733681,
+      290796554,
+      8559555,
+      15204745
+    ],
+    [
+      "gcc13",
+      "b",
+      "substr_count/en/start @ substr_count-en-start",
+      195393264,
+      275939206,
+      8578255,
+      15204597
+    ],
+    [
+      "gcc13",
+      "b",
+      "substr_count/en/start @ substr_count-en-start",
+      195554983,
+      275939931,
+      8591933,
+      15205131
+    ],
+    [
+      "gcc13",
+      "a",
+      "substr_count/en/start @ substr_count-en-start",
+      198361739,
+      290797232,
+      8541232,
+      15207623
+    ],
+    [
+      "gcc13",
+      "a",
+      "substr_count/en/start @ substr_count-en-start",
+      198437600,
+      290798985,
+      8480138,
+      15206025
+    ],
+    [
+      "gcc13",
+      "b",
+      "substr_count/en/start @ substr_count-en-start",
+      195836891,
+      275939570,
+      8325930,
+      15204642
+    ],
+    [
+      "gcc13",
+      "a",
+      "substr_count/en/middle @ substr_count-en-middle",
+      197898071,
+      287737054,
+      8593432,
+      15184606
+    ],
+    [
+      "gcc13",
+      "b",
+      "substr_count/en/middle @ substr_count-en-middle",
+      194986253,
+      273085607,
+      8534946,
+      15184062
+    ],
+    [
+      "gcc13",
+      "b",
+      "substr_count/en/middle @ substr_count-en-middle",
+      195319730,
+      273082993,
+      8407128,
+      15185114
+    ],
+    [
+      "gcc13",
+      "a",
+      "substr_count/en/middle @ substr_count-en-middle",
+      198204250,
+      287736715,
+      8423185,
+      15187725
+    ],
+    [
+      "gcc13",
+      "a",
+      "substr_count/en/middle @ substr_count-en-middle",
+      197766695,
+      287737425,
+      8452039,
+      15184713
+    ],
+    [
+      "gcc13",
+      "b",
+      "substr_count/en/middle @ substr_count-en-middle",
+      194938124,
+      273083134,
+      8521423,
+      15184802
+    ],
+    [
+      "gcc13",
+      "b",
+      "substr_count/en/middle @ substr_count-en-middle",
+      195382629,
+      273084866,
+      8374132,
+      15184366
+    ],
+    [
+      "gcc13",
+      "a",
+      "substr_count/en/middle @ substr_count-en-middle",
+      197828173,
+      287737046,
+      8386383,
+      15184630
+    ],
+    [
+      "gcc13",
+      "a",
+      "substr_count/en/middle @ substr_count-en-middle",
+      197958187,
+      287737690,
+      8365135,
+      15187713
+    ],
+    [
+      "gcc13",
+      "b",
+      "substr_count/en/middle @ substr_count-en-middle",
+      195119181,
+      273082796,
+      8565496,
+      15185363
+    ],
+    [
+      "gcc13",
+      "a",
+      "substr_count/en/end @ substr_count-en-end",
+      197580879,
+      277560150,
+      8457752,
+      15232179
+    ],
+    [
+      "gcc13",
+      "b",
+      "substr_count/en/end @ substr_count-en-end",
+      196758478,
+      270013095,
+      8538882,
+      15228552
+    ],
+    [
+      "gcc13",
+      "b",
+      "substr_count/en/end @ substr_count-en-end",
+      196612617,
+      270014477,
+      8731593,
+      15228550
+    ],
+    [
+      "gcc13",
+      "a",
+      "substr_count/en/end @ substr_count-en-end",
+      197325628,
+      277562798,
+      8398477,
+      15231305
+    ],
+    [
+      "gcc13",
+      "a",
+      "substr_count/en/end @ substr_count-en-end",
+      197758016,
+      277560254,
+      8319799,
+      15232287
+    ],
+    [
+      "gcc13",
+      "b",
+      "substr_count/en/end @ substr_count-en-end",
+      196872252,
+      270011979,
+      8326174,
+      15229325
+    ],
+    [
+      "gcc13",
+      "b",
+      "substr_count/en/end @ substr_count-en-end",
+      196566310,
+      270012121,
+      8487871,
+      15231764
+    ],
+    [
+      "gcc13",
+      "a",
+      "substr_count/en/end @ substr_count-en-end",
+      197570584,
+      277560782,
+      8368941,
+      15232067
+    ],
+    [
+      "gcc13",
+      "a",
+      "substr_count/en/end @ substr_count-en-end",
+      197678700,
+      277563292,
+      8361804,
+      15229175
+    ],
+    [
+      "gcc13",
+      "b",
+      "substr_count/en/end @ substr_count-en-end",
+      196438562,
+      270015494,
+      8618601,
+      15230281
+    ],
+    [
+      "gcc13",
+      "a",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      168421445,
+      633497791,
+      8735975,
+      15649854
+    ],
+    [
+      "gcc13",
+      "b",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      170311746,
+      508397957,
+      8639741,
+      15650516
+    ],
+    [
+      "gcc13",
+      "b",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      170292212,
+      508395177,
+      8629269,
+      15650092
+    ],
+    [
+      "gcc13",
+      "a",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      168320463,
+      633500833,
+      8701328,
+      15650214
+    ],
+    [
+      "gcc13",
+      "a",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      168152296,
+      633499665,
+      8813670,
+      15653085
+    ],
+    [
+      "gcc13",
+      "b",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      170479271,
+      508396013,
+      8756565,
+      15650697
+    ],
+    [
+      "gcc13",
+      "b",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      170597962,
+      508395686,
+      8746208,
+      15648324
+    ],
+    [
+      "gcc13",
+      "a",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      168063875,
+      633497826,
+      8511275,
+      15652119
+    ],
+    [
+      "gcc13",
+      "a",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      167821545,
+      633496982,
+      8669210,
+      15648983
+    ],
+    [
+      "gcc13",
+      "b",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      171196271,
+      508399086,
+      8743064,
+      15647859
+    ],
+    [
+      "clang18",
+      "a",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197710866,
+      303565048,
+      8332349,
+      15684362
+    ],
+    [
+      "clang18",
+      "b",
+      "substr_count/en/absent @ substr_count-en-absent",
+      196189217,
+      267962907,
+      8400469,
+      15683211
+    ],
+    [
+      "clang18",
+      "b",
+      "substr_count/en/absent @ substr_count-en-absent",
+      196523471,
+      267965582,
+      8252249,
+      15684295
+    ],
+    [
+      "clang18",
+      "a",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197609719,
+      303566974,
+      8447662,
+      15684528
+    ],
+    [
+      "clang18",
+      "a",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197530399,
+      303567764,
+      8306739,
+      15684380
+    ],
+    [
+      "clang18",
+      "b",
+      "substr_count/en/absent @ substr_count-en-absent",
+      196775731,
+      267965992,
+      8217223,
+      15683588
+    ],
+    [
+      "clang18",
+      "b",
+      "substr_count/en/absent @ substr_count-en-absent",
+      196393919,
+      267962604,
+      8339562,
+      15683809
+    ],
+    [
+      "clang18",
+      "a",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197548133,
+      303564917,
+      8193592,
+      15686651
+    ],
+    [
+      "clang18",
+      "a",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197505665,
+      303565471,
+      8508863,
+      15684255
+    ],
+    [
+      "clang18",
+      "b",
+      "substr_count/en/absent @ substr_count-en-absent",
+      196654095,
+      267963681,
+      8330260,
+      15683942
+    ],
+    [
+      "clang18",
+      "a",
+      "substr_count/en/start @ substr_count-en-start",
+      196386480,
+      312298625,
+      8182186,
+      15625377
+    ],
+    [
+      "clang18",
+      "b",
+      "substr_count/en/start @ substr_count-en-start",
+      194605220,
+      275051217,
+      8290785,
+      15624505
+    ],
+    [
+      "clang18",
+      "b",
+      "substr_count/en/start @ substr_count-en-start",
+      194745373,
+      275050677,
+      8203701,
+      15624271
+    ],
+    [
+      "clang18",
+      "a",
+      "substr_count/en/start @ substr_count-en-start",
+      196985307,
+      312300756,
+      8437066,
+      15627332
+    ],
+    [
+      "clang18",
+      "a",
+      "substr_count/en/start @ substr_count-en-start",
+      196797018,
+      312298916,
+      8483996,
+      15625039
+    ],
+    [
+      "clang18",
+      "b",
+      "substr_count/en/start @ substr_count-en-start",
+      194787074,
+      275051374,
+      8395685,
+      15624334
+    ],
+    [
+      "clang18",
+      "b",
+      "substr_count/en/start @ substr_count-en-start",
+      194496276,
+      275054234,
+      8475656,
+      15624625
+    ],
+    [
+      "clang18",
+      "a",
+      "substr_count/en/start @ substr_count-en-start",
+      197091447,
+      312298858,
+      8367825,
+      15624961
+    ],
+    [
+      "clang18",
+      "a",
+      "substr_count/en/start @ substr_count-en-start",
+      196729264,
+      312301371,
+      8471218,
+      15625181
+    ],
+    [
+      "clang18",
+      "b",
+      "substr_count/en/start @ substr_count-en-start",
+      194528333,
+      275053976,
+      8409623,
+      15623684
+    ],
+    [
+      "clang18",
+      "a",
+      "substr_count/en/middle @ substr_count-en-middle",
+      197403125,
+      309046085,
+      8406389,
+      15598716
+    ],
+    [
+      "clang18",
+      "b",
+      "substr_count/en/middle @ substr_count-en-middle",
+      195125557,
+      272203467,
+      8301214,
+      15594863
+    ],
+    [
+      "clang18",
+      "b",
+      "substr_count/en/middle @ substr_count-en-middle",
+      194994249,
+      272203340,
+      8320923,
+      15594615
+    ],
+    [
+      "clang18",
+      "a",
+      "substr_count/en/middle @ substr_count-en-middle",
+      196849615,
+      309046788,
+      8161214,
+      15596654
+    ],
+    [
+      "clang18",
+      "a",
+      "substr_count/en/middle @ substr_count-en-middle",
+      197121445,
+      309045243,
+      8536874,
+      15595785
+    ],
+    [
+      "clang18",
+      "b",
+      "substr_count/en/middle @ substr_count-en-middle",
+      194863077,
+      272203354,
+      8260401,
+      15597895
+    ],
+    [
+      "clang18",
+      "b",
+      "substr_count/en/middle @ substr_count-en-middle",
+      194995663,
+      272204007,
+      8184679,
+      15596910
+    ],
+    [
+      "clang18",
+      "a",
+      "substr_count/en/middle @ substr_count-en-middle",
+      197014182,
+      309045878,
+      8288577,
+      15595727
+    ],
+    [
+      "clang18",
+      "a",
+      "substr_count/en/middle @ substr_count-en-middle",
+      196887769,
+      309046171,
+      8274743,
+      15596046
+    ],
+    [
+      "clang18",
+      "b",
+      "substr_count/en/middle @ substr_count-en-middle",
+      194899521,
+      272205890,
+      8174536,
+      15595032
+    ],
+    [
+      "clang18",
+      "a",
+      "substr_count/en/end @ substr_count-en-end",
+      198300079,
+      307120603,
+      8457839,
+      15659487
+    ],
+    [
+      "clang18",
+      "b",
+      "substr_count/en/end @ substr_count-en-end",
+      197015713,
+      271718037,
+      8326396,
+      15658830
+    ],
+    [
+      "clang18",
+      "b",
+      "substr_count/en/end @ substr_count-en-end",
+      196502689,
+      271717756,
+      8305517,
+      15658755
+    ],
+    [
+      "clang18",
+      "a",
+      "substr_count/en/end @ substr_count-en-end",
+      198009772,
+      307120908,
+      8424720,
+      15659919
+    ],
+    [
+      "clang18",
+      "a",
+      "substr_count/en/end @ substr_count-en-end",
+      201759421,
+      307120430,
+      8502433,
+      15661739
+    ],
+    [
+      "clang18",
+      "b",
+      "substr_count/en/end @ substr_count-en-end",
+      196949928,
+      271718109,
+      8375717,
+      15660451
+    ],
+    [
+      "clang18",
+      "b",
+      "substr_count/en/end @ substr_count-en-end",
+      196639364,
+      271717640,
+      8573008,
+      15660750
+    ],
+    [
+      "clang18",
+      "a",
+      "substr_count/en/end @ substr_count-en-end",
+      197422206,
+      307123383,
+      8596365,
+      15661878
+    ],
+    [
+      "clang18",
+      "a",
+      "substr_count/en/end @ substr_count-en-end",
+      197912585,
+      307119932,
+      8327579,
+      15659623
+    ],
+    [
+      "clang18",
+      "b",
+      "substr_count/en/end @ substr_count-en-end",
+      196755322,
+      271720091,
+      8221956,
+      15658405
+    ],
+    [
+      "clang18",
+      "a",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      167299906,
+      546551363,
+      8377331,
+      16259564
+    ],
+    [
+      "clang18",
+      "b",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      166612564,
+      481221257,
+      8451003,
+      16261114
+    ],
+    [
+      "clang18",
+      "b",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      166397927,
+      481222185,
+      8720443,
+      16259342
+    ],
+    [
+      "clang18",
+      "a",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      167340413,
+      546554016,
+      8539064,
+      16260352
+    ],
+    [
+      "clang18",
+      "a",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      167382746,
+      546550919,
+      8664544,
+      16262253
+    ],
+    [
+      "clang18",
+      "b",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      166569108,
+      481222588,
+      8633914,
+      16261982
+    ],
+    [
+      "clang18",
+      "b",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      165995201,
+      481221609,
+      8499826,
+      16261351
+    ],
+    [
+      "clang18",
+      "a",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      167401383,
+      546551267,
+      8480582,
+      16260403
+    ],
+    [
+      "clang18",
+      "a",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      167294389,
+      546553268,
+      8623991,
+      16259719
+    ],
+    [
+      "clang18",
+      "b",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      166026488,
+      481222366,
+      8336333,
+      16258514
+    ],
+    [
+      "aa2",
+      "a",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197920760,
+      291193979,
+      8421263,
+      15251916
+    ],
+    [
+      "aa2",
+      "b",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197750495,
+      291193498,
+      8362625,
+      15252176
+    ],
+    [
+      "aa2",
+      "b",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197606560,
+      291193885,
+      8415288,
+      15254491
+    ],
+    [
+      "aa2",
+      "a",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197870317,
+      291194162,
+      8496902,
+      15251383
+    ],
+    [
+      "aa2",
+      "a",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197768666,
+      291192988,
+      8369412,
+      15252584
+    ],
+    [
+      "aa2",
+      "b",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197408619,
+      291193469,
+      8591408,
+      15253913
+    ],
+    [
+      "aa2",
+      "b",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197560165,
+      291196111,
+      8600239,
+      15252237
+    ],
+    [
+      "aa2",
+      "a",
+      "substr_count/en/absent @ substr_count-en-absent",
+      198170601,
+      291195526,
+      8598902,
+      15254099
+    ],
+    [
+      "aa2",
+      "a",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197339448,
+      291195567,
+      8296485,
+      15254359
+    ],
+    [
+      "aa2",
+      "b",
+      "substr_count/en/absent @ substr_count-en-absent",
+      197954926,
+      291193052,
+      8459802,
+      15251826
+    ],
+    [
+      "aa2",
+      "a",
+      "substr_count/en/start @ substr_count-en-start",
+      197509344,
+      307385453,
+      8426760,
+      15213438
+    ],
+    [
+      "aa2",
+      "b",
+      "substr_count/en/start @ substr_count-en-start",
+      198084634,
+      307387747,
+      8320441,
+      15210143
+    ],
+    [
+      "aa2",
+      "b",
+      "substr_count/en/start @ substr_count-en-start",
+      197895728,
+      307387274,
+      8357527,
+      15209845
+    ],
+    [
+      "aa2",
+      "a",
+      "substr_count/en/start @ substr_count-en-start",
+      197869607,
+      307384873,
+      8394332,
+      15210255
+    ],
+    [
+      "aa2",
+      "a",
+      "substr_count/en/start @ substr_count-en-start",
+      197628083,
+      307387278,
+      8485282,
+      15209963
+    ],
+    [
+      "aa2",
+      "b",
+      "substr_count/en/start @ substr_count-en-start",
+      198048269,
+      307384013,
+      8436019,
+      15210055
+    ],
+    [
+      "aa2",
+      "b",
+      "substr_count/en/start @ substr_count-en-start",
+      198211385,
+      307384765,
+      8520048,
+      15212875
+    ],
+    [
+      "aa2",
+      "a",
+      "substr_count/en/start @ substr_count-en-start",
+      197720787,
+      307384803,
+      8507781,
+      15212805
+    ],
+    [
+      "aa2",
+      "a",
+      "substr_count/en/start @ substr_count-en-start",
+      197663823,
+      307386991,
+      8524665,
+      15212522
+    ],
+    [
+      "aa2",
+      "b",
+      "substr_count/en/start @ substr_count-en-start",
+      197457706,
+      307387152,
+      8354878,
+      15209704
+    ],
+    [
+      "aa2",
+      "a",
+      "substr_count/en/middle @ substr_count-en-middle",
+      197689238,
+      304152658,
+      8333748,
+      15189477
+    ],
+    [
+      "aa2",
+      "b",
+      "substr_count/en/middle @ substr_count-en-middle",
+      197999502,
+      304150621,
+      8312345,
+      15190001
+    ],
+    [
+      "aa2",
+      "b",
+      "substr_count/en/middle @ substr_count-en-middle",
+      197782914,
+      304153344,
+      8273034,
+      15192240
+    ],
+    [
+      "aa2",
+      "a",
+      "substr_count/en/middle @ substr_count-en-middle",
+      197510899,
+      304153212,
+      8395362,
+      15191336
+    ],
+    [
+      "aa2",
+      "a",
+      "substr_count/en/middle @ substr_count-en-middle",
+      197746159,
+      304150099,
+      8616572,
+      15190181
+    ],
+    [
+      "aa2",
+      "b",
+      "substr_count/en/middle @ substr_count-en-middle",
+      198001933,
+      304150999,
+      8560941,
+      15189217
+    ],
+    [
+      "aa2",
+      "b",
+      "substr_count/en/middle @ substr_count-en-middle",
+      197748523,
+      304150768,
+      8551658,
+      15188736
+    ],
+    [
+      "aa2",
+      "a",
+      "substr_count/en/middle @ substr_count-en-middle",
+      198164158,
+      304150342,
+      8359069,
+      15188983
+    ],
+    [
+      "aa2",
+      "a",
+      "substr_count/en/middle @ substr_count-en-middle",
+      197717148,
+      304150228,
+      8511501,
+      15190266
+    ],
+    [
+      "aa2",
+      "b",
+      "substr_count/en/middle @ substr_count-en-middle",
+      197524084,
+      304150754,
+      8616105,
+      15189465
+    ],
+    [
+      "aa2",
+      "a",
+      "substr_count/en/end @ substr_count-en-end",
+      197877884,
+      294202935,
+      8482981,
+      15233516
+    ],
+    [
+      "aa2",
+      "b",
+      "substr_count/en/end @ substr_count-en-end",
+      197741633,
+      294203186,
+      8635835,
+      15235823
+    ],
+    [
+      "aa2",
+      "b",
+      "substr_count/en/end @ substr_count-en-end",
+      197465597,
+      294205143,
+      8293094,
+      15235953
+    ],
+    [
+      "aa2",
+      "a",
+      "substr_count/en/end @ substr_count-en-end",
+      198273426,
+      294203395,
+      8412972,
+      15234772
+    ],
+    [
+      "aa2",
+      "a",
+      "substr_count/en/end @ substr_count-en-end",
+      197668964,
+      294205697,
+      8366607,
+      15231167
+    ],
+    [
+      "aa2",
+      "b",
+      "substr_count/en/end @ substr_count-en-end",
+      197562409,
+      294203002,
+      8321340,
+      15233975
+    ],
+    [
+      "aa2",
+      "b",
+      "substr_count/en/end @ substr_count-en-end",
+      197786860,
+      294203570,
+      8404385,
+      15236742
+    ],
+    [
+      "aa2",
+      "a",
+      "substr_count/en/end @ substr_count-en-end",
+      197541829,
+      294202817,
+      8359789,
+      15233865
+    ],
+    [
+      "aa2",
+      "a",
+      "substr_count/en/end @ substr_count-en-end",
+      197573162,
+      294205683,
+      8320752,
+      15236564
+    ],
+    [
+      "aa2",
+      "b",
+      "substr_count/en/end @ substr_count-en-end",
+      197720983,
+      294203028,
+      8454777,
+      15234432
+    ],
+    [
+      "aa2",
+      "a",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      183665060,
+      648884591,
+      8591184,
+      15654233
+    ],
+    [
+      "aa2",
+      "b",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      187840472,
+      648884467,
+      8473843,
+      15654096
+    ],
+    [
+      "aa2",
+      "b",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      185319534,
+      648885114,
+      8362417,
+      15653758
+    ],
+    [
+      "aa2",
+      "a",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      193042564,
+      648887897,
+      8683504,
+      15654605
+    ],
+    [
+      "aa2",
+      "a",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      196220262,
+      648887996,
+      8819024,
+      15654138
+    ],
+    [
+      "aa2",
+      "b",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      185055216,
+      648887402,
+      8381560,
+      15656879
+    ],
+    [
+      "aa2",
+      "b",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      188975746,
+      648884811,
+      8418997,
+      15657398
+    ],
+    [
+      "aa2",
+      "a",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      185999020,
+      648887776,
+      8502233,
+      15654341
+    ],
+    [
+      "aa2",
+      "a",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      188863706,
+      648885129,
+      8449461,
+      15654671
+    ],
+    [
+      "aa2",
+      "b",
+      "substr_count/en/repeated @ substr_count-en-repeated",
+      186936746,
+      648884540,
+      8497962,
+      15657516
+    ]
+  ]
+}

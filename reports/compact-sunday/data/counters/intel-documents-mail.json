@@ -1,0 +1,3627 @@
+{
+  "format": 2,
+  "kind": "compare",
+  "harness": 2,
+  "date": "2026-11-01T04:55:56+00:00",
+  "suite": "reports/compact-sunday/suites/documents-mail.php",
+  "elapsed_s": 147.8,
+  "complete": true,
+  "config": {
+    "passes": 5,
+    "cpu": 2,
+    "target_ms": 50,
+    "filter": null,
+    "control": true,
+    "wait_idle": 120,
+    "events": "cpu_core/cycles/u,cpu_core/instructions/u"
+  },
+  "env": {
+    "cpu_model": "13th Gen Intel(R) Core(TM) i7-13700H",
+    "kernel": "7.0.0-38-generic",
+    "cpu": 2,
+    "cpu_siblings": "2-3",
+    "hybrid_pcores": "0-11",
+    "cpu_is_pcore": true,
+    "governor": "powersave",
+    "epp": "balance_performance",
+    "turbo": true,
+    "on_ac": true,
+    "load": 0.7158203125,
+    "busy_pct": {
+      "2": 0,
+      "3": 0
+    },
+    "idle_cpu": 2
+  },
+  "groups": [
+    {
+      "name": "aa",
+      "a": "compact-base-gcc14",
+      "b": "compact-base-gcc14"
+    },
+    {
+      "name": "gcc14",
+      "a": "compact-base-gcc14",
+      "b": "compact-head-gcc14"
+    },
+    {
+      "name": "clang20",
+      "a": "compact-base-clang20",
+      "b": "compact-head-clang20"
+    },
+    {
+      "name": "gcc13",
+      "a": "compact-base-gcc13",
+      "b": "compact-head-gcc13"
+    },
+    {
+      "name": "clang18",
+      "a": "compact-base-clang18",
+      "b": "compact-head-clang18"
+    },
+    {
+      "name": "aa2",
+      "a": "compact-base-gcc14",
+      "b": "compact-base-gcc14"
+    }
+  ],
+  "builds": {
+    "compact-base-gcc14": {
+      "php": "BUILD_DIR/compact-base-gcc14/sapi/cli/php",
+      "build": {
+        "name": "compact-base-gcc14",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:46:09+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "ac3a91d21845157f2be60236a99e484774abd3cd",
+        "cc": "gcc-14 (Ubuntu 14.2.0-4ubuntu2~24.04.1) 14.2.0",
+        "cc_command": "gcc-14",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-gcc14/sapi/cli/php"
+      },
+      "sha1": "29994ee8008df58a38654def392c9ce84a02c527"
+    },
+    "compact-head-gcc14": {
+      "php": "BUILD_DIR/compact-head-gcc14/sapi/cli/php",
+      "build": {
+        "name": "compact-head-gcc14",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:53:33+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "ac3a91d21845157f2be60236a99e484774abd3cd",
+        "cc": "gcc-14 (Ubuntu 14.2.0-4ubuntu2~24.04.1) 14.2.0",
+        "cc_command": "gcc-14",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-gcc14/sapi/cli/php"
+      },
+      "sha1": "eb2fd20710ece4e824a9d4dfc0f19897891fa4a6"
+    },
+    "compact-base-clang20": {
+      "php": "BUILD_DIR/compact-base-clang20/sapi/cli/php",
+      "build": {
+        "name": "compact-base-clang20",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:49:34+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "1d7363572b7d241702924894eced9e166dfe2ea0",
+        "cc": "Ubuntu clang version 20.1.2 (0ubuntu1~24.04.3)",
+        "cc_command": "clang-20",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-clang20/sapi/cli/php"
+      },
+      "sha1": "2479fffae5b6ae555283eaa61d5de46779a1bc74"
+    },
+    "compact-head-clang20": {
+      "php": "BUILD_DIR/compact-head-clang20/sapi/cli/php",
+      "build": {
+        "name": "compact-head-clang20",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:57:25+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "1d7363572b7d241702924894eced9e166dfe2ea0",
+        "cc": "Ubuntu clang version 20.1.2 (0ubuntu1~24.04.3)",
+        "cc_command": "clang-20",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-clang20/sapi/cli/php"
+      },
+      "sha1": "1577211fd1cee3181dd7eedbe88345254f0c9217"
+    },
+    "compact-base-gcc13": {
+      "php": "BUILD_DIR/compact-base-gcc13/sapi/cli/php",
+      "build": {
+        "name": "compact-base-gcc13",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:44:22+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "7d7501a4b803974f6a9a1a155f1d477e1e470510",
+        "cc": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+        "cc_command": "gcc",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-gcc13/sapi/cli/php"
+      },
+      "sha1": "77cb6a44e3c6456b1b85f1c5e91a81365c7b4cc7"
+    },
+    "compact-head-gcc13": {
+      "php": "BUILD_DIR/compact-head-gcc13/sapi/cli/php",
+      "build": {
+        "name": "compact-head-gcc13",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:51:26+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "7d7501a4b803974f6a9a1a155f1d477e1e470510",
+        "cc": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+        "cc_command": "gcc",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-gcc13/sapi/cli/php"
+      },
+      "sha1": "0def7d7b7cd90023ff48823de1a7fb0916094ab4"
+    },
+    "compact-base-clang18": {
+      "php": "BUILD_DIR/compact-base-clang18/sapi/cli/php",
+      "build": {
+        "name": "compact-base-clang18",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:47:49+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "096800019d14b925a3b777447a14fa3b0d669985",
+        "cc": "Ubuntu clang version 18.1.3 (1ubuntu1)",
+        "cc_command": "clang",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-clang18/sapi/cli/php"
+      },
+      "sha1": "afd9859494a5f84bbad4a39c8569b7d63f361611"
+    },
+    "compact-head-clang18": {
+      "php": "BUILD_DIR/compact-head-clang18/sapi/cli/php",
+      "build": {
+        "name": "compact-head-clang18",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:55:30+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "096800019d14b925a3b777447a14fa3b0d669985",
+        "cc": "Ubuntu clang version 18.1.3 (1ubuntu1)",
+        "cc_command": "clang",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-clang18/sapi/cli/php"
+      },
+      "sha1": "192e4a4a5f2f9207a910d137978397dd12769e99"
+    }
+  },
+  "sources": {
+    "suite": "498c66643b329649243b907b762587aee9e7bbc1",
+    "harness": "c3113f45c2a11bcb63f0b1fb7a4e44ef6843325d",
+    "corpus": "e5c81343e158d86e921e121508cb8b101980f980"
+  },
+  "machine_warnings": [
+    "CPU governor is 'powersave': frequency scaling adds noise (sudo CAPTURE_PATH/bench tune on)",
+    "turbo boost is on: thermal and frequency drift between rounds (sudo CAPTURE_PATH/bench tune on)"
+  ],
+  "cases": {
+    "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all": {
+      "input_len": 2878,
+      "input_chars": 2878,
+      "n": 84077
+    },
+    "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all": {
+      "input_len": 2878,
+      "input_chars": 2878,
+      "n": 404053
+    },
+    "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all": {
+      "input_len": 2878,
+      "input_chars": 2878,
+      "n": 85615
+    },
+    "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all": {
+      "input_len": 3764,
+      "input_chars": 3764,
+      "n": 78029
+    },
+    "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all": {
+      "input_len": 3764,
+      "input_chars": 3764,
+      "n": 359559
+    },
+    "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all": {
+      "input_len": 3764,
+      "input_chars": 3764,
+      "n": 67108
+    }
+  },
+  "warnings": [],
+  "marks": [],
+  "rows": [
+    [
+      "aa",
+      "a",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      198364381,
+      439767733,
+      9051082,
+      16435359
+    ],
+    [
+      "aa",
+      "b",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      198691024,
+      439769593,
+      8793631,
+      16432854
+    ],
+    [
+      "aa",
+      "b",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      198099194,
+      439769822,
+      8847945,
+      16432944
+    ],
+    [
+      "aa",
+      "a",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      201200600,
+      439767258,
+      9052028,
+      16435647
+    ],
+    [
+      "aa",
+      "a",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      198715554,
+      439766897,
+      8828353,
+      16432374
+    ],
+    [
+      "aa",
+      "b",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      198713682,
+      439769667,
+      8868601,
+      16435207
+    ],
+    [
+      "aa",
+      "b",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      198312045,
+      439766293,
+      8846275,
+      16434891
+    ],
+    [
+      "aa",
+      "a",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      198625554,
+      439768979,
+      9110448,
+      16432705
+    ],
+    [
+      "aa",
+      "a",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      198026041,
+      439769964,
+      8918382,
+      16432333
+    ],
+    [
+      "aa",
+      "b",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      198387057,
+      439766350,
+      8773822,
+      16432140
+    ],
+    [
+      "aa",
+      "a",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      202881254,
+      846348728,
+      11668809,
+      25711902
+    ],
+    [
+      "aa",
+      "b",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      203690648,
+      846349474,
+      11689993,
+      25711548
+    ],
+    [
+      "aa",
+      "b",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      202701293,
+      846348856,
+      11881398,
+      25711845
+    ],
+    [
+      "aa",
+      "a",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      204802873,
+      846348425,
+      11955763,
+      25709357
+    ],
+    [
+      "aa",
+      "a",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      204456043,
+      846352777,
+      11719973,
+      25711502
+    ],
+    [
+      "aa",
+      "b",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      203445604,
+      846349562,
+      11663389,
+      25712252
+    ],
+    [
+      "aa",
+      "b",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      205541260,
+      846351416,
+      11690168,
+      25712154
+    ],
+    [
+      "aa",
+      "a",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      205151500,
+      846352320,
+      11731780,
+      25709536
+    ],
+    [
+      "aa",
+      "a",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      205888379,
+      846351744,
+      11797023,
+      25708855
+    ],
+    [
+      "aa",
+      "b",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      201530119,
+      846348980,
+      11756107,
+      25712518
+    ],
+    [
+      "aa",
+      "a",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      198840501,
+      373033492,
+      8838649,
+      16519519
+    ],
+    [
+      "aa",
+      "b",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      198331708,
+      373035338,
+      8922766,
+      16522042
+    ],
+    [
+      "aa",
+      "b",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      198541496,
+      373033939,
+      8879007,
+      16519131
+    ],
+    [
+      "aa",
+      "a",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      199118205,
+      373035026,
+      8770529,
+      16518172
+    ],
+    [
+      "aa",
+      "a",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      198686690,
+      373036112,
+      8966406,
+      16519162
+    ],
+    [
+      "aa",
+      "b",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      198173190,
+      373032970,
+      8755266,
+      16518879
+    ],
+    [
+      "aa",
+      "b",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      199496142,
+      373035706,
+      9124810,
+      16518708
+    ],
+    [
+      "aa",
+      "a",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      198349986,
+      373032800,
+      8961469,
+      16521748
+    ],
+    [
+      "aa",
+      "a",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      198645536,
+      373035954,
+      8971490,
+      16518724
+    ],
+    [
+      "aa",
+      "b",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      198762035,
+      373033739,
+      8848290,
+      16521927
+    ],
+    [
+      "aa",
+      "a",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      198773982,
+      458941129,
+      8824238,
+      16275938
+    ],
+    [
+      "aa",
+      "b",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      198587599,
+      458943540,
+      8830639,
+      16278131
+    ],
+    [
+      "aa",
+      "b",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      198269395,
+      458940783,
+      8689080,
+      16276247
+    ],
+    [
+      "aa",
+      "a",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      198323104,
+      458943915,
+      8887481,
+      16276620
+    ],
+    [
+      "aa",
+      "a",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      199392391,
+      458940961,
+      8788333,
+      16275622
+    ],
+    [
+      "aa",
+      "b",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      198300223,
+      458941212,
+      8812102,
+      16275950
+    ],
+    [
+      "aa",
+      "b",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      198360648,
+      458941293,
+      8694375,
+      16276010
+    ],
+    [
+      "aa",
+      "a",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      198522654,
+      458943776,
+      8881791,
+      16276403
+    ],
+    [
+      "aa",
+      "a",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      198313259,
+      458942100,
+      8800586,
+      16278103
+    ],
+    [
+      "aa",
+      "b",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      198046308,
+      458941454,
+      8820505,
+      16276403
+    ],
+    [
+      "aa",
+      "a",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      202535872,
+      794262133,
+      11288570,
+      24437337
+    ],
+    [
+      "aa",
+      "b",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      200963834,
+      794264509,
+      11304149,
+      24437881
+    ],
+    [
+      "aa",
+      "b",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      200387784,
+      794260911,
+      11529616,
+      24440995
+    ],
+    [
+      "aa",
+      "a",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      198346121,
+      794260959,
+      11593829,
+      24438010
+    ],
+    [
+      "aa",
+      "a",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      196384122,
+      794260771,
+      11400144,
+      24437642
+    ],
+    [
+      "aa",
+      "b",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      198674322,
+      794263693,
+      11355803,
+      24440660
+    ],
+    [
+      "aa",
+      "b",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      200345939,
+      794264580,
+      11406610,
+      24437277
+    ],
+    [
+      "aa",
+      "a",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      196293172,
+      794261020,
+      11426770,
+      24437452
+    ],
+    [
+      "aa",
+      "a",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      195271240,
+      794261046,
+      11474616,
+      24438156
+    ],
+    [
+      "aa",
+      "b",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      198243112,
+      794264523,
+      11512959,
+      24437961
+    ],
+    [
+      "aa",
+      "a",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198102669,
+      357597477,
+      8899513,
+      16002742
+    ],
+    [
+      "aa",
+      "b",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198209289,
+      357597328,
+      8780434,
+      16004919
+    ],
+    [
+      "aa",
+      "b",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198269819,
+      357598254,
+      8805619,
+      16004547
+    ],
+    [
+      "aa",
+      "a",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      200207585,
+      357595021,
+      8856391,
+      16004669
+    ],
+    [
+      "aa",
+      "a",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198007386,
+      357597668,
+      8772358,
+      16002819
+    ],
+    [
+      "aa",
+      "b",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198629208,
+      357595262,
+      8597697,
+      16002407
+    ],
+    [
+      "aa",
+      "b",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198395092,
+      357593868,
+      8713681,
+      16001782
+    ],
+    [
+      "aa",
+      "a",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198114319,
+      357594704,
+      8848529,
+      16002051
+    ],
+    [
+      "aa",
+      "a",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198341562,
+      357597622,
+      8975969,
+      16002040
+    ],
+    [
+      "aa",
+      "b",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198218031,
+      357594553,
+      8854569,
+      16005120
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      198293331,
+      439767310,
+      8809353,
+      16432202
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      192882915,
+      403949583,
+      8833374,
+      16432125
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      192169734,
+      403949478,
+      8801385,
+      16432877
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      198503466,
+      439765987,
+      8808768,
+      16435304
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      198242886,
+      439766821,
+      9061895,
+      16431488
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      192141950,
+      403949172,
+      8867613,
+      16431499
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      191774784,
+      403950410,
+      8969999,
+      16432430
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      198331123,
+      439766292,
+      8904254,
+      16435690
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      198628190,
+      439766154,
+      8986375,
+      16436107
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      192284773,
+      403949568,
+      8877605,
+      16431781
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      205112085,
+      846349658,
+      11762626,
+      25711033
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      177489300,
+      731596772,
+      11935393,
+      25711562
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      177869054,
+      731597382,
+      11924461,
+      25709412
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      206196643,
+      846349453,
+      11695964,
+      25709300
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      203459965,
+      846349315,
+      11943539,
+      25710111
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      178039510,
+      731597774,
+      11763852,
+      25712587
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      177199897,
+      731600776,
+      11794002,
+      25709368
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      202809165,
+      846349765,
+      11818077,
+      25709526
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      203420815,
+      846348970,
+      11885427,
+      25709475
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      176741551,
+      731597202,
+      11757151,
+      25710131
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      198336842,
+      373032536,
+      8986622,
+      16519141
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      196086971,
+      360877971,
+      9037390,
+      16521755
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      196036186,
+      360875393,
+      9109549,
+      16518804
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      198512681,
+      373033210,
+      8893916,
+      16518820
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      198171305,
+      373032813,
+      8907416,
+      16519232
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      195783327,
+      360878540,
+      8840844,
+      16519977
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      195628959,
+      360877765,
+      9067769,
+      16521589
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      199156321,
+      373032860,
+      8980263,
+      16519984
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      198673046,
+      373035469,
+      8961715,
+      16519339
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      195942508,
+      360879110,
+      9055633,
+      16518260
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      198514076,
+      458940923,
+      8937029,
+      16278609
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      192323282,
+      425701008,
+      8887885,
+      16276186
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      192663983,
+      425703515,
+      9006720,
+      16274844
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      197978702,
+      458940695,
+      8670356,
+      16279263
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      198063669,
+      458943475,
+      8827951,
+      16276703
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      193245976,
+      425702960,
+      8826989,
+      16278099
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      192429166,
+      425700567,
+      8745153,
+      16275913
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      198735304,
+      458940822,
+      8668028,
+      16278997
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      197888402,
+      458944089,
+      8665161,
+      16278652
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      192935601,
+      425702686,
+      8798504,
+      16275457
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      198712211,
+      794262091,
+      11285394,
+      24440280
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      172604948,
+      692146865,
+      11314985,
+      24437960
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      172534565,
+      692145426,
+      11354467,
+      24437558
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      199201291,
+      794261184,
+      11417995,
+      24437893
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      197395387,
+      794264299,
+      11511434,
+      24437781
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      172726089,
+      692145873,
+      11335083,
+      24440787
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      172439150,
+      692146051,
+      11220268,
+      24438271
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      195484329,
+      794261460,
+      11346754,
+      24437595
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      196742446,
+      794263634,
+      11273854,
+      24438004
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      172672651,
+      692146547,
+      11322228,
+      24437585
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198124923,
+      357594614,
+      8726221,
+      16001550
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198812257,
+      348068217,
+      8810681,
+      16005006
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198909856,
+      348065345,
+      8853292,
+      16003706
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198840433,
+      357595246,
+      8829079,
+      16004309
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198169646,
+      357597226,
+      8807585,
+      16002146
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198524969,
+      348067081,
+      8846825,
+      16001439
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198667231,
+      348065509,
+      8914142,
+      16005110
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198227181,
+      357594750,
+      8941391,
+      16004372
+    ],
+    [
+      "gcc14",
+      "a",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198694795,
+      357597540,
+      8914148,
+      16002064
+    ],
+    [
+      "gcc14",
+      "b",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198461711,
+      348065396,
+      8945892,
+      16004757
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      198875842,
+      414790952,
+      8745179,
+      16427840
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      193918732,
+      375607554,
+      8794794,
+      16426111
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      194129912,
+      375607611,
+      9043423,
+      16426607
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      199101241,
+      414787929,
+      8769560,
+      16427717
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      199165980,
+      414789301,
+      8798980,
+      16424404
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      193745811,
+      375608555,
+      8780396,
+      16424092
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      194765297,
+      375610386,
+      8839232,
+      16427713
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      199084813,
+      414788086,
+      8894613,
+      16425000
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      199198943,
+      414788657,
+      8886582,
+      16427006
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      194409214,
+      375607772,
+      8544070,
+      16424727
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      200901319,
+      728594227,
+      11753513,
+      26342119
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      179271107,
+      676877691,
+      11748604,
+      26343343
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      178995029,
+      676874299,
+      11537248,
+      26344244
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      199695075,
+      728597060,
+      11534592,
+      26344794
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      200279001,
+      728593881,
+      11590765,
+      26341625
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      178336389,
+      676874677,
+      11451762,
+      26340910
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      177985942,
+      676877844,
+      11564471,
+      26341637
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      200524860,
+      728593699,
+      11683488,
+      26341305
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      200793729,
+      728593581,
+      11501056,
+      26343816
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      178078762,
+      676877339,
+      11508525,
+      26341042
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      197589958,
+      372776266,
+      8834549,
+      16515951
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      196606253,
+      343152405,
+      9074555,
+      16514942
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      195755167,
+      343149979,
+      8996997,
+      16516301
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      197828873,
+      372775834,
+      8913949,
+      16518930
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      197379291,
+      372773522,
+      8845697,
+      16518333
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      195791300,
+      343152473,
+      8826065,
+      16515842
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      195720929,
+      343152861,
+      8659094,
+      16515706
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      197701940,
+      372773840,
+      8681960,
+      16516036
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      197652461,
+      372775944,
+      8702049,
+      16517990
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      196282480,
+      343152223,
+      8998237,
+      16515131
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      199364053,
+      434570061,
+      8627087,
+      16247732
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      197038562,
+      398364826,
+      8907016,
+      16247622
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      196617023,
+      398365623,
+      8661814,
+      16249886
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      199345625,
+      434570856,
+      8784186,
+      16247510
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      199642299,
+      434567907,
+      8754090,
+      16250181
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      196599777,
+      398362434,
+      8667439,
+      16246948
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      196018161,
+      398362144,
+      8695171,
+      16247960
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      199703032,
+      434567918,
+      8706192,
+      16250704
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      199796546,
+      434568397,
+      8687724,
+      16247896
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      195809957,
+      398362135,
+      8761091,
+      16247415
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      189034519,
+      685131583,
+      11124016,
+      24975937
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      169202253,
+      639826376,
+      11298332,
+      24975158
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      171371827,
+      639826272,
+      11020279,
+      24972923
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      189711408,
+      685134193,
+      11132188,
+      24972630
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      189503042,
+      685131488,
+      11363130,
+      24972287
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      169390717,
+      639829195,
+      11397084,
+      24975715
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      170000812,
+      639826698,
+      11279870,
+      24972897
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      188968944,
+      685130938,
+      11241139,
+      24972713
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      189107497,
+      685134058,
+      11474365,
+      24973099
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      169718081,
+      639827112,
+      11221752,
+      24972723
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198308132,
+      359628001,
+      8737226,
+      15954250
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      196527309,
+      330367371,
+      8538589,
+      15953229
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      196671197,
+      330370216,
+      8523015,
+      15953347
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198253173,
+      359627013,
+      8591391,
+      15957157
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      197799050,
+      359627313,
+      8611845,
+      15954121
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      196878741,
+      330370059,
+      8794414,
+      15953322
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      196613399,
+      330370488,
+      8464872,
+      15952824
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198016609,
+      359626976,
+      8691713,
+      15956245
+    ],
+    [
+      "clang20",
+      "a",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198210315,
+      359627513,
+      8707205,
+      15953561
+    ],
+    [
+      "clang20",
+      "b",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      196486170,
+      330367008,
+      8691856,
+      15952773
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      197569983,
+      425471621,
+      8957581,
+      16429172
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      192097610,
+      389651637,
+      9061950,
+      16429767
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      192078356,
+      389654511,
+      9053173,
+      16427210
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      197448974,
+      425468507,
+      9133880,
+      16426333
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      198153124,
+      425471931,
+      9035395,
+      16430202
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      192373097,
+      389654574,
+      9005358,
+      16427085
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      192166547,
+      389651223,
+      8854439,
+      16429268
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      197887114,
+      425468113,
+      9135415,
+      16430146
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      197821296,
+      425468680,
+      9028936,
+      16427745
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      192280413,
+      389652097,
+      9045557,
+      16426390
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      210611562,
+      837457328,
+      11702027,
+      25708568
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      177765338,
+      722706502,
+      11857196,
+      25703908
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      178950795,
+      722703756,
+      11854521,
+      25704358
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      210093241,
+      837458133,
+      11980751,
+      25707363
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      210910865,
+      837457067,
+      11654504,
+      25706471
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      180421245,
+      722703799,
+      11733201,
+      25704282
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      179301674,
+      722706472,
+      11772553,
+      25704732
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      210549238,
+      837457983,
+      11923563,
+      25704942
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      211457335,
+      837457211,
+      11767674,
+      25705040
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      178444640,
+      722704094,
+      11858774,
+      25704250
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      198466386,
+      360446372,
+      8919455,
+      16516940
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      195640463,
+      348284875,
+      9155068,
+      16516697
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      195758390,
+      348286280,
+      9016443,
+      16513951
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      198220747,
+      360441775,
+      9060882,
+      16514524
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      198372241,
+      360443547,
+      9036415,
+      16514835
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      195444019,
+      348285161,
+      8995451,
+      16514162
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      195836904,
+      348287677,
+      8852034,
+      16517773
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      198490921,
+      360442714,
+      9002969,
+      16514319
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      198816666,
+      360445239,
+      9069084,
+      16514199
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      195112983,
+      348287280,
+      9209720,
+      16514175
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      198200973,
+      445751580,
+      8791270,
+      16274336
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      193080907,
+      412507596,
+      9017108,
+      16270717
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      193294403,
+      412508870,
+      8951262,
+      16270452
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      198210419,
+      445749054,
+      8705378,
+      16270393
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      198858268,
+      445752226,
+      8951963,
+      16271774
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      193289223,
+      412508246,
+      8965807,
+      16270355
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      192775144,
+      412511046,
+      8907295,
+      16270902
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      198093588,
+      445749536,
+      8853432,
+      16271078
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      198365995,
+      445749797,
+      8861089,
+      16273627
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      192720983,
+      412509193,
+      9041288,
+      16270721
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      202609520,
+      786347097,
+      11450261,
+      24435655
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      173669337,
+      684230675,
+      11469250,
+      24432311
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      173772468,
+      684231601,
+      11326260,
+      24432821
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      202112468,
+      786349383,
+      11510894,
+      24435965
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      201987816,
+      786348252,
+      11517523,
+      24432325
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      173713470,
+      684233642,
+      11514770,
+      24434899
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      173599937,
+      684231489,
+      11465612,
+      24432041
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      201782054,
+      786345549,
+      11512010,
+      24436402
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      201810777,
+      786347101,
+      11549076,
+      24435785
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      174106034,
+      684234353,
+      11437807,
+      24432773
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      199449006,
+      344640440,
+      8881280,
+      15997903
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      195914209,
+      335108036,
+      8757926,
+      15996838
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      195943718,
+      335109235,
+      8857381,
+      15997353
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198985233,
+      344638058,
+      8717600,
+      16000074
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      199372801,
+      344638577,
+      8809942,
+      15999381
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      195837128,
+      335107930,
+      8908249,
+      16000290
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      196188972,
+      335108043,
+      8762482,
+      15999947
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      199049528,
+      344638061,
+      8781927,
+      15997642
+    ],
+    [
+      "gcc13",
+      "a",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      199101610,
+      344640913,
+      8703418,
+      15998047
+    ],
+    [
+      "gcc13",
+      "b",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      196804295,
+      335108657,
+      8916189,
+      15997015
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      199877858,
+      419367816,
+      8823094,
+      17222862
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      193784866,
+      380187947,
+      8675190,
+      17220256
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      194170715,
+      380189867,
+      8888467,
+      17220007
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      200080630,
+      419368891,
+      8808045,
+      17223724
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      200389715,
+      419370572,
+      8612156,
+      17220935
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      194298010,
+      380188259,
+      8649087,
+      17220336
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      193767846,
+      380188131,
+      8806418,
+      17220228
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      199897146,
+      419370303,
+      8851991,
+      17221155
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      200229072,
+      419370292,
+      8700674,
+      17220768
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      194117838,
+      380190921,
+      8833130,
+      17220591
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      204601475,
+      752792519,
+      12246558,
+      30337908
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      181260360,
+      701075906,
+      12071168,
+      30337543
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      180404203,
+      701074373,
+      12217639,
+      30340459
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      204285077,
+      752792187,
+      12170050,
+      30338223
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      204016693,
+      752792520,
+      11967628,
+      30340207
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      180821643,
+      701073414,
+      12056000,
+      30338147
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      180546710,
+      701073490,
+      11913881,
+      30337667
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      204647030,
+      752794343,
+      11913704,
+      30337547
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      204724300,
+      752792429,
+      11947076,
+      30337778
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      181991246,
+      701073059,
+      11860044,
+      30337043
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      202005383,
+      389767975,
+      8867379,
+      17327772
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      199231100,
+      360143022,
+      8777715,
+      17330146
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      199457258,
+      360142369,
+      8869131,
+      17327559
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      201896592,
+      389768380,
+      9066387,
+      17327119
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      201743269,
+      389768446,
+      8905522,
+      17329969
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      199781485,
+      360142863,
+      8792903,
+      17329359
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      199414826,
+      360143107,
+      8729676,
+      17327280
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      201695240,
+      389769114,
+      8859501,
+      17327429
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      202074608,
+      389769087,
+      8864069,
+      17330204
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      199694999,
+      360146575,
+      9031188,
+      17327388
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      200043092,
+      438814751,
+      8946254,
+      16983521
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      194972244,
+      402609190,
+      8733995,
+      16982680
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      194839925,
+      402612259,
+      8654304,
+      16983107
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      199717957,
+      438815739,
+      8751646,
+      16986614
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      200313955,
+      438817941,
+      8748510,
+      16986183
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      194691996,
+      402609528,
+      8840207,
+      16986078
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      194254606,
+      402611561,
+      8628696,
+      16985049
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      200208685,
+      438817611,
+      8738911,
+      16983857
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      200395538,
+      438815971,
+      8923340,
+      16986141
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      200192045,
+      402611480,
+      8796228,
+      16983117
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      191901478,
+      704502748,
+      11565758,
+      28523747
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      170728434,
+      659201494,
+      11536025,
+      28523553
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      170258471,
+      659198524,
+      11524620,
+      28525751
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      191682710,
+      704502189,
+      11637008,
+      28523913
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      197904602,
+      704503194,
+      11667683,
+      28525974
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      170909040,
+      659200866,
+      11353737,
+      28523023
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      171729834,
+      659198512,
+      11551500,
+      28522944
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      191460781,
+      704502449,
+      11496829,
+      28523632
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      191143628,
+      704505072,
+      11614922,
+      28524253
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      170502557,
+      659198606,
+      11434530,
+      28526136
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      202389940,
+      372534015,
+      8848568,
+      16582892
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      200390765,
+      343277488,
+      8608267,
+      16582428
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      200713009,
+      343275700,
+      8676285,
+      16580336
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      202265937,
+      372535781,
+      8645347,
+      16583554
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      202053680,
+      372536979,
+      8777538,
+      16583080
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      200976960,
+      343278188,
+      8537735,
+      16582916
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      200767953,
+      343274908,
+      8710716,
+      16580044
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      202265764,
+      372534530,
+      8740561,
+      16579671
+    ],
+    [
+      "clang18",
+      "a",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      202651827,
+      372536898,
+      8578608,
+      16582628
+    ],
+    [
+      "clang18",
+      "b",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      200942125,
+      343275556,
+      8623192,
+      16582818
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      197991395,
+      439769576,
+      8968435,
+      16433211
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      198834049,
+      439766979,
+      9082959,
+      16435711
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      198687737,
+      439766766,
+      8864137,
+      16432695
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      201450639,
+      439766546,
+      8772327,
+      16432544
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      198626583,
+      439769857,
+      8986989,
+      16435598
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      198744233,
+      439766270,
+      8937989,
+      16431965
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      198217540,
+      439769386,
+      8729987,
+      16431967
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      198461748,
+      439766458,
+      8743262,
+      16432687
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      198664028,
+      439769860,
+      9039412,
+      16432427
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/explode/mail_receipt/all @ documents-explode-mail_receipt-all",
+      198948094,
+      439766696,
+      9043857,
+      16431968
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      202319147,
+      846349587,
+      11660384,
+      25709410
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      205211123,
+      846352586,
+      11644353,
+      25712106
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      203024730,
+      846349084,
+      11646834,
+      25712835
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      206968130,
+      846348163,
+      11601847,
+      25711964
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      201596078,
+      846352030,
+      11666214,
+      25709509
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      204823709,
+      846348976,
+      11569290,
+      25709766
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      204941339,
+      846349237,
+      11574730,
+      25709730
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      206168318,
+      846349555,
+      11785430,
+      25709574
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      200979090,
+      846349267,
+      11904208,
+      25709366
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/explode/mail_receipt/limit2 @ documents-explode-mail_receipt-all",
+      206952318,
+      846349472,
+      11827993,
+      25710765
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      198225323,
+      373034968,
+      8961221,
+      16518770
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      260810800,
+      373032529,
+      8914061,
+      16522329
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      198392402,
+      373035538,
+      9211104,
+      16519004
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      198454210,
+      373033253,
+      9093341,
+      16518484
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      198184267,
+      373035697,
+      8918144,
+      16519006
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      198557225,
+      373033815,
+      9070035,
+      16521412
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      198286192,
+      373032981,
+      8786147,
+      16519069
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      198378685,
+      373033704,
+      8944802,
+      16521721
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      198483094,
+      373035581,
+      9046735,
+      16519297
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/stream/mail_receipt/closing @ documents-explode-mail_receipt-all",
+      198413870,
+      373036812,
+      9146821,
+      16521602
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      198096546,
+      458943921,
+      8763554,
+      16278784
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      199338715,
+      458941858,
+      8768117,
+      16276297
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      198765163,
+      458941899,
+      8693956,
+      16275576
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      197626611,
+      458940660,
+      8860905,
+      16276412
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      200195216,
+      458942300,
+      8931248,
+      16275752
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      201511497,
+      458941051,
+      8864112,
+      16276037
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      198177185,
+      458943870,
+      8821425,
+      16276076
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      197986923,
+      458941766,
+      8824689,
+      16279023
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      198406824,
+      458940696,
+      8842668,
+      16276010
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/explode/mail_delivery/all @ documents-explode-mail_delivery-all",
+      198409809,
+      458943213,
+      8781122,
+      16278980
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      198029397,
+      794261980,
+      11284634,
+      24437711
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      198502089,
+      794261729,
+      11326062,
+      24437728
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      196298594,
+      794261920,
+      11224635,
+      24439890
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      196974760,
+      794261297,
+      11597967,
+      24437191
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      198080484,
+      794260936,
+      11330400,
+      24437363
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      200107641,
+      794260971,
+      11452189,
+      24437784
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      197119404,
+      794261526,
+      11229562,
+      24440022
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      200836160,
+      794264328,
+      11438331,
+      24438041
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      196395924,
+      794261491,
+      11309094,
+      24437565
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all",
+      198270011,
+      794264616,
+      11409198,
+      24438498
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198476118,
+      357597497,
+      8731776,
+      16002654
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198476223,
+      357597372,
+      8810471,
+      16001726
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198809142,
+      357597365,
+      8761751,
+      16005018
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198464994,
+      357597468,
+      8797408,
+      16002347
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      197899713,
+      357597138,
+      8939886,
+      16001488
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198462069,
+      357594933,
+      8902582,
+      16005420
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198057341,
+      357594958,
+      8596019,
+      16002384
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198101164,
+      357594421,
+      8663546,
+      16001814
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198154930,
+      357594275,
+      8618758,
+      16002733
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all",
+      198842094,
+      357595150,
+      8588652,
+      16001639
+    ]
+  ]
+}

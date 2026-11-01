@@ -1,0 +1,2537 @@
+{
+  "format": 2,
+  "kind": "compare",
+  "harness": 2,
+  "date": "2026-11-01T04:41:18+00:00",
+  "suite": "reports/compact-sunday/suites/stream-get-line.php",
+  "elapsed_s": 98.7,
+  "complete": true,
+  "config": {
+    "passes": 5,
+    "cpu": 2,
+    "target_ms": 50,
+    "filter": null,
+    "control": true,
+    "wait_idle": 120,
+    "events": "cpu_core/cycles/u,cpu_core/instructions/u"
+  },
+  "env": {
+    "cpu_model": "13th Gen Intel(R) Core(TM) i7-13700H",
+    "kernel": "7.0.0-38-generic",
+    "cpu": 2,
+    "cpu_siblings": "2-3",
+    "hybrid_pcores": "0-11",
+    "cpu_is_pcore": true,
+    "governor": "powersave",
+    "epp": "balance_performance",
+    "turbo": true,
+    "on_ac": true,
+    "load": 0.51025390625,
+    "busy_pct": {
+      "2": 3.3,
+      "3": 0
+    },
+    "idle_cpu": 2
+  },
+  "groups": [
+    {
+      "name": "aa",
+      "a": "compact-base-gcc14",
+      "b": "compact-base-gcc14"
+    },
+    {
+      "name": "gcc14",
+      "a": "compact-base-gcc14",
+      "b": "compact-head-gcc14"
+    },
+    {
+      "name": "clang20",
+      "a": "compact-base-clang20",
+      "b": "compact-head-clang20"
+    },
+    {
+      "name": "gcc13",
+      "a": "compact-base-gcc13",
+      "b": "compact-head-gcc13"
+    },
+    {
+      "name": "clang18",
+      "a": "compact-base-clang18",
+      "b": "compact-head-clang18"
+    },
+    {
+      "name": "aa2",
+      "a": "compact-base-gcc14",
+      "b": "compact-base-gcc14"
+    }
+  ],
+  "builds": {
+    "compact-base-gcc14": {
+      "php": "BUILD_DIR/compact-base-gcc14/sapi/cli/php",
+      "build": {
+        "name": "compact-base-gcc14",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:46:09+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "ac3a91d21845157f2be60236a99e484774abd3cd",
+        "cc": "gcc-14 (Ubuntu 14.2.0-4ubuntu2~24.04.1) 14.2.0",
+        "cc_command": "gcc-14",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-gcc14/sapi/cli/php"
+      },
+      "sha1": "29994ee8008df58a38654def392c9ce84a02c527"
+    },
+    "compact-head-gcc14": {
+      "php": "BUILD_DIR/compact-head-gcc14/sapi/cli/php",
+      "build": {
+        "name": "compact-head-gcc14",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:53:33+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "ac3a91d21845157f2be60236a99e484774abd3cd",
+        "cc": "gcc-14 (Ubuntu 14.2.0-4ubuntu2~24.04.1) 14.2.0",
+        "cc_command": "gcc-14",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-gcc14/sapi/cli/php"
+      },
+      "sha1": "eb2fd20710ece4e824a9d4dfc0f19897891fa4a6"
+    },
+    "compact-base-clang20": {
+      "php": "BUILD_DIR/compact-base-clang20/sapi/cli/php",
+      "build": {
+        "name": "compact-base-clang20",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:49:34+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "1d7363572b7d241702924894eced9e166dfe2ea0",
+        "cc": "Ubuntu clang version 20.1.2 (0ubuntu1~24.04.3)",
+        "cc_command": "clang-20",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-clang20/sapi/cli/php"
+      },
+      "sha1": "2479fffae5b6ae555283eaa61d5de46779a1bc74"
+    },
+    "compact-head-clang20": {
+      "php": "BUILD_DIR/compact-head-clang20/sapi/cli/php",
+      "build": {
+        "name": "compact-head-clang20",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:57:25+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "1d7363572b7d241702924894eced9e166dfe2ea0",
+        "cc": "Ubuntu clang version 20.1.2 (0ubuntu1~24.04.3)",
+        "cc_command": "clang-20",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-clang20/sapi/cli/php"
+      },
+      "sha1": "1577211fd1cee3181dd7eedbe88345254f0c9217"
+    },
+    "compact-base-gcc13": {
+      "php": "BUILD_DIR/compact-base-gcc13/sapi/cli/php",
+      "build": {
+        "name": "compact-base-gcc13",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:44:22+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "7d7501a4b803974f6a9a1a155f1d477e1e470510",
+        "cc": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+        "cc_command": "gcc",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-gcc13/sapi/cli/php"
+      },
+      "sha1": "77cb6a44e3c6456b1b85f1c5e91a81365c7b4cc7"
+    },
+    "compact-head-gcc13": {
+      "php": "BUILD_DIR/compact-head-gcc13/sapi/cli/php",
+      "build": {
+        "name": "compact-head-gcc13",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:51:26+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "7d7501a4b803974f6a9a1a155f1d477e1e470510",
+        "cc": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+        "cc_command": "gcc",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-gcc13/sapi/cli/php"
+      },
+      "sha1": "0def7d7b7cd90023ff48823de1a7fb0916094ab4"
+    },
+    "compact-base-clang18": {
+      "php": "BUILD_DIR/compact-base-clang18/sapi/cli/php",
+      "build": {
+        "name": "compact-base-clang18",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:47:49+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "096800019d14b925a3b777447a14fa3b0d669985",
+        "cc": "Ubuntu clang version 18.1.3 (1ubuntu1)",
+        "cc_command": "clang",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-clang18/sapi/cli/php"
+      },
+      "sha1": "afd9859494a5f84bbad4a39c8569b7d63f361611"
+    },
+    "compact-head-clang18": {
+      "php": "BUILD_DIR/compact-head-clang18/sapi/cli/php",
+      "build": {
+        "name": "compact-head-clang18",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:55:30+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "096800019d14b925a3b777447a14fa3b0d669985",
+        "cc": "Ubuntu clang version 18.1.3 (1ubuntu1)",
+        "cc_command": "clang",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-clang18/sapi/cli/php"
+      },
+      "sha1": "192e4a4a5f2f9207a910d137978397dd12769e99"
+    }
+  },
+  "sources": {
+    "suite": "b6184118886a54bf56a7ef402681892a0f944b2e",
+    "harness": "c3113f45c2a11bcb63f0b1fb7a4e44ef6843325d",
+    "corpus": "e5c81343e158d86e921e121508cb8b101980f980"
+  },
+  "machine_warnings": [
+    "CPU governor is 'powersave': frequency scaling adds noise (sudo CAPTURE_PATH/bench tune on)",
+    "turbo boost is on: thermal and frequency drift between rounds (sudo CAPTURE_PATH/bench tune on)"
+  ],
+  "cases": {
+    "stream_get_line/en/absent @ stream_get_line-en-absent": {
+      "input_len": 4096,
+      "input_chars": 4096,
+      "n": 54873
+    },
+    "stream_get_line/en/start @ stream_get_line-en-start": {
+      "input_len": 4119,
+      "input_chars": 4119,
+      "n": 394589
+    },
+    "stream_get_line/en/middle @ stream_get_line-en-middle": {
+      "input_len": 4119,
+      "input_chars": 4119,
+      "n": 93510
+    },
+    "stream_get_line/en/end @ stream_get_line-en-end": {
+      "input_len": 4119,
+      "input_chars": 4119,
+      "n": 54014
+    }
+  },
+  "warnings": [],
+  "marks": [],
+  "rows": [
+    [
+      "aa",
+      "a",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      198634357,
+      330484725,
+      8515060,
+      15500428
+    ],
+    [
+      "aa",
+      "b",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      198957998,
+      330481200,
+      8533492,
+      15499198
+    ],
+    [
+      "aa",
+      "b",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      198935845,
+      330480349,
+      8461553,
+      15496086
+    ],
+    [
+      "aa",
+      "a",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      198572989,
+      330481454,
+      8582839,
+      15500564
+    ],
+    [
+      "aa",
+      "a",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      198708785,
+      330480956,
+      8644601,
+      15497729
+    ],
+    [
+      "aa",
+      "b",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      198964963,
+      330483436,
+      8664659,
+      15497034
+    ],
+    [
+      "aa",
+      "b",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      198736373,
+      330480444,
+      8606350,
+      15496776
+    ],
+    [
+      "aa",
+      "a",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      198753274,
+      330481059,
+      8572668,
+      15500109
+    ],
+    [
+      "aa",
+      "a",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      198770011,
+      330480399,
+      8520259,
+      15496758
+    ],
+    [
+      "aa",
+      "b",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      198445337,
+      330483460,
+      8557067,
+      15499336
+    ],
+    [
+      "aa",
+      "a",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      201011254,
+      719406493,
+      11443145,
+      25309521
+    ],
+    [
+      "aa",
+      "b",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      201875883,
+      719403867,
+      11621202,
+      25309588
+    ],
+    [
+      "aa",
+      "b",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      201245332,
+      719404047,
+      11767218,
+      25311974
+    ],
+    [
+      "aa",
+      "a",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      203781947,
+      719401223,
+      11706947,
+      25311904
+    ],
+    [
+      "aa",
+      "a",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      202127928,
+      719404546,
+      11509146,
+      25309574
+    ],
+    [
+      "aa",
+      "b",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      200088346,
+      719403970,
+      11486441,
+      25309281
+    ],
+    [
+      "aa",
+      "b",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      203141338,
+      719406472,
+      11528566,
+      25309108
+    ],
+    [
+      "aa",
+      "a",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      202431295,
+      719403669,
+      11709372,
+      25308982
+    ],
+    [
+      "aa",
+      "a",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      200781315,
+      719405060,
+      11729275,
+      25309054
+    ],
+    [
+      "aa",
+      "b",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      201037048,
+      719406360,
+      11507898,
+      25309711
+    ],
+    [
+      "aa",
+      "a",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      198201729,
+      385602395,
+      8737203,
+      16601902
+    ],
+    [
+      "aa",
+      "b",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      198386397,
+      385601609,
+      8925998,
+      16598135
+    ],
+    [
+      "aa",
+      "b",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      197970354,
+      385602035,
+      8865712,
+      16602102
+    ],
+    [
+      "aa",
+      "a",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      201401512,
+      385605583,
+      8781142,
+      16602267
+    ],
+    [
+      "aa",
+      "a",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      197568197,
+      385604764,
+      8892138,
+      16597966
+    ],
+    [
+      "aa",
+      "b",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      197918713,
+      385602603,
+      8936510,
+      16598791
+    ],
+    [
+      "aa",
+      "b",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      198340304,
+      385602007,
+      8739889,
+      16601479
+    ],
+    [
+      "aa",
+      "a",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      197818950,
+      385602455,
+      8975502,
+      16598112
+    ],
+    [
+      "aa",
+      "a",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      197877533,
+      385605498,
+      8815387,
+      16599137
+    ],
+    [
+      "aa",
+      "b",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      197853588,
+      385605531,
+      8906512,
+      16599255
+    ],
+    [
+      "aa",
+      "a",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      198550484,
+      333090690,
+      8444389,
+      15472604
+    ],
+    [
+      "aa",
+      "b",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      198611566,
+      333088463,
+      8531697,
+      15472572
+    ],
+    [
+      "aa",
+      "b",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      198810224,
+      333090212,
+      8747332,
+      15475227
+    ],
+    [
+      "aa",
+      "a",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      198431098,
+      333088078,
+      8477693,
+      15472545
+    ],
+    [
+      "aa",
+      "a",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      198886528,
+      333087874,
+      8660948,
+      15474865
+    ],
+    [
+      "aa",
+      "b",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      198833432,
+      333087271,
+      8752794,
+      15472683
+    ],
+    [
+      "aa",
+      "b",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      198588679,
+      333087194,
+      8418739,
+      15471982
+    ],
+    [
+      "aa",
+      "a",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      198875889,
+      333087321,
+      8396457,
+      15472351
+    ],
+    [
+      "aa",
+      "a",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      198809415,
+      333087407,
+      8466935,
+      15475397
+    ],
+    [
+      "aa",
+      "b",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      198501284,
+      333088160,
+      8674447,
+      15472734
+    ],
+    [
+      "gcc14",
+      "a",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      198646028,
+      330481365,
+      8615924,
+      15497235
+    ],
+    [
+      "gcc14",
+      "b",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      197113081,
+      322688995,
+      8556709,
+      15499574
+    ],
+    [
+      "gcc14",
+      "b",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      197093676,
+      322691729,
+      8471892,
+      15498999
+    ],
+    [
+      "gcc14",
+      "a",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      198885212,
+      330483769,
+      8678170,
+      15497128
+    ],
+    [
+      "gcc14",
+      "a",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      199163929,
+      330480478,
+      8524971,
+      15499483
+    ],
+    [
+      "gcc14",
+      "b",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      196984813,
+      322691252,
+      8436876,
+      15497466
+    ],
+    [
+      "gcc14",
+      "b",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      197503444,
+      322691997,
+      8564524,
+      15496707
+    ],
+    [
+      "gcc14",
+      "a",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      198930762,
+      330480085,
+      8455364,
+      15496631
+    ],
+    [
+      "gcc14",
+      "a",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      198623588,
+      330481180,
+      8518133,
+      15497055
+    ],
+    [
+      "gcc14",
+      "b",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      197489032,
+      322690888,
+      8436845,
+      15496435
+    ],
+    [
+      "gcc14",
+      "a",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      200139694,
+      719404479,
+      11408847,
+      25313141
+    ],
+    [
+      "gcc14",
+      "b",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      186114216,
+      663372198,
+      11702337,
+      25312130
+    ],
+    [
+      "gcc14",
+      "b",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      185761915,
+      663373264,
+      11702724,
+      25309424
+    ],
+    [
+      "gcc14",
+      "a",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      201826452,
+      719404403,
+      11667986,
+      25309664
+    ],
+    [
+      "gcc14",
+      "a",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      201279102,
+      719405099,
+      11552611,
+      25309019
+    ],
+    [
+      "gcc14",
+      "b",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      185374122,
+      663372108,
+      11642669,
+      25309091
+    ],
+    [
+      "gcc14",
+      "b",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      185832897,
+      663374965,
+      11444903,
+      25306633
+    ],
+    [
+      "gcc14",
+      "a",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      201566825,
+      719407239,
+      11594301,
+      25309654
+    ],
+    [
+      "gcc14",
+      "a",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      202604091,
+      719404098,
+      11530413,
+      25313118
+    ],
+    [
+      "gcc14",
+      "b",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      185727069,
+      663374093,
+      11758130,
+      25309756
+    ],
+    [
+      "gcc14",
+      "a",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      198215704,
+      385602286,
+      8949491,
+      16598784
+    ],
+    [
+      "gcc14",
+      "b",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      195185875,
+      372323881,
+      8746629,
+      16601693
+    ],
+    [
+      "gcc14",
+      "b",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      196203199,
+      372323242,
+      9058122,
+      16601493
+    ],
+    [
+      "gcc14",
+      "a",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      197344263,
+      385602839,
+      8790039,
+      16601818
+    ],
+    [
+      "gcc14",
+      "a",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      197988127,
+      385601639,
+      8903609,
+      16602296
+    ],
+    [
+      "gcc14",
+      "b",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      195995787,
+      372323308,
+      8978138,
+      16600286
+    ],
+    [
+      "gcc14",
+      "b",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      195743070,
+      372322828,
+      8762756,
+      16602020
+    ],
+    [
+      "gcc14",
+      "a",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      198315931,
+      385605168,
+      8914956,
+      16598891
+    ],
+    [
+      "gcc14",
+      "a",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      198412724,
+      385601837,
+      8952237,
+      16601351
+    ],
+    [
+      "gcc14",
+      "b",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      195440633,
+      372323543,
+      8933578,
+      16598535
+    ],
+    [
+      "gcc14",
+      "a",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      198737433,
+      333087821,
+      8544535,
+      15472667
+    ],
+    [
+      "gcc14",
+      "b",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      197054677,
+      325417005,
+      8446891,
+      15472104
+    ],
+    [
+      "gcc14",
+      "b",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      197110793,
+      325416785,
+      8504300,
+      15472107
+    ],
+    [
+      "gcc14",
+      "a",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      198586149,
+      333090192,
+      8344658,
+      15475174
+    ],
+    [
+      "gcc14",
+      "a",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      199004315,
+      333089755,
+      8658375,
+      15472392
+    ],
+    [
+      "gcc14",
+      "b",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      196737318,
+      325418548,
+      8510610,
+      15475113
+    ],
+    [
+      "gcc14",
+      "b",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      197175032,
+      325420492,
+      8422845,
+      15474985
+    ],
+    [
+      "gcc14",
+      "a",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      198849547,
+      333088284,
+      8506832,
+      15472134
+    ],
+    [
+      "gcc14",
+      "a",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      198516057,
+      333086952,
+      8460545,
+      15472176
+    ],
+    [
+      "gcc14",
+      "b",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      197449864,
+      325417258,
+      8408865,
+      15474956
+    ],
+    [
+      "clang20",
+      "a",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      198227530,
+      334263373,
+      8348526,
+      15440902
+    ],
+    [
+      "clang20",
+      "b",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      196528590,
+      303534624,
+      8323966,
+      15438109
+    ],
+    [
+      "clang20",
+      "b",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      197472090,
+      303534646,
+      8378089,
+      15439966
+    ],
+    [
+      "clang20",
+      "a",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      198185030,
+      334263598,
+      8314655,
+      15438596
+    ],
+    [
+      "clang20",
+      "a",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      198226539,
+      334263992,
+      8320225,
+      15437453
+    ],
+    [
+      "clang20",
+      "b",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      197015856,
+      303534688,
+      8329797,
+      15438043
+    ],
+    [
+      "clang20",
+      "b",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      196808411,
+      303534530,
+      8247748,
+      15437381
+    ],
+    [
+      "clang20",
+      "a",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      198491270,
+      334263352,
+      8458733,
+      15438309
+    ],
+    [
+      "clang20",
+      "a",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      198324012,
+      334262939,
+      8356601,
+      15438112
+    ],
+    [
+      "clang20",
+      "b",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      196687652,
+      303536824,
+      8571334,
+      15437254
+    ],
+    [
+      "clang20",
+      "a",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      196648404,
+      659256887,
+      11426006,
+      25925754
+    ],
+    [
+      "clang20",
+      "b",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      182759854,
+      640313426,
+      11482185,
+      25925563
+    ],
+    [
+      "clang20",
+      "b",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      182632365,
+      640316348,
+      11555519,
+      25925392
+    ],
+    [
+      "clang20",
+      "a",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      196300485,
+      659253558,
+      11666169,
+      25925542
+    ],
+    [
+      "clang20",
+      "a",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      196798260,
+      659254368,
+      11603526,
+      25925374
+    ],
+    [
+      "clang20",
+      "b",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      182607778,
+      640313621,
+      11469162,
+      25925790
+    ],
+    [
+      "clang20",
+      "b",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      181734649,
+      640316773,
+      11331792,
+      25927864
+    ],
+    [
+      "clang20",
+      "a",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      196929112,
+      659253613,
+      11745880,
+      25925194
+    ],
+    [
+      "clang20",
+      "a",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      198151758,
+      659256962,
+      11351226,
+      25928048
+    ],
+    [
+      "clang20",
+      "b",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      182134863,
+      640316130,
+      11574922,
+      25928158
+    ],
+    [
+      "clang20",
+      "a",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      196998111,
+      383939101,
+      8801546,
+      16617439
+    ],
+    [
+      "clang20",
+      "b",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      194637490,
+      354760787,
+      8993487,
+      16614056
+    ],
+    [
+      "clang20",
+      "b",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      194399782,
+      354760364,
+      8740045,
+      16614328
+    ],
+    [
+      "clang20",
+      "a",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      196790865,
+      383938005,
+      8858056,
+      16615076
+    ],
+    [
+      "clang20",
+      "a",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      196407820,
+      383937830,
+      8669971,
+      16617449
+    ],
+    [
+      "clang20",
+      "b",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      194973222,
+      354760824,
+      8603269,
+      16614749
+    ],
+    [
+      "clang20",
+      "b",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      195288808,
+      354760269,
+      8685321,
+      16614712
+    ],
+    [
+      "clang20",
+      "a",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      195954765,
+      383935476,
+      8981427,
+      16615847
+    ],
+    [
+      "clang20",
+      "a",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      196148393,
+      383937700,
+      8858449,
+      16615269
+    ],
+    [
+      "clang20",
+      "b",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      195330547,
+      354760574,
+      8761534,
+      16614435
+    ],
+    [
+      "clang20",
+      "a",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      197967256,
+      337834911,
+      8401225,
+      15412396
+    ],
+    [
+      "clang20",
+      "b",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      196801978,
+      307262276,
+      8532306,
+      15413040
+    ],
+    [
+      "clang20",
+      "b",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      197133702,
+      307264582,
+      8394431,
+      15411027
+    ],
+    [
+      "clang20",
+      "a",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      198211138,
+      337837106,
+      8409023,
+      15414059
+    ],
+    [
+      "clang20",
+      "a",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      197755224,
+      337834278,
+      8601252,
+      15414803
+    ],
+    [
+      "clang20",
+      "b",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      197015653,
+      307264904,
+      8422084,
+      15411413
+    ],
+    [
+      "clang20",
+      "b",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      197161097,
+      307262652,
+      8637543,
+      15414098
+    ],
+    [
+      "clang20",
+      "a",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      197949731,
+      337834206,
+      8495923,
+      15411991
+    ],
+    [
+      "clang20",
+      "a",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      198182537,
+      337835079,
+      8290790,
+      15411789
+    ],
+    [
+      "clang20",
+      "b",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      197278510,
+      307262404,
+      8351150,
+      15413855
+    ],
+    [
+      "gcc13",
+      "a",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      198179581,
+      316542362,
+      8632082,
+      15493474
+    ],
+    [
+      "gcc13",
+      "b",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      197058746,
+      308750892,
+      8478344,
+      15495288
+    ],
+    [
+      "gcc13",
+      "b",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      196996927,
+      308746686,
+      8507016,
+      15492335
+    ],
+    [
+      "gcc13",
+      "a",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      198264322,
+      316542666,
+      8582220,
+      15495832
+    ],
+    [
+      "gcc13",
+      "a",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      198767454,
+      316538542,
+      8464483,
+      15493306
+    ],
+    [
+      "gcc13",
+      "b",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      197082196,
+      308749860,
+      8481083,
+      15492494
+    ],
+    [
+      "gcc13",
+      "b",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      196866163,
+      308746167,
+      8685369,
+      15493771
+    ],
+    [
+      "gcc13",
+      "a",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      198361739,
+      316539680,
+      8499474,
+      15495319
+    ],
+    [
+      "gcc13",
+      "a",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      198234599,
+      316540197,
+      8519532,
+      15493047
+    ],
+    [
+      "gcc13",
+      "b",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      196843405,
+      308749018,
+      8536925,
+      15493289
+    ],
+    [
+      "gcc13",
+      "a",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      197373616,
+      720192491,
+      11467380,
+      25306226
+    ],
+    [
+      "gcc13",
+      "b",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      181476145,
+      664157557,
+      11605151,
+      25304951
+    ],
+    [
+      "gcc13",
+      "b",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      180366741,
+      664157551,
+      11544796,
+      25304958
+    ],
+    [
+      "gcc13",
+      "a",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      197165186,
+      720191916,
+      11582510,
+      25308762
+    ],
+    [
+      "gcc13",
+      "a",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      195895863,
+      720190292,
+      11573324,
+      25305211
+    ],
+    [
+      "gcc13",
+      "b",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      180806571,
+      664160290,
+      11468067,
+      25308285
+    ],
+    [
+      "gcc13",
+      "b",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      180968584,
+      664157725,
+      11691885,
+      25305021
+    ],
+    [
+      "gcc13",
+      "a",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      198815031,
+      720188994,
+      11625361,
+      25305577
+    ],
+    [
+      "gcc13",
+      "a",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      196942576,
+      720189091,
+      11792602,
+      25308122
+    ],
+    [
+      "gcc13",
+      "b",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      180915654,
+      664160845,
+      11568534,
+      25305380
+    ],
+    [
+      "gcc13",
+      "a",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      197536715,
+      373441941,
+      8810602,
+      16597586
+    ],
+    [
+      "gcc13",
+      "b",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      194786627,
+      360165280,
+      9058299,
+      16595139
+    ],
+    [
+      "gcc13",
+      "b",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      195180667,
+      360162429,
+      8940670,
+      16598095
+    ],
+    [
+      "gcc13",
+      "a",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      196741072,
+      373444736,
+      8896670,
+      16594770
+    ],
+    [
+      "gcc13",
+      "a",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      196809001,
+      373442564,
+      8925550,
+      16595117
+    ],
+    [
+      "gcc13",
+      "b",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      195284479,
+      360163928,
+      8822491,
+      16594268
+    ],
+    [
+      "gcc13",
+      "b",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      194980092,
+      360163468,
+      8842239,
+      16594822
+    ],
+    [
+      "gcc13",
+      "a",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      196904027,
+      373441175,
+      9012504,
+      16598041
+    ],
+    [
+      "gcc13",
+      "a",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      199953526,
+      373445348,
+      9010938,
+      16594845
+    ],
+    [
+      "gcc13",
+      "b",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      195175982,
+      360165996,
+      8830586,
+      16595079
+    ],
+    [
+      "gcc13",
+      "a",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      198353795,
+      319310860,
+      8492903,
+      15468752
+    ],
+    [
+      "gcc13",
+      "b",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      197232162,
+      311642622,
+      8517052,
+      15470808
+    ],
+    [
+      "gcc13",
+      "b",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      197173633,
+      311639189,
+      8644908,
+      15468343
+    ],
+    [
+      "gcc13",
+      "a",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      198432596,
+      319312824,
+      8692431,
+      15470550
+    ],
+    [
+      "gcc13",
+      "a",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      198973153,
+      319310313,
+      8663572,
+      15470774
+    ],
+    [
+      "gcc13",
+      "b",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      197039235,
+      311642145,
+      8675371,
+      15468202
+    ],
+    [
+      "gcc13",
+      "b",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      196714922,
+      311640653,
+      8570879,
+      15468113
+    ],
+    [
+      "gcc13",
+      "a",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      198488547,
+      319312725,
+      8572406,
+      15468340
+    ],
+    [
+      "gcc13",
+      "a",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      198330474,
+      319310147,
+      8683767,
+      15468168
+    ],
+    [
+      "gcc13",
+      "b",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      196881424,
+      311640130,
+      8576436,
+      15468668
+    ],
+    [
+      "clang18",
+      "a",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      201203569,
+      344917179,
+      8635974,
+      15937748
+    ],
+    [
+      "clang18",
+      "b",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      199991349,
+      314185191,
+      8480576,
+      15936352
+    ],
+    [
+      "clang18",
+      "b",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      199651778,
+      314185739,
+      8324740,
+      15936432
+    ],
+    [
+      "clang18",
+      "a",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      201214324,
+      344917399,
+      8369236,
+      15937058
+    ],
+    [
+      "clang18",
+      "a",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      201395638,
+      344914528,
+      8457763,
+      15937223
+    ],
+    [
+      "clang18",
+      "b",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      199578657,
+      314185329,
+      8462374,
+      15937104
+    ],
+    [
+      "clang18",
+      "b",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      199809648,
+      314185235,
+      8491943,
+      15940084
+    ],
+    [
+      "clang18",
+      "a",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      201662205,
+      344916512,
+      8631361,
+      15939189
+    ],
+    [
+      "clang18",
+      "a",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      200975784,
+      344914741,
+      8345189,
+      15937637
+    ],
+    [
+      "clang18",
+      "b",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      199617941,
+      314185523,
+      8324970,
+      15937020
+    ],
+    [
+      "clang18",
+      "a",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      215063658,
+      737727990,
+      11654242,
+      29824366
+    ],
+    [
+      "clang18",
+      "b",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      201299266,
+      718787755,
+      11961761,
+      29824747
+    ],
+    [
+      "clang18",
+      "b",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      203805301,
+      718787105,
+      12006447,
+      29824279
+    ],
+    [
+      "clang18",
+      "a",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      213346037,
+      737727866,
+      12026692,
+      29822155
+    ],
+    [
+      "clang18",
+      "a",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      213761640,
+      737727890,
+      11769354,
+      29824380
+    ],
+    [
+      "clang18",
+      "b",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      201713708,
+      718790476,
+      11867763,
+      29824692
+    ],
+    [
+      "clang18",
+      "b",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      200051010,
+      718787522,
+      11943229,
+      29824686
+    ],
+    [
+      "clang18",
+      "a",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      213731917,
+      737727834,
+      11879554,
+      29821601
+    ],
+    [
+      "clang18",
+      "a",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      214350270,
+      737727400,
+      11829039,
+      29821746
+    ],
+    [
+      "clang18",
+      "b",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      200739006,
+      718787735,
+      11965436,
+      29821378
+    ],
+    [
+      "clang18",
+      "a",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      202040633,
+      402494896,
+      8720658,
+      17500469
+    ],
+    [
+      "clang18",
+      "b",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      199953466,
+      373321950,
+      8801375,
+      17499515
+    ],
+    [
+      "clang18",
+      "b",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      200303214,
+      373318995,
+      8946960,
+      17499966
+    ],
+    [
+      "clang18",
+      "a",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      201826946,
+      402497379,
+      8967929,
+      17503364
+    ],
+    [
+      "clang18",
+      "a",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      202351302,
+      402496457,
+      8668997,
+      17500392
+    ],
+    [
+      "clang18",
+      "b",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      200192074,
+      373319274,
+      8868699,
+      17500554
+    ],
+    [
+      "clang18",
+      "b",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      200251570,
+      373318777,
+      8985440,
+      17499944
+    ],
+    [
+      "clang18",
+      "a",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      202116167,
+      402495272,
+      9040021,
+      17501577
+    ],
+    [
+      "clang18",
+      "a",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      202499075,
+      402494765,
+      8977828,
+      17503875
+    ],
+    [
+      "clang18",
+      "b",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      199952172,
+      373318916,
+      8914923,
+      17499894
+    ],
+    [
+      "clang18",
+      "a",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      201430492,
+      348210579,
+      8487650,
+      15902804
+    ],
+    [
+      "clang18",
+      "b",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      199893794,
+      317637709,
+      8402892,
+      15904635
+    ],
+    [
+      "clang18",
+      "b",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      199598357,
+      317639672,
+      8432657,
+      15901988
+    ],
+    [
+      "clang18",
+      "a",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      201497380,
+      348212225,
+      8499946,
+      15903206
+    ],
+    [
+      "clang18",
+      "a",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      201728269,
+      348212280,
+      8604785,
+      15902851
+    ],
+    [
+      "clang18",
+      "b",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      199163538,
+      317640391,
+      8382890,
+      15904322
+    ],
+    [
+      "clang18",
+      "b",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      199527144,
+      317637851,
+      8628286,
+      15905335
+    ],
+    [
+      "clang18",
+      "a",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      202503684,
+      348209933,
+      8327002,
+      15902329
+    ],
+    [
+      "clang18",
+      "a",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      201257942,
+      348210159,
+      8420245,
+      15902905
+    ],
+    [
+      "clang18",
+      "b",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      199340733,
+      317637418,
+      8414005,
+      15901818
+    ],
+    [
+      "aa2",
+      "a",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      198883165,
+      330480869,
+      8431977,
+      15497315
+    ],
+    [
+      "aa2",
+      "b",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      198440712,
+      330480776,
+      8398656,
+      15497187
+    ],
+    [
+      "aa2",
+      "b",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      198850006,
+      330481714,
+      8426348,
+      15497767
+    ],
+    [
+      "aa2",
+      "a",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      198925286,
+      330483655,
+      8487403,
+      15497245
+    ],
+    [
+      "aa2",
+      "a",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      198691306,
+      330481367,
+      8635388,
+      15497238
+    ],
+    [
+      "aa2",
+      "b",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      200548892,
+      330480630,
+      8464133,
+      15499618
+    ],
+    [
+      "aa2",
+      "b",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      199081043,
+      330480684,
+      8694837,
+      15497287
+    ],
+    [
+      "aa2",
+      "a",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      198460123,
+      330481168,
+      8642651,
+      15496992
+    ],
+    [
+      "aa2",
+      "a",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      199140164,
+      330483578,
+      8728041,
+      15499381
+    ],
+    [
+      "aa2",
+      "b",
+      "stream_get_line/en/absent @ stream_get_line-en-absent",
+      198713866,
+      330483578,
+      8550038,
+      15497030
+    ],
+    [
+      "aa2",
+      "a",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      204575765,
+      719404864,
+      11763885,
+      25312338
+    ],
+    [
+      "aa2",
+      "b",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      202708585,
+      719404403,
+      11619516,
+      25312127
+    ],
+    [
+      "aa2",
+      "b",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      202953637,
+      719404886,
+      11389135,
+      25309099
+    ],
+    [
+      "aa2",
+      "a",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      200488747,
+      719404175,
+      11612725,
+      25309890
+    ],
+    [
+      "aa2",
+      "a",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      224030375,
+      719404701,
+      11756014,
+      25309009
+    ],
+    [
+      "aa2",
+      "b",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      202387676,
+      719403918,
+      11431695,
+      25309892
+    ],
+    [
+      "aa2",
+      "b",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      201239228,
+      719404664,
+      11451712,
+      25312734
+    ],
+    [
+      "aa2",
+      "a",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      201976432,
+      719404426,
+      11565137,
+      25308641
+    ],
+    [
+      "aa2",
+      "a",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      202558586,
+      719407153,
+      11566290,
+      25309747
+    ],
+    [
+      "aa2",
+      "b",
+      "stream_get_line/en/start @ stream_get_line-en-start",
+      199403693,
+      719406416,
+      11596287,
+      25309905
+    ],
+    [
+      "aa2",
+      "a",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      198224132,
+      385604360,
+      8771269,
+      16601970
+    ],
+    [
+      "aa2",
+      "b",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      197522126,
+      385602183,
+      8954901,
+      16601610
+    ],
+    [
+      "aa2",
+      "b",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      197517210,
+      385605824,
+      9010614,
+      16598605
+    ],
+    [
+      "aa2",
+      "a",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      197992585,
+      385602648,
+      8895508,
+      16599437
+    ],
+    [
+      "aa2",
+      "a",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      198075548,
+      385605068,
+      8962266,
+      16602228
+    ],
+    [
+      "aa2",
+      "b",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      197327509,
+      385603106,
+      8848219,
+      16598505
+    ],
+    [
+      "aa2",
+      "b",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      198200079,
+      385602406,
+      8930523,
+      16598692
+    ],
+    [
+      "aa2",
+      "a",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      198052292,
+      385601855,
+      8834713,
+      16598155
+    ],
+    [
+      "aa2",
+      "a",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      197683724,
+      385601662,
+      8993466,
+      16601776
+    ],
+    [
+      "aa2",
+      "b",
+      "stream_get_line/en/middle @ stream_get_line-en-middle",
+      197732826,
+      385605274,
+      8784132,
+      16598814
+    ],
+    [
+      "aa2",
+      "a",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      198950751,
+      333090392,
+      8361481,
+      15472448
+    ],
+    [
+      "aa2",
+      "b",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      198544913,
+      333088668,
+      8574296,
+      15474670
+    ],
+    [
+      "aa2",
+      "b",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      198563571,
+      333087399,
+      8656127,
+      15472611
+    ],
+    [
+      "aa2",
+      "a",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      198765518,
+      333087727,
+      8647608,
+      15472769
+    ],
+    [
+      "aa2",
+      "a",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      198511286,
+      333086938,
+      8758646,
+      15472683
+    ],
+    [
+      "aa2",
+      "b",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      198513455,
+      333088426,
+      8683941,
+      15475012
+    ],
+    [
+      "aa2",
+      "b",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      198753481,
+      333087148,
+      8641632,
+      15472311
+    ],
+    [
+      "aa2",
+      "a",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      198575065,
+      333087279,
+      8504466,
+      15471824
+    ],
+    [
+      "aa2",
+      "a",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      198973047,
+      333087992,
+      8414183,
+      15472473
+    ],
+    [
+      "aa2",
+      "b",
+      "stream_get_line/en/end @ stream_get_line-en-end",
+      198730214,
+      333087774,
+      8549692,
+      15472258
+    ]
+  ]
+}

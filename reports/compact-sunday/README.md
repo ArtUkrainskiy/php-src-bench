@@ -1,156 +1,226 @@
-# Compact Sunday shift tables
+# Compact Sunday shift table
 
-Proposed change to the substring search used by `strpos()`, `str_replace()` and related functions.
+Proposed php-src change: [php/php-src#25115](https://github.com/php/php-src/pull/25115),
+[candidate branch](https://github.com/ArtUkrainskiy/php-src/tree/strpos-compact-sunday-pr).
+Measured on 1 November 2026 against unmodified master at the branch base.
 
-Compare [`strpos-compact-sunday-pr`](https://github.com/ArtUkrainskiy/php-src/tree/strpos-compact-sunday-pr)
-with [PHP master](https://github.com/php/php-src/tree/master), both PHP 8.7.0-dev.
-[PR #25115](https://github.com/php/php-src/pull/25115) · [Patch](change.patch) · [Measured build metadata](manifest.json).
+## Change and main result
 
-The patch reduces the Sunday shift table from 1024 to 256 bytes for 9–31-byte
-needles (searched substrings) when at least 1024 input bytes remain from the
-current search position. On the Sunday path, needles of 32 bytes or more retain
-the wide table. The search algorithm and the inline path for needles below
-9 bytes or remaining inputs below 1024 bytes are unchanged. The measured changes include
-the cost of the new dispatch and differences in code placement.
+Sunday is the existing forward substring search algorithm. The patch reduces
+its table from 256 unsigned integers (1024 bytes on these builds) to 256 bytes
+for short needles. It keeps the same
+comparisons and shifts. The normal PHP entry path reaches this table for
+**9–31-byte needles**, with at least **1024 bytes in the remaining search
+span** (from the current search position). Search is byte-based, including
+binary strings; this corpus uses UTF-8 text. Shorter searches use
+the existing inline path. Needles of 32 bytes or more retain the integer table,
+through a new dispatcher and a separate helper.
 
-On AMD Ryzen 9 5950X with GCC 15 and Clang 21, a 12-term banlist check with no matches takes 4.93–11.84% less time than master; template replacement and counting take 14.42–16.52% less. The two 32-byte early-match controls take 2.99–3.86% more time than master on GCC. These are costs of individual PHP operations, not whole-request speedups.
+Less table initialization can reduce the fixed cost of a search. It does not
+reduce the number of candidate comparisons or guarantee a faster scan.
+The largest shift in the compact path is 32, which fits in a byte.
 
-Searching 4096 `a` bytes for 63 `a` bytes followed by `b` takes 30.70% more time on GCC 15. This 64-byte needle uses the existing wide table. A separate profile records more branch misses with nearly unchanged instructions; the precise cause of the changed branch behavior remains unresolved. [Case and profile](search-controls.md#synthetic-repeated-prefix-regression).
+Across the 108 core application cases, all primary median times decreased on
+AMD: **6.1–27.2% with GCC 15 and 4.5–22.0% with Clang 21** relative to each
+compiler's master build. Some of those observations are noisy and are marked.
+Intel gains depend more on the case and compiler; several long scans remain
+close to master. On Intel, seven application cases slowed down in the primary
+measurements and in a separate replication:
+four Russian moderation cases with Clang 18 (**2.9–3.8% more time** in repeats) and three HTML
+case-insensitive replacements with Clang 20 (**3.6–4.1% more time**).
+A separate synthetic 64-byte-needle control takes about **31% more time**
+with AMD/GCC 15, outside the compact-table range. Causes are not established.
+These microbenchmarks do not establish an application-wide throughput gain.
+Each warmed loop reuses one fixed input; it does not model a request mix, cold
+data or changing documents.
 
-Elapsed results are AMD-only. Intel elapsed measurements failed A/A controls; native ARM, Windows and 32-bit builds were not tested. There is one paired elapsed round per comparison. [Reproduce](reproduce.md) · [Raw measurements](data/native.tar.gz).
+[Full product results](tables/product.md) · [Raw data](data/README.md) · [Reproduce](reproduce.md)
 
-## Cases
+## Reading the summary
 
-Inputs are generated application fixtures, not production traffic samples.
-All moderation inputs are lower-case UTF-8; searches are case-sensitive literal
-substrings, without word-boundary matching or normalization inside timing.
-There is one post case for each of English, Russian, Spanish, Arabic, Hindi,
-Chinese, Japanese, Korean and mixed emoji. Thread timing cases cover English
-and Chinese only.
+EN, RU and ZH mean English, Russian and Chinese. A row times a whole PHP
+operation. Moderation checks 12 phrases on a miss, or seven on a hit.
+Start/middle/end describe saved match positions; [the case guide](#case-guide)
+gives data and needle details.
 
-| Case | Input and measured work | Searched substrings |
-|---|---|---|
-| Moderation post | About 1 KiB of ordinary comments/messages; check all 12 banlist entries, no match | Local phrases such as `spam`, `casino bonus`, plus advertising-domain fragments; 4–55 UTF-8 bytes across languages |
-| Moderation thread | About 64 KiB of messages; the same 12-entry absent search | Same phrases as the corresponding post |
-| Split fields | About 4 KiB, 170 varied product fields; `explode()` returns every field | Two consecutive pipe characters or `::`, two bytes |
-| Parse HTTP headers | Seven headers and a 64 KiB body; find the terminator after 261 header bytes, then parse the headers; body is not parsed | `\r\n\r\n`, `\r\n` and `: ` |
-| Replace template placeholders | 4250-byte order-card/email template; replace 68 slots with four values using `str_replace()` | `{{order.id}}`, `{{user.name}}`, `{{tracking.url}}`, `{{support.email}}`; 12–17 bytes |
-| Count template slots | Same template; `substr_count()` finds 17 occurrences | `{{order.id}}`, 12 bytes |
-| Search controls | Ordinary ASCII filler; an absent 9-byte substring or a 31/32-byte match at byte offset 7 | Text tokens, plus a 32-byte token made of 31 `a` bytes and `b` |
+Each percentage uses its own compiler/machine master. Negative means less
+time; positive means slower. **†** flags excessive variation, with a separate
+replication rather than a replacement result. A/A compares one unchanged binary
+with itself. Fewer CPU instructions do
+not by themselves mean faster execution. [Full interpretation and method](#machine-method-and-data).
 
-The split operations are `explode('||', $s)` and `explode('::', $s)`.
-Exact input sizes are in the tables. [Measured suite](suite.php) · [31-byte control](early31-suite.php) · [Data-label notes](data-notes.md).
+## Main measurements
 
-## Results
+The table shows **primary measurements**. Regression replications are listed
+separately below; their numbers can differ. The six percentage columns are
+**time deltas**, not cycle counts.
+¹ The absolute master time is for **AMD/GCC 15 only**, in microseconds; it gives
+scale, not a common baseline across compilers. Each percentage uses its own
+master. Absolute times for every compiler are in the full tables.
 
-All deltas are relative to master; negative means lower cost. Elapsed time is
-the primary comparison. Time columns show medians in microseconds per complete
-operation after empty-loop subtraction.
-Cycles and instructions come from a separate series: cycle deltas are the median
-of five paired ratios; instruction deltas compare the median absolute counts.
+<!-- compact-summary -->
+| Case | Master µs¹ | AMD GCC15 | AMD Clang21 | Intel GCC13 | Intel GCC14 | Intel Clang18 | Intel Clang20 |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Moderation EN, 4 KiB, absent | 11.0671 | -9.06% | -10.73% | -0.48% | -0.96% | -1.71% | -0.53% |
+| Moderation EN, 4 KiB, start | 6.6006 | -8.94% | -10.24%† | +0.01% | -1.35% | -1.86% | +0.16% |
+| Moderation EN, 4 KiB, middle | 7.0249 | -8.88% | -10.29% | -0.14% | -0.56% | -1.90% | -0.10% |
+| Moderation EN, 4 KiB, end | 7.5198 | -9.18% | -10.68% | +0.14% | -0.59% | -1.64% | -0.21% |
+| Moderation RU, 4 KiB, absent | 9.5386 | -9.12% | -10.64% | -0.97% | -0.91% | -1.16% | -1.18% |
+| Moderation RU, 4 KiB, start | 5.8293 | -8.65%† | -10.78% | -1.28% | -0.96% | -1.61% | -1.45% |
+| Moderation RU, 4 KiB, middle | 6.3119 | -8.92% | -10.93% | -1.07% | -0.55% | -2.84% | -1.24% |
+| Moderation RU, 4 KiB, end | 6.8314 | -8.86% | -10.90% | -0.14% | -0.49% | -2.52% | -2.04% |
+| Moderation ZH, 4 KiB, absent | 8.7645 | -9.43% | -13.31% | -0.53%† | -0.96% | -1.75% | -0.65% |
+| Moderation ZH, 4 KiB, start | 5.1308 | -9.32% | -11.07% | -1.16% | -1.67% | -3.57% | -0.48% |
+| Moderation ZH, 4 KiB, middle | 5.4898 | -9.45% | -11.12% | -1.74% | -1.13% | -3.35% | -2.22%† |
+| Moderation ZH, 4 KiB, end | 5.8190 | -9.33% | -11.08% | -2.05% | -0.45% | -2.45% | -0.84% |
+| Moderation EN, 64 KiB, absent | 175.4803 | -8.48% | -9.58% | +0.44% | +0.02% | -0.54% | -0.50% |
+| Moderation RU, 64 KiB, absent | 192.7612 | -6.79% | -9.42% | +0.39% | -0.14% | +4.12% | -2.90% |
+| Moderation ZH, 64 KiB, absent | 152.7082 | -7.72% | -9.17% | -0.80% | -0.69% | -0.80% | -2.53% |
+| Order ID: strpos, 4 KiB, absent | 0.5959 | -9.86% | -10.68% | -2.44% | -1.01% | -0.43% | -1.52% |
+| Order ID: strpos, 4 KiB, start | 0.0263 | -27.18% | -21.67% | -23.46% | -26.57%† | -9.99% | -11.40% |
+| Order ID: strpos, 4 KiB, middle | 0.3121 | -9.84% | -10.74% | -3.30% | -2.71% | -3.20% | -2.17% |
+| Order ID: strpos, 4 KiB, end | 0.6023 | -9.20% | -10.14% | -1.53% | -1.50% | -1.68% | -1.02% |
+| Email: strstr, 4 KiB, middle | 0.3676 | -8.77% | -9.83% | -2.08% | -1.36% | -2.66% | -3.20% |
+| Placeholder: substr_count, 17 matches | 0.6714 | -18.90% | -20.71% | -1.89% | -11.38% | -2.03%† | -1.85% |
+| Placeholder: str_replace, 17 matches | 1.4390 | -16.94% | -17.88% | -3.49% | -5.44% | -3.14%† | -2.22% |
+| HTML receipt: str_ireplace, equal length | 0.5250 | -10.26% | -9.42% | -4.02% | +2.10% | -8.31%† | +3.73% |
+| Placeholder: single-key strtr, 17 matches | 1.4394 | -17.29% | -18.37% | -3.00%† | -5.28% | -2.98% | -1.38% |
+| MIME receipt: explode, all parts | 0.5208 | -10.18% | -9.21% | -3.16% | -3.33% | -3.34% | -2.61% |
+| MIME delivery: stream_get_line | 0.6272 | -7.63% | -7.62% | -1.93% | +0.14% | -0.98%† | -0.57% |
+| JSON log: strpos, 68,022 B, absent | 12.3490 | -8.36% | -8.63% | +0.82% | -0.72% | -1.97% | +0.69%† |
+| HTML support: strpos, 2,475 B, present | 0.0690 | -16.10%† | -16.09% | -11.34% | -11.63% | -10.00% | -8.22% |
+<!-- /compact-summary -->
 
-For each case, each build runs at least **3 seconds of warmup**, followed by
-**10 approximately one-second samples** in one PHP process. There is one paired round. Counters use
-five separate 50 ms-target passes. These are preliminary measurements;
-ten samples in one process are not ten independent rounds.
+## Regressions and hypotheses
 
-A/A compares the identical master binary before and after the timing series.
-We use a minimum 2% threshold, increased to the observed A/A variation if larger:
+The following seven product cases slowed down in the primary series and in
+all five pairs of a fresh replication. The original and repeated series are
+kept separate. [Repeat times and ranges](tables/repeats.md) show their scale.
 
-| Compiler | Before: time Δ | After: time Δ | Noise threshold |
-|---|--:|--:|--:|
-| GCC 15.2 | +2.32% | +1.37% | 2.32% |
-| Clang 21.1 | -0.30% | +0.24% | 2.00% |
+<!-- compact-regressions -->
+| Intel case | Compiler | Primary Δ time | Repeat Δ time |
+|---|---|---:|---:|
+| `moderation/long/ru/absent` | clang18 | +4.12% | +2.92% |
+| `moderation/long/ru/start` | clang18 | +4.72% | +3.82% |
+| `moderation/long/ru/middle` | clang18 | +3.63% | +3.77% |
+| `moderation/long/ru/end` | clang18 | +3.89% | +3.69% |
+| `documents/ireplace/receipt/shorter` | clang20 | +4.27% | +4.09% |
+| `documents/ireplace/receipt/equal` | clang20 | +3.73% | +3.64% |
+| `documents/ireplace/receipt/longer` | clang20 | +4.32% | +4.06% |
+<!-- /compact-regressions -->
 
-Changes at or below this threshold are inconclusive in this run.
-The threshold is a reporting rule, not a statistical confidence interval.
+For these cases, the primary counter series records fewer instructions but
+more cycles. A smaller instruction count does not establish a speedup.
+Possible causes include compiler loop scheduling, the dependency chain through
+byte-table loads, and changed code placement or branch prediction. These are
+**hypotheses**: branch-miss and front-end profiles were not collected for this
+corpus, so no specific cause is established.
 
-Intel elapsed results are excluded: identical-binary A/A reached approximately
-−50% and +93%. The GCC 13/14 and Clang 18/20 counter tables are diagnostic only.
-There is no valid Intel elapsed-performance conclusion.
+The synthetic `a…ab` search in 4096 `a` bytes is a separate diagnostic. With a
+64-byte needle, AMD/GCC 15 takes about **31% more time**, including in the separate
+two-argument `strpos()` check. This needle retains the integer-table algorithm.
+The dispatcher, generated helper code and placement are plausible suspects;
+this is not evidence that the byte table itself slows that path.
+Other boundary controls also show positive deltas, including early matches
+outside the compact range. They remain visible in [controls](tables/controls.md)
+and [all positive deltas](tables/regressions.md). Small changes without a stable
+repeat should not be assigned a mechanism.
 
-Delimiter and HTTP rows check unchanged short-search paths; their timing changes
-are not attributed to a new search algorithm. The 32-byte early-match controls
-exercise the new dispatcher with the wide table.
+## Case guide
 
-[Absolute counters](counters.md) · [Compiler counter tables](cycles.md) · [Raw measurements](data/native.tar.gz) · [Reproduce](reproduce.md).
+The corpus has **108 core application cases, 42 extension cases and 51 controls**
+per compiler, plus four correctness-only `strchr()` alias checks.
+Every application needle is 9–31 **UTF-8 bytes**, not characters.
+All texts, needles, exact lengths, positions, expressions and expected outputs
+are saved in [reviewable JSON](corpus/README.md). The benchmark reads them directly;
+the optional generator is not part of a measurement. The texts are constructed
+fixtures, not captured production traffic.
 
-### GCC 15.2
+| Workload | Data and operation |
+|---|---|
+| Moderation | EN/RU/ZH customer-message text, 4 KiB or 64 KiB base size; `str_contains()` checks up to 12 phrases. Absent means all 12 miss. A hit is the seventh phrase and stops after seven calls. |
+| Match position | Absent, near start, middle and end are separate cases. In the position-controlled fixtures, start is byte 1; diagnostic origin cases start at byte 0. Added needle and newline bytes slightly increase the stated base size. |
+| Direct search | `strpos()` finds a 16-byte order ID; `str_contains()` a 31-byte warning; `strstr()` a 21-byte email address in about 4 KiB. A separate order-ID suite uses 64 KiB. |
+| Count and replace | `substr_count()`, `str_replace()`, `str_ireplace()` and single-key `strtr()` process template placeholders. Position-controlled cases have one hit; repeated cases have 17 hits. Whole-operation time includes copies and allocations. |
+| Complete documents | Independently composed posts, HTML receipt/support templates, JSON logs with similar references, and valid MIME messages. Replacement includes shorter/equal/longer values and three-key `str_replace()` arrays. |
+| Delimiters | `explode()` splits on a 21-byte message boundary; `stream_get_line()` reads to a saved boundary in a prepared memory stream. Rewind and one read are timed, stream construction is not. |
+| Irregular repeats | Saved HTML exports have 3 or 23 occurrences at unequal gaps, for counting, replacement and splitting. |
+| Extensions | Five mbstring APIs use EN/RU/ZH with absent/middle matches; three grapheme APIs use ASCII with four match positions. See [caller coverage](coverage.md). |
 
-| Case | Bytes | master µs | compact µs | Time Δ | Cycles Δ | Instr. Δ |
-|---|--:|--:|--:|--:|--:|--:|
-| English moderation post | 1081 | 2.9496 | 2.6783 | -9.20% | -10.19% | -5.76% |
-| Russian moderation post | 1041 | 3.0331 | 2.8469 | -6.14% | -5.18% | -3.43% |
-| Spanish moderation post | 1086 | 2.8435 | 2.5977 | -8.65% | -8.85% | -5.77% |
-| Arabic moderation post | 1036 | 3.9634 | 3.7680 | -4.93% | -4.79% | -3.99% |
-| Hindi moderation post | 1091 | 2.6601 | 2.4853 | -6.57% | -6.95% | -4.96% |
-| Chinese moderation post | 1039 | 2.3145 | 2.0789 | -10.18% | -9.91% | -7.75% |
-| Japanese moderation post | 1069 | 3.2940 | 3.1229 | -5.20% | -8.56% | -5.32% |
-| Korean moderation post | 1098 | 3.1239 | 2.8635 | -8.34% | -7.75% | -5.18% |
-| Mixed emoji moderation post | 1097 | 2.6857 | 2.4525 | -8.68% | -9.06% | -6.22% |
-| English moderation thread | 65548 | 169.3483 | 157.9180 | -6.75% | -6.99% | -0.13% |
-| Chinese moderation thread | 65620 | 149.5828 | 139.0386 | -7.05% | -7.06% | -0.17% |
-| Split fields on two pipes | 4123 | 2.5352 | 2.4895 | -1.80% | -0.25% | -0.00% |
-| Split fields on `::` | 4099 | 2.5143 | 2.5089 | -0.22% | -0.92% | +0.00% |
-| Parse HTTP headers | 65848 | 0.8704 | 0.8702 | -0.02% | +0.89% | +0.00% |
-| Replace template placeholders | 4250 | 7.0374 | 5.9181 | -15.91% | -16.10% | -17.63% |
-| Count `{{order.id}}` slots | 4250 | 0.9989 | 0.8339 | -16.52% | -15.85% | -18.07% |
-| 9-byte search (no match) | 14400 | 3.7974 | 3.4724 | -8.56% | -8.38% | -0.53% |
-| 31-byte early match | 14438 | 0.0338 | 0.0297 | -12.30% | -19.15% | -18.72% |
-| 32-byte early match (text) | 14439 | 0.0346 | 0.0359 | +3.86% | +2.57% | +0.64% |
-| 32-byte early match (repeated a) | 16839 | 0.0399 | 0.0411 | +2.99% | -0.51% | +0.62% |
+The summary selects 28 core application rows to cover languages, positions,
+long inputs and the main PHP APIs. It is not a list of the fastest cases.
+[All product rows](tables/product.md), [extensions](tables/extensions.md),
+[controls](tables/controls.md), [replications](tables/repeats.md) and
+[all positive primary deltas](tables/regressions.md) are separate tables.
+`explode('::', ...)` and `explode('||', ...)` cannot use this compact path and
+are not presented as benefit cases. Short 256-byte moderation is a control.
 
-### Clang 21.1
+### Detailed interpretation
 
-| Case | Bytes | master µs | compact µs | Time Δ | Cycles Δ | Instr. Δ |
-|---|--:|--:|--:|--:|--:|--:|
-| English moderation post | 1081 | 2.8060 | 2.5239 | -10.05% | -9.62% | -1.89% |
-| Russian moderation post | 1041 | 2.8824 | 2.7330 | -5.19% | -5.16% | -2.32% |
-| Spanish moderation post | 1086 | 2.7112 | 2.4345 | -10.21% | -9.86% | -1.89% |
-| Arabic moderation post | 1036 | 3.8715 | 3.6589 | -5.49% | -5.71% | -1.28% |
-| Hindi moderation post | 1091 | 2.5331 | 2.3453 | -7.41% | -7.00% | -2.70% |
-| Chinese moderation post | 1039 | 2.1935 | 1.9339 | -11.84% | -11.45% | -2.61% |
-| Japanese moderation post | 1069 | 3.1576 | 2.8807 | -8.77% | -9.26% | -1.73% |
-| Korean moderation post | 1098 | 2.9995 | 2.7558 | -8.12% | -8.25% | -1.68% |
-| Mixed emoji moderation post | 1097 | 2.5714 | 2.3065 | -10.30% | -10.25% | -2.05% |
-| English moderation thread | 65548 | 161.4258 | 148.5095 | -8.00% | -7.99% | -0.04% |
-| Chinese moderation thread | 65620 | 143.5457 | 131.7750 | -8.20% | -8.22% | -0.05% |
-| Split fields on two pipes | 4123 | 2.7295 | 2.6258 | -3.80% | +0.31% | -0.00% |
-| Split fields on `::` | 4099 | 2.6946 | 2.7033 | +0.32% | -0.49% | -0.00% |
-| Parse HTTP headers | 65848 | 0.8524 | 0.8262 | -3.07% | -1.81% | +0.00% |
-| Replace template placeholders | 4250 | 6.4798 | 5.5455 | -14.42% | -14.44% | -6.37% |
-| Count `{{order.id}}` slots | 4250 | 0.9404 | 0.7944 | -15.53% | -15.29% | -6.56% |
-| 9-byte search (no match) | 14400 | 3.5678 | 3.1581 | -11.48% | -11.19% | -0.17% |
-| 31-byte early match | 14438 | 0.0299 | 0.0266 | -10.92% | -13.73% | -7.45% |
-| 32-byte early match (text) | 14439 | 0.0319 | 0.0320 | +0.48% | +1.07% | +2.67% |
-| 32-byte early match (repeated a) | 16839 | 0.0373 | 0.0368 | -1.50% | -1.28% | +2.03% |
+**Time is the deciding metric.** Each percentage compares the candidate with
+that compiler's matching master binary. Negative means less elapsed time;
+positive means a slowdown. The percentage is the median of five paired
+candidate/master ratios, after subtracting empty-loop cost. It can differ from
+the ratio of the two displayed median times. All times are per **whole PHP
+operation**, so a moderation row includes several searches.
 
-Long-thread cycle gains accompany less than 0.5% change in instructions. The
-[profiles](profiles.md) do not isolate a single cause; code generation and placement also matter.
+The observed minimum/maximum in the full tables is not a confidence interval.
+**†** marks sample MAD above 5% or process spread above 10%. Such rows were
+replicated separately, preserving the primary data; small noisy differences
+should not be treated as established gains or regressions. A/A compares the
+same unchanged binary with itself and measures run-to-run variation.
 
-## Search-shape controls
+## Machine, method and data
 
-The [4096-byte search matrix](search-controls.md) measures absent, early, late and repeated-prefix inputs, plus repeated `substr_count()`/`str_replace()` and long-needle controls. There are 21 elapsed cases per compiler, plus a separate GCC 15 repeated-prefix check at 64 bytes. That check takes 30.7851 → 40.2358 µs, +30.70% relative to master. The full 58-case counter sweep includes needle lengths 8–256.
+Two x86-64 machines were measured: **Ryzen 9 5950X**, GCC 15.2 / Clang 21.1,
+CPU 15 with SMT sibling 31, `performance` governor and boost enabled; and
+**Core i7-13700H**, GCC 13.3 / GCC 14.2 / Clang 18.1 / Clang 20.1,
+P-core CPU 2 with sibling 3, `powersave` governor and turbo enabled, on AC.
+No frequency, IRQ or scheduler settings were changed. Idle checks can delay
+process starts; this was not a fully isolated operating system.
 
-## Measurement and limits
+Release, non-ZTS CLI builds use the repository's `docker` flag profile:
+`-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64`,
+linked with `-Wl,-O1 -pie`, configured with `--enable-werror`.
+This names a build profile; the benchmarks ran on the hosts.
+The exact compiler/configure strings, binary hashes and measured source IDs
+are in [metadata](data/metadata.json). The captured candidate and the linked
+branch revision have identical source trees; their commit metadata differs.
 
-Measured 31 October 2026 on Ryzen 9 5950X, CPU 15, SMT sibling 31, performance
-governor, turbo enabled. The core was not reserved for the benchmark. Matched release
-builds use the `docker` profile; [flags and commands](reproduce.md).
+Elapsed time uses **500 ms warmup, five samples of approximately 200 ms per
+process, five paired process rounds, AB/BA/AB/BA/AB**. Cycles and instructions
+use separate native `bench compare` series with five alternating passes and a
+50 ms target. Both subtract a matching empty loop. They are not simultaneous
+measurements and must not be combined into a measured IPC value.
 
-Native ARM, Windows and 32-bit builds have not been tested.
+Full native counter tables include absolute master cycles, paired ranges,
+instruction deltas and per-suite A/A: [AMD](tables/counters-amd.md),
+[Intel core](tables/counters-intel.md), [Intel extensions](tables/counters-intel-extensions.md).
+Absolute cycles and instructions for both sides are in [CPU counts](tables/cpu.md),
+with exact observations in the linked native JSON. Counts per operation are
+derived as `(count − empty_count) / iterations`.
+[A/A and quality notes](tables/aa.md) identify one mbstring counter-control pair
+that ran after an idle timeout. That pair is not a quiet control. The original
+is retained, and a separate fresh five-pair A/A validation is provided.
 
-## Correctness and reproduction
+## Verification and limits
 
-All eight tested release binaries pass 699 PHPT string tests each, with 62 skipped.
-The full PHP ASan/UBSan build passes 680 tests, with 81 skipped. No run has failures
-or warnings. The added PHPT checks 300 input combinations. GCC and Clang sanitizer
-runs each compare the extracted matchers with libc on 20,000 seeded random inputs
-and 135,460 input-length combinations with guard pages. The verifier detects both
-injected faults with each compiler.
+[Fixture validation](tools/validate.php) checks exact results against expectations
+computed independently in Python, including alias checks. The [verification
+record](data/verification.json) identifies the checked binaries and fixture hashes. All 205 fixtures
+passed on both binaries for all six compiler/machine configurations, with
+matching extension modules where needed. Each measured A/B observation also
+has matching input/output hashes. Streams are checked twice on a prepared
+resource. [Structural checks](tools/check.py) validate lengths, hashes, positions,
+actual PHP search arguments, MIME/log structure and the compact-range rules.
+A deliberate wrong-needle mutation was caught by the structural checker.
 
-[Verification commands and logs](verify/README.md) · [Build and reproduce](reproduce.md) · [Raw native measurements](data/native.tar.gz) · [Unrounded values](metrics.json) · [Hashes](manifest.json).
+These fixture checks do not replace PHPT or sanitizer validation. No new
+full-PHP sanitizer run or full PHPT suite was run as part of this corpus series.
+No ARM64, Windows, 32-bit, ZTS, JIT, FPM request load or framework throughput
+was measured. The [caller inventory](coverage.md) distinguishes measured APIs,
+conditional internal callers and unchanged mechanisms; session serialization
+and deserialization are not optimized by this patch.
 
-Tables are generated by [build-report.py](build-report.py).
-[check.py](check.py) verifies the archived measurements and displayed values;
-`bench report check reports/compact-sunday` checks the report's links and native tables.
+[Reproduce and regenerate the tables](reproduce.md).
+Raw observations and normalization rules are described in [data](data/README.md).

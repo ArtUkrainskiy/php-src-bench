@@ -1,0 +1,2400 @@
+{
+  "format": 2,
+  "kind": "compare",
+  "harness": 2,
+  "date": "2026-11-01T02:54:24+00:00",
+  "suite": "reports/compact-sunday/suites/documents-moderation.php",
+  "elapsed_s": 92.3,
+  "complete": true,
+  "config": {
+    "passes": 5,
+    "cpu": 15,
+    "target_ms": 50,
+    "filter": null,
+    "control": true,
+    "wait_idle": 120,
+    "events": "cycles:u,instructions:u"
+  },
+  "env": {
+    "cpu_model": "AMD Ryzen 9 5950X 16-Core Processor",
+    "kernel": "7.0.0-38-generic",
+    "cpu": 15,
+    "cpu_siblings": "15,31",
+    "hybrid_pcores": null,
+    "cpu_is_pcore": null,
+    "governor": "performance",
+    "epp": "performance",
+    "turbo": true,
+    "on_ac": null,
+    "load": 0.1796875,
+    "busy_pct": {
+      "15": 0,
+      "31": 0
+    },
+    "idle_cpu": 1
+  },
+  "groups": [
+    {
+      "name": "aa",
+      "a": "compact-base-gcc15",
+      "b": "compact-base-gcc15"
+    },
+    {
+      "name": "gcc15",
+      "a": "compact-base-gcc15",
+      "b": "compact-head-gcc15"
+    },
+    {
+      "name": "clang21",
+      "a": "compact-base-clang21",
+      "b": "compact-head-clang21"
+    },
+    {
+      "name": "aa2",
+      "a": "compact-base-gcc15",
+      "b": "compact-base-gcc15"
+    }
+  ],
+  "builds": {
+    "compact-base-gcc15": {
+      "php": "BUILD_DIR/compact-base-gcc15/sapi/cli/php",
+      "build": {
+        "name": "compact-base-gcc15",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:43:27+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-gcc15/sapi/cli/php"
+      },
+      "sha1": "962804b78072507bf9e2d5006aad239718872788"
+    },
+    "compact-head-gcc15": {
+      "php": "BUILD_DIR/compact-head-gcc15/sapi/cli/php",
+      "build": {
+        "name": "compact-head-gcc15",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:45:00+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-gcc15/sapi/cli/php"
+      },
+      "sha1": "119eb9050525232350b88606c134772a58b1c579"
+    },
+    "compact-base-clang21": {
+      "php": "BUILD_DIR/compact-base-clang21/sapi/cli/php",
+      "build": {
+        "name": "compact-base-clang21",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:44:13+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang-21",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-clang21/sapi/cli/php"
+      },
+      "sha1": "c33890a4894d3839f124ea0c422c5d1f2607bbef"
+    },
+    "compact-head-clang21": {
+      "php": "BUILD_DIR/compact-head-clang21/sapi/cli/php",
+      "build": {
+        "name": "compact-head-clang21",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:45:46+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang-21",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-clang21/sapi/cli/php"
+      },
+      "sha1": "3f96b0e59e376ce2f730c99c2b01fad1a484a268"
+    }
+  },
+  "sources": {
+    "suite": "8a91ccb649e494294d52e974e4ee0508369a9efb",
+    "harness": "c3113f45c2a11bcb63f0b1fb7a4e44ef6843325d",
+    "corpus": "e5c81343e158d86e921e121508cb8b101980f980"
+  },
+  "machine_warnings": [
+    "turbo boost is on: thermal and frequency drift between rounds (sudo CAPTURE_PATH/bench tune on)"
+  ],
+  "cases": {
+    "documents/moderation/en/absent @ documents-moderation-en-absent": {
+      "input_len": 1359,
+      "input_chars": 1359,
+      "n": 12720
+    },
+    "documents/moderation/en/middle @ documents-moderation-en-middle": {
+      "input_len": 1376,
+      "input_chars": 1376,
+      "n": 19771
+    },
+    "documents/moderation/ru/absent @ documents-moderation-ru-absent": {
+      "input_len": 2158,
+      "input_chars": 1181,
+      "n": 9655
+    },
+    "documents/moderation/ru/middle @ documents-moderation-ru-middle": {
+      "input_len": 2184,
+      "input_chars": 1196,
+      "n": 14307
+    },
+    "documents/moderation/zh/absent @ documents-moderation-zh-absent": {
+      "input_len": 1168,
+      "input_chars": 400,
+      "n": 18622
+    },
+    "documents/moderation/zh/middle @ documents-moderation-zh-middle": {
+      "input_len": 1188,
+      "input_chars": 408,
+      "n": 29330
+    }
+  },
+  "warnings": [],
+  "marks": [],
+  "rows": [
+    [
+      "aa",
+      "a",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      245056781,
+      388743816,
+      7578794,
+      13096039
+    ],
+    [
+      "aa",
+      "b",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      244084717,
+      388741706,
+      7595641,
+      13096271
+    ],
+    [
+      "aa",
+      "b",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      244797272,
+      388740635,
+      7540569,
+      13096680
+    ],
+    [
+      "aa",
+      "a",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      245178383,
+      388741941,
+      7565974,
+      13096272
+    ],
+    [
+      "aa",
+      "a",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      244152844,
+      388741850,
+      7582191,
+      13096203
+    ],
+    [
+      "aa",
+      "b",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      244658494,
+      388741755,
+      7582738,
+      13096340
+    ],
+    [
+      "aa",
+      "b",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      245294318,
+      388742084,
+      7549466,
+      13095747
+    ],
+    [
+      "aa",
+      "a",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      245120787,
+      388741604,
+      7622697,
+      13099097
+    ],
+    [
+      "aa",
+      "a",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      245151731,
+      388741298,
+      7564072,
+      13095831
+    ],
+    [
+      "aa",
+      "b",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      244702019,
+      388743882,
+      7532595,
+      13096014
+    ],
+    [
+      "aa",
+      "a",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      246093117,
+      385228524,
+      7621012,
+      13289838
+    ],
+    [
+      "aa",
+      "b",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      245875597,
+      385226859,
+      7619860,
+      13292744
+    ],
+    [
+      "aa",
+      "b",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      246154821,
+      385226860,
+      7675058,
+      13290905
+    ],
+    [
+      "aa",
+      "a",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      250779953,
+      385226467,
+      7607199,
+      13290087
+    ],
+    [
+      "aa",
+      "a",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      246036386,
+      385226565,
+      7647379,
+      13292052
+    ],
+    [
+      "aa",
+      "b",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      246202439,
+      385226267,
+      7654216,
+      13290691
+    ],
+    [
+      "aa",
+      "b",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      245944263,
+      385226703,
+      7654194,
+      13289859
+    ],
+    [
+      "aa",
+      "a",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      246343870,
+      385226784,
+      7629537,
+      13292755
+    ],
+    [
+      "aa",
+      "a",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      245697998,
+      385227368,
+      7652669,
+      13289922
+    ],
+    [
+      "aa",
+      "b",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      253054656,
+      385225769,
+      7640226,
+      13290509
+    ],
+    [
+      "aa",
+      "a",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      245846453,
+      428849280,
+      7542898,
+      13034667
+    ],
+    [
+      "aa",
+      "b",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      246220091,
+      428850182,
+      7566298,
+      13030864
+    ],
+    [
+      "aa",
+      "b",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      245770644,
+      428849941,
+      7592800,
+      13032258
+    ],
+    [
+      "aa",
+      "a",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      245930707,
+      428849869,
+      7541823,
+      13031819
+    ],
+    [
+      "aa",
+      "a",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      246278822,
+      428849403,
+      7527684,
+      13032483
+    ],
+    [
+      "aa",
+      "b",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      245839405,
+      428850337,
+      7535241,
+      13031740
+    ],
+    [
+      "aa",
+      "b",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      245804230,
+      428852387,
+      7601086,
+      13031558
+    ],
+    [
+      "aa",
+      "a",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      246379064,
+      428850060,
+      7560458,
+      13034231
+    ],
+    [
+      "aa",
+      "a",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      245836873,
+      428849454,
+      7562709,
+      13031853
+    ],
+    [
+      "aa",
+      "b",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      246003209,
+      428852801,
+      7582536,
+      13032037
+    ],
+    [
+      "aa",
+      "a",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      246402074,
+      436867711,
+      7581557,
+      13153833
+    ],
+    [
+      "aa",
+      "b",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      246094617,
+      436866244,
+      7592617,
+      13153106
+    ],
+    [
+      "aa",
+      "b",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      246162575,
+      436866243,
+      7598827,
+      13154015
+    ],
+    [
+      "aa",
+      "a",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      247262263,
+      436867199,
+      7603394,
+      13153379
+    ],
+    [
+      "aa",
+      "a",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      246029786,
+      436866090,
+      7581597,
+      13153985
+    ],
+    [
+      "aa",
+      "b",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      246022901,
+      436868708,
+      7592081,
+      13153374
+    ],
+    [
+      "aa",
+      "b",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      246717293,
+      436866144,
+      7593918,
+      13154319
+    ],
+    [
+      "aa",
+      "a",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      246090725,
+      436869167,
+      7616867,
+      13156539
+    ],
+    [
+      "aa",
+      "a",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      246111673,
+      436866309,
+      7584451,
+      13153994
+    ],
+    [
+      "aa",
+      "b",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      246573894,
+      436870129,
+      7590862,
+      13153497
+    ],
+    [
+      "aa",
+      "a",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      244869490,
+      431512199,
+      7633810,
+      13259498
+    ],
+    [
+      "aa",
+      "b",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      244789755,
+      431514483,
+      7637269,
+      13258225
+    ],
+    [
+      "aa",
+      "b",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      245575476,
+      431512329,
+      7608247,
+      13257127
+    ],
+    [
+      "aa",
+      "a",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      245173358,
+      431513220,
+      7611190,
+      13259742
+    ],
+    [
+      "aa",
+      "a",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      244997773,
+      431515900,
+      7610091,
+      13257358
+    ],
+    [
+      "aa",
+      "b",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      245326316,
+      431513533,
+      7629973,
+      13257800
+    ],
+    [
+      "aa",
+      "b",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      245185897,
+      431515282,
+      7631453,
+      13257313
+    ],
+    [
+      "aa",
+      "a",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      245869351,
+      431512404,
+      7628812,
+      13258920
+    ],
+    [
+      "aa",
+      "a",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      245424825,
+      431514999,
+      7620082,
+      13256865
+    ],
+    [
+      "aa",
+      "b",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      245197244,
+      431515157,
+      7637235,
+      13257697
+    ],
+    [
+      "aa",
+      "a",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      246812366,
+      435172923,
+      7726153,
+      13563325
+    ],
+    [
+      "aa",
+      "b",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      247599531,
+      435172889,
+      7734696,
+      13562688
+    ],
+    [
+      "aa",
+      "b",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      246431385,
+      435175951,
+      7704769,
+      13560450
+    ],
+    [
+      "aa",
+      "a",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      246327408,
+      435172787,
+      7721343,
+      13562112
+    ],
+    [
+      "aa",
+      "a",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      246931746,
+      435172759,
+      7696937,
+      13560756
+    ],
+    [
+      "aa",
+      "b",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      246383338,
+      435173358,
+      7717792,
+      13560640
+    ],
+    [
+      "aa",
+      "b",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      246481188,
+      435172969,
+      7697338,
+      13563054
+    ],
+    [
+      "aa",
+      "a",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      248017402,
+      435174049,
+      7701832,
+      13563226
+    ],
+    [
+      "aa",
+      "a",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      251683094,
+      435173699,
+      7700284,
+      13560520
+    ],
+    [
+      "aa",
+      "b",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      246562206,
+      435173772,
+      7733301,
+      13560349
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      246511166,
+      388742480,
+      7594299,
+      13095515
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      221092277,
+      366912015,
+      7576677,
+      13094649
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      220937173,
+      366911950,
+      7608688,
+      13096975
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      244984825,
+      388741531,
+      7550266,
+      13096482
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      245031471,
+      388744171,
+      7576993,
+      13098257
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      222110045,
+      366914307,
+      7554741,
+      13094537
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      221767599,
+      366912730,
+      7581497,
+      13094295
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      245035258,
+      388744288,
+      7590816,
+      13096672
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      244904492,
+      388742427,
+      7573747,
+      13096307
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      222691571,
+      366911969,
+      7579745,
+      13095070
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      245575667,
+      385228718,
+      7613050,
+      13290216
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      221726683,
+      365437017,
+      7647906,
+      13288714
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      222040515,
+      365434843,
+      7642803,
+      13289064
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      245822114,
+      385226180,
+      7616332,
+      13292877
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      245846751,
+      385228820,
+      7627099,
+      13292605
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      221631528,
+      365435120,
+      7627007,
+      13291730
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      221867544,
+      365437073,
+      7650257,
+      13290854
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      246256903,
+      385226424,
+      7660083,
+      13293284
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      248994024,
+      385228898,
+      7620875,
+      13290466
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      221536376,
+      365434042,
+      7665167,
+      13289123
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      245685389,
+      428850411,
+      7568300,
+      13031093
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      224732810,
+      412280434,
+      7547583,
+      13029677
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      224179793,
+      412280476,
+      7541645,
+      13029681
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      245900561,
+      428852206,
+      7563858,
+      13031728
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      245821727,
+      428852752,
+      7561282,
+      13031773
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      224338097,
+      412282655,
+      7601175,
+      13029466
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      224662217,
+      412279641,
+      7596103,
+      13031311
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      247136355,
+      428849654,
+      7586409,
+      13031726
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      245789446,
+      428852221,
+      7562435,
+      13033959
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      224658182,
+      412280533,
+      7578969,
+      13030517
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      246713509,
+      436866897,
+      7587644,
+      13153246
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      224870145,
+      422544680,
+      7619199,
+      13153313
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      225202010,
+      422545662,
+      7592428,
+      13152817
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      246590328,
+      436870067,
+      7601610,
+      13153239
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      246046197,
+      436866623,
+      7594249,
+      13153418
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      225378823,
+      422544807,
+      7622637,
+      13152359
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      224907277,
+      422543659,
+      7597480,
+      13152892
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      246017725,
+      436866675,
+      7590584,
+      13154559
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      245988058,
+      436866923,
+      7598040,
+      13155933
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      225356136,
+      422546342,
+      7567025,
+      13152427
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      245309903,
+      431514369,
+      7653848,
+      13259962
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      221173683,
+      399555594,
+      7701423,
+      13258234
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      220532677,
+      399558294,
+      7590141,
+      13255350
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      244996169,
+      431512687,
+      7584632,
+      13257723
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      245053760,
+      431514647,
+      7611259,
+      13257295
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      219549429,
+      399558415,
+      7677536,
+      13255141
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      220001757,
+      399556017,
+      7616061,
+      13255558
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      244970597,
+      431512635,
+      7616300,
+      13258000
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      245150599,
+      431511904,
+      7582962,
+      13257436
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      219497792,
+      399556171,
+      7640128,
+      13255700
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      246734783,
+      435174919,
+      7714206,
+      13560420
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      221282175,
+      405813595,
+      7724737,
+      13559055
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      221457115,
+      405810048,
+      7735534,
+      13559236
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      246731130,
+      435173494,
+      7723603,
+      13560293
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      248696127,
+      435172960,
+      7681395,
+      13559428
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      220692327,
+      405813030,
+      7713958,
+      13559355
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      220980033,
+      405815566,
+      7739520,
+      13558995
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      246570389,
+      435173917,
+      7720410,
+      13560682
+    ],
+    [
+      "gcc15",
+      "a",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      246355325,
+      435173058,
+      7716621,
+      13560271
+    ],
+    [
+      "gcc15",
+      "b",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      220680516,
+      405812319,
+      7698098,
+      13561157
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      230247039,
+      346061089,
+      7536423,
+      13266772
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      203154618,
+      339648591,
+      7493597,
+      13268518
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      204068296,
+      339649047,
+      7518508,
+      13265168
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      230653982,
+      346059797,
+      7521631,
+      13269177
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      230271793,
+      346062786,
+      7504889,
+      13265819
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      203324292,
+      339648677,
+      7540809,
+      13265612
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      203769496,
+      339651080,
+      7530502,
+      13267936
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      229393072,
+      346061117,
+      7516994,
+      13266148
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      230290329,
+      346060397,
+      7558904,
+      13266155
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      204337779,
+      339648325,
+      7568625,
+      13266215
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      230922570,
+      346247132,
+      7600655,
+      13475253
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      205087776,
+      340433824,
+      7571801,
+      13474732
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      205267981,
+      340434314,
+      7568438,
+      13475108
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      230862424,
+      346247001,
+      7584624,
+      13475473
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      230778226,
+      346248227,
+      7581387,
+      13475131
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      205492838,
+      340437309,
+      7570045,
+      13475322
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      204590571,
+      340434213,
+      7565506,
+      13474944
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      231256477,
+      346249743,
+      7586357,
+      13475300
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      230494319,
+      346249430,
+      7607201,
+      13475522
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      205068459,
+      340433939,
+      7611665,
+      13474392
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      232126293,
+      387935374,
+      7508261,
+      13188968
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      209542418,
+      383071370,
+      7465740,
+      13186620
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      208892957,
+      383069190,
+      7531595,
+      13186644
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      232264134,
+      387935324,
+      7532271,
+      13186956
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      233068242,
+      387937848,
+      7473000,
+      13190437
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      209591462,
+      383068838,
+      7477667,
+      13185924
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      209156113,
+      383071143,
+      7483678,
+      13186636
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      232361973,
+      387937452,
+      7533312,
+      13186335
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      232583054,
+      387938050,
+      7513835,
+      13187707
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      208735749,
+      383068553,
+      7505300,
+      13186543
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      233829029,
+      398119771,
+      7523594,
+      13319313
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      209159261,
+      393913686,
+      7552411,
+      13319762
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      208845344,
+      393913254,
+      7562086,
+      13319391
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      233673569,
+      398120583,
+      7562211,
+      13319475
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      233208596,
+      398120804,
+      7538268,
+      13321603
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      209086533,
+      393913975,
+      7524751,
+      13319606
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      209394524,
+      393913250,
+      7506269,
+      13319430
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      233405809,
+      398119816,
+      7526038,
+      13321989
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      233311586,
+      398120237,
+      7566469,
+      13321797
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      210251721,
+      393916439,
+      7518959,
+      13321857
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      231928694,
+      378048819,
+      7571337,
+      13441635
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      203632137,
+      368666104,
+      7567807,
+      13441493
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      203947987,
+      368662842,
+      7581457,
+      13443728
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      231901426,
+      378048838,
+      7528494,
+      13442468
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      231930439,
+      378048696,
+      7569519,
+      13441716
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      204757058,
+      368663028,
+      7602562,
+      13443244
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      203819294,
+      368662762,
+      7587351,
+      13441443
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      231823759,
+      378048732,
+      7551074,
+      13441468
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      231866661,
+      378051499,
+      7560347,
+      13444826
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      203309563,
+      368666411,
+      7573368,
+      13443191
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      234453675,
+      385344844,
+      7704462,
+      13766175
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      205644544,
+      376721275,
+      7632246,
+      13766756
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      205204256,
+      376723764,
+      7653130,
+      13766618
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      234368021,
+      385345365,
+      7635752,
+      13767074
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      235879803,
+      385345286,
+      7690735,
+      13769164
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      204547581,
+      376723784,
+      7708593,
+      13768543
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      204666591,
+      376723650,
+      7655698,
+      13767870
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      236411925,
+      385344987,
+      7670941,
+      13766198
+    ],
+    [
+      "clang21",
+      "a",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      235528854,
+      385347980,
+      7693729,
+      13769547
+    ],
+    [
+      "clang21",
+      "b",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      204945495,
+      376721766,
+      7706489,
+      13768314
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      245383020,
+      388742013,
+      7553860,
+      13095915
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      250477069,
+      388744886,
+      7600591,
+      13095567
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      244192133,
+      388742200,
+      7554581,
+      13096396
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      244935635,
+      388741431,
+      7528024,
+      13096602
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      245126207,
+      388740748,
+      7548702,
+      13099619
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      245050028,
+      388744214,
+      7567067,
+      13096547
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      245101411,
+      388744043,
+      7538039,
+      13096407
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      244560584,
+      388741872,
+      7550421,
+      13096533
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      244464763,
+      388741254,
+      7588187,
+      13096848
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/moderation/en/absent @ documents-moderation-en-absent",
+      245184908,
+      388744096,
+      7519554,
+      13095603
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      245587779,
+      385226337,
+      7646646,
+      13291269
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      246399460,
+      385226341,
+      7625184,
+      13292704
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      246334231,
+      385226168,
+      7642236,
+      13290652
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      245697200,
+      385226717,
+      7620341,
+      13290336
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      245528752,
+      385226066,
+      7611830,
+      13289667
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      245560339,
+      385227714,
+      7654602,
+      13289362
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      245596610,
+      385228549,
+      7603461,
+      13290194
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      245408599,
+      385227053,
+      7611842,
+      13290254
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      246298625,
+      385226584,
+      7729919,
+      13289624
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/moderation/en/middle @ documents-moderation-en-middle",
+      245508626,
+      385225636,
+      7630067,
+      13290029
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      245868957,
+      428852927,
+      7572168,
+      13032094
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      246309940,
+      428850460,
+      7544687,
+      13034192
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      245943048,
+      428849389,
+      7552278,
+      13032721
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      245895938,
+      428850814,
+      7551271,
+      13031791
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      246240363,
+      428849733,
+      7530069,
+      13032294
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      246053020,
+      428849563,
+      7559427,
+      13031827
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      245667990,
+      428849820,
+      7587181,
+      13032184
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      246525628,
+      428852942,
+      7525461,
+      13032291
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      245811287,
+      428852195,
+      7556438,
+      13034138
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/moderation/ru/absent @ documents-moderation-ru-absent",
+      245885906,
+      428850798,
+      7555879,
+      13031376
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      246583927,
+      436866486,
+      7609744,
+      13154011
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      246905376,
+      436865761,
+      7593637,
+      13153167
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      246079174,
+      436869337,
+      7596608,
+      13153471
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      246550417,
+      436867341,
+      7585780,
+      13155616
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      246274447,
+      436866444,
+      7581547,
+      13154866
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      246254720,
+      436868595,
+      7602585,
+      13154289
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      246564559,
+      436866355,
+      7601897,
+      13153570
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      246025581,
+      436866072,
+      7607364,
+      13154551
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      245996612,
+      436869516,
+      7619680,
+      13153556
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/moderation/ru/middle @ documents-moderation-ru-middle",
+      246830382,
+      436869600,
+      7613139,
+      13153284
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      245296378,
+      431514486,
+      7614481,
+      13257781
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      245212172,
+      431512463,
+      7595818,
+      13257250
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      245323111,
+      431512522,
+      7607398,
+      13257086
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      244865500,
+      431513173,
+      7603207,
+      13256949
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      244559241,
+      431512017,
+      7602684,
+      13256805
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      245213402,
+      431511868,
+      7589700,
+      13257624
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      245052669,
+      431512535,
+      7620182,
+      13260356
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      244840516,
+      431512270,
+      7644201,
+      13257500
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      245453254,
+      431512630,
+      7620545,
+      13260207
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/moderation/zh/absent @ documents-moderation-zh-absent",
+      245003954,
+      431513216,
+      7616521,
+      13257468
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      247461125,
+      435173591,
+      7703615,
+      13560831
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      246953769,
+      435173625,
+      7681080,
+      13560490
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      253613223,
+      435175665,
+      7733338,
+      13560369
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      245920070,
+      435174986,
+      7698461,
+      13562573
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      247133195,
+      435173231,
+      7684756,
+      13562321
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      246473063,
+      435175875,
+      7716466,
+      13560033
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      246488188,
+      435173057,
+      7704292,
+      13560413
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      247234561,
+      435176137,
+      7719190,
+      13561320
+    ],
+    [
+      "aa2",
+      "a",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      246727409,
+      435173639,
+      7707579,
+      13560540
+    ],
+    [
+      "aa2",
+      "b",
+      "documents/moderation/zh/middle @ documents-moderation-zh-middle",
+      246618964,
+      435173724,
+      7749296,
+      13562913
+    ]
+  ]
+}

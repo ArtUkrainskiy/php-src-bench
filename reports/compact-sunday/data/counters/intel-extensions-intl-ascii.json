@@ -1,0 +1,6898 @@
+{
+  "format": 2,
+  "kind": "compare",
+  "harness": 2,
+  "date": "2026-11-01T08:29:18+00:00",
+  "suite": "reports/compact-sunday/suites/intl-ascii.php",
+  "elapsed_s": 445.6,
+  "complete": true,
+  "config": {
+    "passes": 5,
+    "cpu": 2,
+    "target_ms": 50,
+    "filter": null,
+    "control": true,
+    "wait_idle": 120,
+    "events": "cpu_core/cycles/u,cpu_core/instructions/u"
+  },
+  "env": {
+    "cpu_model": "13th Gen Intel(R) Core(TM) i7-13700H",
+    "kernel": "7.0.0-38-generic",
+    "cpu": 2,
+    "cpu_siblings": "2-3",
+    "hybrid_pcores": "0-11",
+    "cpu_is_pcore": true,
+    "governor": "powersave",
+    "epp": "balance_performance",
+    "turbo": true,
+    "on_ac": true,
+    "load": 1.90185546875,
+    "busy_pct": {
+      "2": 6.7,
+      "3": 0
+    },
+    "idle_cpu": 2
+  },
+  "groups": [
+    {
+      "name": "aa",
+      "a": "compact-base-gcc14",
+      "b": "compact-base-gcc14"
+    },
+    {
+      "name": "gcc14",
+      "a": "compact-base-gcc14",
+      "b": "compact-head-gcc14"
+    },
+    {
+      "name": "clang20",
+      "a": "compact-base-clang20",
+      "b": "compact-head-clang20"
+    },
+    {
+      "name": "gcc13",
+      "a": "compact-base-gcc13",
+      "b": "compact-head-gcc13"
+    },
+    {
+      "name": "clang18",
+      "a": "compact-base-clang18",
+      "b": "compact-head-clang18"
+    },
+    {
+      "name": "aa2",
+      "a": "compact-base-gcc14",
+      "b": "compact-base-gcc14"
+    }
+  ],
+  "builds": {
+    "compact-base-gcc14": {
+      "php": "BUILD_DIR/compact-base-gcc14/sapi/cli/php",
+      "build": {
+        "name": "compact-base-gcc14",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:46:09+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "ac3a91d21845157f2be60236a99e484774abd3cd",
+        "cc": "gcc-14 (Ubuntu 14.2.0-4ubuntu2~24.04.1) 14.2.0",
+        "cc_command": "gcc-14",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-gcc14/sapi/cli/php"
+      },
+      "sha1": "29994ee8008df58a38654def392c9ce84a02c527"
+    },
+    "compact-head-gcc14": {
+      "php": "BUILD_DIR/compact-head-gcc14/sapi/cli/php",
+      "build": {
+        "name": "compact-head-gcc14",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:53:33+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "ac3a91d21845157f2be60236a99e484774abd3cd",
+        "cc": "gcc-14 (Ubuntu 14.2.0-4ubuntu2~24.04.1) 14.2.0",
+        "cc_command": "gcc-14",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-gcc14/sapi/cli/php"
+      },
+      "sha1": "eb2fd20710ece4e824a9d4dfc0f19897891fa4a6"
+    },
+    "compact-base-clang20": {
+      "php": "BUILD_DIR/compact-base-clang20/sapi/cli/php",
+      "build": {
+        "name": "compact-base-clang20",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:49:34+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "1d7363572b7d241702924894eced9e166dfe2ea0",
+        "cc": "Ubuntu clang version 20.1.2 (0ubuntu1~24.04.3)",
+        "cc_command": "clang-20",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-clang20/sapi/cli/php"
+      },
+      "sha1": "2479fffae5b6ae555283eaa61d5de46779a1bc74"
+    },
+    "compact-head-clang20": {
+      "php": "BUILD_DIR/compact-head-clang20/sapi/cli/php",
+      "build": {
+        "name": "compact-head-clang20",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:57:25+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "1d7363572b7d241702924894eced9e166dfe2ea0",
+        "cc": "Ubuntu clang version 20.1.2 (0ubuntu1~24.04.3)",
+        "cc_command": "clang-20",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-clang20/sapi/cli/php"
+      },
+      "sha1": "1577211fd1cee3181dd7eedbe88345254f0c9217"
+    },
+    "compact-base-gcc13": {
+      "php": "BUILD_DIR/compact-base-gcc13/sapi/cli/php",
+      "build": {
+        "name": "compact-base-gcc13",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:44:22+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "7d7501a4b803974f6a9a1a155f1d477e1e470510",
+        "cc": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+        "cc_command": "gcc",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-gcc13/sapi/cli/php"
+      },
+      "sha1": "77cb6a44e3c6456b1b85f1c5e91a81365c7b4cc7"
+    },
+    "compact-head-gcc13": {
+      "php": "BUILD_DIR/compact-head-gcc13/sapi/cli/php",
+      "build": {
+        "name": "compact-head-gcc13",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:51:26+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "7d7501a4b803974f6a9a1a155f1d477e1e470510",
+        "cc": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+        "cc_command": "gcc",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-gcc13/sapi/cli/php"
+      },
+      "sha1": "0def7d7b7cd90023ff48823de1a7fb0916094ab4"
+    },
+    "compact-base-clang18": {
+      "php": "BUILD_DIR/compact-base-clang18/sapi/cli/php",
+      "build": {
+        "name": "compact-base-clang18",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:47:49+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "096800019d14b925a3b777447a14fa3b0d669985",
+        "cc": "Ubuntu clang version 18.1.3 (1ubuntu1)",
+        "cc_command": "clang",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-clang18/sapi/cli/php"
+      },
+      "sha1": "afd9859494a5f84bbad4a39c8569b7d63f361611"
+    },
+    "compact-head-clang18": {
+      "php": "BUILD_DIR/compact-head-clang18/sapi/cli/php",
+      "build": {
+        "name": "compact-head-clang18",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:55:30+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "096800019d14b925a3b777447a14fa3b0d669985",
+        "cc": "Ubuntu clang version 18.1.3 (1ubuntu1)",
+        "cc_command": "clang",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-clang18/sapi/cli/php"
+      },
+      "sha1": "192e4a4a5f2f9207a910d137978397dd12769e99"
+    }
+  },
+  "sources": {
+    "suite": "88f67ea83f54cf931c53bd877c486d72c965c6b7",
+    "harness": "c3113f45c2a11bcb63f0b1fb7a4e44ef6843325d",
+    "corpus": "e5c81343e158d86e921e121508cb8b101980f980"
+  },
+  "machine_warnings": [
+    "CPU governor is 'powersave': frequency scaling adds noise (sudo CAPTURE_PATH/bench tune on)",
+    "turbo boost is on: thermal and frequency drift between rounds (sudo CAPTURE_PATH/bench tune on)",
+    "load average is 1.9: other programs are competing for the CPU"
+  ],
+  "cases": {
+    "grapheme_strpos/en/absent @ grapheme_strpos-en-absent": {
+      "input_len": 4096,
+      "input_chars": 4096,
+      "n": 16759
+    },
+    "grapheme_strpos/en/start @ grapheme_strpos-en-start": {
+      "input_len": 4114,
+      "input_chars": 4114,
+      "n": 21402
+    },
+    "grapheme_strpos/en/middle @ grapheme_strpos-en-middle": {
+      "input_len": 4114,
+      "input_chars": 4114,
+      "n": 20405
+    },
+    "grapheme_strpos/en/end @ grapheme_strpos-en-end": {
+      "input_len": 4114,
+      "input_chars": 4114,
+      "n": 16667
+    },
+    "grapheme_stripos/en/absent @ grapheme_strpos-en-absent": {
+      "input_len": 4096,
+      "input_chars": 4096,
+      "n": 15339
+    },
+    "grapheme_stripos/en/start @ grapheme_stripos-en-start": {
+      "input_len": 4114,
+      "input_chars": 4114,
+      "n": 19708
+    },
+    "grapheme_stripos/en/middle @ grapheme_stripos-en-middle": {
+      "input_len": 4114,
+      "input_chars": 4114,
+      "n": 17137
+    },
+    "grapheme_stripos/en/end @ grapheme_stripos-en-end": {
+      "input_len": 4114,
+      "input_chars": 4114,
+      "n": 15272
+    },
+    "grapheme_strstr/en/absent @ grapheme_strpos-en-absent": {
+      "input_len": 4096,
+      "input_chars": 4096,
+      "n": 16278
+    },
+    "grapheme_strstr/en/start @ grapheme_strpos-en-start": {
+      "input_len": 4114,
+      "input_chars": 4114,
+      "n": 20484
+    },
+    "grapheme_strstr/en/middle @ grapheme_strpos-en-middle": {
+      "input_len": 4114,
+      "input_chars": 4114,
+      "n": 17779
+    },
+    "grapheme_strstr/en/end @ grapheme_strpos-en-end": {
+      "input_len": 4114,
+      "input_chars": 4114,
+      "n": 16461
+    }
+  },
+  "warnings": [],
+  "marks": [],
+  "rows": [
+    [
+      "aa",
+      "a",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      208014058,
+      656643638,
+      12693200,
+      23147684
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      203512899,
+      656644926,
+      13427976,
+      23148001
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      203750623,
+      656644272,
+      13533980,
+      23151611
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      207261688,
+      656648739,
+      13311213,
+      23149402
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      208427643,
+      656647108,
+      13038176,
+      23150120
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      204665597,
+      656646048,
+      13100937,
+      23148566
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      208244217,
+      656646369,
+      13059483,
+      23147772
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      205946096,
+      656646070,
+      12793928,
+      23151118
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      206260459,
+      656643463,
+      12824127,
+      23150801
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      265419192,
+      656643853,
+      13485981,
+      23149682
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      202680932,
+      745626329,
+      12848756,
+      23279756
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      203523029,
+      745624886,
+      13570470,
+      23282487
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      202448270,
+      745625540,
+      13144889,
+      23280126
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      206426958,
+      745627395,
+      12889221,
+      23281579
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      202668159,
+      745623544,
+      13188605,
+      23276902
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      202493250,
+      745624912,
+      13604594,
+      23281524
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      202638772,
+      745625490,
+      13580821,
+      23280574
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      203536855,
+      745625028,
+      12839447,
+      23280940
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      202041260,
+      745626028,
+      13077177,
+      23281676
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      201726512,
+      745625985,
+      12715175,
+      23278780
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      213811507,
+      755756662,
+      12880399,
+      23251637
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      218652079,
+      755757939,
+      12769605,
+      23249949
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      211272836,
+      755760601,
+      12896459,
+      23249867
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      218698927,
+      755757161,
+      12881075,
+      23253403
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      216244588,
+      755760391,
+      12621069,
+      23253986
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      222251740,
+      755757789,
+      13195581,
+      23254603
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      217689010,
+      755757692,
+      13481044,
+      23252811
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      217828963,
+      755758723,
+      12818983,
+      23253880
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      212876608,
+      755758369,
+      13444005,
+      23253329
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      218464653,
+      755758931,
+      13334228,
+      23252251
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      203373469,
+      655367491,
+      13016001,
+      23146459
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      199261669,
+      655366556,
+      13333766,
+      23146319
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      203084877,
+      655366068,
+      13459103,
+      23144797
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      205332755,
+      655366966,
+      12856618,
+      23146676
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      200836470,
+      655364359,
+      12733332,
+      23146797
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      201180003,
+      655364203,
+      13257426,
+      23146915
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      202501769,
+      655367471,
+      12741753,
+      23148413
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      201837395,
+      655363648,
+      12803202,
+      23148226
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      203430506,
+      655368742,
+      13360289,
+      23144735
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      201243645,
+      655366419,
+      13208592,
+      23148225
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      201785959,
+      654671102,
+      12750780,
+      23115036
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      203425925,
+      654672048,
+      13369579,
+      23112204
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      205430945,
+      654669529,
+      13637186,
+      23110962
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      201235497,
+      654672420,
+      12686370,
+      23113138
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      200975203,
+      654673151,
+      13578783,
+      23111643
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      201424183,
+      654673850,
+      13429511,
+      23112311
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      196785656,
+      654671062,
+      13483975,
+      23114526
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      202949384,
+      654672073,
+      12818625,
+      23112180
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      200159882,
+      654673587,
+      13161633,
+      23112451
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      203431960,
+      654672899,
+      13554746,
+      23113999
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      201897480,
+      755355750,
+      12915220,
+      23236057
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      202892365,
+      755353832,
+      12964433,
+      23236412
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      201020790,
+      755354824,
+      13450580,
+      23236946
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      201998669,
+      755353715,
+      13696934,
+      23239178
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      201784933,
+      755352043,
+      13759484,
+      23238797
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      202547381,
+      755358650,
+      13041195,
+      23236224
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      202533369,
+      755357636,
+      13918145,
+      23236558
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      202581813,
+      755351973,
+      13441640,
+      23238060
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      202536377,
+      755357297,
+      13008144,
+      23234606
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      203960254,
+      755355273,
+      13256139,
+      23235767
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      197372808,
+      696566772,
+      13273225,
+      23161919
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      190225672,
+      696568389,
+      13360401,
+      23161697
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      187716701,
+      696567823,
+      12591178,
+      23163202
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      194874323,
+      696565975,
+      14254255,
+      23164416
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      197467615,
+      696568204,
+      12698509,
+      23163500
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      196970606,
+      696566042,
+      12554319,
+      23163415
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      204431557,
+      696568628,
+      13351850,
+      23163338
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      197482893,
+      696565179,
+      13390744,
+      23163741
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      197402469,
+      696570023,
+      13263477,
+      23165186
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      192621287,
+      696570894,
+      12994919,
+      23164044
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      198647987,
+      654295038,
+      13091839,
+      23110360
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      208815260,
+      654294840,
+      13307748,
+      23113334
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      199335622,
+      654294164,
+      12945808,
+      23110689
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      198238065,
+      654294820,
+      12620218,
+      23109074
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      201345695,
+      654295553,
+      12644841,
+      23111975
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      197441775,
+      654295701,
+      13387865,
+      23112666
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      198748959,
+      654294741,
+      13475529,
+      23109765
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      196705404,
+      654293462,
+      13324632,
+      23109201
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      203838230,
+      654294498,
+      12907660,
+      23112043
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      198908322,
+      654293555,
+      13229432,
+      23110896
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      201252116,
+      638273144,
+      13078660,
+      23135529
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      202050435,
+      638272624,
+      13891537,
+      23135453
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      202346039,
+      638271653,
+      13832411,
+      23136020
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      203617880,
+      638268727,
+      13609384,
+      23132806
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      205768434,
+      638271546,
+      13552186,
+      23136014
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      202047322,
+      638269890,
+      12850524,
+      23136454
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      203315958,
+      638268777,
+      12787922,
+      23137386
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      202461004,
+      638271686,
+      12860681,
+      23133176
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      201531333,
+      638271156,
+      13201329,
+      23136485
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      202330487,
+      638271953,
+      12784329,
+      23135502
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      203382834,
+      723953033,
+      13320659,
+      23292706
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      200602147,
+      723952755,
+      13409873,
+      23287792
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      200544553,
+      723951815,
+      13034275,
+      23290986
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      200196699,
+      723954752,
+      13287921,
+      23291697
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      199162061,
+      723951775,
+      12765213,
+      23290806
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      199346228,
+      723953141,
+      13365530,
+      23290054
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      201692978,
+      723953893,
+      13780016,
+      23290329
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      200521300,
+      723953026,
+      13074012,
+      23289268
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      204773871,
+      723951825,
+      13276278,
+      23292042
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      202111976,
+      723954634,
+      14393306,
+      23291163
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      199756838,
+      669841670,
+      12590810,
+      23195043
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      200226334,
+      669844810,
+      13239187,
+      23197696
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      197289599,
+      669846193,
+      13057266,
+      23197698
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      196902107,
+      669840746,
+      13096980,
+      23197197
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      196468860,
+      669846876,
+      12451534,
+      23199160
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      196509941,
+      669843366,
+      12536419,
+      23196242
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      197050490,
+      669846597,
+      13153161,
+      23199805
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      197119139,
+      669844253,
+      12754617,
+      23199375
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      197618541,
+      669844622,
+      13118210,
+      23197363
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      197858796,
+      669842856,
+      13170820,
+      23199125
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      206353901,
+      651649726,
+      13107078,
+      23143612
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      203651379,
+      651646906,
+      13156527,
+      23140139
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      205791819,
+      651643280,
+      12509472,
+      23139513
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      202043636,
+      651645871,
+      12838307,
+      23142796
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      209020740,
+      651646913,
+      12908257,
+      23144481
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      203499461,
+      651645442,
+      12720716,
+      23141654
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      205131249,
+      651645632,
+      12804764,
+      23144351
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      206148105,
+      651646382,
+      12919854,
+      23143232
+    ],
+    [
+      "aa",
+      "a",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      214488387,
+      651648757,
+      16005893,
+      23143468
+    ],
+    [
+      "aa",
+      "b",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      205881897,
+      651646704,
+      13514497,
+      23143890
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      205099299,
+      656646699,
+      12665708,
+      23150562
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      206085356,
+      654265243,
+      13124775,
+      23147274
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      201601261,
+      654265768,
+      13216183,
+      23149358
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      204154389,
+      656646180,
+      13085793,
+      23149765
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      202730019,
+      656644492,
+      12887647,
+      23148128
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      204142911,
+      654267953,
+      12606095,
+      23150199
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      203436215,
+      654263892,
+      12587927,
+      23149993
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      203426473,
+      656645716,
+      12518205,
+      23146833
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      205264743,
+      656648014,
+      12485950,
+      23149722
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      205000586,
+      654266565,
+      12794986,
+      23148722
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      202475519,
+      745625295,
+      13065785,
+      23281166
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      201141761,
+      742586569,
+      13018024,
+      23280958
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      202134380,
+      742586838,
+      13077538,
+      23277354
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      202852727,
+      745623618,
+      12675486,
+      23276474
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      201623726,
+      745623259,
+      12519752,
+      23281557
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      201569468,
+      742585996,
+      12604436,
+      23277608
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      201957417,
+      742584608,
+      12600064,
+      23280947
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      202152902,
+      745627095,
+      12699100,
+      23281963
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      202782186,
+      745627079,
+      13020531,
+      23281233
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      201651532,
+      742586785,
+      12512054,
+      23281259
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      215944312,
+      755759272,
+      12892068,
+      23255145
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      220626088,
+      752861166,
+      13053237,
+      23253555
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      214342795,
+      752861952,
+      13088509,
+      23254958
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      216679051,
+      755755018,
+      12935255,
+      23250088
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      218007169,
+      755757771,
+      12767051,
+      23252905
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      214561360,
+      752860207,
+      13049788,
+      23254923
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      214103939,
+      752860301,
+      12761091,
+      23254656
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      213364521,
+      755758676,
+      12563196,
+      23254114
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      210249476,
+      755759362,
+      13090979,
+      23251825
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      215023803,
+      752861767,
+      13027595,
+      23252417
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      201977573,
+      655366750,
+      12463196,
+      23147214
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      200755932,
+      653000355,
+      13172597,
+      23150041
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      199816980,
+      652998544,
+      13112388,
+      23145990
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      202331714,
+      655368058,
+      13072379,
+      23144645
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      202587806,
+      655363202,
+      12649505,
+      23145751
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      204293371,
+      652996771,
+      12974028,
+      23145790
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      202725256,
+      653000036,
+      13296814,
+      23147250
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      204375580,
+      655366896,
+      12888425,
+      23147762
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      202212956,
+      655367191,
+      12450057,
+      23144458
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      203560751,
+      652999897,
+      12976545,
+      23147900
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      196725091,
+      654671633,
+      12972001,
+      23116803
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      200736591,
+      652490686,
+      12630985,
+      23113791
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      200658688,
+      652491438,
+      12898600,
+      23112874
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      197811437,
+      654669569,
+      13023289,
+      23113524
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      200153029,
+      654674685,
+      12814497,
+      23113996
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      202068008,
+      652491767,
+      12611854,
+      23113419
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      200833010,
+      652491776,
+      13056921,
+      23111433
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      199784876,
+      654673146,
+      12990598,
+      23113158
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      202493888,
+      654672982,
+      12568613,
+      23112555
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      202230186,
+      652494726,
+      12544933,
+      23114000
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      203097208,
+      755355733,
+      13020502,
+      23236129
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      200904540,
+      752559246,
+      12993158,
+      23233758
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      200362375,
+      752556280,
+      12522520,
+      23234418
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      202205911,
+      755352666,
+      13135266,
+      23237817
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      201426989,
+      755357121,
+      12625702,
+      23235884
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      200659860,
+      752559213,
+      12716065,
+      23237517
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      200759136,
+      752556060,
+      12559336,
+      23237878
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      202309930,
+      755355097,
+      12616747,
+      23234991
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      202358014,
+      755356272,
+      12758232,
+      23237118
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      201821054,
+      752559016,
+      12498836,
+      23236762
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      194137413,
+      696566915,
+      13025627,
+      23165112
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      189256783,
+      694134419,
+      12743434,
+      23165654
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      204442436,
+      694136376,
+      12662720,
+      23162183
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      188835996,
+      696567933,
+      12444138,
+      23165575
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      190149920,
+      696569986,
+      12747237,
+      23163449
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      198089837,
+      694135159,
+      12665085,
+      23163803
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      197027209,
+      694132330,
+      12808327,
+      23165540
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      204273548,
+      696568986,
+      12702325,
+      23161688
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      191070650,
+      696568586,
+      13242101,
+      23163877
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      191762697,
+      694135053,
+      13218498,
+      23163657
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      202760149,
+      654291473,
+      12576486,
+      23108727
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      198201990,
+      652125180,
+      12526629,
+      23108576
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      204627504,
+      652126414,
+      13064158,
+      23111385
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      199505457,
+      654291227,
+      12998414,
+      23111634
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      198122598,
+      654293176,
+      12744286,
+      23112297
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      202525779,
+      652127644,
+      13248948,
+      23113476
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      198738427,
+      652127093,
+      12906417,
+      23113411
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      204358567,
+      654291337,
+      13169909,
+      23112406
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      197411957,
+      654295368,
+      13224200,
+      23110843
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      205085557,
+      652127612,
+      12582560,
+      23110049
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      202546185,
+      638272100,
+      13408709,
+      23136069
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      201754290,
+      635959500,
+      13491478,
+      23134080
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      202440317,
+      635957150,
+      13059137,
+      23136937
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      201725838,
+      638269647,
+      13085021,
+      23135395
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      202939474,
+      638270470,
+      12690733,
+      23136258
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      205452828,
+      635958761,
+      13620728,
+      23134232
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      202420360,
+      635961986,
+      12643605,
+      23136385
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      200998733,
+      638269025,
+      12653549,
+      23135060
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      200494357,
+      638272306,
+      13427175,
+      23136643
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      202249881,
+      635959104,
+      13313881,
+      23136020
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      202638233,
+      723953109,
+      13330247,
+      23290622
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      198806541,
+      721041491,
+      13194888,
+      23291981
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      198779450,
+      721041222,
+      13283837,
+      23287671
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      204230031,
+      723953332,
+      13134617,
+      23288786
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      200739416,
+      723952896,
+      13276170,
+      23291969
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      206160185,
+      721045578,
+      13400803,
+      23289679
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      202515468,
+      721043908,
+      13411398,
+      23288612
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      201552577,
+      723954281,
+      13471325,
+      23290737
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      200589971,
+      723954826,
+      13594490,
+      23288491
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      200439714,
+      721045860,
+      15180876,
+      23290609
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      197346856,
+      669844524,
+      12636733,
+      23194874
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      197845576,
+      667319556,
+      13385440,
+      23198521
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      199390696,
+      667320094,
+      13219956,
+      23198515
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      196997474,
+      669845775,
+      13294885,
+      23198613
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      200680282,
+      669845548,
+      13482323,
+      23196485
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      199833850,
+      667320433,
+      13070153,
+      23196620
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      198560039,
+      667320877,
+      14537946,
+      23197191
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      199718864,
+      669841441,
+      13257120,
+      23197495
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      199085737,
+      669844447,
+      12855357,
+      23197499
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      197230782,
+      667321933,
+      12905707,
+      23194436
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      206060726,
+      651646346,
+      13327679,
+      23141123
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      208456603,
+      649311097,
+      13324389,
+      23142983
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      204245454,
+      649309962,
+      14568782,
+      23139877
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      203772050,
+      651646804,
+      14469843,
+      23142911
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      205912282,
+      651646479,
+      12727355,
+      23141048
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      205649385,
+      649311340,
+      12851186,
+      23144071
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      202873899,
+      649308578,
+      13518566,
+      23143587
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      201599431,
+      651643424,
+      20239194,
+      23139854
+    ],
+    [
+      "gcc14",
+      "a",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      201442928,
+      651647225,
+      13253112,
+      23141080
+    ],
+    [
+      "gcc14",
+      "b",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      205510799,
+      649309740,
+      12718408,
+      23143945
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      190266001,
+      723747329,
+      12590735,
+      22961175
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      188410473,
+      714528524,
+      14330669,
+      22964190
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      182093607,
+      714526135,
+      12804038,
+      22958789
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      188655175,
+      723747990,
+      12942893,
+      22958823
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      187742283,
+      723748948,
+      14809936,
+      22963798
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      182099699,
+      714528087,
+      14439824,
+      22961553
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      178469754,
+      714530190,
+      13108943,
+      22961297
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      191037821,
+      723746726,
+      12585226,
+      22962621
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      186376859,
+      723748598,
+      13216819,
+      22961785
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      180021234,
+      714529925,
+      12945724,
+      22958978
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      149596455,
+      826091947,
+      13203397,
+      23101585
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      149223534,
+      825062661,
+      13204984,
+      23100318
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      149006188,
+      825064158,
+      13465128,
+      23099626
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      148874359,
+      826092207,
+      12540338,
+      23102540
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      148562973,
+      826088219,
+      14211196,
+      23102195
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      148892073,
+      825059409,
+      13102579,
+      23102757
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      149615445,
+      825064525,
+      13213761,
+      23102110
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      149008321,
+      826089679,
+      14159741,
+      23099123
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      148895868,
+      826090642,
+      12507992,
+      23104063
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      148985937,
+      825064106,
+      13028350,
+      23100219
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      192771139,
+      835013917,
+      13866067,
+      23074798
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      194135247,
+      828854686,
+      13313254,
+      23072077
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      187644303,
+      828851709,
+      12699232,
+      23073659
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      192170627,
+      835017270,
+      12759962,
+      23071520
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      187308161,
+      835017890,
+      13257972,
+      23069946
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      190242399,
+      828853273,
+      12694620,
+      23075079
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      187111662,
+      828852992,
+      13175583,
+      23070740
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      190408101,
+      835015803,
+      12571691,
+      23071754
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      186392671,
+      835014582,
+      12936635,
+      23075956
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      189448033,
+      828851408,
+      13099061,
+      23075941
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      186242725,
+      722163179,
+      13626819,
+      22959668
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      181855815,
+      712926161,
+      12979413,
+      22957330
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      185180978,
+      712929583,
+      12661318,
+      22959571
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      186323054,
+      722163240,
+      12801024,
+      22958761
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      184147992,
+      722164210,
+      12728047,
+      22956363
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      182890283,
+      712931964,
+      12523369,
+      22959165
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      189301911,
+      712928588,
+      14170549,
+      22960992
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      188450359,
+      722164108,
+      12919604,
+      22957731
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      189726244,
+      722164306,
+      12725959,
+      22957057
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      186646471,
+      712930699,
+      14548464,
+      22961028
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      183194897,
+      718525671,
+      12989169,
+      22925074
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      184218459,
+      710084218,
+      13152636,
+      22923653
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      184953667,
+      710086590,
+      13758164,
+      22920177
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      191783563,
+      718523958,
+      13460400,
+      22921205
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      183427309,
+      718522404,
+      12661151,
+      22921467
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      188658713,
+      710085932,
+      13852967,
+      22920820
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      194130547,
+      710085886,
+      13830778,
+      22921733
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      177467915,
+      718523539,
+      14383738,
+      22922548
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      176629359,
+      718523766,
+      14417555,
+      22922599
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      179135901,
+      710083606,
+      13203468,
+      22922538
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      159960004,
+      832781907,
+      14623544,
+      23053155
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      154921439,
+      831837665,
+      13103321,
+      23055860
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      163413972,
+      831836924,
+      14347721,
+      23053219
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      158859803,
+      832785340,
+      14264577,
+      23052977
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      159991515,
+      832786192,
+      12581204,
+      23056323
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      185908557,
+      831839044,
+      14037874,
+      23052997
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      161284031,
+      831838120,
+      12791383,
+      23054407
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      159597627,
+      832785516,
+      12650251,
+      23055976
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      162800892,
+      832785606,
+      12704472,
+      23054837
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      163606833,
+      831839341,
+      13182983,
+      23054523
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      166799579,
+      766011989,
+      13410250,
+      22977424
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      178378525,
+      760834586,
+      12644029,
+      22976696
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      180575916,
+      760835262,
+      13938771,
+      22977037
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      178662045,
+      766010267,
+      13250585,
+      22978772
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      173903262,
+      766007666,
+      12736997,
+      22979845
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      171148893,
+      760831982,
+      13052095,
+      22974892
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      169985526,
+      760835387,
+      13437337,
+      22977044
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      175982853,
+      766010430,
+      12591649,
+      22974783
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      175209209,
+      766007832,
+      12901809,
+      22979269
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      176620356,
+      760835286,
+      12635628,
+      22975693
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      186281401,
+      718076578,
+      13186247,
+      22922443
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      174498190,
+      709615848,
+      13435506,
+      22921765
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      186963423,
+      709618907,
+      14427287,
+      22918211
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      173682422,
+      718080797,
+      12474585,
+      22917798
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      177349449,
+      718080440,
+      13146297,
+      22923286
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      176971343,
+      709616287,
+      14774424,
+      22923826
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      186140625,
+      709619058,
+      13721535,
+      22921866
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      174975397,
+      718080078,
+      13670042,
+      22919415
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      183289308,
+      718079486,
+      12677032,
+      22919805
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      178616531,
+      709620229,
+      12511378,
+      22919307
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      193438959,
+      703534157,
+      13455774,
+      22946120
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      190800509,
+      694584715,
+      13105387,
+      22948259
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      196188867,
+      694581165,
+      12776372,
+      22944188
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      194533377,
+      703538177,
+      13889451,
+      22946945
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      191645113,
+      703537769,
+      12603054,
+      22946037
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      196280726,
+      694584613,
+      12550597,
+      22944741
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      193423168,
+      694581255,
+      12691986,
+      22946205
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      193181726,
+      703538833,
+      12468159,
+      22945463
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      193650527,
+      703536555,
+      13252110,
+      22945257
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      192416506,
+      694586069,
+      14800482,
+      22948525
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      147758330,
+      800879224,
+      12774159,
+      23114370
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      147135622,
+      799896613,
+      14147973,
+      23115354
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      148569633,
+      799896031,
+      13203643,
+      23116404
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      147211410,
+      800879547,
+      13309523,
+      23114931
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      148329583,
+      800879064,
+      13839707,
+      23114250
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      147283173,
+      799895839,
+      13966548,
+      23112461
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      150549089,
+      799893380,
+      13060414,
+      23111619
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      148303698,
+      800879927,
+      12629895,
+      23112906
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      148106289,
+      800877287,
+      13128134,
+      23114672
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      146879787,
+      799893257,
+      14358321,
+      23112308
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      189428113,
+      739194853,
+      12551724,
+      23010683
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      189858092,
+      733825534,
+      13317379,
+      23010578
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      187756072,
+      733823465,
+      13840764,
+      23011484
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      183766104,
+      739194625,
+      12661896,
+      23011903
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      185969002,
+      739195023,
+      14226525,
+      23012736
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      190811395,
+      733821826,
+      13333623,
+      23014098
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      191421269,
+      733822199,
+      13031362,
+      23013107
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      186228482,
+      739190378,
+      12723011,
+      23014274
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      185787454,
+      739194160,
+      13116255,
+      23012903
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      189481888,
+      733825407,
+      13224728,
+      23011235
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      200817466,
+      717847092,
+      13267888,
+      22954914
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      196608566,
+      708724036,
+      14638955,
+      22954935
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      196525761,
+      708728463,
+      13784951,
+      22954725
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      197037469,
+      717846427,
+      14130137,
+      22954841
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      197656460,
+      717842578,
+      13563133,
+      22954719
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      197689299,
+      708726101,
+      13830522,
+      22953619
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      198251767,
+      708726906,
+      13004550,
+      22954291
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      197077218,
+      717842860,
+      13724953,
+      22953421
+    ],
+    [
+      "clang20",
+      "a",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      197336572,
+      717845511,
+      14235681,
+      22950453
+    ],
+    [
+      "clang20",
+      "b",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      197660680,
+      708725493,
+      15969318,
+      22950639
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      204877758,
+      652383355,
+      12761218,
+      23141964
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      204156643,
+      650002518,
+      14690891,
+      23142940
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      205374660,
+      650004485,
+      12969508,
+      23143375
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      203948854,
+      652381783,
+      15580341,
+      23142522
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      202300449,
+      652383706,
+      13565449,
+      23143265
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      203278396,
+      650004865,
+      13287453,
+      23139261
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      204245098,
+      650004692,
+      13252392,
+      23143712
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      203780425,
+      652381591,
+      13311091,
+      23140422
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      203813363,
+      652380435,
+      13279553,
+      23141590
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      202471980,
+      650000482,
+      13782659,
+      23142346
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      203330597,
+      745597862,
+      13402536,
+      23275706
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      201834525,
+      742560382,
+      12962405,
+      23273594
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      202208223,
+      742559227,
+      14455203,
+      23273467
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      204540228,
+      745595560,
+      13114070,
+      23272923
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      202212994,
+      745596529,
+      14084329,
+      23273497
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      201854639,
+      742555660,
+      13231636,
+      23273505
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      202615135,
+      742559719,
+      14263999,
+      23272430
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      203009424,
+      745597461,
+      13731339,
+      23273730
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      203502813,
+      745597654,
+      13288048,
+      23274756
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      202055493,
+      742558930,
+      13388765,
+      23271073
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      218548029,
+      753140126,
+      13199858,
+      23244398
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      216062342,
+      750243610,
+      14610204,
+      23246481
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      216752369,
+      750244218,
+      13172657,
+      23246191
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      255385674,
+      753140417,
+      14834126,
+      23243376
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      215923072,
+      753141014,
+      13056994,
+      23247784
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      214837419,
+      750242555,
+      13068248,
+      23246010
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      216215955,
+      750240555,
+      12909034,
+      23243410
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      217570475,
+      753140055,
+      14120924,
+      23247037
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      218543452,
+      753141226,
+      13029933,
+      23246744
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      219503889,
+      750241321,
+      12894446,
+      23247892
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      205324460,
+      651127661,
+      14198724,
+      23139200
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      203294280,
+      648756670,
+      14666785,
+      23140128
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      202629883,
+      648760429,
+      12962359,
+      23138578
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      202114360,
+      651126451,
+      13448264,
+      23138462
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      205757728,
+      651126420,
+      12577226,
+      23140600
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      201197615,
+      648759446,
+      13345167,
+      23140212
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      203425739,
+      648759432,
+      13465772,
+      23136577
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      204340847,
+      651126741,
+      13031720,
+      23139882
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      204650669,
+      651127252,
+      13577961,
+      23141695
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      204083644,
+      648756772,
+      13464550,
+      23142455
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      202487322,
+      650384318,
+      12955378,
+      23103589
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      201447876,
+      648207553,
+      13210397,
+      23107320
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      201164022,
+      648207709,
+      13475733,
+      23108227
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      202433025,
+      650385963,
+      13962822,
+      23107195
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      201303414,
+      650383696,
+      13968171,
+      23107257
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      200361035,
+      648207897,
+      14491819,
+      23106320
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      202006670,
+      648207322,
+      13179528,
+      23103621
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      201510538,
+      650384594,
+      12704221,
+      23107335
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      202999275,
+      650387503,
+      12812575,
+      23105837
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      202709941,
+      648208837,
+      12794776,
+      23107270
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      204817253,
+      754838738,
+      12990184,
+      23227932
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      201007113,
+      752037992,
+      13300046,
+      23229451
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      200365542,
+      752039170,
+      13606790,
+      23227718
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      199970262,
+      754836045,
+      13642117,
+      23229493
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      197862314,
+      754836449,
+      15401259,
+      23228096
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      198138337,
+      752037723,
+      13463504,
+      23229285
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      202120409,
+      752039346,
+      13346897,
+      23230473
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      201473009,
+      754835022,
+      13573002,
+      23231260
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      196386901,
+      754835578,
+      14975463,
+      23231223
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      199595559,
+      752037370,
+      13335222,
+      23228133
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      198584110,
+      693941377,
+      13258060,
+      23157973
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      199438967,
+      691507959,
+      13221852,
+      23157096
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      194769995,
+      691505926,
+      13471904,
+      23154107
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      196108205,
+      693936880,
+      13345125,
+      23157372
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      196144758,
+      693937242,
+      13094912,
+      23158059
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      194960026,
+      691508088,
+      12748973,
+      23155398
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      195889298,
+      691506809,
+      14609291,
+      23155167
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      197955758,
+      693940730,
+      12803722,
+      23155470
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      197035232,
+      693936615,
+      13870127,
+      23158965
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      196181587,
+      691506985,
+      13100932,
+      23155759
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      203370733,
+      650025481,
+      13849460,
+      23104340
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      196938934,
+      647858280,
+      12726932,
+      23106026
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      197255673,
+      647859716,
+      13021678,
+      23103624
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      200728710,
+      650027444,
+      12864997,
+      23101447
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      199618629,
+      650028431,
+      13289023,
+      23104803
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      198122359,
+      647858777,
+      13047152,
+      23103742
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      196549177,
+      647859835,
+      13321372,
+      23106781
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      198069105,
+      650027771,
+      13452081,
+      23101207
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      199378028,
+      650025870,
+      13258864,
+      23107611
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      202187121,
+      647860587,
+      12868777,
+      23105491
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      203001652,
+      634160833,
+      13372151,
+      23128407
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      201419085,
+      631849615,
+      14219158,
+      23128743
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      204884095,
+      631851590,
+      12629363,
+      23129026
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      205782450,
+      634165333,
+      12878947,
+      23130755
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      202714155,
+      634162372,
+      13223711,
+      23127610
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      201982663,
+      631851524,
+      14879171,
+      23130152
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      201474900,
+      631852164,
+      13685567,
+      23126293
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      202484441,
+      634165790,
+      12761884,
+      23128471
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      203384994,
+      634165311,
+      13074149,
+      23126702
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      203927579,
+      631850423,
+      13176105,
+      23126334
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      200179562,
+      723986934,
+      15614582,
+      23284100
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      198849297,
+      721079313,
+      12758815,
+      23284346
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      201099312,
+      721077207,
+      12653382,
+      23283804
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      200548528,
+      723988869,
+      12944289,
+      23282792
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      200934391,
+      723985408,
+      13375549,
+      23286064
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      201480978,
+      721079847,
+      14232986,
+      23286051
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      198527998,
+      721079682,
+      13833965,
+      23285268
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      203525779,
+      723987942,
+      14170594,
+      23287108
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      201874945,
+      723988205,
+      13098854,
+      23281658
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      200319062,
+      721076043,
+      12853451,
+      23285207
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      199667324,
+      667595806,
+      13306456,
+      23188743
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      194474448,
+      665074995,
+      12894371,
+      23192004
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      195220759,
+      665071074,
+      14221130,
+      23187582
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      197132228,
+      667599085,
+      12817920,
+      23189061
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      199120156,
+      667598801,
+      14205588,
+      23190876
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      198096739,
+      665074373,
+      14170499,
+      23187889
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      197257764,
+      665073567,
+      12986379,
+      23189316
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      199861769,
+      667597991,
+      12917268,
+      23192071
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      196185522,
+      667594683,
+      13049293,
+      23190131
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      195735680,
+      665070506,
+      12855369,
+      23192261
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      206212695,
+      647493862,
+      13065009,
+      23135686
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      202562920,
+      645154357,
+      13260980,
+      23133292
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      205276984,
+      645155919,
+      12631510,
+      23137639
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      205803508,
+      647491995,
+      12785520,
+      23137538
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      205670605,
+      647489312,
+      13541186,
+      23137045
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      202314126,
+      645153637,
+      13791366,
+      23137379
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      204611594,
+      645156302,
+      13034320,
+      23133602
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      209752391,
+      647489429,
+      13835204,
+      23135921
+    ],
+    [
+      "gcc13",
+      "a",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      206322401,
+      647490677,
+      12805450,
+      23137571
+    ],
+    [
+      "gcc13",
+      "b",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      204652373,
+      645153334,
+      12686324,
+      23134614
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      165747820,
+      724686418,
+      13754092,
+      23081218
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      166441721,
+      715471250,
+      12562641,
+      23082564
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      165224055,
+      715471665,
+      15462546,
+      23078756
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      165091814,
+      724689090,
+      14036512,
+      23082495
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      166911468,
+      724687399,
+      13909573,
+      23079570
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      172588395,
+      715470815,
+      13730067,
+      23080437
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      165141902,
+      715470788,
+      13370211,
+      23083598
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      165386012,
+      724686786,
+      15035802,
+      23080825
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      168316627,
+      724685977,
+      12705362,
+      23084009
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      164421589,
+      715468648,
+      13153645,
+      23081297
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      150298639,
+      827282253,
+      13747256,
+      23266155
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      149942984,
+      826259659,
+      12632609,
+      23268755
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      149970577,
+      826257379,
+      12967077,
+      23268973
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      149952854,
+      827284129,
+      12628382,
+      23270258
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      148625050,
+      827285983,
+      13077067,
+      23270665
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      148193600,
+      826256614,
+      13967519,
+      23271068
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      149295676,
+      826257636,
+      12469485,
+      23270530
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      149038894,
+      827285757,
+      12847328,
+      23267635
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      148950793,
+      827281391,
+      12785620,
+      23270004
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      149664055,
+      826259388,
+      12532947,
+      23268401
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      171753092,
+      836154239,
+      12778469,
+      23229624
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      169784169,
+      829988873,
+      13982070,
+      23230337
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      169681429,
+      829989833,
+      12713174,
+      23228385
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      170691485,
+      836152790,
+      12724739,
+      23229520
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      170001980,
+      836153525,
+      12894323,
+      23230438
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      169877074,
+      829987765,
+      13149193,
+      23228538
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      173141502,
+      829990373,
+      13153353,
+      23231258
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      172877566,
+      836152968,
+      12560239,
+      23229521
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      169480519,
+      836150801,
+      12725521,
+      23230738
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      169398811,
+      829988592,
+      12593057,
+      23229522
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      164703764,
+      723081787,
+      13245568,
+      23076108
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      167606671,
+      713845696,
+      13652986,
+      23076093
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      165414566,
+      713848572,
+      12604686,
+      23078995
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      166063343,
+      723084200,
+      12396181,
+      23082734
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      164961616,
+      723084288,
+      13102239,
+      23081382
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      164367254,
+      713851907,
+      14142227,
+      23078614
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      164628205,
+      713846900,
+      12761880,
+      23079924
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      165313299,
+      723085212,
+      12632208,
+      23076876
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      164470271,
+      723085585,
+      14786211,
+      23080148
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      164237552,
+      713851009,
+      13058428,
+      23075231
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      164928406,
+      719272867,
+      12987796,
+      23031550
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      168096838,
+      710835239,
+      12886229,
+      23027992
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      164241084,
+      710836569,
+      13157244,
+      23029771
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      164778903,
+      719274988,
+      12907616,
+      23032134
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      163748867,
+      719271474,
+      13962485,
+      23030436
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      164219043,
+      710835534,
+      12524652,
+      23030646
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      165103754,
+      710837638,
+      12590466,
+      23027547
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      169522487,
+      719275261,
+      13192859,
+      23030762
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      166277199,
+      719274453,
+      13221442,
+      23029650
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      164404262,
+      710834782,
+      13018724,
+      23029789
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      153961917,
+      833742850,
+      12621114,
+      23206156
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      155105068,
+      832799446,
+      13830041,
+      23206728
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      154803992,
+      832797581,
+      14880637,
+      23205683
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      154621772,
+      833739977,
+      13029597,
+      23204990
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      154836751,
+      833740852,
+      12715219,
+      23203831
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      153980596,
+      832798448,
+      13430500,
+      23204964
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      155507969,
+      832794798,
+      14488277,
+      23205688
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      153819958,
+      833740808,
+      12848505,
+      23205051
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      153965113,
+      833742481,
+      12985694,
+      23205296
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      154132131,
+      832796643,
+      14954031,
+      23206096
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      158960403,
+      766837834,
+      12654376,
+      23102765
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      159200844,
+      761658720,
+      14112616,
+      23099951
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      159766769,
+      761663479,
+      12651186,
+      23100355
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      159341323,
+      766834373,
+      12535905,
+      23101089
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      165547170,
+      766837698,
+      12682315,
+      23102577
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      160711273,
+      761663247,
+      13010771,
+      23098778
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      158674383,
+      761658518,
+      12866577,
+      23099165
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      160023580,
+      766836230,
+      13007439,
+      23101977
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      160586331,
+      766836310,
+      12780663,
+      23103300
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      160742376,
+      761662247,
+      14131444,
+      23102534
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      164796012,
+      718811212,
+      12812641,
+      23026508
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      164387317,
+      710350234,
+      12474958,
+      23027720
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      165357180,
+      710351915,
+      14263118,
+      23027379
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      168019430,
+      718810197,
+      13275958,
+      23029302
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      166757447,
+      718811556,
+      12612014,
+      23024745
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      165060689,
+      710348035,
+      13393791,
+      23024258
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      164049379,
+      710349929,
+      12536142,
+      23024043
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      165604049,
+      718810269,
+      12485421,
+      23028109
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      164635794,
+      718813667,
+      12967014,
+      23027826
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      164305570,
+      710350012,
+      12614191,
+      23023633
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      162715685,
+      704402849,
+      14125486,
+      23064113
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      161110040,
+      695447737,
+      12833564,
+      23061251
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      160188302,
+      695448918,
+      15417389,
+      23059856
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      161097718,
+      704403780,
+      12511275,
+      23065216
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      161419710,
+      704401812,
+      14665397,
+      23062256
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      160864599,
+      695448564,
+      13631905,
+      23064587
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      160803093,
+      695450867,
+      12413880,
+      23063240
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      161501754,
+      704399869,
+      12695815,
+      23060236
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      161487526,
+      704404456,
+      12657113,
+      23061243
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      162390060,
+      695448130,
+      14162727,
+      23059979
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      148594461,
+      801857681,
+      12641046,
+      23273958
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      146964437,
+      800871932,
+      12793652,
+      23274439
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      147943920,
+      800870825,
+      13735883,
+      23272490
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      147650731,
+      801856637,
+      12743703,
+      23272328
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      173524541,
+      801853258,
+      13187853,
+      23271581
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      147212926,
+      800870595,
+      14480433,
+      23270140
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      148680656,
+      800870353,
+      13125849,
+      23273452
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      146946909,
+      801856972,
+      12614314,
+      23273137
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      147806281,
+      801853252,
+      13428588,
+      23270209
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      151804594,
+      800874842,
+      12830448,
+      23274219
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      153950492,
+      740143005,
+      12719051,
+      23142884
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      152526701,
+      734772221,
+      13214849,
+      23145686
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      153357884,
+      734775813,
+      12634288,
+      23140714
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      153065983,
+      740140240,
+      14156374,
+      23144671
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      154416923,
+      740141284,
+      14328480,
+      23143431
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      152400173,
+      734773556,
+      12752136,
+      23147350
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      153443105,
+      734772217,
+      12526597,
+      23144478
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      153317163,
+      740142942,
+      13063853,
+      23145643
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      153720404,
+      740140476,
+      12923531,
+      23143529
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      155757738,
+      734775803,
+      14266967,
+      23144704
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      165170060,
+      718718361,
+      13992892,
+      23070101
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      163848955,
+      709600107,
+      13241699,
+      23073175
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      165015889,
+      709597809,
+      13085632,
+      23068585
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      165093670,
+      718721558,
+      12667519,
+      23070278
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      163689362,
+      718717979,
+      12722534,
+      23071689
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      163870231,
+      709600196,
+      12464921,
+      23070080
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      164366339,
+      709598730,
+      12579649,
+      23070340
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      166391632,
+      718717145,
+      12501072,
+      23073891
+    ],
+    [
+      "clang18",
+      "a",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      165304571,
+      718719582,
+      13122466,
+      23071601
+    ],
+    [
+      "clang18",
+      "b",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      163690443,
+      709600878,
+      12603751,
+      23072550
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      208075164,
+      656645731,
+      13756383,
+      23151024
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      206454496,
+      656646443,
+      12605471,
+      23147533
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      205487117,
+      656646916,
+      13376426,
+      23148873
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      206073837,
+      656644085,
+      12876397,
+      23149597
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      207420945,
+      656646719,
+      14910706,
+      23151622
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      210833881,
+      656643794,
+      12880545,
+      23150883
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      205479471,
+      656644109,
+      12882311,
+      23147591
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      206496644,
+      656644280,
+      14437119,
+      23148901
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      207345305,
+      656646916,
+      13364485,
+      23150523
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strpos/en/absent @ grapheme_strpos-en-absent",
+      207337926,
+      656644920,
+      13159702,
+      23150128
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      204119999,
+      745626368,
+      12781374,
+      23279973
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      204641278,
+      745627377,
+      12710719,
+      23280479
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      202738883,
+      745625825,
+      13101640,
+      23279562
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      203101857,
+      745624808,
+      13689966,
+      23280942
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      204197813,
+      745625146,
+      12942028,
+      23281307
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      203751124,
+      745626624,
+      14158581,
+      23278290
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      220826739,
+      745624800,
+      13356979,
+      23281175
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      204094896,
+      745625656,
+      12950673,
+      23280888
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      202802523,
+      745623580,
+      13436996,
+      23281290
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strpos/en/start @ grapheme_strpos-en-start",
+      202246476,
+      745627014,
+      14300244,
+      23278787
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      216765280,
+      755758515,
+      13197349,
+      23255060
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      220411373,
+      755759520,
+      14727477,
+      23251045
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      253596749,
+      755760541,
+      12804106,
+      23253410
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      220680732,
+      755761899,
+      13386843,
+      23253111
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      215538879,
+      755759641,
+      13458309,
+      23252363
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      210424054,
+      755759627,
+      12732160,
+      23250256
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      216091153,
+      755759537,
+      12733884,
+      23256255
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      209720263,
+      755758311,
+      12791929,
+      23254898
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      222415028,
+      755759585,
+      13012930,
+      23254679
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strpos/en/middle @ grapheme_strpos-en-middle",
+      215798661,
+      755757159,
+      12611112,
+      23255246
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      205044006,
+      655367028,
+      12728814,
+      23146278
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      201608903,
+      655366369,
+      13241578,
+      23147718
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      204080360,
+      655367250,
+      13059156,
+      23145826
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      201932790,
+      655363414,
+      12937122,
+      23146502
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      202614970,
+      655365571,
+      12635293,
+      23146075
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      205594989,
+      655367798,
+      12612707,
+      23148837
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      200600917,
+      655366557,
+      12551714,
+      23147789
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      200242773,
+      655367127,
+      12874086,
+      23144335
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      199671528,
+      655363532,
+      13054324,
+      23148876
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strpos/en/end @ grapheme_strpos-en-end",
+      204860928,
+      655366249,
+      13244367,
+      23145676
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      199946182,
+      654671877,
+      12580835,
+      23115341
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      201873392,
+      654669744,
+      13575202,
+      23115466
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      201478659,
+      654670218,
+      12862864,
+      23114002
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      198406881,
+      654673255,
+      12641900,
+      23113403
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      202097518,
+      654672895,
+      12931988,
+      23114102
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      199647078,
+      654673413,
+      14361217,
+      23111086
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      201714385,
+      654674131,
+      13148336,
+      23111031
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      198949807,
+      654675845,
+      14149383,
+      23115173
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      197613159,
+      654673267,
+      13023091,
+      23112738
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_stripos/en/absent @ grapheme_strpos-en-absent",
+      204346210,
+      654671566,
+      14869430,
+      23112190
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      204331516,
+      755355208,
+      13685738,
+      23235659
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      239102963,
+      755356508,
+      13472520,
+      23236079
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      198487979,
+      755355001,
+      13089871,
+      23237876
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      201946296,
+      755355727,
+      14115120,
+      23236265
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      202171313,
+      755352734,
+      13655100,
+      23235751
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      202057204,
+      755355262,
+      14047888,
+      23233831
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      201939714,
+      755357721,
+      14233284,
+      23234118
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      203745198,
+      755355128,
+      12818289,
+      23240005
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      203093617,
+      755354962,
+      12536300,
+      23237356
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_stripos/en/start @ grapheme_stripos-en-start",
+      202626160,
+      755355546,
+      13387411,
+      23236781
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      198513665,
+      696568884,
+      14197438,
+      23162277
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      191314506,
+      696565896,
+      12771301,
+      23163318
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      193713201,
+      696567043,
+      12991530,
+      23163718
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      200763485,
+      696569496,
+      13138538,
+      23163797
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      202224545,
+      696569221,
+      13116041,
+      23162078
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      198042094,
+      696569492,
+      13374410,
+      23164840
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      192298380,
+      696565072,
+      12825256,
+      23165271
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      202442246,
+      696569691,
+      13306568,
+      23161194
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      196149824,
+      696571176,
+      12563171,
+      23160444
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_stripos/en/middle @ grapheme_stripos-en-middle",
+      201519191,
+      696567821,
+      13063284,
+      23164048
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      199138414,
+      654293001,
+      12752642,
+      23109374
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      201275210,
+      654295410,
+      12793007,
+      23110382
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      204536794,
+      654291350,
+      12743830,
+      23111673
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      204031339,
+      654295643,
+      13321668,
+      23108105
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      200631308,
+      654293704,
+      13529155,
+      23109279
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      196979512,
+      654295875,
+      13078856,
+      23112766
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      198418617,
+      654293653,
+      13151082,
+      23113452
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      201973212,
+      654292863,
+      12653144,
+      23111359
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      207607442,
+      654292564,
+      13286897,
+      23112097
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_stripos/en/end @ grapheme_stripos-en-end",
+      201162713,
+      654294538,
+      12949358,
+      23108707
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      202159108,
+      638272023,
+      12915774,
+      23134580
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      200180115,
+      638273003,
+      13071732,
+      23134079
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      204276254,
+      638272133,
+      13215138,
+      23135762
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      202761588,
+      638271681,
+      12627437,
+      23136110
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      204575232,
+      638271336,
+      12784146,
+      23137057
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      204370329,
+      638269557,
+      12754814,
+      23135338
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      206118820,
+      638270593,
+      13121964,
+      23132978
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      203486441,
+      638269611,
+      12795111,
+      23135386
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      203068106,
+      638270096,
+      12682598,
+      23136914
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strstr/en/absent @ grapheme_strpos-en-absent",
+      202439805,
+      638272983,
+      12766759,
+      23137063
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      201265971,
+      723953698,
+      13194439,
+      23291524
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      202386505,
+      723952821,
+      13225430,
+      23291628
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      200815278,
+      723954101,
+      12939029,
+      23290960
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      201088172,
+      723953174,
+      12900848,
+      23290404
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      203245982,
+      723954202,
+      12994788,
+      23291999
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      200627421,
+      723955683,
+      13411999,
+      23290334
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      201315191,
+      723954862,
+      13398896,
+      23291345
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      201206551,
+      723953725,
+      13486291,
+      23291417
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      202326860,
+      723954230,
+      12977813,
+      23288262
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strstr/en/start @ grapheme_strpos-en-start",
+      203206026,
+      723950936,
+      13041846,
+      23292923
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      199108518,
+      669841603,
+      12809668,
+      23198841
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      201006697,
+      669844516,
+      12893556,
+      23196429
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      202320590,
+      669845496,
+      12843388,
+      23197687
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      197865501,
+      669843524,
+      12996890,
+      23196632
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      201297106,
+      669842861,
+      12943642,
+      23197704
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      198180678,
+      669846060,
+      12838181,
+      23198197
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      202737868,
+      669845225,
+      13077282,
+      23196920
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      199432634,
+      669845344,
+      13058922,
+      23196717
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      201350032,
+      669845430,
+      12907374,
+      23196683
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strstr/en/middle @ grapheme_strpos-en-middle",
+      196419097,
+      669843396,
+      13095904,
+      23194064
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      199526259,
+      651644982,
+      13370216,
+      23142859
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      207512789,
+      651648192,
+      12995554,
+      23140941
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      203611725,
+      651646637,
+      12800162,
+      23141286
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      205989256,
+      651646507,
+      14847406,
+      23144061
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      204330123,
+      651649836,
+      13774571,
+      23142055
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      206933988,
+      651648083,
+      13246398,
+      23141786
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      208862527,
+      651644234,
+      14356785,
+      23143474
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      203439634,
+      651645206,
+      13317464,
+      23141104
+    ],
+    [
+      "aa2",
+      "a",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      206582129,
+      651646127,
+      12673122,
+      23144301
+    ],
+    [
+      "aa2",
+      "b",
+      "grapheme_strstr/en/end @ grapheme_strpos-en-end",
+      205160814,
+      651648031,
+      14027791,
+      23144878
+    ]
+  ]
+}

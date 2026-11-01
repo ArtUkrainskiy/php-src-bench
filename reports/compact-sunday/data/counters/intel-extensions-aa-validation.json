@@ -1,0 +1,190 @@
+{
+  "format": 2,
+  "kind": "compare",
+  "harness": 2,
+  "date": "2026-11-01T08:29:10+00:00",
+  "suite": "reports/compact-sunday/suites/mbstring.php",
+  "elapsed_s": 4.8,
+  "complete": true,
+  "config": {
+    "passes": 5,
+    "cpu": 2,
+    "target_ms": 50,
+    "filter": "^mb_strstr/zh/absent\\ @\\ mb_strpos\\-zh\\-absent$",
+    "control": false,
+    "wait_idle": 600,
+    "events": "cpu_core/cycles/u,cpu_core/instructions/u"
+  },
+  "env": {
+    "cpu_model": "13th Gen Intel(R) Core(TM) i7-13700H",
+    "kernel": "7.0.0-38-generic",
+    "cpu": 2,
+    "cpu_siblings": "2-3",
+    "hybrid_pcores": "0-11",
+    "cpu_is_pcore": true,
+    "governor": "powersave",
+    "epp": "balance_performance",
+    "turbo": true,
+    "on_ac": true,
+    "load": 1.80615234375,
+    "busy_pct": {
+      "2": 3.4,
+      "3": 0
+    },
+    "idle_cpu": 2
+  },
+  "groups": [
+    {
+      "name": "aa2-check",
+      "a": "compact-base-gcc14",
+      "b": "compact-base-gcc14"
+    }
+  ],
+  "builds": {
+    "compact-base-gcc14": {
+      "php": "BUILD_DIR/compact-base-gcc14/sapi/cli/php",
+      "build": {
+        "name": "compact-base-gcc14",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:46:09+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "ac3a91d21845157f2be60236a99e484774abd3cd",
+        "cc": "gcc-14 (Ubuntu 14.2.0-4ubuntu2~24.04.1) 14.2.0",
+        "cc_command": "gcc-14",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-gcc14/sapi/cli/php"
+      },
+      "sha1": "29994ee8008df58a38654def392c9ce84a02c527"
+    }
+  },
+  "sources": {
+    "suite": "c403c2168d57e819b490beac267831f2a9372603",
+    "harness": "c3113f45c2a11bcb63f0b1fb7a4e44ef6843325d",
+    "corpus": "e5c81343e158d86e921e121508cb8b101980f980"
+  },
+  "machine_warnings": [
+    "CPU governor is 'powersave': frequency scaling adds noise (sudo CAPTURE_PATH/bench tune on)",
+    "turbo boost is on: thermal and frequency drift between rounds (sudo CAPTURE_PATH/bench tune on)",
+    "load average is 1.8: other programs are competing for the CPU"
+  ],
+  "cases": {
+    "mb_strstr/zh/absent @ mb_strpos-zh-absent": {
+      "input_len": 4096,
+      "input_chars": 1448,
+      "n": 45973
+    }
+  },
+  "warnings": [],
+  "marks": [],
+  "rows": [
+    [
+      "aa2-check",
+      "a",
+      "mb_strstr/zh/absent @ mb_strpos-zh-absent",
+      203158356,
+      320315400,
+      14114919,
+      25392392
+    ],
+    [
+      "aa2-check",
+      "b",
+      "mb_strstr/zh/absent @ mb_strpos-zh-absent",
+      205811080,
+      320317067,
+      13384801,
+      25392053
+    ],
+    [
+      "aa2-check",
+      "b",
+      "mb_strstr/zh/absent @ mb_strpos-zh-absent",
+      203398398,
+      320314509,
+      13449745,
+      25391411
+    ],
+    [
+      "aa2-check",
+      "a",
+      "mb_strstr/zh/absent @ mb_strpos-zh-absent",
+      203011244,
+      320314742,
+      14401110,
+      25391973
+    ],
+    [
+      "aa2-check",
+      "a",
+      "mb_strstr/zh/absent @ mb_strpos-zh-absent",
+      204208853,
+      320316455,
+      15069177,
+      25389753
+    ],
+    [
+      "aa2-check",
+      "b",
+      "mb_strstr/zh/absent @ mb_strpos-zh-absent",
+      202749591,
+      320317924,
+      14192254,
+      25389024
+    ],
+    [
+      "aa2-check",
+      "b",
+      "mb_strstr/zh/absent @ mb_strpos-zh-absent",
+      202434549,
+      320317381,
+      14025644,
+      25388028
+    ],
+    [
+      "aa2-check",
+      "a",
+      "mb_strstr/zh/absent @ mb_strpos-zh-absent",
+      203839674,
+      320312991,
+      13946089,
+      25390529
+    ],
+    [
+      "aa2-check",
+      "a",
+      "mb_strstr/zh/absent @ mb_strpos-zh-absent",
+      203219025,
+      320317170,
+      14243333,
+      25387781
+    ],
+    [
+      "aa2-check",
+      "b",
+      "mb_strstr/zh/absent @ mb_strpos-zh-absent",
+      202440908,
+      320318092,
+      14346513,
+      25388703
+    ]
+  ]
+}

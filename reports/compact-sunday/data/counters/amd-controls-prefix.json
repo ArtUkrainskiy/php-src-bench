@@ -1,0 +1,1670 @@
+{
+  "format": 2,
+  "kind": "compare",
+  "harness": 2,
+  "date": "2026-11-01T03:13:38+00:00",
+  "suite": "reports/compact-sunday/suites/controls-prefix.php",
+  "elapsed_s": 62.4,
+  "complete": true,
+  "config": {
+    "passes": 5,
+    "cpu": 15,
+    "target_ms": 50,
+    "filter": null,
+    "control": true,
+    "wait_idle": 120,
+    "events": "cycles:u,instructions:u"
+  },
+  "env": {
+    "cpu_model": "AMD Ryzen 9 5950X 16-Core Processor",
+    "kernel": "7.0.0-38-generic",
+    "cpu": 15,
+    "cpu_siblings": "15,31",
+    "hybrid_pcores": null,
+    "cpu_is_pcore": null,
+    "governor": "performance",
+    "epp": "performance",
+    "turbo": true,
+    "on_ac": null,
+    "load": 0.16064453125,
+    "busy_pct": {
+      "15": 0,
+      "31": 0
+    },
+    "idle_cpu": 1
+  },
+  "groups": [
+    {
+      "name": "aa",
+      "a": "compact-base-gcc15",
+      "b": "compact-base-gcc15"
+    },
+    {
+      "name": "gcc15",
+      "a": "compact-base-gcc15",
+      "b": "compact-head-gcc15"
+    },
+    {
+      "name": "clang21",
+      "a": "compact-base-clang21",
+      "b": "compact-head-clang21"
+    },
+    {
+      "name": "aa2",
+      "a": "compact-base-gcc15",
+      "b": "compact-base-gcc15"
+    }
+  ],
+  "builds": {
+    "compact-base-gcc15": {
+      "php": "BUILD_DIR/compact-base-gcc15/sapi/cli/php",
+      "build": {
+        "name": "compact-base-gcc15",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:43:27+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-gcc15/sapi/cli/php"
+      },
+      "sha1": "962804b78072507bf9e2d5006aad239718872788"
+    },
+    "compact-head-gcc15": {
+      "php": "BUILD_DIR/compact-head-gcc15/sapi/cli/php",
+      "build": {
+        "name": "compact-head-gcc15",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:45:00+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-gcc15/sapi/cli/php"
+      },
+      "sha1": "119eb9050525232350b88606c134772a58b1c579"
+    },
+    "compact-base-clang21": {
+      "php": "BUILD_DIR/compact-base-clang21/sapi/cli/php",
+      "build": {
+        "name": "compact-base-clang21",
+        "ref": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "cf1b5771a76a81b455a8677446daf9c46e1781be",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-31T14:44:13+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang-21",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-base-clang21/sapi/cli/php"
+      },
+      "sha1": "c33890a4894d3839f124ea0c422c5d1f2607bbef"
+    },
+    "compact-head-clang21": {
+      "php": "BUILD_DIR/compact-head-clang21/sapi/cli/php",
+      "build": {
+        "name": "compact-head-clang21",
+        "ref": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "subject": "Reduce Sunday shift-table setup for short needles",
+        "snapshot": false,
+        "base_commit": "8d7babbc364ffcf28dac9777ce807edc9adbb534",
+        "base_subject": "Reduce Sunday shift-table setup for short needles",
+        "built_at": "2026-10-31T14:45:46+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "cf36d5493e7ba057177ee052d2492ba69a5efe78",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang-21",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": true
+      },
+      "info": {
+        "version": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "arch": "x86_64",
+        "binary": "BUILD_DIR/compact-head-clang21/sapi/cli/php"
+      },
+      "sha1": "3f96b0e59e376ce2f730c99c2b01fad1a484a268"
+    }
+  },
+  "sources": {
+    "suite": "ccd9497016f0c048830997e401812ee9e9c6be67",
+    "harness": "c3113f45c2a11bcb63f0b1fb7a4e44ef6843325d",
+    "corpus": "e5c81343e158d86e921e121508cb8b101980f980"
+  },
+  "machine_warnings": [
+    "turbo boost is on: thermal and frequency drift between rounds (sudo CAPTURE_PATH/bench tune on)"
+  ],
+  "cases": {
+    "controls/prefix-9/absent @ controls-prefix-9-absent": {
+      "input_len": 4096,
+      "input_chars": 4096,
+      "n": 8191
+    },
+    "controls/prefix-16/absent @ controls-prefix-9-absent": {
+      "input_len": 4096,
+      "input_chars": 4096,
+      "n": 6297
+    },
+    "controls/prefix-31/absent @ controls-prefix-9-absent": {
+      "input_len": 4096,
+      "input_chars": 4096,
+      "n": 3017
+    },
+    "controls/prefix-64/absent @ controls-prefix-9-absent": {
+      "input_len": 4096,
+      "input_chars": 4096,
+      "n": 1631
+    }
+  },
+  "warnings": [],
+  "marks": [],
+  "rows": [
+    [
+      "aa",
+      "a",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      249251260,
+      1070789763,
+      7320283,
+      12575834
+    ],
+    [
+      "aa",
+      "b",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      259804156,
+      1070786821,
+      7372626,
+      12577865
+    ],
+    [
+      "aa",
+      "b",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      242986012,
+      1070786168,
+      7350080,
+      12575776
+    ],
+    [
+      "aa",
+      "a",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      249765106,
+      1070788667,
+      7332800,
+      12576049
+    ],
+    [
+      "aa",
+      "a",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      241625700,
+      1070786634,
+      7386627,
+      12575540
+    ],
+    [
+      "aa",
+      "b",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      247535289,
+      1070786329,
+      7352607,
+      12576236
+    ],
+    [
+      "aa",
+      "b",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      249980644,
+      1070786391,
+      7322730,
+      12578641
+    ],
+    [
+      "aa",
+      "a",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      248882172,
+      1070786654,
+      7344079,
+      12575118
+    ],
+    [
+      "aa",
+      "a",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      241620962,
+      1070788657,
+      7379631,
+      12575143
+    ],
+    [
+      "aa",
+      "b",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      249388140,
+      1070786327,
+      7334973,
+      12575171
+    ],
+    [
+      "aa",
+      "a",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      241482157,
+      1364996178,
+      7344711,
+      12605495
+    ],
+    [
+      "aa",
+      "b",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      241653292,
+      1364997472,
+      7369635,
+      12606880
+    ],
+    [
+      "aa",
+      "b",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      242337447,
+      1364998287,
+      7327519,
+      12608775
+    ],
+    [
+      "aa",
+      "a",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      241392958,
+      1364995015,
+      7349213,
+      12608571
+    ],
+    [
+      "aa",
+      "a",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      253613581,
+      1364998072,
+      7341664,
+      12605924
+    ],
+    [
+      "aa",
+      "b",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      244489751,
+      1364995247,
+      7296003,
+      12606392
+    ],
+    [
+      "aa",
+      "b",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      255490559,
+      1364996040,
+      7359352,
+      12605742
+    ],
+    [
+      "aa",
+      "a",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      245870840,
+      1364997366,
+      7361160,
+      12608228
+    ],
+    [
+      "aa",
+      "a",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      242417139,
+      1364997096,
+      7310509,
+      12608226
+    ],
+    [
+      "aa",
+      "b",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      253749023,
+      1364996199,
+      7329234,
+      12606104
+    ],
+    [
+      "aa",
+      "a",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      235249113,
+      1210475079,
+      7364486,
+      12693922
+    ],
+    [
+      "aa",
+      "b",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      223349569,
+      1210477529,
+      7365919,
+      12693674
+    ],
+    [
+      "aa",
+      "b",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      223452155,
+      1210476537,
+      7350298,
+      12694334
+    ],
+    [
+      "aa",
+      "a",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      223408109,
+      1210477108,
+      7336284,
+      12692838
+    ],
+    [
+      "aa",
+      "a",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      234073110,
+      1210474990,
+      7311855,
+      12693965
+    ],
+    [
+      "aa",
+      "b",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      238404029,
+      1210475095,
+      7367073,
+      12693559
+    ],
+    [
+      "aa",
+      "b",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      223425474,
+      1210477410,
+      7361283,
+      12694455
+    ],
+    [
+      "aa",
+      "a",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      226843420,
+      1210474008,
+      7313955,
+      12693794
+    ],
+    [
+      "aa",
+      "a",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      223405487,
+      1210474988,
+      7389717,
+      12693552
+    ],
+    [
+      "aa",
+      "b",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      225597694,
+      1210476538,
+      7342273,
+      12696095
+    ],
+    [
+      "aa",
+      "a",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      242977470,
+      1307221450,
+      7376317,
+      13051257
+    ],
+    [
+      "aa",
+      "b",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      242275496,
+      1307225444,
+      7420091,
+      13050495
+    ],
+    [
+      "aa",
+      "b",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      242168903,
+      1307222053,
+      7459313,
+      13050708
+    ],
+    [
+      "aa",
+      "a",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      242418671,
+      1307222354,
+      7351110,
+      13053924
+    ],
+    [
+      "aa",
+      "a",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      241798087,
+      1307222363,
+      7401323,
+      13053557
+    ],
+    [
+      "aa",
+      "b",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      242223803,
+      1307222524,
+      7412200,
+      13051731
+    ],
+    [
+      "aa",
+      "b",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      242665561,
+      1307222001,
+      7382937,
+      13050778
+    ],
+    [
+      "aa",
+      "a",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      242009965,
+      1307222877,
+      7400865,
+      13050679
+    ],
+    [
+      "aa",
+      "a",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      241493509,
+      1307224285,
+      7399753,
+      13051380
+    ],
+    [
+      "aa",
+      "b",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      242688578,
+      1307222020,
+      7405137,
+      13053797
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      241555657,
+      1070786415,
+      7356873,
+      12575258
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      242954801,
+      1069615414,
+      7717618,
+      12578020
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      242807909,
+      1069614312,
+      7311211,
+      12575849
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      272662337,
+      1070786387,
+      7382110,
+      12575764
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      242092312,
+      1070788966,
+      7350997,
+      12575168
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      231993821,
+      1069617183,
+      7313506,
+      12575261
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      232507502,
+      1069615946,
+      7362261,
+      12575649
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      241191961,
+      1070787097,
+      7372190,
+      12578241
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      248351519,
+      1070785654,
+      7320804,
+      12574832
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      273995648,
+      1069613978,
+      7357570,
+      12577476
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      241353041,
+      1364995082,
+      7373569,
+      12605937
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      249160761,
+      1364096672,
+      7316330,
+      12605786
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      254608269,
+      1364095099,
+      7332310,
+      12606629
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      249579862,
+      1364994943,
+      7355884,
+      12605984
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      241956824,
+      1364997712,
+      7325987,
+      12605781
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      245174883,
+      1364095502,
+      7403736,
+      12607158
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      248717803,
+      1364095073,
+      7360429,
+      12608097
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      250241442,
+      1364995533,
+      7309157,
+      12606052
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      249401192,
+      1364995311,
+      7347318,
+      12606485
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      240693017,
+      1364094143,
+      7399688,
+      12608568
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      224026661,
+      1210475695,
+      7345944,
+      12693852
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      224866386,
+      1210042446,
+      7341831,
+      12692779
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      239429390,
+      1210045382,
+      7335354,
+      12693882
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      223837581,
+      1210474164,
+      7316807,
+      12692981
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      224479484,
+      1210476896,
+      7320159,
+      12692966
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      230029794,
+      1210043460,
+      7368002,
+      12696161
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      223822306,
+      1210043379,
+      7336783,
+      12695908
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      229241079,
+      1210473990,
+      7381920,
+      12694260
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      230429008,
+      1210475275,
+      7367400,
+      12694363
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      223858618,
+      1210043593,
+      7316449,
+      12693387
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      242212907,
+      1307224342,
+      7350161,
+      13050753
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      315124622,
+      1307230920,
+      7456654,
+      13051217
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      315363602,
+      1307230756,
+      7431031,
+      13050650
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      242181285,
+      1307222407,
+      7401104,
+      13053429
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      242208856,
+      1307221837,
+      7392745,
+      13050622
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      320435172,
+      1307230786,
+      7433554,
+      13050686
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      315223749,
+      1307229970,
+      7422383,
+      13050854
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      242155045,
+      1307224025,
+      7403431,
+      13050921
+    ],
+    [
+      "gcc15",
+      "a",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      242608640,
+      1307222163,
+      7367711,
+      13052625
+    ],
+    [
+      "gcc15",
+      "b",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      315262323,
+      1307230916,
+      7467779,
+      13050918
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      299032245,
+      1053032491,
+      7261669,
+      12729494
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      284198552,
+      1052689095,
+      7246605,
+      12726922
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      284917293,
+      1052689257,
+      7370818,
+      12727466
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      299148770,
+      1053032343,
+      7273338,
+      12727030
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      299307023,
+      1053032708,
+      7214659,
+      12729214
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      282837068,
+      1052690775,
+      7320441,
+      12726935
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      284380714,
+      1052688787,
+      7332208,
+      12727540
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      299371961,
+      1053032722,
+      7277399,
+      12727270
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      295681026,
+      1053032412,
+      7289066,
+      12727002
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      285341000,
+      1052688310,
+      7322416,
+      12726954
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      316925745,
+      1351214940,
+      7226070,
+      12753752
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      311877578,
+      1350949627,
+      7263221,
+      12754477
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      308412335,
+      1350950022,
+      7254596,
+      12754109
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      316876577,
+      1351217758,
+      7237394,
+      12756913
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      320304631,
+      1351214984,
+      7289823,
+      12754073
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      310309037,
+      1350949969,
+      7277753,
+      12756981
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      310915378,
+      1350952008,
+      7280781,
+      12756921
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      324256642,
+      1351214257,
+      7321908,
+      12754686
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      326541259,
+      1351217069,
+      7305608,
+      12754384
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      316094543,
+      1350949840,
+      7239268,
+      12757089
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      255737507,
+      1203852968,
+      7319118,
+      12834654
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      243373015,
+      1203728734,
+      7332951,
+      12836810
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      258833145,
+      1203725997,
+      7306399,
+      12835076
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      260455778,
+      1203852516,
+      7252884,
+      12838145
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      250100317,
+      1203851863,
+      7254298,
+      12834731
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      255171612,
+      1203725930,
+      7223319,
+      12837572
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      254047835,
+      1203725597,
+      7286661,
+      12834404
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      253783611,
+      1203852662,
+      7242288,
+      12835298
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      254810422,
+      1203852577,
+      7276555,
+      12835462
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      242134479,
+      1203728231,
+      7268040,
+      12834969
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      321398052,
+      1303538327,
+      7410334,
+      13191825
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      243553177,
+      1300286705,
+      7358152,
+      13187595
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      242121972,
+      1300287528,
+      7353654,
+      13187139
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      313935313,
+      1303538406,
+      7408620,
+      13189491
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      315924206,
+      1303537853,
+      7390772,
+      13192470
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      244099820,
+      1300288001,
+      7331115,
+      13187316
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      242167442,
+      1300287455,
+      7346257,
+      13187701
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      313996667,
+      1303541096,
+      7381563,
+      13190366
+    ],
+    [
+      "clang21",
+      "a",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      316137757,
+      1303538112,
+      7421802,
+      13189690
+    ],
+    [
+      "clang21",
+      "b",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      242105599,
+      1300288188,
+      7379703,
+      13187144
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      242303592,
+      1070787575,
+      7312239,
+      12575996
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      245264953,
+      1070786430,
+      7400904,
+      12575381
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      242287064,
+      1070786599,
+      7416200,
+      12575783
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      246102915,
+      1070786185,
+      7335150,
+      12578276
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      242660191,
+      1070786816,
+      7348590,
+      12575291
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      241690783,
+      1070786191,
+      7342955,
+      12578295
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      260126864,
+      1070788483,
+      7314762,
+      12575764
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      242358840,
+      1070785823,
+      7396908,
+      12577743
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      249130489,
+      1070787155,
+      7405192,
+      12578282
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/prefix-9/absent @ controls-prefix-9-absent",
+      242389542,
+      1070786304,
+      7305151,
+      12575791
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      241587582,
+      1364998057,
+      7392968,
+      12606222
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      247575761,
+      1364995269,
+      7389330,
+      12605759
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      241700968,
+      1364994922,
+      7342293,
+      12606357
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      241631739,
+      1364998201,
+      7381376,
+      12609014
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      243326289,
+      1364995138,
+      7370409,
+      12606301
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      242075489,
+      1364995987,
+      7311668,
+      12608594
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      253177911,
+      1364996436,
+      7390091,
+      12606333
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      256292983,
+      1364994803,
+      7345854,
+      12609649
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      263571537,
+      1364997450,
+      7295587,
+      12606184
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/prefix-16/absent @ controls-prefix-9-absent",
+      241502304,
+      1364996664,
+      7375402,
+      12609136
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      223430876,
+      1210477951,
+      7337790,
+      12693972
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      238526062,
+      1210474552,
+      7371282,
+      12695982
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      233347838,
+      1210474350,
+      7338202,
+      12693963
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      235105531,
+      1210474747,
+      7412140,
+      12693709
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      224676652,
+      1210473919,
+      7314237,
+      12693430
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      223380556,
+      1210474983,
+      7408451,
+      12694205
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      226473145,
+      1210475466,
+      7370708,
+      12693227
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      235763678,
+      1210475451,
+      7299970,
+      12696799
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      234503388,
+      1210474309,
+      7345855,
+      12694146
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/prefix-31/absent @ controls-prefix-9-absent",
+      231204213,
+      1210474669,
+      7335107,
+      12693405
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      242718693,
+      1307221589,
+      7357999,
+      13051980
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      242173745,
+      1307223081,
+      7395536,
+      13050632
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      242103049,
+      1307222214,
+      7412830,
+      13050902
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      242607941,
+      1307225052,
+      7378875,
+      13050412
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      241860910,
+      1307221891,
+      7400199,
+      13052649
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      242014902,
+      1307222591,
+      7432197,
+      13054474
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      241896793,
+      1307222269,
+      7395812,
+      13050715
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      242063269,
+      1307221562,
+      7395262,
+      13050826
+    ],
+    [
+      "aa2",
+      "a",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      241852169,
+      1307224118,
+      7366979,
+      13050734
+    ],
+    [
+      "aa2",
+      "b",
+      "controls/prefix-64/absent @ controls-prefix-9-absent",
+      242420423,
+      1307222413,
+      7375160,
+      13051119
+    ]
+  ]
+}
