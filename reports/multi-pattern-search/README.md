@@ -25,8 +25,9 @@ For a **batch of eight different articles**, Replacer wins at tested 16–512 ev
 with construction included. These are measured configurations, not universal
 thresholds or the exact minimum profitable batch size. The comparison includes
 native PHP and PCRE; literal matching is case-sensitive, without word boundaries.
-These are CLI jobs, not measured framework/FPM throughput; memory and other
-architectures were not measured. The release-build series use 15 alternating
+These are CLI jobs, not measured framework/FPM throughput; other architectures
+were not measured. A separate [memory series](MEMORY.md) covers 8–10,000 strings.
+The release-build time series use 15 alternating
 time samples per method and before/after A/A controls.
 
 ## Reading the tables
@@ -219,6 +220,48 @@ replacement, direct `preg_replace()` avoids a callback and is particularly stron
 in the measured log jobs. Per-order email values change and require rebuilding
 Replacer; a global prepared-object result cannot be applied to those requests.
 
+## Memory: 8 to 10,000 strings
+
+**KiB (1024 bytes), measured Zend allocations.** Input is the original PHP list
+or replacement map, including its strings. **+Matcher / +Replacer** is the
+additional live object allocation while that input remains alive; **Peak +**
+is the constructor's maximum increase above the same input baseline. It already
+includes the final object. Values are identical across GCC 15 and Clang 21 and
+five fresh processes per configuration.
+
+The first 512 terms preserve the support glossary; larger sets add saved,
+constructed product names. These are memory inputs, not an extension of the
+speed conclusions to 10,000 strings. Dictionaries, standalone retained memory,
+query peaks and the permuted-byte control are in [Memory details](MEMORY.md).
+
+<!-- MEMORY-TABLE -->
+| Strings | Matcher input | +Matcher | Peak +Matcher | Replacer input | +Replacer | Peak +Replacer |
+|---|---:|---:|---:|---:|---:|---:|
+| 8 | 0.6 | 9.7 | 9.9 | 1.3 | 14.8 | 15.1 |
+| 16 | 1.1 | 14.8 | 15.2 | 2.4 | 28.9 | 29.5 |
+| 32 | 2.0 | 28.9 | 29.9 | 4.6 | 57.1 | 58.4 |
+| 64 | 3.9 | 65.1 | 67.1 | 9.1 | 125.6 | 128.1 |
+| 128 | 7.6 | 265.6 | 273.6 | 21.1 | 266.6 | 274.6 |
+| 256 | 18.5 | 546.6 | 558.6 | 38.5 | 548.6 | 560.6 |
+| 512 | 33.0 | 1572.6 | 1592.6 | 73.0 | 1576.6 | 1596.6 |
+| 1000 | 67.6 | 3144.7 | 3196.7 | 150.1 | 3152.7 | 3188.7 |
+| 2000 | 138.1 | 6288.7 | 6392.7 | 307.1 | 3168.7 | 3232.7 |
+| 5000 | 397.4 | 12584.7 | 12788.7 | 897.9 | 12624.7 | 12760.7 |
+| 10000 | 797.7 | 25168.7 | 25504.7 | 1802.7 | 12704.7 | 12948.7 |
+<!-- /MEMORY-TABLE -->
+
+<!-- MEMORY-GROWTH -->
+For a 10× increase from 1,000 to 10,000 strings in this corpus: Matcher 3.07 → 24.58 MiB (8.00×); Replacer 3.08 → 12.41 MiB (4.03×). The permuted-byte control at 10,000 takes 49.08 MiB and 49.16 MiB respectively. These endpoint ratios describe the saved inputs, not an asymptotic fit. Growth is not uniformly sublinear either: 64 → 128 strings raises Matcher allocation from 65.1 to 265.6 KiB (4.08×), as the required state capacity crosses two doubling thresholds.
+<!-- /MEMORY-GROWTH -->
+
+Memory is **not determined by string count alone**. Shared prefixes/suffixes,
+total key bytes and alphabet size affect trie storage; capacity doubles in
+steps. Automaton storage has a linear upper bound in total key bytes for
+the bounded byte alphabet, rather than quadratic growth in dictionary count.
+The [growth plot and state/capacity tables](MEMORY.md#growth-and-structure)
+show how the saved inputs behave. These counters exclude PHP startup,
+allocator-reserved pages and RSS; the values are not total process memory.
+
 ## Inputs and complete measurements
 
 - [Controlled size corpus](../../corpus/multi-pattern-scaling/README.md): unchanged
@@ -307,6 +350,7 @@ Machine-local paths in public metadata use placeholders; metrics are unchanged.
 
 [Build, preflight, smoke, full-run and data-import commands](REPRODUCE.md).
 
-Not measured: other machines/architectures, memory on these corpora, framework
+Not measured: other machines/architectures, process RSS, memory of the existing
+alternatives or of every speed-corpus case, framework
 throughput, or the exact minimum profitable batch size. No whole-application
 speedup is claimed.

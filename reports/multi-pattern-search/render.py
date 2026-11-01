@@ -5,6 +5,8 @@ import hashlib
 import json
 from pathlib import Path
 import statistics
+import subprocess
+import sys
 
 ROOT=Path(__file__).resolve().parent
 COMPILERS=['gcc15','clang21']
@@ -243,6 +245,10 @@ def main():
         if args.check:assert path.exists()and path.read_text()==text,'Stale rendering: '+name
         elif not path.exists()or path.read_text()!=text:path.write_text(text)
     print('Rendered tables PASS'if args.check else'Rendered operation-specific tables')
+    if (ROOT/'data/memory-gcc15.json').exists() and (ROOT/'data/memory-clang21.json').exists():
+        command=[sys.executable,str(ROOT/'memory/render.py')]
+        if args.check:command.append('--check')
+        subprocess.run(command,check=True)
 
 
 if __name__=='__main__':main()
