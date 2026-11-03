@@ -11,15 +11,22 @@ ROOT=Path(__file__).resolve().parent
 
 def read(path):return json.loads(path.read_text())
 def digest(path):return hashlib.sha256(path.read_bytes()).hexdigest()
+def path_roots(metadata, run_placeholder='${RUN_DIR}'):
+    command=metadata.get('build_command',[])
+    roots={}
+    includes=[part[2:]for part in command if part.startswith('-I')]
+    if includes:roots[includes[0]]='${PHP_BUILD}'
+    for part in command:
+        if part.endswith('/strmatch.c'):roots[str(Path(part).parent)]='${STRMATCH_SOURCE}'
+    if command and '-o' in command:
+        output=Path(command[command.index('-o')+1])
+        roots[str(output.parent.parent)]=run_placeholder
+    return roots
+
+
 def public(value, roots=None):
     if roots is None:
-        command=value.get('metadata',{}).get('build_command',[]) if isinstance(value,dict) else []
-        roots={}
-        includes=[part[2:] for part in command if part.startswith('-I')]
-        if includes:roots[includes[0]]='${PHP_BUILD}'
-        if command and '-o' in command:
-            output=Path(command[command.index('-o')+1])
-            roots[str(output.parent.parent)]='${RUN_DIR}'
+        roots=path_roots(value.get('metadata',{})if isinstance(value,dict)else{})
     if isinstance(value,str):
         for actual,placeholder in sorted(roots.items(),key=lambda item:-len(item[0])):
             value=value.replace(actual,placeholder)
@@ -45,10 +52,7 @@ def capture(directory,corpus,stem,compiler):
     meta=original['metadata']
     assert original['status']=='complete'
     assert meta['harness_sha256']==digest(ROOT/'harness.php'),'Stale harness'
-    measured_driver=ROOT/'data/measured-driver.py'
-    valid_driver_hashes={digest(ROOT/'measure.py')}
-    if measured_driver.is_file():valid_driver_hashes.add(digest(measured_driver))
-    assert meta['driver_sha256'] in valid_driver_hashes,'Unknown driver'
+    assert meta['driver_sha256']==digest(ROOT/'measure.py'),'Unknown driver'
     assert 'input_dictionary_sharing'in meta['protocol'],'No shared-input policy'
     index_path=ROOT/'../../corpus'/corpus/'index.json'
     index=read(index_path)

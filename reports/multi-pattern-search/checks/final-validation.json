@@ -1,0 +1,117 @@
+{
+  "status": "PASS",
+  "source_revision": "287aaab7fb729d3a8e91c6fd35224c4359c343e3",
+  "source_c_sha256": "adafc9cb67a435523811b540734c7d51fc4f7ff1edf3aabd5f7b94c4cf19e254",
+  "scope": "Final 16 PHPT files; source C unchanged between tested source capsule and measured revision. GCC/Clang release, debug ASan+UBSan, debug ZTS; these are local tests, not a claim of upstream CI success.",
+  "test_runs": [
+    {
+      "compiler": "gcc15",
+      "exit_code": 0,
+      "module_sha256": "544e65fd85fe2337434288f201167dda87e7dd58f90b1c9fa60e066d6203c5cc",
+      "tests": 16,
+      "passed": 16,
+      "skipped": 0,
+      "failed": 0,
+      "log": "checks/phpt/gcc15/phpt.log",
+      "log_sha256": "1f8177f68675c8dbfc9fa81edd07cea3506efd226be5e11cd99a41d3c8e4a7e9"
+    },
+    {
+      "compiler": "clang21",
+      "exit_code": 0,
+      "module_sha256": "2716f31aac8504fd3a320e5328265c231a027412e6828d37dece63f60a892fa7",
+      "tests": 16,
+      "passed": 16,
+      "skipped": 0,
+      "failed": 0,
+      "log": "checks/phpt/clang21/phpt.log",
+      "log_sha256": "e799c9f20edd9aeddcc3b4d88599f37a905a77ea8479cbf7d45a9fae3c2503d2"
+    },
+    {
+      "compiler": "asan",
+      "exit_code": 0,
+      "module_sha256": "3de6e29d9ba7e4463d3e245e008263073b5c636a4cc6bbc185c461c806a9a54b",
+      "tests": 16,
+      "passed": 16,
+      "skipped": 0,
+      "failed": 0,
+      "log": "checks/phpt/asan/phpt.log",
+      "log_sha256": "f2ea0cb644a210071d21198b39212ef7058bd16cee722851732be276a7cd3b2f"
+    },
+    {
+      "compiler": "zts",
+      "exit_code": 0,
+      "module_sha256": "9b96f8d648bb9ad33bb17951cf4afff79114cab80ba1e9c807020e7fe8c74306",
+      "tests": 16,
+      "passed": 16,
+      "skipped": 0,
+      "failed": 0,
+      "log": "checks/phpt/zts/phpt.log",
+      "log_sha256": "317a50006920f1e96cebf8c6e6b7ba242cef8651941cd458aa2d27df9b389f44"
+    }
+  ],
+  "source_checks_sha256": "a7d209c876f6fad0f695e03c537c1029822c2d3faba4db8cb79dcd8dd5329d27",
+  "mutation_cases": [
+    {
+      "tag": "final-hybrid",
+      "test": "023-hybrid-build.phpt",
+      "pass": true,
+      "expected_pass": true,
+      "exit_code": 0,
+      "module_sha256": "544e65fd85fe2337434288f201167dda87e7dd58f90b1c9fa60e066d6203c5cc"
+    },
+    {
+      "tag": "zero-resolver",
+      "test": "023-hybrid-build.phpt",
+      "pass": false,
+      "expected_pass": false,
+      "exit_code": 255,
+      "module_sha256": "bf27923cc111c7e63d260152b7d562e1e3794a2b86f3dc80927fdd6294c56c87"
+    },
+    {
+      "tag": "old-vector",
+      "test": "022-duplicate-memory.phpt",
+      "pass": false,
+      "expected_pass": false,
+      "exit_code": 0,
+      "module_sha256": "5cabc0ef549bf1cf6428cc27fd4361a8824eefa2634de2164801562ea73dcaf8"
+    },
+    {
+      "tag": "old-vector-no-mm",
+      "test": "022-duplicate-memory.phpt",
+      "status": "SKIP",
+      "reason": "skip Zend memory accounting is required"
+    },
+    {
+      "tag": "writable-offset",
+      "test": "015-api-contract.phpt",
+      "pass": false,
+      "expected_pass": false,
+      "exit_code": 0,
+      "module_sha256": "25ff657c4d8484be6d75eca1cbf2e6144a870d7d7b069fa05b31cb554d55949a"
+    },
+    {
+      "tag": "writable-length",
+      "test": "015-api-contract.phpt",
+      "pass": false,
+      "expected_pass": false,
+      "exit_code": 0,
+      "module_sha256": "ebd4f01e3549cadbe9a3d049694729c7d97e6deb41c25d558cb23180f99f6d5f"
+    },
+    {
+      "tag": "empty-matches",
+      "test": "001-matcher.phpt",
+      "pass": false,
+      "expected_pass": false,
+      "exit_code": 255,
+      "module_sha256": "78514a1268034d77175ceea37abf3076889a56788bedf5df736c880afc35ebdd"
+    },
+    {
+      "tag": "no-deduplication",
+      "test": "001-matcher.phpt",
+      "pass": false,
+      "expected_pass": false,
+      "exit_code": 255,
+      "module_sha256": "fe20b06f8cf1c9972cdd531ea177a72597bd242b824ba7e8a5b79d4427555d32"
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+
+=====================================================================
+PHP         : ${PHP_BUILD}/sapi/cli/php
+PHP_SAPI    : cli
+PHP_VERSION : 8.7.0-dev
+ZEND_VERSION: 4.7.0-dev
+PHP_OS      : Linux - Linux measurement-host 7.0.0-38-generic #38-Ubuntu SMP PREEMPT_DYNAMIC Fri Sep  4 09:10:14 UTC 2026 x86_64
+INI actual  : ${TEST_ROOT}
+More .INIs  :
+CWD         : ${TEST_ROOT}
+Extra dirs  :
+VALGRIND    : Not used
+=====================================================================
+Running selected tests.
+Spawning 2 workers... Done in 0.01s
+=====================================================================
+
+PASS Str\Matcher: methods, start order, empty inputs and dictionary deduplication [tests/001-matcher.phpt]
+TEST 1/16 [2/2 concurrent test workers running]
+
+PASS Str\Matcher and Str\Replacer reject repeated initialization, including empty dictionaries [tests/007-reinit-safety.phpt]
+TEST 2/16 [2/2 concurrent test workers running]
+
+PASS Str\Replacer: replace with strtr semantics (longest-match, non-overlapping) and count [tests/002-replacer.phpt]
+TEST 3/16 [2/2 concurrent test workers running]
+
+PASS Str constructors reject empty keywords and non-string dictionary values [tests/003-errors.phpt]
+TEST 4/16 [2/2 concurrent test workers running]
+
+PASS Str matching is byte-based: UTF-8, embedded NUL, high bytes and the full alphabet [tests/004-binary.phpt]
+TEST 5/16 [2/2 concurrent test workers running]
+
+PASS Str\Matcher: overlapping keywords are all counted and listed [tests/008-overlapping.phpt]
+TEST 6/16 [2/2 concurrent test workers running]
+
+PASS Str methods agree with independent occurrence and replacement oracles (350 seeded cases) [tests/011-differential.phpt]
+TEST 7/16 [2/2 concurrent test workers running]
+
+PASS Str API: final classes, immutable snapshots, private result construction and readonly fields [tests/015-api-contract.phpt]
+TEST 8/16 [2/2 concurrent test workers running]
+
+PASS Str\Matcher results retain keywords after inputs and matcher are destroyed [tests/016-result-lifetime.phpt]
+TEST 9/16 [2/2 concurrent test workers running]
+
+PASS Str\Matcher and Str\Replacer compare by object identity [tests/021-object-comparison.phpt]
+TEST 10/16 [2/2 concurrent test workers running]
+
+PASS Str\Matcher counts beyond INT32_MAX and rejects PHP_INT_MAX overflow on 32-bit [tests/017-count-overflow.phpt]
+TEST 11/16 [2/2 concurrent test workers running]
+
+PASS Str replacement: independent longest-match oracle, suffix priority, integer keys and aliasing [tests/018-replacer-oracle.phpt]
+TEST 12/16 [2/2 concurrent test workers running]
+
+PASS Str\Replacer output count: aliasing and typed references with matches, no matches and empty inputs [tests/020-count-output.phpt]
+TEST 13/16 [2/2 concurrent test workers running]
+
+PASS Str\Matcher deduplication retains the same storage as a single keyword [tests/022-duplicate-memory.phpt]
+TEST 14/16 [1/2 concurrent test workers running]
+
+PASS Str hybrid construction: periodic failure paths, partial mismatches and branching boundaries [tests/023-hybrid-build.phpt]
+TEST 15/16 [1/2 concurrent test workers running]
+
+PASS Str prepared objects reject cloning, serialization and construction bypasses [tests/024-object-lifecycle.phpt]
+TEST 16/16 [1/2 concurrent test workers running]
+
+=====================================================================
+Number of tests :    16                16
+Tests skipped   :     0 (  0.0%) --------
+Tests warned    :     0 (  0.0%) (  0.0%)
+Tests failed    :     0 (  0.0%) (  0.0%)
+Tests passed    :    16 (100.0%) (100.0%)
+---------------------------------------------------------------------
+Time taken      : 0.100 seconds
+=====================================================================

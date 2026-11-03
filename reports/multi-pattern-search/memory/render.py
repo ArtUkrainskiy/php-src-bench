@@ -7,6 +7,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 REPORT = ROOT.parent
+from layout import layout
 
 
 def load():
@@ -50,105 +51,126 @@ def main():
     parser.add_argument('--check', action='store_true')
     args = parser.parse_args()
     index, rows = load()
-    readme = REPORT / 'README.md'
-    text = readme.read_text()
-    start, stop = '<!-- MEMORY-TABLE -->', '<!-- /MEMORY-TABLE -->'
-    left, rest = text.split(start, 1)
-    _, right = rest.split(stop, 1)
-    text = left + start + '\n' + table(index, rows, 'glossary-catalog') + '\n' + stop + right
+    structures = {}
+    for family in index['families']:
+        words = list(json.loads((ROOT / (family + '.json')).read_text())['replacements'])
+        facts = json.loads((ROOT / (family + '-expected.json')).read_text())
+        for fact in facts:
+            for kind in ['Matcher', 'Replacer']:
+                result = layout(words[:fact['size']], kind)
+                assert result['states'] == fact[kind.lower() + '_states']
+                measured = rows[family, fact['size'], kind]['construction']['object_extra_bytes']
+                assert result['requested_array_bytes'] <= measured
+                structures[family, fact['size'], kind] = result
+    text = (REPORT / 'README.md').read_text()
     growth = []
     for kind in ['Matcher', 'Replacer']:
-        first = rows[('glossary-catalog', 1000, kind)]['construction']['object_extra_bytes']
-        last = rows[('glossary-catalog', 10000, kind)]['construction']['object_extra_bytes']
-        growth.append(f'{kind} {first/1048576:.2f} → {last/1048576:.2f} MiB ({last/first:.2f}×)')
-    control = [rows[('permuted-control', 10000, kind)]['construction']['object_extra_bytes']/1048576 for kind in ['Matcher', 'Replacer']]
-    summary = ('For a 10× increase from 1,000 to 10,000 strings in this corpus: ' + '; '.join(growth) + '. '
-               f'The permuted-byte control at 10,000 takes {control[0]:.2f} MiB and {control[1]:.2f} MiB respectively. '
-               'These endpoint ratios describe the saved inputs, not an asymptotic fit.')
-    low, high = [rows[('glossary-catalog', n, 'Matcher')]['construction']['object_extra_bytes'] for n in [64, 128]]
-    summary += (f' Growth is not uniformly sublinear either: 64 → 128 strings raises Matcher allocation '
-                f'from {low/1024:.1f} to {high/1024:.1f} KiB ({high/low:.2f}×), '
-                'as the required state capacity crosses two doubling thresholds.')
-    start, stop = '<!-- MEMORY-GROWTH -->', '<!-- /MEMORY-GROWTH -->'
-    left, rest = text.split(start, 1)
-    _, right = rest.split(stop, 1)
-    text = left + start + '\n' + summary + '\n' + stop + right
-    lines = ['# Memory: preparation, retained objects and queries', '',
-             'All tables use **KiB (1024 bytes)**, except where a different unit is named. These are Zend live-allocation counters, not process RSS.', '',
-             'Five fresh processes per class/size/family/compiler; 440 processes in total. Every recorded byte count is identical across repeats and GCC 15 / Clang 21. Tables therefore show one shared value, without hiding a compiler difference.', '',
-             '## What the columns mean', '',
-             '- **Input:** live PHP array and its strings after parsing temporaries are released. Matcher receives a list of keys; Replacer receives a key-to-URL map.',
-             '- **+Matcher / +Replacer:** live allocation increase after construction while that input array remains alive. Keys and replacement strings are shared by reference, so their original storage is already in Input.',
-             '- **Peak +:** maximum allocation increase during that constructor, measured after resetting the peak at the input-array baseline. It includes the final object; do not add it to the +object column.',
-             '- **Standalone:** object plus the strings it retains after releasing the caller’s input array, relative to the baseline before loading the dictionary.', '',
-             'PHP/runtime startup, input-file parsing peaks and allocator-reserved pages are excluded. The native engine uses Zend allocation functions, so its states, transitions and temporary arrays are counted. Physical peaks inside the system allocator and RSS are not measured.', '',
-             '## Growth and structure', '',
-             'Let N be the number of keys, T their total bytes, A the number of distinct key bytes, S the trie state count and C its allocated capacity. The implementation stores a dense row for A+1 transition columns per state, including one fallback column. State records use 16 bytes, transition entries 4 bytes and string pointers 8 bytes in these 64-bit builds.', '',
-             'The dominant requested allocation is `C × (16 + 4 × (A + 1)) + 8N` for Matcher and `C × (16 + 4 × (A + 1)) + 16N` for Replacer, plus the object and allocator rounding. C grows by doubling from 16; the arrays are not shrunk to S. Constructor peaks also include temporary structures.', '',
-             '**This is not a smooth linear function of N.** Shared prefixes reduce Matcher states; shared suffixes reduce Replacer states because its trie is reversed. Capacity doublings create steps. Longer keys or a larger byte alphabet can increase bytes per key. Since `S ≤ 1 + T`, `C < 2S` above the minimum capacity and the byte alphabet is bounded by 256, the automaton’s asymptotic upper bound is linear in T, not quadratic in N. Standalone objects additionally retain their key strings and, for Replacer, replacement strings; replacement payload size is a separate cost. This bound comes from the implementation, not a fit to these eleven points.', '',
-             '![Memory growth and bytes per dictionary string](memory/growth.svg)', '',
-             'Lines join only measured sizes; they do not locate the intervening capacity thresholds. The 512-key boundary also changes corpus composition: larger sets add constructed catalog labels. This experiment cannot establish a universal curve for arbitrary dictionaries.', '',
-             '## Saved input families', '',
-             'The first 512 keys of [glossary-catalog.json](memory/glossary-catalog.json) exactly preserve the existing support glossary. To reach 10,000, the generator adds distinct combinations of authored adjectives, product nouns and usage phrases, in a fixed shuffled order. These larger sets are constructed catalog labels, not a harvested production vocabulary.', '',
-             '[permuted-control.json](memory/permuted-control.json) permutes the bytes within each key, preserving its length and byte multiset, dictionary size, aggregate alphabet and corresponding replacement value. It is a synthetic topology control, not another product case or a proven worst case. At each size both families are nested prefixes of their saved 10,000-entry lists. Every replacement value is a distinct 37-byte help URL.', '',
-             '## Prepared object allocation', '']
+        first = rows['glossary-catalog', 1000, kind]['construction']['object_extra_bytes']
+        last = rows['glossary-catalog', 10000, kind]['construction']['object_extra_bytes']
+        growth.append(f'{kind}: {first / 1048576:.2f} to {last / 1048576:.2f} MiB ({last / first:.2f} times)')
+    control = [rows['permuted-control', 10000, kind]['construction']['object_extra_bytes'] / 1048576
+               for kind in ['Matcher', 'Replacer']]
+    summary = ('From 1,000 to 10,000 strings in these saved inputs, ' + '; '.join(growth) + '. '
+               f'The 10,000-string permuted-byte control takes {control[0]:.2f} MiB for Matcher and '
+               f'{control[1]:.2f} MiB for Replacer. These are observed endpoints, not a fitted growth law.')
+    costs = [rows['glossary-catalog', 10000, kind]['construction'] for kind in ['Matcher', 'Replacer']]
+    short_costs = (f"At 10,000 saved glossary/catalog entries, the prepared object adds "
+                   f"**{costs[0]['object_extra_bytes'] / 1048576:.2f} MiB for Matcher** or "
+                   f"**{costs[1]['object_extra_bytes'] / 1048576:.2f} MiB for Replacer**, above the input array. "
+                   f"Constructor peaks above that same input baseline are {costs[0]['construction_peak_extra_bytes'] / 1048576:.2f} and "
+                   f"{costs[1]['construction_peak_extra_bytes'] / 1048576:.2f} MiB respectively. "
+                   "[Memory](MEMORY.md) separates retained allocation, construction peak and query scratch space.")
+    for marker, block in [('MEMORY-TABLE', table(index, rows, 'glossary-catalog')), ('MEMORY-GROWTH', summary), ('SHORT-COSTS', short_costs)]:
+        start, stop = f'<!-- {marker} -->', f'<!-- /{marker} -->'
+        left, rest = text.split(start, 1)
+        _, right = rest.split(stop, 1)
+        text = left + start + '\n' + block + '\n' + stop + right
+    lines = [
+        '# Memory: preparation, retained objects and queries', '',
+        'All tables use **KiB (1024 bytes)** unless stated otherwise. These are Zend live-allocation counters, not process RSS.', '',
+        'Five fresh processes per class, size, family and compiler: 440 processes. All recorded allocation values match across repeats and GCC 15 / Clang 21. A shared table therefore loses no observed compiler difference.', '',
+        '## Reading the columns', '',
+        '- **Input:** the caller\'s PHP list or map and its strings, after parsing temporaries are released.',
+        '- **+Matcher / +Replacer:** additional live allocation after construction while Input remains alive. Strings are shared by reference.',
+        '- **Peak +:** the constructor peak above that same input baseline, after resetting the peak counter. This includes the retained object; do not add the two columns.',
+        '- **Standalone:** the object and strings it retains after the input array is released, relative to the baseline before loading the dictionary.', '',
+        'Startup, input-parsing peaks, reserved allocator pages and physical peaks inside realloc are outside these counters. All native automaton buffers use Zend allocation functions and are included.', '',
+        '## Growth and structure', '',
+        'The automaton combines dense transition rows with packed sparse states. It keeps dense rows for shallow states, states with at least eight children, and selected states near their failure target. Other states retain actual trie edges and a failure link. A single-child transition is stored inside its sparse record; it does not need a separate edge allocation.', '',
+        'For a nonempty dictionary, let N be its string count, T its total key bytes, A its distinct key-byte count, S its state count, D its dense-state count and E its separately packed sparse-edge count. On these 64-bit builds the requested runtime arrays occupy:', '',
+        '- **Matcher:** `4D(A+1) + 12(S-D) + 8E + 12S + 8N` bytes.',
+        '- **Replacer:** `4D(A+1) + 12(S-D) + 8E + 4S + 16N` bytes.', '',
+        'These budgets exclude the fixed object and byte-map fields, allocator rounding and retained string bodies. They explain the measured object additions; the measured tables remain authoritative. The final state arrays are sized to S. Temporary build arrays can grow geometrically, but their spare capacity is not retained in the immutable runtime automaton.', '',
+        '**String count alone does not determine memory.** Prefix sharing changes Matcher states; suffix sharing matters for reversed Replacer states. Alphabet size and the dense/sparse mix change the cost of each state. Dense-selection thresholds can create steps even without spare runtime capacity. Since `D ≤ S`, `E ≤ S-1`, `S ≤ 1+T` and the byte alphabet is bounded, automaton storage has a linear upper bound in total key bytes. This does not establish smooth or proportional growth in N.', '',
+        'Construction also needs trie records, edges, failure-link workspace and runtime packing. Its measured peak is separate from retained storage. It should not be inferred by adding table columns.', '',
+        '![Memory growth and allocation per dictionary string](memory/growth.svg)', '',
+        'Lines join measured sizes only. The first 512 entries preserve the support glossary; larger dictionaries add authored combinations of product names. They are constructed inputs, not a production vocabulary or a speed experiment at 10,000 strings.', '',
+        '## Saved input families', '',
+        '[Glossary and catalog](memory/glossary-catalog.json) uses the existing glossary, then saved catalog labels. [Permuted control](memory/permuted-control.json) rearranges bytes within each key, preserving lengths, byte multisets, alphabet and replacement values. It is a synthetic topology control, not another product case or a proven worst case. Dictionaries are nested prefixes of the same saved list. Every replacement value is a distinct 37-byte help URL.', '',
+    ]
     for family, heading in [('glossary-catalog', 'Glossary and constructed catalog'), ('permuted-control', 'Permuted-byte control')]:
         facts = json.loads((ROOT / (family + '-expected.json')).read_text())
-        lines += ['### ' + heading, '', table(index, rows, family), '',
+        lines += ['## ' + heading, '', table(index, rows, family), '',
                   '| Strings | Matcher standalone | Replacer standalone | Matcher bytes/string | Replacer bytes/string |',
                   '|---|---:|---:|---:|---:|']
         for n in index['sizes']:
-            m, r = [rows[(family, n, kind)]['construction'] for kind in ['Matcher', 'Replacer']]
-            lines.append(f"| {n} | {m['standalone_bytes']/1024:.1f} | {r['standalone_bytes']/1024:.1f} | {m['object_extra_bytes']/n:.1f} | {r['object_extra_bytes']/n:.1f} |")
-        lines += ['', 'The bytes/string columns use the additional object allocation (+object), excluding the input.', '',
-                  '| Strings | Key bytes | Mean key bytes | Alphabet bytes | Matcher states | Matcher capacity | Replacer states | Replacer capacity |',
+            m, r = [rows[family, n, kind]['construction'] for kind in ['Matcher', 'Replacer']]
+            lines.append(f"| {n} | {m['standalone_bytes'] / 1024:.1f} | {r['standalone_bytes'] / 1024:.1f} | {m['object_extra_bytes'] / n:.1f} | {r['object_extra_bytes'] / n:.1f} |")
+        lines += ['', 'Bytes/string uses the object addition, excluding Input.', '',
+                  '| Strings | Key bytes | Mean key bytes | Alphabet bytes | Matcher states | Matcher dense | Replacer states | Replacer dense |',
                   '|---|---:|---:|---:|---:|---:|---:|---:|']
-        for f in facts:
-            mc = max(16, 1 << (f['matcher_states'] - 1).bit_length())
-            rc = max(16, 1 << (f['replacer_states'] - 1).bit_length())
-            lines.append(f"| {f['size']} | {f['keyword_bytes']} | {f['keyword_bytes']/f['size']:.1f} | {f['alphabet_bytes']} | {f['matcher_states']} | {mc} | {f['replacer_states']} | {rc} |")
-        lines += ['', 'State counts and capacities are calculated from the saved strings and the implementation’s growth rule; they are explanatory facts, not extra exposed API counters.', '',
-                  '### Query peaks: ' + heading, '',
-                  'Additional peak allocations above an already prepared object, loaded subject and expected-result data. Each call resets the peak. Result storage is included; correctness checking occurs only after taking the snapshot.', '',
+        for fact in facts:
+            n = fact['size']
+            m, r = [structures[family, n, kind] for kind in ['Matcher', 'Replacer']]
+            lines.append(f"| {n} | {fact['keyword_bytes']} | {fact['keyword_bytes'] / n:.1f} | {fact['alphabet_bytes']} | {m['states']} | {m['dense_states']} | {r['states']} | {r['dense_states']} |")
+        lines += ['', 'State/layout facts are calculated from the saved byte strings and the final implementation by [layout.py](memory/layout.py). They are explanatory counts, not public runtime API counters. The array budget below excludes fixed fields and allocator rounding.', '',
+                  '| Strings | Class | Dense rows KiB | Sparse KiB | Edges KiB | Outputs KiB | Pointers KiB | Arrays KiB |',
+                  '|---|---|---:|---:|---:|---:|---:|---:|']
+        for n in [8, 128, 512, 2000, 10000]:
+            for kind in ['Matcher', 'Replacer']:
+                part = structures[family, n, kind]
+                values = [part[key] / 1024 for key in ['dense_transition_bytes', 'sparse_metadata_bytes', 'packed_edge_bytes', 'output_metadata_bytes', 'dictionary_pointer_bytes', 'requested_array_bytes']]
+                lines.append(f'| {n} | {kind} | ' + ' | '.join(f'{v:.1f}' for v in values) + ' |')
+        lines += ['', '### Query peaks', '',
+                  'Additional allocations above an already prepared object, subject and expected-result data. Each operation resets the peak; correctness checks occur after the snapshot. Result storage is included.', '',
                   '| Strings | matches() | countMatches() | getMatchedKeywords() | matchAll() | replace() |',
                   '|---|---:|---:|---:|---:|---:|']
         for n in index['sizes']:
-            mq, rq = [rows[(family, n, kind)]['queries'] for kind in ['Matcher', 'Replacer']]
-            values = [mq[m]['peak_extra_bytes']/1024 for m in ['matches', 'countMatches', 'getMatchedKeywords', 'matchAll']] + [rq['replace']['peak_extra_bytes']/1024]
+            mq, rq = [rows[family, n, kind]['queries'] for kind in ['Matcher', 'Replacer']]
+            values = [mq[m]['peak_extra_bytes'] / 1024 for m in ['matches', 'countMatches', 'getMatchedKeywords', 'matchAll']] + [rq['replace']['peak_extra_bytes'] / 1024]
             lines.append('| ' + str(n) + ' | ' + ' | '.join(f'{v:.1f}' for v in values) + ' |')
-        lines += ['', '| Strings | Distinct matched keys | All overlapping hits | Replacements | Output KiB |',
+        lines += ['', '| Strings | Distinct keys matched | All overlapping hits | Replacements | Output KiB |',
                   '|---|---:|---:|---:|---:|']
-        for f in facts:
-            lines.append(f"| {f['size']} | {len(f['getMatchedKeywords'])} | {f['countMatches']} | {f['replacement_count']} | {f['output_bytes']/1024:.1f} |")
+        for fact in facts:
+            lines.append(f"| {fact['size']} | {len(fact['getMatchedKeywords'])} | {fact['countMatches']} | {fact['replacement_count']} | {fact['output_bytes'] / 1024:.1f} |")
         lines += ['']
-    lines += ['## Query interpretation', '',
-              'Each family has a saved 65,536-byte subject, made by repeating a sentence containing its first eight terms. It remains fixed across N; additional terms may also match. These repetitive texts measure allocation behavior and are not new speed benchmarks. `matches()` and `countMatches()` allocate no additional tracked heap in these runs. `getMatchedKeywords()` has dictionary-sized scratch storage; `matchAll()` retains one result object per hit; `replace()` uses subject-sized candidate storage plus its output. Different hit density, output length or subject length changes these query peaks.', '',
-              'The constructor tables and query peaks answer different questions. Add a query peak to the applicable live baseline to estimate the tracked peak for that measured lifecycle; do not sum constructor and query peaks. No memory comparison with PCRE, native PHP alternatives, other machines, allocators or FPM worker sharing is claimed.', '',
-              '## Data and reproduction', '',
-              '[GCC samples](data/memory-gcc15.json) · [Clang samples](data/memory-clang21.json) · [fixture manifest](memory/index.json) · [generator](memory/generate.py) · [PHP snapshots](memory/measure.php) · [driver](memory/measure.py) · [renderer](memory/render.py). Runtime/extension binaries match the time-series hashes exactly; no PHP implementation changed. Each of 440 fresh processes validates every measured method against saved independently generated expected results.', '',
-              'Start in the report directory after completing the four time series in [Reproduce](REPRODUCE.md). Keep that shell’s `BENCH_BUILDS`, `RUN_ROOT` and `BENCH_CPU`. The loop below selects each local PHP build, extension module and complete time-result JSON explicitly, then measures the two compilers sequentially:', '',
-              '```sh',
-              'python3 memory/generate.py --check',
-              'for tag in gcc15 clang21; do',
-              '  PHP_BUILD="$BENCH_BUILDS/runtime-$tag"',
-              '  MODULE="$RUN_ROOT/data-product-$tag/strmatch.so"',
-              '  REFERENCE_DATA="$RUN_ROOT/data-product-$tag/results.json"',
-              '  test -f "$REFERENCE_DATA"',
-              '  python3 memory/measure.py --php-build "$PHP_BUILD" --module "$MODULE" \\',
-              '    --reference-data "$REFERENCE_DATA" --compiler "$tag" --cpu "$BENCH_CPU" \\',
-              '    --output "$RUN_ROOT/memory-$tag.json"',
-              'done',
-              '```', '',
-              'Each compiler command uses five fresh processes per configuration and ends with `MEMORY COMPLETE: 44 configurations, 220 fresh processes`. One compiler took under a minute here; no timing warmup is needed for these allocation snapshots. Use a fresh output file for each run. A failed or mismatching result aborts the series.', '',
-              'To update this capture, copy the two completed files into `data/memory-gcc15.json` and `data/memory-clang21.json` in a separate checkout, alongside their corresponding complete time captures. Then run `python3 render.py` and `python3 render.py --check`. The allocation tables use Python’s standard library only; the optional [plot script](memory/plot.py) uses Matplotlib to regenerate the SVG. No Matplotlib code runs inside PHP or affects a measurement.', '']
-    outputs = {readme: text, REPORT / 'MEMORY.md': '\n'.join(lines)}
-    for path, value in outputs.items():
+    lines += [
+        '## Query interpretation', '',
+        'Each family has a saved 65,536-byte subject made by repeating a sentence containing its first eight terms. The text stays fixed as N grows; other terms may also match. These repetitive texts measure allocations. They are not additional product-speed benchmarks.', '',
+        '`matches()` and `countMatches()` allocate no additional tracked heap in these runs. `getMatchedKeywords()` needs dictionary-sized scratch storage. `matchAll()` stores a result object per hit. `replace()` has subject-sized candidate storage plus its output. Different hit density, output expansion or subject length changes these peaks.', '',
+        'Constructor and query peaks occur in different operations: do not sum them. No memory comparison with PCRE/native alternatives, other allocators, machines or FPM worker sharing is claimed.', '',
+        '## Data and reproduction', '',
+        '[GCC samples](data/memory-gcc15.json) · [Clang samples](data/memory-clang21.json) · [fixtures](memory/index.json) · [generator](memory/generate.py) · [PHP snapshots](memory/measure.php) · [driver](memory/measure.py). The module/PHP hashes match the main time series. Every fresh process checks the measured methods against saved independent expected results.', '',
+        'After the main series in [Reproduce](REPRODUCE.md), keep its BENCH_BUILDS, RUN_ROOT and BENCH_CPU variables:', '',
+        '```sh',
+        'python3 memory/generate.py --check',
+        'for tag in gcc15 clang21; do',
+        '  python3 memory/measure.py --php-build "$BENCH_BUILDS/runtime-$tag" \\',
+        '    --module "$RUN_ROOT/data-product-$tag/strmatch.so" \\',
+        '    --reference-data "$RUN_ROOT/data-product-$tag/results.json" \\',
+        '    --compiler "$tag" --cpu "$BENCH_CPU" --output "$RUN_ROOT/memory-$tag.json"',
+        'done',
+        '```', '',
+        'Each compiler ends with `MEMORY COMPLETE: 44 configurations, 220 fresh processes`. One compiler took under a minute here. No timing warmup is needed for allocation snapshots. Existing output files are rejected; failures abort the series.', '',
+        'Copy each complete memory JSON into `data/memory-gcc15.json` or `data/memory-clang21.json` beside the corresponding imported main captures in a separate report checkout. For example, use `cp "$RUN_ROOT/memory-gcc15.json" data/memory-gcc15.json` and likewise for Clang. `python3 memory/render.py` and `python3 memory/render.py --check` update/verify only memory tables. The general renderer requires all supplemental captures to match the newly imported main binaries. `python3 memory/layout.py --check` checks state counts against saved fixtures. The optional `python3 memory/plot.py` uses Matplotlib; no plotting runs inside a measurement.', '',
+    ]
+    for path, value in {REPORT / 'README.md': text, REPORT / 'MEMORY.md': '\n'.join(lines)}.items():
         value = value.rstrip() + '\n'
         if args.check:
             assert path.read_text() == value, 'Stale memory rendering: ' + path.name
         else:
             path.write_text(value)
-    print('Memory tables PASS' if args.check else 'Rendered memory allocation tables')
+    print('Memory tables PASS' if args.check else 'Rendered hybrid memory allocation tables')
 
 
 if __name__ == '__main__':

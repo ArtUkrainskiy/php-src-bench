@@ -1,89 +1,105 @@
 # Memory: preparation, retained objects and queries
 
-All tables use **KiB (1024 bytes)**, except where a different unit is named. These are Zend live-allocation counters, not process RSS.
+All tables use **KiB (1024 bytes)** unless stated otherwise. These are Zend live-allocation counters, not process RSS.
 
-Five fresh processes per class/size/family/compiler; 440 processes in total. Every recorded byte count is identical across repeats and GCC 15 / Clang 21. Tables therefore show one shared value, without hiding a compiler difference.
+Five fresh processes per class, size, family and compiler: 440 processes. All recorded allocation values match across repeats and GCC 15 / Clang 21. A shared table therefore loses no observed compiler difference.
 
-## What the columns mean
+## Reading the columns
 
-- **Input:** live PHP array and its strings after parsing temporaries are released. Matcher receives a list of keys; Replacer receives a key-to-URL map.
-- **+Matcher / +Replacer:** live allocation increase after construction while that input array remains alive. Keys and replacement strings are shared by reference, so their original storage is already in Input.
-- **Peak +:** maximum allocation increase during that constructor, measured after resetting the peak at the input-array baseline. It includes the final object; do not add it to the +object column.
-- **Standalone:** object plus the strings it retains after releasing the caller’s input array, relative to the baseline before loading the dictionary.
+- **Input:** the caller's PHP list or map and its strings, after parsing temporaries are released.
+- **+Matcher / +Replacer:** additional live allocation after construction while Input remains alive. Strings are shared by reference.
+- **Peak +:** the constructor peak above that same input baseline, after resetting the peak counter. This includes the retained object; do not add the two columns.
+- **Standalone:** the object and strings it retains after the input array is released, relative to the baseline before loading the dictionary.
 
-PHP/runtime startup, input-file parsing peaks and allocator-reserved pages are excluded. The native engine uses Zend allocation functions, so its states, transitions and temporary arrays are counted. Physical peaks inside the system allocator and RSS are not measured.
+Startup, input-parsing peaks, reserved allocator pages and physical peaks inside realloc are outside these counters. All native automaton buffers use Zend allocation functions and are included.
 
 ## Growth and structure
 
-Let N be the number of keys, T their total bytes, A the number of distinct key bytes, S the trie state count and C its allocated capacity. The implementation stores a dense row for A+1 transition columns per state, including one fallback column. State records use 16 bytes, transition entries 4 bytes and string pointers 8 bytes in these 64-bit builds.
+The automaton combines dense transition rows with packed sparse states. It keeps dense rows for shallow states, states with at least eight children, and selected states near their failure target. Other states retain actual trie edges and a failure link. A single-child transition is stored inside its sparse record; it does not need a separate edge allocation.
 
-The dominant requested allocation is `C × (16 + 4 × (A + 1)) + 8N` for Matcher and `C × (16 + 4 × (A + 1)) + 16N` for Replacer, plus the object and allocator rounding. C grows by doubling from 16; the arrays are not shrunk to S. Constructor peaks also include temporary structures.
+For a nonempty dictionary, let N be its string count, T its total key bytes, A its distinct key-byte count, S its state count, D its dense-state count and E its separately packed sparse-edge count. On these 64-bit builds the requested runtime arrays occupy:
 
-**This is not a smooth linear function of N.** Shared prefixes reduce Matcher states; shared suffixes reduce Replacer states because its trie is reversed. Capacity doublings create steps. Longer keys or a larger byte alphabet can increase bytes per key. Since `S ≤ 1 + T`, `C < 2S` above the minimum capacity and the byte alphabet is bounded by 256, the automaton’s asymptotic upper bound is linear in T, not quadratic in N. Standalone objects additionally retain their key strings and, for Replacer, replacement strings; replacement payload size is a separate cost. This bound comes from the implementation, not a fit to these eleven points.
+- **Matcher:** `4D(A+1) + 12(S-D) + 8E + 12S + 8N` bytes.
+- **Replacer:** `4D(A+1) + 12(S-D) + 8E + 4S + 16N` bytes.
 
-![Memory growth and bytes per dictionary string](memory/growth.svg)
+These budgets exclude the fixed object and byte-map fields, allocator rounding and retained string bodies. They explain the measured object additions; the measured tables remain authoritative. The final state arrays are sized to S. Temporary build arrays can grow geometrically, but their spare capacity is not retained in the immutable runtime automaton.
 
-Lines join only measured sizes; they do not locate the intervening capacity thresholds. The 512-key boundary also changes corpus composition: larger sets add constructed catalog labels. This experiment cannot establish a universal curve for arbitrary dictionaries.
+**String count alone does not determine memory.** Prefix sharing changes Matcher states; suffix sharing matters for reversed Replacer states. Alphabet size and the dense/sparse mix change the cost of each state. Dense-selection thresholds can create steps even without spare runtime capacity. Since `D ≤ S`, `E ≤ S-1`, `S ≤ 1+T` and the byte alphabet is bounded, automaton storage has a linear upper bound in total key bytes. This does not establish smooth or proportional growth in N.
+
+Construction also needs trie records, edges, failure-link workspace and runtime packing. Its measured peak is separate from retained storage. It should not be inferred by adding table columns.
+
+![Memory growth and allocation per dictionary string](memory/growth.svg)
+
+Lines join measured sizes only. The first 512 entries preserve the support glossary; larger dictionaries add authored combinations of product names. They are constructed inputs, not a production vocabulary or a speed experiment at 10,000 strings.
 
 ## Saved input families
 
-The first 512 keys of [glossary-catalog.json](memory/glossary-catalog.json) exactly preserve the existing support glossary. To reach 10,000, the generator adds distinct combinations of authored adjectives, product nouns and usage phrases, in a fixed shuffled order. These larger sets are constructed catalog labels, not a harvested production vocabulary.
+[Glossary and catalog](memory/glossary-catalog.json) uses the existing glossary, then saved catalog labels. [Permuted control](memory/permuted-control.json) rearranges bytes within each key, preserving lengths, byte multisets, alphabet and replacement values. It is a synthetic topology control, not another product case or a proven worst case. Dictionaries are nested prefixes of the same saved list. Every replacement value is a distinct 37-byte help URL.
 
-[permuted-control.json](memory/permuted-control.json) permutes the bytes within each key, preserving its length and byte multiset, dictionary size, aggregate alphabet and corresponding replacement value. It is a synthetic topology control, not another product case or a proven worst case. At each size both families are nested prefixes of their saved 10,000-entry lists. Every replacement value is a distinct 37-byte help URL.
-
-## Prepared object allocation
-
-### Glossary and constructed catalog
+## Glossary and constructed catalog
 
 | Strings | Matcher input | +Matcher | Peak +Matcher | Replacer input | +Replacer | Peak +Replacer |
 |---|---:|---:|---:|---:|---:|---:|
-| 8 | 0.6 | 9.7 | 9.9 | 1.3 | 14.8 | 15.1 |
-| 16 | 1.1 | 14.8 | 15.2 | 2.4 | 28.9 | 29.5 |
-| 32 | 2.0 | 28.9 | 29.9 | 4.6 | 57.1 | 58.4 |
-| 64 | 3.9 | 65.1 | 67.1 | 9.1 | 125.6 | 128.1 |
-| 128 | 7.6 | 265.6 | 273.6 | 21.1 | 266.6 | 274.6 |
-| 256 | 18.5 | 546.6 | 558.6 | 38.5 | 548.6 | 560.6 |
-| 512 | 33.0 | 1572.6 | 1592.6 | 73.0 | 1576.6 | 1596.6 |
-| 1000 | 67.6 | 3144.7 | 3196.7 | 150.1 | 3152.7 | 3188.7 |
-| 2000 | 138.1 | 6288.7 | 6392.7 | 307.1 | 3168.7 | 3232.7 |
-| 5000 | 397.4 | 12584.7 | 12788.7 | 897.9 | 12624.7 | 12760.7 |
-| 10000 | 797.7 | 25168.7 | 25504.7 | 1802.7 | 12704.7 | 12948.7 |
+| 8 | 0.6 | 3.5 | 5.1 | 1.3 | 3.5 | 7.4 |
+| 16 | 1.1 | 5.7 | 8.9 | 2.4 | 6.2 | 12.0 |
+| 32 | 2.0 | 10.6 | 19.1 | 4.6 | 13.6 | 25.1 |
+| 64 | 3.9 | 29.4 | 41.4 | 9.1 | 24.4 | 45.4 |
+| 128 | 7.6 | 46.1 | 86.1 | 21.1 | 43.2 | 91.2 |
+| 256 | 18.5 | 83.8 | 151.8 | 38.5 | 70.2 | 154.2 |
+| 512 | 33.0 | 187.8 | 307.8 | 73.0 | 140.8 | 296.8 |
+| 1000 | 67.6 | 400.8 | 712.8 | 150.1 | 232.8 | 592.8 |
+| 2000 | 138.1 | 728.8 | 1352.8 | 307.1 | 368.8 | 884.8 |
+| 5000 | 397.4 | 1396.8 | 2624.8 | 897.9 | 760.8 | 2384.8 |
+| 10000 | 797.7 | 2272.8 | 4688.8 | 1802.7 | 1324.8 | 3264.8 |
 
 | Strings | Matcher standalone | Replacer standalone | Matcher bytes/string | Replacer bytes/string |
 |---|---:|---:|---:|---:|
-| 8 | 10.1 | 15.7 | 1240.0 | 1888.0 |
-| 16 | 15.5 | 30.6 | 944.0 | 1848.0 |
-| 32 | 30.2 | 60.5 | 924.0 | 1828.0 |
-| 64 | 67.7 | 132.2 | 1042.0 | 2010.0 |
-| 128 | 270.7 | 279.7 | 2125.0 | 2133.0 |
-| 256 | 557.0 | 575.0 | 2186.5 | 2194.5 |
-| 512 | 1593.5 | 1629.5 | 3145.2 | 3153.2 |
-| 1000 | 3192.2 | 3262.7 | 3220.1 | 3228.3 |
-| 2000 | 6390.7 | 3395.7 | 3219.8 | 1622.4 |
-| 5000 | 12850.0 | 13202.5 | 2577.3 | 2585.5 |
-| 10000 | 25706.3 | 13867.3 | 2577.3 | 1301.0 |
+| 8 | 3.9 | 4.4 | 444.0 | 442.0 |
+| 16 | 6.4 | 7.9 | 364.0 | 395.0 |
+| 32 | 11.9 | 16.9 | 339.0 | 435.0 |
+| 64 | 32.0 | 31.0 | 470.5 | 391.0 |
+| 128 | 51.2 | 56.3 | 369.0 | 346.0 |
+| 256 | 94.1 | 96.6 | 335.0 | 281.0 |
+| 512 | 208.7 | 193.7 | 375.5 | 281.5 |
+| 1000 | 448.2 | 342.8 | 410.4 | 238.3 |
+| 2000 | 830.8 | 595.8 | 373.1 | 188.8 |
+| 5000 | 1662.1 | 1338.6 | 286.1 | 155.8 |
+| 10000 | 2810.4 | 2487.4 | 232.7 | 135.7 |
 
-The bytes/string columns use the additional object allocation (+object), excluding the input.
+Bytes/string uses the object addition, excluding Input.
 
-| Strings | Key bytes | Mean key bytes | Alphabet bytes | Matcher states | Matcher capacity | Replacer states | Replacer capacity |
+| Strings | Key bytes | Mean key bytes | Alphabet bytes | Matcher states | Matcher dense | Replacer states | Replacer dense |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| 8 | 91 | 11.4 | 21 | 64 | 64 | 80 | 128 |
-| 16 | 179 | 11.2 | 23 | 118 | 128 | 148 | 256 |
-| 32 | 358 | 11.2 | 23 | 228 | 256 | 288 | 512 |
-| 64 | 716 | 11.2 | 26 | 477 | 512 | 568 | 1024 |
-| 128 | 1523 | 11.9 | 28 | 1055 | 2048 | 1132 | 2048 |
-| 256 | 3365 | 13.1 | 29 | 2232 | 4096 | 2220 | 4096 |
-| 512 | 6898 | 13.5 | 44 | 4509 | 8192 | 4214 | 8192 |
-| 1000 | 20078 | 20.1 | 44 | 12823 | 16384 | 9203 | 16384 |
-| 2000 | 47229 | 23.6 | 44 | 25964 | 32768 | 16350 | 16384 |
-| 5000 | 128474 | 25.7 | 44 | 51943 | 65536 | 34586 | 65536 |
-| 10000 | 264053 | 26.4 | 44 | 85439 | 131072 | 61722 | 65536 |
+| 8 | 91 | 11.4 | 21 | 64 | 13 | 80 | 17 |
+| 16 | 179 | 11.2 | 23 | 118 | 21 | 148 | 32 |
+| 32 | 358 | 11.2 | 23 | 228 | 38 | 288 | 55 |
+| 64 | 716 | 11.2 | 26 | 477 | 77 | 568 | 92 |
+| 128 | 1523 | 11.9 | 28 | 1055 | 137 | 1132 | 153 |
+| 256 | 3365 | 13.1 | 29 | 2232 | 215 | 2220 | 211 |
+| 512 | 6898 | 13.5 | 44 | 4509 | 417 | 4214 | 334 |
+| 1000 | 20078 | 20.1 | 44 | 12823 | 470 | 9203 | 345 |
+| 2000 | 47229 | 23.6 | 44 | 25964 | 495 | 16350 | 354 |
+| 5000 | 128474 | 25.7 | 44 | 51943 | 495 | 34586 | 548 |
+| 10000 | 264053 | 26.4 | 44 | 85439 | 495 | 61722 | 573 |
 
-State counts and capacities are calculated from the saved strings and the implementation’s growth rule; they are explanatory facts, not extra exposed API counters.
+State/layout facts are calculated from the saved byte strings and the final implementation by [layout.py](memory/layout.py). They are explanatory counts, not public runtime API counters. The array budget below excludes fixed fields and allocator rounding.
 
-### Query peaks: Glossary and constructed catalog
+| Strings | Class | Dense rows KiB | Sparse KiB | Edges KiB | Outputs KiB | Pointers KiB | Arrays KiB |
+|---|---|---:|---:|---:|---:|---:|---:|
+| 8 | Matcher | 1.1 | 0.6 | 0.0 | 0.8 | 0.1 | 2.6 |
+| 8 | Replacer | 1.5 | 0.7 | 0.0 | 0.3 | 0.1 | 2.7 |
+| 128 | Matcher | 15.5 | 10.8 | 0.4 | 12.4 | 1.0 | 40.0 |
+| 128 | Replacer | 17.3 | 11.5 | 0.4 | 4.4 | 2.0 | 35.7 |
+| 512 | Matcher | 73.3 | 48.0 | 2.6 | 52.8 | 4.0 | 180.7 |
+| 512 | Replacer | 58.7 | 45.5 | 3.4 | 16.5 | 8.0 | 132.1 |
+| 2000 | Matcher | 87.0 | 298.5 | 15.3 | 304.3 | 15.6 | 720.7 |
+| 2000 | Replacer | 62.2 | 187.5 | 19.3 | 63.9 | 31.2 | 364.1 |
+| 10000 | Matcher | 87.0 | 995.4 | 100.2 | 1001.2 | 78.1 | 2262.0 |
+| 10000 | Replacer | 100.7 | 716.6 | 92.6 | 241.1 | 156.2 | 1307.3 |
 
-Additional peak allocations above an already prepared object, loaded subject and expected-result data. Each call resets the peak. Result storage is included; correctness checking occurs only after taking the snapshot.
+### Query peaks
+
+Additional allocations above an already prepared object, subject and expected-result data. Each operation resets the peak; correctness checks occur after the snapshot. Result storage is included.
 
 | Strings | matches() | countMatches() | getMatchedKeywords() | matchAll() | replace() |
 |---|---:|---:|---:|---:|---:|
@@ -99,7 +115,7 @@ Additional peak allocations above an already prepared object, loaded subject and
 | 5000 | 0.0 | 0.0 | 8.4 | 855.6 | 408.0 |
 | 10000 | 0.0 | 0.0 | 12.4 | 855.6 | 408.0 |
 
-| Strings | Distinct matched keys | All overlapping hits | Replacements | Output KiB |
+| Strings | Distinct keys matched | All overlapping hits | Replacements | Output KiB |
 |---|---:|---:|---:|---:|
 | 8 | 8 | 4682 | 3122 | 142.1 |
 | 16 | 8 | 4682 | 3122 | 142.1 |
@@ -113,57 +129,70 @@ Additional peak allocations above an already prepared object, loaded subject and
 | 5000 | 9 | 5072 | 3512 | 151.7 |
 | 10000 | 9 | 5072 | 3512 | 151.7 |
 
-### Permuted-byte control
+## Permuted-byte control
 
 | Strings | Matcher input | +Matcher | Peak +Matcher | Replacer input | +Replacer | Peak +Replacer |
 |---|---:|---:|---:|---:|---:|---:|
-| 8 | 0.6 | 14.7 | 15.1 | 1.3 | 14.8 | 15.1 |
-| 16 | 1.1 | 28.8 | 29.5 | 2.4 | 28.9 | 29.6 |
-| 32 | 2.0 | 56.9 | 58.4 | 4.6 | 57.1 | 58.6 |
-| 64 | 3.9 | 125.1 | 128.1 | 9.1 | 125.6 | 128.6 |
-| 128 | 7.6 | 265.6 | 273.6 | 21.1 | 266.6 | 274.6 |
-| 256 | 18.5 | 546.6 | 558.6 | 38.5 | 548.6 | 560.6 |
-| 512 | 33.0 | 1572.6 | 1600.6 | 73.0 | 1576.6 | 1600.6 |
-| 1000 | 67.6 | 6280.7 | 6352.7 | 150.1 | 6288.7 | 6360.7 |
-| 2000 | 138.1 | 12560.7 | 12732.7 | 307.1 | 12576.7 | 12748.7 |
-| 5000 | 397.4 | 25128.7 | 25588.7 | 897.9 | 25168.7 | 25628.7 |
-| 10000 | 797.7 | 50256.7 | 51192.7 | 1802.7 | 50336.7 | 51272.7 |
+| 8 | 0.6 | 4.9 | 7.8 | 1.3 | 4.1 | 7.9 |
+| 16 | 1.1 | 13.1 | 21.6 | 2.4 | 7.5 | 17.8 |
+| 32 | 2.0 | 21.0 | 33.0 | 4.6 | 14.8 | 29.8 |
+| 64 | 3.9 | 33.2 | 50.2 | 9.1 | 28.8 | 50.8 |
+| 128 | 7.6 | 69.8 | 113.8 | 21.1 | 58.8 | 114.8 |
+| 256 | 18.5 | 126.8 | 202.8 | 38.5 | 104.8 | 204.8 |
+| 512 | 33.0 | 288.8 | 456.8 | 73.0 | 236.8 | 436.8 |
+| 1000 | 67.6 | 664.8 | 1160.8 | 150.1 | 528.8 | 1168.8 |
+| 2000 | 138.1 | 1429.2 | 2481.2 | 307.1 | 1101.1 | 2489.1 |
+| 5000 | 397.4 | 3676.8 | 6488.8 | 897.9 | 2799.8 | 6531.8 |
+| 10000 | 797.7 | 7608.8 | 13352.8 | 1802.7 | 5812.8 | 13420.8 |
 
 | Strings | Matcher standalone | Replacer standalone | Matcher bytes/string | Replacer bytes/string |
 |---|---:|---:|---:|---:|
-| 8 | 15.1 | 15.7 | 1880.0 | 1888.0 |
-| 16 | 29.5 | 30.6 | 1840.0 | 1848.0 |
-| 32 | 58.2 | 60.5 | 1820.0 | 1828.0 |
-| 64 | 127.7 | 132.2 | 2002.0 | 2010.0 |
-| 128 | 270.7 | 279.7 | 2125.0 | 2133.0 |
-| 256 | 557.0 | 575.0 | 2186.5 | 2194.5 |
-| 512 | 1593.5 | 1629.5 | 3145.2 | 3153.2 |
-| 1000 | 6328.2 | 6398.7 | 6431.4 | 6439.6 |
-| 2000 | 12662.7 | 12803.7 | 6431.1 | 6439.2 |
-| 5000 | 25394.0 | 25746.5 | 5146.4 | 5154.5 |
-| 10000 | 50794.3 | 51499.3 | 5146.3 | 5154.5 |
+| 8 | 5.4 | 5.1 | 632.0 | 528.0 |
+| 16 | 13.9 | 9.2 | 840.0 | 480.0 |
+| 32 | 22.3 | 18.1 | 672.0 | 472.0 |
+| 64 | 35.8 | 35.3 | 532.0 | 460.0 |
+| 128 | 74.8 | 71.8 | 558.0 | 470.0 |
+| 256 | 137.2 | 131.1 | 507.1 | 419.0 |
+| 512 | 309.7 | 289.7 | 577.5 | 473.5 |
+| 1000 | 712.3 | 638.8 | 680.8 | 541.5 |
+| 2000 | 1531.3 | 1328.2 | 731.8 | 563.8 |
+| 5000 | 3942.1 | 3377.6 | 753.0 | 573.4 |
+| 10000 | 8146.5 | 6975.4 | 779.1 | 595.2 |
 
-The bytes/string columns use the additional object allocation (+object), excluding the input.
+Bytes/string uses the object addition, excluding Input.
 
-| Strings | Key bytes | Mean key bytes | Alphabet bytes | Matcher states | Matcher capacity | Replacer states | Replacer capacity |
+| Strings | Key bytes | Mean key bytes | Alphabet bytes | Matcher states | Matcher dense | Replacer states | Replacer dense |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| 8 | 91 | 11.4 | 21 | 90 | 128 | 90 | 128 |
-| 16 | 179 | 11.2 | 23 | 174 | 256 | 173 | 256 |
-| 32 | 358 | 11.2 | 23 | 342 | 512 | 342 | 512 |
-| 64 | 716 | 11.2 | 26 | 670 | 1024 | 666 | 1024 |
-| 128 | 1523 | 11.9 | 28 | 1392 | 2048 | 1393 | 2048 |
-| 256 | 3365 | 13.1 | 29 | 3049 | 4096 | 3039 | 4096 |
-| 512 | 6898 | 13.5 | 44 | 6153 | 8192 | 6144 | 8192 |
-| 1000 | 20078 | 20.1 | 44 | 18373 | 32768 | 18370 | 32768 |
-| 2000 | 47229 | 23.6 | 44 | 43325 | 65536 | 43319 | 65536 |
-| 5000 | 128474 | 25.7 | 44 | 117043 | 131072 | 117083 | 131072 |
-| 10000 | 264053 | 26.4 | 44 | 238825 | 262144 | 238778 | 262144 |
+| 8 | 91 | 11.4 | 21 | 90 | 23 | 90 | 23 |
+| 16 | 179 | 11.2 | 23 | 174 | 43 | 173 | 42 |
+| 32 | 358 | 11.2 | 23 | 342 | 80 | 342 | 80 |
+| 64 | 716 | 11.2 | 26 | 670 | 146 | 666 | 142 |
+| 128 | 1523 | 11.9 | 28 | 1392 | 253 | 1393 | 256 |
+| 256 | 3365 | 13.1 | 29 | 3049 | 453 | 3039 | 447 |
+| 512 | 6898 | 13.5 | 44 | 6153 | 799 | 6144 | 795 |
+| 1000 | 20078 | 20.1 | 44 | 18373 | 1360 | 18370 | 1351 |
+| 2000 | 47229 | 23.6 | 44 | 43325 | 2403 | 43319 | 2366 |
+| 5000 | 128474 | 25.7 | 44 | 117043 | 5383 | 117083 | 5358 |
+| 10000 | 264053 | 26.4 | 44 | 238825 | 11661 | 238778 | 11605 |
 
-State counts and capacities are calculated from the saved strings and the implementation’s growth rule; they are explanatory facts, not extra exposed API counters.
+State/layout facts are calculated from the saved byte strings and the final implementation by [layout.py](memory/layout.py). They are explanatory counts, not public runtime API counters. The array budget below excludes fixed fields and allocator rounding.
 
-### Query peaks: Permuted-byte control
+| Strings | Class | Dense rows KiB | Sparse KiB | Edges KiB | Outputs KiB | Pointers KiB | Arrays KiB |
+|---|---|---:|---:|---:|---:|---:|---:|
+| 8 | Matcher | 2.0 | 0.8 | 0.0 | 1.1 | 0.1 | 3.9 |
+| 8 | Replacer | 2.0 | 0.8 | 0.0 | 0.4 | 0.1 | 3.2 |
+| 128 | Matcher | 28.7 | 13.3 | 0.0 | 16.3 | 1.0 | 59.3 |
+| 128 | Replacer | 29.0 | 13.3 | 0.0 | 5.4 | 2.0 | 49.8 |
+| 512 | Matcher | 140.4 | 62.7 | 0.0 | 72.1 | 4.0 | 279.3 |
+| 512 | Replacer | 139.7 | 62.7 | 0.0 | 24.0 | 8.0 | 234.4 |
+| 2000 | Matcher | 422.4 | 479.6 | 0.5 | 507.7 | 15.6 | 1425.8 |
+| 2000 | Replacer | 415.9 | 479.9 | 0.3 | 169.2 | 31.2 | 1096.6 |
+| 10000 | Matcher | 2049.8 | 2662.1 | 10.5 | 2798.7 | 78.1 | 7599.2 |
+| 10000 | Replacer | 2039.9 | 2662.2 | 11.2 | 932.7 | 156.2 | 5802.3 |
 
-Additional peak allocations above an already prepared object, loaded subject and expected-result data. Each call resets the peak. Result storage is included; correctness checking occurs only after taking the snapshot.
+### Query peaks
+
+Additional allocations above an already prepared object, subject and expected-result data. Each operation resets the peak; correctness checks occur after the snapshot. Result storage is included.
 
 | Strings | matches() | countMatches() | getMatchedKeywords() | matchAll() | replace() |
 |---|---:|---:|---:|---:|---:|
@@ -179,7 +208,7 @@ Additional peak allocations above an already prepared object, loaded subject and
 | 5000 | 0.0 | 0.0 | 8.4 | 480.6 | 400.0 |
 | 10000 | 0.0 | 0.0 | 12.4 | 480.6 | 400.0 |
 
-| Strings | Distinct matched keys | All overlapping hits | Replacements | Output KiB |
+| Strings | Distinct keys matched | All overlapping hits | Replacements | Output KiB |
 |---|---:|---:|---:|---:|
 | 8 | 8 | 3121 | 3121 | 142.1 |
 | 16 | 8 | 3121 | 3121 | 142.1 |
@@ -195,29 +224,28 @@ Additional peak allocations above an already prepared object, loaded subject and
 
 ## Query interpretation
 
-Each family has a saved 65,536-byte subject, made by repeating a sentence containing its first eight terms. It remains fixed across N; additional terms may also match. These repetitive texts measure allocation behavior and are not new speed benchmarks. `matches()` and `countMatches()` allocate no additional tracked heap in these runs. `getMatchedKeywords()` has dictionary-sized scratch storage; `matchAll()` retains one result object per hit; `replace()` uses subject-sized candidate storage plus its output. Different hit density, output length or subject length changes these query peaks.
+Each family has a saved 65,536-byte subject made by repeating a sentence containing its first eight terms. The text stays fixed as N grows; other terms may also match. These repetitive texts measure allocations. They are not additional product-speed benchmarks.
 
-The constructor tables and query peaks answer different questions. Add a query peak to the applicable live baseline to estimate the tracked peak for that measured lifecycle; do not sum constructor and query peaks. No memory comparison with PCRE, native PHP alternatives, other machines, allocators or FPM worker sharing is claimed.
+`matches()` and `countMatches()` allocate no additional tracked heap in these runs. `getMatchedKeywords()` needs dictionary-sized scratch storage. `matchAll()` stores a result object per hit. `replace()` has subject-sized candidate storage plus its output. Different hit density, output expansion or subject length changes these peaks.
+
+Constructor and query peaks occur in different operations: do not sum them. No memory comparison with PCRE/native alternatives, other allocators, machines or FPM worker sharing is claimed.
 
 ## Data and reproduction
 
-[GCC samples](data/memory-gcc15.json) · [Clang samples](data/memory-clang21.json) · [fixture manifest](memory/index.json) · [generator](memory/generate.py) · [PHP snapshots](memory/measure.php) · [driver](memory/measure.py) · [renderer](memory/render.py). Runtime/extension binaries match the time-series hashes exactly; no PHP implementation changed. Each of 440 fresh processes validates every measured method against saved independently generated expected results.
+[GCC samples](data/memory-gcc15.json) · [Clang samples](data/memory-clang21.json) · [fixtures](memory/index.json) · [generator](memory/generate.py) · [PHP snapshots](memory/measure.php) · [driver](memory/measure.py). The module/PHP hashes match the main time series. Every fresh process checks the measured methods against saved independent expected results.
 
-Start in the report directory after completing the four time series in [Reproduce](REPRODUCE.md). Keep that shell’s `BENCH_BUILDS`, `RUN_ROOT` and `BENCH_CPU`. The loop below selects each local PHP build, extension module and complete time-result JSON explicitly, then measures the two compilers sequentially:
+After the main series in [Reproduce](REPRODUCE.md), keep its BENCH_BUILDS, RUN_ROOT and BENCH_CPU variables:
 
 ```sh
 python3 memory/generate.py --check
 for tag in gcc15 clang21; do
-  PHP_BUILD="$BENCH_BUILDS/runtime-$tag"
-  MODULE="$RUN_ROOT/data-product-$tag/strmatch.so"
-  REFERENCE_DATA="$RUN_ROOT/data-product-$tag/results.json"
-  test -f "$REFERENCE_DATA"
-  python3 memory/measure.py --php-build "$PHP_BUILD" --module "$MODULE" \
-    --reference-data "$REFERENCE_DATA" --compiler "$tag" --cpu "$BENCH_CPU" \
-    --output "$RUN_ROOT/memory-$tag.json"
+  python3 memory/measure.py --php-build "$BENCH_BUILDS/runtime-$tag" \
+    --module "$RUN_ROOT/data-product-$tag/strmatch.so" \
+    --reference-data "$RUN_ROOT/data-product-$tag/results.json" \
+    --compiler "$tag" --cpu "$BENCH_CPU" --output "$RUN_ROOT/memory-$tag.json"
 done
 ```
 
-Each compiler command uses five fresh processes per configuration and ends with `MEMORY COMPLETE: 44 configurations, 220 fresh processes`. One compiler took under a minute here; no timing warmup is needed for these allocation snapshots. Use a fresh output file for each run. A failed or mismatching result aborts the series.
+Each compiler ends with `MEMORY COMPLETE: 44 configurations, 220 fresh processes`. One compiler took under a minute here. No timing warmup is needed for allocation snapshots. Existing output files are rejected; failures abort the series.
 
-To update this capture, copy the two completed files into `data/memory-gcc15.json` and `data/memory-clang21.json` in a separate checkout, alongside their corresponding complete time captures. Then run `python3 render.py` and `python3 render.py --check`. The allocation tables use Python’s standard library only; the optional [plot script](memory/plot.py) uses Matplotlib to regenerate the SVG. No Matplotlib code runs inside PHP or affects a measurement.
+Copy each complete memory JSON into `data/memory-gcc15.json` or `data/memory-clang21.json` beside the corresponding imported main captures in a separate report checkout. For example, use `cp "$RUN_ROOT/memory-gcc15.json" data/memory-gcc15.json` and likewise for Clang. `python3 memory/render.py` and `python3 memory/render.py --check` update/verify only memory tables. The general renderer requires all supplemental captures to match the newly imported main binaries. `python3 memory/layout.py --check` checks state counts against saved fixtures. The optional `python3 memory/plot.py` uses Matplotlib; no plotting runs inside a measurement.

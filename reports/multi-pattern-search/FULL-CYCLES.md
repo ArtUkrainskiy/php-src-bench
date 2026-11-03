@@ -14,225 +14,225 @@ All measured alternatives are listed. Preparation and reuse are separate section
 
 | Task | Substrings | Existing method | Existing | Prototype | Δ | Min Δ | Max Δ |
 |---|---:|---|---:|---:|---:|---:|---:|
-| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1504.0 | 33496.7 | +2118.4% | +2106.7% | +2218.7% |
-| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 5757.5 | 33496.7 | +481.8% | +472.7% | +507.7% |
-| [Flag a short EN comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1231.3 | 32717.8 | +2558.7% | +2532.7% | +2664.2% |
-| [Flag a short EN comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 5327.4 | 32717.8 | +515.9% | +512.6% | +528.2% |
-| [Flag a short EN comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1386.1 | 34071.8 | +2364.3% | +2308.6% | +2380.8% |
-| [Flag a short EN comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 6028.8 | 34071.8 | +464.7% | +459.6% | +469.1% |
-| [Flag a short EN comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1262.5 | 33947.8 | +2585.6% | +2559.7% | +2613.2% |
-| [Flag a short EN comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 6074.6 | 33947.8 | +458.4% | +457.6% | +462.3% |
-| [Check a detailed EN support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 4873.4 | 39460.9 | +710.5% | +688.7% | +718.1% |
-| [Check a detailed EN support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 10059.4 | 39460.9 | +292.7% | +288.3% | +296.9% |
-| [Check a detailed EN support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 2806.8 | 34798.6 | +1137.8% | +1116.0% | +1204.8% |
-| [Check a detailed EN support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 7084.1 | 34798.6 | +394.3% | +388.2% | +417.3% |
-| [Flag a short RU comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 6059.4 | 94591.4 | +1464.6% | +1454.6% | +1497.5% |
-| [Flag a short RU comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 7763.6 | 94591.4 | +1119.8% | +1116.6% | +1131.9% |
-| [Flag a short RU comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 6797.0 | 93988.0 | +1285.2% | +1281.8% | +1290.1% |
-| [Flag a short RU comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 6091.3 | 93988.0 | +1443.5% | +1439.9% | +1449.8% |
-| [Flag a short RU comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 9742.4 | 97185.1 | +896.6% | +889.0% | +899.4% |
-| [Flag a short RU comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 8647.0 | 97185.1 | +1024.1% | +1017.9% | +1027.1% |
-| [Flag a short RU comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 6644.2 | 95659.1 | +1339.8% | +1315.9% | +1343.6% |
-| [Flag a short RU comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 8735.0 | 95659.1 | +996.0% | +986.7% | +998.0% |
-| [Check a detailed RU support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 16865.6 | 106785.2 | +533.0% | +532.5% | +536.8% |
-| [Check a detailed RU support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 23766.3 | 106785.2 | +349.0% | +348.6% | +351.2% |
-| [Check a detailed RU support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 9483.6 | 98720.7 | +941.2% | +933.3% | +945.2% |
-| [Check a detailed RU support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 12788.5 | 98720.7 | +672.6% | +670.7% | +674.5% |
-| [Flag a short ZH comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1566.2 | 79969.4 | +5001.3% | +4739.2% | +5072.1% |
-| [Flag a short ZH comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 5878.9 | 79969.4 | +1265.7% | +1256.7% | +1270.8% |
-| [Flag a short ZH comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1312.8 | 79656.2 | +5973.7% | +5874.8% | +6027.8% |
-| [Flag a short ZH comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 5295.8 | 79656.2 | +1404.9% | +1399.2% | +1411.8% |
-| [Flag a short ZH comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1758.4 | 80850.7 | +4502.7% | +4445.4% | +4620.2% |
-| [Flag a short ZH comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 6081.7 | 80850.7 | +1229.4% | +1215.9% | +1236.5% |
-| [Flag a short ZH comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1487.4 | 80823.2 | +5384.8% | +5296.3% | +5479.5% |
-| [Flag a short ZH comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 6196.0 | 80823.2 | +1207.0% | +1196.8% | +1223.0% |
-| [Check a detailed ZH support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 7393.7 | 87007.3 | +1078.2% | +1072.4% | +1081.0% |
-| [Check a detailed ZH support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 12223.6 | 87007.3 | +612.8% | +611.3% | +617.3% |
-| [Check a detailed ZH support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 4465.4 | 82708.6 | +1752.2% | +1749.8% | +1768.4% |
-| [Check a detailed ZH support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 7589.9 | 82708.6 | +989.8% | +987.4% | +1003.3% |
-| [Decide whether a request trace needs an alert: healthy trace](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | str_contains() loop | 20037.8 | 55041.7 | +175.0% | +174.5% | +175.9% |
-| [Decide whether a request trace needs an alert: healthy trace](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | preg_match() | 15414.6 | 55041.7 | +257.3% | +255.6% | +258.9% |
-| [Decide whether a request trace needs an alert: error in the first record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | str_contains() loop | 10038.9 | 28457.1 | +183.5% | +183.0% | +187.5% |
-| [Decide whether a request trace needs an alert: error in the first record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | preg_match() | 4230.3 | 28457.1 | +575.2% | +570.7% | +582.7% |
-| [Decide whether a request trace needs an alert: error in the middle record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | str_contains() loop | 11249.6 | 42598.6 | +278.4% | +277.0% | +281.8% |
-| [Decide whether a request trace needs an alert: error in the middle record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | preg_match() | 9848.5 | 42598.6 | +332.5% | +327.9% | +337.0% |
-| [Decide whether a request trace needs an alert: error in the last record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | str_contains() loop | 12263.2 | 54759.5 | +346.5% | +342.6% | +347.8% |
-| [Decide whether a request trace needs an alert: error in the last record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | preg_match() | 14708.3 | 54759.5 | +272.2% | +270.3% | +275.4% |
-| [Order confirmation email](../../corpus/multi-pattern-product/suites/order-emails.json) | 10 | strtr() | 4340.3 | 32062.7 | +638.7% | +634.1% | +642.4% |
-| [Order confirmation email](../../corpus/multi-pattern-product/suites/order-emails.json) | 10 | preg_replace_callback() | 18222.9 | 32062.7 | +75.7% | +74.8% | +76.2% |
-| [Order confirmation email](../../corpus/multi-pattern-product/suites/order-emails.json) | 10 | str_replace() | 13799.8 | 32062.7 | +132.1% | +129.0% | +133.1% |
-| [Order confirmation in HTML and plain text](../../corpus/multi-pattern-product/suites/order-emails.json) | 10 | strtr() | 6451.8 | 36329.6 | +463.8% | +459.9% | +465.6% |
-| [Order confirmation in HTML and plain text](../../corpus/multi-pattern-product/suites/order-emails.json) | 10 | preg_replace_callback() | 23211.1 | 36329.6 | +56.8% | +55.8% | +57.1% |
-| [Order confirmation in HTML and plain text](../../corpus/multi-pattern-product/suites/order-emails.json) | 10 | str_replace() | 17738.1 | 36329.6 | +104.8% | +104.5% | +105.4% |
-| [Expand fixed tenant labels in one shop notice](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | strtr() | 1508.8 | 11623.9 | +672.2% | +666.2% | +690.4% |
-| [Expand fixed tenant labels in one shop notice](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | preg_replace_callback() | 8338.8 | 11623.9 | +39.4% | +38.6% | +44.6% |
-| [Expand fixed tenant labels in one shop notice](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | str_replace() | 5956.7 | 11623.9 | +94.2% | +91.0% | +102.0% |
-| [Publish eight different shop pages using one tenant configuration](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | strtr() | 9384.2 | 30378.0 | +223.7% | +221.3% | +226.2% |
-| [Publish eight different shop pages using one tenant configuration](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | preg_replace_callback() | 20355.1 | 30378.0 | +49.0% | +48.3% | +49.9% |
-| [Publish eight different shop pages using one tenant configuration](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | str_replace() | 12686.9 | 30378.0 | +139.6% | +136.4% | +143.0% |
-| [Leave ordinary ASCII customer text unchanged](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | strtr() | 881.0 | 4133.0 | +368.8% | +367.3% | +394.8% |
-| [Leave ordinary ASCII customer text unchanged](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | preg_replace_callback() | 5218.3 | 4133.0 | -21.0% | -21.4% | -16.2% |
-| [Leave ordinary ASCII customer text unchanged](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | str_replace() | 4604.4 | 4133.0 | -10.5% | -10.9% | -5.8% |
-| [Normalize quotes, dashes and spaces in imported customer text](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | strtr() | 1314.4 | 5134.5 | +290.6% | +285.0% | +292.3% |
-| [Normalize quotes, dashes and spaces in imported customer text](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | preg_replace_callback() | 7014.9 | 5134.5 | -26.8% | -27.2% | -26.5% |
-| [Normalize quotes, dashes and spaces in imported customer text](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | str_replace() | 5338.8 | 5134.5 | -3.7% | -4.5% | -3.4% |
-| [Replace four special space characters with ordinary spaces](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 4 | strtr() | 938.9 | 2462.2 | +161.2% | +159.2% | +166.0% |
-| [Replace four special space characters with ordinary spaces](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 4 | preg_replace_callback() | 5170.5 | 2462.2 | -52.5% | -53.3% | -52.3% |
-| [Replace four special space characters with ordinary spaces](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 4 | str_replace() | 3877.6 | 2462.2 | -36.6% | -37.0% | -34.2% |
-| [Replace four special space characters with ordinary spaces](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 4 | preg_replace() | 4047.9 | 2462.2 | -39.5% | -39.9% | -38.5% |
-| [Check already-migrated content for old literal links](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | strtr() | 1551.7 | 42935.2 | +2670.5% | +2649.2% | +2690.6% |
-| [Check already-migrated content for old literal links](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | preg_replace_callback() | 10660.0 | 42935.2 | +305.3% | +300.5% | +307.9% |
-| [Check already-migrated content for old literal links](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | str_replace() | 6554.9 | 42935.2 | +555.0% | +549.7% | +559.9% |
-| [Rewrite known legacy links in one content page](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | strtr() | 1923.3 | 45752.0 | +2278.8% | +2246.9% | +2351.2% |
-| [Rewrite known legacy links in one content page](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | preg_replace_callback() | 11592.5 | 45752.0 | +295.0% | +292.5% | +307.7% |
-| [Rewrite known legacy links in one content page](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | str_replace() | 7188.1 | 45752.0 | +530.8% | +529.2% | +561.2% |
-| [Migrate eight different content pages with the same URL rules](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | strtr() | 12830.0 | 59859.0 | +366.8% | +365.4% | +371.5% |
-| [Migrate eight different content pages with the same URL rules](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | preg_replace_callback() | 20984.9 | 59859.0 | +185.7% | +183.2% | +189.2% |
-| [Migrate eight different content pages with the same URL rules](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | str_replace() | 16160.3 | 59859.0 | +271.5% | +262.3% | +274.4% |
-| [Mask registered secrets in a log excerpt with no leaked token](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | strtr() | 27205.8 | 194477.1 | +615.0% | +609.4% | +616.3% |
-| [Mask registered secrets in a log excerpt with no leaked token](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace_callback() | 30755.2 | 194477.1 | +532.9% | +529.5% | +534.3% |
-| [Mask registered secrets in a log excerpt with no leaked token](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | str_replace() | 73009.6 | 194477.1 | +166.3% | +164.7% | +166.8% |
-| [Mask registered secrets in a log excerpt with no leaked token](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace() | 30277.2 | 194477.1 | +540.5% | +536.4% | +543.3% |
-| [Mask one registered secret in a request log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | strtr() | 27893.2 | 201594.4 | +624.1% | +617.6% | +625.0% |
-| [Mask one registered secret in a request log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace_callback() | 32182.1 | 201594.4 | +527.2% | +525.6% | +528.9% |
-| [Mask one registered secret in a request log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | str_replace() | 76689.8 | 201594.4 | +163.0% | +162.2% | +163.8% |
-| [Mask one registered secret in a request log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace() | 31164.7 | 201594.4 | +547.1% | +544.3% | +549.4% |
-| [Mask three registered secrets in an incident log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | strtr() | 42018.8 | 238267.5 | +466.8% | +464.1% | +468.2% |
-| [Mask three registered secrets in an incident log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace_callback() | 34191.9 | 238267.5 | +596.1% | +595.8% | +599.5% |
-| [Mask three registered secrets in an incident log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | str_replace() | 112342.4 | 238267.5 | +112.2% | +111.3% | +113.0% |
-| [Mask three registered secrets in an incident log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace() | 32324.8 | 238267.5 | +637.8% | +633.2% | +642.0% |
-| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | strtr() | 335115.6 | 929019.7 | +177.4% | +176.7% | +178.9% |
-| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace_callback() | 49691.7 | 929019.7 | +1767.6% | +1756.8% | +1774.4% |
-| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | str_replace() | 712932.8 | 929019.7 | +30.3% | +29.8% | +30.3% |
-| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace() | 47646.9 | 929019.7 | +1847.7% | +1826.7% | +1855.5% |
-| [Check plain support replies for configured emoticons](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | strtr() | 836.3 | 3919.6 | +368.9% | +368.1% | +372.1% |
-| [Check plain support replies for configured emoticons](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | preg_replace_callback() | 9132.6 | 3919.6 | -57.1% | -57.7% | -56.7% |
-| [Check plain support replies for configured emoticons](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | str_replace() | 7998.4 | 3919.6 | -51.0% | -52.0% | -50.3% |
-| [Render configured emoticons in short customer replies](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | strtr() | 1046.8 | 4268.0 | +310.8% | +305.2% | +333.4% |
-| [Render configured emoticons in short customer replies](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | preg_replace_callback() | 9818.8 | 4268.0 | -56.6% | -57.3% | -53.4% |
-| [Render configured emoticons in short customer replies](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | str_replace() | 8278.5 | 4268.0 | -48.1% | -48.6% | -45.0% |
-| [List the configured support topics mentioned in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | strpos() per term | 57234.4 | 146461.7 | +155.9% | +152.6% | +164.4% |
-| [List the configured support topics mentioned in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | preg_match() per term | 100740.9 | 146461.7 | +45.4% | +44.1% | +46.9% |
-| [Count all configured term occurrences in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | strpos() per term | 47052.4 | 144338.2 | +207.6% | +191.6% | +209.3% |
-| [Count all configured term occurrences in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | PCRE lookahead per term | 147591.4 | 144338.2 | -2.1% | -4.9% | -1.7% |
-| [Locate all configured term occurrences for a search index](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | strpos() per term | 70467.1 | 148557.4 | +111.2% | +107.2% | +115.9% |
-| [Locate all configured term occurrences for a search index](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | PCRE lookahead per term | 217212.8 | 148557.4 | -31.5% | -31.7% | -31.0% |
-| [Link configured support terms in one plain-text help article](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | strtr() | 135338.5 | 164404.0 | +21.4% | +21.3% | +22.5% |
-| [Link configured support terms in one plain-text help article](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | preg_replace_callback() | 156996.9 | 164404.0 | +4.6% | +4.5% | +6.0% |
-| [Publish eight different help articles using one link glossary](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | strtr() | 1080260.7 | 221896.2 | -79.5% | -79.5% | -79.2% |
-| [Publish eight different help articles using one link glossary](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | preg_replace_callback() | 447279.3 | 221896.2 | -50.4% | -50.6% | -49.8% |
+| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1476.7 | 28933.8 | +1861.5% | +1819.2% | +1876.9% |
+| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 5761.5 | 28933.8 | +401.9% | +399.2% | +403.0% |
+| [Flag a short EN comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1224.2 | 28572.3 | +2232.5% | +2203.6% | +2331.4% |
+| [Flag a short EN comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 5338.5 | 28572.3 | +435.8% | +430.0% | +457.8% |
+| [Flag a short EN comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1382.7 | 29241.7 | +2027.2% | +1994.5% | +2051.7% |
+| [Flag a short EN comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 6021.9 | 29241.7 | +383.8% | +375.8% | +389.6% |
+| [Flag a short EN comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1273.7 | 29443.6 | +2236.1% | +2188.2% | +2250.0% |
+| [Flag a short EN comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 6092.5 | 29443.6 | +385.1% | +376.2% | +387.9% |
+| [Check a detailed EN support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 4889.4 | 34101.8 | +598.6% | +585.8% | +601.9% |
+| [Check a detailed EN support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 10061.0 | 34101.8 | +239.2% | +236.3% | +241.2% |
+| [Check a detailed EN support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 2788.1 | 30732.3 | +1002.3% | +990.0% | +1029.7% |
+| [Check a detailed EN support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 7078.3 | 30732.3 | +334.8% | +330.4% | +339.3% |
+| [Flag a short RU comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 5966.3 | 50340.8 | +737.7% | +708.1% | +753.5% |
+| [Flag a short RU comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 7764.0 | 50340.8 | +547.0% | +543.7% | +552.4% |
+| [Flag a short RU comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 6799.0 | 49261.1 | +627.1% | +623.4% | +644.8% |
+| [Flag a short RU comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 6103.9 | 49261.1 | +707.6% | +704.6% | +725.2% |
+| [Flag a short RU comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 9849.9 | 51087.8 | +423.0% | +411.9% | +428.9% |
+| [Flag a short RU comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 8654.2 | 51087.8 | +489.9% | +484.2% | +501.9% |
+| [Flag a short RU comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 6754.4 | 50777.7 | +658.7% | +649.6% | +661.2% |
+| [Flag a short RU comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 8770.1 | 50777.7 | +479.2% | +476.3% | +487.6% |
+| [Check a detailed RU support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 16873.9 | 59297.8 | +251.4% | +248.2% | +253.2% |
+| [Check a detailed RU support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 23800.7 | 59297.8 | +148.8% | +148.4% | +150.7% |
+| [Check a detailed RU support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 9468.3 | 53320.0 | +463.5% | +459.0% | +475.7% |
+| [Check a detailed RU support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 12751.5 | 53320.0 | +318.6% | +315.1% | +326.2% |
+| [Flag a short ZH comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1570.7 | 50672.3 | +3144.1% | +3115.0% | +3220.4% |
+| [Flag a short ZH comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 5890.5 | 50672.3 | +761.8% | +749.1% | +778.6% |
+| [Flag a short ZH comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1319.7 | 50426.9 | +3721.2% | +3713.7% | +3774.1% |
+| [Flag a short ZH comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 5284.7 | 50426.9 | +853.7% | +845.6% | +859.1% |
+| [Flag a short ZH comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1753.7 | 50825.0 | +2806.4% | +2777.0% | +2877.8% |
+| [Flag a short ZH comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 6068.9 | 50825.0 | +736.6% | +727.6% | +744.5% |
+| [Flag a short ZH comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1495.9 | 51026.2 | +3311.2% | +3280.4% | +3403.2% |
+| [Flag a short ZH comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 6186.9 | 51026.2 | +724.2% | +721.4% | +743.7% |
+| [Check a detailed ZH support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 7392.9 | 53329.6 | +623.9% | +618.4% | +628.7% |
+| [Check a detailed ZH support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 12222.8 | 53329.6 | +336.3% | +335.0% | +340.7% |
+| [Check a detailed ZH support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 4395.3 | 51890.2 | +1080.6% | +1048.2% | +1117.5% |
+| [Check a detailed ZH support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 7610.9 | 51890.2 | +584.6% | +576.0% | +591.5% |
+| [Decide whether a request trace needs an alert: healthy trace](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | str_contains() loop | 20026.2 | 37053.0 | +84.5% | +80.8% | +87.3% |
+| [Decide whether a request trace needs an alert: healthy trace](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | preg_match() | 15419.1 | 37053.0 | +140.3% | +139.4% | +142.6% |
+| [Decide whether a request trace needs an alert: error in the first record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | str_contains() loop | 10035.4 | 26016.6 | +159.2% | +155.1% | +170.3% |
+| [Decide whether a request trace needs an alert: error in the first record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | preg_match() | 4222.3 | 26016.6 | +516.2% | +505.1% | +543.6% |
+| [Decide whether a request trace needs an alert: error in the middle record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | str_contains() loop | 11248.1 | 31704.0 | +181.8% | +181.1% | +183.9% |
+| [Decide whether a request trace needs an alert: error in the middle record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | preg_match() | 9870.7 | 31704.0 | +221.8% | +220.2% | +224.5% |
+| [Decide whether a request trace needs an alert: error in the last record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | str_contains() loop | 12264.8 | 37031.3 | +200.7% | +198.1% | +203.4% |
+| [Decide whether a request trace needs an alert: error in the last record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | preg_match() | 14708.7 | 37031.3 | +151.1% | +150.5% | +153.6% |
+| [Order confirmation email](../../corpus/multi-pattern-product/suites/order-emails.json) | 10 | strtr() | 4340.1 | 22060.6 | +408.4% | +405.2% | +411.0% |
+| [Order confirmation email](../../corpus/multi-pattern-product/suites/order-emails.json) | 10 | preg_replace_callback() | 18245.2 | 22060.6 | +20.9% | +19.7% | +21.7% |
+| [Order confirmation email](../../corpus/multi-pattern-product/suites/order-emails.json) | 10 | str_replace() | 13927.4 | 22060.6 | +58.2% | +56.8% | +59.4% |
+| [Order confirmation in HTML and plain text](../../corpus/multi-pattern-product/suites/order-emails.json) | 10 | strtr() | 6455.5 | 25576.7 | +297.1% | +286.2% | +299.1% |
+| [Order confirmation in HTML and plain text](../../corpus/multi-pattern-product/suites/order-emails.json) | 10 | preg_replace_callback() | 23138.5 | 25576.7 | +10.5% | +3.4% | +11.2% |
+| [Order confirmation in HTML and plain text](../../corpus/multi-pattern-product/suites/order-emails.json) | 10 | str_replace() | 17660.4 | 25576.7 | +44.6% | +41.5% | +45.8% |
+| [Expand fixed tenant labels in one shop notice](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | strtr() | 1500.8 | 9399.2 | +526.4% | +517.0% | +533.3% |
+| [Expand fixed tenant labels in one shop notice](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | preg_replace_callback() | 8345.5 | 9399.2 | +12.9% | +11.5% | +13.2% |
+| [Expand fixed tenant labels in one shop notice](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | str_replace() | 5972.1 | 9399.2 | +57.5% | +56.6% | +58.4% |
+| [Publish eight different shop pages using one tenant configuration](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | strtr() | 9348.6 | 24150.9 | +159.7% | +157.4% | +182.6% |
+| [Publish eight different shop pages using one tenant configuration](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | preg_replace_callback() | 20451.9 | 24150.9 | +18.7% | +17.7% | +29.2% |
+| [Publish eight different shop pages using one tenant configuration](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | str_replace() | 12675.3 | 24150.9 | +91.9% | +89.7% | +107.5% |
+| [Leave ordinary ASCII customer text unchanged](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | strtr() | 876.1 | 6970.6 | +689.9% | +688.4% | +704.6% |
+| [Leave ordinary ASCII customer text unchanged](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | preg_replace_callback() | 5228.9 | 6970.6 | +32.3% | +31.5% | +35.0% |
+| [Leave ordinary ASCII customer text unchanged](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | str_replace() | 4605.2 | 6970.6 | +51.1% | +49.9% | +52.8% |
+| [Normalize quotes, dashes and spaces in imported customer text](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | strtr() | 1308.5 | 7808.2 | +496.0% | +491.0% | +525.4% |
+| [Normalize quotes, dashes and spaces in imported customer text](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | preg_replace_callback() | 7029.1 | 7808.2 | +11.1% | +10.0% | +15.6% |
+| [Normalize quotes, dashes and spaces in imported customer text](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | str_replace() | 5344.2 | 7808.2 | +46.0% | +45.3% | +52.7% |
+| [Replace four special space characters with ordinary spaces](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 4 | strtr() | 944.1 | 3617.5 | +281.9% | +263.9% | +300.3% |
+| [Replace four special space characters with ordinary spaces](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 4 | preg_replace_callback() | 5157.7 | 3617.5 | -29.6% | -30.5% | -26.7% |
+| [Replace four special space characters with ordinary spaces](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 4 | str_replace() | 3855.8 | 3617.5 | -6.3% | -6.9% | -2.8% |
+| [Replace four special space characters with ordinary spaces](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 4 | preg_replace() | 4094.8 | 3617.5 | -12.1% | -12.4% | -7.1% |
+| [Check already-migrated content for old literal links](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | strtr() | 1553.8 | 35973.0 | +2214.6% | +2200.7% | +2288.0% |
+| [Check already-migrated content for old literal links](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | preg_replace_callback() | 10620.5 | 35973.0 | +239.1% | +238.1% | +242.6% |
+| [Check already-migrated content for old literal links](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | str_replace() | 6540.9 | 35973.0 | +449.7% | +432.4% | +467.2% |
+| [Rewrite known legacy links in one content page](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | strtr() | 1916.4 | 36856.9 | +1824.6% | +1735.3% | +1875.5% |
+| [Rewrite known legacy links in one content page](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | preg_replace_callback() | 11604.4 | 36856.9 | +217.6% | +215.9% | +226.1% |
+| [Rewrite known legacy links in one content page](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | str_replace() | 7197.4 | 36856.9 | +412.1% | +406.8% | +422.4% |
+| [Migrate eight different content pages with the same URL rules](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | strtr() | 12860.3 | 49387.4 | +283.8% | +282.7% | +289.6% |
+| [Migrate eight different content pages with the same URL rules](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | preg_replace_callback() | 20937.8 | 49387.4 | +135.6% | +133.0% | +139.1% |
+| [Migrate eight different content pages with the same URL rules](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | str_replace() | 16204.3 | 49387.4 | +206.0% | +202.2% | +211.9% |
+| [Mask registered secrets in a log excerpt with no leaked token](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | strtr() | 27111.6 | 117820.8 | +334.2% | +326.3% | +337.8% |
+| [Mask registered secrets in a log excerpt with no leaked token](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace_callback() | 30775.1 | 117820.8 | +282.8% | +279.9% | +287.0% |
+| [Mask registered secrets in a log excerpt with no leaked token](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | str_replace() | 73036.9 | 117820.8 | +61.4% | +60.6% | +62.0% |
+| [Mask registered secrets in a log excerpt with no leaked token](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace() | 30305.4 | 117820.8 | +288.5% | +287.6% | +290.1% |
+| [Mask one registered secret in a request log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | strtr() | 27838.4 | 122580.5 | +340.2% | +336.8% | +347.0% |
+| [Mask one registered secret in a request log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace_callback() | 32115.2 | 122580.5 | +282.9% | +279.3% | +287.9% |
+| [Mask one registered secret in a request log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | str_replace() | 76554.1 | 122580.5 | +60.3% | +60.0% | +62.6% |
+| [Mask one registered secret in a request log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace() | 31206.2 | 122580.5 | +293.6% | +290.3% | +294.4% |
+| [Mask three registered secrets in an incident log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | strtr() | 42223.0 | 151982.3 | +260.5% | +259.5% | +264.2% |
+| [Mask three registered secrets in an incident log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace_callback() | 34334.8 | 151982.3 | +344.5% | +339.9% | +347.9% |
+| [Mask three registered secrets in an incident log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | str_replace() | 112353.2 | 151982.3 | +35.1% | +34.8% | +37.0% |
+| [Mask three registered secrets in an incident log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace() | 32393.2 | 151982.3 | +369.2% | +367.4% | +376.6% |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | strtr() | 335225.9 | 707048.9 | +110.9% | +109.8% | +111.8% |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace_callback() | 50079.2 | 707048.9 | +1314.9% | +1305.2% | +1320.9% |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | str_replace() | 712904.4 | 707048.9 | -1.0% | -1.2% | -0.8% |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace() | 47986.4 | 707048.9 | +1375.0% | +1367.4% | +1389.7% |
+| [Check plain support replies for configured emoticons](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | strtr() | 836.0 | 6704.6 | +701.6% | +697.1% | +705.7% |
+| [Check plain support replies for configured emoticons](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | preg_replace_callback() | 9136.4 | 6704.6 | -26.6% | -27.2% | -26.5% |
+| [Check plain support replies for configured emoticons](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | str_replace() | 7964.0 | 6704.6 | -15.7% | -16.1% | -15.4% |
+| [Render configured emoticons in short customer replies](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | strtr() | 1029.6 | 7176.1 | +600.3% | +572.1% | +658.8% |
+| [Render configured emoticons in short customer replies](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | preg_replace_callback() | 9801.8 | 7176.1 | -26.7% | -28.9% | -20.2% |
+| [Render configured emoticons in short customer replies](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | str_replace() | 8262.2 | 7176.1 | -13.3% | -15.7% | -6.0% |
+| [List the configured support topics mentioned in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | strpos() per term | 57650.2 | 153024.4 | +167.5% | +162.8% | +176.5% |
+| [List the configured support topics mentioned in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | preg_match() per term | 100552.5 | 153024.4 | +52.3% | +50.3% | +54.2% |
+| [Count all configured term occurrences in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | strpos() per term | 49179.4 | 151213.5 | +205.6% | +201.6% | +223.0% |
+| [Count all configured term occurrences in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | PCRE lookahead per term | 146414.1 | 151213.5 | +2.6% | +1.0% | +4.7% |
+| [Locate all configured term occurrences for a search index](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | strpos() per term | 70978.3 | 154119.9 | +116.7% | +115.0% | +119.2% |
+| [Locate all configured term occurrences for a search index](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | PCRE lookahead per term | 217538.8 | 154119.9 | -29.2% | -29.5% | -28.7% |
+| [Link configured support terms in one plain-text help article](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | strtr() | 135360.8 | 148065.6 | +9.4% | +8.7% | +10.2% |
+| [Link configured support terms in one plain-text help article](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | preg_replace_callback() | 157442.3 | 148065.6 | -6.5% | -7.9% | -5.0% |
+| [Publish eight different help articles using one link glossary](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | strtr() | 1080365.1 | 197229.9 | -81.7% | -81.9% | -81.7% |
+| [Publish eight different help articles using one link glossary](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | preg_replace_callback() | 447384.7 | 197229.9 | -56.0% | -56.1% | -55.8% |
 
 ##### clang21
 
 | Task | Substrings | Existing method | Existing | Prototype | Δ | Min Δ | Max Δ |
 |---|---:|---|---:|---:|---:|---:|---:|
-| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1535.6 | 30979.8 | +1927.3% | +1853.8% | +1938.2% |
-| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 6255.8 | 30979.8 | +396.5% | +378.1% | +400.8% |
-| [Flag a short EN comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1236.1 | 30337.9 | +2359.9% | +2334.8% | +2380.5% |
-| [Flag a short EN comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 5857.2 | 30337.9 | +415.2% | +410.6% | +419.1% |
-| [Flag a short EN comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1374.1 | 31633.2 | +2206.2% | +2170.0% | +2273.4% |
-| [Flag a short EN comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 6563.5 | 31633.2 | +381.8% | +376.8% | +393.8% |
-| [Flag a short EN comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1247.6 | 31787.9 | +2457.9% | +2436.7% | +2501.8% |
-| [Flag a short EN comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 6503.6 | 31787.9 | +388.5% | +369.5% | +401.4% |
-| [Check a detailed EN support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 4976.8 | 37682.9 | +658.9% | +655.6% | +663.9% |
-| [Check a detailed EN support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 11284.9 | 37682.9 | +233.2% | +228.1% | +236.2% |
-| [Check a detailed EN support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 2735.3 | 32398.2 | +1082.3% | +1071.5% | +1098.1% |
-| [Check a detailed EN support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 7736.1 | 32398.2 | +323.2% | +316.5% | +330.1% |
-| [Flag a short RU comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 6091.3 | 90164.6 | +1377.9% | +1370.1% | +1389.0% |
-| [Flag a short RU comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 7871.1 | 90164.6 | +1041.2% | +1030.2% | +1054.2% |
-| [Flag a short RU comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 6867.7 | 89157.0 | +1197.0% | +1194.3% | +1204.8% |
-| [Flag a short RU comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 6125.5 | 89157.0 | +1358.9% | +1339.1% | +1367.6% |
-| [Flag a short RU comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 9974.0 | 92616.3 | +827.8% | +824.6% | +833.1% |
-| [Flag a short RU comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 8680.8 | 92616.3 | +968.7% | +965.7% | +974.5% |
-| [Flag a short RU comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 6858.3 | 91459.4 | +1233.6% | +1216.4% | +1236.3% |
-| [Flag a short RU comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 8743.3 | 91459.4 | +944.5% | +938.4% | +949.6% |
-| [Check a detailed RU support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 15946.7 | 103537.4 | +547.0% | +546.1% | +553.2% |
-| [Check a detailed RU support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 24132.6 | 103537.4 | +329.5% | +326.8% | +331.6% |
-| [Check a detailed RU support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 9010.0 | 94792.3 | +952.6% | +946.3% | +955.1% |
-| [Check a detailed RU support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 12915.7 | 94792.3 | +636.2% | +631.1% | +637.1% |
-| [Flag a short ZH comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1621.8 | 74749.7 | +4509.1% | +4463.7% | +4569.8% |
-| [Flag a short ZH comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 6222.2 | 74749.7 | +1099.8% | +1098.1% | +1108.1% |
-| [Flag a short ZH comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1317.7 | 74923.3 | +5618.6% | +5548.5% | +5639.2% |
-| [Flag a short ZH comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 5575.4 | 74923.3 | +1244.3% | +1234.2% | +1268.8% |
-| [Flag a short ZH comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1744.0 | 75876.1 | +4265.7% | +4232.6% | +4374.4% |
-| [Flag a short ZH comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 6346.7 | 75876.1 | +1095.5% | +1090.0% | +1102.7% |
-| [Flag a short ZH comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1464.5 | 75765.3 | +5072.0% | +4957.3% | +5105.5% |
-| [Flag a short ZH comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 6479.0 | 75765.3 | +1075.2% | +1059.2% | +1084.0% |
-| [Check a detailed ZH support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 7509.2 | 82561.3 | +999.2% | +995.8% | +1003.0% |
-| [Check a detailed ZH support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 12706.8 | 82561.3 | +550.6% | +546.2% | +553.9% |
-| [Check a detailed ZH support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 4414.3 | 77730.0 | +1662.7% | +1641.0% | +1673.7% |
-| [Check a detailed ZH support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 7974.6 | 77730.0 | +874.5% | +872.8% | +882.8% |
-| [Decide whether a request trace needs an alert: healthy trace](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | str_contains() loop | 18606.3 | 56052.4 | +201.1% | +200.7% | +202.6% |
-| [Decide whether a request trace needs an alert: healthy trace](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | preg_match() | 14582.0 | 56052.4 | +285.0% | +283.0% | +286.5% |
-| [Decide whether a request trace needs an alert: error in the first record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | str_contains() loop | 9288.7 | 26864.2 | +189.2% | +187.1% | +193.1% |
-| [Decide whether a request trace needs an alert: error in the first record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | preg_match() | 3941.8 | 26864.2 | +582.4% | +576.7% | +589.6% |
-| [Decide whether a request trace needs an alert: error in the middle record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | str_contains() loop | 10424.5 | 42300.7 | +305.6% | +304.1% | +310.1% |
-| [Decide whether a request trace needs an alert: error in the middle record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | preg_match() | 9377.5 | 42300.7 | +351.8% | +345.9% | +354.0% |
-| [Decide whether a request trace needs an alert: error in the last record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | str_contains() loop | 11362.0 | 55808.3 | +391.2% | +389.6% | +393.9% |
-| [Decide whether a request trace needs an alert: error in the last record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | preg_match() | 14127.4 | 55808.3 | +295.1% | +293.9% | +295.7% |
-| [Order confirmation email](../../corpus/multi-pattern-product/suites/order-emails.json) | 10 | strtr() | 3918.6 | 31339.9 | +695.5% | +689.5% | +706.1% |
-| [Order confirmation email](../../corpus/multi-pattern-product/suites/order-emails.json) | 10 | preg_replace_callback() | 18649.8 | 31339.9 | +66.3% | +65.0% | +70.2% |
-| [Order confirmation email](../../corpus/multi-pattern-product/suites/order-emails.json) | 10 | str_replace() | 13772.4 | 31339.9 | +125.2% | +122.7% | +131.9% |
-| [Order confirmation in HTML and plain text](../../corpus/multi-pattern-product/suites/order-emails.json) | 10 | strtr() | 5949.1 | 35643.2 | +500.1% | +497.5% | +505.9% |
-| [Order confirmation in HTML and plain text](../../corpus/multi-pattern-product/suites/order-emails.json) | 10 | preg_replace_callback() | 23739.2 | 35643.2 | +50.2% | +49.6% | +51.9% |
-| [Order confirmation in HTML and plain text](../../corpus/multi-pattern-product/suites/order-emails.json) | 10 | str_replace() | 17818.5 | 35643.2 | +100.8% | +98.7% | +102.2% |
-| [Expand fixed tenant labels in one shop notice](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | strtr() | 1340.4 | 11267.6 | +739.9% | +730.9% | +744.4% |
-| [Expand fixed tenant labels in one shop notice](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | preg_replace_callback() | 8279.2 | 11267.6 | +36.2% | +33.3% | +37.7% |
-| [Expand fixed tenant labels in one shop notice](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | str_replace() | 5871.6 | 11267.6 | +91.2% | +88.9% | +93.1% |
-| [Publish eight different shop pages using one tenant configuration](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | strtr() | 8595.4 | 30844.8 | +259.0% | +254.8% | +261.6% |
-| [Publish eight different shop pages using one tenant configuration](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | preg_replace_callback() | 20611.0 | 30844.8 | +50.3% | +49.2% | +51.3% |
-| [Publish eight different shop pages using one tenant configuration](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | str_replace() | 12378.7 | 30844.8 | +149.5% | +147.8% | +153.6% |
-| [Leave ordinary ASCII customer text unchanged](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | strtr() | 751.2 | 4072.8 | +443.4% | +429.6% | +445.1% |
-| [Leave ordinary ASCII customer text unchanged](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | preg_replace_callback() | 4890.5 | 4072.8 | -16.6% | -17.1% | -16.2% |
-| [Leave ordinary ASCII customer text unchanged](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | str_replace() | 4369.9 | 4072.8 | -6.7% | -6.9% | -6.2% |
-| [Normalize quotes, dashes and spaces in imported customer text](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | strtr() | 1218.9 | 4996.7 | +306.2% | +298.9% | +311.2% |
-| [Normalize quotes, dashes and spaces in imported customer text](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | preg_replace_callback() | 6781.9 | 4996.7 | -26.3% | -27.3% | -25.8% |
-| [Normalize quotes, dashes and spaces in imported customer text](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | str_replace() | 5126.5 | 4996.7 | -2.3% | -3.9% | -1.9% |
-| [Replace four special space characters with ordinary spaces](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 4 | strtr() | 846.3 | 2386.1 | +180.4% | +178.3% | +183.8% |
-| [Replace four special space characters with ordinary spaces](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 4 | preg_replace_callback() | 4797.9 | 2386.1 | -50.4% | -50.8% | -50.1% |
-| [Replace four special space characters with ordinary spaces](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 4 | str_replace() | 3529.5 | 2386.1 | -32.8% | -33.4% | -31.8% |
-| [Replace four special space characters with ordinary spaces](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 4 | preg_replace() | 3823.5 | 2386.1 | -37.8% | -38.2% | -37.3% |
-| [Check already-migrated content for old literal links](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | strtr() | 1416.9 | 41236.8 | +2814.1% | +2795.3% | +2851.1% |
-| [Check already-migrated content for old literal links](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | preg_replace_callback() | 11779.2 | 41236.8 | +249.0% | +247.5% | +258.2% |
-| [Check already-migrated content for old literal links](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | str_replace() | 6473.6 | 41236.8 | +535.4% | +534.0% | +537.9% |
-| [Rewrite known legacy links in one content page](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | strtr() | 1803.1 | 43845.9 | +2332.5% | +2286.7% | +2373.3% |
-| [Rewrite known legacy links in one content page](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | preg_replace_callback() | 12763.6 | 43845.9 | +242.1% | +240.0% | +252.7% |
-| [Rewrite known legacy links in one content page](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | str_replace() | 7187.6 | 43845.9 | +507.5% | +504.3% | +513.3% |
-| [Migrate eight different content pages with the same URL rules](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | strtr() | 12220.2 | 60090.5 | +391.4% | +384.4% | +398.5% |
-| [Migrate eight different content pages with the same URL rules](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | preg_replace_callback() | 22463.8 | 60090.5 | +169.6% | +164.6% | +172.2% |
-| [Migrate eight different content pages with the same URL rules](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | str_replace() | 16432.7 | 60090.5 | +264.6% | +238.5% | +271.2% |
-| [Mask registered secrets in a log excerpt with no leaked token](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | strtr() | 24703.8 | 196951.1 | +696.5% | +658.4% | +702.2% |
-| [Mask registered secrets in a log excerpt with no leaked token](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace_callback() | 27562.5 | 196951.1 | +613.9% | +612.2% | +618.4% |
-| [Mask registered secrets in a log excerpt with no leaked token](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | str_replace() | 69656.8 | 196951.1 | +182.7% | +182.2% | +183.0% |
-| [Mask registered secrets in a log excerpt with no leaked token](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace() | 27136.5 | 196951.1 | +625.8% | +624.8% | +626.8% |
-| [Mask one registered secret in a request log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | strtr() | 25465.4 | 200364.5 | +687.4% | +680.7% | +688.3% |
-| [Mask one registered secret in a request log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace_callback() | 28894.1 | 200364.5 | +593.2% | +590.5% | +593.6% |
-| [Mask one registered secret in a request log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | str_replace() | 72889.9 | 200364.5 | +174.8% | +172.6% | +175.9% |
-| [Mask one registered secret in a request log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace() | 27920.0 | 200364.5 | +617.6% | +609.8% | +623.3% |
-| [Mask three registered secrets in an incident log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | strtr() | 38489.5 | 237944.6 | +518.2% | +517.2% | +520.1% |
-| [Mask three registered secrets in an incident log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace_callback() | 30995.3 | 237944.6 | +667.8% | +657.7% | +670.2% |
-| [Mask three registered secrets in an incident log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | str_replace() | 105902.4 | 237944.6 | +124.7% | +124.4% | +125.6% |
-| [Mask three registered secrets in an incident log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace() | 29083.2 | 237944.6 | +718.9% | +715.8% | +721.9% |
-| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | strtr() | 306656.1 | 976121.1 | +218.1% | +214.3% | +220.0% |
-| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace_callback() | 46844.1 | 976121.1 | +1982.1% | +1966.0% | +1994.4% |
-| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | str_replace() | 666378.4 | 976121.1 | +46.4% | +46.2% | +46.6% |
-| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace() | 44490.4 | 976121.1 | +2095.0% | +2078.8% | +2110.5% |
-| [Check plain support replies for configured emoticons](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | strtr() | 728.1 | 3816.4 | +423.9% | +417.5% | +431.4% |
-| [Check plain support replies for configured emoticons](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | preg_replace_callback() | 9309.7 | 3816.4 | -59.0% | -59.4% | -58.8% |
-| [Check plain support replies for configured emoticons](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | str_replace() | 7858.1 | 3816.4 | -51.4% | -52.6% | -51.4% |
-| [Render configured emoticons in short customer replies](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | strtr() | 897.9 | 4099.5 | +356.5% | +353.5% | +357.1% |
-| [Render configured emoticons in short customer replies](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | preg_replace_callback() | 9907.6 | 4099.5 | -58.4% | -59.0% | -58.3% |
-| [Render configured emoticons in short customer replies](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | str_replace() | 8184.0 | 4099.5 | -49.9% | -50.5% | -49.4% |
-| [List the configured support topics mentioned in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | strpos() per term | 58966.5 | 140551.3 | +139.3% | +138.1% | +139.9% |
-| [List the configured support topics mentioned in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | preg_match() per term | 98623.4 | 140551.3 | +42.6% | +41.6% | +43.3% |
-| [Count all configured term occurrences in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | strpos() per term | 50942.3 | 138270.9 | +171.5% | +169.3% | +172.5% |
-| [Count all configured term occurrences in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | PCRE lookahead per term | 134930.0 | 138270.9 | +2.4% | +0.7% | +4.9% |
-| [Locate all configured term occurrences for a search index](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | strpos() per term | 71472.2 | 142870.0 | +100.3% | +99.3% | +100.6% |
-| [Locate all configured term occurrences for a search index](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | PCRE lookahead per term | 212735.9 | 142870.0 | -32.8% | -32.9% | -32.2% |
-| [Link configured support terms in one plain-text help article](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | strtr() | 135127.9 | 157819.4 | +16.8% | +16.3% | +17.1% |
-| [Link configured support terms in one plain-text help article](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | preg_replace_callback() | 155413.4 | 157819.4 | +1.6% | +1.0% | +2.0% |
-| [Publish eight different help articles using one link glossary](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | strtr() | 1078499.4 | 214633.3 | -80.1% | -80.1% | -80.1% |
-| [Publish eight different help articles using one link glossary](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | preg_replace_callback() | 451826.4 | 214633.3 | -52.4% | -52.8% | -52.3% |
+| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1553.1 | 27391.6 | +1674.4% | +1649.8% | +1710.1% |
+| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 6200.2 | 27391.6 | +343.3% | +340.6% | +348.8% |
+| [Flag a short EN comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1224.9 | 27430.2 | +2141.6% | +2086.6% | +2193.4% |
+| [Flag a short EN comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 5826.7 | 27430.2 | +370.8% | +359.4% | +393.4% |
+| [Flag a short EN comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1371.3 | 28081.2 | +1942.7% | +1928.9% | +1968.3% |
+| [Flag a short EN comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 6551.4 | 28081.2 | +330.5% | +318.1% | +333.3% |
+| [Flag a short EN comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1250.6 | 27909.7 | +2150.6% | +2116.8% | +2159.6% |
+| [Flag a short EN comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 6591.9 | 27909.7 | +323.7% | +313.5% | +334.1% |
+| [Check a detailed EN support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 4976.0 | 33609.8 | +576.3% | +569.0% | +597.3% |
+| [Check a detailed EN support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 11344.5 | 33609.8 | +196.6% | +194.0% | +206.6% |
+| [Check a detailed EN support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 2736.2 | 29500.8 | +977.3% | +969.0% | +991.6% |
+| [Check a detailed EN support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 7632.9 | 29500.8 | +285.8% | +272.3% | +291.9% |
+| [Flag a short RU comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 6103.4 | 47345.5 | +677.1% | +673.4% | +679.7% |
+| [Flag a short RU comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 7831.7 | 47345.5 | +504.8% | +503.8% | +509.4% |
+| [Flag a short RU comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 6860.3 | 46328.9 | +575.1% | +573.5% | +582.6% |
+| [Flag a short RU comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 6138.5 | 46328.9 | +662.0% | +645.7% | +666.2% |
+| [Flag a short RU comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 9990.1 | 47593.4 | +376.5% | +374.0% | +378.5% |
+| [Flag a short RU comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 8699.6 | 47593.4 | +446.8% | +444.6% | +450.9% |
+| [Flag a short RU comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 6870.3 | 47990.6 | +595.8% | +588.5% | +613.0% |
+| [Flag a short RU comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 8730.7 | 47990.6 | +450.0% | +446.2% | +458.3% |
+| [Check a detailed RU support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 15932.8 | 57423.0 | +260.4% | +260.2% | +278.1% |
+| [Check a detailed RU support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 24112.9 | 57423.0 | +138.1% | +137.9% | +149.8% |
+| [Check a detailed RU support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 9003.7 | 50522.4 | +461.7% | +458.6% | +478.5% |
+| [Check a detailed RU support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 12913.8 | 50522.4 | +290.9% | +289.4% | +304.4% |
+| [Flag a short ZH comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1614.7 | 48748.0 | +2915.7% | +2869.7% | +2923.8% |
+| [Flag a short ZH comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 6173.8 | 48748.0 | +688.5% | +684.8% | +693.7% |
+| [Flag a short ZH comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1309.9 | 48458.8 | +3608.9% | +3583.2% | +3692.6% |
+| [Flag a short ZH comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 5595.1 | 48458.8 | +766.9% | +760.8% | +790.8% |
+| [Flag a short ZH comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1734.5 | 49121.3 | +2712.6% | +2679.1% | +2743.3% |
+| [Flag a short ZH comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 6395.9 | 49121.3 | +667.8% | +664.1% | +670.3% |
+| [Flag a short ZH comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1474.2 | 49607.8 | +3268.0% | +3202.1% | +3353.4% |
+| [Flag a short ZH comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 6460.6 | 49607.8 | +667.9% | +660.6% | +683.4% |
+| [Check a detailed ZH support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 7486.4 | 51845.6 | +590.7% | +586.8% | +600.2% |
+| [Check a detailed ZH support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 12670.3 | 51845.6 | +311.0% | +305.0% | +312.9% |
+| [Check a detailed ZH support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 4407.9 | 49760.5 | +1029.3% | +1023.1% | +1068.4% |
+| [Check a detailed ZH support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 7934.1 | 49760.5 | +529.5% | +523.1% | +543.9% |
+| [Decide whether a request trace needs an alert: healthy trace](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | str_contains() loop | 18605.3 | 34352.0 | +84.5% | +83.3% | +85.0% |
+| [Decide whether a request trace needs an alert: healthy trace](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | preg_match() | 14583.2 | 34352.0 | +135.1% | +133.8% | +136.4% |
+| [Decide whether a request trace needs an alert: error in the first record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | str_contains() loop | 9288.8 | 24207.4 | +160.7% | +159.0% | +166.0% |
+| [Decide whether a request trace needs an alert: error in the first record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | preg_match() | 3942.0 | 24207.4 | +516.5% | +504.5% | +524.7% |
+| [Decide whether a request trace needs an alert: error in the middle record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | str_contains() loop | 10426.0 | 29332.0 | +181.3% | +179.7% | +182.9% |
+| [Decide whether a request trace needs an alert: error in the middle record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | preg_match() | 9397.5 | 29332.0 | +211.9% | +209.4% | +213.0% |
+| [Decide whether a request trace needs an alert: error in the last record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | str_contains() loop | 11360.4 | 33978.5 | +199.1% | +196.0% | +199.9% |
+| [Decide whether a request trace needs an alert: error in the last record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | preg_match() | 14170.1 | 33978.5 | +139.8% | +136.7% | +141.2% |
+| [Order confirmation email](../../corpus/multi-pattern-product/suites/order-emails.json) | 10 | strtr() | 3928.4 | 19631.2 | +399.7% | +389.3% | +412.1% |
+| [Order confirmation email](../../corpus/multi-pattern-product/suites/order-emails.json) | 10 | preg_replace_callback() | 18738.4 | 19631.2 | +4.8% | +3.4% | +6.4% |
+| [Order confirmation email](../../corpus/multi-pattern-product/suites/order-emails.json) | 10 | str_replace() | 13675.1 | 19631.2 | +43.5% | +41.3% | +45.7% |
+| [Order confirmation in HTML and plain text](../../corpus/multi-pattern-product/suites/order-emails.json) | 10 | strtr() | 5962.2 | 23046.9 | +287.2% | +276.5% | +292.0% |
+| [Order confirmation in HTML and plain text](../../corpus/multi-pattern-product/suites/order-emails.json) | 10 | preg_replace_callback() | 23795.2 | 23046.9 | -3.2% | -4.5% | -1.9% |
+| [Order confirmation in HTML and plain text](../../corpus/multi-pattern-product/suites/order-emails.json) | 10 | str_replace() | 17714.0 | 23046.9 | +29.9% | +28.6% | +31.6% |
+| [Expand fixed tenant labels in one shop notice](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | strtr() | 1347.0 | 8799.3 | +552.6% | +551.7% | +617.2% |
+| [Expand fixed tenant labels in one shop notice](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | preg_replace_callback() | 8262.1 | 8799.3 | +6.7% | +5.5% | +14.8% |
+| [Expand fixed tenant labels in one shop notice](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | str_replace() | 5885.2 | 8799.3 | +49.7% | +49.0% | +62.8% |
+| [Publish eight different shop pages using one tenant configuration](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | strtr() | 8654.0 | 20351.7 | +135.7% | +134.5% | +136.8% |
+| [Publish eight different shop pages using one tenant configuration](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | preg_replace_callback() | 20504.0 | 20351.7 | -0.5% | -2.2% | -0.4% |
+| [Publish eight different shop pages using one tenant configuration](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | str_replace() | 12347.4 | 20351.7 | +64.7% | +62.1% | +66.2% |
+| [Leave ordinary ASCII customer text unchanged](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | strtr() | 751.6 | 6620.2 | +781.1% | +766.6% | +786.0% |
+| [Leave ordinary ASCII customer text unchanged](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | preg_replace_callback() | 4860.4 | 6620.2 | +36.4% | +34.9% | +38.3% |
+| [Leave ordinary ASCII customer text unchanged](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | str_replace() | 4360.5 | 6620.2 | +51.6% | +48.8% | +53.9% |
+| [Normalize quotes, dashes and spaces in imported customer text](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | strtr() | 1220.1 | 7319.9 | +499.5% | +495.4% | +522.4% |
+| [Normalize quotes, dashes and spaces in imported customer text](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | preg_replace_callback() | 6788.0 | 7319.9 | +8.2% | +6.2% | +11.2% |
+| [Normalize quotes, dashes and spaces in imported customer text](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | str_replace() | 5160.5 | 7319.9 | +42.6% | +41.3% | +44.2% |
+| [Replace four special space characters with ordinary spaces](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 4 | strtr() | 847.3 | 3425.9 | +304.8% | +297.0% | +307.5% |
+| [Replace four special space characters with ordinary spaces](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 4 | preg_replace_callback() | 4792.6 | 3425.9 | -28.4% | -29.8% | -27.9% |
+| [Replace four special space characters with ordinary spaces](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 4 | str_replace() | 3535.2 | 3425.9 | -3.2% | -4.9% | -2.5% |
+| [Replace four special space characters with ordinary spaces](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 4 | preg_replace() | 3817.9 | 3425.9 | -10.3% | -10.6% | -9.8% |
+| [Check already-migrated content for old literal links](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | strtr() | 1412.2 | 33532.5 | +2274.5% | +2256.6% | +2317.7% |
+| [Check already-migrated content for old literal links](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | preg_replace_callback() | 11630.1 | 33532.5 | +187.2% | +185.0% | +196.4% |
+| [Check already-migrated content for old literal links](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | str_replace() | 6474.5 | 33532.5 | +417.9% | +413.4% | +426.6% |
+| [Rewrite known legacy links in one content page](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | strtr() | 1803.1 | 34378.1 | +1807.2% | +1790.2% | +1878.5% |
+| [Rewrite known legacy links in one content page](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | preg_replace_callback() | 12648.8 | 34378.1 | +171.6% | +170.3% | +186.1% |
+| [Rewrite known legacy links in one content page](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | str_replace() | 7217.5 | 34378.1 | +377.9% | +375.3% | +396.0% |
+| [Migrate eight different content pages with the same URL rules](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | strtr() | 12227.7 | 45458.0 | +272.4% | +268.8% | +274.6% |
+| [Migrate eight different content pages with the same URL rules](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | preg_replace_callback() | 22623.5 | 45458.0 | +100.9% | +98.7% | +103.4% |
+| [Migrate eight different content pages with the same URL rules](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | str_replace() | 16358.7 | 45458.0 | +178.4% | +176.9% | +180.4% |
+| [Mask registered secrets in a log excerpt with no leaked token](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | strtr() | 24764.3 | 94155.4 | +280.1% | +278.0% | +284.0% |
+| [Mask registered secrets in a log excerpt with no leaked token](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace_callback() | 27509.7 | 94155.4 | +243.7% | +235.3% | +244.7% |
+| [Mask registered secrets in a log excerpt with no leaked token](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | str_replace() | 69583.2 | 94155.4 | +35.4% | +31.8% | +36.1% |
+| [Mask registered secrets in a log excerpt with no leaked token](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace() | 26949.3 | 94155.4 | +249.3% | +245.9% | +250.6% |
+| [Mask one registered secret in a request log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | strtr() | 25421.2 | 99765.0 | +292.4% | +291.9% | +332.6% |
+| [Mask one registered secret in a request log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace_callback() | 28842.3 | 99765.0 | +246.9% | +243.6% | +284.1% |
+| [Mask one registered secret in a request log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | str_replace() | 72951.9 | 99765.0 | +36.7% | +36.4% | +52.0% |
+| [Mask one registered secret in a request log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace() | 27791.5 | 99765.0 | +259.1% | +257.1% | +298.6% |
+| [Mask three registered secrets in an incident log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | strtr() | 38534.7 | 121169.9 | +213.9% | +212.3% | +218.1% |
+| [Mask three registered secrets in an incident log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace_callback() | 30829.4 | 121169.9 | +292.7% | +291.4% | +295.5% |
+| [Mask three registered secrets in an incident log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | str_replace() | 105922.1 | 121169.9 | +14.5% | +13.7% | +14.9% |
+| [Mask three registered secrets in an incident log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace() | 29033.3 | 121169.9 | +317.1% | +313.3% | +319.2% |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | strtr() | 305713.8 | 508073.7 | +66.2% | +65.8% | +66.7% |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace_callback() | 46563.5 | 508073.7 | +990.9% | +970.0% | +996.1% |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | str_replace() | 665554.8 | 508073.7 | -23.6% | -23.8% | -23.4% |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace() | 44379.2 | 508073.7 | +1044.8% | +1041.9% | +1048.7% |
+| [Check plain support replies for configured emoticons](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | strtr() | 724.0 | 6477.9 | +795.8% | +782.2% | +803.5% |
+| [Check plain support replies for configured emoticons](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | preg_replace_callback() | 9248.3 | 6477.9 | -30.0% | -30.5% | -29.1% |
+| [Check plain support replies for configured emoticons](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | str_replace() | 7900.5 | 6477.9 | -18.0% | -18.4% | -17.0% |
+| [Render configured emoticons in short customer replies](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | strtr() | 898.6 | 6777.9 | +659.5% | +643.5% | +675.7% |
+| [Render configured emoticons in short customer replies](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | preg_replace_callback() | 9926.2 | 6777.9 | -31.7% | -33.8% | -29.7% |
+| [Render configured emoticons in short customer replies](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | str_replace() | 8148.0 | 6777.9 | -16.8% | -17.2% | -14.4% |
+| [List the configured support topics mentioned in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | strpos() per term | 58704.0 | 146134.7 | +149.3% | +146.6% | +157.1% |
+| [List the configured support topics mentioned in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | preg_match() per term | 98103.1 | 146134.7 | +48.6% | +48.0% | +53.0% |
+| [Count all configured term occurrences in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | strpos() per term | 50963.9 | 144898.1 | +185.0% | +180.9% | +186.0% |
+| [Count all configured term occurrences in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | PCRE lookahead per term | 134927.8 | 144898.1 | +7.0% | +4.7% | +10.1% |
+| [Locate all configured term occurrences for a search index](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | strpos() per term | 71525.4 | 149463.8 | +109.3% | +107.3% | +110.3% |
+| [Locate all configured term occurrences for a search index](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | PCRE lookahead per term | 213056.1 | 149463.8 | -29.9% | -30.2% | -29.3% |
+| [Link configured support terms in one plain-text help article](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | strtr() | 135080.0 | 145178.8 | +7.5% | +7.2% | +8.5% |
+| [Link configured support terms in one plain-text help article](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | preg_replace_callback() | 154405.5 | 145178.8 | -5.9% | -7.0% | -5.1% |
+| [Publish eight different help articles using one link glossary](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | strtr() | 1078230.5 | 195941.0 | -81.8% | -81.9% | -81.7% |
+| [Publish eight different help articles using one link glossary](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | preg_replace_callback() | 451005.6 | 195941.0 | -56.6% | -56.7% | -56.4% |
 
 #### Dictionary already prepared
 
@@ -240,213 +240,213 @@ All measured alternatives are listed. Preparation and reuse are separate section
 
 | Task | Substrings | Existing method | Existing | Prototype | Δ | Min Δ | Max Δ |
 |---|---:|---|---:|---:|---:|---:|---:|
-| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1470.4 | 1216.6 | -17.5% | -18.8% | -17.2% |
-| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 1146.3 | 1216.6 | +6.0% | +5.4% | +7.0% |
-| [Flag a short EN comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1236.7 | 720.8 | -41.9% | -43.1% | -40.9% |
-| [Flag a short EN comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 761.2 | 720.8 | -5.1% | -7.3% | -4.8% |
-| [Flag a short EN comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1380.8 | 1850.3 | +33.5% | +31.4% | +35.1% |
-| [Flag a short EN comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 1411.6 | 1850.3 | +30.9% | +30.5% | +32.2% |
-| [Flag a short EN comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1272.5 | 2021.3 | +58.6% | +55.8% | +61.1% |
-| [Flag a short EN comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 1471.3 | 2021.3 | +37.0% | +33.3% | +37.6% |
-| [Check a detailed EN support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 4973.0 | 8556.5 | +72.0% | +71.8% | +75.3% |
-| [Check a detailed EN support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 5410.4 | 8556.5 | +58.1% | +57.3% | +60.1% |
-| [Check a detailed EN support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 2743.5 | 3746.9 | +36.6% | +33.8% | +36.6% |
-| [Check a detailed EN support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 2463.0 | 3746.9 | +52.2% | +51.8% | +52.7% |
-| [Flag a short RU comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 5967.5 | 1834.4 | -69.3% | -69.9% | -68.8% |
-| [Flag a short RU comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 2428.9 | 1834.4 | -24.5% | -25.0% | -23.7% |
-| [Flag a short RU comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 6761.1 | 910.2 | -86.5% | -86.7% | -86.4% |
-| [Flag a short RU comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 793.7 | 910.2 | +14.6% | +13.4% | +15.6% |
-| [Flag a short RU comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 9839.3 | 2903.5 | -70.5% | -70.6% | -70.2% |
-| [Flag a short RU comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 3283.7 | 2903.5 | -11.9% | -12.2% | -11.1% |
-| [Flag a short RU comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 6652.3 | 2960.2 | -55.6% | -56.2% | -55.4% |
-| [Flag a short RU comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 3370.9 | 2960.2 | -12.4% | -12.9% | -11.9% |
-| [Check a detailed RU support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 16869.4 | 13804.8 | -18.2% | -18.3% | -18.1% |
-| [Check a detailed RU support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 18413.1 | 13804.8 | -25.0% | -25.3% | -24.8% |
-| [Check a detailed RU support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 9482.7 | 5821.8 | -38.6% | -44.5% | -38.4% |
-| [Check a detailed RU support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 7422.2 | 5821.8 | -21.5% | -21.8% | -21.5% |
-| [Flag a short ZH comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1552.8 | 1119.7 | -27.9% | -28.4% | -27.9% |
-| [Flag a short ZH comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 1291.9 | 1119.7 | -13.5% | -16.6% | -12.6% |
-| [Flag a short ZH comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1329.0 | 682.2 | -48.0% | -49.0% | -47.8% |
-| [Flag a short ZH comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 741.1 | 682.2 | -8.1% | -8.7% | -6.6% |
-| [Flag a short ZH comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1720.0 | 1746.5 | +1.6% | -1.7% | +2.3% |
-| [Flag a short ZH comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 1498.0 | 1746.5 | +16.4% | +14.4% | +18.3% |
-| [Flag a short ZH comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1491.2 | 1750.5 | +17.5% | +15.9% | +20.5% |
-| [Flag a short ZH comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 1582.0 | 1750.5 | +10.7% | +9.3% | +11.6% |
-| [Check a detailed ZH support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 7396.9 | 8034.1 | +8.7% | +7.6% | +9.4% |
-| [Check a detailed ZH support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 7644.3 | 8034.1 | +5.2% | +4.4% | +5.6% |
-| [Check a detailed ZH support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 4298.6 | 3680.8 | -14.2% | -16.4% | -14.0% |
-| [Check a detailed ZH support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 2981.0 | 3680.8 | +23.4% | +23.3% | +23.7% |
-| [Decide whether a request trace needs an alert: healthy trace](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | str_contains() loop | 20039.7 | 28499.6 | +42.2% | +42.0% | +42.3% |
-| [Decide whether a request trace needs an alert: healthy trace](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | preg_match() | 12390.5 | 28499.6 | +130.0% | +129.1% | +130.5% |
-| [Decide whether a request trace needs an alert: error in the first record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | str_contains() loop | 10048.1 | 1954.2 | -80.6% | -80.6% | -80.5% |
-| [Decide whether a request trace needs an alert: error in the first record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | preg_match() | 1108.5 | 1954.2 | +76.3% | +75.2% | +76.6% |
-| [Decide whether a request trace needs an alert: error in the middle record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | str_contains() loop | 11267.4 | 16014.5 | +42.1% | +36.4% | +42.4% |
-| [Decide whether a request trace needs an alert: error in the middle record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | preg_match() | 6637.8 | 16014.5 | +141.3% | +140.6% | +141.7% |
-| [Decide whether a request trace needs an alert: error in the last record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | str_contains() loop | 12268.1 | 28280.8 | +130.5% | +130.1% | +130.6% |
-| [Decide whether a request trace needs an alert: error in the last record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | preg_match() | 11483.6 | 28280.8 | +146.2% | +145.3% | +146.8% |
-| [Expand fixed tenant labels in one shop notice](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | strtr() | 1511.2 | 3016.2 | +99.9% | +98.4% | +101.8% |
-| [Expand fixed tenant labels in one shop notice](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | preg_replace_callback() | 2185.8 | 3016.2 | +38.2% | +37.1% | +39.1% |
-| [Expand fixed tenant labels in one shop notice](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | str_replace() | 1371.6 | 3016.2 | +120.1% | +119.3% | +124.6% |
-| [Publish eight different shop pages using one tenant configuration](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | strtr() | 9360.7 | 21543.1 | +130.4% | +129.8% | +131.2% |
-| [Publish eight different shop pages using one tenant configuration](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | preg_replace_callback() | 14125.4 | 21543.1 | +52.8% | +50.9% | +53.4% |
-| [Publish eight different shop pages using one tenant configuration](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | str_replace() | 7987.7 | 21543.1 | +169.4% | +165.1% | +174.6% |
-| [Leave ordinary ASCII customer text unchanged](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | strtr() | 882.9 | 1485.5 | +68.3% | +67.6% | +69.3% |
-| [Leave ordinary ASCII customer text unchanged](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | preg_replace_callback() | 746.9 | 1485.5 | +99.5% | +97.7% | +100.2% |
-| [Leave ordinary ASCII customer text unchanged](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | str_replace() | 839.0 | 1485.5 | +77.0% | +74.5% | +78.9% |
-| [Normalize quotes, dashes and spaces in imported customer text](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | strtr() | 1316.4 | 2434.0 | +84.9% | +82.6% | +85.6% |
-| [Normalize quotes, dashes and spaces in imported customer text](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | preg_replace_callback() | 2486.2 | 2434.0 | -2.1% | -2.5% | -1.6% |
-| [Normalize quotes, dashes and spaces in imported customer text](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | str_replace() | 1479.8 | 2434.0 | +64.5% | +62.4% | +65.8% |
-| [Replace four special space characters with ordinary spaces](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 4 | strtr() | 955.2 | 1202.3 | +25.9% | +24.2% | +27.5% |
-| [Replace four special space characters with ordinary spaces](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 4 | preg_replace_callback() | 1666.1 | 1202.3 | -27.9% | -28.2% | -27.3% |
-| [Replace four special space characters with ordinary spaces](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 4 | str_replace() | 955.2 | 1202.3 | +25.9% | +25.1% | +27.1% |
-| [Replace four special space characters with ordinary spaces](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 4 | preg_replace() | 905.7 | 1202.3 | +32.6% | +31.9% | +33.7% |
-| [Check already-migrated content for old literal links](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | strtr() | 1565.6 | 1505.2 | -3.9% | -4.3% | -2.2% |
-| [Check already-migrated content for old literal links](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | preg_replace_callback() | 851.1 | 1505.2 | +76.1% | +75.5% | +81.0% |
-| [Check already-migrated content for old literal links](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | str_replace() | 1145.0 | 1505.2 | +33.1% | +29.9% | +34.8% |
-| [Rewrite known legacy links in one content page](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | strtr() | 1925.5 | 2654.3 | +37.9% | +37.3% | +38.1% |
-| [Rewrite known legacy links in one content page](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | preg_replace_callback() | 1759.2 | 2654.3 | +50.8% | +50.6% | +51.2% |
-| [Rewrite known legacy links in one content page](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | str_replace() | 1712.8 | 2654.3 | +54.9% | +54.3% | +55.3% |
-| [Migrate eight different content pages with the same URL rules](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | strtr() | 12885.5 | 18407.8 | +43.1% | +42.0% | +43.6% |
-| [Migrate eight different content pages with the same URL rules](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | preg_replace_callback() | 10997.5 | 18407.8 | +67.3% | +65.3% | +68.2% |
-| [Migrate eight different content pages with the same URL rules](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | str_replace() | 10716.6 | 18407.8 | +71.9% | +70.9% | +72.1% |
-| [Mask registered secrets in a log excerpt with no leaked token](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | strtr() | 27156.5 | 57849.7 | +113.0% | +112.1% | +113.4% |
-| [Mask registered secrets in a log excerpt with no leaked token](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace_callback() | 2218.7 | 57849.7 | +2507.5% | +2499.8% | +2511.9% |
-| [Mask registered secrets in a log excerpt with no leaked token](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | str_replace() | 53205.3 | 57849.7 | +8.7% | +8.6% | +8.8% |
-| [Mask registered secrets in a log excerpt with no leaked token](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace() | 2135.7 | 57849.7 | +2608.8% | +2606.0% | +2613.0% |
-| [Mask one registered secret in a request log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | strtr() | 27939.7 | 65469.3 | +134.3% | +133.2% | +135.6% |
-| [Mask one registered secret in a request log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace_callback() | 3333.5 | 65469.3 | +1863.2% | +1848.7% | +1870.2% |
-| [Mask one registered secret in a request log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | str_replace() | 56564.6 | 65469.3 | +15.7% | +15.7% | +15.9% |
-| [Mask one registered secret in a request log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace() | 2674.8 | 65469.3 | +2347.7% | +2271.5% | +2352.2% |
-| [Mask three registered secrets in an incident log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | strtr() | 42051.8 | 102369.2 | +143.4% | +142.0% | +144.0% |
-| [Mask three registered secrets in an incident log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace_callback() | 5210.4 | 102369.2 | +1864.6% | +1845.2% | +1873.6% |
-| [Mask three registered secrets in an incident log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | str_replace() | 92127.2 | 102369.2 | +11.1% | +5.5% | +11.1% |
-| [Mask three registered secrets in an incident log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace() | 3735.2 | 102369.2 | +2639.3% | +2627.2% | +2642.3% |
-| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | strtr() | 333847.6 | 793103.7 | +137.7% | +135.7% | +138.2% |
-| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace_callback() | 20773.5 | 793103.7 | +3714.0% | +3713.5% | +3730.9% |
-| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | str_replace() | 692264.8 | 793103.7 | +14.6% | +14.5% | +14.6% |
-| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace() | 18889.8 | 793103.7 | +4099.8% | +4008.1% | +4122.3% |
-| [Check plain support replies for configured emoticons](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | strtr() | 842.5 | 1163.0 | +38.1% | +37.6% | +38.4% |
-| [Check plain support replies for configured emoticons](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | preg_replace_callback() | 825.0 | 1163.0 | +41.0% | +39.1% | +42.0% |
-| [Check plain support replies for configured emoticons](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | str_replace() | 997.5 | 1163.0 | +16.5% | +15.4% | +17.0% |
-| [Render configured emoticons in short customer replies](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | strtr() | 1044.1 | 1488.5 | +42.1% | +41.7% | +43.4% |
-| [Render configured emoticons in short customer replies](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | preg_replace_callback() | 1465.0 | 1488.5 | +1.7% | +0.7% | +1.8% |
-| [Render configured emoticons in short customer replies](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | str_replace() | 1223.5 | 1488.5 | +21.7% | +20.3% | +22.7% |
-| [List the configured support topics mentioned in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | strpos() per term | 55368.5 | 8312.9 | -85.0% | -85.7% | -84.9% |
-| [List the configured support topics mentioned in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | preg_match() per term | 67357.8 | 8312.9 | -87.7% | -87.7% | -87.6% |
-| [Count all configured term occurrences in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | strpos() per term | 48819.5 | 5905.0 | -87.9% | -88.0% | -87.4% |
-| [Count all configured term occurrences in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | PCRE lookahead per term | 81771.5 | 5905.0 | -92.8% | -92.9% | -92.6% |
-| [Locate all configured term occurrences for a search index](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | strpos() per term | 70201.8 | 9995.1 | -85.7% | -86.0% | -85.4% |
-| [Locate all configured term occurrences for a search index](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | PCRE lookahead per term | 160096.9 | 9995.1 | -93.7% | -93.8% | -93.7% |
-| [Link configured support terms in one plain-text help article](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | strtr() | 135438.1 | 8038.6 | -94.1% | -94.1% | -94.1% |
-| [Link configured support terms in one plain-text help article](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | preg_replace_callback() | 41669.0 | 8038.6 | -80.7% | -80.7% | -80.7% |
-| [Publish eight different help articles using one link glossary](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | strtr() | 1080555.9 | 60769.0 | -94.4% | -94.4% | -94.3% |
-| [Publish eight different help articles using one link glossary](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | preg_replace_callback() | 329964.9 | 60769.0 | -81.6% | -81.6% | -81.3% |
+| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1489.6 | 1067.0 | -28.5% | -29.7% | -28.2% |
+| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 1151.3 | 1067.0 | -7.1% | -8.1% | -5.8% |
+| [Flag a short EN comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1247.6 | 651.5 | -47.9% | -48.4% | -45.4% |
+| [Flag a short EN comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 766.2 | 651.5 | -15.1% | -16.4% | -11.2% |
+| [Flag a short EN comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1389.5 | 1421.7 | +2.3% | +1.0% | +3.1% |
+| [Flag a short EN comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 1412.9 | 1421.7 | +0.7% | -0.5% | +1.1% |
+| [Flag a short EN comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1264.7 | 1553.6 | +22.7% | +22.3% | +24.6% |
+| [Flag a short EN comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 1476.6 | 1553.6 | +5.3% | +5.0% | +6.0% |
+| [Check a detailed EN support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 4972.1 | 6159.9 | +23.9% | +22.8% | +26.5% |
+| [Check a detailed EN support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 5414.2 | 6159.9 | +13.5% | +13.0% | +14.1% |
+| [Check a detailed EN support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 2786.7 | 2771.0 | -0.5% | -1.5% | +0.8% |
+| [Check a detailed EN support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 2464.2 | 2771.0 | +12.6% | +12.3% | +12.8% |
+| [Flag a short RU comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 6045.2 | 1547.4 | -74.3% | -74.5% | -73.9% |
+| [Flag a short RU comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 2432.1 | 1547.4 | -36.4% | -37.0% | -36.3% |
+| [Flag a short RU comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 6759.8 | 775.2 | -88.5% | -88.7% | -88.2% |
+| [Flag a short RU comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 792.8 | 775.2 | -1.4% | -2.9% | +0.1% |
+| [Flag a short RU comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 9843.8 | 2133.2 | -78.3% | -78.4% | -78.1% |
+| [Flag a short RU comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 3277.2 | 2133.2 | -34.9% | -35.0% | -34.8% |
+| [Flag a short RU comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 6665.7 | 2113.4 | -68.4% | -68.8% | -68.3% |
+| [Flag a short RU comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 3373.7 | 2113.4 | -37.4% | -37.7% | -36.9% |
+| [Check a detailed RU support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 16890.8 | 10595.7 | -37.3% | -38.9% | -37.1% |
+| [Check a detailed RU support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 18386.6 | 10595.7 | -42.4% | -42.5% | -42.2% |
+| [Check a detailed RU support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 9483.2 | 4545.6 | -52.1% | -52.2% | -51.7% |
+| [Check a detailed RU support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 7423.4 | 4545.6 | -38.8% | -39.1% | -38.4% |
+| [Flag a short ZH comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1558.8 | 807.6 | -48.2% | -48.9% | -48.0% |
+| [Flag a short ZH comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 1298.5 | 807.6 | -37.6% | -38.2% | -37.0% |
+| [Flag a short ZH comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1324.3 | 653.8 | -50.7% | -51.2% | -50.4% |
+| [Flag a short ZH comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 744.3 | 653.8 | -12.2% | -12.6% | -10.4% |
+| [Flag a short ZH comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1720.4 | 1051.0 | -38.5% | -39.1% | -37.6% |
+| [Flag a short ZH comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 1485.5 | 1051.0 | -29.3% | -29.5% | -28.7% |
+| [Flag a short ZH comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1465.5 | 1052.7 | -28.3% | -30.0% | -27.4% |
+| [Flag a short ZH comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 1588.5 | 1052.7 | -33.1% | -34.3% | -32.7% |
+| [Check a detailed ZH support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 7410.5 | 3489.7 | -52.7% | -53.1% | -52.5% |
+| [Check a detailed ZH support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 7623.2 | 3489.7 | -54.2% | -54.6% | -54.0% |
+| [Check a detailed ZH support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 4400.5 | 1804.5 | -59.0% | -60.0% | -58.1% |
+| [Check a detailed ZH support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 2994.6 | 1804.5 | -39.6% | -41.8% | -39.4% |
+| [Decide whether a request trace needs an alert: healthy trace](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | str_contains() loop | 20054.8 | 12266.6 | -38.8% | -39.0% | -38.7% |
+| [Decide whether a request trace needs an alert: healthy trace](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | preg_match() | 12393.1 | 12266.6 | -1.0% | -1.2% | -0.8% |
+| [Decide whether a request trace needs an alert: error in the first record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | str_contains() loop | 10047.3 | 1138.3 | -88.7% | -88.7% | -88.7% |
+| [Decide whether a request trace needs an alert: error in the first record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | preg_match() | 1107.6 | 1138.3 | +2.6% | +1.4% | +2.8% |
+| [Decide whether a request trace needs an alert: error in the middle record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | str_contains() loop | 11261.8 | 7064.9 | -37.3% | -39.5% | -37.2% |
+| [Decide whether a request trace needs an alert: error in the middle record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | preg_match() | 6651.3 | 7064.9 | +6.3% | +5.4% | +6.6% |
+| [Decide whether a request trace needs an alert: error in the last record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | str_contains() loop | 12270.1 | 12228.9 | -0.2% | -0.5% | -0.0% |
+| [Decide whether a request trace needs an alert: error in the last record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | preg_match() | 11477.7 | 12228.9 | +6.5% | +6.2% | +7.0% |
+| [Expand fixed tenant labels in one shop notice](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | strtr() | 1509.8 | 2495.4 | +65.2% | +63.8% | +67.4% |
+| [Expand fixed tenant labels in one shop notice](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | preg_replace_callback() | 2203.2 | 2495.4 | +13.1% | +6.2% | +14.8% |
+| [Expand fixed tenant labels in one shop notice](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | str_replace() | 1360.4 | 2495.4 | +83.8% | +82.1% | +84.3% |
+| [Publish eight different shop pages using one tenant configuration](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | strtr() | 9377.5 | 17176.2 | +82.6% | +79.8% | +84.0% |
+| [Publish eight different shop pages using one tenant configuration](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | preg_replace_callback() | 14178.8 | 17176.2 | +21.4% | +20.6% | +22.3% |
+| [Publish eight different shop pages using one tenant configuration](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | str_replace() | 7806.2 | 17176.2 | +119.6% | +118.2% | +121.5% |
+| [Leave ordinary ASCII customer text unchanged](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | strtr() | 888.4 | 1146.5 | +29.9% | +28.8% | +30.6% |
+| [Leave ordinary ASCII customer text unchanged](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | preg_replace_callback() | 742.3 | 1146.5 | +54.7% | +52.5% | +56.4% |
+| [Leave ordinary ASCII customer text unchanged](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | str_replace() | 836.1 | 1146.5 | +37.7% | +37.0% | +38.4% |
+| [Normalize quotes, dashes and spaces in imported customer text](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | strtr() | 1314.8 | 1916.5 | +46.4% | +44.3% | +47.0% |
+| [Normalize quotes, dashes and spaces in imported customer text](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | preg_replace_callback() | 2509.3 | 1916.5 | -23.6% | -24.1% | -22.9% |
+| [Normalize quotes, dashes and spaces in imported customer text](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | str_replace() | 1483.0 | 1916.5 | +28.9% | +28.2% | +30.6% |
+| [Replace four special space characters with ordinary spaces](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 4 | strtr() | 948.5 | 1081.0 | +14.2% | +13.1% | +14.8% |
+| [Replace four special space characters with ordinary spaces](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 4 | preg_replace_callback() | 1671.0 | 1081.0 | -35.1% | -35.6% | -34.9% |
+| [Replace four special space characters with ordinary spaces](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 4 | str_replace() | 954.9 | 1081.0 | +13.3% | +12.8% | +14.0% |
+| [Replace four special space characters with ordinary spaces](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 4 | preg_replace() | 911.4 | 1081.0 | +18.9% | +17.3% | +19.4% |
+| [Check already-migrated content for old literal links](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | strtr() | 1561.6 | 1361.0 | -12.7% | -15.3% | -10.5% |
+| [Check already-migrated content for old literal links](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | preg_replace_callback() | 853.8 | 1361.0 | +60.8% | +53.2% | +65.2% |
+| [Check already-migrated content for old literal links](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | str_replace() | 1114.1 | 1361.0 | +22.3% | +17.9% | +25.7% |
+| [Rewrite known legacy links in one content page](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | strtr() | 1929.3 | 2186.5 | +13.4% | +11.6% | +14.8% |
+| [Rewrite known legacy links in one content page](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | preg_replace_callback() | 1767.2 | 2186.5 | +23.9% | +22.9% | +24.7% |
+| [Rewrite known legacy links in one content page](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | str_replace() | 1709.5 | 2186.5 | +28.0% | +27.7% | +28.6% |
+| [Migrate eight different content pages with the same URL rules](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | strtr() | 12857.2 | 14476.0 | +12.5% | +12.3% | +12.6% |
+| [Migrate eight different content pages with the same URL rules](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | preg_replace_callback() | 11014.6 | 14476.0 | +31.4% | +30.2% | +32.3% |
+| [Migrate eight different content pages with the same URL rules](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | str_replace() | 10548.5 | 14476.0 | +37.4% | +36.5% | +37.8% |
+| [Mask registered secrets in a log excerpt with no leaked token](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | strtr() | 27163.3 | 48558.9 | +78.8% | +77.3% | +79.1% |
+| [Mask registered secrets in a log excerpt with no leaked token](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace_callback() | 2218.6 | 48558.9 | +2089.8% | +2084.6% | +2092.6% |
+| [Mask registered secrets in a log excerpt with no leaked token](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | str_replace() | 53207.3 | 48558.9 | -8.7% | -8.8% | -8.7% |
+| [Mask registered secrets in a log excerpt with no leaked token](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace() | 2137.8 | 48558.9 | +2170.8% | +2170.4% | +2176.0% |
+| [Mask one registered secret in a request log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | strtr() | 27879.2 | 52989.3 | +90.1% | +89.5% | +90.6% |
+| [Mask one registered secret in a request log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace_callback() | 3346.7 | 52989.3 | +1485.3% | +1473.7% | +1487.1% |
+| [Mask one registered secret in a request log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | str_replace() | 56536.3 | 52989.3 | -6.3% | -6.3% | -6.1% |
+| [Mask one registered secret in a request log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace() | 2677.8 | 52989.3 | +1882.6% | +1874.3% | +1883.7% |
+| [Mask three registered secrets in an incident log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | strtr() | 42032.1 | 82089.5 | +95.3% | +94.5% | +95.5% |
+| [Mask three registered secrets in an incident log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace_callback() | 5231.5 | 82089.5 | +1468.9% | +1426.3% | +1476.8% |
+| [Mask three registered secrets in an incident log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | str_replace() | 92097.5 | 82089.5 | -10.9% | -10.9% | -10.8% |
+| [Mask three registered secrets in an incident log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace() | 3747.9 | 82089.5 | +2090.9% | +2077.8% | +2095.6% |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | strtr() | 335016.4 | 638327.8 | +90.6% | +90.3% | +91.6% |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace_callback() | 20984.9 | 638327.8 | +2941.6% | +2930.2% | +2978.8% |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | str_replace() | 692574.7 | 638327.8 | -7.8% | -8.2% | -7.8% |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace() | 18955.7 | 638327.8 | +3267.8% | +3259.6% | +3291.4% |
+| [Check plain support replies for configured emoticons](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | strtr() | 842.1 | 954.5 | +13.5% | +11.8% | +14.0% |
+| [Check plain support replies for configured emoticons](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | preg_replace_callback() | 824.0 | 954.5 | +16.3% | +15.3% | +17.2% |
+| [Check plain support replies for configured emoticons](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | str_replace() | 1001.0 | 954.5 | -4.4% | -5.2% | -4.1% |
+| [Render configured emoticons in short customer replies](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | strtr() | 1034.4 | 1233.0 | +18.8% | +18.1% | +21.4% |
+| [Render configured emoticons in short customer replies](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | preg_replace_callback() | 1471.8 | 1233.0 | -16.2% | -17.3% | -14.7% |
+| [Render configured emoticons in short customer replies](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | str_replace() | 1217.5 | 1233.0 | +1.3% | +0.4% | +2.2% |
+| [List the configured support topics mentioned in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | strpos() per term | 57517.4 | 6876.6 | -88.0% | -88.1% | -87.4% |
+| [List the configured support topics mentioned in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | preg_match() per term | 67820.5 | 6876.6 | -89.8% | -90.0% | -89.8% |
+| [Count all configured term occurrences in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | strpos() per term | 48846.2 | 4653.4 | -90.5% | -90.5% | -90.1% |
+| [Count all configured term occurrences in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | PCRE lookahead per term | 82595.2 | 4653.4 | -94.4% | -94.6% | -94.2% |
+| [Locate all configured term occurrences for a search index](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | strpos() per term | 70453.4 | 8450.7 | -88.0% | -88.0% | -87.8% |
+| [Locate all configured term occurrences for a search index](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | PCRE lookahead per term | 159758.0 | 8450.7 | -94.7% | -94.9% | -94.5% |
+| [Link configured support terms in one plain-text help article](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | strtr() | 135504.0 | 6688.3 | -95.1% | -95.1% | -95.0% |
+| [Link configured support terms in one plain-text help article](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | preg_replace_callback() | 41731.3 | 6688.3 | -84.0% | -86.0% | -83.8% |
+| [Publish eight different help articles using one link glossary](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | strtr() | 1080887.6 | 49944.6 | -95.4% | -95.4% | -95.4% |
+| [Publish eight different help articles using one link glossary](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | preg_replace_callback() | 329610.3 | 49944.6 | -84.8% | -84.9% | -84.8% |
 
 ##### clang21
 
 | Task | Substrings | Existing method | Existing | Prototype | Δ | Min Δ | Max Δ |
 |---|---:|---|---:|---:|---:|---:|---:|
-| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1532.2 | 1263.3 | -17.7% | -17.9% | -17.0% |
-| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 1114.7 | 1263.3 | +13.4% | +12.2% | +13.9% |
-| [Flag a short EN comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1230.8 | 703.1 | -43.0% | -44.0% | -42.3% |
-| [Flag a short EN comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 675.4 | 703.1 | +3.6% | +2.8% | +5.0% |
-| [Flag a short EN comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1371.5 | 1931.9 | +40.5% | +39.6% | +41.3% |
-| [Flag a short EN comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 1380.3 | 1931.9 | +39.9% | +39.3% | +40.0% |
-| [Flag a short EN comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1261.2 | 2130.3 | +68.7% | +67.8% | +73.4% |
-| [Flag a short EN comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 1443.7 | 2130.3 | +48.1% | +47.0% | +48.7% |
-| [Check a detailed EN support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 4972.6 | 9305.5 | +87.2% | +85.5% | +87.5% |
-| [Check a detailed EN support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 6187.1 | 9305.5 | +50.4% | +49.4% | +50.5% |
-| [Check a detailed EN support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 2735.3 | 4031.5 | +47.3% | +46.3% | +48.2% |
-| [Check a detailed EN support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 2553.7 | 4031.5 | +57.7% | +57.7% | +59.1% |
-| [Flag a short RU comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 6093.6 | 1937.6 | -68.2% | -68.6% | -68.1% |
-| [Flag a short RU comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 2400.4 | 1937.6 | -19.3% | -19.4% | -19.0% |
-| [Flag a short RU comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 6871.3 | 892.9 | -87.0% | -87.1% | -86.8% |
-| [Flag a short RU comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 692.9 | 892.9 | +28.6% | +27.8% | +31.3% |
-| [Flag a short RU comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 9961.6 | 3079.4 | -69.1% | -69.1% | -68.8% |
-| [Flag a short RU comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 3239.9 | 3079.4 | -4.9% | -5.0% | -4.6% |
-| [Flag a short RU comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 6858.4 | 3145.0 | -54.1% | -54.3% | -54.1% |
-| [Flag a short RU comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 3304.0 | 3145.0 | -4.9% | -5.3% | -4.6% |
-| [Check a detailed RU support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 15952.4 | 15055.1 | -5.6% | -5.7% | -5.5% |
-| [Check a detailed RU support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 18718.1 | 15055.1 | -19.6% | -20.2% | -19.3% |
-| [Check a detailed RU support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 8996.7 | 6294.7 | -30.0% | -35.4% | -29.9% |
-| [Check a detailed RU support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 7451.6 | 6294.7 | -15.5% | -15.7% | -15.4% |
-| [Flag a short ZH comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1616.8 | 1158.9 | -28.3% | -28.6% | -28.0% |
-| [Flag a short ZH comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 1254.9 | 1158.9 | -7.4% | -7.8% | -6.8% |
-| [Flag a short ZH comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1319.8 | 677.8 | -48.7% | -49.5% | -48.1% |
-| [Flag a short ZH comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 671.0 | 677.8 | +0.5% | -0.6% | +1.3% |
-| [Flag a short ZH comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1749.5 | 1829.1 | +4.6% | -1.4% | +6.2% |
-| [Flag a short ZH comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 1450.8 | 1829.1 | +26.0% | +24.1% | +27.7% |
-| [Flag a short ZH comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1472.3 | 1838.9 | +24.6% | +24.2% | +26.6% |
-| [Flag a short ZH comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 1539.4 | 1838.9 | +20.0% | +19.0% | +20.8% |
-| [Check a detailed ZH support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 7494.1 | 8730.5 | +16.5% | +16.2% | +17.0% |
-| [Check a detailed ZH support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 7773.2 | 8730.5 | +12.3% | +11.9% | +12.6% |
-| [Check a detailed ZH support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 4421.8 | 3956.3 | -10.6% | -10.8% | -10.0% |
-| [Check a detailed ZH support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 3013.9 | 3956.3 | +31.0% | +30.2% | +31.5% |
-| [Decide whether a request trace needs an alert: healthy trace](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | str_contains() loop | 18607.7 | 31156.0 | +67.4% | +66.3% | +67.5% |
-| [Decide whether a request trace needs an alert: healthy trace](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | preg_match() | 11693.2 | 31156.0 | +166.4% | +164.4% | +166.6% |
-| [Decide whether a request trace needs an alert: error in the first record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | str_contains() loop | 9284.9 | 2046.8 | -78.0% | -78.6% | -77.9% |
-| [Decide whether a request trace needs an alert: error in the first record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | preg_match() | 1017.1 | 2046.8 | +101.3% | +100.8% | +102.9% |
-| [Decide whether a request trace needs an alert: error in the middle record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | str_contains() loop | 10431.0 | 17445.2 | +67.3% | +63.9% | +67.4% |
-| [Decide whether a request trace needs an alert: error in the middle record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | preg_match() | 6454.9 | 17445.2 | +170.3% | +169.4% | +171.4% |
-| [Decide whether a request trace needs an alert: error in the last record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | str_contains() loop | 11365.0 | 30893.5 | +171.8% | +171.5% | +171.9% |
-| [Decide whether a request trace needs an alert: error in the last record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | preg_match() | 11158.4 | 30893.5 | +176.9% | +176.2% | +177.8% |
-| [Expand fixed tenant labels in one shop notice](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | strtr() | 1337.9 | 3105.8 | +132.2% | +129.1% | +132.6% |
-| [Expand fixed tenant labels in one shop notice](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | preg_replace_callback() | 2218.4 | 3105.8 | +39.6% | +39.4% | +45.2% |
-| [Expand fixed tenant labels in one shop notice](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | str_replace() | 1318.5 | 3105.8 | +135.6% | +132.6% | +141.2% |
-| [Publish eight different shop pages using one tenant configuration](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | strtr() | 8569.2 | 22538.0 | +162.9% | +159.8% | +163.8% |
-| [Publish eight different shop pages using one tenant configuration](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | preg_replace_callback() | 14554.7 | 22538.0 | +56.1% | +53.2% | +58.7% |
-| [Publish eight different shop pages using one tenant configuration](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | str_replace() | 7694.3 | 22538.0 | +193.3% | +183.7% | +200.6% |
-| [Leave ordinary ASCII customer text unchanged](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | strtr() | 758.4 | 1629.6 | +115.0% | +113.8% | +117.3% |
-| [Leave ordinary ASCII customer text unchanged](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | preg_replace_callback() | 730.0 | 1629.6 | +122.5% | +120.0% | +127.1% |
-| [Leave ordinary ASCII customer text unchanged](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | str_replace() | 768.2 | 1629.6 | +111.5% | +111.4% | +113.7% |
-| [Normalize quotes, dashes and spaces in imported customer text](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | strtr() | 1215.1 | 2489.4 | +104.2% | +101.2% | +105.6% |
-| [Normalize quotes, dashes and spaces in imported customer text](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | preg_replace_callback() | 2498.1 | 2489.4 | -0.2% | -2.3% | +0.4% |
-| [Normalize quotes, dashes and spaces in imported customer text](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | str_replace() | 1439.7 | 2489.4 | +73.1% | +71.4% | +73.8% |
-| [Replace four special space characters with ordinary spaces](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 4 | strtr() | 845.7 | 1209.1 | +43.4% | +40.4% | +45.8% |
-| [Replace four special space characters with ordinary spaces](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 4 | preg_replace_callback() | 1644.2 | 1209.1 | -26.3% | -27.2% | -24.4% |
-| [Replace four special space characters with ordinary spaces](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 4 | str_replace() | 908.3 | 1209.1 | +33.6% | +29.9% | +36.2% |
-| [Replace four special space characters with ordinary spaces](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 4 | preg_replace() | 891.7 | 1209.1 | +36.6% | +34.8% | +38.1% |
-| [Check already-migrated content for old literal links](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | strtr() | 1411.4 | 1646.5 | +16.6% | +15.3% | +17.2% |
-| [Check already-migrated content for old literal links](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | preg_replace_callback() | 812.1 | 1646.5 | +102.8% | +94.3% | +107.0% |
-| [Check already-migrated content for old literal links](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | str_replace() | 1088.9 | 1646.5 | +51.0% | +49.2% | +52.4% |
-| [Rewrite known legacy links in one content page](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | strtr() | 1812.4 | 2782.7 | +53.5% | +46.2% | +54.6% |
-| [Rewrite known legacy links in one content page](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | preg_replace_callback() | 1798.9 | 2782.7 | +54.6% | +52.0% | +57.5% |
-| [Rewrite known legacy links in one content page](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | str_replace() | 1703.9 | 2782.7 | +63.2% | +62.6% | +64.2% |
-| [Migrate eight different content pages with the same URL rules](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | strtr() | 12163.5 | 19905.3 | +63.6% | +62.9% | +64.0% |
-| [Migrate eight different content pages with the same URL rules](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | preg_replace_callback() | 11499.3 | 19905.3 | +73.6% | +72.0% | +75.5% |
-| [Migrate eight different content pages with the same URL rules](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | str_replace() | 10690.6 | 19905.3 | +86.8% | +85.2% | +87.4% |
-| [Mask registered secrets in a log excerpt with no leaked token](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | strtr() | 24667.8 | 67335.1 | +173.0% | +172.3% | +173.5% |
-| [Mask registered secrets in a log excerpt with no leaked token](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace_callback() | 2163.1 | 67335.1 | +3010.8% | +2995.8% | +3017.6% |
-| [Mask registered secrets in a log excerpt with no leaked token](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | str_replace() | 49156.8 | 67335.1 | +36.9% | +35.7% | +37.1% |
-| [Mask registered secrets in a log excerpt with no leaked token](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace() | 2060.3 | 67335.1 | +3169.8% | +3116.2% | +3190.6% |
-| [Mask one registered secret in a request log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | strtr() | 25426.9 | 71202.8 | +180.0% | +179.9% | +180.2% |
-| [Mask one registered secret in a request log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace_callback() | 3268.4 | 71202.8 | +2079.2% | +2068.3% | +2086.0% |
-| [Mask one registered secret in a request log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | str_replace() | 52363.6 | 71202.8 | +36.0% | +34.9% | +36.1% |
-| [Mask one registered secret in a request log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace() | 2592.1 | 71202.8 | +2645.8% | +2638.4% | +2661.3% |
-| [Mask three registered secrets in an incident log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | strtr() | 38448.2 | 108882.3 | +183.2% | +182.0% | +183.3% |
-| [Mask three registered secrets in an incident log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace_callback() | 5312.9 | 108882.3 | +1949.2% | +1934.5% | +1957.8% |
-| [Mask three registered secrets in an incident log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | str_replace() | 85459.3 | 108882.3 | +27.4% | +25.2% | +27.4% |
-| [Mask three registered secrets in an incident log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace() | 3729.5 | 108882.3 | +2818.9% | +2796.6% | +2824.0% |
-| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | strtr() | 305471.6 | 846981.8 | +177.3% | +175.3% | +177.8% |
-| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace_callback() | 21067.3 | 846981.8 | +3920.3% | +3873.9% | +3945.9% |
-| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | str_replace() | 644040.9 | 846981.8 | +31.5% | +31.4% | +31.6% |
-| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace() | 19144.0 | 846981.8 | +4324.5% | +4252.5% | +4344.5% |
-| [Check plain support replies for configured emoticons](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | strtr() | 722.5 | 1252.6 | +73.4% | +72.2% | +73.8% |
-| [Check plain support replies for configured emoticons](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | preg_replace_callback() | 810.4 | 1252.6 | +54.6% | +42.8% | +57.4% |
-| [Check plain support replies for configured emoticons](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | str_replace() | 922.9 | 1252.6 | +35.9% | +35.3% | +36.1% |
-| [Render configured emoticons in short customer replies](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | strtr() | 905.3 | 1512.5 | +67.0% | +50.8% | +71.7% |
-| [Render configured emoticons in short customer replies](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | preg_replace_callback() | 1451.8 | 1512.5 | +4.3% | +3.9% | +8.0% |
-| [Render configured emoticons in short customer replies](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | str_replace() | 1160.8 | 1512.5 | +31.0% | +30.2% | +33.8% |
-| [List the configured support topics mentioned in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | strpos() per term | 58676.1 | 9115.2 | -84.5% | -84.6% | -84.3% |
-| [List the configured support topics mentioned in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | preg_match() per term | 68172.3 | 9115.2 | -86.6% | -86.7% | -86.4% |
-| [Count all configured term occurrences in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | strpos() per term | 50763.9 | 6226.3 | -87.7% | -87.8% | -87.6% |
-| [Count all configured term occurrences in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | PCRE lookahead per term | 81860.6 | 6226.3 | -92.4% | -92.5% | -92.3% |
-| [Locate all configured term occurrences for a search index](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | strpos() per term | 71333.1 | 10966.3 | -84.6% | -84.8% | -84.4% |
-| [Locate all configured term occurrences for a search index](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | PCRE lookahead per term | 161228.6 | 10966.3 | -93.2% | -93.3% | -93.1% |
-| [Link configured support terms in one plain-text help article](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | strtr() | 135224.6 | 8143.7 | -94.0% | -94.0% | -93.9% |
-| [Link configured support terms in one plain-text help article](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | preg_replace_callback() | 42671.0 | 8143.7 | -80.9% | -81.0% | -80.6% |
-| [Publish eight different help articles using one link glossary](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | strtr() | 1078899.4 | 61630.2 | -94.3% | -94.3% | -94.3% |
-| [Publish eight different help articles using one link glossary](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | preg_replace_callback() | 337724.0 | 61630.2 | -81.8% | -81.8% | -81.7% |
+| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1531.3 | 1117.2 | -26.7% | -28.8% | -26.6% |
+| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 1113.1 | 1117.2 | +0.6% | -0.5% | +1.5% |
+| [Flag a short EN comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1233.3 | 631.1 | -48.8% | -50.0% | -47.9% |
+| [Flag a short EN comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 680.8 | 631.1 | -7.4% | -8.6% | -5.6% |
+| [Flag a short EN comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1382.4 | 1480.4 | +7.1% | +6.5% | +8.3% |
+| [Flag a short EN comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 1383.6 | 1480.4 | +6.9% | +6.4% | +7.4% |
+| [Flag a short EN comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1241.4 | 1645.3 | +32.5% | +31.1% | +33.4% |
+| [Flag a short EN comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 1440.2 | 1645.3 | +14.1% | +13.7% | +14.7% |
+| [Check a detailed EN support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 4978.8 | 6929.2 | +39.2% | +38.3% | +39.4% |
+| [Check a detailed EN support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 6200.7 | 6929.2 | +11.7% | +11.2% | +12.8% |
+| [Check a detailed EN support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 2739.2 | 3040.6 | +11.0% | +0.4% | +11.5% |
+| [Check a detailed EN support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 2554.5 | 3040.6 | +18.9% | +18.0% | +19.5% |
+| [Flag a short RU comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 6102.8 | 1639.0 | -73.2% | -73.2% | -72.8% |
+| [Flag a short RU comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 2394.0 | 1639.0 | -31.5% | -31.7% | -31.1% |
+| [Flag a short RU comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 6876.6 | 757.5 | -89.0% | -89.0% | -88.8% |
+| [Flag a short RU comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 689.0 | 757.5 | +9.6% | +9.1% | +10.6% |
+| [Flag a short RU comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 9975.7 | 2256.9 | -77.4% | -77.5% | -77.1% |
+| [Flag a short RU comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 3273.3 | 2256.9 | -31.0% | -31.7% | -30.5% |
+| [Flag a short RU comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 6847.3 | 2255.2 | -67.1% | -67.6% | -67.0% |
+| [Flag a short RU comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 3313.9 | 2255.2 | -31.9% | -32.3% | -31.7% |
+| [Check a detailed RU support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 15936.2 | 11805.1 | -25.9% | -26.1% | -25.8% |
+| [Check a detailed RU support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 18669.4 | 11805.1 | -36.8% | -37.3% | -36.6% |
+| [Check a detailed RU support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 9011.0 | 4871.1 | -46.0% | -46.2% | -45.8% |
+| [Check a detailed RU support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 7495.8 | 4871.1 | -35.0% | -35.3% | -34.6% |
+| [Flag a short ZH comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1624.2 | 754.4 | -53.6% | -54.3% | -53.2% |
+| [Flag a short ZH comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 1260.0 | 754.4 | -40.0% | -40.6% | -39.7% |
+| [Flag a short ZH comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1333.5 | 630.6 | -52.6% | -53.0% | -52.1% |
+| [Flag a short ZH comment: phrase at the start](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 673.7 | 630.6 | -6.0% | -9.1% | -5.9% |
+| [Flag a short ZH comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1749.8 | 1021.3 | -41.4% | -41.7% | -41.0% |
+| [Flag a short ZH comment: phrase inside the message](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 1457.2 | 1021.3 | -30.0% | -30.3% | -29.1% |
+| [Flag a short ZH comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 1463.4 | 1031.6 | -29.5% | -29.8% | -29.4% |
+| [Flag a short ZH comment: phrase at the end](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 1546.2 | 1031.6 | -33.2% | -33.5% | -31.8% |
+| [Check a detailed ZH support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 7491.7 | 3430.8 | -54.2% | -54.4% | -53.9% |
+| [Check a detailed ZH support message: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 7784.7 | 3430.8 | -56.0% | -56.1% | -55.6% |
+| [Check a detailed ZH support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | str_contains() loop | 4415.6 | 1779.4 | -59.5% | -59.8% | -58.9% |
+| [Check a detailed ZH support message: a promotional phrase is quoted](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | preg_match() | 3028.8 | 1779.4 | -41.0% | -41.7% | -40.6% |
+| [Decide whether a request trace needs an alert: healthy trace](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | str_contains() loop | 18609.4 | 10996.7 | -40.9% | -41.3% | -40.5% |
+| [Decide whether a request trace needs an alert: healthy trace](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | preg_match() | 11679.0 | 10996.7 | -5.9% | -6.5% | -5.3% |
+| [Decide whether a request trace needs an alert: error in the first record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | str_contains() loop | 9290.8 | 975.5 | -89.5% | -89.7% | -89.4% |
+| [Decide whether a request trace needs an alert: error in the first record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | preg_match() | 1020.4 | 975.5 | -4.7% | -5.8% | -3.4% |
+| [Decide whether a request trace needs an alert: error in the middle record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | str_contains() loop | 10422.7 | 6081.3 | -41.6% | -41.7% | -41.6% |
+| [Decide whether a request trace needs an alert: error in the middle record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | preg_match() | 6446.4 | 6081.3 | -5.7% | -7.2% | -5.4% |
+| [Decide whether a request trace needs an alert: error in the last record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | str_contains() loop | 11360.6 | 10525.5 | -7.4% | -7.5% | -7.3% |
+| [Decide whether a request trace needs an alert: error in the last record](../../corpus/multi-pattern-product/suites/error-routing.json) | 8 | preg_match() | 11223.9 | 10525.5 | -6.2% | -6.7% | -5.5% |
+| [Expand fixed tenant labels in one shop notice](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | strtr() | 1341.7 | 1984.0 | +47.9% | +47.4% | +50.2% |
+| [Expand fixed tenant labels in one shop notice](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | preg_replace_callback() | 2219.9 | 1984.0 | -10.5% | -11.2% | -7.4% |
+| [Expand fixed tenant labels in one shop notice](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | str_replace() | 1314.4 | 1984.0 | +51.0% | +49.8% | +54.2% |
+| [Publish eight different shop pages using one tenant configuration](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | strtr() | 8578.3 | 13409.8 | +55.7% | +54.1% | +57.5% |
+| [Publish eight different shop pages using one tenant configuration](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | preg_replace_callback() | 14204.9 | 13409.8 | -5.9% | -16.5% | -5.2% |
+| [Publish eight different shop pages using one tenant configuration](../../corpus/multi-pattern-product/suites/tenant-text.json) | 6 | str_replace() | 7629.6 | 13409.8 | +74.6% | +73.3% | +76.6% |
+| [Leave ordinary ASCII customer text unchanged](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | strtr() | 753.3 | 767.5 | +1.9% | +0.8% | +3.0% |
+| [Leave ordinary ASCII customer text unchanged](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | preg_replace_callback() | 725.9 | 767.5 | +6.0% | +5.4% | +7.9% |
+| [Leave ordinary ASCII customer text unchanged](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | str_replace() | 765.0 | 767.5 | +0.5% | -0.6% | +2.4% |
+| [Normalize quotes, dashes and spaces in imported customer text](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | strtr() | 1218.7 | 1399.1 | +14.6% | +13.1% | +16.0% |
+| [Normalize quotes, dashes and spaces in imported customer text](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | preg_replace_callback() | 2489.1 | 1399.1 | -44.3% | -45.1% | -43.0% |
+| [Normalize quotes, dashes and spaces in imported customer text](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 8 | str_replace() | 1443.6 | 1399.1 | -3.0% | -4.1% | -3.0% |
+| [Replace four special space characters with ordinary spaces](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 4 | strtr() | 846.4 | 831.8 | -1.7% | -2.1% | -1.4% |
+| [Replace four special space characters with ordinary spaces](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 4 | preg_replace_callback() | 1633.5 | 831.8 | -49.2% | -49.3% | -48.6% |
+| [Replace four special space characters with ordinary spaces](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 4 | str_replace() | 906.6 | 831.8 | -8.0% | -9.9% | -7.6% |
+| [Replace four special space characters with ordinary spaces](../../corpus/multi-pattern-product/suites/text-cleanup.json) | 4 | preg_replace() | 881.2 | 831.8 | -5.3% | -6.7% | -2.5% |
+| [Check already-migrated content for old literal links](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | strtr() | 1416.5 | 1132.7 | -20.0% | -21.9% | -19.6% |
+| [Check already-migrated content for old literal links](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | preg_replace_callback() | 822.9 | 1132.7 | +37.7% | +33.7% | +40.2% |
+| [Check already-migrated content for old literal links](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | str_replace() | 1087.9 | 1132.7 | +3.9% | +1.7% | +4.5% |
+| [Rewrite known legacy links in one content page](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | strtr() | 1813.2 | 1860.6 | +2.8% | +1.7% | +3.5% |
+| [Rewrite known legacy links in one content page](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | preg_replace_callback() | 1761.0 | 1860.6 | +5.7% | +3.3% | +6.6% |
+| [Rewrite known legacy links in one content page](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | str_replace() | 1706.3 | 1860.6 | +9.2% | +7.7% | +9.8% |
+| [Migrate eight different content pages with the same URL rules](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | strtr() | 12274.1 | 12399.8 | +0.6% | -1.0% | +1.7% |
+| [Migrate eight different content pages with the same URL rules](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | preg_replace_callback() | 11488.6 | 12399.8 | +8.0% | +6.7% | +8.3% |
+| [Migrate eight different content pages with the same URL rules](../../corpus/multi-pattern-product/suites/link-migration.json) | 8 | str_replace() | 10672.3 | 12399.8 | +16.3% | +12.9% | +16.7% |
+| [Mask registered secrets in a log excerpt with no leaked token](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | strtr() | 24675.9 | 30073.9 | +21.7% | +20.6% | +22.7% |
+| [Mask registered secrets in a log excerpt with no leaked token](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace_callback() | 2166.3 | 30073.9 | +1284.9% | +1278.6% | +1294.9% |
+| [Mask registered secrets in a log excerpt with no leaked token](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | str_replace() | 49170.2 | 30073.9 | -38.8% | -39.3% | -38.7% |
+| [Mask registered secrets in a log excerpt with no leaked token](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace() | 2055.6 | 30073.9 | +1363.0% | +1351.8% | +1370.5% |
+| [Mask one registered secret in a request log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | strtr() | 25459.1 | 36248.8 | +41.8% | +41.5% | +43.6% |
+| [Mask one registered secret in a request log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace_callback() | 3283.6 | 36248.8 | +1001.0% | +988.6% | +1016.6% |
+| [Mask one registered secret in a request log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | str_replace() | 52371.5 | 36248.8 | -30.7% | -31.2% | -30.3% |
+| [Mask one registered secret in a request log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace() | 2610.4 | 36248.8 | +1290.7% | +1249.7% | +1298.9% |
+| [Mask three registered secrets in an incident log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | strtr() | 38571.1 | 57259.8 | +48.7% | +47.5% | +50.6% |
+| [Mask three registered secrets in an incident log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace_callback() | 5322.8 | 57259.8 | +974.7% | +966.2% | +988.8% |
+| [Mask three registered secrets in an incident log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | str_replace() | 85429.1 | 57259.8 | -33.0% | -33.4% | -32.3% |
+| [Mask three registered secrets in an incident log excerpt](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace() | 3729.9 | 57259.8 | +1435.0% | +1421.7% | +1454.0% |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | strtr() | 305279.5 | 442287.2 | +44.8% | +44.2% | +46.0% |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace_callback() | 21106.3 | 442287.2 | +2004.9% | +1969.8% | +2009.5% |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | str_replace() | 644190.1 | 442287.2 | -31.4% | -31.8% | -30.8% |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | preg_replace() | 19231.5 | 442287.2 | +2219.3% | +2176.0% | +2235.5% |
+| [Check plain support replies for configured emoticons](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | strtr() | 735.0 | 689.0 | -6.0% | -8.2% | -3.6% |
+| [Check plain support replies for configured emoticons](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | preg_replace_callback() | 792.1 | 689.0 | -12.8% | -14.2% | -10.6% |
+| [Check plain support replies for configured emoticons](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | str_replace() | 921.1 | 689.0 | -25.2% | -26.0% | -23.1% |
+| [Render configured emoticons in short customer replies](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | strtr() | 905.2 | 933.9 | +2.9% | +0.0% | +3.9% |
+| [Render configured emoticons in short customer replies](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | preg_replace_callback() | 1445.0 | 933.9 | -35.1% | -36.2% | -34.7% |
+| [Render configured emoticons in short customer replies](../../corpus/multi-pattern-product/suites/chat-formatting.json) | 12 | str_replace() | 1153.3 | 933.9 | -19.2% | -20.1% | -18.4% |
+| [List the configured support topics mentioned in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | strpos() per term | 58899.0 | 7038.5 | -88.0% | -88.2% | -87.9% |
+| [List the configured support topics mentioned in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | preg_match() per term | 68024.8 | 7038.5 | -89.6% | -89.9% | -89.5% |
+| [Count all configured term occurrences in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | strpos() per term | 50879.4 | 4969.5 | -90.2% | -90.8% | -90.2% |
+| [Count all configured term occurrences in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | PCRE lookahead per term | 81474.9 | 4969.5 | -93.9% | -94.2% | -93.8% |
+| [Locate all configured term occurrences for a search index](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | strpos() per term | 71303.3 | 9195.4 | -87.1% | -87.2% | -86.5% |
+| [Locate all configured term occurrences for a search index](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | PCRE lookahead per term | 161778.4 | 9195.4 | -94.3% | -94.4% | -93.9% |
+| [Link configured support terms in one plain-text help article](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | strtr() | 135221.7 | 6726.1 | -95.0% | -95.0% | -95.0% |
+| [Link configured support terms in one plain-text help article](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | preg_replace_callback() | 42641.0 | 6726.1 | -84.2% | -84.3% | -84.2% |
+| [Publish eight different help articles using one link glossary](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | strtr() | 1078780.7 | 51112.3 | -95.3% | -95.3% | -95.3% |
+| [Publish eight different help articles using one link glossary](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | preg_replace_callback() | 337323.9 | 51112.3 | -84.9% | -84.9% | -84.8% |
 
 ### Synthetic tasks
 
@@ -456,33 +456,33 @@ All measured alternatives are listed. Preparation and reuse are separate section
 
 | Task | Substrings | Existing method | Existing | Prototype | Δ | Min Δ | Max Δ |
 |---|---:|---|---:|---:|---:|---:|---:|
-| [Synthetic control: 64 literals sharing a long prefix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | strtr() | 1744.4 | 423602.5 | +24310.8% | +23097.3% | +24867.6% |
-| [Synthetic control: 64 literals sharing a long prefix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | preg_replace_callback() | 85460.5 | 423602.5 | +395.8% | +375.3% | +402.9% |
-| [Synthetic control: 64 literals sharing a long prefix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | preg_replace() | 83912.0 | 423602.5 | +407.0% | +388.0% | +412.1% |
-| [Synthetic control: 64 literals sharing a long suffix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | strtr() | 1389.2 | 76197.8 | +5377.0% | +5332.3% | +5430.7% |
-| [Synthetic control: 64 literals sharing a long suffix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | preg_replace_callback() | 83409.6 | 76197.8 | -8.5% | -9.2% | -8.1% |
-| [Synthetic control: 64 literals sharing a long suffix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | preg_replace() | 82235.8 | 76197.8 | -7.6% | -7.7% | -6.9% |
-| [Synthetic control: nested repeated-byte literals](../../corpus/multi-pattern-product/suites/synthetic.json) | 16 | strtr() | 1383.0 | 5323.3 | +285.5% | +273.3% | +286.2% |
-| [Synthetic control: nested repeated-byte literals](../../corpus/multi-pattern-product/suites/synthetic.json) | 16 | preg_replace_callback() | 22324.5 | 5323.3 | -76.2% | -77.7% | -76.1% |
-| [Synthetic control: nested repeated-byte literals](../../corpus/multi-pattern-product/suites/synthetic.json) | 16 | preg_replace() | 18433.1 | 5323.3 | -71.2% | -71.4% | -70.7% |
-| [Correctness control: regex punctuation and literal replacement bytes](../../corpus/multi-pattern-product/suites/synthetic.json) | 4 | strtr() | 1144.9 | 3017.9 | +163.8% | +163.6% | +164.2% |
-| [Correctness control: regex punctuation and literal replacement bytes](../../corpus/multi-pattern-product/suites/synthetic.json) | 4 | preg_replace_callback() | 6241.5 | 3017.9 | -51.5% | -52.1% | -51.4% |
+| [Synthetic control: 64 literals sharing a long prefix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | strtr() | 1722.7 | 399709.3 | +23070.1% | +22539.4% | +23164.0% |
+| [Synthetic control: 64 literals sharing a long prefix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | preg_replace_callback() | 85256.3 | 399709.3 | +369.2% | +365.1% | +370.2% |
+| [Synthetic control: 64 literals sharing a long prefix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | preg_replace() | 83794.6 | 399709.3 | +377.2% | +372.0% | +378.0% |
+| [Synthetic control: 64 literals sharing a long suffix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | strtr() | 1394.6 | 80654.9 | +5689.6% | +5608.1% | +5725.3% |
+| [Synthetic control: 64 literals sharing a long suffix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | preg_replace_callback() | 83427.8 | 80654.9 | -3.3% | -3.6% | -3.1% |
+| [Synthetic control: 64 literals sharing a long suffix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | preg_replace() | 82523.7 | 80654.9 | -2.2% | -3.4% | -1.6% |
+| [Synthetic control: nested repeated-byte literals](../../corpus/multi-pattern-product/suites/synthetic.json) | 16 | strtr() | 1384.6 | 6162.2 | +345.0% | +344.0% | +353.6% |
+| [Synthetic control: nested repeated-byte literals](../../corpus/multi-pattern-product/suites/synthetic.json) | 16 | preg_replace_callback() | 22161.7 | 6162.2 | -72.2% | -72.3% | -71.9% |
+| [Synthetic control: nested repeated-byte literals](../../corpus/multi-pattern-product/suites/synthetic.json) | 16 | preg_replace() | 18422.5 | 6162.2 | -66.4% | -67.1% | -66.0% |
+| [Correctness control: regex punctuation and literal replacement bytes](../../corpus/multi-pattern-product/suites/synthetic.json) | 4 | strtr() | 1140.4 | 4765.3 | +316.6% | +314.4% | +320.1% |
+| [Correctness control: regex punctuation and literal replacement bytes](../../corpus/multi-pattern-product/suites/synthetic.json) | 4 | preg_replace_callback() | 6258.5 | 4765.3 | -23.9% | -24.8% | -23.3% |
 
 ##### clang21
 
 | Task | Substrings | Existing method | Existing | Prototype | Δ | Min Δ | Max Δ |
 |---|---:|---|---:|---:|---:|---:|---:|
-| [Synthetic control: 64 literals sharing a long prefix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | strtr() | 1684.4 | 385089.4 | +22775.5% | +22727.2% | +23102.4% |
-| [Synthetic control: 64 literals sharing a long prefix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | preg_replace_callback() | 92181.0 | 385089.4 | +316.5% | +306.9% | +318.7% |
-| [Synthetic control: 64 literals sharing a long prefix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | preg_replace() | 91322.6 | 385089.4 | +322.6% | +313.8% | +327.3% |
-| [Synthetic control: 64 literals sharing a long suffix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | strtr() | 1331.5 | 64788.6 | +4765.8% | +4675.5% | +4875.1% |
-| [Synthetic control: 64 literals sharing a long suffix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | preg_replace_callback() | 95538.2 | 64788.6 | -32.3% | -38.4% | -29.6% |
-| [Synthetic control: 64 literals sharing a long suffix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | preg_replace() | 92383.1 | 64788.6 | -29.9% | -31.7% | -26.9% |
-| [Synthetic control: nested repeated-byte literals](../../corpus/multi-pattern-product/suites/synthetic.json) | 16 | strtr() | 1269.3 | 5183.4 | +307.7% | +303.8% | +317.7% |
-| [Synthetic control: nested repeated-byte literals](../../corpus/multi-pattern-product/suites/synthetic.json) | 16 | preg_replace_callback() | 23014.3 | 5183.4 | -77.4% | -77.6% | -77.2% |
-| [Synthetic control: nested repeated-byte literals](../../corpus/multi-pattern-product/suites/synthetic.json) | 16 | preg_replace() | 18706.1 | 5183.4 | -72.3% | -72.4% | -71.7% |
-| [Correctness control: regex punctuation and literal replacement bytes](../../corpus/multi-pattern-product/suites/synthetic.json) | 4 | strtr() | 1033.7 | 2992.0 | +189.5% | +186.4% | +193.6% |
-| [Correctness control: regex punctuation and literal replacement bytes](../../corpus/multi-pattern-product/suites/synthetic.json) | 4 | preg_replace_callback() | 5844.3 | 2992.0 | -48.8% | -49.1% | -47.7% |
+| [Synthetic control: 64 literals sharing a long prefix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | strtr() | 1675.1 | 380602.3 | +22625.2% | +22349.9% | +22786.7% |
+| [Synthetic control: 64 literals sharing a long prefix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | preg_replace_callback() | 93568.2 | 380602.3 | +306.8% | +298.7% | +318.3% |
+| [Synthetic control: 64 literals sharing a long prefix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | preg_replace() | 93085.4 | 380602.3 | +310.1% | +304.3% | +319.8% |
+| [Synthetic control: 64 literals sharing a long suffix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | strtr() | 1339.1 | 74364.9 | +5453.2% | +5263.7% | +5491.2% |
+| [Synthetic control: 64 literals sharing a long suffix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | preg_replace_callback() | 94986.2 | 74364.9 | -21.5% | -22.4% | -20.3% |
+| [Synthetic control: 64 literals sharing a long suffix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | preg_replace() | 94078.7 | 74364.9 | -20.8% | -23.3% | -19.1% |
+| [Synthetic control: nested repeated-byte literals](../../corpus/multi-pattern-product/suites/synthetic.json) | 16 | strtr() | 1265.3 | 6088.1 | +381.4% | +378.7% | +382.1% |
+| [Synthetic control: nested repeated-byte literals](../../corpus/multi-pattern-product/suites/synthetic.json) | 16 | preg_replace_callback() | 22921.1 | 6088.1 | -73.5% | -73.6% | -73.3% |
+| [Synthetic control: nested repeated-byte literals](../../corpus/multi-pattern-product/suites/synthetic.json) | 16 | preg_replace() | 18667.7 | 6088.1 | -67.5% | -67.6% | -67.3% |
+| [Correctness control: regex punctuation and literal replacement bytes](../../corpus/multi-pattern-product/suites/synthetic.json) | 4 | strtr() | 1035.3 | 4566.1 | +338.8% | +337.4% | +348.1% |
+| [Correctness control: regex punctuation and literal replacement bytes](../../corpus/multi-pattern-product/suites/synthetic.json) | 4 | preg_replace_callback() | 5832.1 | 4566.1 | -22.0% | -22.2% | -20.6% |
 
 #### Dictionary already prepared
 
@@ -490,33 +490,33 @@ All measured alternatives are listed. Preparation and reuse are separate section
 
 | Task | Substrings | Existing method | Existing | Prototype | Δ | Min Δ | Max Δ |
 |---|---:|---|---:|---:|---:|---:|---:|
-| [Synthetic control: 64 literals sharing a long prefix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | strtr() | 1761.7 | 2468.0 | +40.1% | +38.5% | +42.8% |
-| [Synthetic control: 64 literals sharing a long prefix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | preg_replace_callback() | 4074.2 | 2468.0 | -39.4% | -39.9% | -39.1% |
-| [Synthetic control: 64 literals sharing a long prefix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | preg_replace() | 2984.0 | 2468.0 | -17.4% | -17.7% | -16.8% |
-| [Synthetic control: 64 literals sharing a long suffix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | strtr() | 1407.0 | 2452.6 | +74.3% | +73.1% | +76.2% |
-| [Synthetic control: 64 literals sharing a long suffix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | preg_replace_callback() | 2934.3 | 2452.6 | -16.1% | -18.1% | -15.5% |
-| [Synthetic control: 64 literals sharing a long suffix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | preg_replace() | 2044.1 | 2452.6 | +20.3% | +19.1% | +22.1% |
-| [Synthetic control: nested repeated-byte literals](../../corpus/multi-pattern-product/suites/synthetic.json) | 16 | strtr() | 1389.4 | 2447.2 | +76.0% | +75.8% | +77.6% |
-| [Synthetic control: nested repeated-byte literals](../../corpus/multi-pattern-product/suites/synthetic.json) | 16 | preg_replace_callback() | 4790.9 | 2447.2 | -48.9% | -51.0% | -48.6% |
-| [Synthetic control: nested repeated-byte literals](../../corpus/multi-pattern-product/suites/synthetic.json) | 16 | preg_replace() | 1485.5 | 2447.2 | +64.7% | -15.5% | +66.5% |
-| [Correctness control: regex punctuation and literal replacement bytes](../../corpus/multi-pattern-product/suites/synthetic.json) | 4 | strtr() | 1151.8 | 1178.6 | +2.7% | +1.9% | +4.3% |
-| [Correctness control: regex punctuation and literal replacement bytes](../../corpus/multi-pattern-product/suites/synthetic.json) | 4 | preg_replace_callback() | 2632.9 | 1178.6 | -55.2% | -56.7% | -54.7% |
+| [Synthetic control: 64 literals sharing a long prefix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | strtr() | 1742.1 | 2086.0 | +19.1% | +17.5% | +22.0% |
+| [Synthetic control: 64 literals sharing a long prefix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | preg_replace_callback() | 4065.8 | 2086.0 | -48.6% | -50.0% | -48.0% |
+| [Synthetic control: 64 literals sharing a long prefix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | preg_replace() | 2986.1 | 2086.0 | -30.5% | -31.4% | -29.6% |
+| [Synthetic control: 64 literals sharing a long suffix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | strtr() | 1418.3 | 2056.9 | +45.7% | +43.0% | +46.8% |
+| [Synthetic control: 64 literals sharing a long suffix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | preg_replace_callback() | 2965.5 | 2056.9 | -30.6% | -31.1% | -29.3% |
+| [Synthetic control: 64 literals sharing a long suffix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | preg_replace() | 2030.8 | 2056.9 | +1.2% | +0.9% | +11.5% |
+| [Synthetic control: nested repeated-byte literals](../../corpus/multi-pattern-product/suites/synthetic.json) | 16 | strtr() | 1397.0 | 2140.1 | +53.2% | +52.6% | +61.5% |
+| [Synthetic control: nested repeated-byte literals](../../corpus/multi-pattern-product/suites/synthetic.json) | 16 | preg_replace_callback() | 4843.9 | 2140.1 | -55.4% | -56.2% | -53.5% |
+| [Synthetic control: nested repeated-byte literals](../../corpus/multi-pattern-product/suites/synthetic.json) | 16 | preg_replace() | 1527.4 | 2140.1 | +39.8% | +33.0% | +53.9% |
+| [Correctness control: regex punctuation and literal replacement bytes](../../corpus/multi-pattern-product/suites/synthetic.json) | 4 | strtr() | 1148.6 | 1071.1 | -6.8% | -7.1% | -5.3% |
+| [Correctness control: regex punctuation and literal replacement bytes](../../corpus/multi-pattern-product/suites/synthetic.json) | 4 | preg_replace_callback() | 2635.9 | 1071.1 | -59.4% | -60.6% | -58.8% |
 
 ##### clang21
 
 | Task | Substrings | Existing method | Existing | Prototype | Δ | Min Δ | Max Δ |
 |---|---:|---|---:|---:|---:|---:|---:|
-| [Synthetic control: 64 literals sharing a long prefix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | strtr() | 1679.1 | 2589.0 | +54.2% | +52.5% | +56.5% |
-| [Synthetic control: 64 literals sharing a long prefix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | preg_replace_callback() | 3983.1 | 2589.0 | -34.8% | -36.9% | -34.3% |
-| [Synthetic control: 64 literals sharing a long prefix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | preg_replace() | 2846.5 | 2589.0 | -8.9% | -11.9% | -8.5% |
-| [Synthetic control: 64 literals sharing a long suffix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | strtr() | 1336.2 | 2558.7 | +91.6% | +88.1% | +92.8% |
-| [Synthetic control: 64 literals sharing a long suffix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | preg_replace_callback() | 3081.7 | 2558.7 | -17.1% | -17.4% | -13.7% |
-| [Synthetic control: 64 literals sharing a long suffix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | preg_replace() | 1866.6 | 2558.7 | +37.2% | +34.2% | +47.6% |
-| [Synthetic control: nested repeated-byte literals](../../corpus/multi-pattern-product/suites/synthetic.json) | 16 | strtr() | 1268.2 | 2639.1 | +108.1% | +107.1% | +108.6% |
-| [Synthetic control: nested repeated-byte literals](../../corpus/multi-pattern-product/suites/synthetic.json) | 16 | preg_replace_callback() | 5413.3 | 2639.1 | -51.3% | -51.4% | -51.0% |
-| [Synthetic control: nested repeated-byte literals](../../corpus/multi-pattern-product/suites/synthetic.json) | 16 | preg_replace() | 1447.4 | 2639.1 | +82.3% | +81.8% | +84.4% |
-| [Correctness control: regex punctuation and literal replacement bytes](../../corpus/multi-pattern-product/suites/synthetic.json) | 4 | strtr() | 1032.3 | 1319.1 | +28.3% | +27.6% | +29.2% |
-| [Correctness control: regex punctuation and literal replacement bytes](../../corpus/multi-pattern-product/suites/synthetic.json) | 4 | preg_replace_callback() | 2618.6 | 1319.1 | -49.5% | -49.7% | -49.3% |
+| [Synthetic control: 64 literals sharing a long prefix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | strtr() | 1659.3 | 1840.5 | +10.9% | +9.5% | +12.3% |
+| [Synthetic control: 64 literals sharing a long prefix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | preg_replace_callback() | 3980.5 | 1840.5 | -53.5% | -54.9% | -53.2% |
+| [Synthetic control: 64 literals sharing a long prefix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | preg_replace() | 2909.1 | 1840.5 | -36.0% | -38.0% | -35.1% |
+| [Synthetic control: 64 literals sharing a long suffix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | strtr() | 1310.3 | 1822.9 | +38.3% | +36.0% | +39.8% |
+| [Synthetic control: 64 literals sharing a long suffix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | preg_replace_callback() | 3075.3 | 1822.9 | -40.9% | -41.2% | -38.9% |
+| [Synthetic control: 64 literals sharing a long suffix](../../corpus/multi-pattern-product/suites/synthetic.json) | 64 | preg_replace() | 1807.0 | 1822.9 | +0.3% | -2.4% | +3.3% |
+| [Synthetic control: nested repeated-byte literals](../../corpus/multi-pattern-product/suites/synthetic.json) | 16 | strtr() | 1270.2 | 2267.9 | +78.5% | +77.4% | +80.8% |
+| [Synthetic control: nested repeated-byte literals](../../corpus/multi-pattern-product/suites/synthetic.json) | 16 | preg_replace_callback() | 5379.0 | 2267.9 | -57.8% | -58.0% | -57.1% |
+| [Synthetic control: nested repeated-byte literals](../../corpus/multi-pattern-product/suites/synthetic.json) | 16 | preg_replace() | 1458.5 | 2267.9 | +55.8% | +42.9% | +57.5% |
+| [Correctness control: regex punctuation and literal replacement bytes](../../corpus/multi-pattern-product/suites/synthetic.json) | 4 | strtr() | 1030.7 | 876.6 | -14.9% | -15.2% | -13.2% |
+| [Correctness control: regex punctuation and literal replacement bytes](../../corpus/multi-pattern-product/suites/synthetic.json) | 4 | preg_replace_callback() | 2628.8 | 876.6 | -66.4% | -67.1% | -65.9% |
 
 ## Size series
 
@@ -528,319 +528,319 @@ All measured alternatives are listed. Preparation and reuse are separate section
 
 | Task | Substrings | Existing method | Existing | Prototype | Δ | Min Δ | Max Δ |
 |---|---:|---|---:|---:|---:|---:|---:|
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 8 | str_contains() loop | 1239.6 | 6441.2 | +422.5% | +415.9% | +438.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 8 | preg_match() | 3261.1 | 6441.2 | +99.7% | +96.5% | +105.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 8 | str_contains() loop | 900.2 | 5766.9 | +540.6% | +529.2% | +587.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 8 | preg_match() | 2883.3 | 5766.9 | +100.6% | +96.8% | +114.0% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 8 | str_contains() loop | 1065.4 | 6727.7 | +531.4% | +525.8% | +556.3% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 8 | preg_match() | 3420.5 | 6727.7 | +97.0% | +95.8% | +105.8% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 8 | str_contains() loop | 961.6 | 6884.1 | +617.6% | +612.4% | +620.3% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 8 | preg_match() | 3401.4 | 6884.1 | +101.8% | +100.5% | +105.4% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 8 | str_contains() loop | 4343.6 | 13732.9 | +216.9% | +213.3% | +218.4% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 8 | preg_match() | 7050.7 | 13732.9 | +94.6% | +93.2% | +96.4% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 8 | str_contains() loop | 1776.4 | 8741.4 | +393.7% | +391.1% | +396.4% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 8 | preg_match() | 4437.5 | 8741.4 | +97.0% | +96.0% | +97.2% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 16 | str_contains() loop | 1911.7 | 16434.4 | +757.6% | +751.0% | +791.6% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 16 | preg_match() | 5699.3 | 16434.4 | +189.2% | +187.7% | +198.0% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 16 | str_contains() loop | 1225.1 | 15816.8 | +1199.7% | +1183.8% | +1225.5% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 16 | preg_match() | 4786.1 | 15816.8 | +231.7% | +229.6% | +237.5% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 16 | str_contains() loop | 1472.8 | 16870.6 | +1045.2% | +1031.8% | +1083.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 16 | preg_match() | 5973.4 | 16870.6 | +182.4% | +180.4% | +189.4% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 16 | str_contains() loop | 1299.1 | 16922.5 | +1200.6% | +1180.0% | +1222.2% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 16 | preg_match() | 6066.2 | 16922.5 | +179.0% | +177.9% | +182.6% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 16 | str_contains() loop | 7429.2 | 23340.9 | +218.9% | +210.9% | +220.6% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 16 | preg_match() | 15974.9 | 23340.9 | +46.3% | +44.7% | +49.1% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 16 | str_contains() loop | 2593.3 | 18468.3 | +615.2% | +610.0% | +642.0% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 16 | preg_match() | 8020.9 | 18468.3 | +130.3% | +127.9% | +139.3% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 32 | str_contains() loop | 3412.4 | 48746.8 | +1329.0% | +1314.7% | +1348.8% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 32 | preg_match() | 11496.1 | 48746.8 | +323.6% | +318.0% | +327.0% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 32 | str_contains() loop | 2061.8 | 48455.5 | +2275.6% | +2204.0% | +2318.7% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 32 | preg_match() | 8834.1 | 48455.5 | +449.7% | +447.7% | +458.4% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 32 | str_contains() loop | 2584.8 | 49844.4 | +1824.5% | +1779.8% | +1851.4% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 32 | preg_match() | 12426.5 | 49844.4 | +299.6% | +297.2% | +305.2% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 32 | str_contains() loop | 2108.9 | 49278.2 | +2239.2% | +2164.4% | +2253.9% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 32 | preg_match() | 12618.2 | 49278.2 | +290.5% | +287.1% | +294.3% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 32 | str_contains() loop | 16706.8 | 57429.6 | +243.6% | +242.7% | +252.3% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 32 | preg_match() | 38302.2 | 57429.6 | +49.9% | +49.2% | +54.0% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 32 | str_contains() loop | 6220.8 | 52375.7 | +742.6% | +732.6% | +756.3% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 32 | preg_match() | 19191.8 | 52375.7 | +172.8% | +171.3% | +177.3% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 64 | str_contains() loop | 6288.0 | 98250.4 | +1455.7% | +1451.8% | +1515.3% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 64 | preg_match() | 22184.4 | 98250.4 | +343.4% | +341.3% | +350.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 64 | str_contains() loop | 3786.2 | 97357.8 | +2499.1% | +2454.1% | +2526.5% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 64 | preg_match() | 16292.4 | 97357.8 | +496.3% | +495.4% | +505.4% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 64 | str_contains() loop | 5030.6 | 98649.1 | +1866.8% | +1847.4% | +1896.7% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 64 | preg_match() | 24033.6 | 98649.1 | +308.2% | +306.5% | +317.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 64 | str_contains() loop | 3922.8 | 98472.8 | +2413.4% | +2351.2% | +2429.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 64 | preg_match() | 24552.8 | 98472.8 | +301.3% | +295.5% | +301.9% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 64 | str_contains() loop | 31798.8 | 106442.2 | +234.1% | +225.5% | +235.6% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 64 | preg_match() | 77635.6 | 106442.2 | +37.1% | +37.1% | +39.2% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 64 | str_contains() loop | 13047.4 | 101688.8 | +677.6% | +656.9% | +682.5% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 64 | preg_match() | 38797.0 | 101688.8 | +161.6% | +158.4% | +162.4% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 128 | str_contains() loop | 12839.5 | 219127.9 | +1608.3% | +1573.4% | +1656.4% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 128 | preg_match() | 44860.5 | 219127.9 | +388.8% | +385.0% | +389.3% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 128 | str_contains() loop | 7266.9 | 218342.1 | +2904.6% | +2874.4% | +3007.2% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 128 | preg_match() | 31682.6 | 218342.1 | +587.0% | +580.6% | +598.6% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 128 | str_contains() loop | 9611.7 | 218706.6 | +2177.8% | +2134.8% | +2251.3% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 128 | preg_match() | 47551.3 | 218706.6 | +360.4% | +357.1% | +361.3% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 128 | str_contains() loop | 7245.6 | 219487.6 | +2926.9% | +2910.6% | +2945.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 128 | preg_match() | 49031.0 | 219487.6 | +348.5% | +341.3% | +348.9% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 128 | str_contains() loop | 64747.2 | 221037.6 | +241.4% | +239.4% | +259.1% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 128 | preg_match() | 158932.0 | 221037.6 | +39.0% | +38.4% | +40.0% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 128 | str_contains() loop | 26280.9 | 215550.6 | +719.7% | +717.6% | +762.2% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 128 | preg_match() | 78280.8 | 215550.6 | +175.6% | +174.7% | +179.0% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 256 | str_contains() loop | 31140.1 | 406082.7 | +1203.2% | +1157.1% | +1236.3% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 256 | preg_match() | 90156.2 | 406082.7 | +349.7% | +346.6% | +351.5% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 256 | str_contains() loop | 15226.2 | 404056.3 | +2552.3% | +2392.6% | +2634.9% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 256 | preg_match() | 63204.0 | 404056.3 | +539.9% | +537.9% | +543.9% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 256 | str_contains() loop | 21840.3 | 406819.3 | +1758.0% | +1746.9% | +1911.5% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 256 | preg_match() | 94873.6 | 406819.3 | +328.9% | +325.2% | +334.4% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 256 | str_contains() loop | 15370.2 | 405779.2 | +2540.0% | +2331.7% | +2611.4% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 256 | preg_match() | 98093.1 | 405779.2 | +314.6% | +310.0% | +315.8% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 256 | str_contains() loop | 139386.7 | 410466.1 | +194.4% | +181.5% | +195.0% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 256 | preg_match() | 313708.7 | 410466.1 | +30.9% | +30.5% | +31.4% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 256 | str_contains() loop | 53437.9 | 406122.2 | +660.4% | +632.5% | +666.6% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 256 | preg_match() | 155219.4 | 406122.2 | +162.0% | +161.2% | +162.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 512 | str_contains() loop | 74792.9 | 761690.1 | +913.1% | +893.9% | +924.8% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 512 | preg_match() | 231137.2 | 761690.1 | +230.9% | +224.7% | +247.3% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 512 | str_contains() loop | 39049.3 | 759690.5 | +1850.0% | +1747.0% | +1857.4% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 512 | preg_match() | 125258.1 | 759690.5 | +506.2% | +504.2% | +511.8% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 512 | str_contains() loop | 55621.8 | 763040.8 | +1280.9% | +1265.4% | +1338.4% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 512 | preg_match() | 247267.6 | 763040.8 | +210.9% | +194.2% | +213.8% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 512 | str_contains() loop | 39646.1 | 762013.2 | +1827.6% | +1746.9% | +1831.4% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 512 | preg_match() | 260244.9 | 762013.2 | +192.3% | +182.4% | +196.6% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 512 | str_contains() loop | 317454.9 | 769502.3 | +142.6% | +134.5% | +143.0% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 512 | preg_match() | 1115695.8 | 769502.3 | -30.9% | -34.1% | -27.6% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 512 | str_contains() loop | 121745.0 | 763423.2 | +529.1% | +522.4% | +559.4% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 512 | preg_match() | 489958.4 | 763423.2 | +55.3% | +48.6% | +63.5% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | strpos() per term | 5397.9 | 15024.0 | +178.3% | +176.0% | +185.8% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | preg_match() per term | 9715.8 | 15024.0 | +54.3% | +53.0% | +60.2% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | strpos() per term | 4418.5 | 14684.4 | +233.3% | +229.5% | +247.0% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | PCRE lookahead per term | 10800.7 | 14684.4 | +37.9% | +35.2% | +42.2% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | strpos() per term | 6727.0 | 15368.8 | +129.3% | +125.0% | +136.0% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | PCRE lookahead per term | 17209.0 | 15368.8 | -10.6% | -11.0% | -7.8% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | strpos() per term | 10062.8 | 25132.2 | +152.5% | +147.4% | +155.3% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | preg_match() per term | 18026.4 | 25132.2 | +38.2% | +37.7% | +43.2% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | strpos() per term | 8495.4 | 24756.3 | +191.2% | +187.7% | +202.4% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | PCRE lookahead per term | 20393.7 | 24756.3 | +21.8% | +21.2% | +22.5% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | strpos() per term | 12448.2 | 25928.2 | +108.3% | +107.1% | +109.5% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | PCRE lookahead per term | 31794.8 | 25928.2 | -17.8% | -19.5% | -17.4% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | strpos() per term | 17784.5 | 44744.4 | +151.4% | +143.7% | +156.0% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | preg_match() per term | 34588.7 | 44744.4 | +29.8% | +29.2% | +30.5% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | strpos() per term | 15339.6 | 43709.7 | +184.6% | +182.7% | +196.1% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | PCRE lookahead per term | 38555.1 | 43709.7 | +13.4% | +12.3% | +15.1% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | strpos() per term | 23141.4 | 45510.3 | +96.9% | +91.4% | +98.7% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | PCRE lookahead per term | 59782.1 | 45510.3 | -23.9% | -24.6% | -23.4% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | strpos() per term | 36242.5 | 97310.1 | +168.8% | +157.4% | +169.2% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | preg_match() per term | 66786.1 | 97310.1 | +45.7% | +40.8% | +49.8% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | strpos() per term | 31210.3 | 94918.0 | +204.6% | +203.8% | +208.0% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | PCRE lookahead per term | 75597.3 | 94918.0 | +26.7% | +22.4% | +27.0% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | strpos() per term | 46968.8 | 97545.4 | +110.7% | +105.9% | +115.3% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | PCRE lookahead per term | 113889.8 | 97545.4 | -14.1% | -14.4% | -13.1% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | strpos() per term | 75808.6 | 223548.0 | +195.5% | +194.3% | +196.2% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | preg_match() per term | 131919.4 | 223548.0 | +69.4% | +69.1% | +72.4% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | strpos() per term | 65160.5 | 220471.8 | +238.4% | +227.6% | +242.3% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | PCRE lookahead per term | 229769.7 | 220471.8 | -3.7% | -4.3% | -3.3% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | strpos() per term | 88352.2 | 225905.0 | +154.4% | +150.3% | +157.1% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | PCRE lookahead per term | 303310.8 | 225905.0 | -25.7% | -31.0% | -24.9% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | strpos() per term | 148018.8 | 478838.0 | +224.3% | +217.0% | +224.4% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | preg_match() per term | 277228.0 | 478838.0 | +73.1% | +71.1% | +74.9% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | strpos() per term | 143203.5 | 475238.7 | +232.8% | +229.4% | +236.3% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | PCRE lookahead per term | 522807.4 | 475238.7 | -8.9% | -9.3% | -8.8% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | strpos() per term | 164478.7 | 481672.4 | +193.4% | +188.3% | +193.9% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | PCRE lookahead per term | 627314.1 | 481672.4 | -23.2% | -24.2% | -22.6% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | strpos() per term | 287746.8 | 1395560.3 | +384.8% | +382.3% | +391.2% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | preg_match() per term | 620279.9 | 1395560.3 | +125.2% | +122.2% | +126.6% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | strpos() per term | 283004.4 | 1395545.8 | +389.5% | +384.5% | +393.8% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | PCRE lookahead per term | 1101800.5 | 1395545.8 | +26.5% | +25.6% | +27.1% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | strpos() per term | 307297.9 | 1405375.5 | +356.2% | +350.5% | +359.9% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | PCRE lookahead per term | 1268734.0 | 1405375.5 | +10.9% | +9.6% | +11.7% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 8 | strtr() | 20699.1 | 17108.7 | -17.2% | -17.9% | -16.5% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 8 | preg_replace_callback() | 10231.1 | 17108.7 | +67.4% | +65.0% | +68.0% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 8 | strtr() | 162609.3 | 56041.3 | -65.5% | -65.8% | -65.2% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 8 | preg_replace_callback() | 29789.3 | 56041.3 | +88.6% | +87.8% | +89.0% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 16 | strtr() | 36862.2 | 29528.9 | -19.9% | -20.0% | -17.1% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 16 | preg_replace_callback() | 23713.9 | 29528.9 | +24.8% | +23.6% | +27.3% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 16 | strtr() | 293180.0 | 70971.0 | -75.8% | -75.9% | -75.6% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 16 | preg_replace_callback() | 84699.2 | 70971.0 | -16.6% | -16.7% | -15.9% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 32 | strtr() | 78020.8 | 53122.6 | -31.3% | -32.2% | -30.7% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 32 | preg_replace_callback() | 48234.2 | 53122.6 | +10.0% | +9.7% | +12.0% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 32 | strtr() | 620314.6 | 97999.0 | -84.2% | -84.3% | -84.1% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 32 | preg_replace_callback() | 168056.2 | 97999.0 | -41.6% | -42.1% | -41.5% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 64 | strtr() | 143522.8 | 112021.9 | -21.9% | -22.2% | -21.2% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 64 | preg_replace_callback() | 104087.7 | 112021.9 | +7.9% | +6.0% | +8.7% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 64 | strtr() | 1144727.7 | 160796.1 | -86.0% | -86.0% | -85.9% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 64 | preg_replace_callback() | 324264.0 | 160796.1 | -50.4% | -50.5% | -50.3% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 128 | strtr() | 175568.0 | 239060.3 | +35.6% | +34.5% | +36.4% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 128 | preg_replace_callback() | 211161.6 | 239060.3 | +13.3% | +12.2% | +14.2% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 128 | strtr() | 1397908.3 | 291214.1 | -79.2% | -79.4% | -79.1% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 128 | preg_replace_callback() | 562196.7 | 291214.1 | -48.4% | -48.7% | -48.2% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 256 | strtr() | 191725.9 | 486291.3 | +153.7% | +152.5% | +155.2% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 256 | preg_replace_callback() | 504331.4 | 486291.3 | -3.4% | -5.0% | -2.7% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 256 | strtr() | 1531021.2 | 538189.9 | -64.9% | -64.9% | -64.8% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 256 | preg_replace_callback() | 1233252.3 | 538189.9 | -56.4% | -56.8% | -56.2% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | strtr() | 195896.6 | 1276418.7 | +551.6% | +546.9% | +555.3% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | preg_replace_callback() | 1236594.9 | 1276418.7 | +3.3% | +1.7% | +5.7% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | strtr() | 1565865.7 | 1400326.0 | -10.6% | -10.8% | -10.4% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | preg_replace_callback() | 3451675.9 | 1400326.0 | -59.4% | -59.6% | -57.5% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 8 | str_contains() loop | 1238.8 | 10910.9 | +783.3% | +774.1% | +785.7% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 8 | preg_match() | 3250.7 | 10910.9 | +235.1% | +232.9% | +236.7% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 8 | str_contains() loop | 902.0 | 10724.5 | +1088.9% | +1074.5% | +1190.2% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 8 | preg_match() | 2889.9 | 10724.5 | +271.5% | +264.6% | +306.0% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 8 | str_contains() loop | 1066.7 | 11021.6 | +932.4% | +913.3% | +941.9% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 8 | preg_match() | 3420.8 | 11021.6 | +220.9% | +219.3% | +227.2% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 8 | str_contains() loop | 957.4 | 11121.5 | +1063.6% | +1050.4% | +1171.8% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 8 | preg_match() | 3411.0 | 11121.5 | +227.7% | +222.0% | +261.1% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 8 | str_contains() loop | 4385.5 | 13733.4 | +212.7% | +211.8% | +214.9% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 8 | preg_match() | 7031.4 | 13733.4 | +95.4% | +93.3% | +96.8% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 8 | str_contains() loop | 1752.6 | 11723.6 | +571.0% | +558.9% | +588.1% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 8 | preg_match() | 4448.1 | 11723.6 | +165.0% | +161.3% | +174.5% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 16 | str_contains() loop | 1900.0 | 23644.4 | +1137.8% | +1116.6% | +1146.1% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 16 | preg_match() | 5713.4 | 23644.4 | +313.5% | +311.0% | +315.1% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 16 | str_contains() loop | 1221.5 | 23364.2 | +1812.0% | +1807.8% | +1853.1% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 16 | preg_match() | 4798.2 | 23364.2 | +386.3% | +383.6% | +402.4% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 16 | str_contains() loop | 1475.2 | 23891.8 | +1519.6% | +1502.8% | +1568.5% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 16 | preg_match() | 5986.2 | 23891.8 | +299.1% | +295.0% | +303.9% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 16 | str_contains() loop | 1299.8 | 23910.8 | +1743.2% | +1709.8% | +1781.3% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 16 | preg_match() | 6082.8 | 23910.8 | +292.2% | +290.6% | +295.1% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 16 | str_contains() loop | 7396.0 | 26302.3 | +255.6% | +254.2% | +265.6% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 16 | preg_match() | 15994.0 | 26302.3 | +64.5% | +64.3% | +66.5% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 16 | str_contains() loop | 2590.8 | 24606.3 | +845.2% | +840.6% | +855.2% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 16 | preg_match() | 8047.5 | 24606.3 | +203.5% | +202.8% | +205.8% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 32 | str_contains() loop | 3453.9 | 58629.8 | +1591.9% | +1584.2% | +1659.3% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 32 | preg_match() | 11544.3 | 58629.8 | +407.8% | +405.4% | +410.6% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 32 | str_contains() loop | 2075.2 | 58296.3 | +2709.3% | +2443.6% | +2764.3% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 32 | preg_match() | 8822.6 | 58296.3 | +558.5% | +549.7% | +564.4% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 32 | str_contains() loop | 2572.3 | 58462.0 | +2167.0% | +2123.3% | +2191.3% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 32 | preg_match() | 12461.9 | 58462.0 | +369.4% | +366.5% | +372.1% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 32 | str_contains() loop | 2113.6 | 58699.0 | +2677.2% | +2654.6% | +2750.4% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 32 | preg_match() | 12555.8 | 58699.0 | +368.7% | +363.9% | +376.0% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 32 | str_contains() loop | 16244.3 | 63415.0 | +290.3% | +279.0% | +294.2% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 32 | preg_match() | 38342.4 | 63415.0 | +65.7% | +65.2% | +67.1% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 32 | str_contains() loop | 6207.3 | 60771.0 | +871.8% | +839.3% | +922.4% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 32 | preg_match() | 19221.9 | 60771.0 | +214.9% | +209.8% | +223.0% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 64 | str_contains() loop | 6204.3 | 121172.3 | +1826.3% | +1786.5% | +1888.4% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 64 | preg_match() | 22253.3 | 121172.3 | +446.6% | +435.8% | +448.2% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 64 | str_contains() loop | 3784.2 | 119896.2 | +3049.6% | +3039.0% | +3133.4% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 64 | preg_match() | 16243.1 | 119896.2 | +638.6% | +633.4% | +641.0% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 64 | str_contains() loop | 4947.5 | 120894.9 | +2362.4% | +2289.1% | +2367.8% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 64 | preg_match() | 23785.2 | 120894.9 | +408.9% | +405.9% | +412.2% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 64 | str_contains() loop | 3908.3 | 120928.9 | +2996.5% | +2906.2% | +3019.2% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 64 | preg_match() | 24564.8 | 120928.9 | +389.6% | +388.3% | +396.6% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 64 | str_contains() loop | 33074.7 | 126117.4 | +281.5% | +278.2% | +297.6% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 64 | preg_match() | 77641.6 | 126117.4 | +62.4% | +61.9% | +63.4% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 64 | str_contains() loop | 13015.3 | 123201.0 | +836.4% | +812.3% | +876.0% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 64 | preg_match() | 38777.7 | 123201.0 | +217.1% | +214.2% | +226.9% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 128 | str_contains() loop | 12874.1 | 271025.7 | +2011.0% | +1929.9% | +2117.1% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 128 | preg_match() | 44870.3 | 271025.7 | +504.0% | +497.5% | +516.5% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 128 | str_contains() loop | 7082.2 | 268677.9 | +3684.4% | +3549.9% | +3828.2% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 128 | preg_match() | 31877.2 | 268677.9 | +746.9% | +738.9% | +759.2% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 128 | str_contains() loop | 9639.7 | 268716.4 | +2713.5% | +2655.2% | +2796.4% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 128 | preg_match() | 47570.9 | 268716.4 | +467.8% | +461.9% | +470.1% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 128 | str_contains() loop | 7527.6 | 269819.1 | +3501.1% | +3427.3% | +3601.9% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 128 | preg_match() | 49022.1 | 269819.1 | +452.5% | +445.0% | +453.0% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 128 | str_contains() loop | 64787.5 | 277785.7 | +328.5% | +327.7% | +330.9% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 128 | preg_match() | 158954.6 | 277785.7 | +74.7% | +62.5% | +75.4% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 128 | str_contains() loop | 26213.8 | 273154.7 | +945.7% | +931.2% | +986.7% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 128 | preg_match() | 78267.4 | 273154.7 | +249.3% | +247.5% | +251.8% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 256 | str_contains() loop | 30569.0 | 707508.6 | +2214.5% | +2088.7% | +2257.6% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 256 | preg_match() | 90078.3 | 707508.6 | +686.7% | +680.8% | +688.0% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 256 | str_contains() loop | 15017.8 | 706853.4 | +4606.8% | +4263.0% | +4634.6% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 256 | preg_match() | 63050.0 | 706853.4 | +1021.7% | +1016.1% | +1026.8% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 256 | str_contains() loop | 20281.1 | 707553.8 | +3388.7% | +3127.9% | +3494.7% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 256 | preg_match() | 95019.7 | 707553.8 | +644.8% | +636.5% | +661.8% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 256 | str_contains() loop | 15529.9 | 707650.2 | +4465.9% | +4149.4% | +4594.6% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 256 | preg_match() | 98100.5 | 707650.2 | +622.1% | +615.0% | +625.9% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 256 | str_contains() loop | 138946.4 | 714198.5 | +414.0% | +390.7% | +437.5% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 256 | preg_match() | 313884.9 | 714198.5 | +127.7% | +126.6% | +137.7% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 256 | str_contains() loop | 53136.8 | 707909.0 | +1232.2% | +1175.5% | +1238.4% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 256 | preg_match() | 155013.8 | 707909.0 | +356.9% | +355.2% | +358.2% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 512 | str_contains() loop | 75356.4 | 1367180.4 | +1714.3% | +1694.8% | +1736.9% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 512 | preg_match() | 231118.6 | 1367180.4 | +491.5% | +473.3% | +519.0% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 512 | str_contains() loop | 39195.2 | 1368328.1 | +3377.5% | +3326.4% | +3424.6% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 512 | preg_match() | 124931.5 | 1368328.1 | +996.1% | +979.4% | +1012.0% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 512 | str_contains() loop | 53358.8 | 1368546.7 | +2461.0% | +2370.3% | +2482.2% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 512 | preg_match() | 252818.9 | 1368546.7 | +447.4% | +423.3% | +453.1% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 512 | str_contains() loop | 39791.4 | 1367354.7 | +3335.4% | +3171.6% | +3386.9% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 512 | preg_match() | 258273.5 | 1367354.7 | +429.9% | +413.8% | +436.1% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 512 | str_contains() loop | 317129.5 | 1368356.3 | +330.6% | +320.9% | +332.5% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 512 | preg_match() | 1118223.0 | 1368356.3 | +22.2% | +15.8% | +35.7% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 512 | str_contains() loop | 116154.9 | 1363303.1 | +1074.4% | +1023.2% | +1083.8% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 512 | preg_match() | 504875.5 | 1363303.1 | +169.8% | +157.6% | +182.3% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | strpos() per term | 5412.6 | 14329.3 | +164.5% | +157.2% | +174.2% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | preg_match() per term | 9741.5 | 14329.3 | +46.8% | +45.8% | +51.1% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | strpos() per term | 4452.7 | 13904.7 | +211.5% | +208.8% | +216.3% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | PCRE lookahead per term | 10795.4 | 13904.7 | +28.6% | +28.3% | +29.5% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | strpos() per term | 6721.5 | 14418.1 | +114.5% | +112.2% | +118.7% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | PCRE lookahead per term | 17058.5 | 14418.1 | -15.5% | -16.1% | -14.6% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | strpos() per term | 10003.0 | 23355.2 | +134.3% | +131.1% | +141.9% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | preg_match() per term | 17980.2 | 23355.2 | +29.6% | +29.0% | +33.0% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | strpos() per term | 8513.1 | 22442.9 | +163.6% | +161.4% | +175.2% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | PCRE lookahead per term | 20382.4 | 22442.9 | +10.9% | +9.2% | +13.7% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | strpos() per term | 12619.5 | 23634.1 | +89.6% | +85.0% | +92.0% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | PCRE lookahead per term | 31728.6 | 23634.1 | -25.6% | -26.3% | -24.1% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | strpos() per term | 17870.1 | 42699.5 | +138.6% | +135.2% | +140.8% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | preg_match() per term | 34882.8 | 42699.5 | +22.8% | +21.4% | +23.9% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | strpos() per term | 15105.6 | 41369.9 | +176.9% | +167.5% | +180.7% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | PCRE lookahead per term | 38321.6 | 41369.9 | +8.4% | +6.7% | +9.4% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | strpos() per term | 23023.3 | 43345.6 | +88.9% | +81.3% | +92.1% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | PCRE lookahead per term | 59889.4 | 43345.6 | -27.8% | -28.2% | -26.1% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | strpos() per term | 36298.0 | 90666.7 | +149.5% | +140.5% | +153.0% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | preg_match() per term | 66528.5 | 90666.7 | +36.5% | +35.8% | +37.2% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | strpos() per term | 31186.7 | 89097.5 | +185.2% | +184.7% | +187.3% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | PCRE lookahead per term | 75734.2 | 89097.5 | +17.5% | +17.0% | +18.7% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | strpos() per term | 45778.9 | 91771.5 | +100.7% | +95.5% | +101.9% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | PCRE lookahead per term | 113488.1 | 91771.5 | -19.3% | -19.4% | -18.5% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | strpos() per term | 75303.5 | 218633.6 | +190.0% | +188.1% | +205.7% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | preg_match() per term | 131553.6 | 218633.6 | +67.0% | +63.8% | +69.8% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | strpos() per term | 64970.6 | 215245.5 | +229.9% | +221.5% | +236.4% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | PCRE lookahead per term | 228881.9 | 215245.5 | -5.7% | -6.6% | -5.2% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | strpos() per term | 88587.8 | 220952.2 | +149.4% | +145.5% | +150.3% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | PCRE lookahead per term | 303209.2 | 220952.2 | -26.9% | -28.2% | -26.6% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | strpos() per term | 148466.8 | 623350.3 | +319.5% | +309.9% | +322.1% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | preg_match() per term | 278811.2 | 623350.3 | +124.6% | +122.6% | +127.4% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | strpos() per term | 141476.4 | 615323.2 | +334.4% | +327.7% | +335.7% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | PCRE lookahead per term | 521760.9 | 615323.2 | +18.1% | +17.6% | +18.6% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | strpos() per term | 164552.3 | 623595.4 | +278.1% | +267.5% | +279.6% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | PCRE lookahead per term | 627909.9 | 623595.4 | -0.7% | -1.1% | -0.5% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | strpos() per term | 290576.6 | 1631420.4 | +461.3% | +459.9% | +470.9% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | preg_match() per term | 622385.3 | 1631420.4 | +162.1% | +161.1% | +162.7% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | strpos() per term | 286163.5 | 1633541.7 | +470.4% | +468.9% | +478.6% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | PCRE lookahead per term | 1102133.9 | 1633541.7 | +48.1% | +48.0% | +48.7% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | strpos() per term | 310568.8 | 1637564.8 | +426.5% | +421.3% | +439.9% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | PCRE lookahead per term | 1269879.5 | 1637564.8 | +29.5% | +28.4% | +31.3% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 8 | strtr() | 20753.2 | 16380.9 | -21.1% | -21.3% | -20.5% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 8 | preg_replace_callback() | 10202.8 | 16380.9 | +60.4% | +59.2% | +61.5% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 8 | strtr() | 162407.2 | 50763.8 | -68.6% | -69.1% | -68.5% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 8 | preg_replace_callback() | 29722.4 | 50763.8 | +70.8% | +70.2% | +72.5% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 16 | strtr() | 36865.1 | 28092.7 | -23.8% | -24.0% | -23.5% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 16 | preg_replace_callback() | 23678.2 | 28092.7 | +18.8% | +17.6% | +19.1% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 16 | strtr() | 292914.4 | 64911.9 | -77.8% | -77.9% | -77.6% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 16 | preg_replace_callback() | 84609.0 | 64911.9 | -23.3% | -23.8% | -22.3% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 32 | strtr() | 77841.3 | 49196.9 | -36.8% | -37.2% | -35.2% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 32 | preg_replace_callback() | 48543.1 | 49196.9 | +1.6% | +0.3% | +3.9% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 32 | strtr() | 621404.1 | 88812.6 | -85.7% | -85.9% | -85.6% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 32 | preg_replace_callback() | 167844.9 | 88812.6 | -47.3% | -47.7% | -46.7% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 64 | strtr() | 143451.3 | 91736.8 | -36.0% | -36.5% | -33.7% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 64 | preg_replace_callback() | 104259.4 | 91736.8 | -12.0% | -15.4% | -8.2% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 64 | strtr() | 1144144.5 | 135057.0 | -88.2% | -88.2% | -87.8% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 64 | preg_replace_callback() | 324276.6 | 135057.0 | -58.4% | -58.5% | -56.9% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 128 | strtr() | 175137.8 | 210989.2 | +20.5% | +19.8% | +24.4% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 128 | preg_replace_callback() | 213505.5 | 210989.2 | -1.0% | -3.2% | +2.0% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 128 | strtr() | 1398395.7 | 273032.1 | -80.5% | -80.7% | -80.4% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 128 | preg_replace_callback() | 563036.6 | 273032.1 | -51.7% | -52.0% | -51.2% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 256 | strtr() | 191621.3 | 529899.5 | +176.3% | +175.3% | +177.4% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 256 | preg_replace_callback() | 501876.1 | 529899.5 | +5.4% | +1.8% | +6.2% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 256 | strtr() | 1529557.4 | 605674.6 | -60.4% | -60.5% | -60.2% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 256 | preg_replace_callback() | 1232614.1 | 605674.6 | -50.7% | -51.3% | -50.7% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | strtr() | 196034.6 | 1362596.4 | +595.4% | +589.6% | +596.3% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | preg_replace_callback() | 1233907.8 | 1362596.4 | +10.1% | +7.3% | +13.3% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | strtr() | 1565617.9 | 1438086.9 | -8.1% | -8.4% | -7.6% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | preg_replace_callback() | 3428196.5 | 1438086.9 | -57.9% | -59.3% | -57.7% |
 
 ##### clang21
 
 | Task | Substrings | Existing method | Existing | Prototype | Δ | Min Δ | Max Δ |
 |---|---:|---|---:|---:|---:|---:|---:|
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 8 | str_contains() loop | 1247.8 | 6196.3 | +396.3% | +394.2% | +398.3% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 8 | preg_match() | 3099.3 | 6196.3 | +101.0% | +98.1% | +101.6% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 8 | str_contains() loop | 888.3 | 5450.4 | +512.6% | +508.8% | +552.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 8 | preg_match() | 2736.8 | 5450.4 | +98.4% | +97.9% | +109.6% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 8 | str_contains() loop | 1053.3 | 6579.9 | +526.2% | +519.1% | +533.5% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 8 | preg_match() | 3256.7 | 6579.9 | +103.0% | +102.0% | +103.3% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 8 | str_contains() loop | 949.0 | 6703.6 | +612.5% | +605.6% | +635.9% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 8 | preg_match() | 3261.1 | 6703.6 | +108.4% | +104.9% | +112.8% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 8 | str_contains() loop | 4411.8 | 14244.3 | +222.9% | +220.9% | +223.4% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 8 | preg_match() | 6742.5 | 14244.3 | +110.5% | +109.1% | +112.8% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 8 | str_contains() loop | 1760.4 | 8733.7 | +396.1% | +394.6% | +397.9% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 8 | preg_match() | 4199.4 | 8733.7 | +108.0% | +107.6% | +109.2% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 16 | str_contains() loop | 1993.4 | 15699.3 | +682.5% | +676.2% | +709.3% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 16 | preg_match() | 5637.7 | 15699.3 | +178.8% | +175.8% | +181.8% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 16 | str_contains() loop | 1250.7 | 14878.6 | +1104.0% | +993.3% | +1108.4% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 16 | preg_match() | 4816.0 | 14878.6 | +209.9% | +206.6% | +212.2% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 16 | str_contains() loop | 1493.2 | 16113.8 | +984.8% | +974.1% | +993.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 16 | preg_match() | 5929.8 | 16113.8 | +172.6% | +171.7% | +174.5% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 16 | str_contains() loop | 1311.2 | 16177.1 | +1138.4% | +1111.8% | +1146.8% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 16 | preg_match() | 6001.9 | 16177.1 | +169.5% | +166.6% | +171.2% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 16 | str_contains() loop | 7472.4 | 23327.2 | +213.0% | +208.6% | +215.9% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 16 | preg_match() | 15699.2 | 23327.2 | +48.7% | +47.9% | +50.1% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 16 | str_contains() loop | 2565.4 | 17788.5 | +593.8% | +588.8% | +607.7% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 16 | preg_match() | 7858.8 | 17788.5 | +126.0% | +124.5% | +131.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 32 | str_contains() loop | 3675.9 | 46085.3 | +1148.6% | +1133.7% | +1188.7% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 32 | preg_match() | 11631.6 | 46085.3 | +296.1% | +290.4% | +299.6% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 32 | str_contains() loop | 2159.4 | 45280.8 | +1996.9% | +1923.8% | +2013.7% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 32 | preg_match() | 9077.2 | 45280.8 | +400.4% | +388.7% | +405.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 32 | str_contains() loop | 2701.0 | 46711.2 | +1632.2% | +1588.0% | +1643.8% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 32 | preg_match() | 12528.2 | 46711.2 | +273.3% | +272.4% | +275.4% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 32 | str_contains() loop | 2248.4 | 46585.3 | +1968.3% | +1956.8% | +2007.7% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 32 | preg_match() | 12781.0 | 46585.3 | +265.5% | +263.6% | +271.9% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 32 | str_contains() loop | 16908.3 | 55335.7 | +226.1% | +225.5% | +229.6% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 32 | preg_match() | 37905.1 | 55335.7 | +45.9% | +44.5% | +46.4% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 32 | str_contains() loop | 6225.3 | 49724.0 | +698.9% | +693.1% | +703.9% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 32 | preg_match() | 19257.2 | 49724.0 | +159.1% | +155.9% | +160.5% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 64 | str_contains() loop | 6833.4 | 93046.4 | +1261.6% | +1233.3% | +1270.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 64 | preg_match() | 22943.5 | 93046.4 | +305.5% | +304.3% | +307.6% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 64 | str_contains() loop | 4063.4 | 92307.3 | +2170.3% | +2153.5% | +2198.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 64 | preg_match() | 16735.4 | 92307.3 | +451.6% | +447.4% | +457.2% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 64 | str_contains() loop | 5275.3 | 93222.1 | +1675.0% | +1655.3% | +1700.9% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 64 | preg_match() | 24662.3 | 93222.1 | +279.2% | +275.9% | +283.0% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 64 | str_contains() loop | 4217.5 | 93411.3 | +2113.0% | +2054.9% | +2117.8% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 64 | preg_match() | 25333.5 | 93411.3 | +267.5% | +266.5% | +270.4% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 64 | str_contains() loop | 33524.8 | 102444.2 | +204.8% | +202.6% | +207.9% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 64 | preg_match() | 80615.7 | 102444.2 | +27.0% | +26.4% | +27.1% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 64 | str_contains() loop | 13421.9 | 96635.6 | +619.9% | +619.3% | +623.8% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 64 | preg_match() | 40010.8 | 96635.6 | +141.9% | +139.5% | +143.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 128 | str_contains() loop | 14374.6 | 204752.7 | +1323.8% | +1301.8% | +1355.4% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 128 | preg_match() | 44978.0 | 204752.7 | +355.0% | +353.1% | +358.3% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 128 | str_contains() loop | 7768.5 | 203686.5 | +2522.0% | +2490.1% | +2571.4% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 128 | preg_match() | 32711.0 | 203686.5 | +521.5% | +506.5% | +525.8% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 128 | str_contains() loop | 10143.0 | 205831.0 | +1929.8% | +1920.5% | +1936.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 128 | preg_match() | 47609.1 | 205831.0 | +331.9% | +330.2% | +333.6% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 128 | str_contains() loop | 7960.0 | 206495.3 | +2486.2% | +2479.7% | +2502.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 128 | preg_match() | 48895.5 | 206495.3 | +321.4% | +318.5% | +322.8% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 128 | str_contains() loop | 65949.0 | 208719.3 | +217.2% | +215.6% | +219.6% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 128 | preg_match() | 153637.2 | 208719.3 | +35.7% | +35.5% | +36.7% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 128 | str_contains() loop | 26326.4 | 202278.1 | +668.0% | +664.1% | +681.8% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 128 | preg_match() | 76991.9 | 202278.1 | +163.1% | +162.4% | +165.3% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 256 | str_contains() loop | 35267.8 | 388669.4 | +996.7% | +995.9% | +1003.6% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 256 | preg_match() | 90984.4 | 388669.4 | +327.2% | +296.2% | +332.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 256 | str_contains() loop | 17259.1 | 386284.3 | +2137.1% | +2127.6% | +2158.9% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 256 | preg_match() | 64373.9 | 386284.3 | +497.7% | +477.6% | +509.5% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 256 | str_contains() loop | 23127.1 | 386555.0 | +1571.4% | +1563.7% | +1582.4% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 256 | preg_match() | 98486.1 | 386555.0 | +292.4% | +275.6% | +303.7% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 256 | str_contains() loop | 17679.0 | 388755.6 | +2095.8% | +2071.5% | +2116.6% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 256 | preg_match() | 98617.3 | 388755.6 | +294.7% | +261.0% | +296.7% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 256 | str_contains() loop | 149984.0 | 394702.6 | +162.5% | +160.8% | +165.5% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 256 | preg_match() | 323173.7 | 394702.6 | +22.3% | +6.0% | +27.9% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 256 | str_contains() loop | 55512.7 | 387352.1 | +599.2% | +596.4% | +602.4% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 256 | preg_match() | 176542.1 | 387352.1 | +120.3% | +118.8% | +130.5% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 512 | str_contains() loop | 80389.6 | 728779.1 | +806.6% | +801.5% | +812.9% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 512 | preg_match() | 227755.1 | 728779.1 | +220.0% | +219.0% | +233.5% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 512 | str_contains() loop | 43421.2 | 728461.9 | +1575.5% | +1565.7% | +1580.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 512 | preg_match() | 127927.5 | 728461.9 | +469.7% | +455.5% | +483.9% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 512 | str_contains() loop | 58340.6 | 727792.2 | +1146.5% | +1135.8% | +1153.3% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 512 | preg_match() | 249326.6 | 727792.2 | +191.1% | +185.3% | +194.4% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 512 | str_contains() loop | 43606.7 | 731381.8 | +1573.0% | +1567.0% | +1618.5% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 512 | preg_match() | 262012.3 | 731381.8 | +178.4% | +171.2% | +187.1% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 512 | str_contains() loop | 335382.5 | 736223.3 | +119.3% | +116.6% | +119.7% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 512 | preg_match() | 1131641.3 | 736223.3 | -34.8% | -36.4% | -32.4% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 512 | str_contains() loop | 123146.5 | 731132.6 | +492.9% | +490.4% | +499.0% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 512 | preg_match() | 498227.2 | 731132.6 | +46.6% | +40.3% | +50.9% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | strpos() per term | 5399.3 | 15372.4 | +184.4% | +183.2% | +184.9% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | preg_match() per term | 9240.4 | 15372.4 | +66.0% | +64.7% | +68.1% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | strpos() per term | 4500.8 | 14494.3 | +222.2% | +218.5% | +224.8% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | PCRE lookahead per term | 10371.9 | 14494.3 | +39.5% | +38.3% | +41.3% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | strpos() per term | 6663.8 | 15707.4 | +135.6% | +134.8% | +138.8% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | PCRE lookahead per term | 16426.4 | 15707.4 | -4.4% | -5.0% | -4.1% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | strpos() per term | 10178.5 | 24392.8 | +140.0% | +138.7% | +143.4% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | preg_match() per term | 17131.7 | 24392.8 | +42.3% | +41.1% | +44.9% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | strpos() per term | 8635.7 | 23537.9 | +172.8% | +170.9% | +173.3% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | PCRE lookahead per term | 19700.2 | 23537.9 | +19.8% | +17.6% | +20.5% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | strpos() per term | 12668.2 | 25271.6 | +99.5% | +98.7% | +100.6% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | PCRE lookahead per term | 30530.8 | 25271.6 | -17.5% | -17.7% | -17.1% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | strpos() per term | 18656.2 | 43166.7 | +131.7% | +130.3% | +135.5% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | preg_match() per term | 33576.0 | 43166.7 | +28.1% | +27.9% | +30.4% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | strpos() per term | 15788.0 | 41427.2 | +162.4% | +161.4% | +165.5% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | PCRE lookahead per term | 37096.3 | 41427.2 | +11.7% | +10.2% | +13.1% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | strpos() per term | 23842.5 | 43837.0 | +83.9% | +81.9% | +84.1% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | PCRE lookahead per term | 57826.0 | 43837.0 | -24.1% | -25.2% | -23.8% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | strpos() per term | 38529.0 | 93117.4 | +141.6% | +139.8% | +143.9% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | preg_match() per term | 65236.3 | 93117.4 | +42.7% | +42.2% | +43.8% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | strpos() per term | 33956.8 | 90396.5 | +166.6% | +165.3% | +168.5% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | PCRE lookahead per term | 74198.4 | 90396.5 | +21.6% | +20.1% | +23.6% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | strpos() per term | 48245.8 | 94078.2 | +95.1% | +93.4% | +99.1% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | PCRE lookahead per term | 111390.5 | 94078.2 | -15.5% | -16.4% | -13.7% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | strpos() per term | 77225.0 | 211364.6 | +173.6% | +173.1% | +174.3% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | preg_match() per term | 127724.0 | 211364.6 | +65.1% | +64.6% | +66.5% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | strpos() per term | 68687.1 | 208373.0 | +203.4% | +202.5% | +204.2% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | PCRE lookahead per term | 223378.5 | 208373.0 | -7.0% | -7.9% | -6.2% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | strpos() per term | 91253.1 | 214511.4 | +135.1% | +133.7% | +136.8% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | PCRE lookahead per term | 294156.4 | 214511.4 | -27.0% | -28.5% | -26.7% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | strpos() per term | 152841.3 | 461238.3 | +202.3% | +200.0% | +202.7% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | preg_match() per term | 268682.5 | 461238.3 | +71.8% | +70.0% | +73.2% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | strpos() per term | 146170.3 | 458875.3 | +213.9% | +213.2% | +219.1% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | PCRE lookahead per term | 511034.2 | 458875.3 | -10.1% | -10.5% | -9.5% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | strpos() per term | 168390.3 | 463551.9 | +175.9% | +174.6% | +177.6% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | PCRE lookahead per term | 613979.4 | 463551.9 | -24.5% | -25.1% | -23.9% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | strpos() per term | 293711.6 | 1343370.1 | +357.4% | +356.6% | +359.0% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | preg_match() per term | 602007.8 | 1343370.1 | +123.1% | +122.1% | +125.4% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | strpos() per term | 290593.9 | 1340275.6 | +361.2% | +358.3% | +363.3% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | PCRE lookahead per term | 1076533.6 | 1340275.6 | +24.5% | +23.2% | +25.2% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | strpos() per term | 314609.2 | 1354838.4 | +331.0% | +329.5% | +331.1% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | PCRE lookahead per term | 1234754.3 | 1354838.4 | +9.8% | +8.8% | +9.9% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 8 | strtr() | 20049.5 | 16894.3 | -15.6% | -16.0% | -14.2% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 8 | preg_replace_callback() | 9864.8 | 16894.3 | +71.9% | +70.2% | +72.2% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 8 | strtr() | 157719.9 | 59813.3 | -62.1% | -62.7% | -61.5% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 8 | preg_replace_callback() | 29343.5 | 59813.3 | +103.9% | +103.0% | +104.9% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 16 | strtr() | 36034.7 | 28333.5 | -21.2% | -23.1% | -20.5% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 16 | preg_replace_callback() | 23113.5 | 28333.5 | +22.7% | +18.8% | +23.3% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 16 | strtr() | 288958.6 | 72508.2 | -74.9% | -75.1% | -74.7% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 16 | preg_replace_callback() | 83533.3 | 72508.2 | -13.3% | -14.1% | -12.8% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 32 | strtr() | 77364.7 | 50270.0 | -34.9% | -35.3% | -34.8% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 32 | preg_replace_callback() | 47371.4 | 50270.0 | +5.9% | +5.2% | +6.5% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 32 | strtr() | 616724.6 | 97393.1 | -84.2% | -84.3% | -84.1% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 32 | preg_replace_callback() | 167218.4 | 97393.1 | -41.7% | -42.4% | -41.4% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 64 | strtr() | 144027.0 | 107517.7 | -25.4% | -25.6% | -25.2% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 64 | preg_replace_callback() | 101675.7 | 107517.7 | +5.7% | +4.8% | +6.2% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 64 | strtr() | 1150370.7 | 157517.2 | -86.3% | -86.3% | -86.3% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 64 | preg_replace_callback() | 320879.6 | 157517.2 | -51.0% | -51.1% | -50.7% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 128 | strtr() | 177116.9 | 225632.3 | +27.4% | +27.0% | +28.2% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 128 | preg_replace_callback() | 209815.6 | 225632.3 | +7.4% | -30.8% | +8.1% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 128 | strtr() | 1414134.0 | 276488.4 | -80.4% | -80.6% | -80.3% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 128 | preg_replace_callback() | 589080.8 | 276488.4 | -53.1% | -53.3% | -52.8% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 256 | strtr() | 193908.7 | 464447.3 | +139.4% | +139.2% | +142.8% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 256 | preg_replace_callback() | 483123.1 | 464447.3 | -3.4% | -3.9% | -2.9% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 256 | strtr() | 1550856.9 | 518808.0 | -66.6% | -66.7% | -66.5% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 256 | preg_replace_callback() | 1202824.7 | 518808.0 | -57.0% | -60.3% | -56.2% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | strtr() | 198217.4 | 1225484.4 | +518.9% | +515.5% | +522.2% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | preg_replace_callback() | 1165943.3 | 1225484.4 | +4.9% | +3.1% | +6.3% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | strtr() | 1582818.4 | 1349409.0 | -14.7% | -15.2% | -9.1% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | preg_replace_callback() | 3305756.6 | 1349409.0 | -58.9% | -60.9% | -56.5% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 8 | str_contains() loop | 1250.2 | 10941.5 | +775.1% | +764.2% | +827.6% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 8 | preg_match() | 3079.6 | 10941.5 | +253.7% | +252.5% | +278.6% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 8 | str_contains() loop | 883.9 | 10675.1 | +1108.2% | +1095.7% | +1114.4% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 8 | preg_match() | 2733.6 | 10675.1 | +289.1% | +285.1% | +293.3% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 8 | str_contains() loop | 1051.3 | 11012.9 | +954.5% | +947.2% | +970.8% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 8 | preg_match() | 3277.5 | 11012.9 | +237.3% | +226.0% | +244.6% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 8 | str_contains() loop | 943.1 | 11074.4 | +1074.2% | +1062.2% | +1086.0% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 8 | preg_match() | 3229.8 | 11074.4 | +242.5% | +240.1% | +243.6% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 8 | str_contains() loop | 4403.6 | 13524.0 | +208.5% | +205.1% | +216.4% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 8 | preg_match() | 6696.5 | 13524.0 | +101.9% | +100.8% | +107.6% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 8 | str_contains() loop | 1764.2 | 11553.9 | +560.2% | +543.3% | +614.7% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 8 | preg_match() | 4192.3 | 11553.9 | +176.3% | +171.5% | +200.1% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 16 | str_contains() loop | 2009.3 | 22955.3 | +1065.0% | +1029.8% | +1070.3% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 16 | preg_match() | 5651.7 | 22955.3 | +306.3% | +302.2% | +323.8% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 16 | str_contains() loop | 1236.0 | 22856.7 | +1749.2% | +1719.0% | +1757.3% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 16 | preg_match() | 4835.8 | 22856.7 | +372.7% | +365.7% | +378.1% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 16 | str_contains() loop | 1503.3 | 22959.8 | +1429.2% | +1416.4% | +1456.1% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 16 | preg_match() | 5885.1 | 22959.8 | +291.4% | +288.0% | +294.1% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 16 | str_contains() loop | 1307.5 | 23005.8 | +1667.1% | +1623.5% | +1700.4% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 16 | preg_match() | 5976.3 | 23005.8 | +285.1% | +283.4% | +296.0% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 16 | str_contains() loop | 7509.0 | 25636.5 | +242.2% | +237.1% | +245.5% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 16 | preg_match() | 15655.2 | 25636.5 | +64.1% | +62.4% | +65.5% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 16 | str_contains() loop | 2564.5 | 23739.7 | +827.7% | +818.0% | +843.0% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 16 | preg_match() | 7868.5 | 23739.7 | +200.4% | +190.7% | +204.4% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 32 | str_contains() loop | 3610.6 | 56568.3 | +1464.6% | +1423.8% | +1474.3% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 32 | preg_match() | 11733.2 | 56568.3 | +381.6% | +378.1% | +383.0% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 32 | str_contains() loop | 2154.9 | 55798.9 | +2486.4% | +2431.9% | +2533.8% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 32 | preg_match() | 9091.7 | 55798.9 | +513.7% | +494.1% | +525.4% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 32 | str_contains() loop | 2713.7 | 56466.3 | +1962.0% | +1674.5% | +2021.1% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 32 | preg_match() | 12585.8 | 56466.3 | +351.1% | +344.1% | +356.4% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 32 | str_contains() loop | 2238.6 | 57297.5 | +2487.0% | +2439.9% | +2565.2% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 32 | preg_match() | 12747.7 | 57297.5 | +350.4% | +345.9% | +369.6% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 32 | str_contains() loop | 16852.4 | 62415.8 | +270.4% | +269.2% | +272.9% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 32 | preg_match() | 37997.7 | 62415.8 | +64.1% | +64.0% | +65.5% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 32 | str_contains() loop | 6228.2 | 58108.9 | +837.8% | +827.2% | +867.1% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 32 | preg_match() | 19243.9 | 58108.9 | +202.0% | +199.9% | +212.9% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 64 | str_contains() loop | 6855.3 | 117009.5 | +1603.4% | +1590.8% | +1619.2% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 64 | preg_match() | 22914.0 | 117009.5 | +410.6% | +401.7% | +413.2% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 64 | str_contains() loop | 4015.5 | 116579.1 | +2793.7% | +2717.0% | +2808.2% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 64 | preg_match() | 16733.3 | 116579.1 | +596.3% | +590.1% | +597.2% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 64 | str_contains() loop | 5270.4 | 117665.5 | +2132.6% | +2104.1% | +2160.7% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 64 | preg_match() | 24641.4 | 117665.5 | +378.6% | +366.4% | +379.4% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 64 | str_contains() loop | 4206.3 | 117243.9 | +2689.6% | +2643.9% | +2698.0% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 64 | preg_match() | 25325.0 | 117243.9 | +362.5% | +356.7% | +367.3% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 64 | str_contains() loop | 33445.3 | 124428.9 | +273.9% | +267.8% | +287.8% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 64 | preg_match() | 80490.9 | 124428.9 | +54.3% | +53.2% | +61.1% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 64 | str_contains() loop | 13441.9 | 119267.5 | +786.3% | +781.9% | +793.1% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 64 | preg_match() | 39879.6 | 119267.5 | +199.9% | +194.0% | +200.7% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 128 | str_contains() loop | 14238.7 | 259492.9 | +1722.4% | +1713.0% | +1740.4% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 128 | preg_match() | 45535.4 | 259492.9 | +469.9% | +463.3% | +479.8% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 128 | str_contains() loop | 7791.0 | 259783.7 | +3241.6% | +3178.3% | +3252.7% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 128 | preg_match() | 32835.0 | 259783.7 | +694.3% | +679.0% | +702.0% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 128 | str_contains() loop | 10165.0 | 260508.2 | +2466.9% | +2428.9% | +2557.2% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 128 | preg_match() | 47810.7 | 260508.2 | +445.2% | +429.0% | +450.2% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 128 | str_contains() loop | 8002.3 | 260751.9 | +3162.1% | +3130.0% | +3173.5% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 128 | preg_match() | 49278.9 | 260751.9 | +430.8% | +425.3% | +432.9% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 128 | str_contains() loop | 65947.3 | 269012.1 | +309.6% | +305.1% | +311.3% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 128 | preg_match() | 153939.3 | 269012.1 | +75.0% | +73.2% | +75.2% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 128 | str_contains() loop | 26346.2 | 265187.5 | +903.1% | +902.0% | +920.7% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 128 | preg_match() | 76855.2 | 265187.5 | +245.6% | +242.1% | +251.3% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 256 | str_contains() loop | 35420.4 | 694229.6 | +1857.2% | +1846.7% | +1886.2% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 256 | preg_match() | 92004.4 | 694229.6 | +653.6% | +618.3% | +668.9% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 256 | str_contains() loop | 17207.5 | 694827.8 | +3948.5% | +3919.1% | +3959.4% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 256 | preg_match() | 64040.4 | 694827.8 | +985.9% | +976.1% | +995.2% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 256 | str_contains() loop | 23207.2 | 695200.0 | +2902.1% | +2891.8% | +2931.5% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 256 | preg_match() | 95625.7 | 695200.0 | +626.2% | +570.0% | +640.6% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 256 | str_contains() loop | 17599.6 | 700314.9 | +3866.6% | +3807.3% | +3921.3% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 256 | preg_match() | 100230.6 | 700314.9 | +599.2% | +552.1% | +610.6% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 256 | str_contains() loop | 149509.7 | 704045.0 | +370.9% | +358.1% | +375.3% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 256 | preg_match() | 311081.1 | 704045.0 | +126.4% | +113.1% | +129.6% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 256 | str_contains() loop | 55641.6 | 697770.1 | +1151.2% | +1140.7% | +1162.8% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 256 | preg_match() | 154705.4 | 697770.1 | +351.4% | +315.3% | +355.2% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 512 | str_contains() loop | 80209.1 | 1358598.4 | +1603.8% | +1585.3% | +1617.4% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 512 | preg_match() | 226858.4 | 1358598.4 | +497.8% | +492.2% | +520.3% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 512 | str_contains() loop | 43185.7 | 1357178.0 | +3038.8% | +3026.7% | +3071.0% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 512 | preg_match() | 129340.9 | 1357178.0 | +949.3% | +942.7% | +958.4% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 512 | str_contains() loop | 58660.1 | 1358928.9 | +2215.5% | +2211.1% | +2226.6% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 512 | preg_match() | 251389.3 | 1358928.9 | +443.4% | +420.6% | +459.8% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 512 | str_contains() loop | 43666.8 | 1360273.2 | +3022.5% | +3002.3% | +3032.1% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 512 | preg_match() | 261435.7 | 1360273.2 | +420.0% | +410.4% | +431.3% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 512 | str_contains() loop | 334809.3 | 1359531.4 | +306.3% | +305.0% | +307.0% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 512 | preg_match() | 1080335.8 | 1359531.4 | +25.7% | +19.0% | +27.7% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 512 | str_contains() loop | 123741.1 | 1351731.7 | +998.2% | +982.2% | +1007.1% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 512 | preg_match() | 501538.5 | 1351731.7 | +169.5% | +155.0% | +178.7% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | strpos() per term | 5422.2 | 13800.0 | +154.7% | +154.2% | +157.1% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | preg_match() per term | 9145.8 | 13800.0 | +50.3% | +47.4% | +52.7% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | strpos() per term | 4491.6 | 13326.1 | +196.7% | +193.4% | +198.4% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | PCRE lookahead per term | 10287.1 | 13326.1 | +29.4% | +29.2% | +29.6% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | strpos() per term | 6671.3 | 14782.9 | +121.8% | +120.7% | +133.8% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | PCRE lookahead per term | 16414.0 | 14782.9 | -9.7% | -10.4% | -5.6% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | strpos() per term | 10244.7 | 22237.9 | +117.3% | +115.9% | +122.8% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | preg_match() per term | 16992.4 | 22237.9 | +30.3% | +28.7% | +33.2% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | strpos() per term | 8642.1 | 21924.7 | +153.7% | +149.3% | +158.4% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | PCRE lookahead per term | 19691.0 | 21924.7 | +10.9% | +10.0% | +11.4% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | strpos() per term | 12705.0 | 23490.7 | +85.7% | +83.3% | +89.2% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | PCRE lookahead per term | 30663.2 | 23490.7 | -23.2% | -24.3% | -22.2% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | strpos() per term | 18659.3 | 40476.8 | +117.5% | +116.0% | +118.8% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | preg_match() per term | 33329.9 | 40476.8 | +21.3% | +20.6% | +23.5% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | strpos() per term | 15793.0 | 39795.9 | +151.0% | +149.6% | +153.3% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | PCRE lookahead per term | 37388.1 | 39795.9 | +7.1% | +5.0% | +7.7% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | strpos() per term | 23906.7 | 42117.3 | +76.3% | +73.7% | +77.4% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | PCRE lookahead per term | 57791.5 | 42117.3 | -27.3% | -28.1% | -26.6% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | strpos() per term | 38588.8 | 87745.2 | +127.2% | +126.4% | +139.7% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | preg_match() per term | 65167.3 | 87745.2 | +35.4% | +31.3% | +40.4% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | strpos() per term | 33839.6 | 85852.0 | +154.2% | +153.3% | +157.6% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | PCRE lookahead per term | 74395.0 | 85852.0 | +15.4% | +13.7% | +16.1% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | strpos() per term | 48089.6 | 89189.3 | +86.4% | +82.3% | +90.2% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | PCRE lookahead per term | 111067.7 | 89189.3 | -19.6% | -20.7% | -18.3% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | strpos() per term | 76826.3 | 207463.7 | +170.5% | +167.7% | +175.2% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | preg_match() per term | 126947.2 | 207463.7 | +63.7% | +58.7% | +64.4% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | strpos() per term | 68939.7 | 207317.9 | +199.3% | +194.9% | +208.8% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | PCRE lookahead per term | 222540.0 | 207317.9 | -8.0% | -8.3% | -6.6% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | strpos() per term | 91348.2 | 213370.1 | +132.9% | +129.8% | +135.2% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | PCRE lookahead per term | 294318.5 | 213370.1 | -27.9% | -28.5% | -26.9% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | strpos() per term | 152705.9 | 597863.9 | +290.8% | +290.0% | +294.3% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | preg_match() per term | 268981.7 | 597863.9 | +121.8% | +120.0% | +123.5% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | strpos() per term | 145285.8 | 591311.3 | +307.0% | +304.7% | +307.3% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | PCRE lookahead per term | 513276.1 | 591311.3 | +15.3% | +14.7% | +16.2% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | strpos() per term | 168206.7 | 599280.8 | +256.4% | +255.3% | +256.9% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | PCRE lookahead per term | 615420.6 | 599280.8 | -2.5% | -11.1% | -1.5% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | strpos() per term | 293846.4 | 1604431.1 | +446.6% | +444.8% | +449.0% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | preg_match() per term | 601117.0 | 1604431.1 | +166.8% | +164.5% | +169.0% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | strpos() per term | 290550.8 | 1608794.7 | +453.0% | +451.9% | +459.2% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | PCRE lookahead per term | 1077652.7 | 1608794.7 | +49.5% | +48.7% | +50.2% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | strpos() per term | 313848.4 | 1609045.9 | +411.3% | +397.6% | +416.6% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | PCRE lookahead per term | 1242180.0 | 1609045.9 | +29.8% | +23.6% | +31.3% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 8 | strtr() | 19858.8 | 15859.6 | -20.1% | -22.1% | -19.6% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 8 | preg_replace_callback() | 9892.0 | 15859.6 | +60.1% | +59.8% | +61.2% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 8 | strtr() | 157212.2 | 48430.4 | -69.1% | -69.7% | -68.2% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 8 | preg_replace_callback() | 29416.0 | 48430.4 | +64.6% | +63.8% | +67.8% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 16 | strtr() | 36174.0 | 27078.9 | -24.9% | -25.1% | -23.7% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 16 | preg_replace_callback() | 23166.1 | 27078.9 | +17.4% | +16.2% | +18.6% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 16 | strtr() | 289765.0 | 63105.0 | -78.2% | -78.3% | -77.9% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 16 | preg_replace_callback() | 83601.5 | 63105.0 | -24.7% | -26.1% | -23.6% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 32 | strtr() | 77334.9 | 46709.6 | -39.6% | -39.8% | -38.9% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 32 | preg_replace_callback() | 47342.6 | 46709.6 | -1.6% | -2.2% | -0.3% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 32 | strtr() | 616446.9 | 86629.6 | -85.9% | -86.1% | -85.8% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 32 | preg_replace_callback() | 167358.6 | 86629.6 | -48.2% | -48.9% | -47.6% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 64 | strtr() | 144232.4 | 89142.4 | -38.1% | -39.0% | -37.5% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 64 | preg_replace_callback() | 102003.5 | 89142.4 | -12.5% | -13.6% | -11.8% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 64 | strtr() | 1149581.5 | 133714.6 | -88.4% | -88.5% | -88.2% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 64 | preg_replace_callback() | 320721.5 | 133714.6 | -58.4% | -59.1% | -57.7% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 128 | strtr() | 177229.7 | 208608.3 | +17.9% | +15.8% | +19.9% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 128 | preg_replace_callback() | 209370.0 | 208608.3 | -0.9% | -3.4% | +1.5% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 128 | strtr() | 1413682.2 | 267485.0 | -81.1% | -81.2% | -81.0% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 128 | preg_replace_callback() | 588976.7 | 267485.0 | -54.6% | -55.0% | -54.5% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 256 | strtr() | 193668.1 | 514587.0 | +165.8% | +163.4% | +167.5% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 256 | preg_replace_callback() | 482239.0 | 514587.0 | +6.4% | +6.1% | +7.3% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 256 | strtr() | 1549010.2 | 592275.2 | -61.8% | -61.8% | -61.7% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 256 | preg_replace_callback() | 1192322.3 | 592275.2 | -50.5% | -54.7% | -50.1% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | strtr() | 198418.3 | 1339537.8 | +574.9% | +571.7% | +580.7% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | preg_replace_callback() | 1174631.2 | 1339537.8 | +14.8% | +12.0% | +14.9% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | strtr() | 1582666.6 | 1415635.5 | -10.5% | -11.1% | -9.9% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | preg_replace_callback() | 3342693.5 | 1415635.5 | -57.7% | -59.1% | -56.2% |
 
 #### Dictionary already prepared
 
@@ -848,319 +848,319 @@ All measured alternatives are listed. Preparation and reuse are separate section
 
 | Task | Substrings | Existing method | Existing | Prototype | Δ | Min Δ | Max Δ |
 |---|---:|---|---:|---:|---:|---:|---:|
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 8 | str_contains() loop | 1229.3 | 1227.2 | -0.1% | -0.3% | +0.9% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 8 | preg_match() | 1061.9 | 1227.2 | +15.8% | +14.2% | +17.0% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 8 | str_contains() loop | 902.3 | 549.0 | -39.3% | -39.8% | -37.4% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 8 | preg_match() | 689.9 | 549.0 | -20.5% | -21.5% | -18.2% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 8 | str_contains() loop | 1070.9 | 1558.0 | +45.6% | +44.3% | +47.2% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 8 | preg_match() | 1232.7 | 1558.0 | +26.5% | +26.1% | +27.8% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 8 | str_contains() loop | 960.2 | 1677.8 | +74.5% | +74.3% | +76.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 8 | preg_match() | 1210.0 | 1677.8 | +38.5% | +37.1% | +39.9% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 8 | str_contains() loop | 4312.3 | 8562.8 | +98.7% | +95.4% | +99.3% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 8 | preg_match() | 4856.6 | 8562.8 | +76.4% | +76.2% | +76.6% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 8 | str_contains() loop | 1782.0 | 3535.3 | +98.4% | +94.5% | +101.7% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 8 | preg_match() | 2249.1 | 3535.3 | +57.0% | +56.0% | +57.5% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 16 | str_contains() loop | 1889.0 | 1233.8 | -34.7% | -36.4% | -34.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 16 | preg_match() | 1565.5 | 1233.8 | -21.3% | -22.4% | -20.5% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 16 | str_contains() loop | 1228.4 | 546.7 | -55.9% | -56.2% | -55.2% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 16 | preg_match() | 729.3 | 546.7 | -25.2% | -26.3% | -24.5% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 16 | str_contains() loop | 1458.7 | 1567.7 | +7.0% | +4.8% | +8.2% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 16 | preg_match() | 1848.9 | 1567.7 | -15.2% | -16.0% | -14.9% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 16 | str_contains() loop | 1300.7 | 1676.4 | +29.3% | +28.7% | +30.9% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 16 | preg_match() | 1939.1 | 1676.4 | -13.6% | -14.9% | -13.1% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 16 | str_contains() loop | 7412.2 | 8569.3 | +15.5% | +15.3% | +17.9% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 16 | preg_match() | 11838.5 | 8569.3 | -27.5% | -28.0% | -27.4% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 16 | str_contains() loop | 2592.8 | 3535.0 | +36.1% | +34.9% | +39.3% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 16 | preg_match() | 3909.2 | 3535.0 | -9.6% | -9.9% | -8.6% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 32 | str_contains() loop | 3377.8 | 1235.4 | -63.5% | -64.2% | -62.8% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 32 | preg_match() | 3447.1 | 1235.4 | -64.2% | -64.5% | -63.7% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 32 | str_contains() loop | 2066.9 | 563.1 | -72.7% | -73.1% | -72.4% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 32 | preg_match() | 791.9 | 563.1 | -29.1% | -30.3% | -27.8% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 32 | str_contains() loop | 2625.5 | 1563.6 | -40.2% | -41.1% | -38.8% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 32 | preg_match() | 4336.5 | 1563.6 | -63.9% | -64.0% | -63.8% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 32 | str_contains() loop | 2133.3 | 1683.6 | -21.1% | -21.5% | -19.8% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 32 | preg_match() | 4519.5 | 1683.6 | -62.8% | -63.0% | -62.7% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 32 | str_contains() loop | 16721.4 | 8573.3 | -48.7% | -49.5% | -48.6% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 32 | preg_match() | 30146.0 | 8573.3 | -71.6% | -71.6% | -71.5% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 32 | str_contains() loop | 6236.8 | 3538.8 | -43.3% | -43.5% | -43.0% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 32 | preg_match() | 11101.8 | 3538.8 | -68.1% | -68.2% | -68.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 64 | str_contains() loop | 6166.8 | 1245.1 | -79.8% | -80.7% | -79.5% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 64 | preg_match() | 6770.2 | 1245.1 | -81.6% | -81.7% | -81.4% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 64 | str_contains() loop | 3811.3 | 551.7 | -85.4% | -85.8% | -85.2% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 64 | preg_match() | 953.8 | 551.7 | -42.2% | -43.4% | -40.5% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 64 | str_contains() loop | 5044.7 | 1597.0 | -68.3% | -68.4% | -67.5% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 64 | preg_match() | 8432.0 | 1597.0 | -81.1% | -81.1% | -81.0% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 64 | str_contains() loop | 3943.1 | 1711.0 | -56.4% | -57.8% | -56.3% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 64 | preg_match() | 9058.7 | 1711.0 | -81.1% | -81.2% | -81.0% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 64 | str_contains() loop | 31858.2 | 8631.5 | -72.9% | -73.9% | -72.8% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 64 | preg_match() | 62209.3 | 8631.5 | -86.1% | -86.2% | -86.1% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 64 | str_contains() loop | 13043.9 | 3570.9 | -72.6% | -73.4% | -72.4% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 64 | preg_match() | 23161.4 | 3570.9 | -84.6% | -84.6% | -84.6% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 128 | str_contains() loop | 12356.0 | 1270.9 | -89.7% | -90.3% | -89.4% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 128 | preg_match() | 13639.9 | 1270.9 | -90.6% | -90.7% | -90.6% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 128 | str_contains() loop | 7333.0 | 545.6 | -92.5% | -92.6% | -92.3% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 128 | preg_match() | 1217.9 | 545.6 | -55.2% | -56.7% | -52.3% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 128 | str_contains() loop | 9513.7 | 1619.8 | -83.0% | -83.4% | -82.6% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 128 | preg_match() | 16721.0 | 1619.8 | -90.3% | -90.4% | -90.2% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 128 | str_contains() loop | 7387.4 | 1740.4 | -76.3% | -77.4% | -76.2% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 128 | preg_match() | 18118.3 | 1740.4 | -90.4% | -90.4% | -90.3% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 128 | str_contains() loop | 61989.9 | 8768.6 | -85.9% | -86.5% | -85.8% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 128 | preg_match() | 127555.6 | 8768.6 | -93.1% | -93.1% | -93.1% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 128 | str_contains() loop | 25275.4 | 3597.0 | -85.8% | -86.3% | -85.7% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 128 | preg_match() | 47342.2 | 3597.0 | -92.4% | -92.4% | -92.4% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 256 | str_contains() loop | 30937.6 | 1372.1 | -95.6% | -95.8% | -95.4% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 256 | preg_match() | 28007.3 | 1372.1 | -95.1% | -95.1% | -95.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 256 | str_contains() loop | 15170.5 | 561.2 | -96.3% | -96.6% | -96.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 256 | preg_match() | 1760.0 | 561.2 | -68.1% | -68.9% | -67.4% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 256 | str_contains() loop | 21746.9 | 1744.0 | -92.0% | -92.1% | -91.4% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 256 | preg_match() | 33145.4 | 1744.0 | -94.7% | -94.8% | -94.7% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 256 | str_contains() loop | 16677.5 | 1842.6 | -89.0% | -89.0% | -88.3% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 256 | preg_match() | 36010.9 | 1842.6 | -94.9% | -94.9% | -94.8% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 256 | str_contains() loop | 139074.8 | 9117.8 | -93.4% | -93.8% | -93.4% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 256 | preg_match() | 252011.1 | 9117.8 | -96.4% | -96.4% | -96.4% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 256 | str_contains() loop | 52980.4 | 3785.5 | -92.9% | -93.2% | -92.9% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 256 | preg_match() | 93557.5 | 3785.5 | -96.0% | -96.0% | -95.9% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 512 | str_contains() loop | 75890.1 | 1475.5 | -98.1% | -98.1% | -98.0% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 512 | preg_match() | 105476.7 | 1475.5 | -98.6% | -98.6% | -98.5% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 512 | str_contains() loop | 40505.6 | 557.8 | -98.6% | -98.6% | -98.6% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 512 | preg_match() | 3031.2 | 557.8 | -81.6% | -81.8% | -81.4% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 512 | str_contains() loop | 53356.1 | 1864.2 | -96.5% | -96.7% | -96.5% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 512 | preg_match() | 107327.9 | 1864.2 | -98.3% | -98.4% | -98.2% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 512 | str_contains() loop | 41299.1 | 1990.9 | -95.2% | -95.2% | -94.9% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 512 | preg_match() | 124251.5 | 1990.9 | -98.4% | -98.6% | -98.3% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 512 | str_contains() loop | 325922.8 | 9646.6 | -97.0% | -97.0% | -97.0% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 512 | preg_match() | 925435.1 | 9646.6 | -99.0% | -99.0% | -98.9% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 512 | str_contains() loop | 116437.4 | 4023.9 | -96.6% | -96.7% | -96.5% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 512 | preg_match() | 348370.9 | 4023.9 | -98.8% | -98.9% | -98.7% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | strpos() per term | 5436.2 | 5312.1 | -2.4% | -3.3% | -1.5% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | preg_match() per term | 6789.5 | 5312.1 | -21.8% | -21.8% | -21.5% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | strpos() per term | 4415.2 | 5084.0 | +15.1% | +13.5% | +15.5% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | PCRE lookahead per term | 7687.2 | 5084.0 | -33.9% | -34.6% | -33.7% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | strpos() per term | 6721.5 | 5625.4 | -16.3% | -17.5% | -15.3% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | PCRE lookahead per term | 12923.3 | 5625.4 | -56.5% | -56.7% | -56.4% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | strpos() per term | 9865.2 | 5673.2 | -42.4% | -44.5% | -42.3% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | preg_match() per term | 12367.8 | 5673.2 | -54.1% | -54.3% | -53.9% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | strpos() per term | 8504.8 | 5099.7 | -40.0% | -40.3% | -38.5% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | PCRE lookahead per term | 14465.0 | 5099.7 | -64.7% | -64.9% | -64.6% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | strpos() per term | 12409.3 | 6102.7 | -50.8% | -51.7% | -50.6% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | PCRE lookahead per term | 23778.6 | 6102.7 | -74.3% | -74.4% | -74.2% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | strpos() per term | 17887.1 | 6266.0 | -65.0% | -65.8% | -64.9% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | preg_match() per term | 23833.0 | 6266.0 | -73.7% | -74.1% | -73.7% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | strpos() per term | 14809.0 | 5183.1 | -65.0% | -66.3% | -64.9% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | PCRE lookahead per term | 27012.6 | 5183.1 | -80.8% | -80.9% | -80.7% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | strpos() per term | 23492.5 | 6962.4 | -70.4% | -70.5% | -69.6% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | PCRE lookahead per term | 44626.0 | 6962.4 | -84.4% | -84.5% | -84.3% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | strpos() per term | 36367.2 | 7225.2 | -80.2% | -80.8% | -79.9% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | preg_match() per term | 44608.5 | 7225.2 | -83.8% | -83.8% | -83.8% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | strpos() per term | 32387.8 | 5541.4 | -82.9% | -82.9% | -82.1% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | PCRE lookahead per term | 52412.1 | 5541.4 | -89.4% | -89.5% | -89.4% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | strpos() per term | 45997.2 | 8517.2 | -81.5% | -82.0% | -81.4% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | PCRE lookahead per term | 82477.5 | 8517.2 | -89.7% | -89.7% | -89.6% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | strpos() per term | 76010.7 | 8737.2 | -88.5% | -88.6% | -88.5% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | preg_match() per term | 87094.8 | 8737.2 | -90.0% | -90.1% | -89.8% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | strpos() per term | 64717.7 | 6139.0 | -90.5% | -90.8% | -90.5% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | PCRE lookahead per term | 170237.7 | 6139.0 | -96.4% | -96.4% | -96.4% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | strpos() per term | 90351.3 | 10671.5 | -88.1% | -88.4% | -87.5% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | PCRE lookahead per term | 232969.3 | 10671.5 | -95.4% | -95.5% | -95.3% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | strpos() per term | 148843.0 | 9045.4 | -93.9% | -94.0% | -93.9% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | preg_match() per term | 176565.1 | 9045.4 | -94.9% | -94.9% | -94.8% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | strpos() per term | 140902.5 | 6417.2 | -95.4% | -95.6% | -95.4% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | PCRE lookahead per term | 413438.7 | 6417.2 | -98.4% | -98.5% | -98.4% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | strpos() per term | 166493.2 | 10826.0 | -93.5% | -93.5% | -93.4% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | PCRE lookahead per term | 496087.9 | 10826.0 | -97.8% | -98.2% | -97.8% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | strpos() per term | 287175.3 | 9789.4 | -96.6% | -96.6% | -96.5% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | preg_match() per term | 426117.6 | 9789.4 | -97.7% | -97.7% | -97.7% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | strpos() per term | 282692.8 | 7056.4 | -97.5% | -97.5% | -97.5% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | PCRE lookahead per term | 894800.9 | 7056.4 | -99.2% | -99.2% | -99.2% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | strpos() per term | 305999.2 | 11607.7 | -96.2% | -96.3% | -96.2% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | PCRE lookahead per term | 1007311.5 | 11607.7 | -98.8% | -98.9% | -98.8% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 8 | strtr() | 20618.7 | 5851.6 | -71.6% | -71.9% | -71.3% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 8 | preg_replace_callback() | 3195.9 | 5851.6 | +83.3% | +82.1% | +84.3% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 8 | strtr() | 162598.5 | 44175.9 | -72.8% | -72.8% | -72.7% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 8 | preg_replace_callback() | 22350.8 | 44175.9 | +97.6% | +95.9% | +99.4% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 16 | strtr() | 36882.4 | 6230.9 | -83.1% | -83.2% | -82.7% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 16 | preg_replace_callback() | 9036.8 | 6230.9 | -30.9% | -31.5% | -29.6% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 16 | strtr() | 292845.4 | 47031.7 | -83.9% | -84.0% | -83.9% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 16 | preg_replace_callback() | 70122.6 | 47031.7 | -32.8% | -33.2% | -32.4% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 32 | strtr() | 77469.1 | 6773.2 | -91.3% | -91.3% | -91.2% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 32 | preg_replace_callback() | 17493.0 | 6773.2 | -61.3% | -61.4% | -61.2% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 32 | strtr() | 621157.7 | 51315.9 | -91.7% | -91.8% | -91.6% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 32 | preg_replace_callback() | 136504.1 | 51315.9 | -62.4% | -62.6% | -62.1% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 64 | strtr() | 143483.2 | 7477.5 | -94.8% | -94.8% | -94.8% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 64 | preg_replace_callback() | 31795.0 | 7477.5 | -76.5% | -76.5% | -76.5% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 64 | strtr() | 1144622.9 | 56746.4 | -95.0% | -95.1% | -95.0% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 64 | preg_replace_callback() | 250859.1 | 56746.4 | -77.4% | -77.4% | -77.4% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 128 | strtr() | 175196.9 | 8365.0 | -95.2% | -95.3% | -95.1% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 128 | preg_replace_callback() | 50414.5 | 8365.0 | -83.5% | -83.6% | -83.0% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 128 | strtr() | 1398874.4 | 62698.9 | -95.5% | -95.5% | -95.5% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 128 | preg_replace_callback() | 398494.9 | 62698.9 | -84.3% | -84.4% | -84.2% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 256 | strtr() | 191766.6 | 8674.9 | -95.5% | -95.5% | -95.4% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 256 | preg_replace_callback() | 104439.5 | 8674.9 | -91.7% | -91.7% | -91.6% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 256 | strtr() | 1530946.8 | 66420.4 | -95.7% | -95.7% | -95.6% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 256 | preg_replace_callback() | 830511.3 | 66420.4 | -92.0% | -92.1% | -91.9% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | strtr() | 195996.3 | 9183.1 | -95.3% | -95.3% | -95.2% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | preg_replace_callback() | 311543.3 | 9183.1 | -97.0% | -97.1% | -96.9% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | strtr() | 1564669.2 | 70178.8 | -95.5% | -95.5% | -95.4% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | preg_replace_callback() | 2453406.2 | 70178.8 | -97.1% | -97.2% | -97.1% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 8 | str_contains() loop | 1225.5 | 850.0 | -30.9% | -31.0% | -29.9% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 8 | preg_match() | 1065.5 | 850.0 | -20.6% | -21.1% | -19.4% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 8 | str_contains() loop | 903.2 | 569.3 | -37.0% | -37.6% | -34.8% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 8 | preg_match() | 694.5 | 569.3 | -17.6% | -18.8% | -16.1% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 8 | str_contains() loop | 1065.6 | 959.8 | -9.6% | -10.7% | -8.7% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 8 | preg_match() | 1240.5 | 959.8 | -22.3% | -22.7% | -21.7% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 8 | str_contains() loop | 963.3 | 1006.1 | +3.9% | +2.9% | +5.3% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 8 | preg_match() | 1215.8 | 1006.1 | -17.7% | -18.2% | -16.6% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 8 | str_contains() loop | 4338.9 | 3752.4 | -13.6% | -14.6% | -12.7% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 8 | preg_match() | 4860.9 | 3752.4 | -22.8% | -23.3% | -22.5% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 8 | str_contains() loop | 1755.2 | 1705.1 | -2.6% | -3.2% | -2.3% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 8 | preg_match() | 2249.2 | 1705.1 | -24.0% | -24.3% | -23.8% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 16 | str_contains() loop | 1913.3 | 855.5 | -54.7% | -55.9% | -54.2% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 16 | preg_match() | 1571.8 | 855.5 | -45.7% | -46.5% | -44.0% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 16 | str_contains() loop | 1219.9 | 578.9 | -53.0% | -53.4% | -52.1% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 16 | preg_match() | 726.5 | 578.9 | -20.4% | -21.5% | -20.1% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 16 | str_contains() loop | 1476.7 | 982.8 | -33.8% | -34.2% | -32.0% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 16 | preg_match() | 1848.4 | 982.8 | -46.9% | -48.1% | -46.2% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 16 | str_contains() loop | 1298.6 | 1032.3 | -20.4% | -22.4% | -19.8% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 16 | preg_match() | 1944.7 | 1032.3 | -47.2% | -47.5% | -46.9% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 16 | str_contains() loop | 7310.3 | 3533.7 | -51.8% | -52.8% | -51.4% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 16 | preg_match() | 11823.7 | 3533.7 | -70.2% | -70.3% | -69.9% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 16 | str_contains() loop | 2601.8 | 1668.0 | -35.4% | -36.2% | -34.1% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 16 | preg_match() | 3897.8 | 1668.0 | -57.2% | -57.2% | -56.9% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 32 | str_contains() loop | 3328.5 | 1071.2 | -67.9% | -68.7% | -67.5% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 32 | preg_match() | 3439.0 | 1071.2 | -68.8% | -69.0% | -68.7% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 32 | str_contains() loop | 2074.9 | 583.6 | -71.9% | -72.3% | -71.3% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 32 | preg_match() | 789.6 | 583.6 | -26.3% | -28.4% | -24.8% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 32 | str_contains() loop | 2615.7 | 1240.7 | -52.6% | -53.2% | -51.6% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 32 | preg_match() | 4339.5 | 1240.7 | -71.4% | -71.7% | -70.9% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 32 | str_contains() loop | 2129.0 | 1300.8 | -39.2% | -40.2% | -37.6% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 32 | preg_match() | 4521.5 | 1300.8 | -71.1% | -71.4% | -71.1% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 32 | str_contains() loop | 16702.4 | 6332.0 | -62.0% | -62.2% | -61.1% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 32 | preg_match() | 30168.8 | 6332.0 | -79.0% | -79.0% | -79.0% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 32 | str_contains() loop | 6059.3 | 2662.0 | -56.1% | -56.1% | -55.7% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 32 | preg_match() | 11106.5 | 2662.0 | -76.0% | -76.1% | -75.8% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 64 | str_contains() loop | 6137.4 | 1082.2 | -82.4% | -82.5% | -82.3% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 64 | preg_match() | 6773.5 | 1082.2 | -84.0% | -84.1% | -83.9% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 64 | str_contains() loop | 3825.3 | 579.7 | -84.9% | -85.3% | -84.1% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 64 | preg_match() | 955.8 | 579.7 | -39.2% | -41.3% | -38.6% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 64 | str_contains() loop | 4970.0 | 1257.3 | -74.7% | -75.3% | -74.3% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 64 | preg_match() | 8440.6 | 1257.3 | -85.1% | -85.2% | -85.0% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 64 | str_contains() loop | 3973.7 | 1317.8 | -67.0% | -67.8% | -66.4% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 64 | preg_match() | 9072.4 | 1317.8 | -85.5% | -85.6% | -85.4% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 64 | str_contains() loop | 32922.9 | 6353.4 | -80.7% | -80.8% | -80.0% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 64 | preg_match() | 62017.0 | 6353.4 | -89.8% | -89.8% | -89.7% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 64 | str_contains() loop | 13025.0 | 2665.0 | -79.5% | -80.3% | -79.3% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 64 | preg_match() | 23152.1 | 2665.0 | -88.5% | -88.5% | -88.4% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 128 | str_contains() loop | 12334.3 | 1113.9 | -91.0% | -91.2% | -90.8% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 128 | preg_match() | 13679.5 | 1113.9 | -91.9% | -91.9% | -91.8% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 128 | str_contains() loop | 7218.7 | 592.4 | -92.0% | -92.2% | -91.6% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 128 | preg_match() | 1217.7 | 592.4 | -51.4% | -53.4% | -50.0% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 128 | str_contains() loop | 9426.1 | 1291.8 | -86.3% | -86.9% | -86.0% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 128 | preg_match() | 16709.5 | 1291.8 | -92.3% | -92.3% | -92.2% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 128 | str_contains() loop | 7492.1 | 1349.9 | -81.8% | -82.6% | -81.4% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 128 | preg_match() | 18128.7 | 1349.9 | -92.6% | -92.6% | -92.5% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 128 | str_contains() loop | 62269.6 | 6483.9 | -89.6% | -90.0% | -89.5% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 128 | preg_match() | 127606.5 | 6483.9 | -94.9% | -95.8% | -94.9% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 128 | str_contains() loop | 25289.6 | 2666.5 | -89.5% | -89.8% | -89.4% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 128 | preg_match() | 47319.9 | 2666.5 | -94.4% | -94.4% | -94.4% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 256 | str_contains() loop | 30559.3 | 1152.7 | -96.3% | -96.5% | -96.2% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 256 | preg_match() | 27992.6 | 1152.7 | -95.9% | -95.9% | -95.8% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 256 | str_contains() loop | 15224.7 | 572.6 | -96.2% | -96.5% | -96.0% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 256 | preg_match() | 1781.4 | 572.6 | -67.5% | -68.3% | -66.4% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 256 | str_contains() loop | 21682.9 | 1338.4 | -93.8% | -94.0% | -93.3% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 256 | preg_match() | 33163.3 | 1338.4 | -96.0% | -96.0% | -96.0% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 256 | str_contains() loop | 15657.0 | 1384.6 | -91.2% | -91.7% | -91.1% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 256 | preg_match() | 36003.9 | 1384.6 | -96.2% | -96.2% | -96.1% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 256 | str_contains() loop | 139642.2 | 6610.8 | -95.3% | -95.5% | -95.2% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 256 | preg_match() | 251973.3 | 6610.8 | -97.4% | -97.4% | -97.4% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 256 | str_contains() loop | 55233.6 | 2688.2 | -95.1% | -95.2% | -94.9% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 256 | preg_match() | 93638.2 | 2688.2 | -97.1% | -97.1% | -97.1% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 512 | str_contains() loop | 75835.8 | 1198.8 | -98.4% | -98.4% | -98.4% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 512 | preg_match() | 97355.4 | 1198.8 | -98.8% | -98.9% | -98.7% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 512 | str_contains() loop | 39409.8 | 589.9 | -98.5% | -98.6% | -98.5% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 512 | preg_match() | 2983.3 | 589.9 | -80.0% | -80.8% | -80.0% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 512 | str_contains() loop | 53432.8 | 1384.1 | -97.4% | -97.5% | -97.4% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 512 | preg_match() | 106921.3 | 1384.1 | -98.7% | -98.8% | -98.7% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 512 | str_contains() loop | 39483.0 | 1427.5 | -96.4% | -96.5% | -96.4% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 512 | preg_match() | 118034.3 | 1427.5 | -98.8% | -98.9% | -98.8% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 512 | str_contains() loop | 317235.1 | 6954.0 | -97.8% | -97.9% | -97.8% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 512 | preg_match() | 911382.0 | 6954.0 | -99.2% | -99.3% | -99.2% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 512 | str_contains() loop | 116071.5 | 2767.5 | -97.6% | -97.7% | -97.6% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 512 | preg_match() | 330568.6 | 2767.5 | -99.2% | -99.2% | -99.1% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | strpos() per term | 5403.3 | 4148.6 | -23.2% | -23.4% | -22.7% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | preg_match() per term | 6806.8 | 4148.6 | -39.0% | -39.1% | -38.7% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | strpos() per term | 4415.8 | 3827.2 | -13.3% | -14.3% | -13.0% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | PCRE lookahead per term | 7727.3 | 3827.2 | -50.5% | -51.0% | -49.9% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | strpos() per term | 6726.0 | 4302.1 | -35.9% | -36.3% | -35.5% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | PCRE lookahead per term | 12921.5 | 4302.1 | -66.8% | -67.0% | -66.5% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | strpos() per term | 10009.4 | 5113.6 | -48.9% | -49.6% | -48.3% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | preg_match() per term | 12388.2 | 5113.6 | -58.7% | -58.8% | -58.0% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | strpos() per term | 8295.1 | 4159.3 | -49.8% | -51.0% | -49.8% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | PCRE lookahead per term | 14425.4 | 4159.3 | -71.2% | -71.3% | -71.1% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | strpos() per term | 12649.5 | 5076.5 | -59.9% | -60.1% | -58.9% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | PCRE lookahead per term | 23817.3 | 5076.5 | -78.7% | -78.7% | -78.5% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | strpos() per term | 18266.6 | 5511.6 | -69.9% | -70.0% | -69.1% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | preg_match() per term | 23972.6 | 5511.6 | -77.0% | -77.4% | -77.0% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | strpos() per term | 14804.5 | 4237.1 | -71.5% | -72.5% | -71.2% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | PCRE lookahead per term | 26944.7 | 4237.1 | -84.3% | -84.6% | -84.2% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | strpos() per term | 23022.3 | 5883.2 | -74.5% | -74.9% | -74.1% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | PCRE lookahead per term | 44537.6 | 5883.2 | -86.8% | -86.9% | -86.7% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | strpos() per term | 35988.1 | 6112.8 | -83.0% | -83.7% | -82.8% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | preg_match() per term | 44567.7 | 6112.8 | -86.3% | -86.3% | -86.3% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | strpos() per term | 30988.1 | 4434.8 | -85.7% | -86.4% | -85.5% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | PCRE lookahead per term | 52703.0 | 4434.8 | -91.6% | -91.7% | -91.5% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | strpos() per term | 46906.7 | 7191.6 | -84.7% | -84.8% | -84.1% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | PCRE lookahead per term | 82537.8 | 7191.6 | -91.3% | -91.4% | -91.1% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | strpos() per term | 73325.4 | 7117.6 | -90.3% | -90.6% | -90.3% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | preg_match() per term | 87223.2 | 7117.6 | -91.9% | -91.9% | -91.7% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | strpos() per term | 66689.6 | 4797.4 | -92.8% | -92.8% | -92.5% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | PCRE lookahead per term | 169961.3 | 4797.4 | -97.2% | -97.2% | -97.2% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | strpos() per term | 88268.4 | 8869.9 | -89.9% | -90.0% | -89.9% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | PCRE lookahead per term | 233787.6 | 8869.9 | -96.2% | -96.2% | -96.2% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | strpos() per term | 151189.5 | 7310.7 | -95.1% | -95.2% | -95.1% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | preg_match() per term | 177582.4 | 7310.7 | -95.9% | -95.9% | -95.8% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | strpos() per term | 141388.4 | 4864.9 | -96.5% | -96.6% | -96.5% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | PCRE lookahead per term | 412170.3 | 4864.9 | -98.8% | -98.8% | -98.8% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | strpos() per term | 164219.3 | 9043.8 | -94.5% | -94.6% | -94.4% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | PCRE lookahead per term | 493761.4 | 9043.8 | -98.2% | -98.2% | -98.1% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | strpos() per term | 286850.7 | 7725.9 | -97.3% | -97.3% | -97.3% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | preg_match() per term | 426177.9 | 7725.9 | -98.2% | -98.2% | -98.2% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | strpos() per term | 282529.8 | 5078.9 | -98.2% | -98.2% | -98.2% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | PCRE lookahead per term | 893462.1 | 5078.9 | -99.4% | -99.4% | -99.4% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | strpos() per term | 310053.4 | 9471.3 | -96.9% | -96.9% | -96.9% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | PCRE lookahead per term | 1008710.3 | 9471.3 | -99.1% | -99.1% | -99.1% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 8 | strtr() | 20678.8 | 5254.3 | -74.6% | -74.9% | -74.4% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 8 | preg_replace_callback() | 3186.7 | 5254.3 | +65.1% | +63.0% | +65.7% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 8 | strtr() | 162843.3 | 39333.0 | -75.8% | -76.0% | -75.6% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 8 | preg_replace_callback() | 22348.7 | 39333.0 | +76.3% | +75.5% | +77.1% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 16 | strtr() | 36878.1 | 5574.3 | -84.9% | -85.0% | -84.7% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 16 | preg_replace_callback() | 8982.1 | 5574.3 | -37.7% | -38.4% | -37.3% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 16 | strtr() | 292127.4 | 41685.9 | -85.7% | -85.8% | -85.6% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 16 | preg_replace_callback() | 69605.3 | 41685.9 | -40.1% | -40.4% | -39.5% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 32 | strtr() | 77997.5 | 5999.7 | -92.3% | -92.3% | -92.3% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 32 | preg_replace_callback() | 17466.9 | 5999.7 | -65.6% | -65.7% | -65.5% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 32 | strtr() | 621968.4 | 44920.3 | -92.8% | -92.8% | -92.7% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 32 | preg_replace_callback() | 136487.0 | 44920.3 | -67.1% | -67.2% | -67.0% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 64 | strtr() | 143638.1 | 6424.0 | -95.5% | -95.6% | -95.5% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 64 | preg_replace_callback() | 31796.3 | 6424.0 | -79.8% | -79.9% | -79.6% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 64 | strtr() | 1145868.3 | 47478.0 | -95.9% | -95.9% | -95.8% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 64 | preg_replace_callback() | 250901.9 | 47478.0 | -81.1% | -81.1% | -81.1% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 128 | strtr() | 175336.6 | 6766.9 | -96.1% | -96.1% | -96.1% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 128 | preg_replace_callback() | 50336.4 | 6766.9 | -86.5% | -86.7% | -86.4% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 128 | strtr() | 1397761.7 | 50516.9 | -96.4% | -96.4% | -96.3% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 128 | preg_replace_callback() | 399102.8 | 50516.9 | -87.3% | -87.4% | -87.2% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 256 | strtr() | 191617.6 | 7021.6 | -96.3% | -96.4% | -96.3% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 256 | preg_replace_callback() | 104559.9 | 7021.6 | -93.3% | -93.3% | -93.3% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 256 | strtr() | 1530194.7 | 52749.9 | -96.6% | -96.6% | -96.5% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 256 | preg_replace_callback() | 830367.9 | 52749.9 | -93.7% | -93.7% | -93.6% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | strtr() | 195845.3 | 7343.8 | -96.3% | -96.3% | -96.2% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | preg_replace_callback() | 316542.1 | 7343.8 | -97.7% | -97.7% | -97.6% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | strtr() | 1565013.2 | 54890.9 | -96.5% | -96.5% | -96.4% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | preg_replace_callback() | 2437098.0 | 54890.9 | -97.7% | -97.8% | -97.7% |
 
 ##### clang21
 
 | Task | Substrings | Existing method | Existing | Prototype | Δ | Min Δ | Max Δ |
 |---|---:|---|---:|---:|---:|---:|---:|
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 8 | str_contains() loop | 1249.6 | 1262.8 | +1.1% | +0.2% | +1.8% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 8 | preg_match() | 988.2 | 1262.8 | +27.8% | +25.6% | +29.8% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 8 | str_contains() loop | 885.7 | 503.3 | -43.2% | -43.5% | -42.4% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 8 | preg_match() | 623.1 | 503.3 | -19.3% | -20.4% | -18.5% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 8 | str_contains() loop | 1050.7 | 1646.5 | +56.7% | +55.5% | +57.3% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 8 | preg_match() | 1137.5 | 1646.5 | +44.9% | +42.9% | +45.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 8 | str_contains() loop | 940.4 | 1756.5 | +86.4% | +85.7% | +87.4% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 8 | preg_match() | 1117.0 | 1756.5 | +57.2% | +56.2% | +57.8% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 8 | str_contains() loop | 4418.3 | 9301.1 | +110.5% | +107.1% | +111.1% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 8 | preg_match() | 4598.7 | 9301.1 | +102.2% | +101.8% | +102.4% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 8 | str_contains() loop | 1756.5 | 3788.3 | +115.7% | +114.9% | +115.9% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 8 | preg_match() | 2090.2 | 3788.3 | +81.2% | +80.3% | +82.2% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 16 | str_contains() loop | 1986.8 | 1266.2 | -36.4% | -38.3% | -36.2% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 16 | preg_match() | 1455.8 | 1266.2 | -13.3% | -14.1% | -13.0% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 16 | str_contains() loop | 1233.6 | 502.8 | -59.2% | -59.7% | -58.9% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 16 | preg_match() | 655.3 | 502.8 | -23.4% | -23.4% | -22.5% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 16 | str_contains() loop | 1487.5 | 1652.8 | +11.0% | +8.2% | +12.0% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 16 | preg_match() | 1734.4 | 1652.8 | -4.0% | -7.0% | -3.3% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 16 | str_contains() loop | 1305.0 | 1762.3 | +35.3% | +33.5% | +35.8% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 16 | preg_match() | 1802.0 | 1762.3 | -2.4% | -3.1% | -1.5% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 16 | str_contains() loop | 7485.8 | 9304.2 | +24.3% | +23.6% | +24.6% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 16 | preg_match() | 11490.6 | 9304.2 | -19.1% | -19.3% | -18.8% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 16 | str_contains() loop | 2578.1 | 3786.4 | +47.1% | +46.5% | +47.8% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 16 | preg_match() | 3663.1 | 3786.4 | +3.5% | +2.5% | +3.8% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 32 | str_contains() loop | 3638.9 | 1264.9 | -65.2% | -65.4% | -64.7% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 32 | preg_match() | 3297.8 | 1264.9 | -61.6% | -61.8% | -61.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 32 | str_contains() loop | 2162.5 | 507.8 | -76.6% | -77.2% | -76.4% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 32 | preg_match() | 719.6 | 507.8 | -29.7% | -36.8% | -29.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 32 | str_contains() loop | 2714.4 | 1654.0 | -38.9% | -39.7% | -38.5% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 32 | preg_match() | 4189.0 | 1654.0 | -60.5% | -61.7% | -59.8% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 32 | str_contains() loop | 2230.6 | 1765.2 | -20.8% | -22.1% | -20.7% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 32 | preg_match() | 4383.3 | 1765.2 | -59.7% | -59.9% | -59.5% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 32 | str_contains() loop | 16895.4 | 9312.8 | -44.8% | -45.1% | -44.5% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 32 | preg_match() | 29557.8 | 9312.8 | -68.5% | -68.6% | -68.5% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 32 | str_contains() loop | 6223.8 | 3794.3 | -38.9% | -39.3% | -38.8% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 32 | preg_match() | 10822.3 | 3794.3 | -64.9% | -65.0% | -64.8% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 64 | str_contains() loop | 6867.7 | 1279.9 | -81.4% | -81.4% | -81.3% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 64 | preg_match() | 6927.0 | 1279.9 | -81.5% | -81.6% | -81.4% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 64 | str_contains() loop | 4051.9 | 505.2 | -87.5% | -87.6% | -87.5% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 64 | preg_match() | 872.1 | 505.2 | -42.0% | -42.6% | -41.4% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 64 | str_contains() loop | 5259.0 | 1683.9 | -67.9% | -68.2% | -67.5% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 64 | preg_match() | 8651.9 | 1683.9 | -80.6% | -80.6% | -80.4% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 64 | str_contains() loop | 4246.3 | 1786.0 | -57.9% | -58.0% | -57.8% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 64 | preg_match() | 9323.0 | 1786.0 | -80.8% | -80.9% | -80.8% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 64 | str_contains() loop | 33542.7 | 9350.7 | -72.1% | -72.1% | -72.0% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 64 | preg_match() | 64403.2 | 9350.7 | -85.5% | -85.5% | -85.5% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 64 | str_contains() loop | 13391.8 | 3814.9 | -71.5% | -71.6% | -71.5% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 64 | preg_match() | 23965.5 | 3814.9 | -84.1% | -84.1% | -84.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 128 | str_contains() loop | 14356.2 | 1304.1 | -90.9% | -91.0% | -90.9% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 128 | preg_match() | 13003.3 | 1304.1 | -90.0% | -90.0% | -89.9% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 128 | str_contains() loop | 7831.0 | 507.7 | -93.5% | -93.7% | -93.5% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 128 | preg_match() | 1058.5 | 507.7 | -51.9% | -52.8% | -51.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 128 | str_contains() loop | 10272.1 | 1703.2 | -83.4% | -83.7% | -83.3% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 128 | preg_match() | 15895.2 | 1703.2 | -89.3% | -89.3% | -89.2% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 128 | str_contains() loop | 8070.1 | 1816.0 | -77.5% | -78.0% | -77.2% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 128 | preg_match() | 17296.7 | 1816.0 | -89.5% | -89.5% | -89.5% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 128 | str_contains() loop | 65670.3 | 9500.3 | -85.5% | -85.6% | -85.5% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 128 | preg_match() | 121846.4 | 9500.3 | -92.2% | -92.2% | -92.2% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 128 | str_contains() loop | 26260.8 | 3830.4 | -85.4% | -85.5% | -85.4% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 128 | preg_match() | 45048.8 | 3830.4 | -91.5% | -91.5% | -91.5% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 256 | str_contains() loop | 35311.4 | 1409.7 | -96.0% | -96.0% | -95.9% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 256 | preg_match() | 27534.9 | 1409.7 | -94.9% | -95.8% | -94.7% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 256 | str_contains() loop | 17283.7 | 505.8 | -97.1% | -97.1% | -97.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 256 | preg_match() | 1646.6 | 505.8 | -69.5% | -74.5% | -68.8% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 256 | str_contains() loop | 23228.6 | 1836.2 | -92.1% | -92.2% | -92.0% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 256 | preg_match() | 32544.6 | 1836.2 | -94.3% | -95.4% | -94.3% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 256 | str_contains() loop | 17716.8 | 1935.4 | -89.1% | -89.2% | -89.0% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 256 | preg_match() | 35138.6 | 1935.4 | -94.5% | -95.5% | -94.5% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 256 | str_contains() loop | 149382.1 | 9880.4 | -93.4% | -93.4% | -93.4% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 256 | preg_match() | 272544.9 | 9880.4 | -96.4% | -96.8% | -96.0% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 256 | str_contains() loop | 55545.0 | 4031.2 | -92.8% | -92.8% | -92.7% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 256 | preg_match() | 94544.5 | 4031.2 | -95.7% | -96.5% | -95.6% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 512 | str_contains() loop | 80357.1 | 1514.3 | -98.1% | -98.2% | -98.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 512 | preg_match() | 95058.1 | 1514.3 | -98.4% | -98.4% | -98.3% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 512 | str_contains() loop | 43323.0 | 511.9 | -98.8% | -98.8% | -98.8% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 512 | preg_match() | 2872.6 | 511.9 | -82.3% | -82.6% | -82.0% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 512 | str_contains() loop | 58456.8 | 1955.0 | -96.7% | -96.7% | -96.6% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 512 | preg_match() | 107352.7 | 1955.0 | -98.2% | -98.3% | -98.1% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 512 | str_contains() loop | 43713.5 | 2067.3 | -95.3% | -95.5% | -95.2% |
-| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 512 | preg_match() | 116849.9 | 2067.3 | -98.3% | -98.4% | -98.2% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 512 | str_contains() loop | 334828.1 | 10392.4 | -96.9% | -96.9% | -96.9% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 512 | preg_match() | 913811.9 | 10392.4 | -98.9% | -98.9% | -98.8% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 512 | str_contains() loop | 123118.5 | 4239.7 | -96.6% | -96.6% | -96.6% |
-| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 512 | preg_match() | 320452.8 | 4239.7 | -98.7% | -98.8% | -98.6% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | strpos() per term | 5428.5 | 6228.1 | +14.6% | +14.5% | +16.3% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | preg_match() per term | 6692.1 | 6228.1 | -6.9% | -8.1% | -6.1% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | strpos() per term | 4479.6 | 5403.0 | +20.6% | +18.2% | +21.1% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | PCRE lookahead per term | 7573.4 | 5403.0 | -28.7% | -28.9% | -28.4% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | strpos() per term | 6683.7 | 6472.8 | -3.2% | -3.5% | -2.4% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | PCRE lookahead per term | 12865.3 | 6472.8 | -49.6% | -49.8% | -49.3% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | strpos() per term | 10199.8 | 6605.7 | -35.2% | -35.4% | -34.9% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | preg_match() per term | 12428.0 | 6605.7 | -46.9% | -46.9% | -46.2% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | strpos() per term | 8621.4 | 5420.9 | -37.1% | -37.5% | -36.9% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | PCRE lookahead per term | 14377.8 | 5420.9 | -62.3% | -62.5% | -62.3% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | strpos() per term | 12687.5 | 6958.0 | -45.2% | -45.2% | -45.0% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | PCRE lookahead per term | 23644.1 | 6958.0 | -70.6% | -70.7% | -70.6% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | strpos() per term | 18667.1 | 7130.6 | -61.8% | -62.1% | -61.6% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | preg_match() per term | 23772.2 | 7130.6 | -70.0% | -70.4% | -69.7% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | strpos() per term | 15758.9 | 5511.4 | -65.0% | -65.1% | -64.8% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | PCRE lookahead per term | 27260.5 | 5511.4 | -79.8% | -79.8% | -79.6% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | strpos() per term | 23960.3 | 7889.4 | -67.1% | -67.2% | -66.7% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | PCRE lookahead per term | 44425.0 | 7889.4 | -82.2% | -82.3% | -82.1% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | strpos() per term | 38654.5 | 8045.7 | -79.2% | -79.3% | -78.9% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | preg_match() per term | 44899.7 | 8045.7 | -82.1% | -82.1% | -82.0% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | strpos() per term | 33711.6 | 5858.6 | -82.6% | -82.7% | -82.5% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | PCRE lookahead per term | 52570.0 | 5858.6 | -88.9% | -88.9% | -88.8% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | strpos() per term | 48072.1 | 9480.2 | -80.3% | -80.5% | -80.3% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | PCRE lookahead per term | 82527.2 | 9480.2 | -88.5% | -88.6% | -88.4% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | strpos() per term | 76960.4 | 9504.6 | -87.7% | -87.7% | -87.6% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | preg_match() per term | 86711.8 | 9504.6 | -89.0% | -89.3% | -89.0% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | strpos() per term | 68345.7 | 6449.6 | -90.6% | -90.7% | -90.5% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | PCRE lookahead per term | 173537.5 | 6449.6 | -96.3% | -96.3% | -96.3% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | strpos() per term | 90965.8 | 11565.3 | -87.3% | -87.3% | -86.9% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | PCRE lookahead per term | 235191.5 | 11565.3 | -95.1% | -95.1% | -94.9% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | strpos() per term | 152556.5 | 9835.4 | -93.5% | -93.6% | -93.2% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | preg_match() per term | 179740.5 | 9835.4 | -94.5% | -94.6% | -94.3% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | strpos() per term | 145427.5 | 6745.7 | -95.4% | -95.4% | -95.3% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | PCRE lookahead per term | 417089.6 | 6745.7 | -98.4% | -98.4% | -98.4% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | strpos() per term | 168155.4 | 11897.6 | -93.0% | -93.0% | -92.9% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | PCRE lookahead per term | 494344.6 | 11897.6 | -97.6% | -97.6% | -97.6% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | strpos() per term | 293782.7 | 10545.4 | -96.4% | -96.5% | -96.4% |
-| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | preg_match() per term | 429510.1 | 10545.4 | -97.5% | -97.6% | -97.5% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | strpos() per term | 288971.1 | 7393.4 | -97.4% | -97.5% | -97.4% |
-| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | PCRE lookahead per term | 891600.3 | 7393.4 | -99.2% | -99.2% | -99.2% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | strpos() per term | 313254.0 | 12620.8 | -96.0% | -96.0% | -95.9% |
-| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | PCRE lookahead per term | 1010997.6 | 12620.8 | -98.8% | -98.8% | -98.7% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 8 | strtr() | 19866.6 | 6331.6 | -68.1% | -68.5% | -67.9% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 8 | preg_replace_callback() | 3230.9 | 6331.6 | +95.7% | +94.2% | +99.1% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 8 | strtr() | 158060.6 | 48367.7 | -69.4% | -69.7% | -69.0% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 8 | preg_replace_callback() | 22442.9 | 48367.7 | +116.0% | +114.1% | +116.1% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 16 | strtr() | 36189.2 | 6561.1 | -81.8% | -82.1% | -81.8% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 16 | preg_replace_callback() | 8987.3 | 6561.1 | -27.0% | -28.0% | -26.6% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 16 | strtr() | 290142.1 | 50095.0 | -82.7% | -82.8% | -82.5% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 16 | preg_replace_callback() | 68958.4 | 50095.0 | -27.4% | -28.2% | -27.0% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 32 | strtr() | 77050.4 | 6993.9 | -90.9% | -90.9% | -90.8% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 32 | preg_replace_callback() | 17510.4 | 6993.9 | -60.0% | -60.1% | -59.7% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 32 | strtr() | 616548.6 | 53253.2 | -91.4% | -91.4% | -91.3% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 32 | preg_replace_callback() | 137031.5 | 53253.2 | -61.2% | -61.2% | -61.1% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 64 | strtr() | 144121.0 | 7652.0 | -94.7% | -94.7% | -94.6% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 64 | preg_replace_callback() | 31623.5 | 7652.0 | -75.9% | -75.9% | -75.6% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 64 | strtr() | 1150853.7 | 58068.8 | -94.9% | -95.0% | -94.9% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 64 | preg_replace_callback() | 249807.4 | 58068.8 | -76.7% | -76.9% | -76.3% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 128 | strtr() | 177161.0 | 8402.8 | -95.3% | -95.3% | -95.2% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 128 | preg_replace_callback() | 54511.2 | 8402.8 | -84.6% | -85.0% | -84.5% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 128 | strtr() | 1414031.7 | 63647.4 | -95.5% | -95.5% | -95.4% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 128 | preg_replace_callback() | 431529.9 | 63647.4 | -85.3% | -85.3% | -85.0% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 256 | strtr() | 194111.4 | 8810.9 | -95.5% | -95.5% | -95.4% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 256 | preg_replace_callback() | 101746.9 | 8810.9 | -91.3% | -91.4% | -91.2% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 256 | strtr() | 1549995.3 | 67055.0 | -95.7% | -95.7% | -95.6% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 256 | preg_replace_callback() | 809017.9 | 67055.0 | -91.7% | -91.8% | -91.6% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | strtr() | 198361.3 | 9377.6 | -95.3% | -95.3% | -95.3% |
-| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | preg_replace_callback() | 305587.7 | 9377.6 | -96.9% | -97.0% | -96.9% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | strtr() | 1582587.7 | 71337.0 | -95.5% | -95.5% | -95.4% |
-| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | preg_replace_callback() | 2433117.4 | 71337.0 | -97.1% | -97.1% | -97.0% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 8 | str_contains() loop | 1253.4 | 755.1 | -39.8% | -40.2% | -39.3% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 8 | preg_match() | 977.6 | 755.1 | -22.9% | -23.7% | -22.5% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 8 | str_contains() loop | 886.3 | 480.5 | -45.8% | -45.9% | -44.9% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 8 | preg_match() | 633.3 | 480.5 | -23.5% | -29.6% | -23.2% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 8 | str_contains() loop | 1057.0 | 837.7 | -20.7% | -21.4% | -20.6% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 8 | preg_match() | 1137.3 | 837.7 | -26.5% | -27.7% | -26.2% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 8 | str_contains() loop | 942.3 | 880.8 | -6.5% | -7.3% | -5.3% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 8 | preg_match() | 1119.7 | 880.8 | -21.3% | -22.3% | -20.2% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 8 | str_contains() loop | 4413.2 | 3468.2 | -21.4% | -21.9% | -20.6% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 8 | preg_match() | 4601.3 | 3468.2 | -24.6% | -24.8% | -24.1% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 8 | str_contains() loop | 1765.5 | 1504.9 | -14.8% | -15.0% | -14.2% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 8 | preg_match() | 2094.1 | 1504.9 | -28.3% | -29.1% | -27.7% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 16 | str_contains() loop | 1985.3 | 774.2 | -61.0% | -61.2% | -60.3% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 16 | preg_match() | 1465.0 | 774.2 | -47.1% | -47.2% | -46.3% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 16 | str_contains() loop | 1254.9 | 484.5 | -60.9% | -61.7% | -59.4% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 16 | preg_match() | 660.5 | 484.5 | -26.2% | -27.3% | -24.6% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 16 | str_contains() loop | 1501.4 | 866.1 | -42.3% | -42.7% | -41.8% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 16 | preg_match() | 1720.5 | 866.1 | -49.7% | -51.4% | -48.8% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 16 | str_contains() loop | 1303.4 | 928.7 | -28.5% | -29.9% | -28.4% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 16 | preg_match() | 1821.4 | 928.7 | -49.4% | -50.3% | -48.0% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 16 | str_contains() loop | 7483.9 | 3530.8 | -52.9% | -53.9% | -52.2% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 16 | preg_match() | 11549.6 | 3530.8 | -69.4% | -69.7% | -69.3% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 16 | str_contains() loop | 2567.0 | 1604.5 | -37.5% | -38.0% | -36.7% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 16 | preg_match() | 3661.4 | 1604.5 | -56.0% | -56.6% | -55.6% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 32 | str_contains() loop | 3640.6 | 1114.1 | -69.4% | -69.5% | -68.9% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 32 | preg_match() | 3297.4 | 1114.1 | -66.2% | -66.3% | -66.1% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 32 | str_contains() loop | 2160.6 | 484.5 | -77.7% | -77.8% | -77.1% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 32 | preg_match() | 722.5 | 484.5 | -32.6% | -33.4% | -31.6% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 32 | str_contains() loop | 2711.7 | 1289.1 | -52.5% | -52.6% | -52.1% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 32 | preg_match() | 4185.3 | 1289.1 | -69.2% | -69.3% | -69.0% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 32 | str_contains() loop | 2228.7 | 1349.1 | -39.6% | -40.5% | -39.1% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 32 | preg_match() | 4376.4 | 1349.1 | -69.2% | -69.2% | -69.1% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 32 | str_contains() loop | 16884.4 | 7176.0 | -57.5% | -58.1% | -57.4% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 32 | preg_match() | 29597.2 | 7176.0 | -75.8% | -75.8% | -75.7% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 32 | str_contains() loop | 6218.3 | 2910.2 | -53.2% | -53.2% | -53.0% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 32 | preg_match() | 10815.9 | 2910.2 | -73.1% | -73.1% | -73.0% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 64 | str_contains() loop | 6863.4 | 1121.2 | -83.7% | -83.7% | -83.6% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 64 | preg_match() | 6928.3 | 1121.2 | -83.8% | -83.9% | -83.8% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 64 | str_contains() loop | 4050.8 | 483.3 | -88.1% | -88.1% | -87.6% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 64 | preg_match() | 871.4 | 483.3 | -44.4% | -44.9% | -43.3% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 64 | str_contains() loop | 5276.5 | 1301.7 | -75.4% | -75.6% | -75.2% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 64 | preg_match() | 8644.7 | 1301.7 | -84.9% | -85.0% | -84.9% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 64 | str_contains() loop | 4250.1 | 1359.7 | -68.0% | -68.1% | -67.9% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 64 | preg_match() | 9313.5 | 1359.7 | -85.4% | -85.4% | -85.4% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 64 | str_contains() loop | 33372.0 | 7183.8 | -78.4% | -78.5% | -78.1% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 64 | preg_match() | 64393.8 | 7183.8 | -88.8% | -88.9% | -88.8% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 64 | str_contains() loop | 13434.0 | 2910.2 | -78.3% | -78.4% | -78.1% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 64 | preg_match() | 23936.8 | 2910.2 | -87.8% | -87.9% | -87.8% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 128 | str_contains() loop | 14334.2 | 1152.1 | -92.0% | -92.0% | -91.9% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 128 | preg_match() | 12994.6 | 1152.1 | -91.1% | -91.2% | -91.1% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 128 | str_contains() loop | 7865.5 | 487.4 | -93.9% | -94.1% | -93.7% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 128 | preg_match() | 1047.7 | 487.4 | -53.7% | -54.9% | -52.6% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 128 | str_contains() loop | 10218.3 | 1325.7 | -87.0% | -87.3% | -86.9% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 128 | preg_match() | 15851.6 | 1325.7 | -91.6% | -91.7% | -91.6% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 128 | str_contains() loop | 8018.1 | 1391.7 | -82.7% | -82.7% | -82.6% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 128 | preg_match() | 17229.1 | 1391.7 | -91.9% | -92.6% | -91.9% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 128 | str_contains() loop | 66176.0 | 7295.7 | -88.9% | -89.0% | -88.9% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 128 | preg_match() | 121934.1 | 7295.7 | -94.0% | -94.0% | -94.0% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 128 | str_contains() loop | 26370.7 | 2909.6 | -89.0% | -89.0% | -88.9% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 128 | preg_match() | 45051.2 | 2909.6 | -93.5% | -93.5% | -93.5% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 256 | str_contains() loop | 35383.1 | 1181.3 | -96.7% | -96.7% | -96.6% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 256 | preg_match() | 30712.5 | 1181.3 | -96.2% | -96.5% | -95.7% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 256 | str_contains() loop | 17308.9 | 483.7 | -97.2% | -97.2% | -97.2% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 256 | preg_match() | 1636.3 | 483.7 | -70.2% | -70.7% | -70.0% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 256 | str_contains() loop | 23199.7 | 1365.5 | -94.1% | -94.2% | -94.1% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 256 | preg_match() | 32359.3 | 1365.5 | -95.8% | -96.6% | -95.7% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 256 | str_contains() loop | 17630.6 | 1427.4 | -91.9% | -91.9% | -91.6% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 256 | preg_match() | 38694.1 | 1427.4 | -96.3% | -96.7% | -95.9% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 256 | str_contains() loop | 149257.5 | 7465.9 | -95.0% | -95.0% | -95.0% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 256 | preg_match() | 247139.7 | 7465.9 | -97.0% | -97.2% | -97.0% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 256 | str_contains() loop | 55738.5 | 2922.4 | -94.7% | -94.8% | -94.7% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 256 | preg_match() | 91715.9 | 2922.4 | -96.8% | -97.5% | -96.8% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 512 | str_contains() loop | 80045.7 | 1232.0 | -98.5% | -98.5% | -98.5% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 512 | preg_match() | 92679.3 | 1232.0 | -98.7% | -98.8% | -98.6% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 512 | str_contains() loop | 43442.4 | 487.2 | -98.9% | -98.9% | -98.9% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match at start) | 512 | preg_match() | 2891.2 | 487.2 | -83.1% | -83.3% | -82.4% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 512 | str_contains() loop | 58671.8 | 1407.6 | -97.6% | -97.7% | -97.6% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match in body) | 512 | preg_match() | 113365.3 | 1407.6 | -98.8% | -98.8% | -98.6% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 512 | str_contains() loop | 43832.6 | 1476.9 | -96.6% | -96.6% | -96.6% |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) (Match near end) | 512 | preg_match() | 117380.9 | 1476.9 | -98.7% | -98.8% | -98.7% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 512 | str_contains() loop | 335794.5 | 7747.3 | -97.7% | -97.7% | -97.7% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (No match) | 512 | preg_match() | 898972.3 | 7747.3 | -99.1% | -99.2% | -99.1% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 512 | str_contains() loop | 123337.7 | 2986.2 | -97.6% | -97.6% | -97.6% |
+| [Check a detailed support message](../../corpus/multi-pattern-scaling/suites/moderation.json) (Quoted matching term) | 512 | preg_match() | 319023.8 | 2986.2 | -99.1% | -99.1% | -99.0% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | strpos() per term | 5409.6 | 4323.0 | -20.0% | -20.2% | -19.3% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | preg_match() per term | 6674.6 | 4323.0 | -35.2% | -35.5% | -35.1% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | strpos() per term | 4481.9 | 3948.3 | -11.8% | -12.9% | -11.5% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | PCRE lookahead per term | 7577.5 | 3948.3 | -47.9% | -48.3% | -47.6% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | strpos() per term | 6665.8 | 5275.6 | -21.0% | -21.7% | -20.7% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 8 | PCRE lookahead per term | 12750.5 | 5275.6 | -58.7% | -59.0% | -58.6% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | strpos() per term | 10226.1 | 5043.5 | -50.7% | -52.7% | -49.9% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | preg_match() per term | 12237.3 | 5043.5 | -58.8% | -59.3% | -58.4% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | strpos() per term | 8612.8 | 4387.5 | -49.0% | -49.2% | -48.7% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | PCRE lookahead per term | 14411.1 | 4387.5 | -69.5% | -70.3% | -69.2% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | strpos() per term | 12672.4 | 6035.0 | -52.4% | -53.1% | +21.4% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 16 | PCRE lookahead per term | 23614.9 | 6035.0 | -74.4% | -74.6% | -36.0% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | strpos() per term | 18732.8 | 5492.9 | -70.7% | -70.8% | -70.1% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | preg_match() per term | 23887.3 | 5492.9 | -77.0% | -77.1% | -76.8% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | strpos() per term | 15812.1 | 4480.3 | -71.7% | -72.1% | -71.5% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | PCRE lookahead per term | 27275.8 | 4480.3 | -83.6% | -83.9% | -83.4% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | strpos() per term | 23846.7 | 6765.8 | -71.6% | -71.7% | -71.4% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 32 | PCRE lookahead per term | 44389.8 | 6765.8 | -84.7% | -84.9% | -84.7% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | strpos() per term | 38392.7 | 6186.9 | -84.0% | -84.2% | -83.7% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | preg_match() per term | 44734.4 | 6186.9 | -86.3% | -86.4% | -86.0% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | strpos() per term | 33638.1 | 4753.4 | -85.9% | -86.1% | -85.7% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | PCRE lookahead per term | 52744.9 | 4753.4 | -91.0% | -91.1% | -90.9% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | strpos() per term | 47983.7 | 8046.1 | -83.2% | -83.4% | -82.8% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 64 | PCRE lookahead per term | 82240.7 | 8046.1 | -90.2% | -90.3% | -90.0% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | strpos() per term | 77035.0 | 7359.4 | -90.5% | -90.5% | -90.4% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | preg_match() per term | 87102.1 | 7359.4 | -91.6% | -91.6% | -91.5% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | strpos() per term | 68636.5 | 5100.1 | -92.6% | -92.6% | -92.6% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | PCRE lookahead per term | 174072.5 | 5100.1 | -97.1% | -97.1% | -97.1% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | strpos() per term | 91120.4 | 9674.2 | -89.4% | -89.5% | -89.3% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 128 | PCRE lookahead per term | 236204.4 | 9674.2 | -95.9% | -96.0% | -95.8% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | strpos() per term | 152435.5 | 7529.7 | -95.1% | -95.1% | -94.9% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | preg_match() per term | 180237.1 | 7529.7 | -95.8% | -95.8% | -95.7% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | strpos() per term | 145128.0 | 5237.4 | -96.4% | -96.4% | -96.4% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | PCRE lookahead per term | 416961.0 | 5237.4 | -98.7% | -98.8% | -98.7% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | strpos() per term | 168543.0 | 9799.4 | -94.2% | -94.6% | -94.1% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 256 | PCRE lookahead per term | 495161.3 | 9799.4 | -98.0% | -98.0% | -97.9% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | strpos() per term | 293855.6 | 8005.2 | -97.3% | -97.3% | -97.3% |
+| [Find distinct support terms](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | preg_match() per term | 431939.6 | 8005.2 | -98.1% | -98.2% | -98.1% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | strpos() per term | 289914.3 | 5520.2 | -98.1% | -98.2% | -98.1% |
+| [Count support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | PCRE lookahead per term | 892644.3 | 5520.2 | -99.4% | -99.4% | -99.4% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | strpos() per term | 313161.8 | 10318.8 | -96.7% | -96.7% | -96.7% |
+| [Locate support-term occurrences](../../corpus/multi-pattern-scaling/suites/search.json) | 512 | PCRE lookahead per term | 1012288.8 | 10318.8 | -99.0% | -99.0% | -99.0% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 8 | strtr() | 19976.4 | 4903.2 | -75.4% | -75.7% | -75.2% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 8 | preg_replace_callback() | 3203.9 | 4903.2 | +53.4% | +50.2% | +54.5% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 8 | strtr() | 157214.3 | 37195.3 | -76.3% | -76.9% | -76.1% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 8 | preg_replace_callback() | 22343.7 | 37195.3 | +66.2% | +65.9% | +67.5% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 16 | strtr() | 36061.9 | 5397.9 | -85.0% | -85.1% | -85.0% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 16 | preg_replace_callback() | 8965.5 | 5397.9 | -39.8% | -40.4% | -39.6% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 16 | strtr() | 288704.4 | 40972.4 | -85.8% | -85.8% | -85.6% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 16 | preg_replace_callback() | 69106.9 | 40972.4 | -40.5% | -41.1% | -40.3% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 32 | strtr() | 77417.1 | 5881.3 | -92.4% | -92.5% | -92.3% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 32 | preg_replace_callback() | 17511.6 | 5881.3 | -66.4% | -66.6% | -65.9% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 32 | strtr() | 616066.2 | 44430.3 | -92.8% | -92.8% | -92.8% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 32 | preg_replace_callback() | 136991.2 | 44430.3 | -67.5% | -67.6% | -67.5% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 64 | strtr() | 143863.0 | 6419.8 | -95.5% | -95.5% | -95.5% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 64 | preg_replace_callback() | 31693.5 | 6419.8 | -79.7% | -79.9% | -79.7% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 64 | strtr() | 1149053.5 | 48205.5 | -95.8% | -95.8% | -95.7% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 64 | preg_replace_callback() | 249619.1 | 48205.5 | -80.7% | -80.7% | -80.3% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 128 | strtr() | 177483.6 | 6913.8 | -96.1% | -96.1% | -96.0% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 128 | preg_replace_callback() | 54454.8 | 6913.8 | -87.3% | -87.3% | -87.1% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 128 | strtr() | 1414056.6 | 52072.0 | -96.3% | -96.3% | -96.3% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 128 | preg_replace_callback() | 431788.4 | 52072.0 | -87.9% | -88.2% | -87.9% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 256 | strtr() | 193861.8 | 7116.3 | -96.3% | -96.3% | -96.3% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 256 | preg_replace_callback() | 101452.4 | 7116.3 | -93.0% | -93.0% | -92.9% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 256 | strtr() | 1547588.5 | 53651.0 | -96.5% | -96.5% | -96.5% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 256 | preg_replace_callback() | 809231.2 | 53651.0 | -93.4% | -93.4% | -93.2% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | strtr() | 198154.0 | 7572.8 | -96.2% | -96.2% | -96.1% |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | preg_replace_callback() | 307570.9 | 7572.8 | -97.6% | -97.7% | -97.5% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | strtr() | 1581122.1 | 56176.9 | -96.4% | -96.5% | -96.4% |
+| [Publish eight help articles](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | preg_replace_callback() | 2466313.1 | 56176.9 | -97.7% | -97.8% | -97.6% |
 
 ### Control tasks
 
@@ -1170,23 +1170,23 @@ All measured alternatives are listed. Preparation and reuse are separate section
 
 | Task | Substrings | Existing method | Existing | Prototype | Δ | Min Δ | Max Δ |
 |---|---:|---|---:|---:|---:|---:|---:|
-| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-scaling/suites/controls.json) | 12 | str_contains() loop | 1507.2 | 33449.6 | +2144.0% | +2084.7% | +2185.9% |
-| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-scaling/suites/controls.json) | 12 | preg_match() | 5754.8 | 33449.6 | +481.1% | +474.8% | +501.0% |
-| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-scaling/suites/controls.json) | 24 | strtr() | 333693.2 | 928561.6 | +178.3% | +178.2% | +178.7% |
-| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-scaling/suites/controls.json) | 24 | preg_replace_callback() | 49850.7 | 928561.6 | +1762.7% | +1752.7% | +1770.1% |
-| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-scaling/suites/controls.json) | 24 | str_replace() | 713401.6 | 928561.6 | +30.2% | +29.8% | +30.6% |
-| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-scaling/suites/controls.json) | 24 | preg_replace() | 47844.8 | 928561.6 | +1843.1% | +1837.2% | +1857.9% |
+| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-scaling/suites/controls.json) | 12 | str_contains() loop | 1505.4 | 28876.2 | +1829.8% | +1802.7% | +1862.8% |
+| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-scaling/suites/controls.json) | 12 | preg_match() | 5775.3 | 28876.2 | +400.0% | +394.0% | +404.2% |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-scaling/suites/controls.json) | 24 | strtr() | 334280.0 | 705944.7 | +111.1% | +110.0% | +112.4% |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-scaling/suites/controls.json) | 24 | preg_replace_callback() | 50049.8 | 705944.7 | +1311.3% | +1297.8% | +1316.9% |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-scaling/suites/controls.json) | 24 | str_replace() | 712536.8 | 705944.7 | -1.0% | -1.1% | -0.7% |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-scaling/suites/controls.json) | 24 | preg_replace() | 47576.5 | 705944.7 | +1382.9% | +1365.8% | +1389.2% |
 
 ##### clang21
 
 | Task | Substrings | Existing method | Existing | Prototype | Δ | Min Δ | Max Δ |
 |---|---:|---|---:|---:|---:|---:|---:|
-| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-scaling/suites/controls.json) | 12 | str_contains() loop | 1518.4 | 30890.4 | +1932.9% | +1895.1% | +1947.9% |
-| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-scaling/suites/controls.json) | 12 | preg_match() | 6225.0 | 30890.4 | +395.4% | +382.4% | +398.4% |
-| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-scaling/suites/controls.json) | 24 | strtr() | 305586.8 | 976066.4 | +219.4% | +218.8% | +219.7% |
-| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-scaling/suites/controls.json) | 24 | preg_replace_callback() | 46719.5 | 976066.4 | +1989.2% | +1985.0% | +1997.0% |
-| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-scaling/suites/controls.json) | 24 | str_replace() | 665943.0 | 976066.4 | +46.6% | +46.2% | +46.8% |
-| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-scaling/suites/controls.json) | 24 | preg_replace() | 44522.1 | 976066.4 | +2091.4% | +2087.3% | +2101.2% |
+| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-scaling/suites/controls.json) | 12 | str_contains() loop | 1535.5 | 27458.5 | +1690.7% | +1675.3% | +1723.0% |
+| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-scaling/suites/controls.json) | 12 | preg_match() | 6237.3 | 27458.5 | +342.7% | +337.7% | +346.7% |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-scaling/suites/controls.json) | 24 | strtr() | 305938.9 | 506003.7 | +65.4% | +64.9% | +65.9% |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-scaling/suites/controls.json) | 24 | preg_replace_callback() | 46360.6 | 506003.7 | +994.9% | +974.1% | +996.2% |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-scaling/suites/controls.json) | 24 | str_replace() | 665543.1 | 506003.7 | -23.9% | -24.3% | -23.7% |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-scaling/suites/controls.json) | 24 | preg_replace() | 44494.3 | 506003.7 | +1038.4% | +1032.0% | +1042.3% |
 
 #### Dictionary already prepared
 
@@ -1194,20 +1194,20 @@ All measured alternatives are listed. Preparation and reuse are separate section
 
 | Task | Substrings | Existing method | Existing | Prototype | Δ | Min Δ | Max Δ |
 |---|---:|---|---:|---:|---:|---:|---:|
-| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-scaling/suites/controls.json) | 12 | str_contains() loop | 1485.6 | 1227.4 | -17.3% | -17.9% | -15.9% |
-| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-scaling/suites/controls.json) | 12 | preg_match() | 1142.6 | 1227.4 | +7.6% | +7.2% | +8.2% |
-| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-scaling/suites/controls.json) | 24 | strtr() | 335181.9 | 793062.6 | +136.9% | +136.4% | +137.5% |
-| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-scaling/suites/controls.json) | 24 | preg_replace_callback() | 20898.2 | 793062.6 | +3698.5% | +3664.8% | +3719.0% |
-| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-scaling/suites/controls.json) | 24 | str_replace() | 692334.1 | 793062.6 | +14.6% | +14.4% | +14.7% |
-| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-scaling/suites/controls.json) | 24 | preg_replace() | 19160.3 | 793062.6 | +4044.6% | +4014.2% | +4095.3% |
+| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-scaling/suites/controls.json) | 12 | str_contains() loop | 1486.4 | 1068.7 | -28.2% | -28.6% | -27.5% |
+| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-scaling/suites/controls.json) | 12 | preg_match() | 1146.9 | 1068.7 | -6.9% | -7.6% | -6.6% |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-scaling/suites/controls.json) | 24 | strtr() | 333973.1 | 637385.0 | +90.8% | +89.7% | +91.0% |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-scaling/suites/controls.json) | 24 | preg_replace_callback() | 20887.1 | 637385.0 | +2952.1% | +2936.9% | +2961.0% |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-scaling/suites/controls.json) | 24 | str_replace() | 692037.3 | 637385.0 | -8.0% | -8.0% | -7.9% |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-scaling/suites/controls.json) | 24 | preg_replace() | 18996.3 | 637385.0 | +3250.2% | +3155.2% | +3272.4% |
 
 ##### clang21
 
 | Task | Substrings | Existing method | Existing | Prototype | Δ | Min Δ | Max Δ |
 |---|---:|---|---:|---:|---:|---:|---:|
-| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-scaling/suites/controls.json) | 12 | str_contains() loop | 1527.3 | 1266.5 | -17.1% | -17.7% | -16.5% |
-| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-scaling/suites/controls.json) | 12 | preg_match() | 1116.9 | 1266.5 | +13.8% | +13.2% | +14.0% |
-| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-scaling/suites/controls.json) | 24 | strtr() | 305359.8 | 847148.0 | +177.6% | +176.8% | +178.2% |
-| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-scaling/suites/controls.json) | 24 | preg_replace_callback() | 20993.4 | 847148.0 | +3934.8% | +3859.8% | +3964.1% |
-| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-scaling/suites/controls.json) | 24 | str_replace() | 644361.9 | 847148.0 | +31.5% | +31.2% | +31.6% |
-| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-scaling/suites/controls.json) | 24 | preg_replace() | 18971.6 | 847148.0 | +4365.1% | +4221.5% | +4387.8% |
+| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-scaling/suites/controls.json) | 12 | str_contains() loop | 1527.7 | 1108.9 | -27.4% | -27.8% | -27.1% |
+| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-scaling/suites/controls.json) | 12 | preg_match() | 1118.3 | 1108.9 | -1.0% | -5.6% | -0.3% |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-scaling/suites/controls.json) | 24 | strtr() | 305035.5 | 443710.9 | +45.5% | +44.9% | +47.0% |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-scaling/suites/controls.json) | 24 | preg_replace_callback() | 20983.2 | 443710.9 | +2013.0% | +1991.6% | +2036.5% |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-scaling/suites/controls.json) | 24 | str_replace() | 644132.1 | 443710.9 | -31.1% | -31.3% | -30.5% |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-scaling/suites/controls.json) | 24 | preg_replace() | 19098.1 | 443710.9 | +2222.8% | +2212.0% | +2241.3% |

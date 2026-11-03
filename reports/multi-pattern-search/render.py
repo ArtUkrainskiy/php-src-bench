@@ -124,7 +124,7 @@ def size_section(ds,prefix,methods,names):
 
 def size_files(ds):
     common='Times are microseconds per complete job; lower is better. Bold marks the lowest median per compiler, not a significance test. GCC 15.2 and Clang 21.1 on the same AMD system. PCRE compilation caches are warm in these tables; first requests are [separate](PCRE-FIRST.md). Exact input dictionaries and expected outputs are saved in the [corpus](../../corpus/multi-pattern-scaling/README.md).\n\n'
-    common+='A dagger marks the one noisy original PCRE cell; its [complete-case confirmation](CONFIRMATION.md) preserves the original and repeat measurements.\n\n'
+    common+='A dagger marks a sample span above 10%. [Order and noise controls](CONFIRMATION.md) retain original and repeat measurements, including close comparisons.\n\n'
     moderation='# Moderation: find any configured substring\n\n'+common
     moderation+='`Loop` is early-exit `str_contains()`. `PCRE` is a single escaped `preg_match()` alternation. Matcher returns the same boolean. English texts are fixed across every N.\n\n'
     for length,state,title in [('short','absent','Short comments, no match'),('short','start','Short comments, match at the start'),('short','middle','Short comments, match in the body'),('short','end','Short comments, match near the end'),('message','absent','Detailed support messages, no match'),('message','quoted','Detailed support messages, quoted matching term')]:
@@ -222,7 +222,7 @@ def main():
            'PCRE-FIRST.md':first_requests(datasets),'PRODUCT-CASES.md':product_tables(product)}
     current_hash=hashlib.sha256((ROOT/'harness.php').read_bytes()).hexdigest()
     refreshed=scale is not None and all(d['metadata']['harness_sha256']==current_hash for ds in datasets for d in ds['data'].values())
-    status=('Both compilers × both corpora on this AMD machine are complete and use the shared-dictionary input policy.' if refreshed else
+    status=('Both compilers × both corpora on this machine are complete and use the shared-dictionary input policy.' if refreshed else
             '**Measurement refresh in progress.** The earlier application tables are being replaced after correcting dictionary sharing. The report is not yet final.')
     blocks={'PRODUCT-TABLE':'See the [separate everyday application tables](PRODUCT-CASES.md).','AA-TABLE':controls(datasets),'RUN-STATUS':status}
     if scale:
@@ -249,6 +249,9 @@ def main():
         command=[sys.executable,str(ROOT/'memory/render.py')]
         if args.check:command.append('--check')
         subprocess.run(command,check=True)
+    command=[sys.executable,str(ROOT/'supplements/render.py')]
+    if args.check:command.append('--check')
+    subprocess.run(command,check=True)
 
 
 if __name__=='__main__':main()

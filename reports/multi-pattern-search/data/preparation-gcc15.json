@@ -1,0 +1,4270 @@
+{
+  "status": "complete",
+  "metadata": {
+    "main_metadata": {
+      "started": "2026-11-02T20:01:03.835151+00:00",
+      "compiler": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+      "cpu": 15,
+      "host": "measurement-host",
+      "kernel": "7.0.0-38-generic",
+      "runtime_build": {
+        "name": "sm-master",
+        "ref": "php/master",
+        "commit": "758c9ac5492848a54f9fd88fac2a54d5e6108c05",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "758c9ac5492848a54f9fd88fac2a54d5e6108c05",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-28T03:54:28+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      },
+      "version": {
+        "php": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "extension": "0.9-dev",
+        "pcre": "10.44 2024-06-07",
+        "pcre_jit": "1"
+      },
+      "php_sha256": "950c71e1d7b072975c4f0d37cbf5aa719b45c14433d21a2c67c0c7581673f2c0",
+      "module_sha256": "9c46c0bf78c0576494fc6eea373c8761436b89c9e4a9f313652a9a0e6a787ba7",
+      "source_sha256": {
+        "strmatch.c": "adafc9cb67a435523811b540734c7d51fc4f7ff1edf3aabd5f7b94c4cf19e254",
+        "php_strmatch.h": "332b3e0543cb2da855ce624d8f777e4497d3fce34fb9482927fcca0de9c1494e",
+        "strmatch_arginfo.h": "90e87529c5ddfaede28dc851f9af0909eb5fcfe8313fe82b558e55ed9ab8ac2e"
+      },
+      "source_revision": "287aaab7fb729d3a8e91c6fd35224c4359c343e3",
+      "corpus_index_sha256": "03e27d8ad806a8367e7f4a5ac02063e7bbc374f45aad019e7ad9ef7ae594e3ac",
+      "harness_sha256": "22000d86a1a6310a04f705dced352e755588331e8866d449e4abc713b10e4bb9",
+      "driver_sha256": "85cf816ff5573302b65597bbcc2f048b70b3a90586e30b366311d8b9363bc960",
+      "build_command": [
+        "gcc-15",
+        "-fstack-protector-strong",
+        "-fpic",
+        "-fpie",
+        "-O2",
+        "-g",
+        "-D_LARGEFILE_SOURCE",
+        "-D_FILE_OFFSET_BITS=64",
+        "-std=c11",
+        "-shared",
+        "-fPIC",
+        "-ffp-contract=off",
+        "-fvisibility=hidden",
+        "-DNDEBUG",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-unused-parameter",
+        "-Wno-sign-compare",
+        "-D_GNU_SOURCE",
+        "-DCOMPILE_DL_STRMATCH=1",
+        "-DZEND_ENABLE_STATIC_TSRMLS_CACHE=1",
+        "-I${PHP_BUILD}",
+        "-I${PHP_BUILD}/main",
+        "-I${PHP_BUILD}/TSRM",
+        "-I${PHP_BUILD}/Zend",
+        "${STRMATCH_SOURCE}/strmatch.c",
+        "-o",
+        "${RUN_ROOT}/data-product-gcc15/strmatch.so"
+      ],
+      "protocol": {
+        "passes": 15,
+        "warmup_ns": 250000000,
+        "sample_ns": 66666666,
+        "perf_passes": 5,
+        "perf_target_ns": 80000000,
+        "first_requests": 15,
+        "pcre_cache": "Warm for main series; separate fresh-process first requests",
+        "counter_method": "user cycles/instructions for N jobs minus same startup/warmup with zero jobs, divided by N",
+        "wall_method": "elapsed within process; complete jobs rotated evenly; no empty-loop subtraction",
+        "all_result_types": "Matcher returns MatchResult objects; native/PCRE return associative arrays; normalization only in output checks",
+        "input_dictionary_sharing": "Equal per-job dictionaries share one array outside timing; different per-order maps remain distinct"
+      },
+      "cpu_model": "AMD Ryzen 9 5950X 16-Core Processor",
+      "siblings": "15,31",
+      "governor": "performance",
+      "load_before": [
+        0.04296875,
+        0.01318359375,
+        0.001953125
+      ],
+      "boost": "1"
+    },
+    "pinned_scripts": {
+      "batch.php": "38761ef4c698b3f2c1c1f9babaec610156ab509555c9f56c7531430ec55f5be9",
+      "construction.php": "c84775fdea220e3892bb7db4076ae2416e747b5201827c30eff98c53eb7989d2",
+      "definitions.php": "f0fa73ac7c4dbdce5101ae1f7a3047d0b599501a3a34706dda627f95d92824b6",
+      "order-harness.php": "10122bf7b1a29926ac7d740af883de3cd29a59b914537612626eae8e55bc1306",
+      "supplements.py": "01c69ea347b5294c93ddbc6c7abce194af02641ddd83efab73b9cfeda5352f4f"
+    },
+    "definitions_sha256": "f0fa73ac7c4dbdce5101ae1f7a3047d0b599501a3a34706dda627f95d92824b6",
+    "order_harness_sha256": "10122bf7b1a29926ac7d740af883de3cd29a59b914537612626eae8e55bc1306",
+    "constructor_protocol": {
+      "first": "first constructor in a fresh PHP process after parsing; release/startup excluded; CPU and file caches are not cold",
+      "warm": "construction and release plus common closure/loop cost",
+      "model": "request minus worker is an estimate including wrapper differences, not the first constructor"
+    },
+    "order_protocol": "paired reverse order; starting position rotates every pair",
+    "batch_harness_sha256": "38761ef4c698b3f2c1c1f9babaec610156ab509555c9f56c7531430ec55f5be9",
+    "construction_harness_sha256": "c84775fdea220e3892bb7db4076ae2416e747b5201827c30eff98c53eb7989d2",
+    "driver_sha256": "01c69ea347b5294c93ddbc6c7abce194af02641ddd83efab73b9cfeda5352f4f",
+    "passes": 15,
+    "warmup_ns": 250000000,
+    "sample_ns": 66666667
+  },
+  "rows": [
+    {
+      "family": "glossary-catalog",
+      "size": 8,
+      "class": "Matcher",
+      "check": {
+        "status": "PASS",
+        "size": 8
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "1177d047652a2917a9f398e6e142bd293cdefe7cd721efab67977bcd843a86c1",
+        "capture_stdout_sha256": "def9ac7aea2e4499e56040626554039f5a5f409b741b409066ed0df9e254c948"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 9147,
+            "size": 8
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "036bfd597f93d3b9f116157be5f431e858301828f6c89e258558ba30c17ca45c",
+          "capture_stdout_sha256": "6ed06fc57a3acd6b5b7fb7d2524a08083136aea8b7df09056114efe9172b94c5"
+        },
+        {
+          "result": {
+            "constructor_ns": 8857,
+            "size": 8
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "036bfd597f93d3b9f116157be5f431e858301828f6c89e258558ba30c17ca45c",
+          "capture_stdout_sha256": "77366fd3668a1097b85058911e6ccf81fa9a2039eb6a6b1cf2f3d3810d138704"
+        },
+        {
+          "result": {
+            "constructor_ns": 8717,
+            "size": 8
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "036bfd597f93d3b9f116157be5f431e858301828f6c89e258558ba30c17ca45c",
+          "capture_stdout_sha256": "9f3c27b9a1646444f4799b94b8fa50f2097e61daa59966f5c5200f7bfd98d6d7"
+        },
+        {
+          "result": {
+            "constructor_ns": 8667,
+            "size": 8
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "036bfd597f93d3b9f116157be5f431e858301828f6c89e258558ba30c17ca45c",
+          "capture_stdout_sha256": "841ad293915fe59a0927b53c093abc8c55a3ee1143a8196573d45487e8b46993"
+        },
+        {
+          "result": {
+            "constructor_ns": 8876,
+            "size": 8
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "036bfd597f93d3b9f116157be5f431e858301828f6c89e258558ba30c17ca45c",
+          "capture_stdout_sha256": "92a52a80c96db77223e615dddfa8e20e8f372d879a77968063254773ed8827ae"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            2171.5116900032563,
+            2172.397101921198,
+            2170.852035167698,
+            2171.952132855747,
+            2173.272386844676,
+            2172.1338326278087,
+            2172.0310647997394,
+            2170.4034516444153,
+            2173.367990882449,
+            2171.7867144252687,
+            2173.205535656138,
+            2172.2085314229894,
+            2174.2197981113645,
+            2173.812015630088,
+            2171.8474112666886
+          ]
+        },
+        "iterations": {
+          "build_release": 30710
+        },
+        "sink": 460650
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "a17267bb1b618d977f77936fad7136bf1263b0674c1abc2f2346c159b2a7941a",
+        "capture_stdout_sha256": "3e029b2aad0b1838e6d52982c840e9e68b00ad7bd71be7bac0cd628338f7610a"
+      }
+    },
+    {
+      "family": "glossary-catalog",
+      "size": 8,
+      "class": "Replacer",
+      "check": {
+        "status": "PASS",
+        "size": 8
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "38e71989554a659d635140bb31339020e10f27484b410fec65eafd2cc2c5b02b",
+        "capture_stdout_sha256": "def9ac7aea2e4499e56040626554039f5a5f409b741b409066ed0df9e254c948"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 8937,
+            "size": 8
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "10c8329ac29d265fc31907fa425b43678914fd9028844fdb61ec9a81a755599a",
+          "capture_stdout_sha256": "e76949ec18008513b2d1ec9ef567496049ee87993f05a581ea7b49dadef49ad2"
+        },
+        {
+          "result": {
+            "constructor_ns": 8827,
+            "size": 8
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "10c8329ac29d265fc31907fa425b43678914fd9028844fdb61ec9a81a755599a",
+          "capture_stdout_sha256": "70621b1d734477cd1956cf395c6ca0b1dd87e79b885807273d70e6c2ae8c57d9"
+        },
+        {
+          "result": {
+            "constructor_ns": 8776,
+            "size": 8
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "10c8329ac29d265fc31907fa425b43678914fd9028844fdb61ec9a81a755599a",
+          "capture_stdout_sha256": "4011a17b00c4951f0df205f5a899b29984b305ccb6342f803f669a8741b3e6c2"
+        },
+        {
+          "result": {
+            "constructor_ns": 8837,
+            "size": 8
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "10c8329ac29d265fc31907fa425b43678914fd9028844fdb61ec9a81a755599a",
+          "capture_stdout_sha256": "5d7a525b5b118ccd9909c415d1179c12c2c91e7c4b1a51b06da6734919ada3ba"
+        },
+        {
+          "result": {
+            "constructor_ns": 8727,
+            "size": 8
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "10c8329ac29d265fc31907fa425b43678914fd9028844fdb61ec9a81a755599a",
+          "capture_stdout_sha256": "d2842b5f9bd4daab0b15fba97dfa704ae210040666bbac48938660b17779347f"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            2674.0387573054445,
+            2673.0071516456474,
+            2673.0159950784373,
+            2670.6241541064287,
+            2670.1098892648415,
+            2679.0712473085205,
+            2666.6641418025224,
+            2663.6821362657643,
+            2665.163295908951,
+            2676.3932251614888,
+            2677.7426176561057,
+            2674.6358428175945,
+            2675.2995616733315,
+            2675.8350123039063,
+            2657.2112042448475
+          ]
+        },
+        "iterations": {
+          "build_release": 26008
+        },
+        "sink": 390120
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "a6ddbb70d4772f761009346504dda59c7226fcbaeceb2bdbb207e6681718ea0c",
+        "capture_stdout_sha256": "1bbabb3ce90f935628764016610885fad82dd87a62dec8dcfba6832120ca71db"
+      }
+    },
+    {
+      "family": "glossary-catalog",
+      "size": 16,
+      "class": "Matcher",
+      "check": {
+        "status": "PASS",
+        "size": 16
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "a9d9a59d79db9275837146730a0fbb01b3b4062a3d150a3c3ebd1609ec531455",
+        "capture_stdout_sha256": "9e93fd7634a55cfdc1efc8efd1a678d0ebf9e1149f7f0f576023932647573cab"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 12003,
+            "size": 16
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "3de4be701adb0015a018f613d8732026f305d9b9cd6330f1af8199f947632579",
+          "capture_stdout_sha256": "d496bf0c44a1f31d60c867aa1720d922031d54f6daa240914fd184513a42fad7"
+        },
+        {
+          "result": {
+            "constructor_ns": 11983,
+            "size": 16
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "3de4be701adb0015a018f613d8732026f305d9b9cd6330f1af8199f947632579",
+          "capture_stdout_sha256": "361dcaa465341c2854b5ea4e7612d8552dd266e48f83388e5c0cbd1bf5a3d83f"
+        },
+        {
+          "result": {
+            "constructor_ns": 11872,
+            "size": 16
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "3de4be701adb0015a018f613d8732026f305d9b9cd6330f1af8199f947632579",
+          "capture_stdout_sha256": "dd659953146015a3af0b032c897f18573fafaad6a0ef8d2e817492a4c1e024a3"
+        },
+        {
+          "result": {
+            "constructor_ns": 12003,
+            "size": 16
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "3de4be701adb0015a018f613d8732026f305d9b9cd6330f1af8199f947632579",
+          "capture_stdout_sha256": "d496bf0c44a1f31d60c867aa1720d922031d54f6daa240914fd184513a42fad7"
+        },
+        {
+          "result": {
+            "constructor_ns": 12083,
+            "size": 16
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "3de4be701adb0015a018f613d8732026f305d9b9cd6330f1af8199f947632579",
+          "capture_stdout_sha256": "aa5676e687823b1fb3ba7c337144fcd9cdffed65737f72a175bde0b7287ccd55"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            4006.7068779258193,
+            4004.696134917777,
+            4004.7166006481816,
+            4000.7541111511223,
+            4006.013023646621,
+            4003.2927619733528,
+            4002.7828592005762,
+            3998.460688992918,
+            4002.0180050414115,
+            4014.529168167087,
+            4001.460628976113,
+            4003.398571600048,
+            3996.445204657304,
+            4003.584923778658,
+            4001.211679270196
+          ]
+        },
+        "iterations": {
+          "build_release": 16662
+        },
+        "sink": 249930
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "10b1336ae9ae6ec6f66fca271a896b050df32937db3eee7ea451460314fe38f8",
+        "capture_stdout_sha256": "79589900b5db7317465cae58077199ba8ecdf15dcaf3ce46840f567665c275d4"
+      }
+    },
+    {
+      "family": "glossary-catalog",
+      "size": 16,
+      "class": "Replacer",
+      "check": {
+        "status": "PASS",
+        "size": 16
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "747082eaef5c648e9a46abb626f1618d333c1d1cc96caddc6508e892f8bcf4ef",
+        "capture_stdout_sha256": "9e93fd7634a55cfdc1efc8efd1a678d0ebf9e1149f7f0f576023932647573cab"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 13154,
+            "size": 16
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "b336e2a2fab3af555df52a0dcb1b9bb63187de2f124366e58eaed61a0971c36d",
+          "capture_stdout_sha256": "7490a7f33cbe3d75d92bdc872714950dfdfd3828fd81d490a1ea7dccef6964b9"
+        },
+        {
+          "result": {
+            "constructor_ns": 13045,
+            "size": 16
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "b336e2a2fab3af555df52a0dcb1b9bb63187de2f124366e58eaed61a0971c36d",
+          "capture_stdout_sha256": "ea4f990c3aedac409bef364680af54905a696b327234d0be9d239b24286379c6"
+        },
+        {
+          "result": {
+            "constructor_ns": 13014,
+            "size": 16
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "b336e2a2fab3af555df52a0dcb1b9bb63187de2f124366e58eaed61a0971c36d",
+          "capture_stdout_sha256": "d0195f81c616ded9442b8ba82c2c748576f77566c0e6ff550e339ea83508f148"
+        },
+        {
+          "result": {
+            "constructor_ns": 13174,
+            "size": 16
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "b336e2a2fab3af555df52a0dcb1b9bb63187de2f124366e58eaed61a0971c36d",
+          "capture_stdout_sha256": "997619b6bafc9473c2f44ccd6e0774e64db57817661fd1e28ae228b6c5ff27ab"
+        },
+        {
+          "result": {
+            "constructor_ns": 13064,
+            "size": 16
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "b336e2a2fab3af555df52a0dcb1b9bb63187de2f124366e58eaed61a0971c36d",
+          "capture_stdout_sha256": "6b1cfa6a62c75b7adbe91fa154c23438662ac5c5b9b73e23d04d9f41b4afbe8f"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            4895.4938008950185,
+            4895.579781380677,
+            4893.097645073729,
+            4900.694593206661,
+            4903.067933387132,
+            4897.046805076663,
+            4896.322866994351,
+            4893.703249944979,
+            4890.250238427115,
+            4886.3481769496,
+            4892.345022375468,
+            4886.850121047612,
+            4889.756290807718,
+            4891.085246863767,
+            4890.861052013792
+          ]
+        },
+        "iterations": {
+          "build_release": 13631
+        },
+        "sink": 204465
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "8329f655e2177b3176637c9512bef2e9f40b6a541dfb691e7eed2d9ba4f5caac",
+        "capture_stdout_sha256": "605dd0c931ae69fc465181b9a90bd83f32780efea3353121f7d32391644328e4"
+      }
+    },
+    {
+      "family": "glossary-catalog",
+      "size": 32,
+      "class": "Matcher",
+      "check": {
+        "status": "PASS",
+        "size": 32
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "076769b6788f0495b00e62ed383ed9ae03adc7d9f285d5e357a952a7bebf4f3a",
+        "capture_stdout_sha256": "86effafa43cfdb7989d06d1968f8891b16ac980ffd9c5f773758fc0e9ac77e2c"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 20669,
+            "size": 32
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "95442d2f2d1db92cf8bc8488039113b3d25000a3bee3209cdc854b5a5fa21918",
+          "capture_stdout_sha256": "94d48aff0a4b12cf26d62789394f56b611ce25edfac72a2fb76dfd155c787829"
+        },
+        {
+          "result": {
+            "constructor_ns": 19717,
+            "size": 32
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "95442d2f2d1db92cf8bc8488039113b3d25000a3bee3209cdc854b5a5fa21918",
+          "capture_stdout_sha256": "92c8544ea2554ade0142140306b43628c4855b91d0c21434ae1af0b82f788359"
+        },
+        {
+          "result": {
+            "constructor_ns": 19797,
+            "size": 32
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "95442d2f2d1db92cf8bc8488039113b3d25000a3bee3209cdc854b5a5fa21918",
+          "capture_stdout_sha256": "3e063664cf2644f169b762635c9e62d5aedf1fc4d1ab9a0863b12561e7700d8d"
+        },
+        {
+          "result": {
+            "constructor_ns": 19546,
+            "size": 32
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "95442d2f2d1db92cf8bc8488039113b3d25000a3bee3209cdc854b5a5fa21918",
+          "capture_stdout_sha256": "5cdcad9669658d44c0e64b20b2526c3fa70776ebf7c75551d49517b5352a3388"
+        },
+        {
+          "result": {
+            "constructor_ns": 19657,
+            "size": 32
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "95442d2f2d1db92cf8bc8488039113b3d25000a3bee3209cdc854b5a5fa21918",
+          "capture_stdout_sha256": "bf21bd7db8474c622abdeb597bf1fe2d4d1c2d6edc03f8cf898e2fadc02f5899"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            8285.579731743666,
+            8277.148534525584,
+            8286.48174366617,
+            8277.250620963736,
+            8277.544212617982,
+            8283.707029309488,
+            8281.076626924987,
+            8283.103700943864,
+            8285.147913561848,
+            8275.33569299553,
+            8272.625683060109,
+            8278.818430203675,
+            8272.97652757079,
+            8283.02521112767,
+            8287.969945355191
+          ]
+        },
+        "iterations": {
+          "build_release": 8052
+        },
+        "sink": 120780
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "42fd19c3c1d4fbe5e82a0318368c5f12aa1c41dc22175867e8b4309c781e3064",
+        "capture_stdout_sha256": "d8f51686bbb491576c1096f10cfc32a57534d6c3b8361a0a8b8f1da84df65890"
+      }
+    },
+    {
+      "family": "glossary-catalog",
+      "size": 32,
+      "class": "Replacer",
+      "check": {
+        "status": "PASS",
+        "size": 32
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "b961b593de01cbd88791da5146e100c977a2c30f7b9da971e7b96b1d15793121",
+        "capture_stdout_sha256": "86effafa43cfdb7989d06d1968f8891b16ac980ffd9c5f773758fc0e9ac77e2c"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 20628,
+            "size": 32
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "3ee5a6877cc110acbb23bd267eed2b462cff8930c50f133f52096613fc69b8db",
+          "capture_stdout_sha256": "b7d26877fa6cd062c5e043a0fb813cd62ffa34b5fff60f5524c857034de2ae1c"
+        },
+        {
+          "result": {
+            "constructor_ns": 20748,
+            "size": 32
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "3ee5a6877cc110acbb23bd267eed2b462cff8930c50f133f52096613fc69b8db",
+          "capture_stdout_sha256": "0c86e2ce6ac78c505690ef4efb3e0f8c9a51f683c581c3d8de851501839b11b4"
+        },
+        {
+          "result": {
+            "constructor_ns": 20588,
+            "size": 32
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "3ee5a6877cc110acbb23bd267eed2b462cff8930c50f133f52096613fc69b8db",
+          "capture_stdout_sha256": "8032c29b2d37b054c97cbca4dd5eb469207ee3bf347c02a60698d05eed10e068"
+        },
+        {
+          "result": {
+            "constructor_ns": 20518,
+            "size": 32
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "3ee5a6877cc110acbb23bd267eed2b462cff8930c50f133f52096613fc69b8db",
+          "capture_stdout_sha256": "c27ed8188ebf67cf6ebd2a70817218469be6a3a1f7998f9de5e4d612fb1afab2"
+        },
+        {
+          "result": {
+            "constructor_ns": 20518,
+            "size": 32
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "3ee5a6877cc110acbb23bd267eed2b462cff8930c50f133f52096613fc69b8db",
+          "capture_stdout_sha256": "c27ed8188ebf67cf6ebd2a70817218469be6a3a1f7998f9de5e4d612fb1afab2"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            9280.739687848383,
+            9275.604654403567,
+            9311.568004459308,
+            9273.45052954292,
+            9299.929905239687,
+            9300.042920847269,
+            9298.607720178372,
+            9302.075668896321,
+            9284.376672240802,
+            9304.220178372352,
+            9285.694676700112,
+            9299.47463768116,
+            9276.97575250836,
+            9274.401198439242,
+            9301.360925306577
+          ]
+        },
+        "iterations": {
+          "build_release": 7176
+        },
+        "sink": 107640
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "09dd6249e30d2ae0f3df1e9de731a6082ad3320912e1ddd9c0c702747cb23015",
+        "capture_stdout_sha256": "ba773547ce2f70f8c0d14223ffc8368ef2bd83de3a0eef5cf638d0fafd14398f"
+      }
+    },
+    {
+      "family": "glossary-catalog",
+      "size": 64,
+      "class": "Matcher",
+      "check": {
+        "status": "PASS",
+        "size": 64
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "395d2c8e897db45b0a2244c89d31864ded235f539d98317e11017760f4bbc144",
+        "capture_stdout_sha256": "aa00a3895fd492ce2a7082d85834f8f24e78efe1af36cf92cc28614f112b408b"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 39043,
+            "size": 64
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "d1b6d4f8a05b08b154dabb2a9a3287dd35c0b35fe71994cf586d38ead1ff1804",
+          "capture_stdout_sha256": "0462d1a2b47fc922b7b54fe2102d7e06d6344b8a002e1e19892577884a2280b7"
+        },
+        {
+          "result": {
+            "constructor_ns": 38943,
+            "size": 64
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "d1b6d4f8a05b08b154dabb2a9a3287dd35c0b35fe71994cf586d38ead1ff1804",
+          "capture_stdout_sha256": "aeebc559b44cff54472f75dbaf6dff260ac282758f13cd13f3e09a7c4e2fff14"
+        },
+        {
+          "result": {
+            "constructor_ns": 39193,
+            "size": 64
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "d1b6d4f8a05b08b154dabb2a9a3287dd35c0b35fe71994cf586d38ead1ff1804",
+          "capture_stdout_sha256": "7e80ee161ea8078512036f8d486bec451cb7059100d00f627e25190b8aca6d54"
+        },
+        {
+          "result": {
+            "constructor_ns": 38953,
+            "size": 64
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "d1b6d4f8a05b08b154dabb2a9a3287dd35c0b35fe71994cf586d38ead1ff1804",
+          "capture_stdout_sha256": "e140675af6ae46dafa4080e2edc60f504ccf7501e1785da80b394805835d0205"
+        },
+        {
+          "result": {
+            "constructor_ns": 38582,
+            "size": 64
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "d1b6d4f8a05b08b154dabb2a9a3287dd35c0b35fe71994cf586d38ead1ff1804",
+          "capture_stdout_sha256": "5ed5b7d22d7db7bf01bb4054f0b0087ed9c615e8d0f0cc82c3df59baa8dc36a3"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            18529.233055555556,
+            18532.483333333334,
+            18538.199444444443,
+            18528.70138888889,
+            18547.480833333335,
+            18519.219444444443,
+            18537.826666666668,
+            18514.964444444446,
+            18525.584166666667,
+            18531.080555555556,
+            18541.956666666665,
+            18561.585,
+            18539.699722222223,
+            18535.8425,
+            18536.55222222222
+          ]
+        },
+        "iterations": {
+          "build_release": 3600
+        },
+        "sink": 54000
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "1f6c5f3ab90ddf4f7c413c2542251b384aac66ee65d25260751530500e788b3a",
+        "capture_stdout_sha256": "17b271ffbd38db6c2c5f6ba9c69f928c099b59c7fed3b8e4aefb965080c52723"
+      }
+    },
+    {
+      "family": "glossary-catalog",
+      "size": 64,
+      "class": "Replacer",
+      "check": {
+        "status": "PASS",
+        "size": 64
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "302388bede338f050f72ade98eb62bd149a1448003a1d28c98ff5a186a281b55",
+        "capture_stdout_sha256": "aa00a3895fd492ce2a7082d85834f8f24e78efe1af36cf92cc28614f112b408b"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 37100,
+            "size": 64
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "690d08353b32f2bd11ac5bcba5c182ffe0c4749cba829206570b3aab87aa357f",
+          "capture_stdout_sha256": "7f71941385cabb393cae4e9c4940ff7cb693fcf893b7bda0ecbdeca3078c9824"
+        },
+        {
+          "result": {
+            "constructor_ns": 37110,
+            "size": 64
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "690d08353b32f2bd11ac5bcba5c182ffe0c4749cba829206570b3aab87aa357f",
+          "capture_stdout_sha256": "45a527922f1efa12576c24438017a2a3d6fca2d31b7b1ff7be549078f3fc705e"
+        },
+        {
+          "result": {
+            "constructor_ns": 36979,
+            "size": 64
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "690d08353b32f2bd11ac5bcba5c182ffe0c4749cba829206570b3aab87aa357f",
+          "capture_stdout_sha256": "2d93d893bf78a4cbc3925fa62d5ebea746d3669421c0abe7e796187a7fd3f6f9"
+        },
+        {
+          "result": {
+            "constructor_ns": 37159,
+            "size": 64
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "690d08353b32f2bd11ac5bcba5c182ffe0c4749cba829206570b3aab87aa357f",
+          "capture_stdout_sha256": "a87160901e7360c3613ec570892781ccd600dc60c3c960e3fcc38c28522cc3ec"
+        },
+        {
+          "result": {
+            "constructor_ns": 37090,
+            "size": 64
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "690d08353b32f2bd11ac5bcba5c182ffe0c4749cba829206570b3aab87aa357f",
+          "capture_stdout_sha256": "8731337eadaa59a96cd9d0ac64d8d700300e65063dd57ffeb4596f4f323c8b6b"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            18629.585706309324,
+            18581.022054718036,
+            18585.415968732552,
+            18558.3355667225,
+            18590.389168062535,
+            18598.564768285873,
+            18561.25600223339,
+            18553.09156895589,
+            18546.965940815186,
+            18554.034059184814,
+            18522.719151312118,
+            18531.000837520936,
+            18522.151312116137,
+            18536.936069235064,
+            18572.966778336126
+          ]
+        },
+        "iterations": {
+          "build_release": 3582
+        },
+        "sink": 53730
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "b3b55ef7a7f9422187e925375cb82f819ea67ba2143c50b562d2395714827a8c",
+        "capture_stdout_sha256": "2e86361069e6a9ffad441fb26e33711dc823775b8c8f4408dba93450cf6bf719"
+      }
+    },
+    {
+      "family": "glossary-catalog",
+      "size": 128,
+      "class": "Matcher",
+      "check": {
+        "status": "PASS",
+        "size": 128
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "be81b3df6572f4740fb595dfb8c606772657fa4ceaad1eadea75ca6bc0def19a",
+        "capture_stdout_sha256": "994d981d4cce2208fbabd020742a15251ee4982bc19f510f2a6ccef34a2c6b89"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 80310,
+            "size": 128
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "ad797fda4937b1bd5bfd0164921d338b06785b1938d1cc89da21277770feef02",
+          "capture_stdout_sha256": "319a9c7187afed392480102e47a404c409898f7b096edd098713f60debca108b"
+        },
+        {
+          "result": {
+            "constructor_ns": 80271,
+            "size": 128
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "ad797fda4937b1bd5bfd0164921d338b06785b1938d1cc89da21277770feef02",
+          "capture_stdout_sha256": "8dbdbbe0a011ca7a60da29af92c7762c0734481e34c17e27e449b2ae0e9c4c8f"
+        },
+        {
+          "result": {
+            "constructor_ns": 80511,
+            "size": 128
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "ad797fda4937b1bd5bfd0164921d338b06785b1938d1cc89da21277770feef02",
+          "capture_stdout_sha256": "c05be97e7c0922c7bb01bda204e354b85c16ecbc5d28f8589ffbc054f64d5550"
+        },
+        {
+          "result": {
+            "constructor_ns": 80321,
+            "size": 128
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "ad797fda4937b1bd5bfd0164921d338b06785b1938d1cc89da21277770feef02",
+          "capture_stdout_sha256": "12251a989e7d68d35f07f2237dbb8e3459d5b2e1d4fd85942d97884f43cadfc1"
+        },
+        {
+          "result": {
+            "constructor_ns": 83587,
+            "size": 128
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "ad797fda4937b1bd5bfd0164921d338b06785b1938d1cc89da21277770feef02",
+          "capture_stdout_sha256": "d9ce8f825264c13351a2e52b97d64bce02f6bab98319ff2e707aa476a5253852"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            45044.99528301887,
+            44946.11051212938,
+            44790.98180592992,
+            44736.02021563342,
+            44718.379380053906,
+            44770.47843665768,
+            44770.69474393531,
+            44727.932614555255,
+            44777.337601078165,
+            44790.86725067385,
+            44693.05592991914,
+            44685.66307277628,
+            44791.27897574124,
+            44957.24326145553,
+            44980.17722371968
+          ]
+        },
+        "iterations": {
+          "build_release": 1484
+        },
+        "sink": 22260
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "ac79230a0c06e54c4ea6082fdac0684c8d3d1c3b38562ed10040332458bc026a",
+        "capture_stdout_sha256": "bdb5636112f1634affa98593a1e34b0a3b123da415f1a2f093b6b9c0e73411c6"
+      }
+    },
+    {
+      "family": "glossary-catalog",
+      "size": 128,
+      "class": "Replacer",
+      "check": {
+        "status": "PASS",
+        "size": 128
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "49b6537e90cd641a7b8051eb7a60e8d71cfd2ebab128c34201837718fe143a83",
+        "capture_stdout_sha256": "994d981d4cce2208fbabd020742a15251ee4982bc19f510f2a6ccef34a2c6b89"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 77104,
+            "size": 128
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "c863aec79f6e649b2f26eb4657f356324e9fec166cd518dede45336d98771969",
+          "capture_stdout_sha256": "fa7ede5bbcc162bbd0fd06c267df28c810827a760c73d27d5e4ccf3af0e669fd"
+        },
+        {
+          "result": {
+            "constructor_ns": 76964,
+            "size": 128
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "c863aec79f6e649b2f26eb4657f356324e9fec166cd518dede45336d98771969",
+          "capture_stdout_sha256": "9c2399f385c6f82e6af9570b1c994b6d18ed27a43d569238e089b9ff7a3dd17a"
+        },
+        {
+          "result": {
+            "constructor_ns": 77575,
+            "size": 128
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "c863aec79f6e649b2f26eb4657f356324e9fec166cd518dede45336d98771969",
+          "capture_stdout_sha256": "4df26fe45686f10dfad6c67a51b532627154e2c71ad059de5081f4477f43bc24"
+        },
+        {
+          "result": {
+            "constructor_ns": 77836,
+            "size": 128
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "c863aec79f6e649b2f26eb4657f356324e9fec166cd518dede45336d98771969",
+          "capture_stdout_sha256": "89a1d93ef30d773d8c136dd321d870ae805c08273470a061bae2b0376f768d42"
+        },
+        {
+          "result": {
+            "constructor_ns": 78116,
+            "size": 128
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "c863aec79f6e649b2f26eb4657f356324e9fec166cd518dede45336d98771969",
+          "capture_stdout_sha256": "9a3cae41df835eb83962dc411ad4f80b5fad29c56504dbae899d2e83cd57de93"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            43590.155409836065,
+            43533.84,
+            43499.56590163935,
+            43478.464262295085,
+            43525.46360655738,
+            43513.43475409836,
+            43514.26885245902,
+            43486.3737704918,
+            43419.337704918034,
+            43331.19803278689,
+            43381.69245901639,
+            43503.13967213115,
+            43303.5731147541,
+            43279.186229508196,
+            43338.90426229508
+          ]
+        },
+        "iterations": {
+          "build_release": 1525
+        },
+        "sink": 22875
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "bf3ade5cad933e8da05c5d8e7a8345e3a965504a6bf4feb2fe3e1097c297b484",
+        "capture_stdout_sha256": "7766293aac2fb502c847a0d9bef61f12a89f14f296353e7e8ee7f1bfebefe154"
+      }
+    },
+    {
+      "family": "glossary-catalog",
+      "size": 256,
+      "class": "Matcher",
+      "check": {
+        "status": "PASS",
+        "size": 256
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "8bb2aa0e5b33b884d652c0eb9d0d8b77bad61f6a62e4cf819608a0b228a8a590",
+        "capture_stdout_sha256": "bc4cee41f677e3d6de29cdb2c36a4e5770e6bc79c5d07dfa3169a4693820fc44"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 164238,
+            "size": 256
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "2b54b4abc04d086f11384d317f29216cbc9170ede532930a3c133ba1ce070fcb",
+          "capture_stdout_sha256": "42979448ccc57170e846341c9438f4247d0d0cc4defb34e60108f54edc0cd6ec"
+        },
+        {
+          "result": {
+            "constructor_ns": 164077,
+            "size": 256
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "2b54b4abc04d086f11384d317f29216cbc9170ede532930a3c133ba1ce070fcb",
+          "capture_stdout_sha256": "b0dabff547dc16d61544ec5dd57c5f8e8ae104a9be317ef00db825b9c6a87ebc"
+        },
+        {
+          "result": {
+            "constructor_ns": 163546,
+            "size": 256
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "2b54b4abc04d086f11384d317f29216cbc9170ede532930a3c133ba1ce070fcb",
+          "capture_stdout_sha256": "1efe56d72e86f31396700a02be997ef844e3dfd23398020c298007166b29737e"
+        },
+        {
+          "result": {
+            "constructor_ns": 163336,
+            "size": 256
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "2b54b4abc04d086f11384d317f29216cbc9170ede532930a3c133ba1ce070fcb",
+          "capture_stdout_sha256": "a01aa36e06f8fcfb167a7d55fac1dc199205f74f3095a10d3f22bfdaab14adf5"
+        },
+        {
+          "result": {
+            "constructor_ns": 164488,
+            "size": 256
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "2b54b4abc04d086f11384d317f29216cbc9170ede532930a3c133ba1ce070fcb",
+          "capture_stdout_sha256": "b9889e52aa06c69f6cbf74cd738cc49203de3cdf20dc2be7d7b3c1ffcf6b4b58"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            132114.07539682538,
+            132100.47817460317,
+            132044.38095238095,
+            131778.58531746033,
+            131536.3849206349,
+            131621.7242063492,
+            131585.82539682538,
+            131448.06547619047,
+            131519.60714285713,
+            131578.03174603175,
+            131416.03968253967,
+            131411.74801587302,
+            131497.74206349207,
+            131460.2123015873,
+            131699.56944444444
+          ]
+        },
+        "iterations": {
+          "build_release": 504
+        },
+        "sink": 7560
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "a87932d5c89e55a355fe74c3c7154ac868d7b79bc4220028986dd558006fce53",
+        "capture_stdout_sha256": "7c04a5ea34edd8f8a450886e5faffd07f885c1b13e4a07088cb6609b5f6ac4df"
+      }
+    },
+    {
+      "family": "glossary-catalog",
+      "size": 256,
+      "class": "Replacer",
+      "check": {
+        "status": "PASS",
+        "size": 256
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "cd8ff298aeeda25e42badeb69f029c4f0b76ad1aaac775c4368f26e35b757b6d",
+        "capture_stdout_sha256": "bc4cee41f677e3d6de29cdb2c36a4e5770e6bc79c5d07dfa3169a4693820fc44"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 151363,
+            "size": 256
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "0feb0a2c68df5108babd85096f017020ca91adf07367712bdae8b81a327d5e42",
+          "capture_stdout_sha256": "fca231f6ed829552ca96538822f1cb30e083a9206a2964fdf6be6c3bb3148448"
+        },
+        {
+          "result": {
+            "constructor_ns": 146986,
+            "size": 256
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "0feb0a2c68df5108babd85096f017020ca91adf07367712bdae8b81a327d5e42",
+          "capture_stdout_sha256": "63f092fb758c2b66168cfad828215a0f79953c540148ea495b31e3b6828cce83"
+        },
+        {
+          "result": {
+            "constructor_ns": 150562,
+            "size": 256
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "0feb0a2c68df5108babd85096f017020ca91adf07367712bdae8b81a327d5e42",
+          "capture_stdout_sha256": "69555dc7c57e0df95ed7e2f7bd9a1778c014c8ea3961a50fedf35335261f69ad"
+        },
+        {
+          "result": {
+            "constructor_ns": 145923,
+            "size": 256
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "0feb0a2c68df5108babd85096f017020ca91adf07367712bdae8b81a327d5e42",
+          "capture_stdout_sha256": "289ee7e3abc13c00a319f6f883e72c0852316493d726f7bb7621a417273a694c"
+        },
+        {
+          "result": {
+            "constructor_ns": 165640,
+            "size": 256
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "0feb0a2c68df5108babd85096f017020ca91adf07367712bdae8b81a327d5e42",
+          "capture_stdout_sha256": "c1c242a8d768427e1fc3bac0cbda41083977ee65d8a0a1608c177443f224371f"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            111320.99832495813,
+            111679.6783919598,
+            111689.74539363485,
+            111406.9715242881,
+            111398.14405360134,
+            111315.39363484088,
+            111412.74539363485,
+            111294.56783919598,
+            111343.30318257956,
+            111379.81909547739,
+            111056.3149078727,
+            111155.68006700168,
+            111312.45728643217,
+            111354.19262981575,
+            111370.80737018425
+          ]
+        },
+        "iterations": {
+          "build_release": 597
+        },
+        "sink": 8955
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "97a4f7e613f87d5b742d12b11a6104d02200c0393293ab5208670da7cbe3deef",
+        "capture_stdout_sha256": "9fcef7343e1b6b29615cfd1f7ca80d54cad15be168ed02128aaed29cfdda0517"
+      }
+    },
+    {
+      "family": "glossary-catalog",
+      "size": 512,
+      "class": "Matcher",
+      "check": {
+        "status": "PASS",
+        "size": 512
+      },
+      "check_raw": {
+        "sibling_busy_percent": null,
+        "capture_config_sha256": "6cb5c452b5cb935b408b17a3eebf7ef807f8273add9cf9831cc22c723bc27165",
+        "capture_stdout_sha256": "76668fd2aa54a021169b8e6ef8d7ae917192ec6468203da742f975ccdf1d135d"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 379411,
+            "size": 512
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "8b0ccea94850c9892b3ae01cf41e0ebeaebeee3cf60b012e40c9e7831395770d",
+          "capture_stdout_sha256": "798f9d7f212b6149aa2e5309c69d879cb7f7899aaf48f0a586cadd7992ab969a"
+        },
+        {
+          "result": {
+            "constructor_ns": 379270,
+            "size": 512
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "8b0ccea94850c9892b3ae01cf41e0ebeaebeee3cf60b012e40c9e7831395770d",
+          "capture_stdout_sha256": "368da8bc4b58b4fd4b72aa1dc9ec87228d47b6983b336a9ac251ba5030d589cc"
+        },
+        {
+          "result": {
+            "constructor_ns": 379460,
+            "size": 512
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "8b0ccea94850c9892b3ae01cf41e0ebeaebeee3cf60b012e40c9e7831395770d",
+          "capture_stdout_sha256": "63333745835216be36f85efec8d12deba35db843400d4a1b3b219a045bff7424"
+        },
+        {
+          "result": {
+            "constructor_ns": 405790,
+            "size": 512
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "8b0ccea94850c9892b3ae01cf41e0ebeaebeee3cf60b012e40c9e7831395770d",
+          "capture_stdout_sha256": "67002a4b1386cf1b8316cc7076f7ddeb526d0ca1ec300a4eae68cb65e734a70f"
+        },
+        {
+          "result": {
+            "constructor_ns": 379672,
+            "size": 512
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "8b0ccea94850c9892b3ae01cf41e0ebeaebeee3cf60b012e40c9e7831395770d",
+          "capture_stdout_sha256": "e7bb4eb70646750ff8182f56b20a1b608f9db29b7899441253872bc8d6a0d6e8"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            351023.9581151832,
+            350568.3926701571,
+            350831.76439790573,
+            350767.0890052356,
+            351248.6178010471,
+            350562.9895287958,
+            350625.8848167539,
+            350764.7277486911,
+            350893.55497382197,
+            352192.1623036649,
+            351091.8848167539,
+            350912.1780104712,
+            350818.8062827225,
+            351566.02094240836,
+            351061.1989528796
+          ]
+        },
+        "iterations": {
+          "build_release": 191
+        },
+        "sink": 2865
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "0e578c36072b4a3cf7976b0da8b04507c8b3924a3eae14f382095739427f603f",
+        "capture_stdout_sha256": "1c34902c621e0c4983d3116ef4d89e2ec2871be26332d0a6c6286213ea478ccd"
+      }
+    },
+    {
+      "family": "glossary-catalog",
+      "size": 512,
+      "class": "Replacer",
+      "check": {
+        "status": "PASS",
+        "size": 512
+      },
+      "check_raw": {
+        "sibling_busy_percent": null,
+        "capture_config_sha256": "f6327c379adc4f7174a9c074b36bc3d17ed88d39fa745f89cf4cc8652e7b6577",
+        "capture_stdout_sha256": "76668fd2aa54a021169b8e6ef8d7ae917192ec6468203da742f975ccdf1d135d"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 314539,
+            "size": 512
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "0b5e71be47ce7a8123a7a6d180b8448ba57e796ba4a1b5de3e6e4d4eeeac0344",
+          "capture_stdout_sha256": "abedc8d1345777173cb2cf06defdd807f74662e306fff5850bc2be0ed42876e6"
+        },
+        {
+          "result": {
+            "constructor_ns": 314049,
+            "size": 512
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "0b5e71be47ce7a8123a7a6d180b8448ba57e796ba4a1b5de3e6e4d4eeeac0344",
+          "capture_stdout_sha256": "573657daf773a94a9ad7f2c687656cff8c39e9d530fabe7a831d87c84190f681"
+        },
+        {
+          "result": {
+            "constructor_ns": 316423,
+            "size": 512
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "0b5e71be47ce7a8123a7a6d180b8448ba57e796ba4a1b5de3e6e4d4eeeac0344",
+          "capture_stdout_sha256": "9287de546a5f1a12742497353aa321785856f41a70d4de9a0ac2c2dd49bb1939"
+        },
+        {
+          "result": {
+            "constructor_ns": 314619,
+            "size": 512
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "0b5e71be47ce7a8123a7a6d180b8448ba57e796ba4a1b5de3e6e4d4eeeac0344",
+          "capture_stdout_sha256": "1f509cc7be7d5286317b28ba22a5de1550f7af7f6f668ede5c324b947ffa15b9"
+        },
+        {
+          "result": {
+            "constructor_ns": 314089,
+            "size": 512
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "0b5e71be47ce7a8123a7a6d180b8448ba57e796ba4a1b5de3e6e4d4eeeac0344",
+          "capture_stdout_sha256": "d2aa8dd90df2cfa67364e9a5b60d16b0bc173109616105758e00e3d437df46a9"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            288757.57826086954,
+            288953.4652173913,
+            288593.4913043478,
+            289040.2826086957,
+            288859.55217391305,
+            288879.93913043477,
+            288948.85217391304,
+            288728.91739130433,
+            288685.35217391304,
+            288453.05217391305,
+            288840.64782608696,
+            289014.4913043478,
+            288758.7086956522,
+            289005.1304347826,
+            289078.0956521739
+          ]
+        },
+        "iterations": {
+          "build_release": 230
+        },
+        "sink": 3450
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "23b1fdee12fb1fd189e9bc514994519efcd4f3af0e0ebbe42f576077a7a7ee28",
+        "capture_stdout_sha256": "ff6b0d9a06f332c51fb8ae36bde0a932de739e586e44c0fd769a2ef7a5462795"
+      }
+    },
+    {
+      "family": "glossary-catalog",
+      "size": 1000,
+      "class": "Matcher",
+      "check": {
+        "status": "PASS",
+        "size": 1000
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "b918c6a7eca8434e069eaac9ab65f292b740097fe9af1b26d93446c8c4e7e23e",
+        "capture_stdout_sha256": "68668d9684060fdff23a58f497f05609e366e955f203efc4369af00f0068c993"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 899765,
+            "size": 1000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "cfc7b632e75a132f88c589352172594c49bc150f122531778fe3a3eab5e1fc70",
+          "capture_stdout_sha256": "a4f2c5953104c122e4ce083fca6b01c3f6ae221299bd209716b42a8358fe72a2"
+        },
+        {
+          "result": {
+            "constructor_ns": 904725,
+            "size": 1000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "cfc7b632e75a132f88c589352172594c49bc150f122531778fe3a3eab5e1fc70",
+          "capture_stdout_sha256": "84f93ad01bd276c4571be0bacf9d36ab57627bb0fb17ad69f47c31e7785497c9"
+        },
+        {
+          "result": {
+            "constructor_ns": 909604,
+            "size": 1000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "cfc7b632e75a132f88c589352172594c49bc150f122531778fe3a3eab5e1fc70",
+          "capture_stdout_sha256": "608196c0a186f579898492d3991efd3ec8d0ba34b85de98294c00224e61c3ccc"
+        },
+        {
+          "result": {
+            "constructor_ns": 911367,
+            "size": 1000
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "cfc7b632e75a132f88c589352172594c49bc150f122531778fe3a3eab5e1fc70",
+          "capture_stdout_sha256": "a14d3c44cfd873a623f8d8142f3e3a47809d3e83a4b19562f85dea3ba2d0b6d4"
+        },
+        {
+          "result": {
+            "constructor_ns": 905396,
+            "size": 1000
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "cfc7b632e75a132f88c589352172594c49bc150f122531778fe3a3eab5e1fc70",
+          "capture_stdout_sha256": "a0998fe5b6abc11e24306c14d28854a3e6e0787a67fae844e9615a6c39041537"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            874695.7012987013,
+            875106.2077922078,
+            874657.0519480519,
+            874138.6753246753,
+            875849.8051948051,
+            876065.1428571428,
+            874884.1038961039,
+            876033.5324675324,
+            874409.5844155845,
+            875641.5064935065,
+            875907.3246753247,
+            874751.9090909091,
+            875016.2987012987,
+            874657.5714285715,
+            874716
+          ]
+        },
+        "iterations": {
+          "build_release": 77
+        },
+        "sink": 1155
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "8665b422126faec4a2324670cb0b5665270b17f5c3faf18344c3b025aca1bcb4",
+        "capture_stdout_sha256": "ae26f8775db432c083699318c8b71ec77dc1a6e3fa6dcddd3ef3ede6d700feec"
+      }
+    },
+    {
+      "family": "glossary-catalog",
+      "size": 1000,
+      "class": "Replacer",
+      "check": {
+        "status": "PASS",
+        "size": 1000
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "a57c1393be48e4d0b3c533e042b68e404b8bcbd87739530d81e2c739d417b08c",
+        "capture_stdout_sha256": "68668d9684060fdff23a58f497f05609e366e955f203efc4369af00f0068c993"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 645589,
+            "size": 1000
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "80c1a025e2046872ffe937ff4492754ec8a1cbbfba19090a1cc1a42137d7cd68",
+          "capture_stdout_sha256": "9870ddae01433bbad4aa1d8f53c10112dc4e03c2bd4f0fd478e0395b038d9abf"
+        },
+        {
+          "result": {
+            "constructor_ns": 644136,
+            "size": 1000
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "80c1a025e2046872ffe937ff4492754ec8a1cbbfba19090a1cc1a42137d7cd68",
+          "capture_stdout_sha256": "ae4ffe95d7ebc85449bb98b9a8836567ab7aa0ad2f491f9e1a534a38446cc792"
+        },
+        {
+          "result": {
+            "constructor_ns": 642643,
+            "size": 1000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "80c1a025e2046872ffe937ff4492754ec8a1cbbfba19090a1cc1a42137d7cd68",
+          "capture_stdout_sha256": "636b41803a84717b681967ac930f8bf5add7f9d4e410872b2c94fc1dfef25a06"
+        },
+        {
+          "result": {
+            "constructor_ns": 638686,
+            "size": 1000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "80c1a025e2046872ffe937ff4492754ec8a1cbbfba19090a1cc1a42137d7cd68",
+          "capture_stdout_sha256": "1c1972169001644e8f87aee42185d0d8e88eb236aecebef631ad8f96fac20dd4"
+        },
+        {
+          "result": {
+            "constructor_ns": 635039,
+            "size": 1000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "80c1a025e2046872ffe937ff4492754ec8a1cbbfba19090a1cc1a42137d7cd68",
+          "capture_stdout_sha256": "c943894cbb8762db65520b53fbd85a4246c0d61308f610317e8ac181361315ac"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            610694.1,
+            611394.0454545454,
+            610645.6454545455,
+            611979.4181818182,
+            611114.0636363636,
+            610269.1181818182,
+            610825.6181818182,
+            612036.7909090909,
+            610919.1545454545,
+            610946.7454545455,
+            611033.1818181818,
+            611771.9272727272,
+            610801.2,
+            610768.6,
+            610650.1
+          ]
+        },
+        "iterations": {
+          "build_release": 110
+        },
+        "sink": 1650
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "092f46c9a04775f636034cd6f8aaaab76c8d8d2934457ff0ed4bd4ff06e65815",
+        "capture_stdout_sha256": "2e76639709cca391224d68cb933af48676557abac1f04ec96c0d587fcc97ca67"
+      }
+    },
+    {
+      "family": "glossary-catalog",
+      "size": 2000,
+      "class": "Matcher",
+      "check": {
+        "status": "PASS",
+        "size": 2000
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "ae697fd24267fd807b218fd0c157590435b54632c1f44ab87c0e39df98e2eb2e",
+        "capture_stdout_sha256": "3fd670c853a2ada2cfc2230e96057ff19a7b310792a580b8054c5d1ddc25905d"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 1959691,
+            "size": 2000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "34b3395d4ead883ff29f49fb07d0dc8cddc237045222daa945e9338a846ad9b3",
+          "capture_stdout_sha256": "d5f9437f69bf5f0a90acfbf531db2f522780ccf3888b4b4e00ce4949fd331414"
+        },
+        {
+          "result": {
+            "constructor_ns": 1985279,
+            "size": 2000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "34b3395d4ead883ff29f49fb07d0dc8cddc237045222daa945e9338a846ad9b3",
+          "capture_stdout_sha256": "a8364d594b572f9b84634e00da081b634b13c64ca04069adb027a8a052349f0d"
+        },
+        {
+          "result": {
+            "constructor_ns": 1966804,
+            "size": 2000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "34b3395d4ead883ff29f49fb07d0dc8cddc237045222daa945e9338a846ad9b3",
+          "capture_stdout_sha256": "e944ab784cabd883c2cfd1092571f9ee138b710bd495950221e6ad4639ced9c5"
+        },
+        {
+          "result": {
+            "constructor_ns": 1947718,
+            "size": 2000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "34b3395d4ead883ff29f49fb07d0dc8cddc237045222daa945e9338a846ad9b3",
+          "capture_stdout_sha256": "89c385a38655dd24f246d2b38316c672aba6aa9dc6912ca87a807f2b932a334c"
+        },
+        {
+          "result": {
+            "constructor_ns": 1965271,
+            "size": 2000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "34b3395d4ead883ff29f49fb07d0dc8cddc237045222daa945e9338a846ad9b3",
+          "capture_stdout_sha256": "6c6f2f43e913e4829449854fa733a069fe232eade0060e4bb06b21021f5449d2"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            1755895.0789473683,
+            1758300.9210526317,
+            1755467.7105263157,
+            1756260,
+            1757491.5,
+            1756765.394736842,
+            1755331.1315789474,
+            1756678.1578947369,
+            1758388.7105263157,
+            1755515.6842105263,
+            1756345.4210526317,
+            1754835.2105263157,
+            1755803.3157894737,
+            1760419.605263158,
+            1755815.2105263157
+          ]
+        },
+        "iterations": {
+          "build_release": 38
+        },
+        "sink": 570
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "bdaeb64e8b2e6bdcdf08e5af552a1ea76ac4d1ba5d935d0ea6e59a8820a41952",
+        "capture_stdout_sha256": "0c9c83043cd0274f465a8f4ee23085e71f2ae3e0bb3f517fe689dd5573299e12"
+      }
+    },
+    {
+      "family": "glossary-catalog",
+      "size": 2000,
+      "class": "Replacer",
+      "check": {
+        "status": "PASS",
+        "size": 2000
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "964a9c211241d8f48ae504fffdea785c7d88e874fd2ce5f7e0fd22c5c0d1a5e9",
+        "capture_stdout_sha256": "3fd670c853a2ada2cfc2230e96057ff19a7b310792a580b8054c5d1ddc25905d"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 1163309,
+            "size": 2000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "311d83ef93cf1a302fede14a601e1c51a70285aead94e9fae799ab616681e33b",
+          "capture_stdout_sha256": "557afe8c1093d0fd934d6bd9940bb7e8d9b91f3be16a862ae452116cbcaad236"
+        },
+        {
+          "result": {
+            "constructor_ns": 1152599,
+            "size": 2000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "311d83ef93cf1a302fede14a601e1c51a70285aead94e9fae799ab616681e33b",
+          "capture_stdout_sha256": "8fce13c90b147e3c8ecf893186cb3a9d84e4ef8e401193574644d64adcd814a1"
+        },
+        {
+          "result": {
+            "constructor_ns": 1182084,
+            "size": 2000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "311d83ef93cf1a302fede14a601e1c51a70285aead94e9fae799ab616681e33b",
+          "capture_stdout_sha256": "ee32474d9c876770764a214739e08ed703b0ce54aa171a6276c445f1f461c562"
+        },
+        {
+          "result": {
+            "constructor_ns": 1162708,
+            "size": 2000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "311d83ef93cf1a302fede14a601e1c51a70285aead94e9fae799ab616681e33b",
+          "capture_stdout_sha256": "60e6f82950ca63377399a335ca1f83b2996a11a7a714df0fc73b0bb174858ad3"
+        },
+        {
+          "result": {
+            "constructor_ns": 1159542,
+            "size": 2000
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "311d83ef93cf1a302fede14a601e1c51a70285aead94e9fae799ab616681e33b",
+          "capture_stdout_sha256": "3f078dfd621f75d68a7e13dbd99d286be49e1d0303afcdf6eb4b568126613163"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            1135155.440677966,
+            1133075.2881355933,
+            1135585.7627118644,
+            1133470.779661017,
+            1134334.2542372881,
+            1133344.779661017,
+            1133184.1355932204,
+            1133360.7288135593,
+            1133486.3898305085,
+            1134826.2033898304,
+            1133602.559322034,
+            1133064.593220339,
+            1133764.2033898304,
+            1134085.4915254237,
+            1135361.440677966
+          ]
+        },
+        "iterations": {
+          "build_release": 59
+        },
+        "sink": 885
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "834d1465112fa2732521925753d39468ffcb9417b035e6ebe89b0b400c1d9aaa",
+        "capture_stdout_sha256": "cbceee08b0fae7126b3337efd3f4971851e63aa58e8ced3c106f8cf1e91a8578"
+      }
+    },
+    {
+      "family": "glossary-catalog",
+      "size": 5000,
+      "class": "Matcher",
+      "check": {
+        "status": "PASS",
+        "size": 5000
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "0b7f0c21d3416ff8f11cbd8090eccf1f0851e56f36a4b73e7f4f90838e05862c",
+        "capture_stdout_sha256": "c5aee80eca8ceb2b9e09b8e4330d478e0410d786153e52ca8e197fe18263d31f"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 4742502,
+            "size": 5000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "02a2bcdbfa448b6de35b7ed6f7f1b20cb075c3f4ef85604bbd4bda4933d87960",
+          "capture_stdout_sha256": "ec0f3a9b72d25b206c8d267fae0b7c318f6fa3973a460a7b40f075712ca1e100"
+        },
+        {
+          "result": {
+            "constructor_ns": 4747783,
+            "size": 5000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "02a2bcdbfa448b6de35b7ed6f7f1b20cb075c3f4ef85604bbd4bda4933d87960",
+          "capture_stdout_sha256": "fc14328e94e5a17027c39aa01c0a71b613973b8c01bd98221b44141870e98dc0"
+        },
+        {
+          "result": {
+            "constructor_ns": 4837792,
+            "size": 5000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "02a2bcdbfa448b6de35b7ed6f7f1b20cb075c3f4ef85604bbd4bda4933d87960",
+          "capture_stdout_sha256": "9627018c30e26423887bb92a4f0005d4b73d9b60f75e28653b3d346388ecb75c"
+        },
+        {
+          "result": {
+            "constructor_ns": 4747762,
+            "size": 5000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "02a2bcdbfa448b6de35b7ed6f7f1b20cb075c3f4ef85604bbd4bda4933d87960",
+          "capture_stdout_sha256": "5515afd89aaab9bdafc67460ff5df70cf09261ad7ed9a7de959ca981eac9995b"
+        },
+        {
+          "result": {
+            "constructor_ns": 4753453,
+            "size": 5000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "02a2bcdbfa448b6de35b7ed6f7f1b20cb075c3f4ef85604bbd4bda4933d87960",
+          "capture_stdout_sha256": "637c9d7400c55478b011ff9bdb9ae729cf76ea4d638f6773f5374fd4032f42db"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            3941790,
+            3946488.7647058824,
+            3959412.411764706,
+            3946204.705882353,
+            3954431.882352941,
+            3940931.882352941,
+            3941227.1764705884,
+            3942937.470588235,
+            3943480.2352941176,
+            3941102.7647058824,
+            3942985.7647058824,
+            3942256.7647058824,
+            3945450.411764706,
+            3944544.588235294,
+            3945533.470588235
+          ]
+        },
+        "iterations": {
+          "build_release": 17
+        },
+        "sink": 255
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "3d4a27a9ce2d63bb0253b90264ad3ccabca0b6ac305e41be12b9e56a00085711",
+        "capture_stdout_sha256": "21b6d727e203ad6aaead61eb81f58867b1fd891ae5930c711b12db9f078b3d73"
+      }
+    },
+    {
+      "family": "glossary-catalog",
+      "size": 5000,
+      "class": "Replacer",
+      "check": {
+        "status": "PASS",
+        "size": 5000
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "dd960f53862a20558ee8e76f099f5a7e0c88079131a6e0a21984fe9251b66fea",
+        "capture_stdout_sha256": "c5aee80eca8ceb2b9e09b8e4330d478e0410d786153e52ca8e197fe18263d31f"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 3629037,
+            "size": 5000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "20fe65d01560f13f2dee8f9c4cdb501b92febd17968d14fa1547414efd47e3e0",
+          "capture_stdout_sha256": "9f8c8e573d7bec055feb368bced318c9d0d45e66ce5e827418b892c7de4c733e"
+        },
+        {
+          "result": {
+            "constructor_ns": 3647421,
+            "size": 5000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "20fe65d01560f13f2dee8f9c4cdb501b92febd17968d14fa1547414efd47e3e0",
+          "capture_stdout_sha256": "d30895928b83bdcaf7e52c399e03ecc3f8fb93813356205ca0e36c0ef9cf525f"
+        },
+        {
+          "result": {
+            "constructor_ns": 3608850,
+            "size": 5000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "20fe65d01560f13f2dee8f9c4cdb501b92febd17968d14fa1547414efd47e3e0",
+          "capture_stdout_sha256": "ef7a2202672309524fdca0c11c0cba826e58fe7ffa272698ea8f92caccdde1bd"
+        },
+        {
+          "result": {
+            "constructor_ns": 3656669,
+            "size": 5000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "20fe65d01560f13f2dee8f9c4cdb501b92febd17968d14fa1547414efd47e3e0",
+          "capture_stdout_sha256": "1c23385ce5bf2cc4d7110ddb03de2ccefe410404a310d51e60ea4d2f6dcc8f70"
+        },
+        {
+          "result": {
+            "constructor_ns": 3620962,
+            "size": 5000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "20fe65d01560f13f2dee8f9c4cdb501b92febd17968d14fa1547414efd47e3e0",
+          "capture_stdout_sha256": "c63e9724873c5feb0726f50606756914b71b4956841c41750921309f2c700bef"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            3004701.695652174,
+            3002398.217391304,
+            3001252.6086956523,
+            3002034.086956522,
+            3002742.347826087,
+            3005683.086956522,
+            3001625.0434782607,
+            3004084.4782608696,
+            3003977.304347826,
+            3001488.7391304346,
+            3009638.782608696,
+            3004869.8260869565,
+            3004702.1304347827,
+            3008760.6086956523,
+            3003881.8695652173
+          ]
+        },
+        "iterations": {
+          "build_release": 23
+        },
+        "sink": 345
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "b6fdb13ffed185b646229ebbdd6d7638db2f9eb59fa6d29f62ba3dda33d284c5",
+        "capture_stdout_sha256": "9997767fcdcf61e625067c467ef1f2d3f5cdf8e408afa5cc1b8c5fbd68bc0f07"
+      }
+    },
+    {
+      "family": "glossary-catalog",
+      "size": 10000,
+      "class": "Matcher",
+      "check": {
+        "status": "PASS",
+        "size": 10000
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "76bc61dd235f8ba73d588075352d1edfdfb2b631801d334bf1cdd91dafe3fdfd",
+        "capture_stdout_sha256": "4d282dfcb1eff937deedc113865236b6f87bae10666544ff7eec760dcd190dde"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 10315651,
+            "size": 10000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "6ef453ccfee454c4d3f62df4c974f5f34291ac4aa640b671a1b4af1cbd5f0a63",
+          "capture_stdout_sha256": "dfe77c8964b3da8c984302fb321a19506c341d78fcae190fd29f665ae352762b"
+        },
+        {
+          "result": {
+            "constructor_ns": 10401472,
+            "size": 10000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "6ef453ccfee454c4d3f62df4c974f5f34291ac4aa640b671a1b4af1cbd5f0a63",
+          "capture_stdout_sha256": "af22953866bfb08686d464d80c130fcae04b0f2a952c767f12de083ec1916e7f"
+        },
+        {
+          "result": {
+            "constructor_ns": 10275556,
+            "size": 10000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "6ef453ccfee454c4d3f62df4c974f5f34291ac4aa640b671a1b4af1cbd5f0a63",
+          "capture_stdout_sha256": "eb885c0721c12deb8b2bcfe83651651195814fc02b87fdac4367ad766c447ca6"
+        },
+        {
+          "result": {
+            "constructor_ns": 10405419,
+            "size": 10000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "6ef453ccfee454c4d3f62df4c974f5f34291ac4aa640b671a1b4af1cbd5f0a63",
+          "capture_stdout_sha256": "f8597be75dc12bd4d3ffb8a5cd7c5577a0c55ecca98b4d4a16706c8066a3e2b7"
+        },
+        {
+          "result": {
+            "constructor_ns": 10396122,
+            "size": 10000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "6ef453ccfee454c4d3f62df4c974f5f34291ac4aa640b671a1b4af1cbd5f0a63",
+          "capture_stdout_sha256": "13c810d4df4843b0eeef0d50c793a8aca838de719e2d70a741b1103567fbc952"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            9955619.57142857,
+            9962708.57142857,
+            9960388.42857143,
+            9957009.42857143,
+            9964331.57142857,
+            9975101.714285715,
+            9956833.285714285,
+            9948582.142857144,
+            9973849.42857143,
+            9970095.285714285,
+            9962944.714285715,
+            9950396.857142856,
+            9962472.42857143,
+            9960176.714285715,
+            9932214.42857143
+          ]
+        },
+        "iterations": {
+          "build_release": 7
+        },
+        "sink": 105
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "81177ef0b0f2c3ee1775fb2cb2ceabc6b216014c5201ae32771c2e7c01b633a0",
+        "capture_stdout_sha256": "52da82b37f229e491373d6e9b8d19b2c20222bf2f9ee287382507d9a67e69de3"
+      }
+    },
+    {
+      "family": "glossary-catalog",
+      "size": 10000,
+      "class": "Replacer",
+      "check": {
+        "status": "PASS",
+        "size": 10000
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "2601b599667618ab3ac0a3df36774f34df2d0ce99c924f7e6eb31cac65f0705e",
+        "capture_stdout_sha256": "4d282dfcb1eff937deedc113865236b6f87bae10666544ff7eec760dcd190dde"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 6808322,
+            "size": 10000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "a9382bba5a7c17518263f47f302dff0a84b42ff48d3507f3265e263d7cea1b2a",
+          "capture_stdout_sha256": "61be17bb58c4f8cc5a024537496ea5e9b57f5fd38333144f08535858c265b145"
+        },
+        {
+          "result": {
+            "constructor_ns": 6796229,
+            "size": 10000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "a9382bba5a7c17518263f47f302dff0a84b42ff48d3507f3265e263d7cea1b2a",
+          "capture_stdout_sha256": "6ed5067d02cc8826c67742ed1f706bd94f01d13c649ed7c9257facf2e06afce3"
+        },
+        {
+          "result": {
+            "constructor_ns": 6774188,
+            "size": 10000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "a9382bba5a7c17518263f47f302dff0a84b42ff48d3507f3265e263d7cea1b2a",
+          "capture_stdout_sha256": "9d03ee1b50c17eb4c86093db7d8d03e228a596eba8a446edc3bd395529f5d0e6"
+        },
+        {
+          "result": {
+            "constructor_ns": 6825343,
+            "size": 10000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "a9382bba5a7c17518263f47f302dff0a84b42ff48d3507f3265e263d7cea1b2a",
+          "capture_stdout_sha256": "5842728a520c45238bf96e15bc334694e3c2fe697fef92e385e1e852c897ad45"
+        },
+        {
+          "result": {
+            "constructor_ns": 6799806,
+            "size": 10000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "a9382bba5a7c17518263f47f302dff0a84b42ff48d3507f3265e263d7cea1b2a",
+          "capture_stdout_sha256": "391ac2c5f838b899bf4c8792c52afef3a68cde6b2cf89fd19b9bf5c1bdb6e668"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            5713197.416666667,
+            5700478.583333333,
+            5702522.5,
+            5700234,
+            5707007.5,
+            5700355.916666667,
+            5706069.916666667,
+            5701321,
+            5706013.166666667,
+            5704203.083333333,
+            5712144.666666667,
+            5704077.833333333,
+            5702799.583333333,
+            5712102.833333333,
+            5705591.5
+          ]
+        },
+        "iterations": {
+          "build_release": 12
+        },
+        "sink": 180
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "a3fd3042fd030a84b56a1973d8901b4ff46985312636a18449c4eb7452608177",
+        "capture_stdout_sha256": "5617b78035d6f68911b6a6e8129e0a8cbd35707ddb5c6048948a28bcd9d50bc1"
+      }
+    },
+    {
+      "family": "permuted-control",
+      "size": 8,
+      "class": "Matcher",
+      "check": {
+        "status": "PASS",
+        "size": 8
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "60167bff26ab9ec1799b2d70656e69589feec5687817e9e82793309834cbbb3e",
+        "capture_stdout_sha256": "def9ac7aea2e4499e56040626554039f5a5f409b741b409066ed0df9e254c948"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 11170,
+            "size": 8
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "f1409c0da5ba76c384ed097ee24bc6e11ce87bf1ea635cf0eda77b666faabf2b",
+          "capture_stdout_sha256": "7b5edeb2538ec03532a995bd9f6def0d47a11d8e9e10da7d2be265c84e76239e"
+        },
+        {
+          "result": {
+            "constructor_ns": 11001,
+            "size": 8
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "f1409c0da5ba76c384ed097ee24bc6e11ce87bf1ea635cf0eda77b666faabf2b",
+          "capture_stdout_sha256": "a1d2dddc77753eb9635bb1e8e84c1dc3c6a6ed0bdcb91e914492ba5646b90132"
+        },
+        {
+          "result": {
+            "constructor_ns": 10900,
+            "size": 8
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "f1409c0da5ba76c384ed097ee24bc6e11ce87bf1ea635cf0eda77b666faabf2b",
+          "capture_stdout_sha256": "1091fe0c5cd9c2b074063f2eae3ae892153dcafaf36fc27c012a7893e18ee79e"
+        },
+        {
+          "result": {
+            "constructor_ns": 10991,
+            "size": 8
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "f1409c0da5ba76c384ed097ee24bc6e11ce87bf1ea635cf0eda77b666faabf2b",
+          "capture_stdout_sha256": "d07eca3b5816460568b75f82d68df3d40454c122a1e66a077ec3142a57252b72"
+        },
+        {
+          "result": {
+            "constructor_ns": 10901,
+            "size": 8
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "f1409c0da5ba76c384ed097ee24bc6e11ce87bf1ea635cf0eda77b666faabf2b",
+          "capture_stdout_sha256": "3914b7bad4c0f118dc0e5bb633b8f9824f627c121f2b4ca7c1556ee485985e09"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            3314.293225982804,
+            3316.4029620794195,
+            3317.1697231747926,
+            3314.5337209880227,
+            3312.024153869092,
+            3315.6082699667013,
+            3317.093037125391,
+            3318.9338502062524,
+            3319.7723771184333,
+            3319.4442622136075,
+            3318.4280105362554,
+            3317.129914020178,
+            3316.3242880572534,
+            3315.4000795189104,
+            3316.3377068734158
+          ]
+        },
+        "iterations": {
+          "build_release": 20121
+        },
+        "sink": 301815
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "bdc457b119a4973cef221d6c85469cb8bde7a2a6bf1a9500db634db5b034fcf0",
+        "capture_stdout_sha256": "4477d80372d4d7cba931af163c8197a7b5eebe4788e3e45706bb3a9e1a89f6c8"
+      }
+    },
+    {
+      "family": "permuted-control",
+      "size": 8,
+      "class": "Replacer",
+      "check": {
+        "status": "PASS",
+        "size": 8
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "5311e54e0faf2abe7c64b7caf8a90a099837987c9555d9ae2abcb4c9e122d649",
+        "capture_stdout_sha256": "def9ac7aea2e4499e56040626554039f5a5f409b741b409066ed0df9e254c948"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 9177,
+            "size": 8
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "9938f260bde26ae9489e851b8565527dd310d9f52c9479edac54621a0248143e",
+          "capture_stdout_sha256": "5d05ffd09485642489978d8a6a8405ed5ec2f2ee1fef5030efb07e066ac6fc25"
+        },
+        {
+          "result": {
+            "constructor_ns": 9217,
+            "size": 8
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "9938f260bde26ae9489e851b8565527dd310d9f52c9479edac54621a0248143e",
+          "capture_stdout_sha256": "d687b410702b65ec660f7493432130343f8364d2e762c5e0028aaccc2175def2"
+        },
+        {
+          "result": {
+            "constructor_ns": 9277,
+            "size": 8
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "9938f260bde26ae9489e851b8565527dd310d9f52c9479edac54621a0248143e",
+          "capture_stdout_sha256": "4e606611fc1b656cc7cc7f1441d4537d489b12dba54f80f328a4a6e28c1b1d67"
+        },
+        {
+          "result": {
+            "constructor_ns": 9248,
+            "size": 8
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "9938f260bde26ae9489e851b8565527dd310d9f52c9479edac54621a0248143e",
+          "capture_stdout_sha256": "6198ad78c29737efd658055da1f620bd0279db7288980f44736fa4a32de79c3d"
+        },
+        {
+          "result": {
+            "constructor_ns": 9157,
+            "size": 8
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "9938f260bde26ae9489e851b8565527dd310d9f52c9479edac54621a0248143e",
+          "capture_stdout_sha256": "4d0d5ccedd9a7e4751730a3ecfbcce98b719c862c54ba25f576c76dee0f56a7c"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            2929.338354474982,
+            2934.362315010571,
+            2933.4259161381256,
+            2935.2594256518673,
+            2942.7827255109232,
+            2934.064878435518,
+            2932.8398960535587,
+            2933.4237138830163,
+            2935.6173361522197,
+            2937.0518851303736,
+            2939.132928118393,
+            2940.203047921071,
+            2943.5113195912613,
+            2942.2686751233264,
+            2941.614252995067
+          ]
+        },
+        "iterations": {
+          "build_release": 22704
+        },
+        "sink": 340560
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "3eead58e7344ac1598ddbc58290103594ae926f6d4bd54ce5c8a930c446f0987",
+        "capture_stdout_sha256": "d7e45188c201dabd20748a89997b2be07fff8defa0163cc1f08c9c9ec35ce2a6"
+      }
+    },
+    {
+      "family": "permuted-control",
+      "size": 16,
+      "class": "Matcher",
+      "check": {
+        "status": "PASS",
+        "size": 16
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "151343a8f7ae3951743023d82d80df90b85f4e69a19c74aa7d4b0a6df955f193",
+        "capture_stdout_sha256": "9e93fd7634a55cfdc1efc8efd1a678d0ebf9e1149f7f0f576023932647573cab"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 17273,
+            "size": 16
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "0c1fbc554cdc7e588a02c1d37c97ef7a7b7fdaf637ae6dffca07e96bed4b89b0",
+          "capture_stdout_sha256": "0bdca110544e4d1405c743ca26b920572de500737483365bc75240d7a9985295"
+        },
+        {
+          "result": {
+            "constructor_ns": 17072,
+            "size": 16
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "0c1fbc554cdc7e588a02c1d37c97ef7a7b7fdaf637ae6dffca07e96bed4b89b0",
+          "capture_stdout_sha256": "5db563971c5d08135f0edc9d735ce0ea33b27177a26793a23bde9630e7b06f3a"
+        },
+        {
+          "result": {
+            "constructor_ns": 16902,
+            "size": 16
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "0c1fbc554cdc7e588a02c1d37c97ef7a7b7fdaf637ae6dffca07e96bed4b89b0",
+          "capture_stdout_sha256": "0df65a56c4ae5ddc00517c873a6a45435f9a8a1f7de5061e5e629a98c12973b7"
+        },
+        {
+          "result": {
+            "constructor_ns": 16881,
+            "size": 16
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "0c1fbc554cdc7e588a02c1d37c97ef7a7b7fdaf637ae6dffca07e96bed4b89b0",
+          "capture_stdout_sha256": "1d9141998930943ce500dc608d46022913932fe92e01133ee67ceda5476de200"
+        },
+        {
+          "result": {
+            "constructor_ns": 17263,
+            "size": 16
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "0c1fbc554cdc7e588a02c1d37c97ef7a7b7fdaf637ae6dffca07e96bed4b89b0",
+          "capture_stdout_sha256": "38b127366ab015b9a849cce7b72e4c33db9eb8b6e61fa7b28957ac396fee9943"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            6913.130714211672,
+            6915.2441173421785,
+            6914.167098579869,
+            6907.680418783041,
+            6906.708406758577,
+            6907.188141391106,
+            6906.759199751218,
+            6908.007567119312,
+            6911.5469057738155,
+            6909.241318544625,
+            6913.952109464082,
+            6917.483155385094,
+            6906.892194464601,
+            6914.736291074945,
+            6917.852907639681
+          ]
+        },
+        "iterations": {
+          "build_release": 9647
+        },
+        "sink": 144705
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "9fe012361f5bdb1bd694ae95b0eec7ed4965d68eb7fd916f718b4d6d5a995026",
+        "capture_stdout_sha256": "67189923c3d0c1e8ebd2414918e6185240909609f64df52337e4c5a2dd69addb"
+      }
+    },
+    {
+      "family": "permuted-control",
+      "size": 16,
+      "class": "Replacer",
+      "check": {
+        "status": "PASS",
+        "size": 16
+      },
+      "check_raw": {
+        "sibling_busy_percent": null,
+        "capture_config_sha256": "26ec2c077e5e06aeeed8686ff873b0b8a3a1e938400a5dc5d37f9c710bd90f99",
+        "capture_stdout_sha256": "9e93fd7634a55cfdc1efc8efd1a678d0ebf9e1149f7f0f576023932647573cab"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 14657,
+            "size": 16
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "123b269df4a4199c4e1466b03cac447847a8331b5dc78d7f5c14cd17ece556fc",
+          "capture_stdout_sha256": "1d8b568bf30c0e2a7b9b36aa28a44f5893a330f84176fbebe61ad693b5df7f86"
+        },
+        {
+          "result": {
+            "constructor_ns": 14758,
+            "size": 16
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "123b269df4a4199c4e1466b03cac447847a8331b5dc78d7f5c14cd17ece556fc",
+          "capture_stdout_sha256": "92dc3788e2b6d65ce3f49d1a2b359f512291fb676f51a728cba09892c97ecd88"
+        },
+        {
+          "result": {
+            "constructor_ns": 14698,
+            "size": 16
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "123b269df4a4199c4e1466b03cac447847a8331b5dc78d7f5c14cd17ece556fc",
+          "capture_stdout_sha256": "13e4a70a03d001cf97358951cd8e7f048181e69d2deb6314e69038e2a879a70f"
+        },
+        {
+          "result": {
+            "constructor_ns": 14688,
+            "size": 16
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "123b269df4a4199c4e1466b03cac447847a8331b5dc78d7f5c14cd17ece556fc",
+          "capture_stdout_sha256": "83a435c6ed0a882c3bd14566790aecbacb19ad6bfbb4f40e64d4ba7a0d118a32"
+        },
+        {
+          "result": {
+            "constructor_ns": 14868,
+            "size": 16
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "123b269df4a4199c4e1466b03cac447847a8331b5dc78d7f5c14cd17ece556fc",
+          "capture_stdout_sha256": "5de573f4e4f8b40b0750cdfafa4f2a40671a7b14203aea1950c8a500fa1352d9"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            6247.592225752196,
+            6225.9575780228,
+            6232.072603251729,
+            6226.12614464586,
+            6226.90683984302,
+            6228.131283872173,
+            6228.384133806765,
+            6232.822369650533,
+            6229.961502522893,
+            6230.8761913661,
+            6223.789385161652,
+            6222.981498785274,
+            6228.656512801345,
+            6227.4769202018315,
+            6231.912446271725
+          ]
+        },
+        "iterations": {
+          "build_release": 10702
+        },
+        "sink": 160530
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "424dfb465f1698f6e2a1c759bb0575a3194845cfbdf021d7ad14edab56df6f5b",
+        "capture_stdout_sha256": "0c736b9d8ed1a03f3aae7e5c1782c24fd5098fa28df94762d13e9b2ea302a145"
+      }
+    },
+    {
+      "family": "permuted-control",
+      "size": 32,
+      "class": "Matcher",
+      "check": {
+        "status": "PASS",
+        "size": 32
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "3cb7fd1adca5a3f10ae48ff5075ee30445b775d591eff770fd900981a47173e9",
+        "capture_stdout_sha256": "86effafa43cfdb7989d06d1968f8891b16ac980ffd9c5f773758fc0e9ac77e2c"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 30367,
+            "size": 32
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "cee810cf7818bf30436af24342684d54af4270c5cefe28d38ab4414febbdbb2f",
+          "capture_stdout_sha256": "389fe11a0b768c99ee9b75341967cff050d9302ef9cd57bc6d2dcf6e9a1b35e4"
+        },
+        {
+          "result": {
+            "constructor_ns": 30117,
+            "size": 32
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "cee810cf7818bf30436af24342684d54af4270c5cefe28d38ab4414febbdbb2f",
+          "capture_stdout_sha256": "10e3ed54b7a38ecb19890060a67112fd670cce5f0e2eb68633837833397d7692"
+        },
+        {
+          "result": {
+            "constructor_ns": 30176,
+            "size": 32
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "cee810cf7818bf30436af24342684d54af4270c5cefe28d38ab4414febbdbb2f",
+          "capture_stdout_sha256": "8c9821d6e993048d8548fcb0929418d77b5a5ba2bc9922eafdf464aec038eeea"
+        },
+        {
+          "result": {
+            "constructor_ns": 30437,
+            "size": 32
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "cee810cf7818bf30436af24342684d54af4270c5cefe28d38ab4414febbdbb2f",
+          "capture_stdout_sha256": "ca86d3d8f40be87fe461c4812a4e5db613cdabaefa2b2ddc052fa048b740d795"
+        },
+        {
+          "result": {
+            "constructor_ns": 30336,
+            "size": 32
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "cee810cf7818bf30436af24342684d54af4270c5cefe28d38ab4414febbdbb2f",
+          "capture_stdout_sha256": "f163d723b04e7b1a9f52469dea47683bc37a27507c4f043471627d59a4d84f6e"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            14055.01222081753,
+            14061.13632532659,
+            14059.462284028656,
+            14059.529709228824,
+            14070.559629161398,
+            14054.566793088918,
+            14043.954698693637,
+            14057.792456805731,
+            14037.596502317741,
+            14054.038980193847,
+            14050.243362831858,
+            14053.809102402023,
+            14052.367045933417,
+            14045.23198482933,
+            14036.887273493468
+          ]
+        },
+        "iterations": {
+          "build_release": 4746
+        },
+        "sink": 71190
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "31447b050ca0f1def7195c4f7c556291d43193322f21a40ddb181d1e6bfec789",
+        "capture_stdout_sha256": "2d70f4a4198e4326cde1feb5974afa90f16adbdd91ffae825aca5416abc97724"
+      }
+    },
+    {
+      "family": "permuted-control",
+      "size": 32,
+      "class": "Replacer",
+      "check": {
+        "status": "PASS",
+        "size": 32
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "a9f1356df50209b2b6a736e5c6f291e83b577a3a972aaf7af14b0fdcc8e14099",
+        "capture_stdout_sha256": "86effafa43cfdb7989d06d1968f8891b16ac980ffd9c5f773758fc0e9ac77e2c"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 28033,
+            "size": 32
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "f0990ce56fbe943590a471021919b9223d072aa68e6c9058e5c082d14d73429b",
+          "capture_stdout_sha256": "9f01abeac76c12c8157f597388c60e86563a23294db293abf0a8bbd42754345f"
+        },
+        {
+          "result": {
+            "constructor_ns": 28153,
+            "size": 32
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "f0990ce56fbe943590a471021919b9223d072aa68e6c9058e5c082d14d73429b",
+          "capture_stdout_sha256": "47b502582540d5c2f9becb2c424a622a3c3c11bf2590bbb96963603f6f975ee1"
+        },
+        {
+          "result": {
+            "constructor_ns": 27892,
+            "size": 32
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "f0990ce56fbe943590a471021919b9223d072aa68e6c9058e5c082d14d73429b",
+          "capture_stdout_sha256": "9f9ad88bcccbaf1444835636fdddf7f7535ccc6cfaf5efe43dc09dcb89d6d46b"
+        },
+        {
+          "result": {
+            "constructor_ns": 32601,
+            "size": 32
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "f0990ce56fbe943590a471021919b9223d072aa68e6c9058e5c082d14d73429b",
+          "capture_stdout_sha256": "bd8428339706e82bf211185682cb3f948c715626f25d0ff28820014fae1cfbf1"
+        },
+        {
+          "result": {
+            "constructor_ns": 28032,
+            "size": 32
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "f0990ce56fbe943590a471021919b9223d072aa68e6c9058e5c082d14d73429b",
+          "capture_stdout_sha256": "0add58194a6f646f417c964acd0d49dc15f40467a895ee65cede4b191b84d528"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            12949.976726144298,
+            12951.840186190846,
+            12951.150310318077,
+            12935.399340574088,
+            12929.63595810706,
+            12923.077967416602,
+            12911.691233514352,
+            12921.146431342126,
+            12928.41563227308,
+            12935.655740884407,
+            12938.38983708301,
+            12930.91640806827,
+            12938.073118696664,
+            12926.155740884407,
+            12934.414274631497
+          ]
+        },
+        "iterations": {
+          "build_release": 5156
+        },
+        "sink": 77340
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "034efe02301ba1c09eef6fb39bc586029bc1187227dafee202d334c14bbbdbae",
+        "capture_stdout_sha256": "3251934570171302af6c26fe69cbc9d2214d0bc63b14df4ad8c25ffd97b895fd"
+      }
+    },
+    {
+      "family": "permuted-control",
+      "size": 64,
+      "class": "Matcher",
+      "check": {
+        "status": "PASS",
+        "size": 64
+      },
+      "check_raw": {
+        "sibling_busy_percent": null,
+        "capture_config_sha256": "acdb4a533ff1aafae3015697ba707502065601bcfa45b8d539697ff858d7b7d4",
+        "capture_stdout_sha256": "aa00a3895fd492ce2a7082d85834f8f24e78efe1af36cf92cc28614f112b408b"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 57618,
+            "size": 64
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "e0c9a85de9f5068e98968a81a98496e1450213fbe9ac31251dfa0e301dc0811a",
+          "capture_stdout_sha256": "86c62c7a3042f2c2addfaa2234d2a295497461c1f27443d7d8b89ec2c5c5a0bb"
+        },
+        {
+          "result": {
+            "constructor_ns": 57638,
+            "size": 64
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "e0c9a85de9f5068e98968a81a98496e1450213fbe9ac31251dfa0e301dc0811a",
+          "capture_stdout_sha256": "4e052898055da4ebfd75fb2408841a3aa9427e03685ae3366d535cc9d2c12cad"
+        },
+        {
+          "result": {
+            "constructor_ns": 57818,
+            "size": 64
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "e0c9a85de9f5068e98968a81a98496e1450213fbe9ac31251dfa0e301dc0811a",
+          "capture_stdout_sha256": "dfb4ac67bff942df970400d9fa08630bf9ae3cdc9603e477cd34b34f4de726ef"
+        },
+        {
+          "result": {
+            "constructor_ns": 58510,
+            "size": 64
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "e0c9a85de9f5068e98968a81a98496e1450213fbe9ac31251dfa0e301dc0811a",
+          "capture_stdout_sha256": "42b43f2694cfb198f26d9cc6f821749aa5e60018850b47445a9c963628e7be2a"
+        },
+        {
+          "result": {
+            "constructor_ns": 57548,
+            "size": 64
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "e0c9a85de9f5068e98968a81a98496e1450213fbe9ac31251dfa0e301dc0811a",
+          "capture_stdout_sha256": "8c83e6e0a660e6916cc92d3e90ee66b631043e1a9b18079b1bcfed42f0537ca1"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            31551.622811168952,
+            31561.897775674395,
+            31526.516800757217,
+            31580.508282063416,
+            31525.506862281116,
+            31530.049219119734,
+            31463.29389493611,
+            31468.75627070516,
+            31442.137718883103,
+            31574.9701845717,
+            31483.848083293895,
+            31478.181732134406,
+            31470.67628963559,
+            31503.78608613346,
+            31515.810695693326
+          ]
+        },
+        "iterations": {
+          "build_release": 2113
+        },
+        "sink": 31695
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "4ab6bfa7974d108be48041a68bc9b59d0de51bdaa6c39b2411222fa0eb7e9174",
+        "capture_stdout_sha256": "6854965a4543cc958981e51795913e1b2981cc0e493ee7cf666f26ee44eba452"
+      }
+    },
+    {
+      "family": "permuted-control",
+      "size": 64,
+      "class": "Replacer",
+      "check": {
+        "status": "PASS",
+        "size": 64
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "0444b78883ff336bf222831df4aedca1aa44a82477004de4484a540c115e7051",
+        "capture_stdout_sha256": "aa00a3895fd492ce2a7082d85834f8f24e78efe1af36cf92cc28614f112b408b"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 52518,
+            "size": 64
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "8c53a69f42b983490e8b082b365d157726bb2e6848e0656e89f0b9cd836fceb1",
+          "capture_stdout_sha256": "92401de1372e980e690488fdba4508e72a2a87bc9999ce173d9c3fda188b5fd0"
+        },
+        {
+          "result": {
+            "constructor_ns": 52629,
+            "size": 64
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "8c53a69f42b983490e8b082b365d157726bb2e6848e0656e89f0b9cd836fceb1",
+          "capture_stdout_sha256": "e385918bc4a37af24b1c044aad4e1f9b8f4d88a311fd7a5ffcd5652f5db2f051"
+        },
+        {
+          "result": {
+            "constructor_ns": 55724,
+            "size": 64
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "8c53a69f42b983490e8b082b365d157726bb2e6848e0656e89f0b9cd836fceb1",
+          "capture_stdout_sha256": "7adab504df53201f3e2348d222e5d61c0c499c7325373057945901dec4829930"
+        },
+        {
+          "result": {
+            "constructor_ns": 52839,
+            "size": 64
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "8c53a69f42b983490e8b082b365d157726bb2e6848e0656e89f0b9cd836fceb1",
+          "capture_stdout_sha256": "6e556333cd30d3161c68bd0b14b591228de3e592622200b74371014145d835b1"
+        },
+        {
+          "result": {
+            "constructor_ns": 52578,
+            "size": 64
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "8c53a69f42b983490e8b082b365d157726bb2e6848e0656e89f0b9cd836fceb1",
+          "capture_stdout_sha256": "f70750d1bc5abfe7b21c3f1c44cecb747329c0b224c73ecd215d77ac46d16a46"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            27778.283986655548,
+            27759.240617180985,
+            27771.473728106757,
+            27740.31859883236,
+            27784.759382819015,
+            27761.358632193496,
+            27750.600500417015,
+            27756.09049207673,
+            27720.08048373645,
+            27698.839866555463,
+            27673.032110091743,
+            27669.535029190993,
+            27660.531693077566,
+            27688.615929941618,
+            27693.621351125938
+          ]
+        },
+        "iterations": {
+          "build_release": 2398
+        },
+        "sink": 35970
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "32343c60d0bc7fe9752598237fe96e37c84fe51d1e66330a62f179bb0119028c",
+        "capture_stdout_sha256": "b7febcccd272757701ce425890f580b205f51f6eb4125a06d22097a0a04e3a62"
+      }
+    },
+    {
+      "family": "permuted-control",
+      "size": 128,
+      "class": "Matcher",
+      "check": {
+        "status": "PASS",
+        "size": 128
+      },
+      "check_raw": {
+        "sibling_busy_percent": null,
+        "capture_config_sha256": "d0eb7facfbfbd22dc0eaf949c464971e82a63fe468bff4fd3c3eb1a2a0385837",
+        "capture_stdout_sha256": "994d981d4cce2208fbabd020742a15251ee4982bc19f510f2a6ccef34a2c6b89"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 121628,
+            "size": 128
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "b2c992dc245e5a5d1aa474ad261b163ce9c078785d742b97f2b2db32264bc984",
+          "capture_stdout_sha256": "10f6e3ca6b8fd86abc1114f1da6862e6853aec9ab3cbeb6bfc853010f5e0ab8a"
+        },
+        {
+          "result": {
+            "constructor_ns": 115166,
+            "size": 128
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "b2c992dc245e5a5d1aa474ad261b163ce9c078785d742b97f2b2db32264bc984",
+          "capture_stdout_sha256": "51e9dccd4ee84808a0f946534812a997680e36acc85ead45d776e15ba8690a6e"
+        },
+        {
+          "result": {
+            "constructor_ns": 114675,
+            "size": 128
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "b2c992dc245e5a5d1aa474ad261b163ce9c078785d742b97f2b2db32264bc984",
+          "capture_stdout_sha256": "6efe17acb364f2f7d1efce3749d4363d6faa4423ab0f3e09b534b91858c23c3a"
+        },
+        {
+          "result": {
+            "constructor_ns": 113703,
+            "size": 128
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "b2c992dc245e5a5d1aa474ad261b163ce9c078785d742b97f2b2db32264bc984",
+          "capture_stdout_sha256": "313f660ca2c5d6d6bb71ff6f406e1798fb80a364809751357c49c42164da6b3f"
+        },
+        {
+          "result": {
+            "constructor_ns": 114324,
+            "size": 128
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "b2c992dc245e5a5d1aa474ad261b163ce9c078785d742b97f2b2db32264bc984",
+          "capture_stdout_sha256": "0baae7ab22fdd4388c6b3c140f224494c87a8e9e8d26738da82786a8a0866f7d"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            78993.78002378122,
+            78916.89417360285,
+            79050.80856123663,
+            78896.05945303211,
+            78860.39120095124,
+            78815.49108204519,
+            78617.32104637337,
+            78816.06420927467,
+            79023.22948870392,
+            79105.33293697979,
+            79197.31272294887,
+            79170.23543400713,
+            79090.09631391201,
+            78967.00118906064,
+            79083.00951248514
+          ]
+        },
+        "iterations": {
+          "build_release": 841
+        },
+        "sink": 12615
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "f81b255ce2ac786455548a5ef937ea58820242d2ce9c1e1b7a32905930216599",
+        "capture_stdout_sha256": "0eeed3a1aadd632ed883e27d3d6ca5b037c84575f8dbce07981727281a5cc859"
+      }
+    },
+    {
+      "family": "permuted-control",
+      "size": 128,
+      "class": "Replacer",
+      "check": {
+        "status": "PASS",
+        "size": 128
+      },
+      "check_raw": {
+        "sibling_busy_percent": null,
+        "capture_config_sha256": "0160c526242e4bc6b9b834bf40cc02d241d72f148622ea839fe324144fe87da5",
+        "capture_stdout_sha256": "994d981d4cce2208fbabd020742a15251ee4982bc19f510f2a6ccef34a2c6b89"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 113653,
+            "size": 128
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "55c815632744610e665bd6c37676770e983404eacf9928ed62fd3653fcceafe6",
+          "capture_stdout_sha256": "eaf66ab34167c9254bf8700d2e665390ff8dac9467e03fa211a607688387a5a4"
+        },
+        {
+          "result": {
+            "constructor_ns": 114003,
+            "size": 128
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "55c815632744610e665bd6c37676770e983404eacf9928ed62fd3653fcceafe6",
+          "capture_stdout_sha256": "04c2a1f1e84bef7eb31a74ca409b6281b78871fab36201ccdaa6ff858b051097"
+        },
+        {
+          "result": {
+            "constructor_ns": 114154,
+            "size": 128
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "55c815632744610e665bd6c37676770e983404eacf9928ed62fd3653fcceafe6",
+          "capture_stdout_sha256": "b4633b175c9c0853c9b7f190da2a98658e59486f523b2e7a6741f078fcafce25"
+        },
+        {
+          "result": {
+            "constructor_ns": 113884,
+            "size": 128
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "55c815632744610e665bd6c37676770e983404eacf9928ed62fd3653fcceafe6",
+          "capture_stdout_sha256": "de7f6a1b219b7bf65bdb1510916abcbe0dd22efe7685c1dbd4576383941dcb18"
+        },
+        {
+          "result": {
+            "constructor_ns": 114013,
+            "size": 128
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "55c815632744610e665bd6c37676770e983404eacf9928ed62fd3653fcceafe6",
+          "capture_stdout_sha256": "2e19d5f19800be7f4bbbe33156012837d0143edf21df37983c81d45c07a5f341"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            81037.49331713244,
+            80873.8809234508,
+            80957.79343863913,
+            80762.27460510327,
+            80773.74362089916,
+            80743.8809234508,
+            80465.98541919806,
+            80320.39125151883,
+            80320.15917375455,
+            80470.65978128798,
+            80532.52612393681,
+            80504.30741190765,
+            80194.2369380316,
+            80253.02308626975,
+            80216.51397326853
+          ]
+        },
+        "iterations": {
+          "build_release": 823
+        },
+        "sink": 12345
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "692fc50f33b4e60919e8945e285f28e981cee5c4da0c2b74f1b2581c16ec5f72",
+        "capture_stdout_sha256": "2d4bad0135285de7389f31bd2e6506bf3978be3d0ddd6fd1e0dd0732514dfc5c"
+      }
+    },
+    {
+      "family": "permuted-control",
+      "size": 256,
+      "class": "Matcher",
+      "check": {
+        "status": "PASS",
+        "size": 256
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "dc4c2542eade7237ab0915deea2db5b72ff15da053afae50e30d54475de512f8",
+        "capture_stdout_sha256": "bc4cee41f677e3d6de29cdb2c36a4e5770e6bc79c5d07dfa3169a4693820fc44"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 246712,
+            "size": 256
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "c3aad42a6bf3f6d4379f41e948165320dc6787216e8a0fd4d853fc57b3f6dcf0",
+          "capture_stdout_sha256": "40da02ae2ba4d54dbe4919c9a4d3093f5355b01c62e40b629f5df57675c43dc7"
+        },
+        {
+          "result": {
+            "constructor_ns": 249928,
+            "size": 256
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "c3aad42a6bf3f6d4379f41e948165320dc6787216e8a0fd4d853fc57b3f6dcf0",
+          "capture_stdout_sha256": "5c7cbc8beeea1b6b4b3719f8e2827f7024ec28bc05941bdc1999af7afb2e9f72"
+        },
+        {
+          "result": {
+            "constructor_ns": 251031,
+            "size": 256
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "c3aad42a6bf3f6d4379f41e948165320dc6787216e8a0fd4d853fc57b3f6dcf0",
+          "capture_stdout_sha256": "c1166732df6ec47ab83d3712579d081544eb0513459852d05b97d75bced21d4e"
+        },
+        {
+          "result": {
+            "constructor_ns": 246823,
+            "size": 256
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "c3aad42a6bf3f6d4379f41e948165320dc6787216e8a0fd4d853fc57b3f6dcf0",
+          "capture_stdout_sha256": "c60c80c0901c7efe070ca063fcbafd645bec8e5d7bd984e82582aecb48a34d8e"
+        },
+        {
+          "result": {
+            "constructor_ns": 246251,
+            "size": 256
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "c3aad42a6bf3f6d4379f41e948165320dc6787216e8a0fd4d853fc57b3f6dcf0",
+          "capture_stdout_sha256": "77a88dafb207be33f52b019f160325a4743b90516ccf91dfa26005e7b6cfe585"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            220871.90759075907,
+            220889.43234323434,
+            220634.59735973598,
+            220739.5808580858,
+            220914.5313531353,
+            220628.1518151815,
+            220836.56105610562,
+            220779.75577557756,
+            220662.8679867987,
+            220737.76237623763,
+            220801.7788778878,
+            220643.92409240923,
+            220906.49504950494,
+            220776.38283828384,
+            220742.75577557756
+          ]
+        },
+        "iterations": {
+          "build_release": 303
+        },
+        "sink": 4545
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "ca9ce388371e490b2911906c51dae6407f6f9416ec98ede49ef3116ecad4d3f7",
+        "capture_stdout_sha256": "f7da3d384d83a720ff48e3f891214720a4b35e7032c214e13d5a710e49d7ff79"
+      }
+    },
+    {
+      "family": "permuted-control",
+      "size": 256,
+      "class": "Replacer",
+      "check": {
+        "status": "PASS",
+        "size": 256
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "82a091f2636e0a3717629c5812917d275e0a8a7a46bcb7987489f4a875a18842",
+        "capture_stdout_sha256": "bc4cee41f677e3d6de29cdb2c36a4e5770e6bc79c5d07dfa3169a4693820fc44"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 242284,
+            "size": 256
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "f4914b7121332271d00ca5ae0b45725c1973a25d5c757b72c8d8eece55e5d6d0",
+          "capture_stdout_sha256": "73c676c68e77270ea2994e8338d0e2c4d1fcc3ed0d7d6db18f3361c97b589e39"
+        },
+        {
+          "result": {
+            "constructor_ns": 242605,
+            "size": 256
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "f4914b7121332271d00ca5ae0b45725c1973a25d5c757b72c8d8eece55e5d6d0",
+          "capture_stdout_sha256": "6cd26f07ab92518fbcb7055eecd91e51c2eeaf1c86410380d4e97f2599cedb89"
+        },
+        {
+          "result": {
+            "constructor_ns": 242454,
+            "size": 256
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "f4914b7121332271d00ca5ae0b45725c1973a25d5c757b72c8d8eece55e5d6d0",
+          "capture_stdout_sha256": "5fed4e71336d8266499e4b5d0345f95cdfb8e5d07cb72303b2dfd63663eee753"
+        },
+        {
+          "result": {
+            "constructor_ns": 248776,
+            "size": 256
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "f4914b7121332271d00ca5ae0b45725c1973a25d5c757b72c8d8eece55e5d6d0",
+          "capture_stdout_sha256": "11e054cefc85b8e2e207de4c5d171581b5facc464440efde83e1468adbf44966"
+        },
+        {
+          "result": {
+            "constructor_ns": 244087,
+            "size": 256
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "f4914b7121332271d00ca5ae0b45725c1973a25d5c757b72c8d8eece55e5d6d0",
+          "capture_stdout_sha256": "e77adb53e286525fad9d70f39b09aad4d6ebb9ea1e42208118bd40355a7a763a"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            215278.73225806453,
+            215173.56451612903,
+            215232.93548387097,
+            215234.06451612903,
+            215183.90645161291,
+            215153.1064516129,
+            215151.52258064516,
+            215295.72903225807,
+            215195.9935483871,
+            215405.16129032258,
+            215041.83548387096,
+            215208.40322580645,
+            215206.7548387097,
+            214987.1193548387,
+            215617.3322580645
+          ]
+        },
+        "iterations": {
+          "build_release": 310
+        },
+        "sink": 4650
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "310cefed530239826d46555b9ec9a05a402bc02f9bcadade873589321a276c4e",
+        "capture_stdout_sha256": "a63c7920f8a13713c5b9fc6133f03a1bd4d2791b352fdc033ba56830cfbeacd0"
+      }
+    },
+    {
+      "family": "permuted-control",
+      "size": 512,
+      "class": "Matcher",
+      "check": {
+        "status": "PASS",
+        "size": 512
+      },
+      "check_raw": {
+        "sibling_busy_percent": null,
+        "capture_config_sha256": "af4dfab805cb4b9f1c5cd0de104cfe5fcd88d1df498106714ef4b494aafdf12b",
+        "capture_stdout_sha256": "76668fd2aa54a021169b8e6ef8d7ae917192ec6468203da742f975ccdf1d135d"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 609021,
+            "size": 512
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "f2e799ce2e66076a804ace192b43a649c304e8bce5714c0a64b03d752d47857c",
+          "capture_stdout_sha256": "cb5b295f26d51c10383dcee54bc2ca6f5b930189f9bd9ec1b7a01c6b8fef4027"
+        },
+        {
+          "result": {
+            "constructor_ns": 607267,
+            "size": 512
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "f2e799ce2e66076a804ace192b43a649c304e8bce5714c0a64b03d752d47857c",
+          "capture_stdout_sha256": "0dee003d1bd7424a7d64579b5bd5f2a1978f5d3a96499d11d83f62429786aa14"
+        },
+        {
+          "result": {
+            "constructor_ns": 608280,
+            "size": 512
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "f2e799ce2e66076a804ace192b43a649c304e8bce5714c0a64b03d752d47857c",
+          "capture_stdout_sha256": "0d371b89816e8c1c7bf656aab4f86a2f07e15c69dfc8ef145a289138db478ad5"
+        },
+        {
+          "result": {
+            "constructor_ns": 607779,
+            "size": 512
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "f2e799ce2e66076a804ace192b43a649c304e8bce5714c0a64b03d752d47857c",
+          "capture_stdout_sha256": "6d6b0af55aa8188b8ad0d41a24c3085c5e688c2ff94d7691d3adcf61ff779b1d"
+        },
+        {
+          "result": {
+            "constructor_ns": 605835,
+            "size": 512
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "f2e799ce2e66076a804ace192b43a649c304e8bce5714c0a64b03d752d47857c",
+          "capture_stdout_sha256": "e556ec6c0efdd57bd00e3d383bcaf34928c77449047c785855613b00d9b70f65"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            582265.7913043478,
+            582263.8782608695,
+            581967.6695652173,
+            583106.9304347826,
+            582476.0173913044,
+            582654.7043478261,
+            582214.7391304348,
+            582528.6347826087,
+            582436.6434782608,
+            582023.0782608696,
+            582257.0782608696,
+            582089.2869565217,
+            582126.7478260869,
+            582490.1304347826,
+            582196.452173913
+          ]
+        },
+        "iterations": {
+          "build_release": 115
+        },
+        "sink": 1725
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "3f206c8d266305fa060ecc2e90a712e0ab06b0bbe9c1b18687e3cc3936848d33",
+        "capture_stdout_sha256": "4c901e7e0a8af40293269bf6be009c7466ba5d8496ff31df5789bc62a19b84cf"
+      }
+    },
+    {
+      "family": "permuted-control",
+      "size": 512,
+      "class": "Replacer",
+      "check": {
+        "status": "PASS",
+        "size": 512
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "c068272ed64049a9f74a1baa764510c6144bdbc0fe6910352b5743b89093acb5",
+        "capture_stdout_sha256": "76668fd2aa54a021169b8e6ef8d7ae917192ec6468203da742f975ccdf1d135d"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 567734,
+            "size": 512
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "de67895dd151043895bf32033faecd32b258cda7e209df85875063be82955a36",
+          "capture_stdout_sha256": "151a98122973c4601ea4bc7e08d33fb7048eb9b7fb3b4377593a11ff62889e9f"
+        },
+        {
+          "result": {
+            "constructor_ns": 561191,
+            "size": 512
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "de67895dd151043895bf32033faecd32b258cda7e209df85875063be82955a36",
+          "capture_stdout_sha256": "538af24ddab04953b5edcc63758a8c5a3b3a3e2d70489c6e2c97b02058420177"
+        },
+        {
+          "result": {
+            "constructor_ns": 558596,
+            "size": 512
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "de67895dd151043895bf32033faecd32b258cda7e209df85875063be82955a36",
+          "capture_stdout_sha256": "0e1178c5c3a2e57532ec7d5d6dfedb1509a5d4c97cf0f285336ab21be7ab310a"
+        },
+        {
+          "result": {
+            "constructor_ns": 558416,
+            "size": 512
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "de67895dd151043895bf32033faecd32b258cda7e209df85875063be82955a36",
+          "capture_stdout_sha256": "0bba20a91f65113f083578a57a0defa7430433cf1ad53087aa3e32dd6f70f088"
+        },
+        {
+          "result": {
+            "constructor_ns": 556943,
+            "size": 512
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "de67895dd151043895bf32033faecd32b258cda7e209df85875063be82955a36",
+          "capture_stdout_sha256": "8c5c9f6d931117a1d207d42bd5d87b8a2bbe49722dfc23f49d183fcdf7c3cb47"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            549348.844262295,
+            549080.2213114754,
+            549365.0163934426,
+            549106.9180327869,
+            550081.3606557377,
+            549107.4836065574,
+            549147.4016393443,
+            549336.524590164,
+            549294.393442623,
+            549051.4016393443,
+            549663.1229508197,
+            549243.4836065574,
+            550014.762295082,
+            549859.5491803279,
+            549678.8032786886
+          ]
+        },
+        "iterations": {
+          "build_release": 122
+        },
+        "sink": 1830
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "87c05e9c5642a41784b2d351653ec36b2044e02c61ae1bd92ad51267c2776351",
+        "capture_stdout_sha256": "1e193b3c7aa07fa5277693e3ba0fe4ff04bb0fa5aa5a1eb24ba284ca15b919ca"
+      }
+    },
+    {
+      "family": "permuted-control",
+      "size": 1000,
+      "class": "Matcher",
+      "check": {
+        "status": "PASS",
+        "size": 1000
+      },
+      "check_raw": {
+        "sibling_busy_percent": null,
+        "capture_config_sha256": "0600e15231683d24ab300e0b287492a1529e6cb2f0051c70d6b3d7b0c38de834",
+        "capture_stdout_sha256": "68668d9684060fdff23a58f497f05609e366e955f203efc4369af00f0068c993"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 1918834,
+            "size": 1000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "f6ca95002380d06178d7549800f6c08814c6444277b30955b71cef6733fe4427",
+          "capture_stdout_sha256": "7872fff3c70afc0539c287387a8ca0cb648ed5d59c1e129a37ce28164ec63c67"
+        },
+        {
+          "result": {
+            "constructor_ns": 1963247,
+            "size": 1000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "f6ca95002380d06178d7549800f6c08814c6444277b30955b71cef6733fe4427",
+          "capture_stdout_sha256": "933b30bfc0143b26b76609bb7f89eebb504c73465709488eac4799aac28530f1"
+        },
+        {
+          "result": {
+            "constructor_ns": 1973526,
+            "size": 1000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "f6ca95002380d06178d7549800f6c08814c6444277b30955b71cef6733fe4427",
+          "capture_stdout_sha256": "bb13368e556971b835ec467796de26fa65dca61daf867163034a340d9e6ed406"
+        },
+        {
+          "result": {
+            "constructor_ns": 1931728,
+            "size": 1000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "f6ca95002380d06178d7549800f6c08814c6444277b30955b71cef6733fe4427",
+          "capture_stdout_sha256": "ab60e44c521e44c1d4d1e97a239423e46f3ec4be717b3dd0c8a66ae24893c127"
+        },
+        {
+          "result": {
+            "constructor_ns": 1940915,
+            "size": 1000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "f6ca95002380d06178d7549800f6c08814c6444277b30955b71cef6733fe4427",
+          "capture_stdout_sha256": "697f20c8c0c381a1c8a013ad492976a4ae70225153a9c0767319cc0f722e3e80"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            1840609.8918918918,
+            1839836,
+            1839345.6216216215,
+            1839342.8918918918,
+            1840183.9189189188,
+            1839555.4594594594,
+            1838856.5945945946,
+            1840209.1351351351,
+            1838962.4864864864,
+            1843188.7567567567,
+            1838305.027027027,
+            1839263.027027027,
+            1838836.810810811,
+            1844437.8648648649,
+            1840787.5135135136
+          ]
+        },
+        "iterations": {
+          "build_release": 37
+        },
+        "sink": 555
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "9328a71593e85d9eb0bd421fddbab3f4f1ad74faa3bf4ca261224cdc3634da9d",
+        "capture_stdout_sha256": "8ba59705bfbb857d2f000bb1753bb594f5d85fb760eb27dc9d4530be2ca265e0"
+      }
+    },
+    {
+      "family": "permuted-control",
+      "size": 1000,
+      "class": "Replacer",
+      "check": {
+        "status": "PASS",
+        "size": 1000
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "4ebc3484b46ff00059e88aef9623830d9b139a5f1b1381a6be09414c79aa19dd",
+        "capture_stdout_sha256": "68668d9684060fdff23a58f497f05609e366e955f203efc4369af00f0068c993"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 1812405,
+            "size": 1000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "8bb56d59e87510139ace4ca7c621b3bfb3c2a2ce98702d58e4968a71d9e4ad9e",
+          "capture_stdout_sha256": "ca95fcf9a4d8157e5bf084557f76f828cd9ed023d255d458f0a3795a312465ef"
+        },
+        {
+          "result": {
+            "constructor_ns": 1812154,
+            "size": 1000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "8bb56d59e87510139ace4ca7c621b3bfb3c2a2ce98702d58e4968a71d9e4ad9e",
+          "capture_stdout_sha256": "79a1333322c7b4091a4f96363b31d1fbec16f2fecacd37d6a86500073f9361f3"
+        },
+        {
+          "result": {
+            "constructor_ns": 1865685,
+            "size": 1000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "8bb56d59e87510139ace4ca7c621b3bfb3c2a2ce98702d58e4968a71d9e4ad9e",
+          "capture_stdout_sha256": "99792ace2fb72af73a3ca1a1e526a9969efa54cb231b4722e65fcf3eea33ce93"
+        },
+        {
+          "result": {
+            "constructor_ns": 1831500,
+            "size": 1000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "8bb56d59e87510139ace4ca7c621b3bfb3c2a2ce98702d58e4968a71d9e4ad9e",
+          "capture_stdout_sha256": "f9affa70cddefb76fd78f46aa734f4faa26147a097a6d6cf7f6dcedbff1566d5"
+        },
+        {
+          "result": {
+            "constructor_ns": 1842281,
+            "size": 1000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "8bb56d59e87510139ace4ca7c621b3bfb3c2a2ce98702d58e4968a71d9e4ad9e",
+          "capture_stdout_sha256": "0e131e6ef26613cbf10743d4c6a12410c36264b1a12f86676130e5c0c062cf42"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            1729370.8717948718,
+            1737422.358974359,
+            1730259.4871794872,
+            1729232.6666666667,
+            1729470.0512820513,
+            1730606.2564102565,
+            1729915.7435897435,
+            1729596.6923076923,
+            1731371.8205128205,
+            1731130.076923077,
+            1731728.8974358975,
+            1729838.9487179487,
+            1729006.6153846155,
+            1729105,
+            1731009.1025641025
+          ]
+        },
+        "iterations": {
+          "build_release": 39
+        },
+        "sink": 585
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "8104b9ae091dadda584bd5f1e861df120d134997e1ed0da444ceee1ade6c32bd",
+        "capture_stdout_sha256": "4bd7bb984327088bdc658c76ba8cf54714167d9a58f4a3f3ba242f8287ff9617"
+      }
+    },
+    {
+      "family": "permuted-control",
+      "size": 2000,
+      "class": "Matcher",
+      "check": {
+        "status": "PASS",
+        "size": 2000
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "6a96b8660ec8aed2bf5ef57f03725a4fab17559136f829ebc578489662e6381c",
+        "capture_stdout_sha256": "3fd670c853a2ada2cfc2230e96057ff19a7b310792a580b8054c5d1ddc25905d"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 6201355,
+            "size": 2000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "80fd5964ecd248e877b4e189f4c903b7510d0cbaf7951548efbefc8ff5cc126f",
+          "capture_stdout_sha256": "a302dc09e6e79c70d77e881bc50240f19677065f728ec52e0d03a297e4e4db13"
+        },
+        {
+          "result": {
+            "constructor_ns": 6186016,
+            "size": 2000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "80fd5964ecd248e877b4e189f4c903b7510d0cbaf7951548efbefc8ff5cc126f",
+          "capture_stdout_sha256": "6729478b1969adbff732d1d372cc9b042ef99831b6e25545cad871d015fe851a"
+        },
+        {
+          "result": {
+            "constructor_ns": 6140241,
+            "size": 2000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "80fd5964ecd248e877b4e189f4c903b7510d0cbaf7951548efbefc8ff5cc126f",
+          "capture_stdout_sha256": "f7d9d841c7d01fd6fea6bdcebb1f102107918cf6f58df8d35e2cb4eb8027b846"
+        },
+        {
+          "result": {
+            "constructor_ns": 6119001,
+            "size": 2000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "80fd5964ecd248e877b4e189f4c903b7510d0cbaf7951548efbefc8ff5cc126f",
+          "capture_stdout_sha256": "527bffc6ec6ae1f699d8161ba9cb76d808d8fb46aad882d1864ac4829b0ded95"
+        },
+        {
+          "result": {
+            "constructor_ns": 6184984,
+            "size": 2000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "80fd5964ecd248e877b4e189f4c903b7510d0cbaf7951548efbefc8ff5cc126f",
+          "capture_stdout_sha256": "a365666f7bd2a7acb43939b00418fcbc7870989a50ad51b6803d56049ab3cfb1"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            5525795.153846154,
+            5522609.923076923,
+            5533754.615384615,
+            5519024.769230769,
+            5526787.692307692,
+            5520777.307692308,
+            5522889.692307692,
+            5521221.923076923,
+            5520209.230769231,
+            5525298.076923077,
+            5551198.846153846,
+            5523641.153846154,
+            5524908.846153846,
+            5523540.923076923,
+            5529374.923076923
+          ]
+        },
+        "iterations": {
+          "build_release": 13
+        },
+        "sink": 195
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "b1d05eb15d651b9f4cef4a6e5ad3d04846a1538842028b49e4a8fa45ebf0d55e",
+        "capture_stdout_sha256": "e0b451cdbfbb0c22f4dcbfbab06bde143477ef9140308accc47dd9248a9e2059"
+      }
+    },
+    {
+      "family": "permuted-control",
+      "size": 2000,
+      "class": "Replacer",
+      "check": {
+        "status": "PASS",
+        "size": 2000
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "c8ac898689024e4a26dd86fa0a49ba40df2aae9040c6c8bb7b74a7e5b97c2f81",
+        "capture_stdout_sha256": "3fd670c853a2ada2cfc2230e96057ff19a7b310792a580b8054c5d1ddc25905d"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 6042607,
+            "size": 2000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "1ce5c7e0fb4fae5ed916f3e4aa1accc9a062771ddab5e2f5798a77366e627332",
+          "capture_stdout_sha256": "62da9d74c808528a3d1a74862f5bd67f0f0f10bf5347fffec1bddf07b91f7c4a"
+        },
+        {
+          "result": {
+            "constructor_ns": 6037829,
+            "size": 2000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "1ce5c7e0fb4fae5ed916f3e4aa1accc9a062771ddab5e2f5798a77366e627332",
+          "capture_stdout_sha256": "1ccb965ed1da2e91c7b325669f634b4f5f7ca9ffa159678537ce901d15f612fa"
+        },
+        {
+          "result": {
+            "constructor_ns": 5980110,
+            "size": 2000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "1ce5c7e0fb4fae5ed916f3e4aa1accc9a062771ddab5e2f5798a77366e627332",
+          "capture_stdout_sha256": "99a0aa1e342e819726bc7c168718146782ea57791dcb993331cc9b3c19b551f7"
+        },
+        {
+          "result": {
+            "constructor_ns": 6000980,
+            "size": 2000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "1ce5c7e0fb4fae5ed916f3e4aa1accc9a062771ddab5e2f5798a77366e627332",
+          "capture_stdout_sha256": "81e84ee46a1da6801197cc7267674a7ff393e463450488f4a6574a0d30f61d9f"
+        },
+        {
+          "result": {
+            "constructor_ns": 6007712,
+            "size": 2000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "1ce5c7e0fb4fae5ed916f3e4aa1accc9a062771ddab5e2f5798a77366e627332",
+          "capture_stdout_sha256": "08a4ad3a66f15cc5cae0b6963fc01efc98a438e493fa5a5478e05d59b414bda2"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            5328184.230769231,
+            5329080.538461538,
+            5332930.769230769,
+            5341132.384615385,
+            5336593.076923077,
+            5333518.076923077,
+            5332286.538461538,
+            5335659,
+            5328244.307692308,
+            5331788.692307692,
+            5342349.307692308,
+            5341115.384615385,
+            5330113.230769231,
+            5331866.538461538,
+            5333350.846153846
+          ]
+        },
+        "iterations": {
+          "build_release": 13
+        },
+        "sink": 195
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "6e0d88ebd0bb0d78d699d7429b81dbccd35f858c7a6f7a761e20ed904624dc28",
+        "capture_stdout_sha256": "0ce59be4a9cb8416a1ea693a8b21da4d5005019a7933bbbb1aea0b05bd981c7d"
+      }
+    },
+    {
+      "family": "permuted-control",
+      "size": 5000,
+      "class": "Matcher",
+      "check": {
+        "status": "PASS",
+        "size": 5000
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "2b070df1153b26f41cb434c11c44299140008d6913f4a4d1822dff63967d7ff0",
+        "capture_stdout_sha256": "c5aee80eca8ceb2b9e09b8e4330d478e0410d786153e52ca8e197fe18263d31f"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 22719634,
+            "size": 5000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "e7a1c05a6cd18c7ec0cd9f073c90a254fe207898d481c8f9107967d55ae3bda7",
+          "capture_stdout_sha256": "574f0a765be874c5a8e1108d05996a24e468d097230e7cc54579a6b58d7176de"
+        },
+        {
+          "result": {
+            "constructor_ns": 22656315,
+            "size": 5000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "e7a1c05a6cd18c7ec0cd9f073c90a254fe207898d481c8f9107967d55ae3bda7",
+          "capture_stdout_sha256": "ded0af7d0cf803e2f6708a4357dbcf34a8810c3c101818758958e4c1918afea7"
+        },
+        {
+          "result": {
+            "constructor_ns": 22574522,
+            "size": 5000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "e7a1c05a6cd18c7ec0cd9f073c90a254fe207898d481c8f9107967d55ae3bda7",
+          "capture_stdout_sha256": "7791680eea2a0f33304712c7d1ba554e3c77d66d9d6517fb5e238ce433d98229"
+        },
+        {
+          "result": {
+            "constructor_ns": 22533404,
+            "size": 5000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "e7a1c05a6cd18c7ec0cd9f073c90a254fe207898d481c8f9107967d55ae3bda7",
+          "capture_stdout_sha256": "cb0ba966a7d943cd31da88ca57109e7ab185c558151ae59716810c6bfcc2f317"
+        },
+        {
+          "result": {
+            "constructor_ns": 22667225,
+            "size": 5000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "e7a1c05a6cd18c7ec0cd9f073c90a254fe207898d481c8f9107967d55ae3bda7",
+          "capture_stdout_sha256": "e58adf58f0606019320483216815898815ee0030f14b6f3732f2edb1f57fdb34"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            22370065.666666668,
+            22366312,
+            22404543.666666668,
+            22294166.666666668,
+            22277599,
+            22252809,
+            22204275,
+            22368289,
+            22503054.666666668,
+            22340109.333333332,
+            22384259,
+            22216621.666666668,
+            22357011,
+            22376420.666666668,
+            22406587.333333332
+          ]
+        },
+        "iterations": {
+          "build_release": 3
+        },
+        "sink": 45
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "99775d1e50d9f1240697390199be29c0f5a3fd77b72c2717e3855ce8fde35db0",
+        "capture_stdout_sha256": "3ce2d6781d56a50d9a432d50593d9ddafd0bedf475444ea336a54d552075ff41"
+      }
+    },
+    {
+      "family": "permuted-control",
+      "size": 5000,
+      "class": "Replacer",
+      "check": {
+        "status": "PASS",
+        "size": 5000
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "34f79df874cfbc137702b9576fc902d2a3c912a005de9114252c218f5a3de377",
+        "capture_stdout_sha256": "c5aee80eca8ceb2b9e09b8e4330d478e0410d786153e52ca8e197fe18263d31f"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 22039940,
+            "size": 5000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "ff47bc2e682de6674313972fdaade1dca6f7fc491a590ea0bdf62e1102e74b68",
+          "capture_stdout_sha256": "8762cee4bab5ee8116a71295b389e9c740dda7a8e5665e3dd6bd7930d21a82d6"
+        },
+        {
+          "result": {
+            "constructor_ns": 22039650,
+            "size": 5000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "ff47bc2e682de6674313972fdaade1dca6f7fc491a590ea0bdf62e1102e74b68",
+          "capture_stdout_sha256": "9941d2448b6594edf5514db1262be30d68878678dbf21225e62b6a7d04ac874e"
+        },
+        {
+          "result": {
+            "constructor_ns": 21971372,
+            "size": 5000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "ff47bc2e682de6674313972fdaade1dca6f7fc491a590ea0bdf62e1102e74b68",
+          "capture_stdout_sha256": "0ce9b06be878485cdd93620fc05501003547b25f392726d28d8d00b5f770bd97"
+        },
+        {
+          "result": {
+            "constructor_ns": 22008161,
+            "size": 5000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "ff47bc2e682de6674313972fdaade1dca6f7fc491a590ea0bdf62e1102e74b68",
+          "capture_stdout_sha256": "000ef6e9a45f507b79c6b6409b19be7ae34a85a80476e21fae5a8311d25dd823"
+        },
+        {
+          "result": {
+            "constructor_ns": 22345473,
+            "size": 5000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "ff47bc2e682de6674313972fdaade1dca6f7fc491a590ea0bdf62e1102e74b68",
+          "capture_stdout_sha256": "fb82f7e1218595912c517f6da2afa82a01362ca2437a10456998efdbca5c0e36"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            21632560,
+            21568314.75,
+            21545742.25,
+            21536617.75,
+            21519816.25,
+            21611054.75,
+            21458186,
+            21555277.75,
+            21601569.5,
+            21663976.5,
+            21549870.25,
+            21505226.5,
+            21565301.5,
+            21671430.25,
+            21632955.75
+          ]
+        },
+        "iterations": {
+          "build_release": 4
+        },
+        "sink": 60
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "de580b96d323b59f131623a66e7a3b275be765621628ad8cb38e7ca158c6f519",
+        "capture_stdout_sha256": "a2a10c40e59a80e93b7db54a5cd28eb5cde6dc6a2b79277d2846470c94d5254a"
+      }
+    },
+    {
+      "family": "permuted-control",
+      "size": 10000,
+      "class": "Matcher",
+      "check": {
+        "status": "PASS",
+        "size": 10000
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "936d4d0cc041235fc32883446ed7dcc1227a1973c622552ff6c176c7cfc567e7",
+        "capture_stdout_sha256": "4d282dfcb1eff937deedc113865236b6f87bae10666544ff7eec760dcd190dde"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 59028399,
+            "size": 10000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "dd3e1fdd5590a0216d96cf031c0a67483aa8e157e964572925cf2d47b599707a",
+          "capture_stdout_sha256": "a86415e39599422c2e05b91ce425492b25feb10a33ba0b0b2e23b3bf99196c4f"
+        },
+        {
+          "result": {
+            "constructor_ns": 58905640,
+            "size": 10000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "dd3e1fdd5590a0216d96cf031c0a67483aa8e157e964572925cf2d47b599707a",
+          "capture_stdout_sha256": "4ce568066009414bea6bb84eeab93bb84295cc3750aec5546184f2baa1861761"
+        },
+        {
+          "result": {
+            "constructor_ns": 58873158,
+            "size": 10000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "dd3e1fdd5590a0216d96cf031c0a67483aa8e157e964572925cf2d47b599707a",
+          "capture_stdout_sha256": "49a7c98e647d40ba024795c6f5aee15d7fb3937b63e0fe2245a8b24fa92753bf"
+        },
+        {
+          "result": {
+            "constructor_ns": 59587306,
+            "size": 10000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "dd3e1fdd5590a0216d96cf031c0a67483aa8e157e964572925cf2d47b599707a",
+          "capture_stdout_sha256": "7f725c140150fe75a0f8e42cfdc2fbb7eded27e1942833e6672289fcfdbaafb5"
+        },
+        {
+          "result": {
+            "constructor_ns": 59893790,
+            "size": 10000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "dd3e1fdd5590a0216d96cf031c0a67483aa8e157e964572925cf2d47b599707a",
+          "capture_stdout_sha256": "696a1c059527463f5d69e28409bc268f356b447243bf7aaffaa9b1febcfb3caa"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            58645136.5,
+            58700270,
+            58971077,
+            58710995,
+            58893577,
+            58372811.5,
+            58275875,
+            58388977,
+            58105085,
+            58321275,
+            58327607,
+            58950834.5,
+            58764550.5,
+            59019042,
+            58619388.5
+          ]
+        },
+        "iterations": {
+          "build_release": 2
+        },
+        "sink": 30
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "37718eece72a9273005e1528242ae7d43011f4a4e5666f407c261592ffa365eb",
+        "capture_stdout_sha256": "22a0b93ce8c0a7ae5d35608665cf887fc1d9981b9753141735b79a4efdecdb0e"
+      }
+    },
+    {
+      "family": "permuted-control",
+      "size": 10000,
+      "class": "Replacer",
+      "check": {
+        "status": "PASS",
+        "size": 10000
+      },
+      "check_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "118a60f7b3023ae845f180ae9538668b0a06aee64530d647487a9e0621a288ff",
+        "capture_stdout_sha256": "4d282dfcb1eff937deedc113865236b6f87bae10666544ff7eec760dcd190dde"
+      },
+      "first_constructor_fresh_process": [
+        {
+          "result": {
+            "constructor_ns": 56831866,
+            "size": 10000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "d6777fbcf51164f41f8c71f1930949866a939ccfe8285e5e9018063dffc2b7b8",
+          "capture_stdout_sha256": "8eacddde43461b35fbb18d71540296f8c93eb2364092ce438a08c8739b75dfdc"
+        },
+        {
+          "result": {
+            "constructor_ns": 56129911,
+            "size": 10000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "d6777fbcf51164f41f8c71f1930949866a939ccfe8285e5e9018063dffc2b7b8",
+          "capture_stdout_sha256": "7ae4611f1968f592564a8c9b5db073070467a0f94d0bd1b8332c337a341bf15c"
+        },
+        {
+          "result": {
+            "constructor_ns": 56167060,
+            "size": 10000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "d6777fbcf51164f41f8c71f1930949866a939ccfe8285e5e9018063dffc2b7b8",
+          "capture_stdout_sha256": "a67a313b3d046c3caa60169026bc9128276fdd33bbb13281ed2c8c6404534633"
+        },
+        {
+          "result": {
+            "constructor_ns": 56296703,
+            "size": 10000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "d6777fbcf51164f41f8c71f1930949866a939ccfe8285e5e9018063dffc2b7b8",
+          "capture_stdout_sha256": "5915c19bbf59cd25159f6841b12e5ff3aaa3787bf360b140223b165b38d52afa"
+        },
+        {
+          "result": {
+            "constructor_ns": 56573171,
+            "size": 10000
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "d6777fbcf51164f41f8c71f1930949866a939ccfe8285e5e9018063dffc2b7b8",
+          "capture_stdout_sha256": "f7c87d3aa414f90968c209971b2267387cf970ac6b0097fece8921c6f14e7bf5"
+        }
+      ],
+      "warm_build_release": {
+        "ns": {
+          "build_release": [
+            55840618.5,
+            56243674,
+            55949052,
+            55705345.5,
+            56339122.5,
+            56082923,
+            55498082,
+            55731429.5,
+            55855226,
+            55610833.5,
+            56052240.5,
+            56014189,
+            55900906.5,
+            55700887,
+            56256533
+          ]
+        },
+        "iterations": {
+          "build_release": 2
+        },
+        "sink": 30
+      },
+      "warm_raw": {
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "05215953407bccaf7fbd9bf942bd448c5c794c457ced804cb9def54ea743c4a1",
+        "capture_stdout_sha256": "1e419b7e2884b14532fc66046cc6839f5290c3100ad887f72a613f600a24e5fa"
+      }
+    }
+  ],
+  "aa": [
+    {
+      "stage": "before",
+      "result": {
+        "ns": {
+          "a": [
+            45671.16383412645,
+            45506.50441876275,
+            45522.23113528212,
+            45501.99592114208,
+            45499.45547246771,
+            45378.41264445955,
+            45353.852481305235,
+            45281.221617946976,
+            45335.0407885792,
+            45343.66349422162,
+            45302.43099932019,
+            45437.66757307954,
+            45430.515975526854,
+            45392.89938817131,
+            45385.27124405166
+          ],
+          "b": [
+            45607.81177275838,
+            45594.22655715264,
+            45471.135523613964,
+            45530.56262833675,
+            45429.17453798768,
+            45434.12525667351,
+            45450.15195071868,
+            45430.450376454486,
+            45356.464750171115,
+            45328.252566735115,
+            45485.52977412731,
+            45511.36824093087,
+            45532.61943874059,
+            45415.21902806297,
+            45371.58590006844
+          ]
+        },
+        "iterations": {
+          "a": 1471,
+          "b": 1461
+        },
+        "sink": 43980
+      },
+      "sibling_busy_percent": 0.0,
+      "paired_ratios": [
+        0.9986128651856091,
+        1.0019276835149244,
+        0.9988775679400179,
+        1.000627812178705,
+        0.9984553455914972,
+        1.0012277338268853,
+        1.0021232919398224,
+        1.0032955992169692,
+        1.0004725695889813,
+        0.9996601305166163,
+        1.004041698663144,
+        1.0016220169693524,
+        1.0022474643094246,
+        1.0004916989263188,
+        0.9996984628799588
+      ],
+      "median_ratio": 1.000627812178705,
+      "capture_config_sha256": "2994bc5a74e5f419787229db3649b290bac9c971b897dbca4b70401ad50cd33a",
+      "capture_stdout_sha256": "cad874d1b8a1068958c8a24e58666a1af8dd1a2744fdb3e9959bfc2216b76afe"
+    },
+    {
+      "stage": "after",
+      "result": {
+        "ns": {
+          "a": [
+            44984.898580121706,
+            44824.80121703854,
+            44881.75726842461,
+            44815.791751183235,
+            44920.69438810007,
+            45037.70858688303,
+            44983.9168356998,
+            44967.597701149425,
+            44853.17782285328,
+            44806.491548343474,
+            44745.247464503045,
+            44946.421906693715,
+            44930.56389452333,
+            44995.32386747802,
+            44983.04259634888
+          ],
+          "b": [
+            44900.04576043069,
+            44936.594885598926,
+            44909.30955585464,
+            44840.62180349933,
+            44999.0269179004,
+            45056.57133243607,
+            44840.42530282638,
+            44893.31695827725,
+            44807.67900403769,
+            44983.29744279946,
+            44822.73418573351,
+            44915.24966352624,
+            44915.91722745626,
+            44980.88425302826,
+            44998.696500672944
+          ]
+        },
+        "iterations": {
+          "a": 1479,
+          "b": 1486
+        },
+        "sink": 44475
+      },
+      "sibling_busy_percent": 0.0,
+      "paired_ratios": [
+        0.9981137487830524,
+        1.0024940137050267,
+        1.0006138861111264,
+        1.000554046940729,
+        1.0017437960580833,
+        1.0004188211644172,
+        0.9968101592087343,
+        0.9983481273923985,
+        0.9989856054570918,
+        1.0039459883678958,
+        1.0017317307562539,
+        0.9993064577368987,
+        0.9996740155075406,
+        0.9996790863314533,
+        1.0003479956761603
+      ],
+      "median_ratio": 1.0003479956761603,
+      "capture_config_sha256": "2994bc5a74e5f419787229db3649b290bac9c971b897dbca4b70401ad50cd33a",
+      "capture_stdout_sha256": "d8e3e55a67343126f6180955805660e47945bcd7556d20fc6163bbbc291b7c8b"
+    }
+  ]
+}

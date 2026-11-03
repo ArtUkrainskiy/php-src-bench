@@ -1,0 +1,4898 @@
+{
+  "status": "complete",
+  "metadata": {
+    "main_metadata": {
+      "started": "2026-11-02T20:01:03.835151+00:00",
+      "compiler": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+      "cpu": 15,
+      "host": "measurement-host",
+      "kernel": "7.0.0-38-generic",
+      "runtime_build": {
+        "name": "sm-master",
+        "ref": "php/master",
+        "commit": "758c9ac5492848a54f9fd88fac2a54d5e6108c05",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "758c9ac5492848a54f9fd88fac2a54d5e6108c05",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-10-28T03:54:28+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "9fac14be6f25cd50fc36607dff2d5027a62f2a4d",
+        "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+        "cc_command": "gcc-15",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      },
+      "version": {
+        "php": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "extension": "0.9-dev",
+        "pcre": "10.44 2024-06-07",
+        "pcre_jit": "1"
+      },
+      "php_sha256": "950c71e1d7b072975c4f0d37cbf5aa719b45c14433d21a2c67c0c7581673f2c0",
+      "module_sha256": "9c46c0bf78c0576494fc6eea373c8761436b89c9e4a9f313652a9a0e6a787ba7",
+      "source_sha256": {
+        "strmatch.c": "adafc9cb67a435523811b540734c7d51fc4f7ff1edf3aabd5f7b94c4cf19e254",
+        "php_strmatch.h": "332b3e0543cb2da855ce624d8f777e4497d3fce34fb9482927fcca0de9c1494e",
+        "strmatch_arginfo.h": "90e87529c5ddfaede28dc851f9af0909eb5fcfe8313fe82b558e55ed9ab8ac2e"
+      },
+      "source_revision": "287aaab7fb729d3a8e91c6fd35224c4359c343e3",
+      "corpus_index_sha256": "03e27d8ad806a8367e7f4a5ac02063e7bbc374f45aad019e7ad9ef7ae594e3ac",
+      "harness_sha256": "22000d86a1a6310a04f705dced352e755588331e8866d449e4abc713b10e4bb9",
+      "driver_sha256": "85cf816ff5573302b65597bbcc2f048b70b3a90586e30b366311d8b9363bc960",
+      "build_command": [
+        "gcc-15",
+        "-fstack-protector-strong",
+        "-fpic",
+        "-fpie",
+        "-O2",
+        "-g",
+        "-D_LARGEFILE_SOURCE",
+        "-D_FILE_OFFSET_BITS=64",
+        "-std=c11",
+        "-shared",
+        "-fPIC",
+        "-ffp-contract=off",
+        "-fvisibility=hidden",
+        "-DNDEBUG",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-unused-parameter",
+        "-Wno-sign-compare",
+        "-D_GNU_SOURCE",
+        "-DCOMPILE_DL_STRMATCH=1",
+        "-DZEND_ENABLE_STATIC_TSRMLS_CACHE=1",
+        "-I${PHP_BUILD}",
+        "-I${PHP_BUILD}/main",
+        "-I${PHP_BUILD}/TSRM",
+        "-I${PHP_BUILD}/Zend",
+        "${STRMATCH_SOURCE}/strmatch.c",
+        "-o",
+        "${RUN_ROOT}/data-product-gcc15/strmatch.so"
+      ],
+      "protocol": {
+        "passes": 15,
+        "warmup_ns": 250000000,
+        "sample_ns": 66666666,
+        "perf_passes": 5,
+        "perf_target_ns": 80000000,
+        "first_requests": 15,
+        "pcre_cache": "Warm for main series; separate fresh-process first requests",
+        "counter_method": "user cycles/instructions for N jobs minus same startup/warmup with zero jobs, divided by N",
+        "wall_method": "elapsed within process; complete jobs rotated evenly; no empty-loop subtraction",
+        "all_result_types": "Matcher returns MatchResult objects; native/PCRE return associative arrays; normalization only in output checks",
+        "input_dictionary_sharing": "Equal per-job dictionaries share one array outside timing; different per-order maps remain distinct"
+      },
+      "cpu_model": "AMD Ryzen 9 5950X 16-Core Processor",
+      "siblings": "15,31",
+      "governor": "performance",
+      "load_before": [
+        0.04296875,
+        0.01318359375,
+        0.001953125
+      ],
+      "boost": "1"
+    },
+    "pinned_scripts": {
+      "batch.php": "38761ef4c698b3f2c1c1f9babaec610156ab509555c9f56c7531430ec55f5be9",
+      "construction.php": "c84775fdea220e3892bb7db4076ae2416e747b5201827c30eff98c53eb7989d2",
+      "definitions.php": "f0fa73ac7c4dbdce5101ae1f7a3047d0b599501a3a34706dda627f95d92824b6",
+      "order-harness.php": "10122bf7b1a29926ac7d740af883de3cd29a59b914537612626eae8e55bc1306",
+      "supplements.py": "01c69ea347b5294c93ddbc6c7abce194af02641ddd83efab73b9cfeda5352f4f"
+    },
+    "definitions_sha256": "f0fa73ac7c4dbdce5101ae1f7a3047d0b599501a3a34706dda627f95d92824b6",
+    "order_harness_sha256": "10122bf7b1a29926ac7d740af883de3cd29a59b914537612626eae8e55bc1306",
+    "constructor_protocol": {
+      "first": "first constructor in a fresh PHP process after parsing; release/startup excluded; CPU and file caches are not cold",
+      "warm": "construction and release plus common closure/loop cost",
+      "model": "request minus worker is an estimate including wrapper differences, not the first constructor"
+    },
+    "order_protocol": "paired reverse order; starting position rotates every pair",
+    "batch_harness_sha256": "38761ef4c698b3f2c1c1f9babaec610156ab509555c9f56c7531430ec55f5be9",
+    "construction_harness_sha256": "c84775fdea220e3892bb7db4076ae2416e747b5201827c30eff98c53eb7989d2",
+    "driver_sha256": "01c69ea347b5294c93ddbc6c7abce194af02641ddd83efab73b9cfeda5352f4f",
+    "passes": 15,
+    "warmup_ns": 250000000,
+    "sample_ns": 66666667
+  },
+  "rows": [
+    {
+      "corpus": "product",
+      "case": "chat.emoticons",
+      "title": "Render configured emoticons in short customer replies",
+      "kind": "product",
+      "operation": "replace",
+      "dictionary_size": 12,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 1549.7391284147927,
+      "worker_median_ns": 275.0909938245245,
+      "estimated_build_release_ns": 1274.6481345902682,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 234.55474455088157,
+          "candidate_saving_percent": -17.33741314650745,
+          "gap_ns": -40.53624927364294,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 330.3243948041724,
+          "candidate_saving_percent": 16.679987127019047,
+          "gap_ns": 55.23340097964791,
+          "estimated_jobs": 24,
+          "status": "model"
+        },
+        "str_replace": {
+          "prepared_median_ns": 273.0660783610087,
+          "candidate_saving_percent": -0.7581017630303277,
+          "gap_ns": -2.0249154635158106,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "chat.plain",
+      "title": "Check plain support replies for configured emoticons",
+      "kind": "product",
+      "operation": "replace",
+      "dictionary_size": 12,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 1468.992351858345,
+      "worker_median_ns": 214.77435135480573,
+      "estimated_build_release_ns": 1254.2180005035393,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 189.9006398404321,
+          "candidate_saving_percent": -12.976800526123622,
+          "gap_ns": -24.87371151437364,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 185.8961320116644,
+          "candidate_saving_percent": -15.370146175855126,
+          "gap_ns": -28.878219343141325,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "str_replace": {
+          "prepared_median_ns": 225.0242765664262,
+          "candidate_saving_percent": 4.640536214713609,
+          "gap_ns": 10.249925211620479,
+          "estimated_jobs": 123,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "control.escaping",
+      "title": "Correctness control: regex punctuation and literal replacement bytes",
+      "kind": "synthetic",
+      "operation": "replace",
+      "dictionary_size": 4,
+      "documents_per_job": [
+        1
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 1036.0921828105804,
+      "worker_median_ns": 240.74681447502547,
+      "estimated_build_release_ns": 795.3453683355549,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 261.35414111419533,
+          "candidate_saving_percent": 7.8224630105068975,
+          "gap_ns": 20.607326639169855,
+          "estimated_jobs": 39,
+          "status": "model"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 587.972884966259,
+          "candidate_saving_percent": 59.0636942804779,
+          "gap_ns": 347.22607049123354,
+          "estimated_jobs": 3,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "control.overlaps",
+      "title": "Synthetic control: nested repeated-byte literals",
+      "kind": "synthetic",
+      "operation": "replace",
+      "dictionary_size": 16,
+      "documents_per_job": [
+        1
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 1348.2267440672076,
+      "worker_median_ns": 469.6475199483936,
+      "estimated_build_release_ns": 878.579224118814,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 308.85628977441206,
+          "candidate_saving_percent": -51.95359199381648,
+          "gap_ns": -160.79123017398155,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 1058.5302222573757,
+          "candidate_saving_percent": 55.68188830521237,
+          "gap_ns": 588.8827023089821,
+          "estimated_jobs": 2,
+          "status": "model"
+        },
+        "preg_replace": {
+          "prepared_median_ns": 330.5315569199183,
+          "candidate_saving_percent": -42.09187320165133,
+          "gap_ns": -139.11596302847533,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "control.prefix",
+      "title": "Synthetic control: 64 literals sharing a long prefix",
+      "kind": "synthetic",
+      "operation": "replace",
+      "dictionary_size": 64,
+      "documents_per_job": [
+        1
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 86829.79661016949,
+      "worker_median_ns": 456.66584586259876,
+      "estimated_build_release_ns": 86373.13076430689,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 385.51032564620954,
+          "candidate_saving_percent": -18.43523858443843,
+          "gap_ns": -71.15552021638922,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 885.4187331107931,
+          "candidate_saving_percent": 48.43552851362997,
+          "gap_ns": 428.7528872481944,
+          "estimated_jobs": 202,
+          "status": "model"
+        },
+        "preg_replace": {
+          "prepared_median_ns": 650.4233038060936,
+          "candidate_saving_percent": 29.757013520214404,
+          "gap_ns": 193.75745794349484,
+          "estimated_jobs": 446,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "control.suffix",
+      "title": "Synthetic control: 64 literals sharing a long suffix",
+      "kind": "synthetic",
+      "operation": "replace",
+      "dictionary_size": 64,
+      "documents_per_job": [
+        1
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 17306.977408465333,
+      "worker_median_ns": 455.7986749188865,
+      "estimated_build_release_ns": 16851.178733546447,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 313.1255855310801,
+          "candidate_saving_percent": -45.63678540003531,
+          "gap_ns": -142.67308938780639,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 652.4804447091523,
+          "candidate_saving_percent": 30.137095698124483,
+          "gap_ns": 196.68176979026578,
+          "estimated_jobs": 86,
+          "status": "model"
+        },
+        "preg_replace": {
+          "prepared_median_ns": 450.7899157943581,
+          "candidate_saving_percent": -1.160537968133557,
+          "gap_ns": -5.00875912452841,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "errors.first",
+      "title": "Decide whether a request trace needs an alert: error in the first record",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 8,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 5608.362112533693,
+      "worker_median_ns": 253.57966078656438,
+      "estimated_build_release_ns": 5354.782451747129,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 2141.16875,
+          "candidate_saving_percent": 88.14325615089996,
+          "gap_ns": 1887.5890892134355,
+          "estimated_jobs": 3,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 250.93276162530907,
+          "candidate_saving_percent": -1.5753230815644725,
+          "gap_ns": -2.6468991612553054,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "errors.healthy",
+      "title": "Decide whether a request trace needs an alert: healthy trace",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 8,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 8004.63933044316,
+      "worker_median_ns": 2659.184787811104,
+      "estimated_build_release_ns": 5345.4545426320565,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 4264.219479695432,
+          "candidate_saving_percent": 37.658624279132965,
+          "gap_ns": 1605.034691884328,
+          "estimated_jobs": 4,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 2778.3173717521654,
+          "candidate_saving_percent": 4.205502863430322,
+          "gap_ns": 119.13258394106151,
+          "estimated_jobs": 45,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "errors.last",
+      "title": "Decide whether a request trace needs an alert: error in the last record",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 8,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 8043.459657996146,
+      "worker_median_ns": 2644.494040050858,
+      "estimated_build_release_ns": 5398.965617945289,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 2607.666200248756,
+          "candidate_saving_percent": -1.423540821628233,
+          "gap_ns": -36.82783980210206,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "preg_match": {
+          "prepared_median_ns": 2581.5237984496125,
+          "candidate_saving_percent": -2.503871366572552,
+          "gap_ns": -62.97024160124556,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "errors.middle",
+      "title": "Decide whether a request trace needs an alert: error in the middle record",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 8,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 6903.997620033113,
+      "worker_median_ns": 1531.0481561127378,
+      "estimated_build_release_ns": 5372.949463920375,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 2392.6315639269405,
+          "candidate_saving_percent": 36.054887477903954,
+          "gap_ns": 861.5834078142027,
+          "estimated_jobs": 7,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 1447.8375719769674,
+          "candidate_saving_percent": -5.738743322940842,
+          "gap_ns": -83.21058413577043,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "help.all",
+      "title": "Locate all configured term occurrences for a search index",
+      "kind": "product",
+      "operation": "all",
+      "dictionary_size": 96,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 33437.78137450199,
+      "worker_median_ns": 1804.895544232437,
+      "estimated_build_release_ns": 31632.88583026955,
+      "alternatives": {
+        "strpos_all": {
+          "prepared_median_ns": 15144.704749103943,
+          "candidate_saving_percent": 88.09413261065737,
+          "gap_ns": 13339.809204871506,
+          "estimated_jobs": 3,
+          "status": "model"
+        },
+        "preg_each_all": {
+          "prepared_median_ns": 34594.286943319836,
+          "candidate_saving_percent": 94.7809623066504,
+          "gap_ns": 32789.3913990874,
+          "estimated_jobs": 1,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "help.count",
+      "title": "Count all configured term occurrences in a help article",
+      "kind": "product",
+      "operation": "count",
+      "dictionary_size": 96,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 33028.20784313726,
+      "worker_median_ns": 1005.957757896001,
+      "estimated_build_release_ns": 32022.250085241256,
+      "alternatives": {
+        "strpos_count": {
+          "prepared_median_ns": 10280.225973236009,
+          "candidate_saving_percent": 90.19882506898178,
+          "gap_ns": 9274.268215340007,
+          "estimated_jobs": 4,
+          "status": "model"
+        },
+        "preg_each_count": {
+          "prepared_median_ns": 17843.92944785276,
+          "candidate_saving_percent": 94.35632085235636,
+          "gap_ns": 16837.971689956757,
+          "estimated_jobs": 2,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "help.link-batch",
+      "title": "Publish eight different help articles using one link glossary",
+      "kind": "product",
+      "operation": "replace",
+      "dictionary_size": 96,
+      "documents_per_job": [
+        8
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 43328.50322997416,
+      "worker_median_ns": 11050.418419744907,
+      "estimated_build_release_ns": 32278.08481022925,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 234706.39649122808,
+          "candidate_saving_percent": 95.28735461532241,
+          "gap_ns": 223655.97807148317,
+          "estimated_jobs": 1,
+          "status": "model"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 71887.43655913978,
+          "candidate_saving_percent": 84.62791156142919,
+          "gap_ns": 60837.01813939487,
+          "estimated_jobs": 1,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "help.link-one",
+      "title": "Link configured support terms in one plain-text help article",
+      "kind": "product",
+      "operation": "replace",
+      "dictionary_size": 96,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 32967.98228346457,
+      "worker_median_ns": 1436.6287258787042,
+      "estimated_build_release_ns": 31531.353557585862,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 29423.973591549297,
+          "candidate_saving_percent": 95.11761847998187,
+          "gap_ns": 27987.34486567059,
+          "estimated_jobs": 2,
+          "status": "model"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 9078.86556345733,
+          "candidate_saving_percent": 84.16350348342027,
+          "gap_ns": 7642.236837578625,
+          "estimated_jobs": 5,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "help.unique",
+      "title": "List the configured support topics mentioned in a help article",
+      "kind": "product",
+      "operation": "unique",
+      "dictionary_size": 96,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 33238.130952380954,
+      "worker_median_ns": 1498.6671144545944,
+      "estimated_build_release_ns": 31739.46383792636,
+      "alternatives": {
+        "strpos_unique": {
+          "prepared_median_ns": 12264.38854768786,
+          "candidate_saving_percent": 87.77163293280985,
+          "gap_ns": 10765.721433233266,
+          "estimated_jobs": 3,
+          "status": "model"
+        },
+        "preg_each_unique": {
+          "prepared_median_ns": 14961.177491103203,
+          "candidate_saving_percent": 89.97777060575861,
+          "gap_ns": 13462.510376648608,
+          "estimated_jobs": 3,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "links.batch",
+      "title": "Migrate eight different content pages with the same URL rules",
+      "kind": "product",
+      "operation": "replace",
+      "dictionary_size": 8,
+      "documents_per_job": [
+        8
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 11071.21784820684,
+      "worker_median_ns": 3135.7419719903805,
+      "estimated_build_release_ns": 7935.475876216458,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 2831.2718233906303,
+          "candidate_saving_percent": -10.86721374564943,
+          "gap_ns": -304.47014859975025,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 2400.4740451260877,
+          "candidate_saving_percent": -30.506320832943047,
+          "gap_ns": -735.2679268642928,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "str_replace": {
+          "prepared_median_ns": 2325.4233034749573,
+          "candidate_saving_percent": -34.96570205546059,
+          "gap_ns": -810.3186685154233,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "links.clean",
+      "title": "Check already-migrated content for old literal links",
+      "kind": "product",
+      "operation": "replace",
+      "dictionary_size": 8,
+      "documents_per_job": [
+        1,
+        1
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 7809.372275603469,
+      "worker_median_ns": 296.4474599368192,
+      "estimated_build_release_ns": 7512.924815666649,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 345.8629505021155,
+          "candidate_saving_percent": 14.267925542066406,
+          "gap_ns": 49.415490565296295,
+          "estimated_jobs": 153,
+          "status": "model"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 193.74573374905626,
+          "candidate_saving_percent": -53.115788437917686,
+          "gap_ns": -102.70172618776294,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "str_replace": {
+          "prepared_median_ns": 249.978238779429,
+          "candidate_saving_percent": -18.541867561003023,
+          "gap_ns": -46.469221157390194,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "links.page",
+      "title": "Rewrite known legacy links in one content page",
+      "kind": "product",
+      "operation": "replace",
+      "dictionary_size": 8,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 8030.7661368015415,
+      "worker_median_ns": 478.6771422854856,
+      "estimated_build_release_ns": 7552.088994516056,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 426.1067420711318,
+          "candidate_saving_percent": -12.37459932240197,
+          "gap_ns": -52.57040021435381,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 388.170883712245,
+          "candidate_saving_percent": -23.342923117970415,
+          "gap_ns": -90.50625857324064,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "str_replace": {
+          "prepared_median_ns": 377.9178228749043,
+          "candidate_saving_percent": -26.762189587534692,
+          "gap_ns": -100.75931941058133,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "moderation.en.body",
+      "title": "Flag a short EN comment: phrase inside the message",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 12,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 6392.630068859985,
+      "worker_median_ns": 314.21152000451656,
+      "estimated_build_release_ns": 6078.4185488554685,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 309.16272989039567,
+          "candidate_saving_percent": -1.6475649385395696,
+          "gap_ns": -5.048790114120891,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "preg_match": {
+          "prepared_median_ns": 311.91767291254524,
+          "candidate_saving_percent": -0.6750996423174005,
+          "gap_ns": -2.2938470919713154,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "moderation.en.clean",
+      "title": "Flag a short EN comment: no configured phrase",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 12,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 6344.952239663094,
+      "worker_median_ns": 233.69884108258154,
+      "estimated_build_release_ns": 6111.253398580512,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 348.32541545873994,
+          "candidate_saving_percent": 32.86080300051779,
+          "gap_ns": 114.6265743761584,
+          "estimated_jobs": 54,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 255.1299765629756,
+          "candidate_saving_percent": 8.55481022919954,
+          "gap_ns": 21.43113548039406,
+          "estimated_jobs": 286,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "moderation.en.end",
+      "title": "Flag a short EN comment: phrase at the end",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 12,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 6400.774635736197,
+      "worker_median_ns": 342.12448927477016,
+      "estimated_build_release_ns": 6058.650146461427,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 293.1049495018193,
+          "candidate_saving_percent": -16.618079205851476,
+          "gap_ns": -49.01953977295085,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "preg_match": {
+          "prepared_median_ns": 327.95874102116096,
+          "candidate_saving_percent": -4.344524869651134,
+          "gap_ns": -14.165748253609195,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "moderation.en.post-clean",
+      "title": "Check a detailed EN support message: no configured phrase",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 12,
+      "documents_per_job": [
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 7482.818192052235,
+      "worker_median_ns": 1324.5228552172534,
+      "estimated_build_release_ns": 6158.295336834981,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 1064.0549913712996,
+          "candidate_saving_percent": -24.473957190644292,
+          "gap_ns": -260.46786384595384,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "preg_match": {
+          "prepared_median_ns": 1189.7476665422155,
+          "candidate_saving_percent": -11.57863300398214,
+          "gap_ns": -134.77518867503795,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "moderation.en.post-reported-phrase",
+      "title": "Check a detailed EN support message: a promotional phrase is quoted",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 12,
+      "documents_per_job": [
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 6705.376811594203,
+      "worker_median_ns": 601.0882030252343,
+      "estimated_build_release_ns": 6104.288608568969,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 598.3023541285905,
+          "candidate_saving_percent": -0.3747929825008489,
+          "gap_ns": -2.7858488966437562,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "preg_match": {
+          "prepared_median_ns": 540.6938065245478,
+          "candidate_saving_percent": -11.069169071157914,
+          "gap_ns": -60.394396500686526,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "moderation.en.start",
+      "title": "Flag a short EN comment: phrase at the start",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 12,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 6198.712081784387,
+      "worker_median_ns": 146.36306848628374,
+      "estimated_build_release_ns": 6052.349013298103,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 282.07415304330203,
+          "candidate_saving_percent": 48.201538500862284,
+          "gap_ns": 135.7110845570183,
+          "estimated_jobs": 45,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 171.45428583211333,
+          "candidate_saving_percent": 14.495973639584648,
+          "gap_ns": 25.09121734582959,
+          "estimated_jobs": 242,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "moderation.ru.body",
+      "title": "Flag a short RU comment: phrase inside the message",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 12,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 11095.471537949401,
+      "worker_median_ns": 466.64495265942634,
+      "estimated_build_release_ns": 10628.826585289975,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 2099.2259410288584,
+          "candidate_saving_percent": 77.7635037131865,
+          "gap_ns": 1632.5809883694321,
+          "estimated_jobs": 7,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 733.0829401485365,
+          "candidate_saving_percent": 36.34573898794411,
+          "gap_ns": 266.4379874891102,
+          "estimated_jobs": 40,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "moderation.ru.clean",
+      "title": "Flag a short RU comment: no configured phrase",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 12,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 10986.79798812665,
+      "worker_median_ns": 337.18400160384925,
+      "estimated_build_release_ns": 10649.6139865228,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 1296.406394989174,
+          "candidate_saving_percent": 73.9856424952955,
+          "gap_ns": 959.2223933853247,
+          "estimated_jobs": 12,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 536.6254497269515,
+          "candidate_saving_percent": 37.18331913650266,
+          "gap_ns": 199.44144812310225,
+          "estimated_jobs": 54,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "moderation.ru.end",
+      "title": "Flag a short RU comment: phrase at the end",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 12,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 11093.37333997344,
+      "worker_median_ns": 459.8064363106369,
+      "estimated_build_release_ns": 10633.566903662802,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 1443.4199649737302,
+          "candidate_saving_percent": 68.17395510909272,
+          "gap_ns": 983.6135286630933,
+          "estimated_jobs": 11,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 738.7613067572399,
+          "candidate_saving_percent": 37.789297359862175,
+          "gap_ns": 278.954870446603,
+          "estimated_jobs": 39,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "moderation.ru.post-clean",
+      "title": "Check a detailed RU support message: no configured phrase",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 12,
+      "documents_per_job": [
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 12859.400503290748,
+      "worker_median_ns": 2276.166803083009,
+      "estimated_build_release_ns": 10583.233700207738,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 3602.356689269185,
+          "candidate_saving_percent": 36.902552000525205,
+          "gap_ns": 1326.189886186176,
+          "estimated_jobs": 8,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 4016.870293391168,
+          "candidate_saving_percent": 43.325213600770994,
+          "gap_ns": 1740.703490308159,
+          "estimated_jobs": 7,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "moderation.ru.post-reported-phrase",
+      "title": "Check a detailed RU support message: a promotional phrase is quoted",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 12,
+      "documents_per_job": [
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 11606.025078369907,
+      "worker_median_ns": 980.9242330383481,
+      "estimated_build_release_ns": 10625.100845331559,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 2014.1123673420163,
+          "candidate_saving_percent": 51.29853088440579,
+          "gap_ns": 1033.1881343036682,
+          "estimated_jobs": 11,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 1629.8642202736228,
+          "candidate_saving_percent": 39.731658231127994,
+          "gap_ns": 648.9399872352747,
+          "estimated_jobs": 17,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "moderation.ru.start",
+      "title": "Flag a short RU comment: phrase at the start",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 12,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 10800.902237354085,
+      "worker_median_ns": 172.2373310810811,
+      "estimated_build_release_ns": 10628.664906273003,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 1456.0195387712236,
+          "candidate_saving_percent": 88.16239662952053,
+          "gap_ns": 1283.7822076901425,
+          "estimated_jobs": 9,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 178.23997944501542,
+          "candidate_saving_percent": 3.182861473058074,
+          "gap_ns": 6.002648363934327,
+          "estimated_jobs": 1771,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "moderation.zh.body",
+      "title": "Flag a short ZH comment: phrase inside the message",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 12,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 11120.174166666666,
+      "worker_median_ns": 234.81444771947304,
+      "estimated_build_release_ns": 10885.359718947193,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 384.1107481381178,
+          "candidate_saving_percent": 38.93168162515821,
+          "gap_ns": 149.29630041864476,
+          "estimated_jobs": 73,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 338.6716191505278,
+          "candidate_saving_percent": 30.72795355265532,
+          "gap_ns": 103.85717143105478,
+          "estimated_jobs": 105,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "moderation.zh.clean",
+      "title": "Flag a short ZH comment: no configured phrase",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 12,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 11036.272156084657,
+      "worker_median_ns": 181.36246957589333,
+      "estimated_build_release_ns": 10854.909686508763,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 351.5357066105046,
+          "candidate_saving_percent": 48.49409923258613,
+          "gap_ns": 170.17323703461125,
+          "estimated_jobs": 64,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 287.2508734970712,
+          "candidate_saving_percent": 36.83843496086051,
+          "gap_ns": 105.88840392117788,
+          "estimated_jobs": 103,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "moderation.zh.end",
+      "title": "Flag a short ZH comment: phrase at the end",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 12,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 11083.150099734043,
+      "worker_median_ns": 231.67529646993933,
+      "estimated_build_release_ns": 10851.474803264104,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 325.28801595826303,
+          "candidate_saving_percent": 28.75630253242819,
+          "gap_ns": 93.6127194883237,
+          "estimated_jobs": 116,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 347.4570283097767,
+          "candidate_saving_percent": 33.357780118136496,
+          "gap_ns": 115.78173183983739,
+          "estimated_jobs": 94,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "moderation.zh.post-clean",
+      "title": "Check a detailed ZH support message: no configured phrase",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 12,
+      "documents_per_job": [
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 11744.660852713178,
+      "worker_median_ns": 758.9951603762893,
+      "estimated_build_release_ns": 10985.665692336888,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 1582.7190708873309,
+          "candidate_saving_percent": 51.99256450324982,
+          "gap_ns": 823.7239105110416,
+          "estimated_jobs": 14,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 1681.3781728470422,
+          "candidate_saving_percent": 54.776357277879626,
+          "gap_ns": 922.3830124707529,
+          "estimated_jobs": 12,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "moderation.zh.post-reported-phrase",
+      "title": "Check a detailed ZH support message: a promotional phrase is quoted",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 12,
+      "documents_per_job": [
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 11238.256747638326,
+      "worker_median_ns": 395.79895746529314,
+      "estimated_build_release_ns": 10842.457790173034,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 929.9041028036061,
+          "candidate_saving_percent": 57.49556154922051,
+          "gap_ns": 534.1051453383129,
+          "estimated_jobs": 21,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 673.8182173532891,
+          "candidate_saving_percent": 41.15878492210785,
+          "gap_ns": 278.019259887996,
+          "estimated_jobs": 39,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "moderation.zh.start",
+      "title": "Flag a short ZH comment: phrase at the start",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 12,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 10990.429161162483,
+      "worker_median_ns": 148.05411650997277,
+      "estimated_build_release_ns": 10842.37504465251,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 296.5254619889193,
+          "candidate_saving_percent": 50.10618924440588,
+          "gap_ns": 148.47134547894652,
+          "estimated_jobs": 74,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 167.37916006339145,
+          "candidate_saving_percent": 11.572951215280336,
+          "gap_ns": 19.32504355341868,
+          "estimated_jobs": 562,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "punctuation.clean",
+      "title": "Leave ordinary ASCII customer text unchanged",
+      "kind": "product",
+      "operation": "replace",
+      "dictionary_size": 8,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 1525.6776399203043,
+      "worker_median_ns": 259.0150124069479,
+      "estimated_build_release_ns": 1266.6626275133563,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 199.84632679280543,
+          "candidate_saving_percent": -29.619178227322806,
+          "gap_ns": -59.168685614142476,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 170.10099561085607,
+          "candidate_saving_percent": -52.26591188388097,
+          "gap_ns": -88.91401679609183,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "str_replace": {
+          "prepared_median_ns": 189.85001702514046,
+          "candidate_saving_percent": -36.654878784973796,
+          "gap_ns": -69.16499538180744,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "punctuation.mixed",
+      "title": "Normalize quotes, dashes and spaces in imported customer text",
+      "kind": "product",
+      "operation": "replace",
+      "dictionary_size": 8,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 1703.0498912593207,
+      "worker_median_ns": 419.7790409725349,
+      "estimated_build_release_ns": 1283.2708502867858,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 295.03891821729735,
+          "candidate_saving_percent": -42.35719943279377,
+          "gap_ns": -124.74012275523756,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 556.8083551769331,
+          "candidate_saving_percent": 24.67466623345469,
+          "gap_ns": 137.0293142043982,
+          "estimated_jobs": 10,
+          "status": "model"
+        },
+        "str_replace": {
+          "prepared_median_ns": 330.03492856861743,
+          "candidate_saving_percent": -27.192307430350905,
+          "gap_ns": -89.74411240391748,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "secrets.clean",
+      "title": "Mask registered secrets in a log excerpt with no leaked token",
+      "kind": "product",
+      "operation": "replace",
+      "dictionary_size": 24,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 25404.343701996928,
+      "worker_median_ns": 10433.377732667082,
+      "estimated_build_release_ns": 14970.965969329845,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 5957.740330021292,
+          "candidate_saving_percent": -75.08944751075428,
+          "gap_ns": -4475.637402645791,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 492.76680196476366,
+          "candidate_saving_percent": -2015.1854618874318,
+          "gap_ns": -9940.610930702318,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "str_replace": {
+          "prepared_median_ns": 11279.663746630727,
+          "candidate_saving_percent": 7.481442972411633,
+          "gap_ns": 846.286013963645,
+          "estimated_jobs": 18,
+          "status": "model"
+        },
+        "preg_replace": {
+          "prepared_median_ns": 471.21172926008967,
+          "candidate_saving_percent": -2111.310365548814,
+          "gap_ns": -9962.166003406994,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "secrets.incident-batch",
+      "title": "Mask three registered secrets in a larger incident log batch",
+      "kind": "product",
+      "operation": "replace",
+      "dictionary_size": 24,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 152875.3394495413,
+      "worker_median_ns": 137312.13524590165,
+      "estimated_build_release_ns": 15563.204203639645,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 72799.92434210527,
+          "candidate_saving_percent": -88.61754532855639,
+          "gap_ns": -64512.21090379638,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 4341.246841527053,
+          "candidate_saving_percent": -3059.2536808119617,
+          "gap_ns": -132970.8884043746,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "str_replace": {
+          "prepared_median_ns": 146896.3355263158,
+          "candidate_saving_percent": 6.6125638314953665,
+          "gap_ns": 9584.200280414138,
+          "estimated_jobs": 2,
+          "status": "model"
+        },
+        "preg_replace": {
+          "prepared_median_ns": 3946.0952296401515,
+          "candidate_saving_percent": -3378.659884467126,
+          "gap_ns": -133366.0400162615,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "secrets.one",
+      "title": "Mask one registered secret in a request log excerpt",
+      "kind": "product",
+      "operation": "replace",
+      "dictionary_size": 24,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 26575.73322683706,
+      "worker_median_ns": 11433.721443228455,
+      "estimated_build_release_ns": 15142.011783608605,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 6099.603059728838,
+          "candidate_saving_percent": -87.3999521418438,
+          "gap_ns": -5334.118383499616,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 728.4354637140978,
+          "candidate_saving_percent": -1469.1526917948709,
+          "gap_ns": -10705.285979514356,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "str_replace": {
+          "prepared_median_ns": 12012.931053008597,
+          "candidate_saving_percent": 4.848148354879678,
+          "gap_ns": 579.2096097801423,
+          "estimated_jobs": 27,
+          "status": "model"
+        },
+        "preg_replace": {
+          "prepared_median_ns": 584.571310072646,
+          "candidate_saving_percent": -1856.520362838359,
+          "gap_ns": -10849.150133155808,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "secrets.three",
+      "title": "Mask three registered secrets in an incident log excerpt",
+      "kind": "product",
+      "operation": "replace",
+      "dictionary_size": 24,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 32842.78929273084,
+      "worker_median_ns": 17782.147823779193,
+      "estimated_build_release_ns": 15060.64146895165,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 9252.26649113082,
+          "candidate_saving_percent": -92.14535564146085,
+          "gap_ns": -8529.881332648372,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 1143.2569581826865,
+          "candidate_saving_percent": -1455.097950634838,
+          "gap_ns": -16638.890865596506,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "str_replace": {
+          "prepared_median_ns": 19566.52716121495,
+          "candidate_saving_percent": 9.193400395798545,
+          "gap_ns": 1784.3793374357592,
+          "estimated_jobs": 9,
+          "status": "model"
+        },
+        "preg_replace": {
+          "prepared_median_ns": 814.8149207746479,
+          "candidate_saving_percent": -2081.6809127966403,
+          "gap_ns": -16967.332903004546,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "spaces.mixed",
+      "title": "Replace four special space characters with ordinary spaces",
+      "kind": "product",
+      "operation": "replace",
+      "dictionary_size": 4,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 922.5008201007892,
+      "worker_median_ns": 241.95175268260408,
+      "estimated_build_release_ns": 680.5490674181851,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 211.92580006115116,
+          "candidate_saving_percent": -14.307466418936299,
+          "gap_ns": -30.025952621452916,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 374.9296603519785,
+          "candidate_saving_percent": 35.41780504469585,
+          "gap_ns": 132.97790766937442,
+          "estimated_jobs": 6,
+          "status": "model"
+        },
+        "str_replace": {
+          "prepared_median_ns": 217.7679199648197,
+          "candidate_saving_percent": -11.082201517439682,
+          "gap_ns": -24.183832717784384,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "preg_replace": {
+          "prepared_median_ns": 207.187753876257,
+          "candidate_saving_percent": -16.817180782520545,
+          "gap_ns": -34.763998806347075,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "tenant.notice",
+      "title": "Expand fixed tenant labels in one shop notice",
+      "kind": "product",
+      "operation": "replace",
+      "dictionary_size": 6,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 2048.051955671447,
+      "worker_median_ns": 548.5402833475774,
+      "estimated_build_release_ns": 1499.5116723238698,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 336.59325230092037,
+          "candidate_saving_percent": -63.02340542406577,
+          "gap_ns": -211.94703104665706,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 485.07962946792406,
+          "candidate_saving_percent": -13.155709798176662,
+          "gap_ns": -63.460653879653364,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "str_replace": {
+          "prepared_median_ns": 305.92929353215555,
+          "candidate_saving_percent": -79.3546408259483,
+          "gap_ns": -242.61098981542187,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "product",
+      "case": "tenant.pages",
+      "title": "Publish eight different shop pages using one tenant configuration",
+      "kind": "product",
+      "operation": "replace",
+      "dictionary_size": 6,
+      "documents_per_job": [
+        8
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 5239.4169155793115,
+      "worker_median_ns": 3745.5169647334114,
+      "estimated_build_release_ns": 1493.8999508459,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 2084.4028481403684,
+          "candidate_saving_percent": -79.45375510174983,
+          "gap_ns": -1661.114116593043,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 3098.5254545454545,
+          "candidate_saving_percent": -20.873333355003698,
+          "gap_ns": -646.9915101879569,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "str_replace": {
+          "prepared_median_ns": 1759.0127164288904,
+          "candidate_saving_percent": -113.20092592264608,
+          "gap_ns": -1986.504248304521,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "moderation.en.clean",
+      "title": "Flag a short EN comment: no configured phrase",
+      "kind": "control",
+      "operation": "any",
+      "dictionary_size": 12,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 6302.812405303031,
+      "worker_median_ns": 234.61036130146528,
+      "estimated_build_release_ns": 6068.202044001565,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 335.0461114482201,
+          "candidate_saving_percent": 30.068646871921246,
+          "gap_ns": 100.4357501467548,
+          "estimated_jobs": 61,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 254.9755332686947,
+          "candidate_saving_percent": 7.930540723164004,
+          "gap_ns": 20.36517196722943,
+          "estimated_jobs": 298,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.message.absent.128",
+      "title": "Check a detailed support message",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 128,
+      "documents_per_job": [
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 59757.17415730337,
+      "worker_median_ns": 1390.9759302059258,
+      "estimated_build_release_ns": 58366.19822709745,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 13367.461554710604,
+          "candidate_saving_percent": 89.60243194277501,
+          "gap_ns": 11976.485624504678,
+          "estimated_jobs": 5,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 27839.510025062656,
+          "candidate_saving_percent": 95.00315246508244,
+          "gap_ns": 26448.534094856732,
+          "estimated_jobs": 3,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.message.absent.16",
+      "title": "Check a detailed support message",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 16,
+      "documents_per_job": [
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 5772.804719917012,
+      "worker_median_ns": 770.890881075781,
+      "estimated_build_release_ns": 5001.913838841231,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 1577.669683684533,
+          "candidate_saving_percent": 51.126720555368685,
+          "gap_ns": 806.7788026087521,
+          "estimated_jobs": 7,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 2583.306683784625,
+          "candidate_saving_percent": 70.07913596498646,
+          "gap_ns": 1812.415802708844,
+          "estimated_jobs": 3,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.message.absent.256",
+      "title": "Check a detailed support message",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 256,
+      "documents_per_job": [
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 154923.95632183907,
+      "worker_median_ns": 1424.3355200305714,
+      "estimated_build_release_ns": 153499.6208018085,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 29885.123275478414,
+          "candidate_saving_percent": 95.23136556020164,
+          "gap_ns": 28460.787755447844,
+          "estimated_jobs": 6,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 54954.79506172839,
+          "candidate_saving_percent": 97.40766664810614,
+          "gap_ns": 53530.45954169782,
+          "estimated_jobs": 3,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.message.absent.32",
+      "title": "Check a detailed support message",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 32,
+      "documents_per_job": [
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 13839.359725685785,
+      "worker_median_ns": 1361.3993806788087,
+      "estimated_build_release_ns": 12477.960345006975,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 3519.556298228453,
+          "candidate_saving_percent": 61.33145159389839,
+          "gap_ns": 2158.1569175496443,
+          "estimated_jobs": 6,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 6558.107368006305,
+          "candidate_saving_percent": 79.25397752791719,
+          "gap_ns": 5196.707987327496,
+          "estimated_jobs": 3,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.message.absent.512",
+      "title": "Check a detailed support message",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 512,
+      "documents_per_job": [
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 295949.8640350877,
+      "worker_median_ns": 1486.6971898256136,
+      "estimated_build_release_ns": 294463.1668452621,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 67916.24242424243,
+          "candidate_saving_percent": 97.81095098117395,
+          "gap_ns": 66429.54523441682,
+          "estimated_jobs": 5,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 186281.49859943977,
+          "candidate_saving_percent": 99.20157700879119,
+          "gap_ns": 184794.80140961416,
+          "estimated_jobs": 2,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.message.absent.64",
+      "title": "Check a detailed support message",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 64,
+      "documents_per_job": [
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 27300.4081799591,
+      "worker_median_ns": 1372.7012822903073,
+      "estimated_build_release_ns": 25927.70689766879,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 6870.690542925361,
+          "candidate_saving_percent": 80.001008070186,
+          "gap_ns": 5497.989260635054,
+          "estimated_jobs": 5,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 13545.490124210955,
+          "candidate_saving_percent": 89.866284220792,
+          "gap_ns": 12172.788841920648,
+          "estimated_jobs": 3,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.message.absent.8",
+      "title": "Check a detailed support message",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 8,
+      "documents_per_job": [
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 3014.7195688449915,
+      "worker_median_ns": 811.3735107591921,
+      "estimated_build_release_ns": 2203.3460580857995,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 935.1366945835613,
+          "candidate_saving_percent": 13.333040661132822,
+          "gap_ns": 123.76318382436921,
+          "estimated_jobs": 18,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 1066.153399987182,
+          "candidate_saving_percent": 23.907912635864204,
+          "gap_ns": 254.77988922798988,
+          "estimated_jobs": 9,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.message.quoted.128",
+      "title": "Check a detailed support message",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 128,
+      "documents_per_job": [
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 58465.608923884516,
+      "worker_median_ns": 576.1728863099075,
+      "estimated_build_release_ns": 57889.43603757461,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 5445.089279814998,
+          "candidate_saving_percent": 89.41970199909915,
+          "gap_ns": 4868.91639350509,
+          "estimated_jobs": 12,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 10323.539261328368,
+          "candidate_saving_percent": 94.41810600753404,
+          "gap_ns": 9747.36637501846,
+          "estimated_jobs": 6,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.message.quoted.16",
+      "title": "Check a detailed support message",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 16,
+      "documents_per_job": [
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 5334.1426293550185,
+      "worker_median_ns": 367.4662071922043,
+      "estimated_build_release_ns": 4966.676422162815,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 562.905358457873,
+          "candidate_saving_percent": 34.68668313627894,
+          "gap_ns": 195.43915126566873,
+          "estimated_jobs": 26,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 852.179665756025,
+          "candidate_saving_percent": 56.85385722191161,
+          "gap_ns": 484.71345856382067,
+          "estimated_jobs": 11,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.message.quoted.256",
+      "title": "Check a detailed support message",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 256,
+      "documents_per_job": [
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 153392.76551724138,
+      "worker_median_ns": 586.2796627165791,
+      "estimated_build_release_ns": 152806.4858545248,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 11504.179910560715,
+          "candidate_saving_percent": 94.89992316021497,
+          "gap_ns": 10917.900247844136,
+          "estimated_jobs": 14,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 20408.797487745098,
+          "candidate_saving_percent": 97.12569218508632,
+          "gap_ns": 19822.517825028517,
+          "estimated_jobs": 8,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.message.quoted.32",
+      "title": "Check a detailed support message",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 32,
+      "documents_per_job": [
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 13073.11843137255,
+      "worker_median_ns": 575.5263330146672,
+      "estimated_build_release_ns": 12497.592098357884,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 1306.5673522001523,
+          "candidate_saving_percent": 55.939428537547386,
+          "gap_ns": 731.0410191854851,
+          "estimated_jobs": 18,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 2422.5297301224073,
+          "candidate_saving_percent": 76.23413483145463,
+          "gap_ns": 1847.00339710774,
+          "estimated_jobs": 7,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.message.quoted.512",
+      "title": "Check a detailed support message",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 512,
+      "documents_per_job": [
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 295349.1798245614,
+      "worker_median_ns": 592.194878725246,
+      "estimated_build_release_ns": 294756.9849458362,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 25043.417231000753,
+          "candidate_saving_percent": 97.63460447795535,
+          "gap_ns": 24451.222352275505,
+          "estimated_jobs": 13,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 74502.49134948097,
+          "candidate_saving_percent": 99.20699469681857,
+          "gap_ns": 73910.29647075573,
+          "estimated_jobs": 4,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.message.quoted.64",
+      "title": "Check a detailed support message",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 64,
+      "documents_per_job": [
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 26525.744204636292,
+      "worker_median_ns": 576.4964498277122,
+      "estimated_build_release_ns": 25949.24775480858,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 2826.2847231256233,
+          "candidate_saving_percent": 79.58302727637682,
+          "gap_ns": 2249.788273297911,
+          "estimated_jobs": 12,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 5062.779975746552,
+          "candidate_saving_percent": 88.60622782934573,
+          "gap_ns": 4486.28352591884,
+          "estimated_jobs": 6,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.message.quoted.8",
+      "title": "Check a detailed support message",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 8,
+      "documents_per_job": [
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 2579.0929936305733,
+      "worker_median_ns": 374.2236564923132,
+      "estimated_build_release_ns": 2204.86933713826,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 390.47365077184605,
+          "candidate_saving_percent": 4.204635661515543,
+          "gap_ns": 16.24999427953287,
+          "estimated_jobs": 136,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 496.6803012304727,
+          "candidate_saving_percent": 24.668204018651508,
+          "gap_ns": 122.45664473815953,
+          "estimated_jobs": 19,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.short.absent.128",
+      "title": "Check a short comment",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 128,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 58268.647569444445,
+      "worker_median_ns": 244.27813498982854,
+      "estimated_build_release_ns": 58024.36943445462,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 2951.252566109951,
+          "candidate_saving_percent": 91.75387391948222,
+          "gap_ns": 2706.9744311201225,
+          "estimated_jobs": 22,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 2983.1766624955308,
+          "candidate_saving_percent": 91.81423149578801,
+          "gap_ns": 2738.898527505702,
+          "estimated_jobs": 22,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.short.absent.16",
+      "title": "Check a short comment",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 16,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 5203.113593455003,
+      "worker_median_ns": 189.14851396246746,
+      "estimated_build_release_ns": 5013.965079492536,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 438.0182647808226,
+          "candidate_saving_percent": 56.81720851135867,
+          "gap_ns": 248.86975081835516,
+          "estimated_jobs": 21,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 348.6903163900415,
+          "candidate_saving_percent": 45.75518474652141,
+          "gap_ns": 159.54180242757405,
+          "estimated_jobs": 32,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.short.absent.256",
+      "title": "Check a short comment",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 256,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 152715.7318181818,
+      "worker_median_ns": 250.93727919161677,
+      "estimated_build_release_ns": 152464.7945389902,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 6888.427023121388,
+          "candidate_saving_percent": 96.35440121052903,
+          "gap_ns": 6637.489743929771,
+          "estimated_jobs": 23,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 6060.567398403483,
+          "candidate_saving_percent": 95.85827171318051,
+          "gap_ns": 5809.630119211866,
+          "estimated_jobs": 27,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.short.absent.32",
+      "title": "Check a short comment",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 32,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 12839.429531490016,
+      "worker_median_ns": 235.3706432059269,
+      "estimated_build_release_ns": 12604.05888828409,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 757.659243498818,
+          "candidate_saving_percent": 68.92496429637949,
+          "gap_ns": 522.288600292891,
+          "estimated_jobs": 25,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 753.6375607779579,
+          "candidate_saving_percent": 68.76880539701966,
+          "gap_ns": 518.2669175720309,
+          "estimated_jobs": 25,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.short.absent.512",
+      "title": "Check a short comment",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 512,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 295061.9439655172,
+      "worker_median_ns": 257.2147966751128,
+      "estimated_build_release_ns": 294804.7291688421,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 16192.249755381605,
+          "candidate_saving_percent": 98.4104241716923,
+          "gap_ns": 15935.034958706492,
+          "estimated_jobs": 19,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 19433.247679814383,
+          "candidate_saving_percent": 98.67495069891513,
+          "gap_ns": 19176.03288313927,
+          "estimated_jobs": 16,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.short.absent.64",
+      "title": "Check a short comment",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 64,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 26274.403785488958,
+      "worker_median_ns": 236.7489229296314,
+      "estimated_build_release_ns": 26037.654862559328,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 1432.519993135404,
+          "candidate_saving_percent": 83.47583248504714,
+          "gap_ns": 1195.7710702057727,
+          "estimated_jobs": 22,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 1484.715772228126,
+          "candidate_saving_percent": 84.06214225673627,
+          "gap_ns": 1247.9668492984947,
+          "estimated_jobs": 21,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.short.absent.8",
+      "title": "Check a short comment",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 8,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 2377.0768765993744,
+      "worker_median_ns": 187.70017439793833,
+      "estimated_build_release_ns": 2189.3767022014363,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 287.1685166666667,
+          "candidate_saving_percent": 34.58856251161132,
+          "gap_ns": 99.46834226872835,
+          "estimated_jobs": 23,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 238.8488489528121,
+          "candidate_saving_percent": 21.392685884758055,
+          "gap_ns": 51.148674554873764,
+          "estimated_jobs": 43,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.short.end.128",
+      "title": "Check a short comment",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 128,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 58869.173713235294,
+      "worker_median_ns": 293.83846526798305,
+      "estimated_build_release_ns": 58575.33524796731,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 1673.0897489105623,
+          "candidate_saving_percent": 82.41381496916466,
+          "gap_ns": 1379.2512836425792,
+          "estimated_jobs": 43,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 3958.5845028544245,
+          "candidate_saving_percent": 92.57222640319831,
+          "gap_ns": 3664.7460375864416,
+          "estimated_jobs": 16,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.short.end.16",
+      "title": "Check a short comment",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 16,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 5449.173554368322,
+      "worker_median_ns": 227.80224826483027,
+      "estimated_build_release_ns": 5221.371306103491,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 295.1777676452881,
+          "candidate_saving_percent": 22.937045983770965,
+          "gap_ns": 67.37551938045783,
+          "estimated_jobs": 78,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 446.6698598372973,
+          "candidate_saving_percent": 49.107966800984016,
+          "gap_ns": 218.867611572467,
+          "estimated_jobs": 24,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.short.end.256",
+      "title": "Check a short comment",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 256,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 152778.98636363636,
+      "worker_median_ns": 300.28799247020197,
+      "estimated_build_release_ns": 152478.69837116616,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 3545.159845600677,
+          "candidate_saving_percent": 91.50987040741035,
+          "gap_ns": 3244.871853130475,
+          "estimated_jobs": 47,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 7872.906515580737,
+          "candidate_saving_percent": 96.18443361226798,
+          "gap_ns": 7572.618523110535,
+          "estimated_jobs": 21,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.short.end.32",
+      "title": "Check a short comment",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 32,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 12785.660548686245,
+      "worker_median_ns": 282.6024031986532,
+      "estimated_build_release_ns": 12503.058145487592,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 484.4859817140212,
+          "candidate_saving_percent": 41.7191651761463,
+          "gap_ns": 201.88357851536801,
+          "estimated_jobs": 62,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 992.8484771724878,
+          "candidate_saving_percent": 71.56345357089484,
+          "gap_ns": 710.2460739738347,
+          "estimated_jobs": 18,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.short.end.512",
+      "title": "Check a short comment",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 512,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 294902.8965517241,
+      "worker_median_ns": 310.7185549575812,
+      "estimated_build_release_ns": 294592.1779967665,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 8939.905660377359,
+          "candidate_saving_percent": 96.52431870690674,
+          "gap_ns": 8629.187105419778,
+          "estimated_jobs": 35,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 26872.23167752443,
+          "candidate_saving_percent": 98.84363277499108,
+          "gap_ns": 26561.51312256685,
+          "estimated_jobs": 12,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.short.end.64",
+      "title": "Check a short comment",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 64,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 26165.704795597485,
+      "worker_median_ns": 285.9107982020023,
+      "estimated_build_release_ns": 25879.79399739548,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 907.2173320484582,
+          "candidate_saving_percent": 68.44776281851767,
+          "gap_ns": 621.3065338464559,
+          "estimated_jobs": 42,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 1982.205880607643,
+          "candidate_saving_percent": 85.58109918326599,
+          "gap_ns": 1696.2950824056406,
+          "estimated_jobs": 16,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.short.end.8",
+      "title": "Check a short comment",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 8,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 2429.2220725313136,
+      "worker_median_ns": 220.92243380103386,
+      "estimated_build_release_ns": 2208.2996387302796,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 217.93286329985503,
+          "candidate_saving_percent": -1.5667487397963864,
+          "gap_ns": -2.9895705011788323,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "preg_match": {
+          "prepared_median_ns": 275.45393124461816,
+          "candidate_saving_percent": 19.856485848846926,
+          "gap_ns": 54.5314974435843,
+          "estimated_jobs": 41,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.short.middle.128",
+      "title": "Check a short comment",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 128,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 57947.01379310345,
+      "worker_median_ns": 281.6476254631189,
+      "estimated_build_release_ns": 57665.36616764033,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 2132.7854044399082,
+          "candidate_saving_percent": 86.80593172926187,
+          "gap_ns": 1851.1377789767894,
+          "estimated_jobs": 32,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 3655.2143722466963,
+          "candidate_saving_percent": 92.29964163719835,
+          "gap_ns": 3373.5667467835774,
+          "estimated_jobs": 18,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.short.middle.16",
+      "title": "Check a short comment",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 16,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 5269.661843769766,
+      "worker_median_ns": 217.24349573046462,
+      "estimated_build_release_ns": 5052.418348039301,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 335.75761659600244,
+          "candidate_saving_percent": 35.318771155250225,
+          "gap_ns": 118.51412086553782,
+          "estimated_jobs": 43,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 422.0523622441319,
+          "candidate_saving_percent": 48.50010143388593,
+          "gap_ns": 204.8088665136673,
+          "estimated_jobs": 25,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.short.middle.256",
+      "title": "Check a short comment",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 256,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 153093.30454545454,
+      "worker_median_ns": 289.7695364180767,
+      "estimated_build_release_ns": 152803.53500903645,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 4525.41027027027,
+          "candidate_saving_percent": 93.60101645620858,
+          "gap_ns": 4235.640733852194,
+          "estimated_jobs": 37,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 7233.39158716392,
+          "candidate_saving_percent": 95.99364367463069,
+          "gap_ns": 6943.622050745844,
+          "estimated_jobs": 23,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.short.middle.32",
+      "title": "Check a short comment",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 32,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 12768.765696784074,
+      "worker_median_ns": 271.38279835058216,
+      "estimated_build_release_ns": 12497.382898433492,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 573.7458948243608,
+          "candidate_saving_percent": 52.68548569336069,
+          "gap_ns": 302.3630964737786,
+          "estimated_jobs": 42,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 952.3937857142857,
+          "candidate_saving_percent": 71.49807124007476,
+          "gap_ns": 681.0109873637036,
+          "estimated_jobs": 19,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.short.middle.512",
+      "title": "Check a short comment",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 512,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 294838.2887931034,
+      "worker_median_ns": 299.2888355600129,
+      "estimated_build_release_ns": 294538.9999575434,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 11623.208928571428,
+          "candidate_saving_percent": 97.42601840598002,
+          "gap_ns": 11323.920093011415,
+          "estimated_jobs": 27,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 22568.79615902965,
+          "candidate_saving_percent": 98.67354257090443,
+          "gap_ns": 22269.50732346964,
+          "estimated_jobs": 14,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.short.middle.64",
+      "title": "Check a short comment",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 64,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 26318.97042586751,
+      "worker_median_ns": 275.33088307601537,
+      "estimated_build_release_ns": 26043.639542791494,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 1106.1583619891549,
+          "candidate_saving_percent": 75.11371102133654,
+          "gap_ns": 830.8274789131394,
+          "estimated_jobs": 32,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 1858.5313963863484,
+          "candidate_saving_percent": 85.18091379994466,
+          "gap_ns": 1583.200513310333,
+          "estimated_jobs": 17,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.short.middle.8",
+      "title": "Check a short comment",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 8,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 2420.631781259066,
+      "worker_median_ns": 212.0352177826674,
+      "estimated_build_release_ns": 2208.5965634763984,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 237.1526024457059,
+          "candidate_saving_percent": 10.550204460907908,
+          "gap_ns": 25.117384663038507,
+          "estimated_jobs": 88,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 277.5999494597998,
+          "candidate_saving_percent": 23.601437019669923,
+          "gap_ns": 65.56473167713241,
+          "estimated_jobs": 34,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.short.start.128",
+      "title": "Check a short comment",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 128,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 58472.80948275862,
+      "worker_median_ns": 126.5585582359593,
+      "estimated_build_release_ns": 58346.25092452266,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 1645.7257543103449,
+          "candidate_saving_percent": 92.31476812891411,
+          "gap_ns": 1519.1671960743856,
+          "estimated_jobs": 39,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 269.2549006207185,
+          "candidate_saving_percent": 52.988315037286405,
+          "gap_ns": 142.6963423847592,
+          "estimated_jobs": 409,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.short.start.16",
+      "title": "Check a short comment",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 16,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 5085.81211750306,
+      "worker_median_ns": 126.53599450032131,
+      "estimated_build_release_ns": 4959.276123002739,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 280.8285017174186,
+          "candidate_saving_percent": 54.81093933894656,
+          "gap_ns": 154.2925072170973,
+          "estimated_jobs": 33,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 164.84451446240558,
+          "candidate_saving_percent": 23.197496294244246,
+          "gap_ns": 38.308519962084276,
+          "estimated_jobs": 130,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.short.start.256",
+      "title": "Check a short comment",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 256,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 152237.45,
+      "worker_median_ns": 128.46116113959079,
+      "estimated_build_release_ns": 152108.98883886042,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 3473.76465,
+          "candidate_saving_percent": 96.32817941831007,
+          "gap_ns": 3345.3034888604093,
+          "estimated_jobs": 46,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 391.47625691828284,
+          "candidate_saving_percent": 67.2571056696105,
+          "gap_ns": 263.01509577869206,
+          "estimated_jobs": 579,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.short.start.32",
+      "title": "Check a short comment",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 32,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 12551.661039453718,
+      "worker_median_ns": 126.12295633200824,
+      "estimated_build_release_ns": 12425.53808312171,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 473.95544219604307,
+          "candidate_saving_percent": 73.40897032593776,
+          "gap_ns": 347.8324858640348,
+          "estimated_jobs": 36,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 179.38024090619018,
+          "candidate_saving_percent": 29.77961523749052,
+          "gap_ns": 53.25728457418194,
+          "estimated_jobs": 234,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.short.start.512",
+      "title": "Check a short comment",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 512,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 295204.1939655172,
+      "worker_median_ns": 126.65641261269438,
+      "estimated_build_release_ns": 295077.5375529045,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 8705.183569979716,
+          "candidate_saving_percent": 98.53974316697882,
+          "gap_ns": 8578.527157367022,
+          "estimated_jobs": 35,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 649.0402888561914,
+          "candidate_saving_percent": 80.47675187947783,
+          "gap_ns": 522.3838762434971,
+          "estimated_jobs": 565,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.short.start.64",
+      "title": "Check a short comment",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 64,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 26088.57398753894,
+      "worker_median_ns": 127.86847659823343,
+      "estimated_build_release_ns": 25960.70551094071,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 874.1187401986409,
+          "candidate_saving_percent": 85.29463294003719,
+          "gap_ns": 746.2502636004075,
+          "estimated_jobs": 35,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 213.1217583312453,
+          "candidate_saving_percent": 39.979953117206534,
+          "gap_ns": 85.25328173301187,
+          "estimated_jobs": 305,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.moderation.short.start.8",
+      "title": "Check a short comment",
+      "kind": "product",
+      "operation": "any",
+      "dictionary_size": 8,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 2450.0392612174905,
+      "worker_median_ns": 128.47680798479087,
+      "estimated_build_release_ns": 2321.5624532326997,
+      "alternatives": {
+        "contains_loop": {
+          "prepared_median_ns": 204.82703662810235,
+          "candidate_saving_percent": 37.22590122216079,
+          "gap_ns": 76.35022864331148,
+          "estimated_jobs": 31,
+          "status": "model"
+        },
+        "preg_match": {
+          "prepared_median_ns": 160.91499043519846,
+          "candidate_saving_percent": 20.123290122648896,
+          "gap_ns": 32.438182450407595,
+          "estimated_jobs": 72,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.replace.articles1.128",
+      "title": "Add support links to a help article",
+      "kind": "product",
+      "operation": "replace",
+      "dictionary_size": 128,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 46884.28245856354,
+      "worker_median_ns": 1463.579185619314,
+      "estimated_build_release_ns": 45420.70327294422,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 37992.38465909091,
+          "candidate_saving_percent": 96.14848718351217,
+          "gap_ns": 36528.80547347159,
+          "estimated_jobs": 2,
+          "status": "model"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 11005.840579710144,
+          "candidate_saving_percent": 86.70603378790729,
+          "gap_ns": 9542.26139409083,
+          "estimated_jobs": 5,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.replace.articles1.16",
+      "title": "Add support links to a help article",
+      "kind": "product",
+      "operation": "replace",
+      "dictionary_size": 16,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 6168.448453608247,
+      "worker_median_ns": 1207.7395395213923,
+      "estimated_build_release_ns": 4960.708914086855,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 7944.773747637051,
+          "candidate_saving_percent": 84.78950113372832,
+          "gap_ns": 6737.034208115659,
+          "estimated_jobs": 1,
+          "status": "model"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 1997.205024887414,
+          "candidate_saving_percent": 39.48771118562622,
+          "gap_ns": 789.4654853660218,
+          "estimated_jobs": 7,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.replace.articles1.256",
+      "title": "Add support links to a help article",
+      "kind": "product",
+      "operation": "replace",
+      "dictionary_size": 256,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 115259.24657534246,
+      "worker_median_ns": 1544.71961709212,
+      "estimated_build_release_ns": 113714.52695825034,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 41684.24751243781,
+          "candidate_saving_percent": 96.29656065064248,
+          "gap_ns": 40139.52789534569,
+          "estimated_jobs": 3,
+          "status": "model"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 22733.716621253407,
+          "candidate_saving_percent": 93.20533688193127,
+          "gap_ns": 21188.997004161287,
+          "estimated_jobs": 6,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.replace.articles1.32",
+      "title": "Add support links to a help article",
+      "kind": "product",
+      "operation": "replace",
+      "dictionary_size": 32,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 10672.265605095541,
+      "worker_median_ns": 1307.3243507509387,
+      "estimated_build_release_ns": 9364.941254344601,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 16771.884127789046,
+          "candidate_saving_percent": 92.20319746968725,
+          "gap_ns": 15464.559777038106,
+          "estimated_jobs": 1,
+          "status": "model"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 3812.587882594792,
+          "candidate_saving_percent": 65.72093152348357,
+          "gap_ns": 2505.2635318438533,
+          "estimated_jobs": 4,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.replace.articles1.512",
+      "title": "Add support links to a help article",
+      "kind": "product",
+      "operation": "replace",
+      "dictionary_size": 512,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 292480.8577586207,
+      "worker_median_ns": 1595.2428346981528,
+      "estimated_build_release_ns": 290885.6149239225,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 42518.90178571428,
+          "candidate_saving_percent": 96.24866164230689,
+          "gap_ns": 40923.65895101613,
+          "estimated_jobs": 8,
+          "status": "model"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 68419.91905737705,
+          "candidate_saving_percent": 97.66963329392794,
+          "gap_ns": 66824.6762226789,
+          "estimated_jobs": 5,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.replace.articles1.64",
+      "title": "Add support links to a help article",
+      "kind": "product",
+      "operation": "replace",
+      "dictionary_size": 64,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 20033.22966507177,
+      "worker_median_ns": 1390.1154485049833,
+      "estimated_build_release_ns": 18643.114216566784,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 31144.32042910448,
+          "candidate_saving_percent": 95.54068454270312,
+          "gap_ns": 29754.204980599494,
+          "estimated_jobs": 1,
+          "status": "model"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 6924.547342192691,
+          "candidate_saving_percent": 79.9357047865127,
+          "gap_ns": 5534.431893687708,
+          "estimated_jobs": 4,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.replace.articles1.8",
+      "title": "Add support links to a help article",
+      "kind": "product",
+      "operation": "replace",
+      "dictionary_size": 8,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 3603.3034248055314,
+      "worker_median_ns": 1144.2636475578054,
+      "estimated_build_release_ns": 2459.0397772477263,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 4464.2269841269845,
+          "candidate_saving_percent": 74.34955628884782,
+          "gap_ns": 3319.963336569179,
+          "estimated_jobs": 1,
+          "status": "model"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 713.1132561535252,
+          "candidate_saving_percent": -60.62157248955029,
+          "gap_ns": -431.1503914042802,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.replace.articles8.128",
+      "title": "Publish eight help articles",
+      "kind": "product",
+      "operation": "replace",
+      "dictionary_size": 128,
+      "documents_per_job": [
+        8
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 60375.021390374335,
+      "worker_median_ns": 10964.354521625164,
+      "estimated_build_release_ns": 49410.66686874917,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 303345.33181818185,
+          "candidate_saving_percent": 96.38518206679444,
+          "gap_ns": 292380.9772965567,
+          "estimated_jobs": 1,
+          "status": "model"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 87042.41122715405,
+          "candidate_saving_percent": 87.41186950892732,
+          "gap_ns": 76078.05670552888,
+          "estimated_jobs": 1,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.replace.articles8.16",
+      "title": "Publish eight help articles",
+      "kind": "product",
+      "operation": "replace",
+      "dictionary_size": 16,
+      "documents_per_job": [
+        8
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 14123.178488248994,
+      "worker_median_ns": 9005.41384928717,
+      "estimated_build_release_ns": 5117.764638961824,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 62689.70342910102,
+          "candidate_saving_percent": 85.62589070093713,
+          "gap_ns": 53684.28957981385,
+          "estimated_jobs": 1,
+          "status": "model"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 15187.334724153918,
+          "candidate_saving_percent": 40.71959009957337,
+          "gap_ns": 6181.920874866748,
+          "estimated_jobs": 1,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.replace.articles8.256",
+      "title": "Publish eight help articles",
+      "kind": "product",
+      "operation": "replace",
+      "dictionary_size": 256,
+      "documents_per_job": [
+        8
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 131303.8862745098,
+      "worker_median_ns": 11351.879286926995,
+      "estimated_build_release_ns": 119952.0069875828,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 332189.48756218905,
+          "candidate_saving_percent": 96.58398284452885,
+          "gap_ns": 320837.60827526206,
+          "estimated_jobs": 1,
+          "status": "model"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 181095.27913279133,
+          "candidate_saving_percent": 93.738439418668,
+          "gap_ns": 169743.39984586433,
+          "estimated_jobs": 1,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.replace.articles8.32",
+      "title": "Publish eight help articles",
+      "kind": "product",
+      "operation": "replace",
+      "dictionary_size": 32,
+      "documents_per_job": [
+        8
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 19233.08215624099,
+      "worker_median_ns": 9704.299753229787,
+      "estimated_build_release_ns": 9528.782403011204,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 133674.4750499002,
+          "candidate_saving_percent": 92.73988677651501,
+          "gap_ns": 123970.17529667042,
+          "estimated_jobs": 1,
+          "status": "model"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 29753.96656263932,
+          "candidate_saving_percent": 67.38294988712916,
+          "gap_ns": 20049.666809409537,
+          "estimated_jobs": 1,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.replace.articles8.512",
+      "title": "Publish eight help articles",
+      "kind": "product",
+      "operation": "replace",
+      "dictionary_size": 512,
+      "documents_per_job": [
+        8
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 309952.65277777775,
+      "worker_median_ns": 11879.634072759538,
+      "estimated_build_release_ns": 298073.0187050182,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 339312.6192893401,
+          "candidate_saving_percent": 96.50246196487548,
+          "gap_ns": 327432.98521658056,
+          "estimated_jobs": 1,
+          "status": "model"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 521449.0625,
+          "candidate_saving_percent": 97.72369313115624,
+          "gap_ns": 509569.42842724046,
+          "estimated_jobs": 1,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.replace.articles8.64",
+      "title": "Publish eight help articles",
+      "kind": "product",
+      "operation": "replace",
+      "dictionary_size": 64,
+      "documents_per_job": [
+        8
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 29567.13610251878,
+      "worker_median_ns": 10259.359993835722,
+      "estimated_build_release_ns": 19307.776108683058,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 248619.41791044775,
+          "candidate_saving_percent": 95.87173706036089,
+          "gap_ns": 238360.05791661202,
+          "estimated_jobs": 1,
+          "status": "model"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 54564.183306055646,
+          "candidate_saving_percent": 81.18451707447886,
+          "gap_ns": 44304.82331221992,
+          "estimated_jobs": 1,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.replace.articles8.8",
+      "title": "Publish eight help articles",
+      "kind": "product",
+      "operation": "replace",
+      "dictionary_size": 8,
+      "documents_per_job": [
+        8
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 11025.090893984712,
+      "worker_median_ns": 8500.80048444671,
+      "estimated_build_release_ns": 2524.2904095380018,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 34558.76575203252,
+          "candidate_saving_percent": 75.39108210453527,
+          "gap_ns": 26057.965267585812,
+          "estimated_jobs": 1,
+          "status": "model"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 4860.257819287576,
+          "candidate_saving_percent": -74.97873379198032,
+          "gap_ns": -3640.5426651591342,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.search.all.128",
+      "title": "Locate support-term occurrences",
+      "kind": "product",
+      "operation": "all",
+      "dictionary_size": 128,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 48032.1511299435,
+      "worker_median_ns": 1956.745974329055,
+      "estimated_build_release_ns": 46075.40515561445,
+      "alternatives": {
+        "strpos_all": {
+          "prepared_median_ns": 19081.783390410958,
+          "candidate_saving_percent": 89.73283061251402,
+          "gap_ns": 17125.0374160819,
+          "estimated_jobs": 3,
+          "status": "model"
+        },
+        "preg_each_all": {
+          "prepared_median_ns": 50951.49696969697,
+          "candidate_saving_percent": 96.15494695342379,
+          "gap_ns": 48994.75099536792,
+          "estimated_jobs": 1,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.search.all.16",
+      "title": "Locate support-term occurrences",
+      "kind": "product",
+      "operation": "all",
+      "dictionary_size": 16,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 5088.99006116208,
+      "worker_median_ns": 1111.0911641652278,
+      "estimated_build_release_ns": 3977.898896996852,
+      "alternatives": {
+        "strpos_all": {
+          "prepared_median_ns": 2698.6765014530192,
+          "candidate_saving_percent": 58.832030635537215,
+          "gap_ns": 1587.5853372877914,
+          "estimated_jobs": 3,
+          "status": "model"
+        },
+        "preg_each_all": {
+          "prepared_median_ns": 5216.4558777429465,
+          "candidate_saving_percent": 78.69114844947596,
+          "gap_ns": 4105.364713577719,
+          "estimated_jobs": 1,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.search.all.256",
+      "title": "Locate support-term occurrences",
+      "kind": "product",
+      "operation": "all",
+      "dictionary_size": 256,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 135162.02217741936,
+      "worker_median_ns": 1945.989222614841,
+      "estimated_build_release_ns": 133216.0329548045,
+      "alternatives": {
+        "strpos_all": {
+          "prepared_median_ns": 35400.71835443038,
+          "candidate_saving_percent": 94.50044734398801,
+          "gap_ns": 33454.72913181553,
+          "estimated_jobs": 4,
+          "status": "model"
+        },
+        "preg_each_all": {
+          "prepared_median_ns": 107059.57051282052,
+          "candidate_saving_percent": 98.18223403276006,
+          "gap_ns": 105113.58129020568,
+          "estimated_jobs": 2,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.search.all.32",
+      "title": "Locate support-term occurrences",
+      "kind": "product",
+      "operation": "all",
+      "dictionary_size": 32,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 9427.27158577878,
+      "worker_median_ns": 1277.0047797491588,
+      "estimated_build_release_ns": 8150.266806029622,
+      "alternatives": {
+        "strpos_all": {
+          "prepared_median_ns": 5075.317814371258,
+          "candidate_saving_percent": 74.84585686189769,
+          "gap_ns": 3798.3130346220987,
+          "estimated_jobs": 3,
+          "status": "model"
+        },
+        "preg_each_all": {
+          "prepared_median_ns": 9911.402090694935,
+          "candidate_saving_percent": 87.11872485531813,
+          "gap_ns": 8634.397310945777,
+          "estimated_jobs": 1,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.search.all.512",
+      "title": "Locate support-term occurrences",
+      "kind": "product",
+      "operation": "all",
+      "dictionary_size": 512,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 356366.09375,
+      "worker_median_ns": 2037.5399462496946,
+      "estimated_build_release_ns": 354328.5538037503,
+      "alternatives": {
+        "strpos_all": {
+          "prepared_median_ns": 65806.85433070867,
+          "candidate_saving_percent": 96.90250848606135,
+          "gap_ns": 63769.31438445897,
+          "estimated_jobs": 6,
+          "status": "model"
+        },
+        "preg_each_all": {
+          "prepared_median_ns": 219056.85256410256,
+          "candidate_saving_percent": 99.0693978430009,
+          "gap_ns": 217019.31261785288,
+          "estimated_jobs": 2,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.search.all.64",
+      "title": "Locate support-term occurrences",
+      "kind": "product",
+      "operation": "all",
+      "dictionary_size": 64,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 20107.669664268586,
+      "worker_median_ns": 1554.1284004099125,
+      "estimated_build_release_ns": 18553.54126385867,
+      "alternatives": {
+        "strpos_all": {
+          "prepared_median_ns": 9980.118676470589,
+          "candidate_saving_percent": 84.42778544413451,
+          "gap_ns": 8425.990276060676,
+          "estimated_jobs": 3,
+          "status": "model"
+        },
+        "preg_each_all": {
+          "prepared_median_ns": 18268.350754310344,
+          "candidate_saving_percent": 91.48380052516664,
+          "gap_ns": 16714.222353900434,
+          "estimated_jobs": 2,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.search.all.8",
+      "title": "Locate support-term occurrences",
+      "kind": "product",
+      "operation": "all",
+      "dictionary_size": 8,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 3128.73866202484,
+      "worker_median_ns": 936.0201286869377,
+      "estimated_build_release_ns": 2192.718533337902,
+      "alternatives": {
+        "strpos_all": {
+          "prepared_median_ns": 1461.6617346938776,
+          "candidate_saving_percent": 35.966449810148326,
+          "gap_ns": 525.6416060069399,
+          "estimated_jobs": 5,
+          "status": "model"
+        },
+        "preg_each_all": {
+          "prepared_median_ns": 2853.1229536152796,
+          "candidate_saving_percent": 67.2016498101093,
+          "gap_ns": 1917.1028249283418,
+          "estimated_jobs": 2,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.search.count.128",
+      "title": "Count support-term occurrences",
+      "kind": "product",
+      "operation": "count",
+      "dictionary_size": 128,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 47141.680865921786,
+      "worker_median_ns": 1039.3677947192264,
+      "estimated_build_release_ns": 46102.31307120256,
+      "alternatives": {
+        "strpos_count": {
+          "prepared_median_ns": 14007.238865546218,
+          "candidate_saving_percent": 92.58679449931626,
+          "gap_ns": 12967.871070826992,
+          "estimated_jobs": 4,
+          "status": "model"
+        },
+        "preg_each_count": {
+          "prepared_median_ns": 37025.24030172414,
+          "candidate_saving_percent": 97.19508043501575,
+          "gap_ns": 35985.87250700491,
+          "estimated_jobs": 2,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.search.count.16",
+      "title": "Count support-term occurrences",
+      "kind": "product",
+      "operation": "count",
+      "dictionary_size": 16,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 4877.825762016412,
+      "worker_median_ns": 902.6180185084377,
+      "estimated_build_release_ns": 3975.2077435079746,
+      "alternatives": {
+        "strpos_count": {
+          "prepared_median_ns": 1800.7965359828142,
+          "candidate_saving_percent": 49.95370760501668,
+          "gap_ns": 898.1785174743766,
+          "estimated_jobs": 5,
+          "status": "model"
+        },
+        "preg_each_count": {
+          "prepared_median_ns": 3177.52588001514,
+          "candidate_saving_percent": 71.66894704782338,
+          "gap_ns": 2274.9078615067024,
+          "estimated_jobs": 2,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.search.count.256",
+      "title": "Count support-term occurrences",
+      "kind": "product",
+      "operation": "count",
+      "dictionary_size": 256,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 133896.39484126985,
+      "worker_median_ns": 1047.2879346182917,
+      "estimated_build_release_ns": 132849.10690665155,
+      "alternatives": {
+        "strpos_count": {
+          "prepared_median_ns": 30414.86623616236,
+          "candidate_saving_percent": 96.5559000471502,
+          "gap_ns": 29367.57830154407,
+          "estimated_jobs": 5,
+          "status": "model"
+        },
+        "preg_each_count": {
+          "prepared_median_ns": 89266.61835106384,
+          "candidate_saving_percent": 98.8271293064955,
+          "gap_ns": 88219.33041644555,
+          "estimated_jobs": 2,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.search.count.32",
+      "title": "Count support-term occurrences",
+      "kind": "product",
+      "operation": "count",
+      "dictionary_size": 32,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 9029.670454545454,
+      "worker_median_ns": 917.510354948431,
+      "estimated_build_release_ns": 8112.160099597023,
+      "alternatives": {
+        "strpos_count": {
+          "prepared_median_ns": 3204.1491124260356,
+          "candidate_saving_percent": 71.35471242339443,
+          "gap_ns": 2286.6387574776045,
+          "estimated_jobs": 4,
+          "status": "model"
+        },
+        "preg_each_count": {
+          "prepared_median_ns": 5843.8898497554155,
+          "candidate_saving_percent": 84.32299839235155,
+          "gap_ns": 4926.379494806984,
+          "estimated_jobs": 2,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.search.count.512",
+      "title": "Count support-term occurrences",
+      "kind": "product",
+      "operation": "count",
+      "dictionary_size": 512,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 353677.8854166667,
+      "worker_median_ns": 1088.2727673325498,
+      "estimated_build_release_ns": 352589.6126493341,
+      "alternatives": {
+        "strpos_count": {
+          "prepared_median_ns": 60867.951992753624,
+          "candidate_saving_percent": 98.21177884036196,
+          "gap_ns": 59779.679225421074,
+          "estimated_jobs": 6,
+          "status": "model"
+        },
+        "preg_each_count": {
+          "prepared_median_ns": 192298.08806818182,
+          "candidate_saving_percent": 99.43415923651202,
+          "gap_ns": 191209.81530084927,
+          "estimated_jobs": 2,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.search.count.64",
+      "title": "Count support-term occurrences",
+      "kind": "product",
+      "operation": "count",
+      "dictionary_size": 64,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 19336.99537037037,
+      "worker_median_ns": 958.0659223969693,
+      "estimated_build_release_ns": 18378.929447973398,
+      "alternatives": {
+        "strpos_count": {
+          "prepared_median_ns": 6719.155751469353,
+          "candidate_saving_percent": 85.76408784792694,
+          "gap_ns": 5761.0898290723835,
+          "estimated_jobs": 4,
+          "status": "model"
+        },
+        "preg_each_count": {
+          "prepared_median_ns": 11527.878970994476,
+          "candidate_saving_percent": 91.6850958516409,
+          "gap_ns": 10569.813048597507,
+          "estimated_jobs": 2,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.search.count.8",
+      "title": "Count support-term occurrences",
+      "kind": "product",
+      "operation": "count",
+      "dictionary_size": 8,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 3044.8753193430657,
+      "worker_median_ns": 837.0682797029702,
+      "estimated_build_release_ns": 2207.8070396400954,
+      "alternatives": {
+        "strpos_count": {
+          "prepared_median_ns": 961.8286565112817,
+          "candidate_saving_percent": 13.085685313514617,
+          "gap_ns": 124.76037680831143,
+          "estimated_jobs": 18,
+          "status": "model"
+        },
+        "preg_each_count": {
+          "prepared_median_ns": 1676.7887263771613,
+          "candidate_saving_percent": 50.061941223655204,
+          "gap_ns": 839.7204466741911,
+          "estimated_jobs": 3,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.search.unique.128",
+      "title": "Find distinct support terms",
+      "kind": "product",
+      "operation": "unique",
+      "dictionary_size": 128,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 47353.85125698324,
+      "worker_median_ns": 1545.6358917315536,
+      "estimated_build_release_ns": 45808.215365251686,
+      "alternatives": {
+        "strpos_unique": {
+          "prepared_median_ns": 16050.93330134357,
+          "candidate_saving_percent": 90.36667128593278,
+          "gap_ns": 14505.297409612016,
+          "estimated_jobs": 4,
+          "status": "model"
+        },
+        "preg_each_unique": {
+          "prepared_median_ns": 18958.060674157303,
+          "candidate_saving_percent": 91.84707804085421,
+          "gap_ns": 17412.42478242575,
+          "estimated_jobs": 3,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.search.unique.16",
+      "title": "Find distinct support terms",
+      "kind": "product",
+      "operation": "unique",
+      "dictionary_size": 16,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 5074.682592818016,
+      "worker_median_ns": 1108.9504192732597,
+      "estimated_build_release_ns": 3965.7321735447563,
+      "alternatives": {
+        "strpos_unique": {
+          "prepared_median_ns": 2183.332201965348,
+          "candidate_saving_percent": 49.192260139684294,
+          "gap_ns": 1074.381782692088,
+          "estimated_jobs": 4,
+          "status": "model"
+        },
+        "preg_each_unique": {
+          "prepared_median_ns": 2761.849747885491,
+          "candidate_saving_percent": 59.909668665071045,
+          "gap_ns": 1652.8993286122313,
+          "estimated_jobs": 3,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.search.unique.256",
+      "title": "Find distinct support terms",
+      "kind": "product",
+      "operation": "unique",
+      "dictionary_size": 256,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 134225.04563492062,
+      "worker_median_ns": 1582.2165733535776,
+      "estimated_build_release_ns": 132642.82906156706,
+      "alternatives": {
+        "strpos_unique": {
+          "prepared_median_ns": 31938.14494163424,
+          "candidate_saving_percent": 95.04035671026718,
+          "gap_ns": 30355.928368280664,
+          "estimated_jobs": 5,
+          "status": "model"
+        },
+        "preg_each_unique": {
+          "prepared_median_ns": 39565.60035211268,
+          "candidate_saving_percent": 95.9971794398062,
+          "gap_ns": 37983.3837787591,
+          "estimated_jobs": 4,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.search.unique.32",
+      "title": "Find distinct support terms",
+      "kind": "product",
+      "operation": "unique",
+      "dictionary_size": 32,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 10108.554328087168,
+      "worker_median_ns": 1195.3044959128065,
+      "estimated_build_release_ns": 8913.249832174362,
+      "alternatives": {
+        "strpos_unique": {
+          "prepared_median_ns": 3924.7417944417825,
+          "candidate_saving_percent": 69.54740901209333,
+          "gap_ns": 2729.437298528976,
+          "estimated_jobs": 4,
+          "status": "model"
+        },
+        "preg_each_unique": {
+          "prepared_median_ns": 5274.280341340076,
+          "candidate_saving_percent": 77.33114914668143,
+          "gap_ns": 4078.9758454272696,
+          "estimated_jobs": 3,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.search.unique.512",
+      "title": "Find distinct support terms",
+      "kind": "product",
+      "operation": "unique",
+      "dictionary_size": 512,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 362328.5677083333,
+      "worker_median_ns": 1670.3361033239887,
+      "estimated_build_release_ns": 360658.23160500935,
+      "alternatives": {
+        "strpos_unique": {
+          "prepared_median_ns": 61890.81436567164,
+          "candidate_saving_percent": 97.30221223214447,
+          "gap_ns": 60220.47826234766,
+          "estimated_jobs": 6,
+          "status": "model"
+        },
+        "preg_each_unique": {
+          "prepared_median_ns": 93073.94722222222,
+          "candidate_saving_percent": 98.20634714459834,
+          "gap_ns": 91403.61111889823,
+          "estimated_jobs": 4,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.search.unique.64",
+      "title": "Find distinct support terms",
+      "kind": "product",
+      "operation": "unique",
+      "dictionary_size": 64,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 20066.480215827338,
+      "worker_median_ns": 1332.4869257669686,
+      "estimated_build_release_ns": 18733.99329006037,
+      "alternatives": {
+        "strpos_unique": {
+          "prepared_median_ns": 7849.911384976525,
+          "candidate_saving_percent": 83.0332651170453,
+          "gap_ns": 6517.4244592095565,
+          "estimated_jobs": 3,
+          "status": "model"
+        },
+        "preg_each_unique": {
+          "prepared_median_ns": 9763.059287383177,
+          "candidate_saving_percent": 86.3693752538979,
+          "gap_ns": 8430.572361616209,
+          "estimated_jobs": 3,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "scale.search.unique.8",
+      "title": "Find distinct support terms",
+      "kind": "product",
+      "operation": "unique",
+      "dictionary_size": 8,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "matcher",
+      "request_median_ns": 3103.9860387192853,
+      "worker_median_ns": 905.7139027296361,
+      "estimated_build_release_ns": 2198.272135989649,
+      "alternatives": {
+        "strpos_unique": {
+          "prepared_median_ns": 1211.7347308864064,
+          "candidate_saving_percent": 25.230465915038547,
+          "gap_ns": 306.02082815677034,
+          "estimated_jobs": 8,
+          "status": "model"
+        },
+        "preg_each_unique": {
+          "prepared_median_ns": 1550.8913998889711,
+          "candidate_saving_percent": 41.49601067352696,
+          "gap_ns": 645.1774971593351,
+          "estimated_jobs": 4,
+          "status": "model"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    },
+    {
+      "corpus": "size",
+      "case": "secrets.incident-batch",
+      "title": "Mask three registered secrets in a larger incident log batch",
+      "kind": "control",
+      "operation": "replace",
+      "dictionary_size": 24,
+      "documents_per_job": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": "replacer",
+      "request_median_ns": 152825.68348623853,
+      "worker_median_ns": 137670.2868852459,
+      "estimated_build_release_ns": 15155.396600992623,
+      "alternatives": {
+        "strtr": {
+          "prepared_median_ns": 72341.05786026201,
+          "candidate_saving_percent": -90.24474016172978,
+          "gap_ns": -65329.2290249839,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "preg_replace_callback": {
+          "prepared_median_ns": 4391.374556374556,
+          "candidate_saving_percent": -3030.2598163239218,
+          "gap_ns": -133278.91232887135,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        },
+        "str_replace": {
+          "prepared_median_ns": 146824.60217391304,
+          "candidate_saving_percent": 6.200871094088411,
+          "gap_ns": 9154.31528866713,
+          "estimated_jobs": 2,
+          "status": "model"
+        },
+        "preg_replace": {
+          "prepared_median_ns": 3994.2944297082227,
+          "candidate_saving_percent": -3346.1866433867244,
+          "gap_ns": -133675.9924555377,
+          "estimated_jobs": null,
+          "status": "not_faster_prepared"
+        }
+      },
+      "model_note": "request-minus-worker is an estimate, not cold constructor timing; native/PCRE alternatives are already prepared; threshold is not a directly verified minimum"
+    }
+  ]
+}

@@ -3,7 +3,7 @@
 Use a separate checkout to preserve the published capture: the final import step
 replaces this report’s captured data with your measurements.
 
-Use Linux with Python 3, Bash, Git, GCC 15.2, Clang 21.1, `taskset`, `perf`, and
+Use Linux with Python 3.11 or newer, Bash, Git, GCC 15.2, Clang 21.1, `taskset`, `perf`, and
 normal php-src build prerequisites (autoconf, bison, re2c, make, pkg-config).
 The measured Clang patch version was 21.1.8. Other compiler/CPU versions produce
 new experiments, not identical binary hashes. No package installation or kernel
@@ -26,9 +26,9 @@ CLANG=clang-21
 git clone --filter=blob:none --no-checkout https://github.com/ArtUkrainskiy/php-src.git "$PHP_SRC"
 ../../bench build --profile docker --cc "$GCC,$CLANG" runtime 758c9ac5492848a54f9fd88fac2a54d5e6108c05
 mkdir -p .local/extension
-git -C "$PHP_SRC" archive 5025a32fdfb7c7c4c383fa33165d0ea3e91452a8 ext/strmatch | tar -x -C .local/extension
+git -C "$PHP_SRC" archive 287aaab7fb729d3a8e91c6fd35224c4359c343e3 ext/strmatch | tar -x -C .local/extension
 export STRMATCH_SOURCE="$PWD/.local/extension/ext/strmatch"
-export STRMATCH_REVISION=5025a32fdfb7c7c4c383fa33165d0ea3e91452a8
+export STRMATCH_REVISION=287aaab7fb729d3a8e91c6fd35224c4359c343e3
 ```
 
 The clone/build can take several minutes, depending on the machine. Successful
@@ -45,7 +45,13 @@ The preflight must exit successfully and print supported counts for all events.
 ```sh
 read -r -p 'Idle logical CPU number: ' BENCH_CPU
 export BENCH_CPU
-cat "/sys/devices/system/cpu/cpu$BENCH_CPU/topology/thread_siblings_list"
+SIBLINGS_FILE="/sys/devices/system/cpu/cpu$BENCH_CPU/topology/thread_siblings_list"
+cat "$SIBLINGS_FILE"
+# The frozen main driver accepts comma-separated single CPU IDs only.
+if grep -q -- '-' "$SIBLINGS_FILE"; then
+  echo 'This driver requires sibling IDs without ranges; choose a supported CPU/machine.' >&2
+  exit 1
+fi
 test -r "/sys/devices/system/cpu/cpu$BENCH_CPU/cpufreq/scaling_governor"
 perf stat -e cycles:u,instructions:u,context-switches,cpu-migrations -- taskset -c "$BENCH_CPU" true
 python3 render.py --check
@@ -99,8 +105,7 @@ new series; use a separate checkout if you want to preserve the published captur
 
 ```sh
 python3 capture.py "$RUN_ROOT"
-python3 render.py
-python3 render.py --check
+# Continue with additional measurements below before rendering the final report.
 ```
 
 Import must print `CAPTURE PASS 4 complete series`, then rendering must pass.
@@ -109,9 +114,60 @@ counter against raw N/zero outputs. Public JSON contains the raw elapsed samples
 the audit records the original raw-output comparisons. Binaries and the complete
 per-process run directories are not bundled with the report.
 
-The [recorded measurement driver](data/measured-driver.py) preserves the exact
-source hash used for the published series. The current driver moves only the
-existing-output guard ahead of compilation, preventing accidental overwrites.
-Timed PHP recipes, arguments and sampling protocol are unchanged. The importer
-recognizes both recorded and current hashes; the published observations remain
-byte-for-byte unchanged. Table generation and artifact import are not timed.
+## Additional measurements
+
+Keep the same `RUN_ROOT`, source, CPU and builds. Choose the SMT sibling shown
+by `thread_siblings_list` (excluding the selected CPU). The driver checks sibling
+activity and stops if it exceeds 5%. Set the paths explicitly; no machine-specific
+build names are required.
+
+```sh
+export PHP_BUILD_GCC15="$BENCH_BUILDS/runtime-gcc15"
+export PHP_BUILD_CLANG21="$BENCH_BUILDS/runtime-clang21"
+read -r -p 'SMT sibling logical CPU number: ' BENCH_SIBLING
+export BENCH_SIBLING
+python3 supplements/prepare.py
+python3 supplements/measure.py --validate
+python3 supplements/measure.py > "$RUN_ROOT/supplements.log" 2>&1
+```
+
+Preparation takes seconds and must print
+`BATCH N1/N2, MUTATION, CONSTRUCTION N1 PASS`. It copies four immutable PHP helpers
+into the fresh run and refuses to overwrite them. The main four series must all
+be complete. The supplemental driver takes roughly 20 minutes here, depending
+on the CPU. It runs sequential order confirmations, memory, constructors, estimates
+and direct batches for both compilers. Success prints `SUPPLEMENTS COMPLETE`;
+`post-status.json` gives current progress. A failure writes `failure-post.json`.
+Do not accept partial files. Preserve a failed run and repeat in a new directory;
+main results may be copied unchanged into it before `prepare.py`.
+
+```sh
+python3 supplements/capture.py "$RUN_ROOT"
+python3 render.py
+python3 render.py --check
+```
+
+Expect `SUPPLEMENT CAPTURE PASS ... raw outputs verified` and successful rendering
+checks for operation, memory, preparation, payback and confirmation tables.
+The raw-output count can differ on another machine because the adaptive batch
+point selection can choose different points. The importer currently expects the
+published case matrix and exactly the configured 15 passes, not reduced smoke data.
+
+The supplemental PHP helpers match recorded hashes. The portable Python controller
+adapts environment/path configuration and omits the original asynchronous wait;
+it is not claimed to have the original private controller's hash. Main and
+supplemental importers verify raw outputs before exporting path placeholders.
+For memory-only repetition, use the separate commands in [Memory](MEMORY.md)
+instead of running the supplemental memory series twice.
+
+The optional figure uses Matplotlib in a separate plotting environment:
+
+```sh
+python3 -m venv "$RUN_ROOT/plot-venv"
+"$RUN_ROOT/plot-venv/bin/pip" install matplotlib==3.11.2
+"$RUN_ROOT/plot-venv/bin/python" memory/plot.py
+```
+
+Plotting is not a measurement dependency. The published SVG was regenerated from
+the same measured bytes. No build, process or kernel configuration is removed by
+these commands; remove only your chosen `.local` run/build directories when done.

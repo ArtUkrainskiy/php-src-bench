@@ -1,356 +1,355 @@
 # Choosing a tool for literal search and replacement
 
-Status: **prototype**, `Str\Matcher` / `Str\Replacer` 0.9-dev.
-[Prototype branch](https://github.com/ArtUkrainskiy/php-src/tree/str-matcher-prototype).
-Machine: AMD Ryzen 9 5950X, GCC 15.2 and Clang 21.1.
+Status: **RFC prototype**, `Str\Matcher` / `Str\Replacer` 0.9-dev.
+[Source branch](https://github.com/ArtUkrainskiy/php-src/tree/str-matcher-prototype) · [PHP PR #25122](https://github.com/php/php-src/pull/25122).
+Measured on AMD Ryzen 9 5950X with GCC 15.2 and Clang 21.1, 2 November 2026 UTC.
+Exact measured revisions and binary hashes are recorded with the samples.
 
-[Moderation tables](MODERATION.md) · [Search tables](SEARCH.md) · [Replacement tables](REPLACEMENT.md) · [Exact inputs](../../corpus/multi-pattern-scaling/README.md) · [Reproduce](REPRODUCE.md)
+The prototype adds reusable literal dictionaries for case-sensitive byte search
+and replacement.
+It does not change existing string functions. This report compares equivalent
+application tasks with saved input texts, dictionaries and expected output
+against native PHP and PCRE, including preparation,
+repeated use and memory. **Elapsed time is the primary metric.**
 
-## Practical result
+## Which tool fits these tasks?
 
-Here N is the number of distinct literal substrings. Reuse is the useful niche
-in these saved English tasks. Creating a prepared object
-for one comment or article does not beat the fastest measured existing method.
-A real eight-article publishing job can amortize Replacer construction.
-Moderation returns a boolean; search returns distinct matching terms. Replacement
-uses the earliest start and longest key there, without rescanning inserted links.
+Here N is the number of distinct literal substrings. In the saved English size
+series, preparation determines the result as much as scanning does. Reuse means
+multiple jobs on one object within a request, batch or long-running worker;
+objects are not automatically shared between FPM requests.
 
 | Task | Build and process one document from an array | Reuse an unchanged dictionary |
 |---|---|---|
-| Any moderation phrase, clean short comment | Loop wins at every tested N | Matcher wins at tested 16–512; PCRE at 8 |
-| Distinct support terms in an article | Per-term `strpos()` wins at every tested N | Matcher wins at tested 16–512; 8 depends on compiler |
-| Link support terms in an article | PCRE wins at 8–64; `strtr()` at 128–512 | Replacer wins at tested 16–512; PCRE at 8 |
+| Any moderation phrase, short comment without a match | `str_contains()` loop wins at every tested N | Matcher wins at tested 8–512 |
+| List distinct matching support terms in an article | Per-term `strpos()` wins at every tested N | Matcher wins at tested 8–512 |
+| Link support terms in an article | Replacer has lower medians at 32 and 64; 32 is close. PCRE or `strtr()` wins elsewhere | Replacer wins at tested 16–512; PCRE at 8 |
+
+<!-- SHORT-COSTS -->
+At 10,000 saved glossary/catalog entries, the prepared object adds **2.22 MiB for Matcher** or **1.29 MiB for Replacer**, above the input array. Constructor peaks above that same input baseline are 4.58 and 3.19 MiB respectively. [Memory](MEMORY.md) separates retained allocation, construction peak and query scratch space.
+<!-- /SHORT-COSTS -->
+
+PCRE compilation caches are warm in both columns. The first column still charges
+array-to-pattern conversion; an existing regex string can avoid that work.
 
 For a **batch of eight different articles**, Replacer wins at tested 16–512 even
-with construction included. These are measured configurations, not universal
-thresholds or the exact minimum profitable batch size. The comparison includes
-native PHP and PCRE; literal matching is case-sensitive, without word boundaries.
-These are CLI jobs, not measured framework/FPM throughput; other architectures
-were not measured. A separate [memory series](MEMORY.md) covers 8–10,000 strings.
-The release-build time series use 15 alternating
-time samples per method and before/after A/A controls.
+with construction included. For ordinary order emails and incident-log redaction,
+existing tools remain faster. Small substitution maps have mixed results depending
+on task and compiler. The detailed tables include these losses.
 
-## Reading the tables
+These are measured configurations, not universal dictionary-size thresholds.
+They do not establish a whole-application speedup. FPM throughput and other CPU
+architectures were not measured. The memory series covers
+8–10,000 strings; preparation has a measurable cost even when reuse is very fast.
 
-The controlled dictionary-size series measures **8, 16, 32, 64, 128, 256 and 512 strings** in
-three separate tasks: moderation, search results and replacement. Within each
-task, documents stay the same and nested dictionary sets grow. Additional everyday product
-cases are in [separate application tables](PRODUCT-CASES.md).
+<!-- SHORT-PAYBACK -->
+For example, a 96-term Matcher listing support topics beat both prepared native and PCRE references by at least 2% in a batch of **5 articles**, on both compilers. This is a sufficient tested size, not the minimum. Other tasks and dictionaries need different reuse.
+<!-- /SHORT-PAYBACK -->
 
-**Main-table times are microseconds for one comment or one article; lower is better.**
-The eight input examples are cycled evenly, not processed together as one job.
-The separately labeled eight-article batch times cover all eight articles.
-The lowest median for each compiler is bold; this does not imply statistical
-significance. String count and preparation are explicit, rather than embedded
-in task names.
+[Direct batch tests](AMORTIZATION.md) list every measured sufficient reuse count
+and the stronger baseline of already prepared native/PCRE alternatives.
 
-- **Dictionary preparation included:** create the required object, pattern string
-  or parallel arrays, process the job, consume/release results and prepared state.
-  The original dictionary array already exists.
-- **Dictionary already prepared:** process another job using an unchanged prepared
-  dictionary. This represents reuse inside a request/batch or a long-running
-  worker. It does not imply objects survive ordinary FPM request boundaries.
 
-PCRE compilation caches are warm in both main-table modes; pattern construction
-is still charged where preparation is included. [First requests in fresh processes](PCRE-FIRST.md)
-are measured separately. Prepared-call times alone do not establish how many
-calls repay construction.
 
-If the application already has a static regex string, it can skip the array-to-pattern
-conversion charged in the preparation-included PCRE rows. PHP also retains compiled
-PCRE entries across requests in a process. Matcher objects do not automatically
-survive ordinary request boundaries. Keep that distinction when choosing a tool;
-these CLI job measurements are not FPM request-throughput measurements.
+## Reading the measurements
 
-## 1. Moderation: does any configured substring occur?
+Main-table times are **microseconds per complete job; lower is better**.
+For the size series, a job is one comment or article unless explicitly labeled
+as an eight-article batch. Eight saved examples are cycled evenly; they are not
+all processed in one job. The lowest median per compiler is bold. This is a
+median comparison, not a significance test; inspect the per-pass relative changes in the full tables for close cells.
 
-Task: check a short English comment against a literal moderation policy.
-Each timed call checks one comment. Eight independent examples are cycled; they are **56–84 UTF-8 bytes**, with **no
-matching rule**. This is the ordinary clean-message path. `Loop` means early-exit
-`str_contains()`; `PCRE` means one escaped `preg_match()` alternation; Matcher
-returns the same boolean.
+- **Dictionary preparation included:** the original dictionary array already
+  exists. Create the object, regex string/callback or parallel arrays as needed,
+  process the job, consume/release results and prepared state.
+- **Dictionary already prepared:** prepare an unchanged dictionary once, then
+  process another job. Reuse may occur within one request, a finite batch or a
+  long-running worker. Objects do not automatically survive FPM request boundaries.
+
+PCRE compilation caches are warm in both main modes. Preparation-included PCRE
+rows still charge array-to-pattern conversion. An application with an existing
+regex string can avoid that conversion. PHP retains compiled regex entries across
+requests in a process; ordinary Matcher/Replacer objects have a different lifetime.
+[First requests in fresh processes](PCRE-FIRST.md) are separate and exclude PHP startup.
+
+Identical-code A/A control medians are within 0.8%, but do not bound every row's noise. Some close
+rankings change in the [order confirmations](CONFIRMATION.md); small gaps should
+not drive a choice. The main rotation and corrected repeats are described there.
+
+## Moderation: does any configured substring occur?
+
+Each job checks one short English comment against a literal policy.
+The eight comments are **56–84 UTF-8 bytes**, with no matching rule.
+`Loop` is early-exit `str_contains()`, `PCRE` is an escaped `preg_match()`
+alternation, and Matcher returns the same boolean. All matching is case-sensitive
+bytes, without word boundaries or Unicode normalization.
 
 <!-- SCALE-MODERATION -->
 ### Dictionary preparation included
 
 | Substrings | GCC loop | GCC PCRE | GCC Matcher | Clang loop | Clang PCRE | Clang Matcher |
 |---:|---:|---:|---:|---:|---:|---:|
-| 8 | **0.281** | 0.710 | 1.398 | **0.291** | 0.683 | 1.353 |
-| 16 | **0.434** | 1.237 | 3.615 | **0.455** | 1.233 | 3.462 |
-| 32 | **0.786** | 2.558 | 10.546 | **0.829** | 2.553 | 9.892 |
-| 64 | **1.457** | 4.891 | 21.533 | **1.557** | 4.986 | 20.686 |
-| 128 | **2.870** | 9.920 | 47.788 | **3.238** | 10.031 | 44.924 |
-| 256 | **6.749** | 19.853 | 90.183 | **7.679** | 20.075 | 86.337 |
-| 512 | **16.077** | 48.315 | 165.833 | **17.685** | 50.060 | 158.689 |
+| 8 | **0.280** | 0.713 | 2.377 | **0.288** | 0.680 | 2.381 |
+| 16 | **0.439** | 1.246 | 5.203 | **0.459** | 1.262 | 5.000 |
+| 32 | **0.784** | 2.524 | 12.839 | **0.866** | 2.561 | 12.537 |
+| 64 | **1.486** | 4.893 | 26.274 | **1.567** | 5.033 | 25.620 |
+| 128 | **3.066** | 9.877 | 58.269 | **3.282** | 10.033 | 56.921 |
+| 256 | **6.946** | 19.905 | 152.716 | **7.770** | 20.214 | 149.700 |
+| 512 | **16.053** | 49.053 | 295.062 | **17.434** | 50.212 | 293.707 |
 
 ### Dictionary already prepared
 
 | Substrings | GCC loop | GCC PCRE | GCC Matcher | Clang loop | Clang PCRE | Clang Matcher |
 |---:|---:|---:|---:|---:|---:|---:|
-| 8 | 0.282 | **0.236** | 0.266 | 0.288 | **0.220** | 0.274 |
-| 16 | 0.444 | 0.347 | **0.266** | 0.463 | 0.324 | **0.273** |
-| 32 | 0.780 | 0.754 | **0.267** | 0.857 | 0.722 | **0.273** |
-| 64 | 1.406 | 1.482 | **0.271** | 1.653 | 1.519 | **0.278** |
-| 128 | 2.920 | 2.975 | **0.276** | 3.450 | 2.854 | **0.285** |
-| 256 | 6.760 | 6.079 | **0.294** | 7.934 | 5.979 | **0.304** |
-| 512 | 16.203 | 20.267 | **0.313** | 17.747 | 20.411 | **0.324** |
+| 8 | 0.287 | 0.239 | **0.188** | 0.291 | 0.220 | **0.170** |
+| 16 | 0.438 | 0.349 | **0.189** | 0.460 | 0.325 | **0.174** |
+| 32 | 0.758 | 0.754 | **0.235** | 0.842 | 0.724 | **0.244** |
+| 64 | 1.433 | 1.485 | **0.237** | 1.597 | 1.518 | **0.245** |
+| 128 | 2.951 | 2.983 | **0.244** | 3.353 | 2.850 | **0.251** |
+| 256 | 6.888 | 6.061 | **0.251** | 7.943 | 5.980 | **0.256** |
+| 512 | 16.192 | 19.433 | **0.257** | 17.177 | 21.827 | **0.264** |
 
 <!-- /SCALE-MODERATION -->
 
-[All moderation tables](MODERATION.md) separately cover matches at the start,
-in the body and near the end, plus detailed support messages of 749–817 bytes
-without a match and messages quoting a matching term. Exact dictionary order,
-match offsets and dictionary ranks are saved. The [512-string policy source](../../corpus/multi-pattern-scaling/moderation-words.json)
-is pinned and licensed; matching is literal bytes, without the source library's
-exceptions, wildcard rules, boundaries or case folding.
+[Full moderation tables](MODERATION.md) also cover matches at the start, in the
+body and near the end, plus 749–817-byte support messages with and without a
+quoted matching term. EN/RU/ZH product cases are in [application tables](PRODUCT-CASES.md).
+The [policy lexicon](../../corpus/multi-pattern-scaling/moderation-words.json) is
+pinned and licensed. Its original exceptions, wildcard rules and case folding
+are not part of this literal-substring task.
 
-## 2. Search: which support terms occur?
+## Search: which support terms occur?
 
-Task: find the **distinct matching terms**, ordered by first position, in a help
-article. Each timed call processes one article. Eight independently written English articles are **397–465 bytes** each.
-The summary compares `strpos()` per term (`PHP`), literal `preg_match()` per term
-(`PCRE`) and `Matcher::getMatchedKeywords()`.
+Each job returns **distinct matching terms**, ordered by first position, from one
+help article. Eight saved English articles are **397–465 bytes** each.
+`PHP` uses `strpos()` per term; `PCRE` uses a literal pattern per term;
+Matcher uses `getMatchedKeywords()`.
 
-This differs from a boolean presence check: a result must include both `order`
-and `order number` when both match. A single ordinary regex alternation would
-not enumerate every same-start term. The per-key PCRE path is a transparent exact
-reference, not a claim that it is the fastest possible regex implementation.
+The result includes both `order` and `order number` when both match.
+A plain regex alternation would miss some same-start terms. The per-term PCRE
+reference preserves this behavior; it is not a claim of optimal regex enumeration.
 
 <!-- SCALE-SEARCH -->
 ### Dictionary preparation included
 
 | Substrings | GCC PHP | GCC PCRE | GCC Matcher | Clang PHP | Clang PCRE | Clang Matcher |
 |---:|---:|---:|---:|---:|---:|---:|
-| 8 | **1.187** | 2.150 | 3.255 | **1.189** | 2.046 | 3.422 |
-| 16 | **2.199** | 3.987 | 5.439 | **2.187** | 3.781 | 5.296 |
-| 32 | **3.921** | 7.649 | 9.600 | **3.987** | 7.374 | 9.325 |
-| 64 | **7.860** | 14.446 | 21.477 | **8.496** | 14.395 | 20.576 |
-| 128 | **15.972** | 28.768 | 48.688 | **16.221** | 28.268 | 46.148 |
-| 256 | **32.171** | 60.273 | 109.206 | **32.944** | 60.012 | 105.422 |
-| 512 | **62.523** | 135.378 | 305.941 | **63.270** | 132.057 | 292.269 |
+| 8 | **1.172** | 2.136 | 3.104 | **1.178** | 2.011 | 3.022 |
+| 16 | **2.165** | 3.940 | 5.075 | **2.192** | 3.932 | 4.848 |
+| 32 | **3.902** | 7.576 | 10.109 | **4.073** | 7.428 | 9.180 |
+| 64 | **7.966** | 14.764 | 20.066 | **8.192** | 14.306 | 19.083 |
+| 128 | **16.370** | 28.618 | 47.354 | **16.790** | 27.920 | 46.074 |
+| 256 | **31.955** | 60.688 | 134.225 | **32.932** | 59.825 | 129.482 |
+| 512 | **61.675** | 134.538 | 362.329 | **63.028** | 131.120 | 348.421 |
 
 ### Dictionary already prepared
 
 | Substrings | GCC PHP | GCC PCRE | GCC Matcher | Clang PHP | Clang PCRE | Clang Matcher |
 |---:|---:|---:|---:|---:|---:|---:|
-| 8 | 1.184 | 1.488 | **1.149** | **1.176** | 1.463 | 1.343 |
-| 16 | 2.160 | 2.737 | **1.228** | 2.283 | 2.827 | **1.429** |
-| 32 | 3.907 | 5.238 | **1.356** | 3.968 | 5.272 | **1.542** |
-| 64 | 7.909 | 9.853 | **1.569** | 8.181 | 9.868 | **1.732** |
-| 128 | 15.961 | 19.092 | **1.886** | 16.301 | 19.088 | **2.055** |
-| 256 | 31.978 | 39.282 | **1.958** | 32.852 | 38.661 | **2.112** |
-| 512 | 62.095 | 92.959 | **2.110** | 62.293 | 93.300 | **2.292** |
+| 8 | 1.212 | 1.551 | **0.906** | 1.185 | 1.520 | **0.941** |
+| 16 | 2.183 | 2.762 | **1.109** | 2.230 | 2.720 | **1.098** |
+| 32 | 3.925 | 5.274 | **1.195** | 3.996 | 5.304 | **1.195** |
+| 64 | 7.850 | 9.763 | **1.332** | 8.393 | 9.921 | **1.344** |
+| 128 | 16.051 | 18.958 | **1.546** | 16.414 | 18.994 | **1.612** |
+| 256 | 31.938 | 39.566 | **1.582** | 32.505 | 40.055 | **1.632** |
+| 512 | 61.891 | 93.074 | **1.670** | 62.470 | 93.350 | **1.722** |
 
 <!-- /SCALE-SEARCH -->
 
-[All search tables](SEARCH.md) also measure counting every overlapping occurrence
-and returning all byte locations. MatchResult objects are normalized only for
-correctness checks, not during timing. As the glossary grows, more terms may
-match the unchanged articles; every dictionary and result count is inspectable.
+[Full search tables](SEARCH.md) also count every overlapping occurrence and return
+all byte locations. MatchResult objects retain their natural representation during
+timing. Normalization is used only for correctness checks. Larger dictionaries
+can yield more results on the same articles.
 
-## 3. Replacement: add support links to an article
+## Replacement: add support links to an article
 
-Task: replace configured glossary terms with links in one help article. Inputs
-are the same **397–465-byte** articles as above. `strtr()` and Replacer use the same
-earliest-start/longest-key policy without rescanning inserted links. `PCRE` means
-escaped, longest-first `preg_replace_callback()` with a map lookup.
-
-Sequential `str_replace()` changes the result by rescanning inserted links and
-is excluded from this task. It remains in equivalent everyday product cases.
+The same **397–465-byte** help articles receive glossary links.
+`strtr()` and Replacer use earliest-start/longest-key replacement without rescanning
+inserted links. `PCRE` is an escaped, longest-first `preg_replace_callback()`
+alternation with a map lookup. Sequential `str_replace()` produces different
+output here and is excluded; it is included in other tasks where outputs agree.
 
 <!-- SCALE-REPLACEMENT -->
 ### Dictionary preparation included
 
 | Substrings | GCC strtr | GCC PCRE | GCC Replacer | Clang strtr | Clang PCRE | Clang Replacer |
 |---:|---:|---:|---:|---:|---:|---:|
-| 8 | 4.432 | **2.260** | 3.707 | 4.343 | **2.188** | 3.710 |
-| 16 | 7.913 | **5.285** | 6.568 | 7.887 | **5.146** | 6.355 |
-| 32 | 16.769 | **10.628** | 11.741 | 16.722 | **10.439** | 11.152 |
-| 64 | 31.154 | **23.111** | 24.363 | 31.324 | **22.785** | 23.369 |
-| 128 | **37.993** | 47.099 | 52.396 | **38.501** | 47.117 | 49.294 |
-| 256 | **41.643** | 116.729 | 105.458 | **42.149** | 108.814 | 101.300 |
-| 512 | **42.505** | 273.277 | 280.263 | **43.089** | 260.801 | 267.681 |
+| 8 | 4.463 | **2.262** | 3.603 | 4.318 | **2.188** | 3.479 |
+| 16 | 7.893 | **5.383** | 6.168 | 7.861 | **5.085** | 5.940 |
+| 32 | 16.843 | 10.735 | **10.672** | 16.754 | 10.482 | **10.145** |
+| 64 | 31.181 | 23.194 | **20.033** | 31.365 | 22.563 | **19.495** |
+| 128 | **38.064** | 47.387 | 46.884 | **38.490** | 47.048 | 45.110 |
+| 256 | **41.730** | 113.529 | 115.259 | **42.219** | 107.227 | 112.640 |
+| 512 | **42.546** | 264.934 | 292.481 | **43.034** | 265.663 | 288.989 |
 
 ### Dictionary already prepared
 
 | Substrings | GCC strtr | GCC PCRE | GCC Replacer | Clang strtr | Clang PCRE | Clang Replacer |
 |---:|---:|---:|---:|---:|---:|---:|
-| 8 | 4.449 | **0.701** | 1.257 | 4.263 | **0.699** | 1.357 |
-| 16 | 7.878 | 1.988 | **1.335** | 7.902 | 1.990 | **1.407** |
-| 32 | 16.793 | 3.814 | **1.462** | 16.776 | 3.818 | **1.502** |
-| 64 | 31.114 | 6.938 | **1.606** | 31.261 | 6.887 | **1.633** |
-| 128 | 37.987 | 10.983 | **1.786** | 38.414 | 11.881 | **1.778** |
-| 256 | 41.586 | 22.755 | **1.852** | 42.097 | 22.092 | **1.873** |
-| 512 | 42.540 | 69.161 | **2.079** | 42.954 | 67.445 | **2.005** |
+| 8 | 4.464 | **0.713** | 1.144 | 4.300 | **0.692** | 1.066 |
+| 16 | 7.945 | 1.997 | **1.208** | 7.873 | 1.975 | **1.178** |
+| 32 | 16.772 | 3.813 | **1.307** | 16.761 | 3.837 | **1.282** |
+| 64 | 31.144 | 6.925 | **1.390** | 31.370 | 6.902 | **1.389** |
+| 128 | 37.992 | 11.006 | **1.464** | 38.437 | 11.898 | **1.491** |
+| 256 | 41.684 | 22.734 | **1.545** | 42.231 | 22.063 | **1.580** |
+| 512 | 42.519 | 68.420 | **1.595** | 43.006 | 64.761 | **1.639** |
 
 <!-- /SCALE-REPLACEMENT -->
 
-[All replacement tables](REPLACEMENT.md) also show a publishing job processing
-eight different articles with one dictionary. That is a measured finite batch;
-it must not be confused with the indefinitely prepared mode.
+With preparation included, N=64 has a clear lead in these measurements; N=32 is a
+close comparison. This mode charges generic array-to-pattern preparation to PCRE.
+It does **not** establish that building a Replacer beats an already available regex
+for one article. See direct batches below for that comparison.
+[Replacement tables](REPLACEMENT.md) also include the complete eight-article job.
 
-## What can be concluded about dictionary size?
+## How many jobs repay preparation?
 
-The table below lists tested sizes where the prototype has a lower paired median
-elapsed time than **every measured existing alternative, on both compilers**.
-This is a median comparison, not a statistical confidence test; inspect the full
-sample ranges for close results.
+**≤B is a sufficient measured batch, not an exact minimum.** At that tested size,
+building one Matcher/Replacer and processing B jobs took at least 2% less median
+time than every measured alternative in that column's group. Native arrays and
+regex strings/callbacks are already prepared; PCRE caches are warm. These are
+stricter baselines than the preparation-included tables above.
 
-<!-- SIZE-CHOICE -->
-| Task | Preparation included: tested N | Prepared dictionary: tested N |
-|---|---|---|
-| Moderation, no match | None | 16, 32, 64, 128, 256, 512 |
-| Distinct support terms | None | 16, 32, 64, 128, 256, 512 |
-| Link one article | None | 16, 32, 64, 128, 256, 512 |
-| Link eight articles | 16, 32, 64, 128, 256, 512 | 16, 32, 64, 128, 256, 512 |
-<!-- /SIZE-CHOICE -->
+<!-- PAYBACK-TABLE -->
+| Task | Strings | GCC native | GCC PCRE | Clang native | Clang PCRE |
+|---|---:|---:|---:|---:|---:|
+| [Flag a short EN comment: no configured phrase](../../corpus/multi-pattern-product/suites/moderation.json) | 12 | ≤285 | ≤690 | ≤719 | — |
+| [List the configured support topics mentioned in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | ≤5 | ≤5 | ≤5 | ≤5 |
+| [Count all configured term occurrences in a help article](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | ≤6 | ≤3 | ≤6 | ≤3 |
+| [Locate all configured term occurrences for a search index](../../corpus/multi-pattern-product/suites/help-index.json) | 96 | ≤5 | ≤1 | ≤5 | ≤1 |
+| [Link configured support terms in one plain-text help article](../../corpus/multi-pattern-product/suites/help-linking.json) | 96 | ≤4 | ≤7 | ≤3 | ≤6 |
+| [Mask three registered secrets in a larger incident log batch](../../corpus/multi-pattern-product/suites/secret-redaction.json) | 24 | — | — | — | — |
+| [Check a short comment](../../corpus/multi-pattern-scaling/suites/moderation.json) | 512 | ≤24 | ≤18 | ≤23 | ≤17 |
+| [Add support links to a help article](../../corpus/multi-pattern-scaling/suites/replacement.json) | 512 | ≤11 | ≤7 | ≤10 | ≤6 |
+<!-- /PAYBACK-TABLE -->
 
-These are tested configurations, not universal thresholds. Dictionary lengths,
-shared prefixes/suffixes, text, match position, required output and reuse affect
-which tool wins. Untested counts between these points remain unknown. The size
-series is English; the EN/RU/ZH moderation results are in the everyday
-tables and do not establish size thresholds for those other languages.
+A dash means no qualifying win at the tested points. Points were selected using
+an estimate and need not be consecutive. For example, a large bound for a short
+comment does not prove every smaller batch loses. [All tested batch sizes](AMORTIZATION.md)
+and [absolute times with paired ranges](PAYBACK-FULL.md) are separate. A 2% median
+margin is a reporting rule, not statistical confidence.
 
-For ordinary small substitutions, consult the application task before choosing
-a prepared engine. In the everyday corpus, replacements with 4–24 keys
-lose to the fastest measured existing alternative, including valid reuse modes.
-That statement is about those saved tasks, not every possible small dictionary.
-Registered-token masking also differs from glossary links: with one common
-replacement, direct `preg_replace()` avoids a callback and is particularly strong
-in the measured log jobs. Per-order email values change and require rebuilding
-Replacer; a global prepared-object result cannot be applied to those requests.
+## Memory and construction: 8 to 10,000 strings
 
-## Memory: 8 to 10,000 strings
-
-**KiB (1024 bytes), measured Zend allocations.** Input is the original PHP list
-or replacement map, including its strings. **+Matcher / +Replacer** is the
-additional live object allocation while that input remains alive; **Peak +**
-is the constructor's maximum increase above the same input baseline. It already
-includes the final object. Values are identical across GCC 15 and Clang 21 and
-five fresh processes per configuration.
-
-The first 512 terms preserve the support glossary; larger sets add saved,
-constructed product names. These are memory inputs, not an extension of the
-speed conclusions to 10,000 strings. Dictionaries, standalone retained memory,
-query peaks and the permuted-byte control are in [Memory details](MEMORY.md).
+**KiB (1024 bytes), measured Zend allocations.** Input is the original PHP list or
+replacement map including its strings. **+Matcher / +Replacer** is additional
+retained object allocation with that input alive. **Peak +** is the constructor's
+maximum increase above that baseline, including the final object.
+Five fresh processes per configuration and both compilers gave identical byte counts.
 
 <!-- MEMORY-TABLE -->
 | Strings | Matcher input | +Matcher | Peak +Matcher | Replacer input | +Replacer | Peak +Replacer |
 |---|---:|---:|---:|---:|---:|---:|
-| 8 | 0.6 | 9.7 | 9.9 | 1.3 | 14.8 | 15.1 |
-| 16 | 1.1 | 14.8 | 15.2 | 2.4 | 28.9 | 29.5 |
-| 32 | 2.0 | 28.9 | 29.9 | 4.6 | 57.1 | 58.4 |
-| 64 | 3.9 | 65.1 | 67.1 | 9.1 | 125.6 | 128.1 |
-| 128 | 7.6 | 265.6 | 273.6 | 21.1 | 266.6 | 274.6 |
-| 256 | 18.5 | 546.6 | 558.6 | 38.5 | 548.6 | 560.6 |
-| 512 | 33.0 | 1572.6 | 1592.6 | 73.0 | 1576.6 | 1596.6 |
-| 1000 | 67.6 | 3144.7 | 3196.7 | 150.1 | 3152.7 | 3188.7 |
-| 2000 | 138.1 | 6288.7 | 6392.7 | 307.1 | 3168.7 | 3232.7 |
-| 5000 | 397.4 | 12584.7 | 12788.7 | 897.9 | 12624.7 | 12760.7 |
-| 10000 | 797.7 | 25168.7 | 25504.7 | 1802.7 | 12704.7 | 12948.7 |
+| 8 | 0.6 | 3.5 | 5.1 | 1.3 | 3.5 | 7.4 |
+| 16 | 1.1 | 5.7 | 8.9 | 2.4 | 6.2 | 12.0 |
+| 32 | 2.0 | 10.6 | 19.1 | 4.6 | 13.6 | 25.1 |
+| 64 | 3.9 | 29.4 | 41.4 | 9.1 | 24.4 | 45.4 |
+| 128 | 7.6 | 46.1 | 86.1 | 21.1 | 43.2 | 91.2 |
+| 256 | 18.5 | 83.8 | 151.8 | 38.5 | 70.2 | 154.2 |
+| 512 | 33.0 | 187.8 | 307.8 | 73.0 | 140.8 | 296.8 |
+| 1000 | 67.6 | 400.8 | 712.8 | 150.1 | 232.8 | 592.8 |
+| 2000 | 138.1 | 728.8 | 1352.8 | 307.1 | 368.8 | 884.8 |
+| 5000 | 397.4 | 1396.8 | 2624.8 | 897.9 | 760.8 | 2384.8 |
+| 10000 | 797.7 | 2272.8 | 4688.8 | 1802.7 | 1324.8 | 3264.8 |
 <!-- /MEMORY-TABLE -->
 
 <!-- MEMORY-GROWTH -->
-For a 10× increase from 1,000 to 10,000 strings in this corpus: Matcher 3.07 → 24.58 MiB (8.00×); Replacer 3.08 → 12.41 MiB (4.03×). The permuted-byte control at 10,000 takes 49.08 MiB and 49.16 MiB respectively. These endpoint ratios describe the saved inputs, not an asymptotic fit. Growth is not uniformly sublinear either: 64 → 128 strings raises Matcher allocation from 65.1 to 265.6 KiB (4.08×), as the required state capacity crosses two doubling thresholds.
+From 1,000 to 10,000 strings in these saved inputs, Matcher: 0.39 to 2.22 MiB (5.67 times); Replacer: 0.23 to 1.29 MiB (5.69 times). The 10,000-string permuted-byte control takes 7.43 MiB for Matcher and 5.68 MiB for Replacer. These are observed endpoints, not a fitted growth law.
 <!-- /MEMORY-GROWTH -->
 
-Memory is **not determined by string count alone**. Shared prefixes/suffixes,
-total key bytes and alphabet size affect trie storage; capacity doubles in
-steps. Automaton storage has a linear upper bound in total key bytes for
-the bounded byte alphabet, rather than quadratic growth in dictionary count.
-The [growth plot and state/capacity tables](MEMORY.md#growth-and-structure)
-show how the saved inputs behave. These counters exclude PHP startup,
-allocator-reserved pages and RSS; the values are not total process memory.
+The immutable automaton uses dense transitions near the root and selected fallback
+states, compact edges elsewhere, and state arrays sized to actual states.
+Runtime automaton arrays have a linear upper bound in **total key bytes** for the
+bounded byte alphabet. Retained replacement string bodies are outside that bound.
+It is not a fixed number of bytes per dictionary entry. Shared prefixes/suffixes,
+alphabet and dense-state selection change the curve. [Memory tables and plot](MEMORY.md)
+include a permuted-byte control with the same key lengths.
+[Construction tables](PREPARATION.md) separate the first constructor in a fresh
+process from repeated build-and-release. Neither is PHP startup or a cold CPU-cache test.
+These are Zend allocation counters, not process RSS or allocator-reserved pages.
 
-## Inputs and complete measurements
+## Cases where existing tools remain useful
 
-- [Controlled size corpus](../../corpus/multi-pattern-scaling/README.md): unchanged
-  English comments/articles, saved nested dictionaries and exact expected output.
-- [Everyday corpus](../../corpus/multi-pattern-product/README.md): moderation in
-  EN/RU/ZH, error markers, order emails, shop text, punctuation, spaces, URL
-  migration, token redaction, chat formatting, support indexing and linking.
-- [Everyday application tables](PRODUCT-CASES.md): task names, string counts,
-  documents and preparation are separate.
-- [Every alternative: time](FULL-TIME.md), [cycles](FULL-CYCLES.md),
-  [instructions](FULL-INSTRUCTIONS.md), and [PCRE first requests](PCRE-FIRST.md).
-- [Methodology](METHOD.md), [measurement driver](measure.py),
-  [timed recipes](harness.php), [table renderer](render.py),
-  [raw-data importer and audit](capture.py).
+Per-order emails use changing values and require new preparation. The measured
+10-placeholder job favors `strtr()`. Incident-log token masking favors direct
+`preg_replace()`: one common replacement avoids a callback. A prepared dictionary
+is not sufficient by itself to make the new API faster for these tasks.
 
-The main glossary has authored commerce/support terms; the moderation dictionary
-uses a pinned MIT-licensed external lexicon. Neither set is a random ASCII
-scaling filler or a production-frequency sample. Larger glossary configurations
-can produce more results, so this is an application-shaped size experiment,
-not an isolation of keyword count alone. Input size and result-count tables are
-included with each operation's full tables.
+Small punctuation/chat maps are sensitive to the task and compiler. Close rankings
+also move in the order confirmations. The [application tables](PRODUCT-CASES.md)
+show every eligible alternative and lifecycle, including URL migrations and
+redaction jobs. Do not transfer a glossary-link result to these different outputs.
 
-## Machine, controls and correctness
+## Inputs and complete results
 
-<!-- RUN-STATUS -->
-Both compilers × both corpora on this AMD machine are complete and use the shared-dictionary input policy.
-<!-- /RUN-STATUS -->
+- [Saved size corpus](../../corpus/multi-pattern-scaling/README.md): exact nested
+  dictionaries, unchanged comments/articles, expected outputs and match positions.
+- [Saved application corpus](../../corpus/multi-pattern-product/README.md): moderation
+  in EN/RU/ZH, error markers, emails, shop text, punctuation, spaces, URL migration,
+  token redaction, chat formatting, support indexing and linking.
+- [Application tables](PRODUCT-CASES.md), [all elapsed times](FULL-TIME.md),
+  [cycles](FULL-CYCLES.md), [instructions](FULL-INSTRUCTIONS.md),
+  [PCRE first requests](PCRE-FIRST.md), [order confirmations](CONFIRMATION.md).
 
-Only the AMD system was used. Both compiler series use release PHP 8.7.0-dev at the same
-parent revision, with the current extension compiled by that compiler. Runtime
-flags use the `docker` profile: `-fstack-protector-strong -fpic -fpie -O2 -g`,
-large-file defines and `-Wl,-O1 -pie`; `--enable-werror`. PHP JIT/CLI opcache are
-disabled; PCRE 10.44 JIT is enabled. Exact revisions, flags, binary/source hashes
-and settings are recorded with the samples.
+The support glossary is authored application data; moderation uses a pinned external
+lexicon. Neither is a production-frequency sample. Two labeled synthetic controls
+stay in the full tables. No claims rely on them as everyday workloads.
 
-CPU 15 is pinned; SMT sibling 31 is observed. Governor: performance; boost remains
-enabled. Each method/lifecycle gets 250 ms warmup and 15 alternating time samples,
-about one second of measured processing. Counters use five passes, subtracting
-a matching initialization/warmup run with zero measured jobs. Time is the primary
-metric; cycles/instructions provide supporting evidence.
+## Machine, protocol and verification
 
-### A/A controls
+Only this AMD system was measured. Both compiler series use release PHP 8.7.0-dev
+at the same parent revision, with the extension built by that compiler.
+The `docker` build profile uses `-fstack-protector-strong -fpic -fpie -O2 -g`,
+large-file defines and `-Wl,-O1 -pie`; `--enable-werror` is enabled.
+PHP JIT/CLI opcache are off; PCRE 10.44 JIT is on.
 
-These identical-implementation controls run before and after each compiler
-series. They do not bound every individual row's noise. Everyday and size series are identified separately. One original PCRE sample set
-exceeded a 10% max/min spread and was [confirmed by remeasuring the complete case](CONFIRMATION.md); both results are preserved.
+CPU 15 is pinned; sibling 31 is observed. Governor is performance, boost on.
+Each method/lifecycle has 250 ms warmup and 15 elapsed samples, about one second
+of measured work. Five counter passes subtract matching N−0 runs targeting 80 ms.
+[Methodology](METHOD.md) describes the sampling and order limitations.
+
+Identical-implementation A/A controls run before and after each series.
+The main elapsed A/A medians are within 0.8%; this does not bound noise for every
+individual row. Corrected-order and batch controls have their own A/A records.
 
 <!-- AA-TABLE -->
 | Series | Compiler | Stage | Control | Time Δ | Cycles Δ | Instructions Δ |
 |---|---|---|---|---:|---:|---:|
-| Everyday cases | gcc15 | before | Short presence check | -0.391% | +0.045% | -0.000% |
-| Everyday cases | gcc15 | before | Large log replacement | -0.012% | +0.124% | -0.000% |
-| Everyday cases | gcc15 | after | Short presence check | -0.284% | +0.069% | +0.000% |
-| Everyday cases | gcc15 | after | Large log replacement | +0.007% | -0.009% | -0.000% |
-| Everyday cases | clang21 | before | Short presence check | -0.113% | +0.266% | -0.000% |
-| Everyday cases | clang21 | before | Large log replacement | -0.017% | -0.029% | -0.000% |
-| Everyday cases | clang21 | after | Short presence check | -0.237% | +0.105% | -0.000% |
-| Everyday cases | clang21 | after | Large log replacement | -0.013% | +0.007% | -0.000% |
-| Size series | gcc15 | before | Short presence check | -0.653% | +0.819% | -0.000% |
-| Size series | gcc15 | before | Large log replacement | +0.014% | +0.011% | +0.000% |
-| Size series | gcc15 | after | Short presence check | -0.402% | -0.095% | -0.000% |
-| Size series | gcc15 | after | Large log replacement | -0.009% | +0.140% | -0.000% |
-| Size series | clang21 | before | Short presence check | -0.173% | -0.071% | -0.000% |
-| Size series | clang21 | before | Large log replacement | +0.011% | +0.015% | -0.000% |
-| Size series | clang21 | after | Short presence check | -0.525% | -0.032% | +0.000% |
-| Size series | clang21 | after | Large log replacement | +0.016% | +0.041% | +0.000% |
+| Everyday cases | gcc15 | before | Short presence check | +0.025% | +0.036% | -0.000% |
+| Everyday cases | gcc15 | before | Large log replacement | +0.033% | -0.069% | -0.000% |
+| Everyday cases | gcc15 | after | Short presence check | -0.777% | -0.272% | +0.000% |
+| Everyday cases | gcc15 | after | Large log replacement | -0.017% | +0.037% | -0.000% |
+| Everyday cases | clang21 | before | Short presence check | -0.147% | +0.027% | +0.000% |
+| Everyday cases | clang21 | before | Large log replacement | +0.089% | -0.268% | +0.000% |
+| Everyday cases | clang21 | after | Short presence check | +0.067% | -0.261% | +0.000% |
+| Everyday cases | clang21 | after | Large log replacement | -0.012% | -0.470% | +0.000% |
+| Size series | gcc15 | before | Short presence check | -0.030% | -0.231% | +0.000% |
+| Size series | gcc15 | before | Large log replacement | -0.080% | -0.245% | +0.000% |
+| Size series | gcc15 | after | Short presence check | -0.074% | -0.111% | -0.000% |
+| Size series | gcc15 | after | Large log replacement | -0.014% | +0.295% | -0.000% |
+| Size series | clang21 | before | Short presence check | +0.570% | -0.120% | +0.000% |
+| Size series | clang21 | before | Large log replacement | +0.043% | +0.360% | -0.000% |
+| Size series | clang21 | after | Short presence check | -0.073% | -0.015% | -0.000% |
+| Size series | clang21 | after | Large log replacement | -0.010% | -0.228% | -0.000% |
 <!-- /AA-TABLE -->
 
-The exact timed recipes must match saved expected output in every eligible
-lifecycle before timing. The smoke check must reject an intentionally wrong
-presence result. With shared inputs, the timed recipes also passed 5270 expected-output comparisons
-across 250 case/lifecycle configurations under ASan/UBSan ([validation record](checks/asan-shared-input.json)).
-No output normalization or fixture parsing is timed.
+Every timed recipe is checked against saved expected output before timing.
+Smoke tests must reject an intentionally wrong presence result. The final source
+also passes the 16 PHPT files on GCC, Clang, ASan/UBSan and debug ZTS;
+[validation evidence](checks/final-validation.json) records their scope.
 
-### Captured data
+Main captures are [GCC](data/gcc15.json), [Clang](data/clang21.json),
+[size GCC](data/size-gcc15.json) and [size Clang](data/size-clang21.json).
+All 8000 corrected counter samples were recomputed from raw N/zero outputs;
+elapsed and first-request samples match raw stdout ([audit](data/capture-audit.json)).
+The [supplement audit](data/supplement-capture-audit.json) checks 1168 raw outputs,
+original-versus-repeat identity and batch result aggregates. Public metadata uses
+path placeholders; measurements are unchanged.
 
-Everyday samples: [GCC](data/gcc15.json), [Clang](data/clang21.json).
-Size-series samples: [GCC](data/size-gcc15.json), [Clang](data/size-clang21.json).
-Everyday raw counter output: [GCC](data/gcc15-perf.json), [Clang](data/clang21-perf.json).
-Size-series raw counter output: [GCC](data/size-gcc15-perf.json), [Clang](data/size-clang21-perf.json).
-All 8000 corrected counter samples were recomputed from the raw N/zero runs;
-elapsed samples and first-request samples match their raw outputs ([capture audit](data/capture-audit.json)).
-Machine-local paths in public metadata use placeholders; metrics are unchanged.
+[Reproduce: builds, smoke tests, measurements and import](REPRODUCE.md).
+[Main driver](measure.py) · [Timed recipes](harness.php) · [Table renderer](render.py) ·
+[Supplemental measurements](supplements/measure.py).
 
-### Reproduce
-
-[Build, preflight, smoke, full-run and data-import commands](REPRODUCE.md).
-
-Not measured: other machines/architectures, process RSS, memory of the existing
-alternatives or of every speed-corpus case, framework
-throughput, or the exact minimum profitable batch size. No whole-application
-speedup is claimed.
+Not measured: other machines/architectures, process RSS, existing alternatives'
+memory, framework/FPM throughput, every possible regex formulation, or the exact
+minimum profitable batch size. Results describe these saved jobs and configurations.
