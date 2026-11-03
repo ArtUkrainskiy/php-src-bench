@@ -171,3 +171,78 @@ python3 -m venv "$RUN_ROOT/plot-venv"
 Plotting is not a measurement dependency. The published SVG was regenerated from
 the same measured bytes. No build, process or kernel configuration is removed by
 these commands; remove only your chosen `.local` run/build directories when done.
+
+
+## Fixed-length and pure-construction series
+
+The short README tables use this additional series. Keep the PHP builds, source revision and CPU selected above. Work from this report directory; the following can repeat only the new summary while leaving the other published captures intact. New runs take roughly 10–15 minutes here, excluding builds.
+
+```sh
+set -euo pipefail
+python3 ../../corpus/multi-pattern-length/generate.py --check
+export LENGTH_RUN_ROOT="$(mktemp -d "$PWD/.local/length.XXXXXX")"
+read -r -p 'SMT sibling logical CPU number: ' BENCH_SIBLING
+export BENCH_SIBLING
+for specification in "gcc15:$GCC" "clang21:$CLANG"; do
+  tag="${specification%%:*}"
+  cc="${specification#*:}"
+  python3 length/measure.py smoke --php-build "$BENCH_BUILDS/runtime-$tag" \
+    --source "$STRMATCH_SOURCE" --source-revision "$STRMATCH_REVISION" \
+    --cc "$cc" --cpu "$BENCH_CPU" --filter length.any.absent.128 \
+    --passes 1 --sample .01 --warmup .001 --output "$LENGTH_RUN_ROOT/smoke-$tag"
+done
+python3 length/additional.py smoke --run-root "$LENGTH_RUN_ROOT" \
+  --gcc-build "$BENCH_BUILDS/runtime-gcc15" --cpu "$BENCH_CPU" --sibling "$BENCH_SIBLING"
+```
+
+Each main smoke must print `MUTATION CAUGHT` and `SMOKE PASS`. The additional smoke must print `ADDITIONAL SMOKE N1/N2, THREE RESULT MUTATIONS AND BATCH MUTATION PASS`. It checks constructor memory/time intervals, corrupted bool/list/string results and batched calls. All helpers are hashed before the full supplementary run. Use a fresh directory after a failed smoke; existing raw output is refused.
+
+```sh
+for specification in "gcc15:$GCC" "clang21:$CLANG"; do
+  tag="${specification%%:*}"
+  cc="${specification#*:}"
+  python3 length/measure.py run --php-build "$BENCH_BUILDS/runtime-$tag" \
+    --source "$STRMATCH_SOURCE" --source-revision "$STRMATCH_REVISION" \
+    --cc "$cc" --cpu "$BENCH_CPU" --output "$LENGTH_RUN_ROOT/data-length-$tag" \
+    > "$LENGTH_RUN_ROOT/length-$tag.log" 2>&1
+done
+python3 length/additional.py run --run-root "$LENGTH_RUN_ROOT" \
+  --gcc-build "$BENCH_BUILDS/runtime-gcc15" --clang-build "$BENCH_BUILDS/runtime-clang21" \
+  --cpu "$BENCH_CPU" --sibling "$BENCH_SIBLING" > "$LENGTH_RUN_ROOT/additional.log" 2>&1
+python3 length/capture.py "$LENGTH_RUN_ROOT"
+python3 render.py
+python3 render.py --check
+```
+
+Main logs must end with `COMPLETE 24 rows`; the supplemental log with `ADDITIONAL COMPLETE`. The importer accepts only complete records and the supplementary completion marker. It verifies raw stdout, repeated-call aggregates, exact inputs and binary/harness identity, and recalculates counters from raw N/zero records. Expect `LENGTH CAPTURE PASS 720 corrected counters` and successful render checks. Direct batch counts can differ on another machine because model-selected points change.
+
+The importer updates `data/length-*`, `data/build-cost-*` and `data/additional-aa-*`; rendering updates the README, LENGTH, BUILD-MEMORY and LENGTH-PAYBACK tables. The original application and dictionary-size measurements retain their own binary hashes and scopes. Full fresh repetitions of those older tables require the earlier commands too. Raw results and configuration files stay in your chosen LENGTH_RUN_ROOT. No command removes them.
+
+## Fixed 4 KiB matrix
+
+This separate series measures the same saved 4 KiB strings against 8–512-key dictionaries and the four match-position states. It leaves earlier captures unchanged. Use the same source revision and release builds selected above; no php-src rebuild is needed. Expect roughly 6–10 minutes on the recorded machine, excluding builds.
+
+From this report directory:
+
+```sh
+set -euo pipefail
+python3 ../../corpus/multi-pattern-4k/generate.py --check
+export GRID_RUN_ROOT="$(mktemp -d "$PWD/.local/grid.XXXXXX")"
+for mode in smoke run; do
+  python3 length/grid.py "$mode" --run-root "$GRID_RUN_ROOT" \
+    --gcc-build "$BENCH_BUILDS/runtime-gcc15" \
+    --clang-build "$BENCH_BUILDS/runtime-clang21" \
+    --gcc "$GCC" --clang "$CLANG" --source "$STRMATCH_SOURCE" \
+    --cpu "$BENCH_CPU" --sibling "$BENCH_SIBLING" \
+    > "$GRID_RUN_ROOT/$mode.log" 2>&1
+done
+python3 length/grid_capture.py "$GRID_RUN_ROOT"
+python3 render.py
+python3 render.py --check
+```
+
+Smoke checks N=1/N=2 batches, compares outputs with the saved independent oracles, and catches deliberately corrupted boolean/string results. It must finish with `GRID SMOKE COMPLETE`. The full coordinator must finish with `GRID RUN COMPLETE`, with `GRID_COMPLETE` containing `PASS`. Each `run-<compiler>.log` must finish with `COMPLETE 18 rows`. Progress is in `status.json` and the logs; failures create `failure.json`. Never accept a partial run. Preserve failed directories and repeat using a fresh GRID_RUN_ROOT.
+
+The main series uses the frozen `length/measure.py` and `length/harness.php`, with the new corpus passed explicitly. Direct one-shot times use the same frozen batch recipe as the input-length series. Each compiler gets prepared A/A controls before/after the main series and one-shot Matcher/Replacer A/A controls before/after the batches; full A/A paired medians must stay within 2%. The driver stops on an SMT sibling busy above 5%.
+
+The importer must print `GRID CAPTURE PASS 540 corrected counters; 80 one-shot raw outputs`. It checks exact ordered input dictionaries and texts, stdout, consumption aggregates, protocol, helper/binary identity and raw N-minus-zero perf corrections. It writes `data/grid-*`; rendering updates the README position/size blocks and FIXED-4K.md. All 15 samples and five corrected counter passes are retained in the exported JSON; raw configs/stdout/perf files remain in GRID_RUN_ROOT. Nothing is deleted by these commands.

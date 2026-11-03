@@ -91,8 +91,7 @@ recorded. A stopped series is not a complete performance result. Wide sample spa
 remain in the main capture and trigger the additional confirmation below.
 
 Raw samples, configuration files, hashes, correctness results and incremental
-`results.json` live in the output directory supplied to the driver. The public
-report will be generated from completed results; synthetic controls stay separate.
+`results.json` live in the output directory supplied to the driver. Published tables are generated from complete captures; synthetic controls stay separate.
 
 
 ## Order confirmations
@@ -132,9 +131,23 @@ The full model covers 124 dual-lifecycle case records per compiler; direct tests
 cover 36 selected cases and 102 case/batch rows per compiler. Corpus plus case ID
 forms the key because two control IDs appear in both corpora.
 
+## Capture scopes
+
+Every table uses the same final implementation; the input and timing scopes differ. One table does not replace another merely because its capture date is later.
+
+| Tables | Inputs | What is timed |
+|---|---|---|
+| PRODUCT-CASES, MODERATION, SEARCH, REPLACEMENT, FULL-* | Application jobs and short-input dictionary-size corpus | Whole saved jobs; preparation-included and reuse sections are separate |
+| LENGTH, LENGTH-PAYBACK | Fixed 128-key dictionaries; varying string lengths | One string or the stated reuse batch; full one-operation checks are explicit |
+| FIXED-4K | Fixed 4 KiB strings; 8–512 keys or different match positions | Prepared call and directly measured construction + one call + destruction |
+| BUILD-MEMORY | Loaded moderation/glossary/catalog dictionaries | Warm `new` only; retained memory added above the input |
+| PREPARATION, MEMORY | Glossary/catalog and permuted control | First constructor, repeated build/release, or allocation snapshots; scopes are labeled |
+| AMORTIZATION, PAYBACK-FULL, CONFIRMATION | Application and short-input dictionary-size cases | Complete reuse batches or order/noise repeats, not the fixed-length series |
+
 ## Data and source identity
 
 The measured source revision is `287aaab7fb729d3a8e91c6fd35224c4359c343e3`.
+All captured series have that revision and the same hashes for `strmatch.c`, `php_strmatch.h` and `strmatch_arginfo.h`. The renderer rejects an incomplete series or a different source identity.
 Both release runtimes use parent `758c9ac5492848a54f9fd88fac2a54d5e6108c05`.
 This is a pinned baseline, not a claim to be the latest master.
 Four main series contain 500 case/lifecycle rows. Raw N/zero counter output is
@@ -151,3 +164,29 @@ byte-identical to the capture; their hashes are in the supplemental metadata.
 Table rendering, imports and the memory layout model run outside measured windows.
 A separate instrumented build cross-checks 32 C layout configurations against
 [computed layout statistics](checks/layout.json); it supplies no timing samples.
+[Final implementation checks](checks/final-validation.json) record the sixteen PHPT tests on GCC, Clang, ASan/UBSan and ZTS. Deliberately incorrect mutation variants in that file are correctness controls, not benchmark implementations.
+
+
+## Fixed-length summary series
+
+The main README uses a separate controlled series measured on 3 November 2026. It fixes each dictionary at 128 literal keys. Moderation uses 128/4096/16384/65536-byte texts; support search/replacement uses 512/4096/16384/65536 bytes. Four different saved variants have exactly the same size at each point. Complete cycles give each variant equal weight; one operation processes one string. A sample divides the elapsed time for all calls by their count; the report takes the median of 15 samples. These are not individual-document medians or a batch of four documents.
+
+The English texts reorder saved authored paragraphs with a fixed seed, trim to word boundaries and use fewer than 80 trailing ASCII spaces. Longer texts repeat paragraphs. The policy source and support glossary are unchanged; the support workload is match-rich, while moderation has separate absent/start/middle/end cases. This is an input-length experiment, not a production trace. Result counts and replacement-output sizes change with length and are saved with each exact input. The 64 KiB cases are additional long-input controls.
+
+The source revision and release profiles match the other series. Both compilers use 250 ms warmup, 15 samples totaling about one second per method, and five N−0 counter passes targeting 80 ms. Time orders reverse in pairs and rotate between pairs. The three-method cycle is partially covered by 15 passes. Before/after A/A, output checks, result-size aggregates, hardware-counter corrections and sibling observation are retained. The new harness changes only test-time mutations and corrected time order; the recipes and result consumption match the saved application harness.
+
+Pure construction has its own timer around `new`, with a separate timer for destruction. The process and allocator are warm; the dictionary is already loaded. Adjacent hrtime calls are included and no empty-clock subtraction is applied. Search is excluded. Five separate fresh processes measure the additional retained object allocation and construction peak; getters validate the dictionary after the snapshot. The new memory snapshots are independent of the older family-based memory series. Both use Zend allocation counters, not RSS.
+
+For each alternative, the reuse estimate is `floor((constructor + destructor)/(alternative_query - prepared_query)) + 1`. It uses the median of paired constructor/destructor sums and prepared median query times. Nonpositive query savings have no finite estimate; positive savings below 2% are marked close. That cutoff is a heuristic, not statistical confidence. Direct batches include one call and counts near 75%/125% of estimates, capped at 4096. They include one candidate construction/destruction, while native arrays/regex strings/callbacks are already prepared and PCRE caches are warm. Within this input-length series, direct checks cover absent/mixed cases through 16 KiB; early/middle/end and 64 KiB have estimates only. The separate [fixed 4 KiB matrix](FIXED-4K.md) directly measures one-operation lifetimes at all four match positions. Tested points do not prove the exact minimum or behavior at every larger count.
+
+[Fixed-length full tables](LENGTH.md), [pure construction and retained memory](BUILD-MEMORY.md), [direct reuse checks](LENGTH-PAYBACK.md), and [raw capture audit](data/length-capture-audit.json) describe this series. Application-job and dictionary-size captures use the same implementation, with their own inputs and sampling scopes.
+
+The length series measures only prepared worker calls. The inherited protocol field `first_requests: 15` describes the general driver's request mode; no fresh-process first requests were measured in this worker-only series or the fixed 4 KiB matrix.
+
+## Fixed 4 KiB position and dictionary-size matrix
+
+[FIXED-4K.md](FIXED-4K.md) is a separate capture of 18 saved cases with GCC 15.2 and Clang 21.1. All inputs are exactly 4096 bytes, four different variants cycled equally often. For the seven dictionary sizes (8–512 keys), the text bytes stay identical; dictionaries are growing prefixes of pinned lexicons. Moderation always returns false. In replacement, the number of matches and output size grow with dictionary size; this is an application workload, not an isolated cost-per-key experiment. Per-variant counts and all input bytes are [saved](../../corpus/multi-pattern-4k/README.md).
+
+The four match-position cases keep 128 keys. Positive variants hit 1-based dictionary ranks 1, 37, 91 and 128, consistently at each position. Native loops follow that order. A sample averages full cycles of all four variants; its median across 15 samples is shown. Match-position and size tables use native/PCRE timings from the direct batch series alongside the candidate's full one-shot lifetime; prepared candidate timings come from the separate worker series.
+
+Warmup, time/counter sampling, affinity, source and runtime checks follow the input-length protocol. Before/after one-shot A/A checks cover both object classes; their paired medians must remain within 2%. Lists of winning dictionary sizes require a paired-median saving of at least 2% against each comparator. This cutoff is a noise heuristic, not a confidence interval or a universal threshold. Full raw samples, A/A checks and prepared cycles/instructions are linked from the result tables.

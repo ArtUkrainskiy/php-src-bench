@@ -1,0 +1,2353 @@
+{
+  "status": "complete",
+  "metadata": {
+    "main_metadata": {
+      "started": "2026-11-03T09:14:23.212252+00:00",
+      "compiler": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+      "cpu": 15,
+      "host": "measurement-host",
+      "kernel": "7.0.0-38-generic",
+      "runtime_build": {
+        "name": "mp-product-runtime-full-clang21",
+        "ref": "758c9ac5492848a54f9fd88fac2a54d5e6108c05",
+        "commit": "758c9ac5492848a54f9fd88fac2a54d5e6108c05",
+        "subject": "Merge branch 'PHP-8.6'",
+        "snapshot": false,
+        "base_commit": "758c9ac5492848a54f9fd88fac2a54d5e6108c05",
+        "base_subject": "Merge branch 'PHP-8.6'",
+        "built_at": "2026-11-01T13:07:08+00:00",
+        "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+        "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+        "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+        "ldflags": "-Wl,-O1 -pie",
+        "profile": "docker",
+        "config_key": "3771d8c4f090df8a0865e46eee4e9d826caf350f",
+        "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+        "cc_command": "clang",
+        "configure_extra": "",
+        "pr": null,
+        "version": "8.7.0-dev",
+        "debug": false,
+        "slim": false
+      },
+      "version": {
+        "php": "8.7.0-dev",
+        "debug": false,
+        "zts": false,
+        "extension": "0.9-dev",
+        "pcre": "10.44 2024-06-07",
+        "pcre_jit": "1"
+      },
+      "php_sha256": "edc570aa6b5c1babbeaed1364a558cab2fb0f7088d705b6e493cc1a8a1e9bb1f",
+      "module_sha256": "04ff2013b2ff634c38e1d9e74b6966d30265bc15df846b82d14cd80600456de9",
+      "source_sha256": {
+        "strmatch.c": "adafc9cb67a435523811b540734c7d51fc4f7ff1edf3aabd5f7b94c4cf19e254",
+        "php_strmatch.h": "332b3e0543cb2da855ce624d8f777e4497d3fce34fb9482927fcca0de9c1494e",
+        "strmatch_arginfo.h": "90e87529c5ddfaede28dc851f9af0909eb5fcfe8313fe82b558e55ed9ab8ac2e"
+      },
+      "source_revision": "287aaab7fb729d3a8e91c6fd35224c4359c343e3",
+      "corpus_index_sha256": "d49030efc6f497b45b90228823bfd61a9d959a88ecab5938046c4c409c12b33f",
+      "harness_sha256": "0dfb6897d0ccf359ef82a6d888275b3fb4305bb92860d58844961fc3a2d70798",
+      "driver_sha256": "a91deda6617dac84ba5166c1435c5a9b0dc27fbea0817eb34a2931040bf56993",
+      "build_command": [
+        "clang-21",
+        "-fstack-protector-strong",
+        "-fpic",
+        "-fpie",
+        "-O2",
+        "-g",
+        "-D_LARGEFILE_SOURCE",
+        "-D_FILE_OFFSET_BITS=64",
+        "-std=c11",
+        "-shared",
+        "-fPIC",
+        "-ffp-contract=off",
+        "-fvisibility=hidden",
+        "-DNDEBUG",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-unused-parameter",
+        "-Wno-sign-compare",
+        "-D_GNU_SOURCE",
+        "-DCOMPILE_DL_STRMATCH=1",
+        "-DZEND_ENABLE_STATIC_TSRMLS_CACHE=1",
+        "-I${PHP_BUILD}",
+        "-I${PHP_BUILD}/main",
+        "-I${PHP_BUILD}/TSRM",
+        "-I${PHP_BUILD}/Zend",
+        "${STRMATCH_SOURCE}/strmatch.c",
+        "-o",
+        "${RUN_ROOT}/data-length-clang21/strmatch.so"
+      ],
+      "protocol": {
+        "passes": 15,
+        "warmup_ns": 250000000,
+        "sample_ns": 66666666,
+        "perf_passes": 5,
+        "perf_target_ns": 80000000,
+        "first_requests": 15,
+        "pcre_cache": "Warm for main series; separate fresh-process first requests",
+        "counter_method": "user cycles/instructions for N jobs minus same startup/warmup with zero jobs, divided by N",
+        "wall_method": "elapsed within process; complete jobs rotated evenly; no empty-loop subtraction",
+        "all_result_types": "Matcher returns MatchResult objects; native/PCRE return associative arrays; normalization only in output checks",
+        "input_dictionary_sharing": "Equal per-job dictionaries share one array outside timing; different per-order maps remain distinct"
+      },
+      "cpu_model": "AMD Ryzen 9 5950X 16-Core Processor",
+      "siblings": "15,31",
+      "governor": "performance",
+      "load_before": [
+        0.998046875,
+        0.44384765625,
+        0.169921875
+      ],
+      "boost": "1"
+    },
+    "pins": {
+      "length/prepare.php": "29d3196b6d9b7adb890dff702d5d54a4f4cce3d86b6b9fb43c26a0280a6cef30",
+      "length/harness.php": "0dfb6897d0ccf359ef82a6d888275b3fb4305bb92860d58844961fc3a2d70798",
+      "supplements/definitions.php": "f0fa73ac7c4dbdce5101ae1f7a3047d0b599501a3a34706dda627f95d92824b6",
+      "supplements/batch.php": "38761ef4c698b3f2c1c1f9babaec610156ab509555c9f56c7531430ec55f5be9",
+      "length/additional.py": "a44232c526fa83b976c604be2a26bee6629de1f9fa74d475927ec49c2fc74e9a"
+    },
+    "measured_at": "2026-11-03T09:19:15.072339+00:00",
+    "constructor_scope": "Warm new-only interval; release separately timed; adjacent hrtime cost included.",
+    "passes": 15,
+    "warmup_ns": 250000000,
+    "sample_ns": 66666667,
+    "catalog_sha256": "6c50855bbba57bee71999bb0e146742d56dc22d3e3ca3e16e2eec7f5acb831e1"
+  },
+  "rows": [
+    {
+      "family": "support",
+      "size": 8,
+      "class": "Matcher",
+      "memory": [
+        {
+          "result": {
+            "retained_bytes": 3552,
+            "peak_extra_bytes": 5216
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "884719bd25b39f2d762bf73c85998ff53b28634edc61dab11d5fc26c81df0280",
+          "capture_stdout_sha256": "a6a9f4021df892d24bdb546110d3266e9104ec932f2ad3a8806528b95a194dfd"
+        },
+        {
+          "result": {
+            "retained_bytes": 3552,
+            "peak_extra_bytes": 5216
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "884719bd25b39f2d762bf73c85998ff53b28634edc61dab11d5fc26c81df0280",
+          "capture_stdout_sha256": "a6a9f4021df892d24bdb546110d3266e9104ec932f2ad3a8806528b95a194dfd"
+        },
+        {
+          "result": {
+            "retained_bytes": 3552,
+            "peak_extra_bytes": 5216
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "884719bd25b39f2d762bf73c85998ff53b28634edc61dab11d5fc26c81df0280",
+          "capture_stdout_sha256": "a6a9f4021df892d24bdb546110d3266e9104ec932f2ad3a8806528b95a194dfd"
+        },
+        {
+          "result": {
+            "retained_bytes": 3552,
+            "peak_extra_bytes": 5216
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "884719bd25b39f2d762bf73c85998ff53b28634edc61dab11d5fc26c81df0280",
+          "capture_stdout_sha256": "a6a9f4021df892d24bdb546110d3266e9104ec932f2ad3a8806528b95a194dfd"
+        },
+        {
+          "result": {
+            "retained_bytes": 3552,
+            "peak_extra_bytes": 5216
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "884719bd25b39f2d762bf73c85998ff53b28634edc61dab11d5fc26c81df0280",
+          "capture_stdout_sha256": "a6a9f4021df892d24bdb546110d3266e9104ec932f2ad3a8806528b95a194dfd"
+        }
+      ],
+      "time": {
+        "result": {
+          "constructor_ns": [
+            2026.18064723877,
+            2027.424762518113,
+            2026.6737723393978,
+            2027.4930284978263,
+            2023.664434068588,
+            2024.9805828369022,
+            2025.704266623732,
+            2024.142650136854,
+            2026.0829174046048,
+            2025.2466269521817,
+            2025.6806633392368,
+            2024.4220898406054,
+            2024.8723876992433,
+            2030.0347770085332,
+            2026.5322814361616
+          ],
+          "release_ns": [
+            53.93414909032362,
+            53.93414909032362,
+            53.83658026082757,
+            53.78331991627757,
+            53.44037997101916,
+            53.814522621156016,
+            54.36911930445983,
+            54.20186765416197,
+            53.975366285622286,
+            53.89657060054741,
+            53.80286588311061,
+            54.05622283046208,
+            54.463500241507006,
+            54.1996457897279,
+            54.45499919497666
+          ],
+          "iterations": 31055,
+          "sink": 465825,
+          "passes": 15,
+          "dictionary_size": 8
+        },
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "68d501db4f73f2f9e358cfc54d9916c88b78044ebca3ed362e3b2f5070d15fe7",
+        "capture_stdout_sha256": "72997cb593f0fd0226281592b0301fd307b99fabdfeda7ae66b928b52316de50"
+      }
+    },
+    {
+      "family": "support",
+      "size": 8,
+      "class": "Replacer",
+      "memory": [
+        {
+          "result": {
+            "retained_bytes": 3536,
+            "peak_extra_bytes": 7552
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "7c375528dbd9289d66f63ec9af37bf1f055128d87c99054e8af0bbae6ab7c678",
+          "capture_stdout_sha256": "27828f643b81530d99aed301cf629699df4845c0b694b698328791b00ba864cd"
+        },
+        {
+          "result": {
+            "retained_bytes": 3536,
+            "peak_extra_bytes": 7552
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "7c375528dbd9289d66f63ec9af37bf1f055128d87c99054e8af0bbae6ab7c678",
+          "capture_stdout_sha256": "27828f643b81530d99aed301cf629699df4845c0b694b698328791b00ba864cd"
+        },
+        {
+          "result": {
+            "retained_bytes": 3536,
+            "peak_extra_bytes": 7552
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "7c375528dbd9289d66f63ec9af37bf1f055128d87c99054e8af0bbae6ab7c678",
+          "capture_stdout_sha256": "27828f643b81530d99aed301cf629699df4845c0b694b698328791b00ba864cd"
+        },
+        {
+          "result": {
+            "retained_bytes": 3536,
+            "peak_extra_bytes": 7552
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "7c375528dbd9289d66f63ec9af37bf1f055128d87c99054e8af0bbae6ab7c678",
+          "capture_stdout_sha256": "27828f643b81530d99aed301cf629699df4845c0b694b698328791b00ba864cd"
+        },
+        {
+          "result": {
+            "retained_bytes": 3536,
+            "peak_extra_bytes": 7552
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "7c375528dbd9289d66f63ec9af37bf1f055128d87c99054e8af0bbae6ab7c678",
+          "capture_stdout_sha256": "27828f643b81530d99aed301cf629699df4845c0b694b698328791b00ba864cd"
+        }
+      ],
+      "time": {
+        "result": {
+          "constructor_ns": [
+            2343.7467901416767,
+            2338.4733987603304,
+            2338.523834120425,
+            2336.506013872491,
+            2337.5460079693034,
+            2343.7138060802836,
+            2339.7887396694214,
+            2339.883006198347,
+            2340.2982216646988,
+            2339.6917060212513,
+            2332.6722623966944,
+            2334.7279737308145,
+            2336.5489226682407,
+            2332.536821133412,
+            2334.897542798111
+          ],
+          "release_ns": [
+            55.53375885478158,
+            55.61411599763873,
+            55.494576446280995,
+            55.501586481700116,
+            55.67469746162928,
+            55.69314492325856,
+            55.528778040141674,
+            55.482548701298704,
+            55.99608913813459,
+            55.32906582054309,
+            55.48280696576151,
+            55.407652007083826,
+            55.30530548996458,
+            55.40241292798111,
+            55.560360094451006
+          ],
+          "iterations": 27104,
+          "sink": 406560,
+          "passes": 15,
+          "dictionary_size": 8
+        },
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "b825463fd9301beb967b60308074d68a17be0d95bab4d0f7e5dc619cb85bf9dd",
+        "capture_stdout_sha256": "9633ad0a8603ce29b3564a95c0c962b90b654eb7c2e3baad223882894b841fe2"
+      }
+    },
+    {
+      "family": "support",
+      "size": 16,
+      "class": "Matcher",
+      "memory": [
+        {
+          "result": {
+            "retained_bytes": 5824,
+            "peak_extra_bytes": 9152
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "cf1cdd9ecaed030e7ad9f20cc924e615055a69f83271f00632b95349e072fc75",
+          "capture_stdout_sha256": "2dffe6bc161c9f3cb5536748cee619d5ef58e07b6a4d63dd7af3086ae788f3d8"
+        },
+        {
+          "result": {
+            "retained_bytes": 5824,
+            "peak_extra_bytes": 9152
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "cf1cdd9ecaed030e7ad9f20cc924e615055a69f83271f00632b95349e072fc75",
+          "capture_stdout_sha256": "2dffe6bc161c9f3cb5536748cee619d5ef58e07b6a4d63dd7af3086ae788f3d8"
+        },
+        {
+          "result": {
+            "retained_bytes": 5824,
+            "peak_extra_bytes": 9152
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "cf1cdd9ecaed030e7ad9f20cc924e615055a69f83271f00632b95349e072fc75",
+          "capture_stdout_sha256": "2dffe6bc161c9f3cb5536748cee619d5ef58e07b6a4d63dd7af3086ae788f3d8"
+        },
+        {
+          "result": {
+            "retained_bytes": 5824,
+            "peak_extra_bytes": 9152
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "cf1cdd9ecaed030e7ad9f20cc924e615055a69f83271f00632b95349e072fc75",
+          "capture_stdout_sha256": "2dffe6bc161c9f3cb5536748cee619d5ef58e07b6a4d63dd7af3086ae788f3d8"
+        },
+        {
+          "result": {
+            "retained_bytes": 5824,
+            "peak_extra_bytes": 9152
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "cf1cdd9ecaed030e7ad9f20cc924e615055a69f83271f00632b95349e072fc75",
+          "capture_stdout_sha256": "2dffe6bc161c9f3cb5536748cee619d5ef58e07b6a4d63dd7af3086ae788f3d8"
+        }
+      ],
+      "time": {
+        "result": {
+          "constructor_ns": [
+            3694.3743961352657,
+            3691.7920979986197,
+            3690.299919484702,
+            3691.2799631930066,
+            3694.2904301817343,
+            3690.6529215550954,
+            3692.6037497124453,
+            3692.531170922475,
+            3696.676673567978,
+            3699.2580515297905,
+            3692.8863584080977,
+            3691.822463768116,
+            3692.874568668047,
+            3696.6613756613756,
+            3696.0575109270762
+          ],
+          "release_ns": [
+            61.73729008511617,
+            62.01840349666437,
+            62.03410397975615,
+            61.900736139866574,
+            62.14423740510697,
+            61.51524039567518,
+            61.9322521279043,
+            62.054980446284794,
+            62.02921555095468,
+            61.959972394755006,
+            61.91597653554175,
+            61.810674028065336,
+            61.85909822866345,
+            62.21710374971244,
+            62.47204968944099
+          ],
+          "iterations": 17388,
+          "sink": 260820,
+          "passes": 15,
+          "dictionary_size": 16
+        },
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "e96f51c7dfd247d131d6c4dd406ae956b6bc6d6944ea58897ac2ec53d617ad76",
+        "capture_stdout_sha256": "f832df38f40697136b58e943b428a19bf01fb96951c8923bf41f282a0c394b7d"
+      }
+    },
+    {
+      "family": "support",
+      "size": 16,
+      "class": "Replacer",
+      "memory": [
+        {
+          "result": {
+            "retained_bytes": 6320,
+            "peak_extra_bytes": 12288
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "b5bbb4ee0c899bf5daee97ccc8bb70fe1cf2a92e02e2b7ad90061e90ce97671e",
+          "capture_stdout_sha256": "dd0accc71240c4ebcab359afb98b4cbf40b1ddcb6d6fe224972c75ac05273668"
+        },
+        {
+          "result": {
+            "retained_bytes": 6320,
+            "peak_extra_bytes": 12288
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "b5bbb4ee0c899bf5daee97ccc8bb70fe1cf2a92e02e2b7ad90061e90ce97671e",
+          "capture_stdout_sha256": "dd0accc71240c4ebcab359afb98b4cbf40b1ddcb6d6fe224972c75ac05273668"
+        },
+        {
+          "result": {
+            "retained_bytes": 6320,
+            "peak_extra_bytes": 12288
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "b5bbb4ee0c899bf5daee97ccc8bb70fe1cf2a92e02e2b7ad90061e90ce97671e",
+          "capture_stdout_sha256": "dd0accc71240c4ebcab359afb98b4cbf40b1ddcb6d6fe224972c75ac05273668"
+        },
+        {
+          "result": {
+            "retained_bytes": 6320,
+            "peak_extra_bytes": 12288
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "b5bbb4ee0c899bf5daee97ccc8bb70fe1cf2a92e02e2b7ad90061e90ce97671e",
+          "capture_stdout_sha256": "dd0accc71240c4ebcab359afb98b4cbf40b1ddcb6d6fe224972c75ac05273668"
+        },
+        {
+          "result": {
+            "retained_bytes": 6320,
+            "peak_extra_bytes": 12288
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "b5bbb4ee0c899bf5daee97ccc8bb70fe1cf2a92e02e2b7ad90061e90ce97671e",
+          "capture_stdout_sha256": "dd0accc71240c4ebcab359afb98b4cbf40b1ddcb6d6fe224972c75ac05273668"
+        }
+      ],
+      "time": {
+        "result": {
+          "constructor_ns": [
+            4661.642626015676,
+            4660.345653268138,
+            4663.6524771697705,
+            4661.959157258934,
+            4669.401883943337,
+            4663.268713597469,
+            4666.950097073416,
+            4669.055367800388,
+            4662.726037247429,
+            4666.471057740706,
+            4665.636513985763,
+            4660.210110016538,
+            4660.488099518228,
+            4667.4023872869775,
+            4674.003020061839
+          ],
+          "release_ns": [
+            66.93082620263176,
+            66.71144028187244,
+            66.58517293449341,
+            67.00647156108434,
+            67.26957647228015,
+            66.68735169339182,
+            66.78097361041202,
+            66.58488530955634,
+            66.805421730064,
+            66.79470770115769,
+            66.72697202847488,
+            66.58021140432875,
+            66.52721650967139,
+            66.74897533616165,
+            66.73538505788451
+          ],
+          "iterations": 13907,
+          "sink": 208605,
+          "passes": 15,
+          "dictionary_size": 16
+        },
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "fbc2484a4f5308a922ff99ec65f8afddc2495e61430010ca28d6d3f234150b13",
+        "capture_stdout_sha256": "e432f1a8100adf4ec138717c4fa4e619b1a123a3d6e6de90b78695c2e6a804ad"
+      }
+    },
+    {
+      "family": "support",
+      "size": 32,
+      "class": "Matcher",
+      "memory": [
+        {
+          "result": {
+            "retained_bytes": 10848,
+            "peak_extra_bytes": 19552
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "31d312d7765f950140b747b99352af0dc8d143b115bd152266c454ae057632ae",
+          "capture_stdout_sha256": "431e1fa17a8a332509fb160e7d72df64c146ef01dad8edae6ea09c811eb5c568"
+        },
+        {
+          "result": {
+            "retained_bytes": 10848,
+            "peak_extra_bytes": 19552
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "31d312d7765f950140b747b99352af0dc8d143b115bd152266c454ae057632ae",
+          "capture_stdout_sha256": "431e1fa17a8a332509fb160e7d72df64c146ef01dad8edae6ea09c811eb5c568"
+        },
+        {
+          "result": {
+            "retained_bytes": 10848,
+            "peak_extra_bytes": 19552
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "31d312d7765f950140b747b99352af0dc8d143b115bd152266c454ae057632ae",
+          "capture_stdout_sha256": "431e1fa17a8a332509fb160e7d72df64c146ef01dad8edae6ea09c811eb5c568"
+        },
+        {
+          "result": {
+            "retained_bytes": 10848,
+            "peak_extra_bytes": 19552
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "31d312d7765f950140b747b99352af0dc8d143b115bd152266c454ae057632ae",
+          "capture_stdout_sha256": "431e1fa17a8a332509fb160e7d72df64c146ef01dad8edae6ea09c811eb5c568"
+        },
+        {
+          "result": {
+            "retained_bytes": 10848,
+            "peak_extra_bytes": 19552
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "31d312d7765f950140b747b99352af0dc8d143b115bd152266c454ae057632ae",
+          "capture_stdout_sha256": "431e1fa17a8a332509fb160e7d72df64c146ef01dad8edae6ea09c811eb5c568"
+        }
+      ],
+      "time": {
+        "result": {
+          "constructor_ns": [
+            7585.710883958648,
+            7576.533859914043,
+            7602.525380415844,
+            7597.054477871994,
+            7585.607619932629,
+            7593.6900917644325,
+            7610.356371239401,
+            7565.263677546754,
+            7573.772563596236,
+            7590.744105006389,
+            7563.812405622023,
+            7563.626321291672,
+            7576.101173190847,
+            7587.792078057846,
+            7577.441398536415
+          ],
+          "release_ns": [
+            78.88546869555117,
+            78.57161110465792,
+            78.67719828086886,
+            78.34208386572192,
+            78.78615402485771,
+            79.53420838657219,
+            78.68858171680799,
+            78.8040422813335,
+            79.43047973051458,
+            80.33755372284818,
+            78.64444186316645,
+            78.8216982227901,
+            78.81821349750261,
+            78.73957486351493,
+            79.39098617725637
+          ],
+          "iterations": 8609,
+          "sink": 129135,
+          "passes": 15,
+          "dictionary_size": 32
+        },
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "e98b7efa8f6e0581e730e5df3cf2d234835cb3e8020986b84c8bbe1cbf7f4a46",
+        "capture_stdout_sha256": "3fa28620123fe28ef96a30c8c3e9c6df0f66591455fd173efa297a78ee10b895"
+      }
+    },
+    {
+      "family": "support",
+      "size": 32,
+      "class": "Replacer",
+      "memory": [
+        {
+          "result": {
+            "retained_bytes": 13920,
+            "peak_extra_bytes": 25696
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "70b1acd3e47b054d7dae82288058f38d9adeb364f8d950e8074f7bbe0e9bfc20",
+          "capture_stdout_sha256": "25b444c79875ba9b4cd0ddc1bd9699584ec82f30c8ba676e8c814c84fe476dc0"
+        },
+        {
+          "result": {
+            "retained_bytes": 13920,
+            "peak_extra_bytes": 25696
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "70b1acd3e47b054d7dae82288058f38d9adeb364f8d950e8074f7bbe0e9bfc20",
+          "capture_stdout_sha256": "25b444c79875ba9b4cd0ddc1bd9699584ec82f30c8ba676e8c814c84fe476dc0"
+        },
+        {
+          "result": {
+            "retained_bytes": 13920,
+            "peak_extra_bytes": 25696
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "70b1acd3e47b054d7dae82288058f38d9adeb364f8d950e8074f7bbe0e9bfc20",
+          "capture_stdout_sha256": "25b444c79875ba9b4cd0ddc1bd9699584ec82f30c8ba676e8c814c84fe476dc0"
+        },
+        {
+          "result": {
+            "retained_bytes": 13920,
+            "peak_extra_bytes": 25696
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "70b1acd3e47b054d7dae82288058f38d9adeb364f8d950e8074f7bbe0e9bfc20",
+          "capture_stdout_sha256": "25b444c79875ba9b4cd0ddc1bd9699584ec82f30c8ba676e8c814c84fe476dc0"
+        },
+        {
+          "result": {
+            "retained_bytes": 13920,
+            "peak_extra_bytes": 25696
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "70b1acd3e47b054d7dae82288058f38d9adeb364f8d950e8074f7bbe0e9bfc20",
+          "capture_stdout_sha256": "25b444c79875ba9b4cd0ddc1bd9699584ec82f30c8ba676e8c814c84fe476dc0"
+        }
+      ],
+      "time": {
+        "result": {
+          "constructor_ns": [
+            9134.6356405247,
+            9145.334356684343,
+            9156.442227183925,
+            9148.918504046887,
+            9164.40859614848,
+            9147.909154339939,
+            9153.969020373988,
+            9151.592101590846,
+            9152.903014233882,
+            9206.619732068099,
+            9369.478928272398,
+            9374.504325983813,
+            9372.310773095172,
+            9375.967066703879,
+            9384.94264582752
+          ],
+          "release_ns": [
+            100.34845101869941,
+            99.77672341613173,
+            99.8981300586101,
+            100.1706670387943,
+            100.29807423946414,
+            99.8404967903991,
+            99.86561540608429,
+            99.74630198157968,
+            99.90999162712811,
+            100.06656433156573,
+            100.31719229695786,
+            99.78425900083728,
+            99.56782026234998,
+            100.27393245883339,
+            99.81035445157688
+          ],
+          "iterations": 7166,
+          "sink": 107490,
+          "passes": 15,
+          "dictionary_size": 32
+        },
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "e29038293d85de2fa3e5992c17e2f7da0e04980dab14e5566b3f69bf969cab13",
+        "capture_stdout_sha256": "6293f857a2f86d38486335370e06bee8d837cffd5ceeb5a7c1f464f7f66619c3"
+      }
+    },
+    {
+      "family": "support",
+      "size": 64,
+      "class": "Matcher",
+      "memory": [
+        {
+          "result": {
+            "retained_bytes": 30112,
+            "peak_extra_bytes": 42400
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "f3686863e6b70f5008acbb7c53feee2d120beeab7a48a72e83015533dd2c384f",
+          "capture_stdout_sha256": "b5d3405942b8c3f499b3d0a2eb2f2a8faf74b03e05fb84b4e03f6833892a8068"
+        },
+        {
+          "result": {
+            "retained_bytes": 30112,
+            "peak_extra_bytes": 42400
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "f3686863e6b70f5008acbb7c53feee2d120beeab7a48a72e83015533dd2c384f",
+          "capture_stdout_sha256": "b5d3405942b8c3f499b3d0a2eb2f2a8faf74b03e05fb84b4e03f6833892a8068"
+        },
+        {
+          "result": {
+            "retained_bytes": 30112,
+            "peak_extra_bytes": 42400
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "f3686863e6b70f5008acbb7c53feee2d120beeab7a48a72e83015533dd2c384f",
+          "capture_stdout_sha256": "b5d3405942b8c3f499b3d0a2eb2f2a8faf74b03e05fb84b4e03f6833892a8068"
+        },
+        {
+          "result": {
+            "retained_bytes": 30112,
+            "peak_extra_bytes": 42400
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "f3686863e6b70f5008acbb7c53feee2d120beeab7a48a72e83015533dd2c384f",
+          "capture_stdout_sha256": "b5d3405942b8c3f499b3d0a2eb2f2a8faf74b03e05fb84b4e03f6833892a8068"
+        },
+        {
+          "result": {
+            "retained_bytes": 30112,
+            "peak_extra_bytes": 42400
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "f3686863e6b70f5008acbb7c53feee2d120beeab7a48a72e83015533dd2c384f",
+          "capture_stdout_sha256": "b5d3405942b8c3f499b3d0a2eb2f2a8faf74b03e05fb84b4e03f6833892a8068"
+        }
+      ],
+      "time": {
+        "result": {
+          "constructor_ns": [
+            17591.906174819567,
+            17567.483560545308,
+            17567.053996257684,
+            17556.717989842287,
+            17553.350708366746,
+            17553.705426356588,
+            17572.0042769313,
+            17556.64153969527,
+            17547.694466720128,
+            17576.839347767975,
+            17576.13151563753,
+            17571.735899492116,
+            17554.716653301257,
+            17560.63699545576,
+            17588.17775995723
+          ],
+          "release_ns": [
+            133.51216252338946,
+            133.772520716386,
+            133.54103180967655,
+            133.84923817161186,
+            134.56589147286823,
+            135.40791232290832,
+            133.89334402566158,
+            134.14648489708634,
+            133.6586474204758,
+            133.67040898155574,
+            133.74284950547982,
+            134.80620155038758,
+            135.62416466185513,
+            133.40791232290832,
+            133.61480887463244
+          ],
+          "iterations": 3741,
+          "sink": 56115,
+          "passes": 15,
+          "dictionary_size": 64
+        },
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "86149719783f225eab602049a699f51e8f095e88eeb1c32d2fd74958bc4978f3",
+        "capture_stdout_sha256": "110147bfab459698e4ccf4f65343d04c626e901402dc7434ac7bfb0e03ae9e96"
+      }
+    },
+    {
+      "family": "support",
+      "size": 64,
+      "class": "Replacer",
+      "memory": [
+        {
+          "result": {
+            "retained_bytes": 25024,
+            "peak_extra_bytes": 46528
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "2a4c771eeb00ec16d9f3782dee2daa61026295c709e0d449e0e4d0804b0d1aef",
+          "capture_stdout_sha256": "b1910b5a81580c0b0e4293ec3ec0d280ce7dc31882bebd32833f9df17ab3f789"
+        },
+        {
+          "result": {
+            "retained_bytes": 25024,
+            "peak_extra_bytes": 46528
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "2a4c771eeb00ec16d9f3782dee2daa61026295c709e0d449e0e4d0804b0d1aef",
+          "capture_stdout_sha256": "b1910b5a81580c0b0e4293ec3ec0d280ce7dc31882bebd32833f9df17ab3f789"
+        },
+        {
+          "result": {
+            "retained_bytes": 25024,
+            "peak_extra_bytes": 46528
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "2a4c771eeb00ec16d9f3782dee2daa61026295c709e0d449e0e4d0804b0d1aef",
+          "capture_stdout_sha256": "b1910b5a81580c0b0e4293ec3ec0d280ce7dc31882bebd32833f9df17ab3f789"
+        },
+        {
+          "result": {
+            "retained_bytes": 25024,
+            "peak_extra_bytes": 46528
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "2a4c771eeb00ec16d9f3782dee2daa61026295c709e0d449e0e4d0804b0d1aef",
+          "capture_stdout_sha256": "b1910b5a81580c0b0e4293ec3ec0d280ce7dc31882bebd32833f9df17ab3f789"
+        },
+        {
+          "result": {
+            "retained_bytes": 25024,
+            "peak_extra_bytes": 46528
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "2a4c771eeb00ec16d9f3782dee2daa61026295c709e0d449e0e4d0804b0d1aef",
+          "capture_stdout_sha256": "b1910b5a81580c0b0e4293ec3ec0d280ce7dc31882bebd32833f9df17ab3f789"
+        }
+      ],
+      "time": {
+        "result": {
+          "constructor_ns": [
+            17890.737027981526,
+            17855.167889160555,
+            17875.65607171964,
+            17883.95381689758,
+            17879.900570497146,
+            17897.144525944037,
+            17866.948926922032,
+            17901.195055691387,
+            17873.164900842163,
+            17909.283618581907,
+            17870.79869600652,
+            17935.775332790003,
+            17923.719369736486,
+            17911.21108394458,
+            17903.231187177396
+          ],
+          "release_ns": [
+            166.18228742189623,
+            167.146970931812,
+            167.38413474599292,
+            167.26324368378158,
+            167.28687856560717,
+            167.265960336865,
+            167.0866612333605,
+            167.2010323281717,
+            167.37489812550936,
+            167.2762836185819,
+            167.21515892420538,
+            167.28063026351535,
+            167.44716109752784,
+            168.01195327356697,
+            167.0453681064928
+          ],
+          "iterations": 3681,
+          "sink": 55215,
+          "passes": 15,
+          "dictionary_size": 64
+        },
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "34a55c4662db94ace0a93bc42877acf0c63c98164f9314c5643c1cc98cc04637",
+        "capture_stdout_sha256": "fd0ee5c2cb9edabeec5a642636dc22a87bea5eed1565dc025d7a1f1fc3a90ddb"
+      }
+    },
+    {
+      "family": "support",
+      "size": 128,
+      "class": "Matcher",
+      "memory": [
+        {
+          "result": {
+            "retained_bytes": 47232,
+            "peak_extra_bytes": 88192
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "20b736a6de6393ad590466b2771a56ca9c1a6a6418d8577020fd365066209159",
+          "capture_stdout_sha256": "e35cd6cc35ecb8d29d0673597c270d769135193522ec411f3c556ef879bc55cc"
+        },
+        {
+          "result": {
+            "retained_bytes": 47232,
+            "peak_extra_bytes": 88192
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "20b736a6de6393ad590466b2771a56ca9c1a6a6418d8577020fd365066209159",
+          "capture_stdout_sha256": "e35cd6cc35ecb8d29d0673597c270d769135193522ec411f3c556ef879bc55cc"
+        },
+        {
+          "result": {
+            "retained_bytes": 47232,
+            "peak_extra_bytes": 88192
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "20b736a6de6393ad590466b2771a56ca9c1a6a6418d8577020fd365066209159",
+          "capture_stdout_sha256": "e35cd6cc35ecb8d29d0673597c270d769135193522ec411f3c556ef879bc55cc"
+        },
+        {
+          "result": {
+            "retained_bytes": 47232,
+            "peak_extra_bytes": 88192
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "20b736a6de6393ad590466b2771a56ca9c1a6a6418d8577020fd365066209159",
+          "capture_stdout_sha256": "e35cd6cc35ecb8d29d0673597c270d769135193522ec411f3c556ef879bc55cc"
+        },
+        {
+          "result": {
+            "retained_bytes": 47232,
+            "peak_extra_bytes": 88192
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "20b736a6de6393ad590466b2771a56ca9c1a6a6418d8577020fd365066209159",
+          "capture_stdout_sha256": "e35cd6cc35ecb8d29d0673597c270d769135193522ec411f3c556ef879bc55cc"
+        }
+      ],
+      "time": {
+        "result": {
+          "constructor_ns": [
+            43018.11478599222,
+            43054.14656290532,
+            43039.34046692607,
+            42935.51750972763,
+            42783.13942931258,
+            42793.105058365756,
+            42824.70298313878,
+            42766.0486381323,
+            42873.28988326848,
+            42870.23994811933,
+            42837.92088197146,
+            42782.90791180285,
+            42812.119974059664,
+            42744.58625162127,
+            42699.12905317769
+          ],
+          "release_ns": [
+            181.77172503242542,
+            182.1083009079118,
+            181.85278858625162,
+            182.17898832684824,
+            182.28664072632944,
+            187.48573281452659,
+            182.09792477302204,
+            184.041504539559,
+            183.6141374837873,
+            182.06160830090792,
+            182.43385214007782,
+            181.86121919584954,
+            182.02204928664074,
+            182.36057068741894,
+            182.8767833981842
+          ],
+          "iterations": 1542,
+          "sink": 23130,
+          "passes": 15,
+          "dictionary_size": 128
+        },
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "1a805a66a8dda901ef00d3e053bb5d69c597cad9bda2b01854766b12416259e8",
+        "capture_stdout_sha256": "c08a9fd9b258da49c445eb42d5193c6f28b19393fd798bceffa80dbc37f492ca"
+      }
+    },
+    {
+      "family": "support",
+      "size": 128,
+      "class": "Replacer",
+      "memory": [
+        {
+          "result": {
+            "retained_bytes": 44288,
+            "peak_extra_bytes": 93440
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "089deb5dec90e6f31cde1b052868de8ecc14cd55a1eed916e4de3813553b6465",
+          "capture_stdout_sha256": "33cb907c336cb456f0a7bd8f10ec4696182af691bd62ea5b9991681e7875180b"
+        },
+        {
+          "result": {
+            "retained_bytes": 44288,
+            "peak_extra_bytes": 93440
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "089deb5dec90e6f31cde1b052868de8ecc14cd55a1eed916e4de3813553b6465",
+          "capture_stdout_sha256": "33cb907c336cb456f0a7bd8f10ec4696182af691bd62ea5b9991681e7875180b"
+        },
+        {
+          "result": {
+            "retained_bytes": 44288,
+            "peak_extra_bytes": 93440
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "089deb5dec90e6f31cde1b052868de8ecc14cd55a1eed916e4de3813553b6465",
+          "capture_stdout_sha256": "33cb907c336cb456f0a7bd8f10ec4696182af691bd62ea5b9991681e7875180b"
+        },
+        {
+          "result": {
+            "retained_bytes": 44288,
+            "peak_extra_bytes": 93440
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "089deb5dec90e6f31cde1b052868de8ecc14cd55a1eed916e4de3813553b6465",
+          "capture_stdout_sha256": "33cb907c336cb456f0a7bd8f10ec4696182af691bd62ea5b9991681e7875180b"
+        },
+        {
+          "result": {
+            "retained_bytes": 44288,
+            "peak_extra_bytes": 93440
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "089deb5dec90e6f31cde1b052868de8ecc14cd55a1eed916e4de3813553b6465",
+          "capture_stdout_sha256": "33cb907c336cb456f0a7bd8f10ec4696182af691bd62ea5b9991681e7875180b"
+        }
+      ],
+      "time": {
+        "result": {
+          "constructor_ns": [
+            42946.30609597925,
+            42873.09338521401,
+            43010.32166018158,
+            42840.910505836575,
+            42826.57976653697,
+            42745.4682230869,
+            42758.16147859922,
+            42754.82166018158,
+            42720.04604409857,
+            42750.88391699092,
+            42766.523346303504,
+            42766.50064850843,
+            42772.68352788586,
+            43014.57976653697,
+            42921.2542153048
+          ],
+          "release_ns": [
+            264.7243839169909,
+            262.7814526588846,
+            263.2684824902724,
+            263.46108949416345,
+            265.7756160830091,
+            262.7373540856031,
+            262.9721141374838,
+            262.71335927367056,
+            262.00324254215303,
+            264.7775616083009,
+            262.6108949416342,
+            264.81971465629056,
+            263.2243839169909,
+            266.53761348897535,
+            262.7036316472114
+          ],
+          "iterations": 1542,
+          "sink": 23130,
+          "passes": 15,
+          "dictionary_size": 128
+        },
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "6a5c305f042b495aac4051dcf4de347c08fbd441b1ad52352cd3d40b9847c14e",
+        "capture_stdout_sha256": "3992f061a340b594fdbb190ccedf5ec80883aaa50b9392f1379c969bd8dfc3a8"
+      }
+    },
+    {
+      "family": "support",
+      "size": 256,
+      "class": "Matcher",
+      "memory": [
+        {
+          "result": {
+            "retained_bytes": 85760,
+            "peak_extra_bytes": 155392
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "353718cae890ad8c04db42ae697f5d1b1578afc09564b80dd0d427a4a3eeaca8",
+          "capture_stdout_sha256": "5090ca1a813aa01c48a1e43cf11f3c9715a0cf165f36c655828dddbc2faa60c8"
+        },
+        {
+          "result": {
+            "retained_bytes": 85760,
+            "peak_extra_bytes": 155392
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "353718cae890ad8c04db42ae697f5d1b1578afc09564b80dd0d427a4a3eeaca8",
+          "capture_stdout_sha256": "5090ca1a813aa01c48a1e43cf11f3c9715a0cf165f36c655828dddbc2faa60c8"
+        },
+        {
+          "result": {
+            "retained_bytes": 85760,
+            "peak_extra_bytes": 155392
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "353718cae890ad8c04db42ae697f5d1b1578afc09564b80dd0d427a4a3eeaca8",
+          "capture_stdout_sha256": "5090ca1a813aa01c48a1e43cf11f3c9715a0cf165f36c655828dddbc2faa60c8"
+        },
+        {
+          "result": {
+            "retained_bytes": 85760,
+            "peak_extra_bytes": 155392
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "353718cae890ad8c04db42ae697f5d1b1578afc09564b80dd0d427a4a3eeaca8",
+          "capture_stdout_sha256": "5090ca1a813aa01c48a1e43cf11f3c9715a0cf165f36c655828dddbc2faa60c8"
+        },
+        {
+          "result": {
+            "retained_bytes": 85760,
+            "peak_extra_bytes": 155392
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "353718cae890ad8c04db42ae697f5d1b1578afc09564b80dd0d427a4a3eeaca8",
+          "capture_stdout_sha256": "5090ca1a813aa01c48a1e43cf11f3c9715a0cf165f36c655828dddbc2faa60c8"
+        }
+      ],
+      "time": {
+        "result": {
+          "constructor_ns": [
+            125946.44507575757,
+            125657.39393939394,
+            125603.94696969698,
+            125636.86553030302,
+            125539.72727272728,
+            125555.20265151515,
+            125676.56628787878,
+            125536.39772727272,
+            126102.61553030302,
+            126226.98295454546,
+            126075.31628787878,
+            126236.79924242424,
+            126364.89772727272,
+            126015.20454545454,
+            126132.15151515152
+          ],
+          "release_ns": [
+            303.66477272727275,
+            301.33522727272725,
+            300.6496212121212,
+            301.83522727272725,
+            305.0776515151515,
+            308.8314393939394,
+            309.03977272727275,
+            307.26704545454544,
+            302.22159090909093,
+            301.81439393939394,
+            301.1458333333333,
+            301.1666666666667,
+            303.5625,
+            302.2348484848485,
+            307.2064393939394
+          ],
+          "iterations": 528,
+          "sink": 7920,
+          "passes": 15,
+          "dictionary_size": 256
+        },
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "b4b910a648f7e3204b2548fe99a344fbd36b08912eed9c51afad9eaea8b01fdc",
+        "capture_stdout_sha256": "302394e0436f47f3c4e575adfdff99a60ff7de0ca5eab43ad82f81d870506d6d"
+      }
+    },
+    {
+      "family": "support",
+      "size": 256,
+      "class": "Replacer",
+      "memory": [
+        {
+          "result": {
+            "retained_bytes": 71936,
+            "peak_extra_bytes": 157952
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "b55f13cc80fe6aa2f990c25e8a1e028e9536ca796eaf1da4e8b6d07b4abfd9b4",
+          "capture_stdout_sha256": "4243fea74564f2f8d88e020d5294742aa4ca5b822da49169ae946c053afd2ead"
+        },
+        {
+          "result": {
+            "retained_bytes": 71936,
+            "peak_extra_bytes": 157952
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "b55f13cc80fe6aa2f990c25e8a1e028e9536ca796eaf1da4e8b6d07b4abfd9b4",
+          "capture_stdout_sha256": "4243fea74564f2f8d88e020d5294742aa4ca5b822da49169ae946c053afd2ead"
+        },
+        {
+          "result": {
+            "retained_bytes": 71936,
+            "peak_extra_bytes": 157952
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "b55f13cc80fe6aa2f990c25e8a1e028e9536ca796eaf1da4e8b6d07b4abfd9b4",
+          "capture_stdout_sha256": "4243fea74564f2f8d88e020d5294742aa4ca5b822da49169ae946c053afd2ead"
+        },
+        {
+          "result": {
+            "retained_bytes": 71936,
+            "peak_extra_bytes": 157952
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "b55f13cc80fe6aa2f990c25e8a1e028e9536ca796eaf1da4e8b6d07b4abfd9b4",
+          "capture_stdout_sha256": "4243fea74564f2f8d88e020d5294742aa4ca5b822da49169ae946c053afd2ead"
+        },
+        {
+          "result": {
+            "retained_bytes": 71936,
+            "peak_extra_bytes": 157952
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "b55f13cc80fe6aa2f990c25e8a1e028e9536ca796eaf1da4e8b6d07b4abfd9b4",
+          "capture_stdout_sha256": "4243fea74564f2f8d88e020d5294742aa4ca5b822da49169ae946c053afd2ead"
+        }
+      ],
+      "time": {
+        "result": {
+          "constructor_ns": [
+            109637.87458745875,
+            109879.7095709571,
+            109616.71782178218,
+            109542.15676567657,
+            109524.42409240924,
+            109558.05280528053,
+            109540.099009901,
+            109388.13036303631,
+            109162.45709570957,
+            109239.899339934,
+            109327.61386138614,
+            109310.70627062707,
+            109269.4801980198,
+            109350.16666666667,
+            109403.62376237624
+          ],
+          "release_ns": [
+            469.519801980198,
+            471.64686468646863,
+            466.8943894389439,
+            466.24917491749176,
+            470.53465346534654,
+            471.63366336633663,
+            467.12706270627064,
+            466.9059405940594,
+            478.3019801980198,
+            470.84983498349834,
+            467.5676567656766,
+            464.56600660066005,
+            467.8201320132013,
+            465.40429042904293,
+            472.536303630363
+          ],
+          "iterations": 606,
+          "sink": 9090,
+          "passes": 15,
+          "dictionary_size": 256
+        },
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "f7a019afc03c39b7aabc2e8239750ad2256ad0163dac7da770681675f901c4bc",
+        "capture_stdout_sha256": "cb65e362d85be174b91f05db7c6d4712e5ab70f94b9f3095301e93ab99dd477b"
+      }
+    },
+    {
+      "family": "support",
+      "size": 512,
+      "class": "Matcher",
+      "memory": [
+        {
+          "result": {
+            "retained_bytes": 192256,
+            "peak_extra_bytes": 315136
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "d1fdd6936865b148139aa95543dc57b08a4facfc820c754315c0f68dea1abb85",
+          "capture_stdout_sha256": "dcae36fd511547cc7d0a2d006d3cc10a0213973fdc30e28decbae70fb4336f6e"
+        },
+        {
+          "result": {
+            "retained_bytes": 192256,
+            "peak_extra_bytes": 315136
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "d1fdd6936865b148139aa95543dc57b08a4facfc820c754315c0f68dea1abb85",
+          "capture_stdout_sha256": "dcae36fd511547cc7d0a2d006d3cc10a0213973fdc30e28decbae70fb4336f6e"
+        },
+        {
+          "result": {
+            "retained_bytes": 192256,
+            "peak_extra_bytes": 315136
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "d1fdd6936865b148139aa95543dc57b08a4facfc820c754315c0f68dea1abb85",
+          "capture_stdout_sha256": "dcae36fd511547cc7d0a2d006d3cc10a0213973fdc30e28decbae70fb4336f6e"
+        },
+        {
+          "result": {
+            "retained_bytes": 192256,
+            "peak_extra_bytes": 315136
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "d1fdd6936865b148139aa95543dc57b08a4facfc820c754315c0f68dea1abb85",
+          "capture_stdout_sha256": "dcae36fd511547cc7d0a2d006d3cc10a0213973fdc30e28decbae70fb4336f6e"
+        },
+        {
+          "result": {
+            "retained_bytes": 192256,
+            "peak_extra_bytes": 315136
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "d1fdd6936865b148139aa95543dc57b08a4facfc820c754315c0f68dea1abb85",
+          "capture_stdout_sha256": "dcae36fd511547cc7d0a2d006d3cc10a0213973fdc30e28decbae70fb4336f6e"
+        }
+      ],
+      "time": {
+        "result": {
+          "constructor_ns": [
+            343899.44845360826,
+            344104.8762886598,
+            344750.78350515466,
+            344476.07216494845,
+            343999.43298969074,
+            344027.46907216497,
+            344071.5257731959,
+            344208.5618556701,
+            343693.3402061856,
+            343931.6288659794,
+            344173.4639175258,
+            344381.1443298969,
+            344109.91752577317,
+            343758.56701030926,
+            344033.0618556701
+          ],
+          "release_ns": [
+            542.2886597938144,
+            544.0979381443299,
+            560.8505154639175,
+            552.2216494845361,
+            561.840206185567,
+            540.840206185567,
+            561.1958762886597,
+            543.9587628865979,
+            543.0876288659794,
+            544.0051546391752,
+            542.139175257732,
+            544.8814432989691,
+            547.9690721649484,
+            538.2938144329897,
+            538.0412371134021
+          ],
+          "iterations": 194,
+          "sink": 2910,
+          "passes": 15,
+          "dictionary_size": 512
+        },
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "6cbf8d7e2525b471e143353169b4077ae35091023c7af774ae3560bb137e309c",
+        "capture_stdout_sha256": "054d4ef139309e85a353f7c4c7e22296733e8b93e0f3939578d7eb79e3926bc7"
+      }
+    },
+    {
+      "family": "support",
+      "size": 512,
+      "class": "Replacer",
+      "memory": [
+        {
+          "result": {
+            "retained_bytes": 144128,
+            "peak_extra_bytes": 303872
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "adc67a3d87a0404dc333e146797da8489026db566e858ee3bfe287e48eb19018",
+          "capture_stdout_sha256": "06ef71aa8e524cfbeb943df5790385a5c35f867056220ef16af58673580b309a"
+        },
+        {
+          "result": {
+            "retained_bytes": 144128,
+            "peak_extra_bytes": 303872
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "adc67a3d87a0404dc333e146797da8489026db566e858ee3bfe287e48eb19018",
+          "capture_stdout_sha256": "06ef71aa8e524cfbeb943df5790385a5c35f867056220ef16af58673580b309a"
+        },
+        {
+          "result": {
+            "retained_bytes": 144128,
+            "peak_extra_bytes": 303872
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "adc67a3d87a0404dc333e146797da8489026db566e858ee3bfe287e48eb19018",
+          "capture_stdout_sha256": "06ef71aa8e524cfbeb943df5790385a5c35f867056220ef16af58673580b309a"
+        },
+        {
+          "result": {
+            "retained_bytes": 144128,
+            "peak_extra_bytes": 303872
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "adc67a3d87a0404dc333e146797da8489026db566e858ee3bfe287e48eb19018",
+          "capture_stdout_sha256": "06ef71aa8e524cfbeb943df5790385a5c35f867056220ef16af58673580b309a"
+        },
+        {
+          "result": {
+            "retained_bytes": 144128,
+            "peak_extra_bytes": 303872
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "adc67a3d87a0404dc333e146797da8489026db566e858ee3bfe287e48eb19018",
+          "capture_stdout_sha256": "06ef71aa8e524cfbeb943df5790385a5c35f867056220ef16af58673580b309a"
+        }
+      ],
+      "time": {
+        "result": {
+          "constructor_ns": [
+            285153.347639485,
+            285975.3261802575,
+            285854.3433476395,
+            285877.90557939914,
+            285894.15879828326,
+            285742.2532188841,
+            285930.4034334764,
+            285694.5407725322,
+            285658.3004291846,
+            285733.0901287554,
+            285594.9399141631,
+            285536.2103004292,
+            286687.660944206,
+            285628.2145922747,
+            285753.9957081545
+          ],
+          "release_ns": [
+            909.3090128755365,
+            910.5364806866953,
+            906.519313304721,
+            906.3390557939914,
+            910.3991416309013,
+            906.8369098712446,
+            923.8540772532189,
+            903.4377682403433,
+            909.8283261802575,
+            913.0729613733905,
+            905.6437768240344,
+            909.7381974248927,
+            908.8927038626609,
+            906.9227467811158,
+            904.7381974248927
+          ],
+          "iterations": 233,
+          "sink": 3495,
+          "passes": 15,
+          "dictionary_size": 512
+        },
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "f921ce10060287cf50282008dd7a675b6c589ce9ac2166e0ffad8cec65a921e2",
+        "capture_stdout_sha256": "c4b2c4fd6a425ed7b55eefcd515371dfeadd8cde99ed20e6f1cd8293fc9cb08c"
+      }
+    },
+    {
+      "family": "support",
+      "size": 1000,
+      "class": "Matcher",
+      "memory": [
+        {
+          "result": {
+            "retained_bytes": 410368,
+            "peak_extra_bytes": 729856
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "421cf509ae4acdd2157e3a8f509ac5db8ad7dcb21140fae72969e149ed318f60",
+          "capture_stdout_sha256": "0d6a80206b2bfe1f02f352282f13ee689850cc02909d435869ee0a53954fdc1c"
+        },
+        {
+          "result": {
+            "retained_bytes": 410368,
+            "peak_extra_bytes": 729856
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "421cf509ae4acdd2157e3a8f509ac5db8ad7dcb21140fae72969e149ed318f60",
+          "capture_stdout_sha256": "0d6a80206b2bfe1f02f352282f13ee689850cc02909d435869ee0a53954fdc1c"
+        },
+        {
+          "result": {
+            "retained_bytes": 410368,
+            "peak_extra_bytes": 729856
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "421cf509ae4acdd2157e3a8f509ac5db8ad7dcb21140fae72969e149ed318f60",
+          "capture_stdout_sha256": "0d6a80206b2bfe1f02f352282f13ee689850cc02909d435869ee0a53954fdc1c"
+        },
+        {
+          "result": {
+            "retained_bytes": 410368,
+            "peak_extra_bytes": 729856
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "421cf509ae4acdd2157e3a8f509ac5db8ad7dcb21140fae72969e149ed318f60",
+          "capture_stdout_sha256": "0d6a80206b2bfe1f02f352282f13ee689850cc02909d435869ee0a53954fdc1c"
+        },
+        {
+          "result": {
+            "retained_bytes": 410368,
+            "peak_extra_bytes": 729856
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "421cf509ae4acdd2157e3a8f509ac5db8ad7dcb21140fae72969e149ed318f60",
+          "capture_stdout_sha256": "0d6a80206b2bfe1f02f352282f13ee689850cc02909d435869ee0a53954fdc1c"
+        }
+      ],
+      "time": {
+        "result": {
+          "constructor_ns": [
+            865051.4545454546,
+            865733.1948051949,
+            866474.4025974026,
+            866199.5714285715,
+            866493,
+            865459.3896103896,
+            866124.7662337662,
+            865344.6493506493,
+            865509.1688311688,
+            865130.5324675324,
+            865234.6363636364,
+            866450.2727272727,
+            865711.8701298701,
+            865926.3636363636,
+            865177.1038961039
+          ],
+          "release_ns": [
+            1258.1818181818182,
+            1245.8831168831168,
+            1238.1298701298701,
+            1246.077922077922,
+            1298.8181818181818,
+            1233,
+            1296.1038961038962,
+            1255.6623376623377,
+            1245.012987012987,
+            1233.6753246753246,
+            1240.2077922077922,
+            1256.2077922077922,
+            1241.922077922078,
+            1247.6623376623377,
+            1245.1038961038962
+          ],
+          "iterations": 77,
+          "sink": 1155,
+          "passes": 15,
+          "dictionary_size": 1000
+        },
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "4f43af788de8766f0f20a1a002d309bc58975e6412efe067092225b8cfee71e4",
+        "capture_stdout_sha256": "2d65fb814fda1d18ad7dfc87b9b6806c1a3e98149c4a4826f75d3c9a2ca1f5aa"
+      }
+    },
+    {
+      "family": "support",
+      "size": 1000,
+      "class": "Replacer",
+      "memory": [
+        {
+          "result": {
+            "retained_bytes": 238336,
+            "peak_extra_bytes": 606976
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "a0591864321958ec45b33d757e1d35c4f092586d02c92e296d96aa0e1455c5db",
+          "capture_stdout_sha256": "582992867ec805f29bfa47bbda633dc26353f23bfbb8f9cf925f3fe3b7f4854f"
+        },
+        {
+          "result": {
+            "retained_bytes": 238336,
+            "peak_extra_bytes": 606976
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "a0591864321958ec45b33d757e1d35c4f092586d02c92e296d96aa0e1455c5db",
+          "capture_stdout_sha256": "582992867ec805f29bfa47bbda633dc26353f23bfbb8f9cf925f3fe3b7f4854f"
+        },
+        {
+          "result": {
+            "retained_bytes": 238336,
+            "peak_extra_bytes": 606976
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "a0591864321958ec45b33d757e1d35c4f092586d02c92e296d96aa0e1455c5db",
+          "capture_stdout_sha256": "582992867ec805f29bfa47bbda633dc26353f23bfbb8f9cf925f3fe3b7f4854f"
+        },
+        {
+          "result": {
+            "retained_bytes": 238336,
+            "peak_extra_bytes": 606976
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "a0591864321958ec45b33d757e1d35c4f092586d02c92e296d96aa0e1455c5db",
+          "capture_stdout_sha256": "582992867ec805f29bfa47bbda633dc26353f23bfbb8f9cf925f3fe3b7f4854f"
+        },
+        {
+          "result": {
+            "retained_bytes": 238336,
+            "peak_extra_bytes": 606976
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "a0591864321958ec45b33d757e1d35c4f092586d02c92e296d96aa0e1455c5db",
+          "capture_stdout_sha256": "582992867ec805f29bfa47bbda633dc26353f23bfbb8f9cf925f3fe3b7f4854f"
+        }
+      ],
+      "time": {
+        "result": {
+          "constructor_ns": [
+            600165.0720720721,
+            600961.4234234234,
+            599163.1891891892,
+            599220.3063063063,
+            598940.8918918918,
+            599829.7747747748,
+            599090.5855855856,
+            599167.4774774775,
+            598978.8198198198,
+            599256.3693693693,
+            599566.4684684685,
+            599163.009009009,
+            598979.2612612613,
+            599105.3243243244,
+            599518.0900900901
+          ],
+          "release_ns": [
+            1872.027027027027,
+            1865.6486486486488,
+            1893.3513513513512,
+            1861.4234234234234,
+            1892.6846846846847,
+            1865.3783783783783,
+            1858.837837837838,
+            1864.963963963964,
+            1890.6306306306305,
+            1857.2522522522522,
+            1857.882882882883,
+            1860.1531531531532,
+            1854.981981981982,
+            1855.2252252252251,
+            1861.2432432432433
+          ],
+          "iterations": 111,
+          "sink": 1665,
+          "passes": 15,
+          "dictionary_size": 1000
+        },
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "9c20a1c1d08f5fac710693a1bf64629d7e471aafdb1197662ffe6b3327e470ef",
+        "capture_stdout_sha256": "5c3077ca29eb4e83feab0d7f02cec70845f033fc622aa6955c245a26c25818ed"
+      }
+    },
+    {
+      "family": "support",
+      "size": 2000,
+      "class": "Matcher",
+      "memory": [
+        {
+          "result": {
+            "retained_bytes": 746240,
+            "peak_extra_bytes": 1385216
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "4b36b52265bcc7f5c8abd34c7ba61b45ccc7a1fe736ddfafc3b247eab827161a",
+          "capture_stdout_sha256": "51b5e9847f9c7b28afbd29a94a6d1cdd4a6abae3c4e89b2ae1fc300a9a6aa406"
+        },
+        {
+          "result": {
+            "retained_bytes": 746240,
+            "peak_extra_bytes": 1385216
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "4b36b52265bcc7f5c8abd34c7ba61b45ccc7a1fe736ddfafc3b247eab827161a",
+          "capture_stdout_sha256": "51b5e9847f9c7b28afbd29a94a6d1cdd4a6abae3c4e89b2ae1fc300a9a6aa406"
+        },
+        {
+          "result": {
+            "retained_bytes": 746240,
+            "peak_extra_bytes": 1385216
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "4b36b52265bcc7f5c8abd34c7ba61b45ccc7a1fe736ddfafc3b247eab827161a",
+          "capture_stdout_sha256": "51b5e9847f9c7b28afbd29a94a6d1cdd4a6abae3c4e89b2ae1fc300a9a6aa406"
+        },
+        {
+          "result": {
+            "retained_bytes": 746240,
+            "peak_extra_bytes": 1385216
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "4b36b52265bcc7f5c8abd34c7ba61b45ccc7a1fe736ddfafc3b247eab827161a",
+          "capture_stdout_sha256": "51b5e9847f9c7b28afbd29a94a6d1cdd4a6abae3c4e89b2ae1fc300a9a6aa406"
+        },
+        {
+          "result": {
+            "retained_bytes": 746240,
+            "peak_extra_bytes": 1385216
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "4b36b52265bcc7f5c8abd34c7ba61b45ccc7a1fe736ddfafc3b247eab827161a",
+          "capture_stdout_sha256": "51b5e9847f9c7b28afbd29a94a6d1cdd4a6abae3c4e89b2ae1fc300a9a6aa406"
+        }
+      ],
+      "time": {
+        "result": {
+          "constructor_ns": [
+            1757530.0263157894,
+            1757606.8421052631,
+            1756843.3421052631,
+            1757388.7894736843,
+            1755980.4736842106,
+            1755004.605263158,
+            1756472.5263157894,
+            1754795.6578947369,
+            1756101.605263158,
+            1756005.1842105263,
+            1758243.105263158,
+            1755834.5526315789,
+            1757801.9736842106,
+            1755082.9473684211,
+            1756428.1315789474
+          ],
+          "release_ns": [
+            2310.9736842105262,
+            2313.8947368421054,
+            2319.4210526315787,
+            2323.9210526315787,
+            2319.0526315789475,
+            2319.5789473684213,
+            2325.657894736842,
+            2313.4473684210525,
+            2314.7368421052633,
+            2312.3684210526317,
+            2316.2105263157896,
+            2310.315789473684,
+            2316.4210526315787,
+            2322.2894736842104,
+            2308.2631578947367
+          ],
+          "iterations": 38,
+          "sink": 570,
+          "passes": 15,
+          "dictionary_size": 2000
+        },
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "ce214e73e5b0abeb65552051df004f183481ee2f0a629e1f527dbc84dc4ce874",
+        "capture_stdout_sha256": "21691db59fe4e669b785b51d765d02ccd31efce3ccb46ad8d54fe2f737c8096b"
+      }
+    },
+    {
+      "family": "support",
+      "size": 2000,
+      "class": "Replacer",
+      "memory": [
+        {
+          "result": {
+            "retained_bytes": 377600,
+            "peak_extra_bytes": 905984
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "b39caadb4d6a8dfae8bcd15ca29fde4abd05cd261e59c91f1979c7de988a1c17",
+          "capture_stdout_sha256": "60f113025e8b16a255b8ab91ee0d9eca1ca2da373d98b6554461a8f911224da8"
+        },
+        {
+          "result": {
+            "retained_bytes": 377600,
+            "peak_extra_bytes": 905984
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "b39caadb4d6a8dfae8bcd15ca29fde4abd05cd261e59c91f1979c7de988a1c17",
+          "capture_stdout_sha256": "60f113025e8b16a255b8ab91ee0d9eca1ca2da373d98b6554461a8f911224da8"
+        },
+        {
+          "result": {
+            "retained_bytes": 377600,
+            "peak_extra_bytes": 905984
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "b39caadb4d6a8dfae8bcd15ca29fde4abd05cd261e59c91f1979c7de988a1c17",
+          "capture_stdout_sha256": "60f113025e8b16a255b8ab91ee0d9eca1ca2da373d98b6554461a8f911224da8"
+        },
+        {
+          "result": {
+            "retained_bytes": 377600,
+            "peak_extra_bytes": 905984
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "b39caadb4d6a8dfae8bcd15ca29fde4abd05cd261e59c91f1979c7de988a1c17",
+          "capture_stdout_sha256": "60f113025e8b16a255b8ab91ee0d9eca1ca2da373d98b6554461a8f911224da8"
+        },
+        {
+          "result": {
+            "retained_bytes": 377600,
+            "peak_extra_bytes": 905984
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "b39caadb4d6a8dfae8bcd15ca29fde4abd05cd261e59c91f1979c7de988a1c17",
+          "capture_stdout_sha256": "60f113025e8b16a255b8ab91ee0d9eca1ca2da373d98b6554461a8f911224da8"
+        }
+      ],
+      "time": {
+        "result": {
+          "constructor_ns": [
+            1113123.6,
+            1113045.3166666667,
+            1112683.25,
+            1114115.8,
+            1113347.1333333333,
+            1112554.7166666666,
+            1112635.4,
+            1114344.7666666666,
+            1112349.5333333334,
+            1112711.2333333334,
+            1112813.35,
+            1112548.6333333333,
+            1113358.9666666666,
+            1113651.3833333333,
+            1112941.3333333333
+          ],
+          "release_ns": [
+            3809.3,
+            3807.15,
+            3804.5333333333333,
+            3822.55,
+            3809,
+            3809.9666666666667,
+            3811.3166666666666,
+            3891.3,
+            3801.6,
+            3811.8,
+            3822.483333333333,
+            3808.616666666667,
+            3812.766666666667,
+            3813.016666666667,
+            3818.016666666667
+          ],
+          "iterations": 60,
+          "sink": 900,
+          "passes": 15,
+          "dictionary_size": 2000
+        },
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "2c3500e57ce02e7b6e13c3a9b54ddda71209df3e718396b58b20b98469ecfbc4",
+        "capture_stdout_sha256": "4137cae6a0366b77183f6323a16cc177c36f8f0329aeb34b8d99b06875f974b5"
+      }
+    },
+    {
+      "family": "support",
+      "size": 5000,
+      "class": "Matcher",
+      "memory": [
+        {
+          "result": {
+            "retained_bytes": 1430272,
+            "peak_extra_bytes": 2687744
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "0c5f78e5213f9f76952fa1b5957325fb6029372668efb435b7b7f2f5bd145028",
+          "capture_stdout_sha256": "f8cd8d53c0a203131a59e9d2fbac45143ece797ca16af17680bf9a46e8ef1c47"
+        },
+        {
+          "result": {
+            "retained_bytes": 1430272,
+            "peak_extra_bytes": 2687744
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "0c5f78e5213f9f76952fa1b5957325fb6029372668efb435b7b7f2f5bd145028",
+          "capture_stdout_sha256": "f8cd8d53c0a203131a59e9d2fbac45143ece797ca16af17680bf9a46e8ef1c47"
+        },
+        {
+          "result": {
+            "retained_bytes": 1430272,
+            "peak_extra_bytes": 2687744
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "0c5f78e5213f9f76952fa1b5957325fb6029372668efb435b7b7f2f5bd145028",
+          "capture_stdout_sha256": "f8cd8d53c0a203131a59e9d2fbac45143ece797ca16af17680bf9a46e8ef1c47"
+        },
+        {
+          "result": {
+            "retained_bytes": 1430272,
+            "peak_extra_bytes": 2687744
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "0c5f78e5213f9f76952fa1b5957325fb6029372668efb435b7b7f2f5bd145028",
+          "capture_stdout_sha256": "f8cd8d53c0a203131a59e9d2fbac45143ece797ca16af17680bf9a46e8ef1c47"
+        },
+        {
+          "result": {
+            "retained_bytes": 1430272,
+            "peak_extra_bytes": 2687744
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "0c5f78e5213f9f76952fa1b5957325fb6029372668efb435b7b7f2f5bd145028",
+          "capture_stdout_sha256": "f8cd8d53c0a203131a59e9d2fbac45143ece797ca16af17680bf9a46e8ef1c47"
+        }
+      ],
+      "time": {
+        "result": {
+          "constructor_ns": [
+            4033888.588235294,
+            4038021.3529411764,
+            4033519.2352941176,
+            4030464.8235294116,
+            4037197.8235294116,
+            4032403.1764705884,
+            4039353.7647058824,
+            4032975.705882353,
+            4035163.1764705884,
+            4033656.470588235,
+            4029260.2352941176,
+            4039342.0588235296,
+            4032977.1764705884,
+            4039098.0588235296,
+            4036443.705882353
+          ],
+          "release_ns": [
+            5518.64705882353,
+            5522.529411764706,
+            5738.235294117647,
+            5524.294117647059,
+            5529.882352941177,
+            5541.470588235294,
+            5508.117647058823,
+            5528.058823529412,
+            5499.882352941177,
+            5716.176470588235,
+            5500.705882352941,
+            5532.529411764706,
+            5503.64705882353,
+            5532.764705882353,
+            5523.35294117647
+          ],
+          "iterations": 17,
+          "sink": 255,
+          "passes": 15,
+          "dictionary_size": 5000
+        },
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "fad890a2706a5fadca5b4eb5db67df11fba4465dfac695e5f83823a778a49569",
+        "capture_stdout_sha256": "8d84902713041e4635ab5549206b0d8d1d552c720a30cd06a3a69cdc9aba1481"
+      }
+    },
+    {
+      "family": "support",
+      "size": 5000,
+      "class": "Replacer",
+      "memory": [
+        {
+          "result": {
+            "retained_bytes": 779008,
+            "peak_extra_bytes": 2441984
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "b18ab91bf51bafd3f2a55d75b4e4692b5418b13acbfd43d40e8f6825a7c38f3f",
+          "capture_stdout_sha256": "c9d4c85148eb1faff8088884ba54a24e997d651c14605281059b99fa5ca11211"
+        },
+        {
+          "result": {
+            "retained_bytes": 779008,
+            "peak_extra_bytes": 2441984
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "b18ab91bf51bafd3f2a55d75b4e4692b5418b13acbfd43d40e8f6825a7c38f3f",
+          "capture_stdout_sha256": "c9d4c85148eb1faff8088884ba54a24e997d651c14605281059b99fa5ca11211"
+        },
+        {
+          "result": {
+            "retained_bytes": 779008,
+            "peak_extra_bytes": 2441984
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "b18ab91bf51bafd3f2a55d75b4e4692b5418b13acbfd43d40e8f6825a7c38f3f",
+          "capture_stdout_sha256": "c9d4c85148eb1faff8088884ba54a24e997d651c14605281059b99fa5ca11211"
+        },
+        {
+          "result": {
+            "retained_bytes": 779008,
+            "peak_extra_bytes": 2441984
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "b18ab91bf51bafd3f2a55d75b4e4692b5418b13acbfd43d40e8f6825a7c38f3f",
+          "capture_stdout_sha256": "c9d4c85148eb1faff8088884ba54a24e997d651c14605281059b99fa5ca11211"
+        },
+        {
+          "result": {
+            "retained_bytes": 779008,
+            "peak_extra_bytes": 2441984
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "b18ab91bf51bafd3f2a55d75b4e4692b5418b13acbfd43d40e8f6825a7c38f3f",
+          "capture_stdout_sha256": "c9d4c85148eb1faff8088884ba54a24e997d651c14605281059b99fa5ca11211"
+        }
+      ],
+      "time": {
+        "result": {
+          "constructor_ns": [
+            3200402.238095238,
+            3188860.1904761903,
+            3189198.285714286,
+            3188946.1428571427,
+            3193119.523809524,
+            3192124.8571428573,
+            3188352.904761905,
+            3206691,
+            3192880.095238095,
+            3191751.9523809524,
+            3194746.3333333335,
+            3198534.4285714286,
+            3191790.380952381,
+            3192057.9523809524,
+            3195656.095238095
+          ],
+          "release_ns": [
+            53155.19047619047,
+            52902.47619047619,
+            52721.619047619046,
+            52549.380952380954,
+            52959.23809523809,
+            52853.80952380953,
+            52902.42857142857,
+            52608.71428571428,
+            52699.95238095238,
+            52960.09523809524,
+            52776.90476190476,
+            52661.09523809524,
+            52387.57142857143,
+            52905.28571428572,
+            53004.09523809524
+          ],
+          "iterations": 21,
+          "sink": 315,
+          "passes": 15,
+          "dictionary_size": 5000
+        },
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "d9ae90dee79e5b3ebc4c97540af7c83db1de292b3462a3ee7a0b3ac6e8a9edc4",
+        "capture_stdout_sha256": "e6eff22e0c66bfdc9e88931a9d7e109cf2335c35df677588094a9b93e9c8fec6"
+      }
+    },
+    {
+      "family": "support",
+      "size": 10000,
+      "class": "Matcher",
+      "memory": [
+        {
+          "result": {
+            "retained_bytes": 2327296,
+            "peak_extra_bytes": 4801312
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "03c118b4792412a1a3a129788d16514f79444ec766a138361c48cb84b51c0529",
+          "capture_stdout_sha256": "8f00dd4aa57d3174ce3d0a4eed362adf727c36e28f9b8adeff2f9f4bc371134a"
+        },
+        {
+          "result": {
+            "retained_bytes": 2327296,
+            "peak_extra_bytes": 4801312
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "03c118b4792412a1a3a129788d16514f79444ec766a138361c48cb84b51c0529",
+          "capture_stdout_sha256": "8f00dd4aa57d3174ce3d0a4eed362adf727c36e28f9b8adeff2f9f4bc371134a"
+        },
+        {
+          "result": {
+            "retained_bytes": 2327296,
+            "peak_extra_bytes": 4801312
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "03c118b4792412a1a3a129788d16514f79444ec766a138361c48cb84b51c0529",
+          "capture_stdout_sha256": "8f00dd4aa57d3174ce3d0a4eed362adf727c36e28f9b8adeff2f9f4bc371134a"
+        },
+        {
+          "result": {
+            "retained_bytes": 2327296,
+            "peak_extra_bytes": 4801312
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "03c118b4792412a1a3a129788d16514f79444ec766a138361c48cb84b51c0529",
+          "capture_stdout_sha256": "8f00dd4aa57d3174ce3d0a4eed362adf727c36e28f9b8adeff2f9f4bc371134a"
+        },
+        {
+          "result": {
+            "retained_bytes": 2327296,
+            "peak_extra_bytes": 4801312
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "03c118b4792412a1a3a129788d16514f79444ec766a138361c48cb84b51c0529",
+          "capture_stdout_sha256": "8f00dd4aa57d3174ce3d0a4eed362adf727c36e28f9b8adeff2f9f4bc371134a"
+        }
+      ],
+      "time": {
+        "result": {
+          "constructor_ns": [
+            10206474.857142856,
+            10194090.142857144,
+            10188793.142857144,
+            10196184.285714285,
+            10211930.857142856,
+            10203343.42857143,
+            10187894.57142857,
+            10200396.285714285,
+            10198701.857142856,
+            10193921.42857143,
+            10179353.857142856,
+            10197140.142857144,
+            10191877.714285715,
+            10174676.57142857,
+            10187635.142857144
+          ],
+          "release_ns": [
+            101354.14285714286,
+            101271.28571428571,
+            103282,
+            102830.85714285714,
+            102653.71428571429,
+            101079.28571428571,
+            102111.42857142857,
+            102015.57142857143,
+            102056.85714285714,
+            102386,
+            102265.85714285714,
+            101364.14285714286,
+            102549,
+            101772.28571428571,
+            102082.71428571429
+          ],
+          "iterations": 7,
+          "sink": 105,
+          "passes": 15,
+          "dictionary_size": 10000
+        },
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "572bac8b86e2db8d8b1774995f287ca9f0caa09c0997fd80bea8f8cbf6f54b4f",
+        "capture_stdout_sha256": "453a278b2aced8f6ee9cf361404523146fdd8665b20d8b8405d19a08416dc66d"
+      }
+    },
+    {
+      "family": "support",
+      "size": 10000,
+      "class": "Replacer",
+      "memory": [
+        {
+          "result": {
+            "retained_bytes": 1356544,
+            "peak_extra_bytes": 3343104
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "1863c55914bb36c1bcf8bc69d26a051517eca77030ba1c6070b0271656ee2bfd",
+          "capture_stdout_sha256": "cf0854ff79dd9a18d78a819aeeb187dc44d3f54f3098b9e57ac86e0823e64647"
+        },
+        {
+          "result": {
+            "retained_bytes": 1356544,
+            "peak_extra_bytes": 3343104
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "1863c55914bb36c1bcf8bc69d26a051517eca77030ba1c6070b0271656ee2bfd",
+          "capture_stdout_sha256": "cf0854ff79dd9a18d78a819aeeb187dc44d3f54f3098b9e57ac86e0823e64647"
+        },
+        {
+          "result": {
+            "retained_bytes": 1356544,
+            "peak_extra_bytes": 3343104
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "1863c55914bb36c1bcf8bc69d26a051517eca77030ba1c6070b0271656ee2bfd",
+          "capture_stdout_sha256": "cf0854ff79dd9a18d78a819aeeb187dc44d3f54f3098b9e57ac86e0823e64647"
+        },
+        {
+          "result": {
+            "retained_bytes": 1356544,
+            "peak_extra_bytes": 3343104
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "1863c55914bb36c1bcf8bc69d26a051517eca77030ba1c6070b0271656ee2bfd",
+          "capture_stdout_sha256": "cf0854ff79dd9a18d78a819aeeb187dc44d3f54f3098b9e57ac86e0823e64647"
+        },
+        {
+          "result": {
+            "retained_bytes": 1356544,
+            "peak_extra_bytes": 3343104
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "1863c55914bb36c1bcf8bc69d26a051517eca77030ba1c6070b0271656ee2bfd",
+          "capture_stdout_sha256": "cf0854ff79dd9a18d78a819aeeb187dc44d3f54f3098b9e57ac86e0823e64647"
+        }
+      ],
+      "time": {
+        "result": {
+          "constructor_ns": [
+            6898953.3,
+            6888769.1,
+            6887042,
+            6887492.7,
+            6890052.7,
+            6885850.7,
+            6891045.7,
+            6884086.4,
+            6898319,
+            6905853.3,
+            6894543.2,
+            6884023.4,
+            6892493.1,
+            6885735.6,
+            6888235.2
+          ],
+          "release_ns": [
+            57586,
+            56488.9,
+            57921.4,
+            56776.3,
+            57336.4,
+            56367.5,
+            56989.4,
+            56791.4,
+            56957.7,
+            56856.7,
+            56862.4,
+            56510.9,
+            58246.1,
+            56984,
+            57199.1
+          ],
+          "iterations": 10,
+          "sink": 150,
+          "passes": 15,
+          "dictionary_size": 10000
+        },
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "1fde1a4fa10e1a1d03381be0cb86dc1fc97ae639a9cd4768664e00c2eaee284f",
+        "capture_stdout_sha256": "abb05eeba5d18a8bdb86386863d5d10349d4c535baa6a09c9301182662b4c94d"
+      }
+    },
+    {
+      "family": "moderation",
+      "size": 128,
+      "class": "Matcher",
+      "memory": [
+        {
+          "result": {
+            "retained_bytes": 59360,
+            "peak_extra_bytes": 100320
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "f4fe31f849bc42b63494a133c60dee3f07a10dc9f4c1814655b24d7da490a145",
+          "capture_stdout_sha256": "bf673f72aa717b0642fcc543f1f12cbc6ec04524be7f867ba8ae59f3eeb4ecaf"
+        },
+        {
+          "result": {
+            "retained_bytes": 59360,
+            "peak_extra_bytes": 100320
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "f4fe31f849bc42b63494a133c60dee3f07a10dc9f4c1814655b24d7da490a145",
+          "capture_stdout_sha256": "bf673f72aa717b0642fcc543f1f12cbc6ec04524be7f867ba8ae59f3eeb4ecaf"
+        },
+        {
+          "result": {
+            "retained_bytes": 59360,
+            "peak_extra_bytes": 100320
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "f4fe31f849bc42b63494a133c60dee3f07a10dc9f4c1814655b24d7da490a145",
+          "capture_stdout_sha256": "bf673f72aa717b0642fcc543f1f12cbc6ec04524be7f867ba8ae59f3eeb4ecaf"
+        },
+        {
+          "result": {
+            "retained_bytes": 59360,
+            "peak_extra_bytes": 100320
+          },
+          "sibling_busy_percent": null,
+          "capture_config_sha256": "f4fe31f849bc42b63494a133c60dee3f07a10dc9f4c1814655b24d7da490a145",
+          "capture_stdout_sha256": "bf673f72aa717b0642fcc543f1f12cbc6ec04524be7f867ba8ae59f3eeb4ecaf"
+        },
+        {
+          "result": {
+            "retained_bytes": 59360,
+            "peak_extra_bytes": 100320
+          },
+          "sibling_busy_percent": 0.0,
+          "capture_config_sha256": "f4fe31f849bc42b63494a133c60dee3f07a10dc9f4c1814655b24d7da490a145",
+          "capture_stdout_sha256": "bf673f72aa717b0642fcc543f1f12cbc6ec04524be7f867ba8ae59f3eeb4ecaf"
+        }
+      ],
+      "time": {
+        "result": {
+          "constructor_ns": [
+            55587.94714765101,
+            55717.27600671141,
+            55665.49244966443,
+            55611.333053691276,
+            55772.527684563756,
+            55473.897651006715,
+            55321.24244966443,
+            55466.18036912752,
+            55544.74748322148,
+            55525.907718120805,
+            55427.59899328859,
+            55389.21224832215,
+            55504.472315436244,
+            55469.14513422819,
+            55432.5394295302
+          ],
+          "release_ns": [
+            182.5545302013423,
+            182.5486577181208,
+            185.125,
+            182.4228187919463,
+            183.1476510067114,
+            182.23154362416108,
+            182.46476510067114,
+            182.74161073825502,
+            182.76510067114094,
+            182.76761744966444,
+            185.31375838926175,
+            185.76677852348993,
+            183.1778523489933,
+            183.11325503355704,
+            182.84144295302013
+          ],
+          "iterations": 1192,
+          "sink": 17880,
+          "passes": 15,
+          "dictionary_size": 128
+        },
+        "sibling_busy_percent": 0.0,
+        "capture_config_sha256": "cb77e7637f9111ad5d532445296e5b45012c11bf64cc25b9d0b3bb4ca21157e2",
+        "capture_stdout_sha256": "8154e90c82e2bd2aad2a01e9ddf298e9a4e1efaaa2cacaeac0ddb310dfadb77a"
+      }
+    }
+  ]
+}

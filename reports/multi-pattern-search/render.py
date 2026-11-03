@@ -89,7 +89,6 @@ def product_tables(ds):
             lines += ['### '+MODE_LABEL[mode],'','| Task | Substrings | Documents | Existing method | Existing GCC | Prototype GCC | Existing Clang | Prototype Clang |','|---|---:|---:|---|---:|---:|---:|---:|']
             for c in ds['cases'].values():
                 if c['kind']!='product' or c['operation']not in operations or (c['id'],mode)not in ds['rows']['gcc15']:continue
-                row=ds['rows']['gcc15'][(c['id'],mode)]
                 method={'any':'contains_loop','replace':'strtr','unique':'strpos_unique','count':'strpos_count','all':'strpos_all'}[c['operation']]
                 cells=[]
                 for cc in COMPILERS:
@@ -210,28 +209,35 @@ def winners(ds):
     return '\n'.join(lines)
 
 
+def validate_source_identity():
+    validation=json.loads((ROOT/'checks/final-validation.json').read_text())
+    expected=json.loads((ROOT/'data/gcc15.json').read_text())['metadata']['source_sha256']
+    assert validation['status']=='PASS'
+    assert expected['strmatch.c']==validation['source_c_sha256']
+    prefixes=['','size-','length-','grid-','grid-oneshot-','memory-','order-',
+              'payback-batches-','payback-model-','preparation-','build-cost-','length-payback-']
+    for prefix in prefixes:
+        for cc in COMPILERS:
+            path=ROOT/'data'/f'{prefix}{cc}.json'
+            data=json.loads(path.read_text())
+            assert data['status']=='complete',str(path)
+            metadata=data['metadata'].get('main_metadata',data['metadata'])
+            assert metadata['source_revision']==validation['source_revision'],str(path)
+            assert metadata['source_sha256']==expected,str(path)
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--check',action='store_true');args=parser.parse_args()
-    product=load('Everyday cases','multi-pattern-product','');datasets=[product]
-    scale=None
-    if all((ROOT/'data'/f'size-{cc}.json').exists()for cc in COMPILERS):
-        scale=load('Size series','multi-pattern-scaling','size-');datasets.append(scale)
+    validate_source_identity()
+    product=load('Everyday cases','multi-pattern-product','')
+    scale=load('Size series','multi-pattern-scaling','size-')
+    datasets=[product,scale]
     files={'FULL-TIME.md':full(datasets,'time','Complete elapsed-time comparisons','µs'),
            'FULL-CYCLES.md':full(datasets,'cycles:u','Complete CPU-cycle comparisons','cycles'),
            'FULL-INSTRUCTIONS.md':full(datasets,'instructions:u','Complete instruction comparisons','instructions'),
            'PCRE-FIRST.md':first_requests(datasets),'PRODUCT-CASES.md':product_tables(product)}
-    current_hash=hashlib.sha256((ROOT/'harness.php').read_bytes()).hexdigest()
-    refreshed=scale is not None and all(d['metadata']['harness_sha256']==current_hash for ds in datasets for d in ds['data'].values())
-    status=('Both compilers × both corpora on this machine are complete and use the shared-dictionary input policy.' if refreshed else
-            '**Measurement refresh in progress.** The earlier application tables are being replaced after correcting dictionary sharing. The report is not yet final.')
-    blocks={'PRODUCT-TABLE':'See the [separate everyday application tables](PRODUCT-CASES.md).','AA-TABLE':controls(datasets),'RUN-STATUS':status}
-    if scale:
-        additional,matrices=size_files(scale);files.update(additional);blocks.update(matrices);blocks['SIZE-CHOICE']=winners(scale)
-    else:
-        for marker in ['SCALE-MODERATION','SCALE-SEARCH','SCALE-REPLACEMENT','SIZE-CHOICE']:
-            blocks[marker]='Measurements for 8–512 strings are in progress on the AMD system; no values have been inferred from the earlier product cases.'
-        for filename,heading in [('MODERATION.md','Moderation: find any substring'),('SEARCH.md','Search results'),('REPLACEMENT.md','Literal replacement')]:
-            files[filename]='# '+heading+'\n\nThe controlled 8–512-string measurements are in progress on the AMD system. Results will be rendered from completed series.\n'
+    blocks={'AA-TABLE':controls(datasets)}
+    additional,matrices=size_files(scale);files.update(additional);blocks.update(matrices);blocks['SIZE-CHOICE']=winners(scale)
     readme=(ROOT/'README.md').read_text()
     for marker,table in blocks.items():
         start=f'<!-- {marker} -->';end=f'<!-- /{marker} -->'
@@ -252,6 +258,15 @@ def main():
     command=[sys.executable,str(ROOT/'supplements/render.py')]
     if args.check:command.append('--check')
     subprocess.run(command,check=True)
+    if (ROOT/'data/length-gcc15.json').exists():
+        command=[sys.executable,str(ROOT/'length/render.py')]
+        if args.check:command.append('--check')
+        subprocess.run(command,check=True)
+
+    if (ROOT/'data/grid-gcc15.json').exists() and (ROOT/'data/grid-clang21.json').exists():
+        command=[sys.executable,str(ROOT/'length/grid_render.py')]
+        if args.check:command.append('--check')
+        subprocess.run(command,check=True)
 
 
 if __name__=='__main__':main()

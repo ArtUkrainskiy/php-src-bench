@@ -46,13 +46,13 @@ def events(text):
     return result
 
 
-def capture(directory,corpus,stem,compiler):
+def capture(directory,corpus,stem,compiler,harness_path=None,driver_path=None):
     source=directory/f'data-{stem}-{compiler}'
     original=read(source/'results.json')
     meta=original['metadata']
     assert original['status']=='complete'
-    assert meta['harness_sha256']==digest(ROOT/'harness.php'),'Stale harness'
-    assert meta['driver_sha256']==digest(ROOT/'measure.py'),'Unknown driver'
+    assert meta['harness_sha256']==digest(harness_path or ROOT/'harness.php'),'Stale harness'
+    assert meta['driver_sha256']==digest(driver_path or ROOT/'measure.py'),'Unknown driver'
     assert 'input_dictionary_sharing'in meta['protocol'],'No shared-input policy'
     index_path=ROOT/'../../corpus'/corpus/'index.json'
     index=read(index_path)
@@ -61,6 +61,18 @@ def capture(directory,corpus,stem,compiler):
     expected={(c['id'],m['id'])for c in cases.values()for m in c['lifetime']['modes']}
     assert {(r['case'],r['lifecycle'])for r in original['rows']}==expected
     assert len(original['rows'])==len(expected)
+    protocol=meta['protocol']
+    for path in sorted((source/'raw').glob('*.json')):
+        if path.name.endswith('-output.json'):continue
+        config=read(path)
+        assert config['case']['id'] in cases, path.name
+        expected_case=cases[config['case']['id']]
+        assert json.dumps(config['case'],ensure_ascii=False)==json.dumps(expected_case,ensure_ascii=False),('Changed raw input',path.name)
+        assert config['lifecycle'] in [mode['id']for mode in expected_case['lifetime']['modes']],path.name
+        for key in ['passes','warmup_ns','sample_ns']:assert config[key]==protocol[key],(path.name,key)
+        methods=config['methods'].values()if isinstance(config['methods'],dict)else config['methods']
+        assert all(method in expected_case['methods']for method in methods),path.name
+        assert not config.get('mutation',False),'Mutated measurement input'
     timed={};first=defaultdict(list)
     for path in sorted((source/'raw').glob('*-time.json')):
         config=read(path)

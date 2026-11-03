@@ -1,72 +1,53 @@
 # Memory: preparation, retained objects and queries
 
-All tables use **KiB (1024 bytes)** unless stated otherwise. These are Zend live-allocation counters, not process RSS.
+All tables use **KiB (1024 bytes)** unless stated otherwise. Construction columns share one baseline: PHP allocations before loading the dictionary. These are Zend allocation counters, not process RSS. Do not add table columns together.
 
 Five fresh processes per class, size, family and compiler: 440 processes. All recorded allocation values match across repeats and GCC 15 / Clang 21. A shared table therefore loses no observed compiler difference.
 
 ## Reading the columns
 
-- **Input:** the caller's PHP list or map and its strings, after parsing temporaries are released.
-- **+Matcher / +Replacer:** additional live allocation after construction while Input remains alive. Strings are shared by reference.
-- **Peak +:** the constructor peak above that same input baseline, after resetting the peak counter. This includes the retained object; do not add the two columns.
-- **Standalone:** the object and strings it retains after the input array is released, relative to the baseline before loading the dictionary.
+- **Input alone:** the caller's PHP list or map and its strings.
+- **Input + ready object:** the input and the retained prepared object together. Strings are shared by reference.
+- **Peak during construction:** the input, retained object and temporary construction buffers at their combined maximum. It already includes the input and object.
+- **Object after releasing input:** the object and strings it retains after the original input array is released.
 
 Startup, input-parsing peaks, reserved allocator pages and physical peaks inside realloc are outside these counters. All native automaton buffers use Zend allocation functions and are included.
 
-## Growth and structure
-
-The automaton combines dense transition rows with packed sparse states. It keeps dense rows for shallow states, states with at least eight children, and selected states near their failure target. Other states retain actual trie edges and a failure link. A single-child transition is stored inside its sparse record; it does not need a separate edge allocation.
-
-For a nonempty dictionary, let N be its string count, T its total key bytes, A its distinct key-byte count, S its state count, D its dense-state count and E its separately packed sparse-edge count. On these 64-bit builds the requested runtime arrays occupy:
-
-- **Matcher:** `4D(A+1) + 12(S-D) + 8E + 12S + 8N` bytes.
-- **Replacer:** `4D(A+1) + 12(S-D) + 8E + 4S + 16N` bytes.
-
-These budgets exclude the fixed object and byte-map fields, allocator rounding and retained string bodies. They explain the measured object additions; the measured tables remain authoritative. The final state arrays are sized to S. Temporary build arrays can grow geometrically, but their spare capacity is not retained in the immutable runtime automaton.
-
-**String count alone does not determine memory.** Prefix sharing changes Matcher states; suffix sharing matters for reversed Replacer states. Alphabet size and the dense/sparse mix change the cost of each state. Dense-selection thresholds can create steps even without spare runtime capacity. Since `D ≤ S`, `E ≤ S-1`, `S ≤ 1+T` and the byte alphabet is bounded, automaton storage has a linear upper bound in total key bytes. This does not establish smooth or proportional growth in N.
-
-Construction also needs trie records, edges, failure-link workspace and runtime packing. Its measured peak is separate from retained storage. It should not be inferred by adding table columns.
-
-![Memory growth and allocation per dictionary string](memory/growth.svg)
-
-Lines join measured sizes only. The first 512 entries preserve the support glossary; larger dictionaries add authored combinations of product names. They are constructed inputs, not a production vocabulary or a speed experiment at 10,000 strings.
-
-## Saved input families
-
-[Glossary and catalog](memory/glossary-catalog.json) uses the existing glossary, then saved catalog labels. [Permuted control](memory/permuted-control.json) rearranges bytes within each key, preserving lengths, byte multisets, alphabet and replacement values. It is a synthetic topology control, not another product case or a proven worst case. Dictionaries are nested prefixes of the same saved list. Every replacement value is a distinct 37-byte help URL.
-
 ## Glossary and constructed catalog
 
-| Strings | Matcher input | +Matcher | Peak +Matcher | Replacer input | +Replacer | Peak +Replacer |
-|---|---:|---:|---:|---:|---:|---:|
-| 8 | 0.6 | 3.5 | 5.1 | 1.3 | 3.5 | 7.4 |
-| 16 | 1.1 | 5.7 | 8.9 | 2.4 | 6.2 | 12.0 |
-| 32 | 2.0 | 10.6 | 19.1 | 4.6 | 13.6 | 25.1 |
-| 64 | 3.9 | 29.4 | 41.4 | 9.1 | 24.4 | 45.4 |
-| 128 | 7.6 | 46.1 | 86.1 | 21.1 | 43.2 | 91.2 |
-| 256 | 18.5 | 83.8 | 151.8 | 38.5 | 70.2 | 154.2 |
-| 512 | 33.0 | 187.8 | 307.8 | 73.0 | 140.8 | 296.8 |
-| 1000 | 67.6 | 400.8 | 712.8 | 150.1 | 232.8 | 592.8 |
-| 2000 | 138.1 | 728.8 | 1352.8 | 307.1 | 368.8 | 884.8 |
-| 5000 | 397.4 | 1396.8 | 2624.8 | 897.9 | 760.8 | 2384.8 |
-| 10000 | 797.7 | 2272.8 | 4688.8 | 1802.7 | 1324.8 | 3264.8 |
+### Matcher
 
-| Strings | Matcher standalone | Replacer standalone | Matcher bytes/string | Replacer bytes/string |
-|---|---:|---:|---:|---:|
-| 8 | 3.9 | 4.4 | 444.0 | 442.0 |
-| 16 | 6.4 | 7.9 | 364.0 | 395.0 |
-| 32 | 11.9 | 16.9 | 339.0 | 435.0 |
-| 64 | 32.0 | 31.0 | 470.5 | 391.0 |
-| 128 | 51.2 | 56.3 | 369.0 | 346.0 |
-| 256 | 94.1 | 96.6 | 335.0 | 281.0 |
-| 512 | 208.7 | 193.7 | 375.5 | 281.5 |
-| 1000 | 448.2 | 342.8 | 410.4 | 238.3 |
-| 2000 | 830.8 | 595.8 | 373.1 | 188.8 |
-| 5000 | 1662.1 | 1338.6 | 286.1 | 155.8 |
-| 10000 | 2810.4 | 2487.4 | 232.7 | 135.7 |
+| Strings | Input alone | Input + ready object | Peak during construction | Object after releasing input |
+|---:|---:|---:|---:|---:|
+| 8 | 0.6 | 4.1 | 5.7 | 3.9 |
+| 16 | 1.1 | 6.8 | 10.0 | 6.4 |
+| 32 | 2.0 | 12.6 | 21.1 | 11.9 |
+| 64 | 3.9 | 33.3 | 45.3 | 32.0 |
+| 128 | 7.6 | 53.8 | 93.8 | 51.2 |
+| 256 | 18.5 | 102.2 | 170.2 | 94.1 |
+| 512 | 33.0 | 220.7 | 340.7 | 208.7 |
+| 1000 | 67.6 | 468.3 | 780.3 | 448.2 |
+| 2000 | 138.1 | 866.9 | 1490.9 | 830.8 |
+| 5000 | 397.4 | 1794.1 | 3022.1 | 1662.1 |
+| 10000 | 797.7 | 3070.4 | 5486.5 | 2810.4 |
 
-Bytes/string uses the object addition, excluding Input.
+### Replacer
+
+| Strings | Input alone | Input + ready object | Peak during construction | Object after releasing input |
+|---:|---:|---:|---:|---:|
+| 8 | 1.3 | 4.8 | 8.7 | 4.4 |
+| 16 | 2.4 | 8.6 | 14.4 | 7.9 |
+| 32 | 4.6 | 18.2 | 29.7 | 16.9 |
+| 64 | 9.1 | 33.6 | 54.6 | 31.0 |
+| 128 | 21.1 | 64.4 | 112.4 | 56.3 |
+| 256 | 38.5 | 108.7 | 192.7 | 96.6 |
+| 512 | 73.0 | 213.7 | 369.7 | 193.7 |
+| 1000 | 150.1 | 382.8 | 742.8 | 342.8 |
+| 2000 | 307.1 | 675.9 | 1191.9 | 595.8 |
+| 5000 | 897.9 | 1658.6 | 3282.6 | 1338.6 |
+| 10000 | 1802.7 | 3127.4 | 5067.4 | 2487.4 |
+
+### Layout diagnostics
 
 | Strings | Key bytes | Mean key bytes | Alphabet bytes | Matcher states | Matcher dense | Replacer states | Replacer dense |
 |---|---:|---:|---:|---:|---:|---:|---:|
@@ -131,35 +112,39 @@ Additional allocations above an already prepared object, subject and expected-re
 
 ## Permuted-byte control
 
-| Strings | Matcher input | +Matcher | Peak +Matcher | Replacer input | +Replacer | Peak +Replacer |
-|---|---:|---:|---:|---:|---:|---:|
-| 8 | 0.6 | 4.9 | 7.8 | 1.3 | 4.1 | 7.9 |
-| 16 | 1.1 | 13.1 | 21.6 | 2.4 | 7.5 | 17.8 |
-| 32 | 2.0 | 21.0 | 33.0 | 4.6 | 14.8 | 29.8 |
-| 64 | 3.9 | 33.2 | 50.2 | 9.1 | 28.8 | 50.8 |
-| 128 | 7.6 | 69.8 | 113.8 | 21.1 | 58.8 | 114.8 |
-| 256 | 18.5 | 126.8 | 202.8 | 38.5 | 104.8 | 204.8 |
-| 512 | 33.0 | 288.8 | 456.8 | 73.0 | 236.8 | 436.8 |
-| 1000 | 67.6 | 664.8 | 1160.8 | 150.1 | 528.8 | 1168.8 |
-| 2000 | 138.1 | 1429.2 | 2481.2 | 307.1 | 1101.1 | 2489.1 |
-| 5000 | 397.4 | 3676.8 | 6488.8 | 897.9 | 2799.8 | 6531.8 |
-| 10000 | 797.7 | 7608.8 | 13352.8 | 1802.7 | 5812.8 | 13420.8 |
+### Matcher
 
-| Strings | Matcher standalone | Replacer standalone | Matcher bytes/string | Replacer bytes/string |
-|---|---:|---:|---:|---:|
-| 8 | 5.4 | 5.1 | 632.0 | 528.0 |
-| 16 | 13.9 | 9.2 | 840.0 | 480.0 |
-| 32 | 22.3 | 18.1 | 672.0 | 472.0 |
-| 64 | 35.8 | 35.3 | 532.0 | 460.0 |
-| 128 | 74.8 | 71.8 | 558.0 | 470.0 |
-| 256 | 137.2 | 131.1 | 507.1 | 419.0 |
-| 512 | 309.7 | 289.7 | 577.5 | 473.5 |
-| 1000 | 712.3 | 638.8 | 680.8 | 541.5 |
-| 2000 | 1531.3 | 1328.2 | 731.8 | 563.8 |
-| 5000 | 3942.1 | 3377.6 | 753.0 | 573.4 |
-| 10000 | 8146.5 | 6975.4 | 779.1 | 595.2 |
+| Strings | Input alone | Input + ready object | Peak during construction | Object after releasing input |
+|---:|---:|---:|---:|---:|
+| 8 | 0.6 | 5.6 | 8.5 | 5.4 |
+| 16 | 1.1 | 14.2 | 22.7 | 13.9 |
+| 32 | 2.0 | 23.0 | 35.0 | 22.3 |
+| 64 | 3.9 | 37.1 | 54.1 | 35.8 |
+| 128 | 7.6 | 77.4 | 121.4 | 74.8 |
+| 256 | 18.5 | 145.2 | 221.2 | 137.2 |
+| 512 | 33.0 | 321.7 | 489.7 | 309.7 |
+| 1000 | 67.6 | 732.4 | 1228.3 | 712.3 |
+| 2000 | 138.1 | 1567.4 | 2619.4 | 1531.3 |
+| 5000 | 397.4 | 4074.1 | 6886.2 | 3942.1 |
+| 10000 | 797.7 | 8406.5 | 14150.5 | 8146.5 |
 
-Bytes/string uses the object addition, excluding Input.
+### Replacer
+
+| Strings | Input alone | Input + ready object | Peak during construction | Object after releasing input |
+|---:|---:|---:|---:|---:|
+| 8 | 1.3 | 5.4 | 9.2 | 5.1 |
+| 16 | 2.4 | 9.9 | 20.2 | 9.2 |
+| 32 | 4.6 | 19.4 | 34.4 | 18.1 |
+| 64 | 9.1 | 37.9 | 59.9 | 35.3 |
+| 128 | 21.1 | 79.9 | 135.9 | 71.8 |
+| 256 | 38.5 | 143.2 | 243.2 | 131.1 |
+| 512 | 73.0 | 309.7 | 509.7 | 289.7 |
+| 1000 | 150.1 | 678.9 | 1318.8 | 638.8 |
+| 2000 | 307.1 | 1408.3 | 2796.3 | 1328.2 |
+| 5000 | 897.9 | 3697.6 | 7429.7 | 3377.6 |
+| 10000 | 1802.7 | 7615.5 | 15223.5 | 6975.4 |
+
+### Layout diagnostics
 
 | Strings | Key bytes | Mean key bytes | Alphabet bytes | Matcher states | Matcher dense | Replacer states | Replacer dense |
 |---|---:|---:|---:|---:|---:|---:|---:|
@@ -221,6 +206,29 @@ Additional allocations above an already prepared object, subject and expected-re
 | 2000 | 8 | 3121 | 3121 | 142.1 |
 | 5000 | 8 | 3121 | 3121 | 142.1 |
 | 10000 | 8 | 3121 | 3121 | 142.1 |
+
+## Growth and structure
+
+The automaton combines dense transition rows with packed sparse states. It keeps dense rows for shallow states, states with at least eight children, and selected states near their failure target. Other states retain actual trie edges and a failure link. A single-child transition is stored inside its sparse record; it does not need a separate edge allocation.
+
+For a nonempty dictionary, let N be its string count, T its total key bytes, A its distinct key-byte count, S its state count, D its dense-state count and E its separately packed sparse-edge count. On these 64-bit builds the requested runtime arrays occupy:
+
+- **Matcher:** `4D(A+1) + 12(S-D) + 8E + 12S + 8N` bytes.
+- **Replacer:** `4D(A+1) + 12(S-D) + 8E + 4S + 16N` bytes.
+
+These budgets exclude the fixed object and byte-map fields, allocator rounding and retained string bodies. They explain the measured object additions; the measured tables remain authoritative. The final state arrays are sized to S. Temporary build arrays can grow geometrically, but their spare capacity is not retained in the immutable runtime automaton.
+
+**String count alone does not determine memory.** Prefix sharing changes Matcher states; suffix sharing matters for reversed Replacer states. Alphabet size and the dense/sparse mix change the cost of each state. Dense-selection thresholds can create steps even without spare runtime capacity. Since `D ≤ S`, `E ≤ S-1`, `S ≤ 1+T` and the byte alphabet is bounded, automaton storage has a linear upper bound in total key bytes. This does not establish smooth or proportional growth in N.
+
+Construction also needs temporary trie records, edges and workspace. Peak memory includes those buffers, so input plus the retained object is smaller than the peak. The table shows both totals from the same baseline; the peak is not another amount to add.
+
+[Separate growth plot: additional object memory above the input](memory/growth.svg). The plot uses object addition; construction tables use combined totals from the before-input baseline.
+
+Lines join measured sizes only. The first 512 entries preserve the support glossary; larger dictionaries add authored combinations of product names. They are constructed inputs, not a production vocabulary or a speed experiment at 10,000 strings.
+
+## Saved input families
+
+[Glossary and catalog](memory/glossary-catalog.json) uses the existing glossary, then saved catalog labels. [Permuted control](memory/permuted-control.json) rearranges bytes within each key, preserving lengths, byte multisets, alphabet and replacement values. It is a synthetic topology control, not another product case or a proven worst case. Dictionaries are nested prefixes of the same saved list. Every replacement value is a distinct 37-byte help URL.
 
 ## Query interpretation
 
