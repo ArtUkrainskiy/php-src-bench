@@ -1,0 +1,127 @@
+{
+  "schema": 1,
+  "cases": [
+    {
+      "id": "results.unique.bytes1024.keys32.sparse",
+      "title": "results.unique.bytes1024.keys32.sparse",
+      "operation": "unique",
+      "description": "One exact saved byte string and ordered dictionary. Never average different inputs.",
+      "synthetic": true,
+      "kind": "controlled",
+      "dimensions": {
+        "series": "results",
+        "condition": "sparse",
+        "subject_bytes": 1024,
+        "keys": 32,
+        "key_bytes": 12,
+        "planned_occurrences": 2
+      },
+      "methods": [
+        "strpos_unique",
+        "preg_grouped_unique",
+        "matcher"
+      ],
+      "dictionary_scope": "fixed_dictionary",
+      "jobs": [
+        {
+          "id": "results.unique.bytes1024.keys32.sparse",
+          "dictionary": [
+            "hgdepclonnln",
+            "ealckefnmali",
+            "lnllhmnomndi",
+            "lgldggmcenpi",
+            "ddpdkojhffgp",
+            "alkphkgheice",
+            "ilimppefibhd",
+            "jkncnbpobpnc",
+            "mcgapcjbeelj",
+            "didicpbnojok",
+            "jjnclmjgpljd",
+            "ebjhelkjbkhi",
+            "ekepnbfoejjc",
+            "lopkplgkahap",
+            "bafjocghbnak",
+            "fbdakbiighik",
+            "pnejdbkngijb",
+            "iohccmbplnpp",
+            "akkmpomfnknn",
+            "lhjandcpafpe",
+            "eeonjglgefbl",
+            "hlmdboeopico",
+            "mgdekokbjodp",
+            "eollkobbdagk",
+            "mfkdldidhiio",
+            "kmneglnafigg",
+            "lknlnehnafjf",
+            "cpjbmcahkhkc",
+            "jpcbnahniigb",
+            "cpnjdcobokpj",
+            "mpmpalgafmdo",
+            "jaeglfjpfdjd"
+          ],
+          "documents": [
+            {
+              "id": "results.unique.bytes1024.keys32.sparse",
+              "text": "## Connection handling\n\nInternally in PHP a connection status is maintained. There are 4\npossible states:\n\n- 0 - NORMAL\n\n- 1 - ABORTED\n\n- 2 - TIMEOUT\n\n- 3 - ABORTED and TIMEOUT\n\nWhen a PHP script is running normally, the NORMAL state is active.\nIf the remote client disconnects, the ABORTED state flag is\nturned on. A remote client disconnect is usually caused by\nusers hitting their STOP button. If the PHP-imposed time limit (see\n`set_time_limit`) is hit, the TIMEOUT state flag\nis turned on.\n\nYou can decide whether or not you want hgdepclonnlnconnect to cause\nyour script to be aborted. Sometimes it is handy to always have your\nscripts run to completion even if there is no remote browser receiving\nthe output. The default behavior is however, for your script to be\naborted when the remote client disconnects. This behavior can be\nset via the ignore_user_abort php.ini directive as well as through\nthe corresponding `php_value ignore_ujaeglfjpfdjdpache\nhttpd.conf directive or\nwith the `ignore_user_abort` function. If ",
+              "expected": [
+                "hgdepclonnln",
+                "jaeglfjpfdjd"
+              ],
+              "facts": {
+                "bytes": 1024,
+                "occurrences": 2,
+                "distinct_keywords": 2,
+                "covered_source_bytes": 24,
+                "coverage_percent": 2.34375,
+                "occurrences_per_kib": 2.0,
+                "first_match_offset": 535,
+                "first_textual_hit_dictionary_rank": 1,
+                "first_dictionary_hit_rank": 1,
+                "text_sha256": "9a4814546c9e333068015d40e96e65853862ea5c5a5562b249765e18828f9c56"
+              },
+              "source": {
+                "kind": "controlled-manual-fragment",
+                "provenance": "../../ATTRIBUTION.md"
+              },
+              "matches": [
+                {
+                  "offset": 535,
+                  "length": 12,
+                  "keyword": "hgdepclonnln",
+                  "dictionary_rank": 1
+                },
+                {
+                  "offset": 940,
+                  "length": 12,
+                  "keyword": "jaeglfjpfdjd",
+                  "dictionary_rank": 32
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "measurement_plan": {
+        "lifecycles": [
+          "prepared",
+          "batch"
+        ],
+        "batch_sizes": [
+          1
+        ],
+        "unit": "One fixed string and ordered dictionary per call.",
+        "result_lifetime": "Create native result, consume a scalar summary, then release result inside operation.",
+        "status": "Input specification; measurement status belongs to captures."
+      },
+      "dictionary_facts": {
+        "keys": 32,
+        "total_key_bytes": 384,
+        "min_key_bytes": 12,
+        "median_key_bytes": 12.0,
+        "max_key_bytes": 12,
+        "alphabet_bytes": 16,
+        "dictionary_sha256": "e381570f9766b68c16457b46732408de68477655c5ba8408fa2eb5690488d2af"
+      }
+    }
+  ]
+}

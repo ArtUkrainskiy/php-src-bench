@@ -1,123 +1,155 @@
-# Prepared substring search and replacement
+# Prepared literal search and replacement
 
-**RFC prototype:** `Str\Matcher` / `Str\Replacer` 0.9-dev. [Source](https://github.com/ArtUkrainskiy/php-src/tree/str-matcher-prototype) · [PR #25122](https://github.com/php/php-src/pull/25122).
+A study of `Str\Matcher` / `Str\Replacer`: when preparing a dictionary pays off compared with existing PHP and PCRE tools. [PR #25122](https://github.com/php/php-src/pull/25122) · [Measured code and builds](benchmark/SOURCE.md). The measured extension source matches [commit 7c7550bcdac](https://github.com/php/php-src/commit/7c7550bcdac2091e5f9c256e3f203f82d7db448f).
 
-Create an object from a fixed dictionary and reuse it within a request or worker. Objects do not automatically survive FPM requests; compiled PCRE patterns can remain cached in that worker.
+## Methods and comparisons
 
-**Choose by workload and reuse:**
-
-- **One new object per call:** on the tested 4 KiB texts, no-match `matches()` and term `replace()` win at 16, 32, 64, 128, 256 and 512 keys on both compilers. This is not a universal threshold.
-- **Repeated short strings:** a 128-key Matcher for 128 B no-match messages needs **~19 strings per object against the PHP loop, ~14 against PCRE** (estimates).
-- **Matching can favor alternatives:** at eight keys, a ready Matcher wins on these no-match texts, but a new one loses to PHP; PCRE replacement beats even a ready Replacer. With 128 keys, early PCRE matches and middle/end PHP matches can beat a new Matcher.
-- **Everyday counterexamples:** `strtr()` wins one order email including Replacer construction/destruction; `preg_replace()` wins one complete incident log even against a ready Replacer.
-
-**Ryzen 9 5950X, GCC 15.2 and Clang 21.1; controlled authored texts.** Listed wins require a 2% margin, a noise filter rather than statistical confidence. These results are not application/FPM throughput. [Object memory](#construction-and-memory) is additional to the input dictionary; totals and peaks already include their components and should not be summed.
-
-## Operations and comparators
-
-Matching uses case-sensitive literal substrings, without word-boundary rules.
-
-| Method | Result | PHP built-ins | PCRE |
+| Method | What the method returns | Existing PHP method | PCRE method |
 |---|---|---|---|
-| `Matcher::matches()` | Whether any key occurs | `str_contains()` loop, stop at first matching key | `preg_match()`, one pattern containing all keys |
-| `Matcher::getMatchedKeywords()` | Each matching key once, ordered by first occurrence | `strpos()` per key | `preg_match()` per key |
-| `Replacer::replace()` | Replaced string; longest key at the earliest position | `strtr()` with a replacement map | `preg_replace_callback()`, longest-first literal alternatives |
+| `Matcher::matches()` | `bool`: whether the text contains at least one key | A `str_contains()` loop with early exit | `preg_match()` |
+| `Matcher::getMatchedKeywords()` | An array of unique matched keys, ordered by their first occurrence; ties at the same start are ordered by increasing length | `strpos()` for each key, with ordered results | `preg_match_all()` and selection of unique keys |
+| `Matcher::countMatches()` | `int`: the number of all occurrences, including overlaps | Repeated `strpos()` calls, advancing the offset by 1 | `preg_match_all()`, counting occurrences |
+| `Matcher::matchAll()` | An array of `MatchResult` objects for all occurrences: key, byte offset and byte length. Overlaps are preserved; results are ordered by offset, then by increasing length | Repeated `strpos()` calls, with ordered results | `preg_match_all()` and ordering of results |
+| `Replacer::replace()` | A string with replacements applied from left to right. At the same start, the longest key is selected; processing continues after it. Inserted text is not searched again | `strtr()`; `str_replace()` where the result is equivalent | Longest first: `preg_replace_callback()`; direct `preg_replace()` for a single replacement value |
 
-Keyword listing includes keys contained in longer matching keys: both `invoice` and `invoice number` can be returned. Replacement text is not searched again.
+A key is a string to search for. Searching is case-sensitive and byte-oriented. Matcher includes overlapping occurrences; Replacer selects non-overlapping replacements. To count and enumerate overlaps, PCRE uses lookahead expressions with keys grouped by byte length.
 
-## Time per string
+Results have been checked against a reference and are equivalent in content. `matchAll()` returns `MatchResult` objects, while existing methods return arrays. Result creation and release are included in the measurement; converting objects to arrays for verification is not. `str_replace()` and specialized PCRE expressions are included only where they produce an equivalent result.
 
-**128 keys; GCC 15.2; µs, lower is better.** Each call processes **one string against the entire dictionary**. Four different saved strings of each exact length cycle equally. Times are medians of fifteen samples of repeated calls.
+## Main findings
 
-**Prepared:** a call on an existing object. **One-shot:** **construction + one call + destruction**, measured together. Dictionaries, maps, regex strings/callbacks and compiled PCRE patterns already exist; input loading, regex construction and first compilation are excluded. These columns are separate measurements; do not add them.
+- On controlled texts with 128 keys and one occurrence, one-shot `getMatchedKeywords()`, `countMatches()` and `matchAll()`, including object construction, are slower than the alternatives at 128 B and 1 KiB. An advantage is observed on the tested texts of 4 KiB and above. The exact break-even point between the tested sizes has not been determined.
+- Having a prepared Matcher does not guarantee a speedup: with eight keys, a `strpos()` loop can be faster even on a 64 KiB text. The result depends on both the number of keys and the number of returned results.
+- A `str_contains()` loop checks keys in sequence, so its time depends on dictionary order. `Matcher::matches()` reads the text from left to right and stops as soon as it has read the last byte of any matched key; it does not iterate through the dictionary key by key.
+- With 32 keys on a 4 KiB text, a prepared Replacer is faster than PCRE, while a one-shot call is slower. On a 16 KiB text with the same 32 keys, the one-shot operation is faster; with 16 keys, the result also depends on key lengths and the compiler. The case below with 16 keys of 11–21 B loses in one-shot use.
+- A single key, a recognizable `{{…}}` format and replacing all matched keys with one marker are examples where existing tools are substantially faster than a prepared Replacer.
+- On a 1 MiB text with 10000 keys and 10000 replacements, `Replacer::replace()`, including object construction and destruction, is approximately twice as fast as `strtr()`.
+- These results apply to one CPU and the saved controlled inputs. They do not establish a universal key-count threshold or estimate the speedup of PHP applications.
 
-<!-- LENGTH-TABLE -->
-| Method | Input | PHP built-ins µs | PCRE µs | Prepared µs | One-shot µs |
-|---|---:|---:|---:|---:|---:|
-| `Matcher::matches()` (no match) | 128 B | 3.351 | 4.693 | 0.316 | 58.275 |
-| `Matcher::matches()` (no match) | 4 KiB | 121.892 | 142.626 | 6.978 | 65.950 |
-| `Matcher::matches()` (no match) | 16 KiB | 497.911 | 571.130 | 27.241 | 86.576 |
-| `Matcher::getMatchedKeywords()` | 512 B | 17.842 | 20.329 | 1.707 | 47.486 |
-| `Matcher::getMatchedKeywords()` | 4 KiB | 105.104 | 64.442 | 12.469 | 60.862 |
-| `Matcher::getMatchedKeywords()` | 16 KiB | 207.546 | 103.328 | 40.338 | 91.136 |
-| `Replacer::replace()` | 512 B | 38.278 | 12.880 | 1.566 | 46.389 |
-| `Replacer::replace()` | 4 KiB | 359.125 | 98.547 | 12.016 | 59.369 |
-| `Replacer::replace()` | 16 KiB | 1438.517 | 401.335 | 46.766 | 94.740 |
-<!-- /LENGTH-TABLE -->
+**Prepared object** means calling the method, using the result and releasing it. **One-shot** means object construction, one call, result release and object destruction, measured together. Existing tools use prepared arguments and a warm PCRE cache. This is not a full HTTP request measurement.
 
-The `matches()` rows have no matches. Listing and replacement rows contain support terms. [Exact inputs](../../corpus/multi-pattern-length/README.md); [all lengths, Clang and counters](LENGTH.md).
+AMD Ryzen 9 5950X, Linux x86-64; GCC 15.2 / Clang 21.1. For each compiler, Matcher and Replacer were measured using the same extension module. These are separate runs, not one combined series; exact hashes and parameters are in [SOURCE](benchmark/SOURCE.md).
 
-### How many strings make reuse worthwhile?
+The tables below show GCC 15.2; Clang 21.1 results for the same inputs are available in the appendices. Parentheses show the median paired change relative to the fastest eligible existing method. Large slowdowns are shown as multiples derived from the same paired ratios. A negative value means less time. Prepared Matcher calls and one-shot calls were measured separately, each alongside existing methods. The table shows the existing method's time from the one-shot measurement. The prepared Matcher percentage therefore cannot be reproduced exactly from the adjacent numbers.
 
-Counts mean **strings per object needed to beat the comparator, including construction and destruction**. `~N` is an estimate, not an exact minimum. For the 4/16 KiB cases above, a one-string win was directly measured on both compilers.
+We do not call a difference below 2% a win or a loss; this is a reporting rule, not an estimate of measurement error. † marks measurements that did not pass the quality checks: the time is shown, but no win or loss is inferred from it.
 
-<!-- REUSE-TABLE -->
-| Method | Input | Strings/object to beat PHP | Strings/object to beat PCRE |
-|---|---:|---:|---:|
-| `Matcher::matches()` (no match) | 128 B | ~19 | ~14 |
-| `Matcher::getMatchedKeywords()` | 512 B | ~3 | ~3 |
-| `Replacer::replace()` | 512 B | ~2 | ~4 |
-<!-- /REUSE-TABLE -->
+In the full Clang tables, 11 prepared-object comparisons and 13 one-shot comparisons did not pass the quality checks — out of 135 inputs in each mode. Only one comparison exceeded the A/A threshold. Percentages are omitted for results marked †. [Reasons and affected inputs](benchmark/QUALITY.md).
 
-For the 128 B no-match case, creation and destruction cost 57.041 µs once. Each prepared call saves `3.351 − 0.316 = 3.035 µs` against the PHP loop: `57.041 / 3.035 ≈ 18.79`, or **~19 strings per object**; against `preg_match()`, **~14**. [Direct batch checks and estimates](LENGTH-PAYBACK.md).
+## `Matcher::matches()`: no match, or a match near the start, middle or end of the text
+
+A 4 KiB text and a dictionary of 128 keys, each 12 B long. In positive variants, one key occurs; it is key #65 in dictionary order. Its starting byte in the text changes: 8, 2042 or 4076. A separate variant contains no matches.
+
+| Test condition | Best existing method, µs | Prepared object, µs | One-shot, µs |
+|---|---|---:|---:|
+| [No matches](benchmark/inputs/cases/any/presence.any.bytes4096.keys128.absent.rank65.json) | `preg_match()`<br>100.021 | 3.817 (-96.18%) | 58.107 (-42.02%) |
+| [Match: byte 8](benchmark/inputs/cases/any/presence.any.bytes4096.keys128.start.rank65.json) | `preg_match()`<br>0.414 | 0.116† | 52.787 (127.4 times slower) |
+| [Match: byte 2042](benchmark/inputs/cases/any/presence.any.bytes4096.keys128.middle.rank65.json) | `preg_match()`<br>51.972 | 1.986 (-96.17%) | 54.966 (+5.90%) |
+| [Match: byte 4076](benchmark/inputs/cases/any/presence.any.bytes4096.keys128.end.rank65.json) | `str_contains()` loop<br>60.558 | 3.814 (-93.66%) | 57.599 (-4.94%) |
+
+[Other sizes, dictionaries, Clang and raw samples](benchmark/matcher.md). In a separate control with [32 keys and a match with the first dictionary key](benchmark/inputs/cases/any/fixed_rank.any.bytes4096.keys32.end.rank1.json), the PHP loop makes one `str_contains()` call.
+
+## `getMatchedKeywords()`, `countMatches()` and `matchAll()`
+
+The dictionary contains 128 keys, each 12 B long. The main series has one occurrence; rows of the same size use identical texts and ordered dictionaries. `getMatchedKeywords()` returns one unique key, `countMatches()` returns the number 1, and `matchAll()` returns one result with an offset. An additional `matchAll()` row uses 64 KiB with the same dictionary and 64 occurrences of four unique keys.
+
+| Method / exact input | Best existing method, µs | Prepared object, µs | One-shot, µs |
+|---|---|---:|---:|
+| [Matcher::getMatchedKeywords(); 128 B](benchmark/inputs/cases/unique/results.unique.bytes128.keys128.one.json) | `strpos()` loop<br>3.922 | 0.243 (-93.80%) | 52.676 (13.4 times slower) |
+| [Matcher::getMatchedKeywords(); 1 KiB](benchmark/inputs/cases/unique/results.unique.bytes1024.keys128.one.json) | `preg_match_all()`<br>26.284 | 1.144 (-95.65%) | 53.538 (+103.51%) |
+| [Matcher::getMatchedKeywords(); 4 KiB](benchmark/inputs/cases/unique/results.unique.bytes4096.keys128.one.json) | `preg_match_all()`<br>102.852 | 4.317 (-95.79%) | 58.478 (-43.01%) |
+| [Matcher::getMatchedKeywords(); 64 KiB](benchmark/inputs/cases/unique/results.unique.bytes65536.keys128.one.json) | `preg_match_all()`<br>1613.013 | 189.529 (-88.22%) | 273.373 (-83.05%) |
+| [Matcher::countMatches(); 128 B](benchmark/inputs/cases/count/results.count.bytes128.keys128.one.json) | `preg_match_all()`<br>4.265 | 0.219 (-94.85%) | 53.286 (12.5 times slower) |
+| [Matcher::countMatches(); 1 KiB](benchmark/inputs/cases/count/results.count.bytes1024.keys128.one.json) | `preg_match_all()`<br>25.706 | 1.236 (-95.19%) | 54.012 (+109.85%) |
+| [Matcher::countMatches(); 4 KiB](benchmark/inputs/cases/count/results.count.bytes4096.keys128.one.json) | `preg_match_all()`<br>101.504 | 4.739 (-95.34%) | 66.663 (-34.34%) |
+| [Matcher::countMatches(); 64 KiB](benchmark/inputs/cases/count/results.count.bytes65536.keys128.one.json) | `preg_match_all()`<br>1605.462 | 199.793 (-87.51%) | 274.853 (-82.88%) |
+| [Matcher::matchAll(); 1 KiB](benchmark/inputs/cases/all/results.all.bytes1024.keys128.one.json) | `preg_match_all()`<br>26.180 | 1.253 (-95.22%) | 53.688 (+104.97%) |
+| [Matcher::matchAll(); 4 KiB](benchmark/inputs/cases/all/results.all.bytes4096.keys128.one.json) | `preg_match_all()`<br>102.528 | 4.751 (-95.36%) | 58.780 (-42.75%) |
+| [Matcher::matchAll(); 64 KiB](benchmark/inputs/cases/all/results.all.bytes65536.keys128.one.json) | `preg_match_all()`<br>1610.465 | 193.198 (-88.00%) | 278.040 (-82.73%) |
+| [Matcher::matchAll(); 64 KiB; occurrences: 64; unique matched keys: 4](benchmark/inputs/cases/all/fixed_density.all.bytes65536.keys128.one-per-kib.json) | `preg_match_all()`<br>1695.893 | 196.443 (-88.42%) | 280.789 (-83.43%) |
+
+[All six lengths, other dictionaries, no matches, repeated occurrences and Clang](benchmark/matcher.md). Total occurrences and unique matched keys are stated separately. The measured Matcher series contains no more than 64 occurrences. Hundreds or thousands of `matchAll()` results were not measured.
+
+## Application examples for Matcher
+
+Two separate natural-language texts (EN) and dictionaries with variable-length keys. Each row is measured separately.
+
+| Method / exact input | Best existing method, µs | Prepared object, µs | One-shot, µs |
+|---|---|---:|---:|
+| [Matcher::matches(); 1393 B; a dictionary of 128 keys of 3–30 B; no matches](benchmark/inputs/cases/examples/example.posts.en.absent.json) | `str_contains()` loop<br>37.494 | 2.435 (-93.48%) | 73.100 (+95.19%) |
+| [Matcher::getMatchedKeywords(); 12828 B; a dictionary of 128 keys of 4–28 B; occurrences: 23; unique matched keys: 12](benchmark/inputs/cases/examples/example.articles.en.unique.json) | `strpos()` loop<br>307.035 | 19.341 (-93.68%) | 95.719 (-68.77%) |
+
+[Texts, dictionaries and results](benchmark/INPUTS.md). On the first input, object construction does not pay off in one call; on the second, it does.
+
+## `Replacer::replace()`: text length and number of replacements
+
+The first rows use one dictionary of 32 keys of 11–21 B; a dictionary of 16 keys in the same length range is shown separately. Each matched key occurs once; its replacement value has the same length as the key. Output size equals input text size. The measured call is `replace($subject)` without the optional output argument `$count`.
+
+| Method / exact input | Best existing method, µs | Prepared object, µs | One-shot, µs |
+|---|---|---:|---:|
+| [1 KiB; a dictionary of 32 keys; replacements: 0](benchmark/replacer-inputs/natural.b1024.n32.active0.mixed.json) | `preg_replace_callback()`<br>2.214 | 1.365 (-38.15%) | 14.730 (+565.66%) |
+| [1 KiB; a dictionary of 32 keys; replacements: 2](benchmark/replacer-inputs/natural.b1024.n32.active2.mixed.json) | `preg_replace_callback()`<br>2.422 | 1.436 (-40.71%) | 14.887 (+514.25%) |
+| [4 KiB; a dictionary of 32 keys; replacements: 0](benchmark/replacer-inputs/natural.b4096.n32.active0.mixed.json) | `preg_replace_callback()`<br>8.482 | 5.939 (-29.86%) | 19.350 (+128.73%) |
+| [4 KiB; a dictionary of 32 keys; replacements: 16](benchmark/replacer-inputs/natural.b4096.n32.active16.mixed.json) | `preg_replace_callback()`<br>9.380 | 6.247 (-33.42%) | 19.790 (+111.09%) |
+| [4 KiB; a dictionary of 32 keys; replacements: 32](benchmark/replacer-inputs/natural.b4096.n32.active32.mixed.json) | `preg_replace_callback()`<br>10.059 | 6.587 (-34.70%) | 20.211 (+101.38%) |
+| [16 KiB; a dictionary of 32 keys; replacements: 0](benchmark/replacer-inputs/natural.b16384.n32.active0.mixed.json) | `preg_replace_callback()`<br>62.940 | 25.471 (-59.55%) | 39.979 (-36.48%) |
+| [16 KiB; a dictionary of 32 keys; replacements: 32](benchmark/replacer-inputs/natural.b16384.n32.active32.mixed.json) | `preg_replace_callback()`<br>62.564 | 26.422 (-57.84%) | 40.482 (-35.29%) |
+| [16 KiB; a dictionary of 16 keys; replacements: 16](benchmark/replacer-inputs/natural.b16384.n16.active16.mixed.json) | `preg_replace_callback()`<br>29.377 | 25.859 (-12.13%) | 32.892 (+11.94%) |
+
+On 4 KiB, increasing replacements from 0 to 32 changes the prepared object's time from 5.939 to 6.587 µs — less than the move to 16 KiB. This is an observation from this series, not a general property of the algorithm.
+
+[Equal and variable key lengths, large dictionaries, changes in output size and Clang](benchmark/replacer.md). PCRE measurements include literal expressions, shared-prefix factoring and groups of up to 512 rules. The table selects the fastest eligible variant; expression and callback preparation is outside the timer.
+
+## Limits of applicability: losses for prepared and one-shot objects
+
+| Method / exact input | Best existing method, µs | Prepared object, µs | One-shot, µs |
+|---|---|---:|---:|
+| [Matcher::getMatchedKeywords(); 64 KiB; a dictionary of 8 keys; occurrences: 16; unique matched keys: 8<br>both modes lose](benchmark/inputs/cases/unique/results.unique.bytes65536.keys8.sparse.json) | `strpos()` loop<br>30.348 | 158.969 (+423.47%) | 163.313 (+437.99%) |
+| [Replacer::replace(); 4 KiB; a dictionary of 1 key; replacements: 5<br>both modes lose](benchmark/replacer-inputs/single.b4096.keybytes8.hits5.json) | `strtr()`<br>0.400 | 4.080 (+921.12%) | 4.462 (11.2 times slower) |
+| [Replacer::replace(); 1 MiB; a dictionary of 1000 keys in {{…}} format; replacements: 100<br>both modes lose](benchmark/replacer-inputs/large.b1048576.n1000.active10pct.mixed.json) | `preg_replace_callback()`<br>63.977 | 1148.500 (18.0 times slower) | 1471.567 (23.0 times slower) |
+| [Replacer::replace(); 7301 B; a dictionary of 128 keys; replacements: 4<br>the one-shot call loses](benchmark/replacer-inputs/example.links.en.json) | `preg_replace_callback()`<br>47.209 | 9.520 (-79.85%) | 130.398 (+176.24%) |
+| [Replacer::replace(); 69643 B; a dictionary of 24 keys; replacements: 3<br>both modes lose](benchmark/replacer-inputs/example.logs.keys24.hits3.json) | `preg_replace()`<br>4.515 | 75.878 (16.8 times slower) | 92.197 (20.4 times slower) |
+
+For `{{…}}` keys, a specialized `preg_replace_callback()` recognizes a fragment using one expression and looks it up in the dictionary. This is an eligible alternative for that format. For the 69643 B text, three occurrences are replaced with one marker, allowing direct `preg_replace()` without a callback. For the 7301 B text, a prepared Replacer is faster, but object construction does not pay off in one call against the measured PCRE method.
+
+## When reuse pays off
+
+Each job constructs one Matcher, processes the same string B times, then destroys the object. The table shows the first tested call count with a win on GCC, including construction and destruction. B=1, 4, 16 and 64 were tested; this is not the exact minimum break-even point.
+
+| Method / exact input | First tested call count with a win | Best existing method: whole job, µs | Matcher: whole job, µs |
+|---|---:|---|---:|
+| [Matcher::matches(); 128 B; 128 keys; no matches](benchmark/inputs/cases/any/presence.any.bytes128.keys128.absent.rank65.json) | 64 | `preg_match()`<br>190.158 | 60.238 (-68.34%) |
+| [Matcher::matches(); 4 KiB; 128 keys; no matches](benchmark/inputs/cases/any/presence.any.bytes4096.keys128.absent.rank65.json) | 1 | `preg_match()`<br>100.021 | 58.107 (-42.02%) |
+| [Matcher::matchAll(); 64 KiB; 1024 keys; occurrences: 16](benchmark/inputs/cases/all/results.all.bytes65536.keys1024.sparse.json) | 1 | `strpos()` loop<br>15395.728 | 966.145 (-93.72%) |
+
+For the 128 B text, B=1, 4 and 16 did not show a win; B=64 did. This repeats one text, not a batch of different documents. Replacer reuse series were not measured. [All tested B values, Clang and raw samples](benchmark/REUSE.md).
 
 ## Construction and memory
 
-**`new`:** construction from the loaded dictionary, excluding search/destruction. **Added:** extra PHP-tracked memory of the ready object above that dictionary. Process RSS, construction peaks and PCRE memory are outside this table.
+An example where a large dictionary pays off in one call:
 
-<!-- BUILD-MEMORY-TABLE -->
-| Dictionary | Keys | Matcher new, µs | Matcher added, KiB | Replacer new, µs | Replacer added, KiB |
-|---|---:|---:|---:|---:|---:|
-| Moderation phrases | 128 | 56.871 | 58.0 | n/a | n/a |
-| Support glossary/catalog | 8 | 2.133 | 3.5 | 2.341 | 3.5 |
-| Support glossary/catalog | 32 | 7.994 | 10.6 | 9.401 | 13.6 |
-| Support glossary/catalog | 128 | 44.716 | 46.1 | 43.353 | 43.2 |
-| Support glossary/catalog | 512 | 351.759 | 187.8 | 288.682 | 140.8 |
-| Support glossary/catalog | 10000 | 10264.009 | 2272.8 | 6931.491 | 1324.8 |
-<!-- /BUILD-MEMORY-TABLE -->
+| Method / exact input | Best existing method, µs | Prepared object, µs | One-shot, µs |
+|---|---|---:|---:|
+| [Replacer::replace(); 1 MiB; a dictionary of 10000 keys of 8–24 B; replacements: 10000](benchmark/replacer-inputs/generic.b1048576.n10000.active100pct.mixed.json) | `strtr()`<br>65678.021 | 2262.316 (-96.54%) | 31892.938 (-51.41%) |
 
-`n/a`: not measured. [Memory totals and peaks](MEMORY.md) already include the input and object: **do not add those columns**. Dictionary structure matters beyond key count. [All sizes/compilers](BUILD-MEMORY.md).
+Construction is measured without a method call and without object destruction; the constructor is warm. Prepared-object memory is the additional memory beyond the loaded dictionary. Construction peak already includes the object and temporary buffers: these columns should not be added together. This is Zend accounting, not RSS.
 
-## First-match position
+| Dictionary | Construction, µs | Additional object memory, KiB | Construction peak above dictionary, KiB |
+|---|---:|---:|---:|
+| [Matcher; 128 keys of 12 B each](benchmark/inputs/cases/unique/results.unique.bytes4096.keys128.one.json) | 52.138 | 57.750 | 101.750 |
+| [Replacer; 32 keys](benchmark/replacer-inputs/natural.b4096.n32.active0.mixed.json) | 13.827 | 19.109 | 34.609 |
+| [Replacer; 10000 keys](benchmark/replacer-inputs/generic.b1048576.n10000.active0pct.mixed.json) | 28869.130 | 3202.750 | 9376.812 |
 
-`Matcher::matches()`, **128 keys, 4 KiB/string, GCC 15.2; µs per string**. Each of four positive texts matches one key, respectively at dictionary ranks **1, 37, 91 and 128**. These assignments stay fixed across match positions.
+The table does not include input-text memory or temporary allocations during method calls. `matchAll()` creates an object for each occurrence; its call peak was not measured separately. `replace()` peaks are reported in [MEMORY](benchmark/MEMORY.md).
 
-<!-- POSITION-TABLE -->
-| First match: Matcher::matches() | PHP µs | PCRE µs | Prepared µs | One-shot µs |
-|---|---:|---:|---:|---:|
-| No match | 122.299 | 143.059 | 6.987 | 65.786 |
-| Near start (byte 18) | 58.812 | 0.910 | 0.142 | 58.600 |
-| Middle (about 2 KiB) | 61.071 | 72.355 | 3.577 | 62.233 |
-| Near end (last 9 bytes) | 59.414 | 142.695 | 6.999 | 65.477 |
-<!-- /POSITION-TABLE -->
+On a 1 MiB text with 10000 keys and 10000 replacements, one-shot `replace()` took 31.893 ms on GCC. Constructing the same dictionary in a separate measurement took 28.869 ms. These are separate measurements, not an exact breakdown of one timing sample. [All memory configurations and temporary allocations during calls](benchmark/MEMORY.md).
 
-The new object loses to PCRE at the start and to PHP at the end; the middle case is also slightly slower than PHP. Prepared Matcher remains faster here. **Input length alone does not decide.**
+In ordinary PHP-FPM, the object does not persist across independent requests. Reuse refers to multiple calls within a request or a long-running application. Changing Replacer keys or values requires a new object. In these measurements, PCRE uses a [warm cache of compiled expressions](https://www.php.net/manual/en/book.pcre.php), which can persist in the worker between requests.
 
-## Dictionary size on the same 4 KiB texts
+## Method, checks and limitations
 
-**8, 16, 32, 64, 128, 256 and 512 keys**, with identical input strings across sizes. Moderation has no matches; replacement has matching terms. More keys also mean more replacements and output.
+The main controlled Matcher series uses artificial 12-byte ASCII keys. Texts are based on saved PHP Manual fragments, with matches placed at specified positions. This does not measure the natural distribution of words and matches in user documents.
 
-<!-- DICTIONARY-4K-SUMMARY -->
-**On both compilers**, one-shot `Matcher::matches()` (no match) and `Replacer::replace()` beat both comparators at **16, 32, 64, 128, 256, 512 keys** on these inputs.
+One fixed text and dictionary are processed repeatedly after warmup. Times for different texts are not averaged together. This is a stable working set, not an independent sample of requests. Lengths and occurrence counts are controlled; production workload frequencies are unknown. Other CPUs, architectures and batches of different documents were not measured.
 
-**Eight-key replacement favors PCRE:** with GCC, `preg_replace_callback()` takes **4.958 µs**, against **10.319 µs** for a prepared Replacer and **12.807 µs** including construction and destruction.
-<!-- /DICTIONARY-4K-SUMMARY -->
-
-A listed win requires a 2% saving: a noise filter, not statistical confidence. Untested sizes do not establish an exact crossover. [Full moderation/replacement tables](FIXED-4K.md): all tested sizes, both compilers and counters.
-
-## Where existing tools win
-
-**Time per whole email or whole log string.** The email substitutes order values into template fields. The log replaces sparse occurrences of registered secrets with one marker, using one call on the whole log. PCRE is compiled/cached.
-
-<!-- EVERYDAY-LOSSES -->
-| One operation | Replacer lifetime | Fastest comparator | Comparator µs | Replacer µs |
-|---|---|---|---:|---:|
-| One order email, 10 placeholders | Create, replace, destroy | `strtr()` | 0.962 | 4.800 |
-| One complete log: 384 records, 24 secrets | Prepared Replacer call | `preg_replace()` | 3.946 | 137.312 |
-<!-- /EVERYDAY-LOSSES -->
-
-## Full results
-
-[Dictionary sizes on short texts: moderation](MODERATION.md) · [keyword results](SEARCH.md) · [replacement](REPLACEMENT.md) · [EN/RU/ZH and other application cases](PRODUCT-CASES.md).
-
-[Time](FULL-TIME.md) · [cycles](FULL-CYCLES.md) · [instructions](FULL-INSTRUCTIONS.md) · [first PCRE requests](PCRE-FIRST.md) · [method and controls](METHOD.md) · [reproduce](REPRODUCE.md).
+[Method and comparison recipes](benchmark/METHOD.md) · [Code and build hashes](benchmark/SOURCE.md) · [Exact inputs and verification scope](benchmark/INPUTS.md) · [Correctness and sanitizers](benchmark/CHECKS.md) · [Quality control](benchmark/QUALITY.md) · [Cycles and instructions](benchmark/COUNTERS.md) · [Unusual results](benchmark/OBSERVATIONS.md) · [Reproduction](benchmark/REPRODUCE.md) · [Repeated calls](benchmark/REUSE.md).

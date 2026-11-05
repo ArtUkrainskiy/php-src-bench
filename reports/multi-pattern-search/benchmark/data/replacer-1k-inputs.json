@@ -1,0 +1,54 @@
+{
+  "cases": [
+    {
+      "id": "natural.b1024.n32.active0.mixed",
+      "file": "replacer-inputs/natural.b1024.n32.active0.mixed.json",
+      "sha256": "e92a935939a4674fa2aa06a09f29cbcb628fae58be373a4fb82994dc3415b347",
+      "facts": {
+        "bytes": 1024,
+        "keys": 32,
+        "active_rules": 0,
+        "active_rule_percent": 0.0,
+        "selected_matches": 0,
+        "matched_source_bytes": 0,
+        "output_bytes": 1024,
+        "text_sha256": "bc815267448cad0b3d22283902640ec9046af0e09c6ebd4fa693604af3a7bf21"
+      },
+      "dictionary_facts": {
+        "keys": 32,
+        "min_key_bytes": 11,
+        "max_key_bytes": 21,
+        "total_key_bytes": 512,
+        "alphabet_bytes": 24
+      }
+    },
+    {
+      "id": "natural.b1024.n32.active2.mixed",
+      "file": "replacer-inputs/natural.b1024.n32.active2.mixed.json",
+      "sha256": "fa33cd1cf4dfdb43ade4942b5fba97d0e50669832f1bb1feda8db6825052edfa",
+      "facts": {
+        "bytes": 1024,
+        "keys": 32,
+        "active_rules": 2,
+        "active_rule_percent": 6.25,
+        "selected_matches": 2,
+        "matched_source_bytes": 30,
+        "output_bytes": 1024,
+        "text_sha256": "e162c8f23385d58b1f21500d2691b7bb8b5ad62397962c3c71c050c781352e9e"
+      },
+      "dictionary_facts": {
+        "keys": 32,
+        "min_key_bytes": 11,
+        "max_key_bytes": 21,
+        "total_key_bytes": 512,
+        "alphabet_bytes": 24
+      }
+    }
+  ],
+  "protocol": {
+    "passes": 15,
+    "warmup_ns": 100000000,
+    "sample_ns": 40000000
+  },
+  "input_origin": "Same ordered dictionary as 4/16 KiB mixed series; saved 1024-byte prefix, two fixed literal insertions in positive case; independent byte-wise leftmost-longest oracle."
+}

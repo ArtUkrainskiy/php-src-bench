@@ -1,0 +1,344 @@
+{
+  "schema": 1,
+  "cases": [
+    {
+      "id": "example.articles.zh.unique",
+      "operation": "unique",
+      "title": "Index complete manual articles",
+      "description": "One fixed saved document and ordered dictionary. No rotation or averaging across different inputs.",
+      "kind": "product-example",
+      "synthetic": false,
+      "dimensions": {
+        "language": "zh",
+        "family": "help-index",
+        "series": "product-example",
+        "condition": "saved-single-document",
+        "document_id": "manual.zh.features.file-upload-1"
+      },
+      "methods": [
+        "strpos_unique",
+        "preg_grouped_unique",
+        "matcher"
+      ],
+      "jobs": [
+        {
+          "id": "manual.zh.features.file-upload",
+          "dictionary": [
+            "session_start",
+            "session_write_close",
+            "session_id",
+            "session_regenerate_id",
+            "session_set_cookie_params",
+            "session_status",
+            "session_cache_limiter",
+            "session_name",
+            "session_get_cookie_params",
+            "session_destroy",
+            "session_unset",
+            "session_save_path",
+            "session_set_save_handler",
+            "session_encode",
+            "session_decode",
+            "session_gc",
+            "json_encode",
+            "json_decode",
+            "json_last_error",
+            "json_last_error_msg",
+            "JSON_THROW_ON_ERROR",
+            "JSON_BIGINT_AS_STRING",
+            "JSON_INVALID_UTF8_SUBSTITUTE",
+            "JSON_OBJECT_AS_ARRAY",
+            "JSON_ERROR_NONE",
+            "JsonException",
+            "PDO::prepare",
+            "PDO::query",
+            "PDO::exec",
+            "PDOStatement::execute",
+            "PDOStatement::fetch",
+            "PDOStatement::fetchAll",
+            "PDO::beginTransaction",
+            "PDO::commit",
+            "PDO::rollBack",
+            "PDO::ATTR_PERSISTENT",
+            "PDO::ATTR_ERRMODE",
+            "PDO::ERRMODE_EXCEPTION",
+            "PDO::PARAM_INT",
+            "PDO::PARAM_STR",
+            "mysqli_connect",
+            "mysqli_query",
+            "mysqli_prepare",
+            "mysqli_stmt_bind_param",
+            "mysqli_real_escape_string",
+            "mysqli_fetch_assoc",
+            "mysql_connect",
+            "mysql_pconnect",
+            "mysql_query",
+            "mysql_real_escape_string",
+            "pg_connect",
+            "pg_pconnect",
+            "pg_query",
+            "oci_connect",
+            "oci_pconnect",
+            "odbc_connect",
+            "odbc_pconnect",
+            "gc_collect_cycles",
+            "gc_enable",
+            "gc_disable",
+            "gc_enabled",
+            "gc_status",
+            "memory_get_usage",
+            "memory_get_peak_usage",
+            "debug_zval_dump",
+            "var_dump",
+            "move_uploaded_file",
+            "is_uploaded_file",
+            "UPLOAD_ERR_OK",
+            "UPLOAD_ERR_INI_SIZE",
+            "UPLOAD_ERR_FORM_SIZE",
+            "UPLOAD_ERR_PARTIAL",
+            "UPLOAD_ERR_NO_FILE",
+            "UPLOAD_ERR_NO_TMP_DIR",
+            "UPLOAD_ERR_CANT_WRITE",
+            "UPLOAD_ERR_EXTENSION",
+            "file_get_contents",
+            "file_put_contents",
+            "fopen",
+            "fclose",
+            "fread",
+            "fwrite",
+            "fgets",
+            "feof",
+            "unlink",
+            "rename",
+            "copy",
+            "is_file",
+            "is_dir",
+            "is_readable",
+            "is_writable",
+            "filesize",
+            "chmod",
+            "chown",
+            "realpath",
+            "basename",
+            "dirname",
+            "pathinfo",
+            "tempnam",
+            "sys_get_temp_dir",
+            "stream_context_create",
+            "stream_get_contents",
+            "stream_set_timeout",
+            "header",
+            "headers_sent",
+            "headers_list",
+            "setcookie",
+            "setrawcookie",
+            "http_response_code",
+            "ignore_user_abort",
+            "connection_status",
+            "connection_aborted",
+            "CONNECTION_NORMAL",
+            "CONNECTION_ABORTED",
+            "CONNECTION_TIMEOUT",
+            "register_shutdown_function",
+            "set_time_limit",
+            "max_execution_time",
+            "output_buffering",
+            "ob_start",
+            "ob_end_flush",
+            "ob_get_contents",
+            "preg_match",
+            "preg_match_all",
+            "preg_replace",
+            "preg_replace_callback",
+            "preg_quote",
+            "preg_last_error"
+          ],
+          "documents": [
+            {
+              "id": "manual.zh.features.file-upload-1",
+              "text": "## 文件上传处理\n\n## POST 方法上传\n\n本特性可以使用户上传文本和二进制文件。用 PHP\n的认证和文件操作函数，可以完全控制允许哪些人上传以及文件上传后怎样处理。\n\nPHP 能够接受任何来自符合 RFC-1867 标准的浏览器上传的文件。\n\n## 相关的设置\n\n请参阅 php.ini 的 file_uploads，upload_max_filesize，upload_tmp_dir，post_max_size\n以及 max_input_time 设置选项。\n\n请注意 PHP 也支持 PUT 方法的文件上传，Netscape Composer\n和 W3C 的 Amaya 客户端使用这种方法。请参阅对 PUT 方法的支持以获取更多信息。\n\n## 文件上传表单\n\n可以如下建立一个特殊的表单来支持文件上传：\n\n```php\n<form enctype=\"multipart/form-data\" action=\"__URL__\" method=\"POST\">\n    \n    <input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"30000\" />\n    \n    Send this file: <input name=\"userfile\" type=\"file\" />\n    <input type=\"submit\" value=\"Send File\" />\n</form>\n\n    \n```\n\n以上范例中的 `__URL__` 应该被换掉，指向一个真实的 PHP 文件。\n\n`MAX_FILE_SIZE`\n隐藏字段（单位为字节）必须放在文件输入字段之前，其值为接收文件的最大尺寸。这是对浏览器的一个建议，PHP\n也会检查此项。在浏览器端可以简单绕过此设置，因此不要指望用此特性来阻挡大文件。实际上，PHP\n设置中的上传文件最大值是不会失效的。但是最好还是在表单中加上此项目，因为它可以避免用户在花时间等待上传大文件之后才发现文件过大上传失败的麻烦。\n\n要确保文件上传表单的属性是\n`enctype=\"multipart/form-data\"`，否则文件上传不了。\n\n全局变量 `$_FILES` 包含有所有上传的文件信息。\n数组的内容来自以下范例表单。我们假设文件上传字段的名称如下例所示，为\nuserfile。名称可随意命名。\n\n## `$_FILES['userfile']['name']`\n\n- 客户端机器文件的原名称。\n\n## `$_FILES['userfile']['type']`\n\n- 文件的 MIME 类型，如果浏览器提供此信息的话。一个例子是“`image/gif`”。不过此 MIME 类型在 PHP 端并不检查，因此不要想当然认为有这个值。\n\n## `$_FILES['userfile']['size']`\n\n- 已上传文件的大小，单位为字节。\n\n## `$_FILES['userfile']['tmp_name']`\n\n- 文件被上传后在服务端储存的临时文件名。\n\n## `$_FILES['userfile']['error']`\n\n- 和该文件上传相关的错误代码。\n\n## `$_FILES['userfile']['full_path']`\n\n- 浏览器提交的完整路径。该值并不总是包含真实的目录结构，因此不能被信任。从 PHP 8.1.0 起可用。\n\n文件被上传后，默认地会被储存到服务端的默认临时目录中，除非\nphp.ini 中的 upload_tmp_dir\n设置为其它的路径。服务端的默认临时目录可以通过更改 PHP\n运行环境的环境变量 TMPDIR 来重新设置，但是在\nPHP 脚本内部通过运行 `putenv`\n函数来设置是不起作用的。该环境变量也可以用来确认其它的操作也是在上传的文件上进行的。\n\n## 验证上传的文件\n\n请查阅函数 `is_uploaded_file` 和\n`move_uploaded_file` 以获取进一步的信息。\n以下范例处理由表单提供的文件上传。\n\n```php\n<?php\n$uploaddir = '/var/www/uploads/';\n$uploadfile = $uploaddir . basename($_FILES['userfile']['name']);\n\necho '<pre>';\nif (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {\n    echo \"File is valid, and was successfully uploaded.\\n\";\n} else {\n    echo \"Possible file upload attack!\\n\";\n}\n\necho 'Here is some more debugging info:';\nprint_r($_FILES);\n\nprint \"</pre>\";\n\n?>\n\n    \n```\n\n接受上传文件的 PHP\n脚本为了决定接下来要对该文件进行哪些操作，应该实现任何逻辑上必要的检查。例如可以用\n`$_FILES['userfile']['size']`\n变量来排除过大或过小的文件，也可以通过\n`$_FILES['userfile']['type']`\n变量来排除文件类型和某种标准不相符合的文件，但只把这个当作一系列检查中的第一步，因为此值完全由客户端控制而在\nPHP 端并不检查。同时，还可以通过\n`$_FILES['userfile']['error']` 变量来根据不同的错误代码来计划下一步如何处理。不管怎样，要么将该文件从临时目录中删除，要么将其移动到其它的地方。\n\n如果表单中没有选择上传的文件，则 PHP 变量\n`$_FILES['userfile']['size']` 的值将为\n0，`$_FILES['userfile']['tmp_name']` 将为空。\n\n如果该文件没有被移动到其它地方也没有被改名，则该文件将在表单请求结束时被删除。\n\n## 上传一组文件\n\nPHP 的 HTML 数组特性甚至支持文件类型。\n\n```php\n<form action=\"\" method=\"post\" enctype=\"multipart/form-data\">\n<p>Pictures:\n<input type=\"file\" name=\"pictures[]\" />\n<input type=\"file\" name=\"pictures[]\" />\n<input type=\"file\" name=\"pictures[]\" />\n<input type=\"submit\" value=\"Send\" />\n</p>\n</form>\n\n   \n```\n\n```php\n<?php\nforeach ($_FILES[\"pictures\"][\"error\"] as $key => $error) {\n    if ($error == UPLOAD_ERR_OK) {\n        $tmp_name = $_FILES[\"pictures\"][\"tmp_name\"][$key];\n        // basename() may prevent filesystem traversal attacks;\n        // further validation/sanitation of the filename may be appropriate\n        $name = basename($_FILES[\"pictures\"][\"name\"][$key]);\n        move_uploaded_file($tmp_name, \"data/$name\");\n    }\n}\n?>\n\n   \n```\n\n文件上传进度条可以使用 Session Upload Progress 来实现。\n\n## 错误信息说明\n\nPHP\n将随文件信息数组一起返回一个对应的错误代码。该代码可以在文件上传时生成的文件数组中的\n`error` 字段中被找到，也就是\n`$_FILES['userfile']['error']`。\n\n此错误代码的值是 `UPLOAD_ERR_*` 常量中的一个。\n\n## 常见缺陷\n\n对 `MAX_FILE_SIZE` 设置的值，不能大于 php.ini 文件\n设置中 upload_max_filesize\n选项设置的值。其默认值为 2M 字节。\n\n如果内存限制设置被激活，可能需要将\nmemory_limit 设置的更大些，请确认\nmemory_limit 的设置足够的大。\n\n如果 max_execution_time\n设置的值太小，脚本运行的时间可能会超过该设置。因此，也请保证\n`max_execution_time` 足够的大。\n\nmax_execution_time\n仅仅只影响脚本本身运行的时间。任何其它花费在脚本运行之外的时间，诸如用函数\n`system` 对系统的调用、`sleep`\n函数的使用、数据库查询、文件上传等，在计算脚本运行的最大时间时都不包括在内。\n\nmax_input_time\n以秒为单位设定了脚本接收输入的最大时间，包括文件上传。对于较大或多个文件，或者用户的网速较慢时，可能会超过默认的\n`60` 秒。\n\n如果 post_max_size\n设置的值太小，则较大的文件会无法被上传。因此，请保证\n`post_max_size` 的值足够的大。\n\nmax_file_uploads\n配置选项控制单个请求中可上传的最大文件数量。如果上传的文件数量超过限制，`$_FILES`\n将在达到限制后停止处理文件。例如，如果 max_file_uploads\n设置为 `10`，则 `$_FILES` 将永远不会包含超过 10 个条目。\n\n不对正在操作的文件进行验证可能意味着用户能够访问其它目录下的敏感信息。\n\n鉴于文件路径的表示方法有很多种，我们无法确保用使用各种外语的文件名（尤其是包含空格的）能够被正确的处理。\n\n开发人员不应将普通的 `input` 输入字段和文件上传的字段混用同一个表单变量（例如 `input` 名都用\n`foo[]`）。\n\n## 上传多个文件\n\n可以对 `input` 域使用不同的 `name` 来上传多个文件。\n\nPHP 支持同时上传多个文件并将它们的信息自动以数组的形式组织。要完成这项功能，需要在\nHTML 表单中对文件上传域使用和多选框与复选框相同的数组式提交语法。\n\n## 上传多个文件\n\n```php\n<form action=\"file-upload.php\" method=\"post\" enctype=\"multipart/form-data\">\n  Send these files:<br />\n  <input name=\"userfile[]\" type=\"file\" /><br />\n  <input name=\"userfile[]\" type=\"file\" /><br />\n  <input type=\"submit\" value=\"Send files\" />\n</form>\n\n    \n```\n\n当以上表单被提交后，数组\n`$_FILES['userfile']`，`$_FILES['userfile']['name']`\n和 `$_FILES['userfile']['size']` 将被初始化。\n\n例如，假设名为 /home/test/review.html 和\n/home/test/xwp.out 的文件被提交，则\n`$_FILES['userfile']['name'][0]` 的值将是\nreview.html，而\n`$_FILES['userfile']['name'][1]` 的值将是\nxwp.out。类似的，`$_FILES['userfile']['size'][0]`\n将包含文件 review.html 的大小，依此类推。\n\n此外也同时设置了 `$_FILES['userfile']['name'][0]`，\n`$_FILES['userfile']['tmp_name'][0]`，\n`$_FILES['userfile']['size'][0]`\n以及 `$_FILES['userfile']['type'][0]`。\n\nmax_file_uploads\n配置选项对单次请求中可上传的文件数量进行了限制。需要确保表单在单次请求中上传的文件数量不超过此限制。\n\n## 上传整个目录\n\n在 HTML 文件上传字段中，可以使用 `webkitdirectory`\n属性上传整个目录。大多数现代浏览器都支持此功能。\n\n利用 `full_path` 信息，可以存储相对路径，或者在服务器上重建相同的目录结构。\n\n```php\n<form action=\"file-upload.php\" method=\"post\" enctype=\"multipart/form-data\">\n  Send this directory:<br />\n  <input name=\"userfile[]\" type=\"file\" webkitdirectory multiple />\n  <input type=\"submit\" value=\"Send files\" />\n</form>\n\n    \n```\n\n`webkitdirectory`\n属性是非标准的，也不在标准化进程中。不要在面向公众的生产环境中使用它：它不会对所有用户都有效。各实现之间可能存在很大的不兼容性，将来行为可能会发生变化。\n\nPHP 仅解析浏览器/用户代理提交的相对路径信息，并将该信息传递到 `$_FILES`\n数组中。不能保证 `full_path` 数组中的值包含真实的目录结构，PHP\n应用程序不得信任此信息。\n\n## 对 PUT 方法的支持\n\nPHP 对部分客户端具备的\nHTTP PUT 方法提供了支持。PUT 请求比文件上传要简单的多，它们一般的形式为：\n\n```php\nPUT /path/filename.html HTTP/1.1\n\n    \n```\n\n这通常意味着远程客户端会将其中的 /path/filename.html\n存储到 web 目录树。让 Apache 或者 PHP 自动允许所有人覆盖\nweb 目录树下的任何文件显然是很不明智的。因此，要处理类似的请求，必须先告诉\nweb 服务器需要用特定的 PHP 脚本来处理该请求。在 Apache 下，可以用\nScript 选项来设置。它可以被放置到\nApache 配置文件中几乎所有的位置。通常我们把它放置在\n`<Directory>` 区域或者 `<VirtualHost>` 区域。可以用如下一行来完成该设置：\n\n```php\nScript PUT /put.php\n\n    \n```\n\n这将告诉 Apache 将所有对 URI 的 PUT 请求全部发送到 put.php 脚本，这些\nURI 必须和 PUT 命令中的内容相匹配。当然，这是建立在 PHP 支持\n.php 扩展名，并且 PHP 已经在运行的假设之上。此脚本的所有\nPUT 请求的目标资源必须是脚本本身，而不是上传文件本身的文件名。\n\n使用 PHP，可以在 put.php 中执行类似下面的操作。这会将上传文件的内容复制到服务器上的文件\nmyputfile.ext。在执行此文件复制之前，可能会希望执行一些检查并且验证用户身份。\n\n## 保存 HTTP PUT 文件\n\n```php\n     \n<?php\n/* PUT 数据来自于 stdin 流 */\n$putdata = fopen(\"php://input\", \"r\");\n\n/* 打开要写入的文件 */\n$fp = fopen(\"myputfile.ext\", \"w\");\n\n/* 每次读取 1KB 的数据并写入到文件 */\nwhile ($data = fread($putdata, 1024))\n  fwrite($fp, $data);\n\n/* 关闭流 */\nfclose($fp);\nfclose($putdata);\n?>\n\n    \n```\n\n## 参见\n\n文件系统安全\n",
+              "expected": [
+                "filesize",
+                "is_uploaded_file",
+                "move_uploaded_file",
+                "basename",
+                "UPLOAD_ERR_OK",
+                "max_execution_time",
+                "fopen",
+                "fread",
+                "fwrite",
+                "fclose"
+              ],
+              "source": {
+                "language": "zh",
+                "path": "features/file-upload.xml",
+                "revision": "97aa988ff5ad8ad0d6ec9ca546f9556889738b60",
+                "url": "https://raw.githubusercontent.com/php/doc-zh/97aa988ff5ad8ad0d6ec9ca546f9556889738b60/features/file-upload.xml",
+                "sha256": "21173fa8d897f4eb25c4d589f0e18d607c0cd848824ed64c99f6f63be97ec2bf",
+                "license": "CC-BY-3.0",
+                "copyright": "PHP Documentation Group",
+                "license_url": "https://www.php.net/manual/en/cc.license.php",
+                "manual_url": "https://www.php.net/manual/zh/features.file-upload.php",
+                "scope": "Complete source article/chapter prose and code; no repeated or size-padded content.",
+                "changes": "Expanded documented XML entities; removed markup/comments and layout whitespace; retained prose/code order."
+              },
+              "matches": [
+                {
+                  "offset": 370,
+                  "length": 8,
+                  "keyword": "filesize",
+                  "dictionary_rank": 92
+                },
+                {
+                  "offset": 3097,
+                  "length": 16,
+                  "keyword": "is_uploaded_file",
+                  "dictionary_rank": 68
+                },
+                {
+                  "offset": 3120,
+                  "length": 18,
+                  "keyword": "move_uploaded_file",
+                  "dictionary_rank": 67
+                },
+                {
+                  "offset": 3298,
+                  "length": 8,
+                  "keyword": "basename",
+                  "dictionary_rank": 96
+                },
+                {
+                  "offset": 3356,
+                  "length": 18,
+                  "keyword": "move_uploaded_file",
+                  "dictionary_rank": 67
+                },
+                {
+                  "offset": 5012,
+                  "length": 13,
+                  "keyword": "UPLOAD_ERR_OK",
+                  "dictionary_rank": 69
+                },
+                {
+                  "offset": 5099,
+                  "length": 8,
+                  "keyword": "basename",
+                  "dictionary_rank": 96
+                },
+                {
+                  "offset": 5244,
+                  "length": 8,
+                  "keyword": "basename",
+                  "dictionary_rank": 96
+                },
+                {
+                  "offset": 5297,
+                  "length": 18,
+                  "keyword": "move_uploaded_file",
+                  "dictionary_rank": 67
+                },
+                {
+                  "offset": 5827,
+                  "length": 8,
+                  "keyword": "filesize",
+                  "dictionary_rank": 92
+                },
+                {
+                  "offset": 6029,
+                  "length": 18,
+                  "keyword": "max_execution_time",
+                  "dictionary_rank": 118
+                },
+                {
+                  "offset": 6140,
+                  "length": 18,
+                  "keyword": "max_execution_time",
+                  "dictionary_rank": 118
+                },
+                {
+                  "offset": 6177,
+                  "length": 18,
+                  "keyword": "max_execution_time",
+                  "dictionary_rank": 118
+                },
+                {
+                  "offset": 11382,
+                  "length": 5,
+                  "keyword": "fopen",
+                  "dictionary_rank": 79
+                },
+                {
+                  "offset": 11447,
+                  "length": 5,
+                  "keyword": "fopen",
+                  "dictionary_rank": 79
+                },
+                {
+                  "offset": 11543,
+                  "length": 5,
+                  "keyword": "fread",
+                  "dictionary_rank": 81
+                },
+                {
+                  "offset": 11568,
+                  "length": 6,
+                  "keyword": "fwrite",
+                  "dictionary_rank": 82
+                },
+                {
+                  "offset": 11605,
+                  "length": 6,
+                  "keyword": "fclose",
+                  "dictionary_rank": 80
+                },
+                {
+                  "offset": 11618,
+                  "length": 6,
+                  "keyword": "fclose",
+                  "dictionary_rank": 80
+                }
+              ],
+              "facts": {
+                "bytes": 11680,
+                "occurrences": 19,
+                "distinct_keywords": 10,
+                "covered_source_bytes": 210,
+                "coverage_percent": 1.797945205479452,
+                "occurrences_per_kib": 1.6657534246575343,
+                "first_match_offset": 370,
+                "first_textual_hit_dictionary_rank": 92,
+                "first_dictionary_hit_rank": 67,
+                "text_sha256": "a9e02c6103bc6fbe88d69489eb5e4819a5963ebc61ed30bc8793868e38a72964"
+              }
+            }
+          ]
+        }
+      ],
+      "dictionary_source": {
+        "kind": "project-curated-fixed-api-glossary",
+        "description": "128 saved PHP API identifiers. Exactly the same ASCII keys are searched in EN/RU/ZH documentation."
+      },
+      "dictionary_facts": {
+        "keys": 128,
+        "total_key_bytes": 1818,
+        "min_key_bytes": 4,
+        "median_key_bytes": 14.0,
+        "max_key_bytes": 28,
+        "alphabet_bytes": 54,
+        "dictionary_sha256": "c02b0ca693e3e5202671813670e2b1db484886157db711c4115f05a4e2ba2caf"
+      },
+      "measurement_plan": {
+        "lifecycles": [
+          "prepared",
+          "batch"
+        ],
+        "batch_sizes": [
+          1
+        ],
+        "unit": "One fixed string and ordered dictionary per call.",
+        "result_lifetime": "Create native result, consume a scalar summary, then release result inside operation.",
+        "status": "Input specification; measurement status belongs to captures."
+      }
+    }
+  ]
+}

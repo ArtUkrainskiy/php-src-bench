@@ -1,0 +1,118 @@
+{
+  "schema": 1,
+  "cases": [
+    {
+      "id": "results.count.bytes128.keys32.one",
+      "title": "results.count.bytes128.keys32.one",
+      "operation": "count",
+      "description": "One exact saved byte string and ordered dictionary. Never average different inputs.",
+      "synthetic": true,
+      "kind": "controlled",
+      "dimensions": {
+        "series": "results",
+        "condition": "one",
+        "subject_bytes": 128,
+        "keys": 32,
+        "key_bytes": 12,
+        "planned_occurrences": 1
+      },
+      "methods": [
+        "strpos_count",
+        "preg_grouped_count",
+        "matcher"
+      ],
+      "dictionary_scope": "fixed_dictionary",
+      "jobs": [
+        {
+          "id": "results.count.bytes128.keys32.one",
+          "dictionary": [
+            "hgdepclonnln",
+            "ealckefnmali",
+            "lnllhmnomndi",
+            "lgldggmcenpi",
+            "ddpdkojhffgp",
+            "alkphkgheice",
+            "ilimppefibhd",
+            "jkncnbpobpnc",
+            "mcgapcjbeelj",
+            "didicpbnojok",
+            "jjnclmjgpljd",
+            "ebjhelkjbkhi",
+            "ekepnbfoejjc",
+            "lopkplgkahap",
+            "bafjocghbnak",
+            "fbdakbiighik",
+            "pnejdbkngijb",
+            "iohccmbplnpp",
+            "akkmpomfnknn",
+            "lhjandcpafpe",
+            "eeonjglgefbl",
+            "hlmdboeopico",
+            "mgdekokbjodp",
+            "eollkobbdagk",
+            "mfkdldidhiio",
+            "kmneglnafigg",
+            "lknlnehnafjf",
+            "cpjbmcahkhkc",
+            "jpcbnahniigb",
+            "cpnjdcobokpj",
+            "mpmpalgafmdo",
+            "jaeglfjpfdjd"
+          ],
+          "documents": [
+            {
+              "id": "results.count.bytes128.keys32.one",
+              "text": "## Connection handling\n\nInternally in PHP a connection iohccmbplnppintained. There are 4\npossible states:\n\n- 0 - NORMAL\n\n- 1 - A",
+              "expected": 1,
+              "facts": {
+                "bytes": 128,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "covered_source_bytes": 12,
+                "coverage_percent": 9.375,
+                "occurrences_per_kib": 8.0,
+                "first_match_offset": 55,
+                "first_textual_hit_dictionary_rank": 18,
+                "first_dictionary_hit_rank": 18,
+                "text_sha256": "84833e2cc896a2f38fecc01ca2fc58fd9d88b0e2cc15a8daa29c418745cb0650"
+              },
+              "source": {
+                "kind": "controlled-manual-fragment",
+                "provenance": "../../ATTRIBUTION.md"
+              },
+              "matches": [
+                {
+                  "offset": 55,
+                  "length": 12,
+                  "keyword": "iohccmbplnpp",
+                  "dictionary_rank": 18
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "measurement_plan": {
+        "lifecycles": [
+          "prepared",
+          "batch"
+        ],
+        "batch_sizes": [
+          1
+        ],
+        "unit": "One fixed string and ordered dictionary per call.",
+        "result_lifetime": "Create native result, consume a scalar summary, then release result inside operation.",
+        "status": "Input specification; measurement status belongs to captures."
+      },
+      "dictionary_facts": {
+        "keys": 32,
+        "total_key_bytes": 384,
+        "min_key_bytes": 12,
+        "median_key_bytes": 12.0,
+        "max_key_bytes": 12,
+        "alphabet_bytes": 16,
+        "dictionary_sha256": "e381570f9766b68c16457b46732408de68477655c5ba8408fa2eb5690488d2af"
+      }
+    }
+  ]
+}

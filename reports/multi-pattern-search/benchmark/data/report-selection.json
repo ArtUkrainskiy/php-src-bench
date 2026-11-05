@@ -1,0 +1,58 @@
+{
+  "main_time_cases": [
+    "presence.any.bytes4096.keys128.absent.rank65",
+    "presence.any.bytes4096.keys128.start.rank65",
+    "presence.any.bytes4096.keys128.middle.rank65",
+    "presence.any.bytes4096.keys128.end.rank65",
+    "results.unique.bytes128.keys128.one",
+    "results.unique.bytes1024.keys128.one",
+    "results.unique.bytes4096.keys128.one",
+    "results.unique.bytes65536.keys128.one",
+    "results.count.bytes128.keys128.one",
+    "results.count.bytes1024.keys128.one",
+    "results.count.bytes4096.keys128.one",
+    "results.count.bytes65536.keys128.one",
+    "results.all.bytes1024.keys128.one",
+    "results.all.bytes4096.keys128.one",
+    "results.all.bytes65536.keys128.one",
+    "fixed_density.all.bytes65536.keys128.one-per-kib",
+    "example.posts.en.absent",
+    "example.articles.en.unique",
+    "natural.b1024.n32.active0.mixed",
+    "natural.b1024.n32.active2.mixed",
+    "natural.b4096.n32.active0.mixed",
+    "natural.b4096.n32.active16.mixed",
+    "natural.b4096.n32.active32.mixed",
+    "natural.b16384.n32.active0.mixed",
+    "natural.b16384.n32.active32.mixed",
+    "natural.b16384.n16.active16.mixed",
+    "results.unique.bytes65536.keys8.sparse",
+    "single.b4096.keybytes8.hits5",
+    "large.b1048576.n1000.active10pct.mixed",
+    "example.links.en",
+    "example.logs.keys24.hits3",
+    "generic.b1048576.n10000.active100pct.mixed"
+  ],
+  "main_time_rows": 32,
+  "scope": "Exact operations; no averages across documents or compilers",
+  "main_reuse_cases": [
+    {
+      "case": "presence.any.bytes128.keys128.absent.rank65",
+      "compiler": "gcc15",
+      "batch": 64,
+      "first_tested_win": true
+    },
+    {
+      "case": "presence.any.bytes4096.keys128.absent.rank65",
+      "compiler": "gcc15",
+      "batch": 1,
+      "first_tested_win": true
+    },
+    {
+      "case": "results.all.bytes65536.keys1024.sparse",
+      "compiler": "gcc15",
+      "batch": 1,
+      "first_tested_win": true
+    }
+  ]
+}

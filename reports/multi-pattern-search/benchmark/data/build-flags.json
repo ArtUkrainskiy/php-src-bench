@@ -1,0 +1,72 @@
+{
+  "gcc15": {
+    "runtime": {
+      "commit": "758c9ac5492848a54f9fd88fac2a54d5e6108c05",
+      "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+      "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wlogical-op -Wduplicated-cond -Wno-clobbered -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -Wimplicit-fallthrough=1 -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+      "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+      "ldflags": "-Wl,-O1 -pie",
+      "profile": "docker",
+      "cc": "gcc-15 (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+      "debug": false
+    },
+    "module_flags": [
+      "-fstack-protector-strong",
+      "-fpic",
+      "-fpie",
+      "-O2",
+      "-g",
+      "-D_LARGEFILE_SOURCE",
+      "-D_FILE_OFFSET_BITS=64",
+      "-std=c11",
+      "-shared",
+      "-fPIC",
+      "-ffp-contract=off",
+      "-fvisibility=hidden",
+      "-DNDEBUG",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Wno-unused-parameter",
+      "-Wno-sign-compare",
+      "-D_GNU_SOURCE",
+      "-DCOMPILE_DL_STRMATCH=1",
+      "-DZEND_ENABLE_STATIC_TSRMLS_CACHE=1"
+    ]
+  },
+  "clang21": {
+    "runtime": {
+      "commit": "758c9ac5492848a54f9fd88fac2a54d5e6108c05",
+      "configure": "--disable-all --disable-cgi --disable-phpdbg --enable-cli --enable-werror",
+      "cflags": "-fno-common -Wstrict-prototypes -Wformat-truncation -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -ffp-contract=off -fvisibility=hidden -DNDEBUG -DZEND_SIGNALS -Werror $(PROF_FLAGS)",
+      "cflags_user": "-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+      "ldflags": "-Wl,-O1 -pie",
+      "profile": "docker",
+      "cc": "Ubuntu clang version 21.1.8 (6ubuntu1)",
+      "debug": false
+    },
+    "module_flags": [
+      "-fstack-protector-strong",
+      "-fpic",
+      "-fpie",
+      "-O2",
+      "-g",
+      "-D_LARGEFILE_SOURCE",
+      "-D_FILE_OFFSET_BITS=64",
+      "-std=c11",
+      "-shared",
+      "-fPIC",
+      "-ffp-contract=off",
+      "-fvisibility=hidden",
+      "-DNDEBUG",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Wno-unused-parameter",
+      "-Wno-sign-compare",
+      "-D_GNU_SOURCE",
+      "-DCOMPILE_DL_STRMATCH=1",
+      "-DZEND_ENABLE_STATIC_TSRMLS_CACHE=1"
+    ]
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "schema": 1,
+  "cases": [
+    {
+      "id": "presence.any.bytes128.keys8.middle.rank5",
+      "title": "presence.any.bytes128.keys8.middle.rank5",
+      "operation": "any",
+      "description": "One exact saved byte string and ordered dictionary. Never average different inputs.",
+      "synthetic": true,
+      "kind": "controlled",
+      "dimensions": {
+        "series": "presence",
+        "condition": "middle",
+        "subject_bytes": 128,
+        "keys": 8,
+        "key_bytes": 12,
+        "dictionary_rank": 5
+      },
+      "methods": [
+        "contains_loop",
+        "preg_match_chunks",
+        "matcher"
+      ],
+      "dictionary_scope": "fixed_dictionary",
+      "jobs": [
+        {
+          "id": "presence.any.bytes128.keys8.middle.rank5",
+          "dictionary": [
+            "lnllhmnomndi",
+            "ddpdkojhffgp",
+            "ilimppefibhd",
+            "mcgapcjbeelj",
+            "hgdepclonnln",
+            "jjnclmjgpljd",
+            "ekepnbfoejjc",
+            "bafjocghbnak"
+          ],
+          "documents": [
+            {
+              "id": "presence.any.bytes128.keys8.middle.rank5",
+              "text": "## Connection handling\n\nInternally in PHP a connection stahgdepclonnlnained. There are 4\npossible states:\n\n- 0 - NORMAL\n\n- 1 - A",
+              "expected": true,
+              "facts": {
+                "bytes": 128,
+                "occurrences": 1,
+                "distinct_keywords": 1,
+                "covered_source_bytes": 12,
+                "coverage_percent": 9.375,
+                "occurrences_per_kib": 8.0,
+                "first_match_offset": 58,
+                "first_textual_hit_dictionary_rank": 5,
+                "first_dictionary_hit_rank": 5,
+                "text_sha256": "901960b8f5940b096978503cef289408d95c9d4a2e4e230d030760615f963940"
+              },
+              "source": {
+                "kind": "controlled-manual-fragment",
+                "provenance": "../../ATTRIBUTION.md"
+              },
+              "matches": [
+                {
+                  "offset": 58,
+                  "length": 12,
+                  "keyword": "hgdepclonnln",
+                  "dictionary_rank": 5
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "measurement_plan": {
+        "lifecycles": [
+          "prepared",
+          "batch"
+        ],
+        "batch_sizes": [
+          1
+        ],
+        "unit": "One fixed string and ordered dictionary per call.",
+        "result_lifetime": "Create native result, consume a scalar summary, then release result inside operation.",
+        "status": "Input specification; measurement status belongs to captures."
+      },
+      "dictionary_facts": {
+        "keys": 8,
+        "total_key_bytes": 96,
+        "min_key_bytes": 12,
+        "median_key_bytes": 12.0,
+        "max_key_bytes": 12,
+        "alphabet_bytes": 16,
+        "dictionary_sha256": "5d6bc7fe392906d04233fd59a780112e4a5332e0b2082ccd2148008dc69a6bc1"
+      }
+    }
+  ]
+}

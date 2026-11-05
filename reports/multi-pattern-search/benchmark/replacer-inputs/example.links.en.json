@@ -1,0 +1,286 @@
+{
+  "schema": 1,
+  "cases": [
+    {
+      "id": "example.links.en",
+      "operation": "replace",
+      "title": "Replace literal API terms with help URLs",
+      "description": "One fixed saved document and ordered dictionary. No rotation or averaging across different inputs.",
+      "kind": "product-example",
+      "synthetic": false,
+      "dimensions": {
+        "language": "en",
+        "family": "help-linking",
+        "series": "product-example",
+        "condition": "saved-single-document",
+        "document_id": "manual.en.features.persistent-connections-1"
+      },
+      "methods": [
+        "strtr",
+        "preg_replace_callback",
+        "replacer"
+      ],
+      "jobs": [
+        {
+          "id": "manual.en.features.persistent-connections",
+          "dictionary": {
+            "session_start": "https://help.example.test/api/000",
+            "session_write_close": "https://help.example.test/api/001",
+            "session_id": "https://help.example.test/api/002",
+            "session_regenerate_id": "https://help.example.test/api/003",
+            "session_set_cookie_params": "https://help.example.test/api/004",
+            "session_status": "https://help.example.test/api/005",
+            "session_cache_limiter": "https://help.example.test/api/006",
+            "session_name": "https://help.example.test/api/007",
+            "session_get_cookie_params": "https://help.example.test/api/008",
+            "session_destroy": "https://help.example.test/api/009",
+            "session_unset": "https://help.example.test/api/010",
+            "session_save_path": "https://help.example.test/api/011",
+            "session_set_save_handler": "https://help.example.test/api/012",
+            "session_encode": "https://help.example.test/api/013",
+            "session_decode": "https://help.example.test/api/014",
+            "session_gc": "https://help.example.test/api/015",
+            "json_encode": "https://help.example.test/api/016",
+            "json_decode": "https://help.example.test/api/017",
+            "json_last_error": "https://help.example.test/api/018",
+            "json_last_error_msg": "https://help.example.test/api/019",
+            "JSON_THROW_ON_ERROR": "https://help.example.test/api/020",
+            "JSON_BIGINT_AS_STRING": "https://help.example.test/api/021",
+            "JSON_INVALID_UTF8_SUBSTITUTE": "https://help.example.test/api/022",
+            "JSON_OBJECT_AS_ARRAY": "https://help.example.test/api/023",
+            "JSON_ERROR_NONE": "https://help.example.test/api/024",
+            "JsonException": "https://help.example.test/api/025",
+            "PDO::prepare": "https://help.example.test/api/026",
+            "PDO::query": "https://help.example.test/api/027",
+            "PDO::exec": "https://help.example.test/api/028",
+            "PDOStatement::execute": "https://help.example.test/api/029",
+            "PDOStatement::fetch": "https://help.example.test/api/030",
+            "PDOStatement::fetchAll": "https://help.example.test/api/031",
+            "PDO::beginTransaction": "https://help.example.test/api/032",
+            "PDO::commit": "https://help.example.test/api/033",
+            "PDO::rollBack": "https://help.example.test/api/034",
+            "PDO::ATTR_PERSISTENT": "https://help.example.test/api/035",
+            "PDO::ATTR_ERRMODE": "https://help.example.test/api/036",
+            "PDO::ERRMODE_EXCEPTION": "https://help.example.test/api/037",
+            "PDO::PARAM_INT": "https://help.example.test/api/038",
+            "PDO::PARAM_STR": "https://help.example.test/api/039",
+            "mysqli_connect": "https://help.example.test/api/040",
+            "mysqli_query": "https://help.example.test/api/041",
+            "mysqli_prepare": "https://help.example.test/api/042",
+            "mysqli_stmt_bind_param": "https://help.example.test/api/043",
+            "mysqli_real_escape_string": "https://help.example.test/api/044",
+            "mysqli_fetch_assoc": "https://help.example.test/api/045",
+            "mysql_connect": "https://help.example.test/api/046",
+            "mysql_pconnect": "https://help.example.test/api/047",
+            "mysql_query": "https://help.example.test/api/048",
+            "mysql_real_escape_string": "https://help.example.test/api/049",
+            "pg_connect": "https://help.example.test/api/050",
+            "pg_pconnect": "https://help.example.test/api/051",
+            "pg_query": "https://help.example.test/api/052",
+            "oci_connect": "https://help.example.test/api/053",
+            "oci_pconnect": "https://help.example.test/api/054",
+            "odbc_connect": "https://help.example.test/api/055",
+            "odbc_pconnect": "https://help.example.test/api/056",
+            "gc_collect_cycles": "https://help.example.test/api/057",
+            "gc_enable": "https://help.example.test/api/058",
+            "gc_disable": "https://help.example.test/api/059",
+            "gc_enabled": "https://help.example.test/api/060",
+            "gc_status": "https://help.example.test/api/061",
+            "memory_get_usage": "https://help.example.test/api/062",
+            "memory_get_peak_usage": "https://help.example.test/api/063",
+            "debug_zval_dump": "https://help.example.test/api/064",
+            "var_dump": "https://help.example.test/api/065",
+            "move_uploaded_file": "https://help.example.test/api/066",
+            "is_uploaded_file": "https://help.example.test/api/067",
+            "UPLOAD_ERR_OK": "https://help.example.test/api/068",
+            "UPLOAD_ERR_INI_SIZE": "https://help.example.test/api/069",
+            "UPLOAD_ERR_FORM_SIZE": "https://help.example.test/api/070",
+            "UPLOAD_ERR_PARTIAL": "https://help.example.test/api/071",
+            "UPLOAD_ERR_NO_FILE": "https://help.example.test/api/072",
+            "UPLOAD_ERR_NO_TMP_DIR": "https://help.example.test/api/073",
+            "UPLOAD_ERR_CANT_WRITE": "https://help.example.test/api/074",
+            "UPLOAD_ERR_EXTENSION": "https://help.example.test/api/075",
+            "file_get_contents": "https://help.example.test/api/076",
+            "file_put_contents": "https://help.example.test/api/077",
+            "fopen": "https://help.example.test/api/078",
+            "fclose": "https://help.example.test/api/079",
+            "fread": "https://help.example.test/api/080",
+            "fwrite": "https://help.example.test/api/081",
+            "fgets": "https://help.example.test/api/082",
+            "feof": "https://help.example.test/api/083",
+            "unlink": "https://help.example.test/api/084",
+            "rename": "https://help.example.test/api/085",
+            "copy": "https://help.example.test/api/086",
+            "is_file": "https://help.example.test/api/087",
+            "is_dir": "https://help.example.test/api/088",
+            "is_readable": "https://help.example.test/api/089",
+            "is_writable": "https://help.example.test/api/090",
+            "filesize": "https://help.example.test/api/091",
+            "chmod": "https://help.example.test/api/092",
+            "chown": "https://help.example.test/api/093",
+            "realpath": "https://help.example.test/api/094",
+            "basename": "https://help.example.test/api/095",
+            "dirname": "https://help.example.test/api/096",
+            "pathinfo": "https://help.example.test/api/097",
+            "tempnam": "https://help.example.test/api/098",
+            "sys_get_temp_dir": "https://help.example.test/api/099",
+            "stream_context_create": "https://help.example.test/api/100",
+            "stream_get_contents": "https://help.example.test/api/101",
+            "stream_set_timeout": "https://help.example.test/api/102",
+            "header": "https://help.example.test/api/103",
+            "headers_sent": "https://help.example.test/api/104",
+            "headers_list": "https://help.example.test/api/105",
+            "setcookie": "https://help.example.test/api/106",
+            "setrawcookie": "https://help.example.test/api/107",
+            "http_response_code": "https://help.example.test/api/108",
+            "ignore_user_abort": "https://help.example.test/api/109",
+            "connection_status": "https://help.example.test/api/110",
+            "connection_aborted": "https://help.example.test/api/111",
+            "CONNECTION_NORMAL": "https://help.example.test/api/112",
+            "CONNECTION_ABORTED": "https://help.example.test/api/113",
+            "CONNECTION_TIMEOUT": "https://help.example.test/api/114",
+            "register_shutdown_function": "https://help.example.test/api/115",
+            "set_time_limit": "https://help.example.test/api/116",
+            "max_execution_time": "https://help.example.test/api/117",
+            "output_buffering": "https://help.example.test/api/118",
+            "ob_start": "https://help.example.test/api/119",
+            "ob_end_flush": "https://help.example.test/api/120",
+            "ob_get_contents": "https://help.example.test/api/121",
+            "preg_match": "https://help.example.test/api/122",
+            "preg_match_all": "https://help.example.test/api/123",
+            "preg_replace": "https://help.example.test/api/124",
+            "preg_replace_callback": "https://help.example.test/api/125",
+            "preg_quote": "https://help.example.test/api/126",
+            "preg_last_error": "https://help.example.test/api/127"
+          },
+          "documents": [
+            {
+              "id": "manual.en.features.persistent-connections-1",
+              "text": "## Persistent Database Connections\n\n## What are Persistent Connections?\n\nPersistent connections are links that do not close when the\nexecution of the script ends. When a persistent connection is\nrequested, PHP checks whether an identical persistent\nconnection (that remained open from earlier) already exists; if one does,\nit is reused, and if not, a new link is created. An 'identical'\nconnection is one opened to the same host with\nthe same username and password (where applicable).\n\nThere is no way to request a specific connection, or to guarantee\nwhether the returned connection will be an existing one or a brand new\none (if all existing connections are in use, or the request is being\nserved by a different worker, which has a separate pool of connections).\n\nPHP's persistent connections therefore cannot be used to, for example:\n\nassign a specific database session to a specific web user\ncreate a large transaction across multiple requests\ninitiate a query on one request and collect the results on another\n\nPersistent connections do not provide any\nfunctionality that was not possible with non-persistent connections.\n\n## Web Requests\n\nThere are two ways in which a web server can utilize PHP to generate\nweb pages:\n\nThe first method is to use PHP as a CGI \"wrapper\". When run this\nway, an instance of the PHP interpreter is created and destroyed\nfor every page request (for a PHP page) to the web server.\nBecause it is destroyed after every request, any resources that it\nacquires (such as a link to an SQL database server) are closed when\nit is destroyed. In this case, there is nothing to be gained from\nusing persistent connections - they simply do not persist.\n\nThe second, and most popular, method is to run PHP-FPM, or PHP as a module\nin a multiprocess web server (currently only Apache).\nThese setups typically have one process (the parent) which\ncoordinates a set of processes (its children) that actually do the\nwork of serving up web pages. When a request comes in from a\nclient, it is handed off to one of the children that is not already\nserving another client. This means that when the same client makes\na second request to the server, it may be served by a different\nchild process than the first time. Once a persistent connection has been\nopened, any subsequent page served by the same child process can reuse the\nalready established connection to the SQL server.\n\nThe method in use can be checked by looking at the value of\n\"Server API\" in the output of `phpinfo` or the value of\n`PHP_SAPI`, run from a web request.\n\nIf the Server API is \"Apache 2 Handler\" or \"FPM/FastCGI\", then persistent\nconnections will be used across requests served by the same worker. For any\nother value, persistent connections will not persist after each request.\n\n## Command-line Processes\n\nAs command-line PHP uses a new process for each script, persistent\nconnections are not shared between command-line scripts, so there is no\nvalue in using them in transient scripts such as crons or commands.\nHowever, they may be useful, for example, in a long-running application\nserver that serves many requests or tasks, each of which may need its\nown database connection.\n\n## Why Use Them?\n\nPersistent connections are beneficial when the overhead of creating a link\nto an SQL server is high. Whether this overhead is significant depends on\nmany factors, such as the type of database, whether it resides on the same\nmachine as the web server, and how loaded that machine is. When the\nconnection overhead is high, persistent connections can help considerably:\neach child process connects only once for its entire lifespan, rather than\nevery time it processes a page that requires a connection to the SQL\nserver. This means every child that opens a persistent connection will\nmaintain its own connection to the server. For example, if 20 different\nchild processes each run a script that makes a persistent connection to\nthe SQL server, there will be 20 separate connections to that server, one\nfrom each child.\n\n## Potential Drawbacks: Connection Limits\n\nNote, however, that this can have drawbacks when using a\ndatabase with connection limits that are exceeded by persistent\nchild connections. If the database has a limit of 16 simultaneous\nconnections, and during a busy server session 17 child\nprocesses attempt to connect, one of them will fail. If there are\nbugs in the scripts that prevent connections from shutting\ndown (such as infinite loops), a database with only 16 connections\nmay be rapidly swamped.\n\nPersistent connections will usually increase the number of connections open\nat any given time, because idle workers still hold on to the connections they\nopened for previous requests. If a large number of workers are spun up to\nhandle a spike in traffic, the connections they opened will remain until\nthe worker is terminated or the database server closes the connection.\n\nEnsure that the maximum number of connections allowed by the database server\nis greater than the maximum number of web request workers (plus any other\nusage such as crons or administrative connections).\n\nCheck the database documentation for information on handling abandoned or\nidle connections (timeouts). Long timeouts may significantly increase the\nnumber of persistent connections open at any one time.\n\n## Potential Drawbacks: Maintaining Connection State\n\nSome database extensions perform automatic cleanup when the connection is\nreused; others leave this task at the discretion of the application developer.\nDepending on the chosen database extension and the application design, manual\ncleanup may be needed before the script exits. Changes that may leave\nconnections in an unexpected state include:\n\nSelected / default database\nTable locks\nUncommitted transactions\nTemporary tables\nConnection specific settings or features such as profiling\n\nTable locks and transactions that are not cleaned up or closed may cause\nother queries to be blocked indefinitely and/or cause subsequent reuse of\nthe connection to cause unexpected changes.\n\nHaving the wrong database selected will cause subsequent reuse of the\nconnection to be unable to execute queries as expected (or execute them on\nthe wrong database if schemas are similar enough).\n\nIf temporary tables are not cleaned up, subsequent requests will not be able\nto recreate the same table.\n\nCleanup can be implemented using class destructors or\n`register_shutdown_function`. Dedicated connection\npooling proxies that include this as part of their functionality may\nalso be considered.\n\n## Final Words\n\nGiven their behavior and potential drawbacks described above, persistent\nconnections should not be used without careful consideration. They should\nnot be used without implementing additional changes to the application and\ncareful configuration of the database server and web server and/or PHP-FPM.\n\nConsider alternative solutions such as investigating and fixing the causes of\nconnection creation overheads (for example, disabling reverse DNS lookups on\nthe database server), or dedicated connection pooling proxies.\n\nFor high volume web APIs, consider using alternative runtimes or long-running\napplication servers.\n\n## See Also\n\n`ibase_pconnect`\n`oci_pconnect`\n`odbc_pconnect`\n`pfsockopen`\n`pg_connect`\nMySQLi and Persistent Connections\nPDO Connection Management\n",
+              "expected": {
+                "text": "## Persistent Database Connections\n\n## What are Persistent Connections?\n\nPersistent connections are links that do not close when the\nexecution of the script ends. When a persistent connection is\nrequested, PHP checks whether an identical persistent\nconnection (that remained open from earlier) already exists; if one does,\nit is reused, and if not, a new link is created. An 'identical'\nconnection is one opened to the same host with\nthe same username and password (where applicable).\n\nThere is no way to request a specific connection, or to guarantee\nwhether the returned connection will be an existing one or a brand new\none (if all existing connections are in use, or the request is being\nserved by a different worker, which has a separate pool of connections).\n\nPHP's persistent connections therefore cannot be used to, for example:\n\nassign a specific database session to a specific web user\ncreate a large transaction across multiple requests\ninitiate a query on one request and collect the results on another\n\nPersistent connections do not provide any\nfunctionality that was not possible with non-persistent connections.\n\n## Web Requests\n\nThere are two ways in which a web server can utilize PHP to generate\nweb pages:\n\nThe first method is to use PHP as a CGI \"wrapper\". When run this\nway, an instance of the PHP interpreter is created and destroyed\nfor every page request (for a PHP page) to the web server.\nBecause it is destroyed after every request, any resources that it\nacquires (such as a link to an SQL database server) are closed when\nit is destroyed. In this case, there is nothing to be gained from\nusing persistent connections - they simply do not persist.\n\nThe second, and most popular, method is to run PHP-FPM, or PHP as a module\nin a multiprocess web server (currently only Apache).\nThese setups typically have one process (the parent) which\ncoordinates a set of processes (its children) that actually do the\nwork of serving up web pages. When a request comes in from a\nclient, it is handed off to one of the children that is not already\nserving another client. This means that when the same client makes\na second request to the server, it may be served by a different\nchild process than the first time. Once a persistent connection has been\nopened, any subsequent page served by the same child process can reuse the\nalready established connection to the SQL server.\n\nThe method in use can be checked by looking at the value of\n\"Server API\" in the output of `phpinfo` or the value of\n`PHP_SAPI`, run from a web request.\n\nIf the Server API is \"Apache 2 Handler\" or \"FPM/FastCGI\", then persistent\nconnections will be used across requests served by the same worker. For any\nother value, persistent connections will not persist after each request.\n\n## Command-line Processes\n\nAs command-line PHP uses a new process for each script, persistent\nconnections are not shared between command-line scripts, so there is no\nvalue in using them in transient scripts such as crons or commands.\nHowever, they may be useful, for example, in a long-running application\nserver that serves many requests or tasks, each of which may need its\nown database connection.\n\n## Why Use Them?\n\nPersistent connections are beneficial when the overhead of creating a link\nto an SQL server is high. Whether this overhead is significant depends on\nmany factors, such as the type of database, whether it resides on the same\nmachine as the web server, and how loaded that machine is. When the\nconnection overhead is high, persistent connections can help considerably:\neach child process connects only once for its entire lifespan, rather than\nevery time it processes a page that requires a connection to the SQL\nserver. This means every child that opens a persistent connection will\nmaintain its own connection to the server. For example, if 20 different\nchild processes each run a script that makes a persistent connection to\nthe SQL server, there will be 20 separate connections to that server, one\nfrom each child.\n\n## Potential Drawbacks: Connection Limits\n\nNote, however, that this can have drawbacks when using a\ndatabase with connection limits that are exceeded by persistent\nchild connections. If the database has a limit of 16 simultaneous\nconnections, and during a busy server session 17 child\nprocesses attempt to connect, one of them will fail. If there are\nbugs in the scripts that prevent connections from shutting\ndown (such as infinite loops), a database with only 16 connections\nmay be rapidly swamped.\n\nPersistent connections will usually increase the number of connections open\nat any given time, because idle workers still hold on to the connections they\nopened for previous requests. If a large number of workers are spun up to\nhandle a spike in traffic, the connections they opened will remain until\nthe worker is terminated or the database server closes the connection.\n\nEnsure that the maximum number of connections allowed by the database server\nis greater than the maximum number of web request workers (plus any other\nusage such as crons or administrative connections).\n\nCheck the database documentation for information on handling abandoned or\nidle connections (timeouts). Long timeouts may significantly increase the\nnumber of persistent connections open at any one time.\n\n## Potential Drawbacks: Maintaining Connection State\n\nSome database extensions perform automatic cleanup when the connection is\nreused; others leave this task at the discretion of the application developer.\nDepending on the chosen database extension and the application design, manual\ncleanup may be needed before the script exits. Changes that may leave\nconnections in an unexpected state include:\n\nSelected / default database\nTable locks\nUncommitted transactions\nTemporary tables\nConnection specific settings or features such as profiling\n\nTable locks and transactions that are not cleaned up or closed may cause\nother queries to be blocked indefinitely and/or cause subsequent reuse of\nthe connection to cause unexpected changes.\n\nHaving the wrong database selected will cause subsequent reuse of the\nconnection to be unable to execute queries as expected (or execute them on\nthe wrong database if schemas are similar enough).\n\nIf temporary tables are not cleaned up, subsequent requests will not be able\nto recreate the same table.\n\nCleanup can be implemented using class destructors or\n`https://help.example.test/api/115`. Dedicated connection\npooling proxies that include this as part of their functionality may\nalso be considered.\n\n## Final Words\n\nGiven their behavior and potential drawbacks described above, persistent\nconnections should not be used without careful consideration. They should\nnot be used without implementing additional changes to the application and\ncareful configuration of the database server and web server and/or PHP-FPM.\n\nConsider alternative solutions such as investigating and fixing the causes of\nconnection creation overheads (for example, disabling reverse DNS lookups on\nthe database server), or dedicated connection pooling proxies.\n\nFor high volume web APIs, consider using alternative runtimes or long-running\napplication servers.\n\n## See Also\n\n`ibase_pconnect`\n`https://help.example.test/api/054`\n`https://help.example.test/api/056`\n`pfsockopen`\n`https://help.example.test/api/050`\nMySQLi and Persistent Connections\nPDO Connection Management\n",
+                "replacements": 4
+              },
+              "source": {
+                "language": "en",
+                "path": "features/persistent-connections.xml",
+                "revision": "09e39c586d1fa47d499807f911ff92d69d175db7",
+                "url": "https://raw.githubusercontent.com/php/doc-en/09e39c586d1fa47d499807f911ff92d69d175db7/features/persistent-connections.xml",
+                "sha256": "ba29c8978bcc1a4a080e87a528bdd91ecf8af015c368d279e693d73bfd6f3879",
+                "license": "CC-BY-3.0",
+                "copyright": "PHP Documentation Group",
+                "license_url": "https://www.php.net/manual/en/cc.license.php",
+                "manual_url": "https://www.php.net/manual/en/features.persistent-connections.php",
+                "scope": "Complete source article/chapter prose and code; no repeated or size-padded content.",
+                "changes": "Expanded documented XML entities; removed markup/comments and layout whitespace; retained prose/code order."
+              },
+              "matches": [
+                {
+                  "offset": 6380,
+                  "length": 26,
+                  "keyword": "register_shutdown_function",
+                  "dictionary_rank": 116
+                },
+                {
+                  "offset": 7185,
+                  "length": 12,
+                  "keyword": "oci_pconnect",
+                  "dictionary_rank": 55
+                },
+                {
+                  "offset": 7200,
+                  "length": 13,
+                  "keyword": "odbc_pconnect",
+                  "dictionary_rank": 57
+                },
+                {
+                  "offset": 7229,
+                  "length": 10,
+                  "keyword": "pg_connect",
+                  "dictionary_rank": 51
+                }
+              ],
+              "selected_replacements": [
+                {
+                  "offset": 6380,
+                  "length": 26,
+                  "keyword": "register_shutdown_function",
+                  "dictionary_rank": 116,
+                  "replacement": "https://help.example.test/api/115"
+                },
+                {
+                  "offset": 7185,
+                  "length": 12,
+                  "keyword": "oci_pconnect",
+                  "dictionary_rank": 55,
+                  "replacement": "https://help.example.test/api/054"
+                },
+                {
+                  "offset": 7200,
+                  "length": 13,
+                  "keyword": "odbc_pconnect",
+                  "dictionary_rank": 57,
+                  "replacement": "https://help.example.test/api/056"
+                },
+                {
+                  "offset": 7229,
+                  "length": 10,
+                  "keyword": "pg_connect",
+                  "dictionary_rank": 51,
+                  "replacement": "https://help.example.test/api/050"
+                }
+              ],
+              "facts": {
+                "bytes": 7301,
+                "occurrences": 4,
+                "distinct_keywords": 4,
+                "covered_source_bytes": 61,
+                "coverage_percent": 0.835501986029311,
+                "occurrences_per_kib": 0.5610190384878784,
+                "first_match_offset": 6380,
+                "first_textual_hit_dictionary_rank": 116,
+                "first_dictionary_hit_rank": 51,
+                "text_sha256": "d16e6cd1b7bde543aacdc5d9b5db4bf47125a083749990fbabb5ea697d66293a",
+                "selected_matches": 4,
+                "matched_source_bytes": 61,
+                "output_bytes": 7372,
+                "output_expansion_ratio": 1.0097246952472263
+              }
+            }
+          ]
+        }
+      ],
+      "dictionary_source": {
+        "kind": "project-curated-api-link-map",
+        "description": "Same 128 PHP API names, mapped to saved documentation URLs. Fixed map, used on this one article."
+      },
+      "dictionary_facts": {
+        "keys": 128,
+        "total_key_bytes": 1818,
+        "min_key_bytes": 4,
+        "median_key_bytes": 14.0,
+        "max_key_bytes": 28,
+        "alphabet_bytes": 54,
+        "dictionary_sha256": "11b09934dba59c85a6a9bdf2ab0bda0f0b730f4fd20f5f28b43c026e0cfb7930"
+      },
+      "measurement_plan": {
+        "lifecycles": [
+          "prepared",
+          "batch"
+        ],
+        "batch_sizes": [
+          1,
+          2,
+          4,
+          8,
+          16,
+          32,
+          64
+        ],
+        "unit": "One fixed string and ordered dictionary per call.",
+        "result_lifetime": "Create native result, consume a scalar summary, then release result inside operation.",
+        "status": "Input specification; measurement status belongs to captures."
+      }
+    }
+  ]
+}
