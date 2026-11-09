@@ -1,0 +1,68 @@
+{
+  "id": "comments.replace.n16.b128.single",
+  "operation": "replace",
+  "policy": "case-sensitive",
+  "documents": [
+    "subject"
+  ],
+  "modes": [
+    "prepared"
+  ],
+  "methods": [
+    "native",
+    "strtr",
+    "preg_literal_callback",
+    "preg_trie_callback",
+    "str_replace"
+  ],
+  "expected": {
+    "subject": "[ Integrity means that you pay your debts.]\n\nDoes this appl io dent Trump too?\n\nThis is malfeasance by the Administrator a"
+  },
+  "keys": 16,
+  "bytes": 128,
+  "background": "comments",
+  "condition": "single",
+  "occurrences": 1,
+  "unique_matched_keys": 1,
+  "first_offset": 60,
+  "dictionary": {
+    "keys": [
+      "StringIO",
+      "cStringIO",
+      "cPickle",
+      "__builtin__",
+      "copy_reg",
+      "Queue",
+      "SocketServer",
+      "ConfigParser",
+      "repr",
+      "FileDialog",
+      "tkFileDialog",
+      "SimpleDialog",
+      "tkSimpleDialog",
+      "tkColorChooser",
+      "tkCommonDialog",
+      "Dialog"
+    ],
+    "replacements": {
+      "StringIO": "io",
+      "cStringIO": "io",
+      "cPickle": "pickle",
+      "__builtin__": "builtins",
+      "copy_reg": "copyreg",
+      "Queue": "queue",
+      "SocketServer": "socketserver",
+      "ConfigParser": "configparser",
+      "repr": "reprlib",
+      "FileDialog": "tkinter.filedialog",
+      "tkFileDialog": "tkinter.filedialog",
+      "SimpleDialog": "tkinter.simpledialog",
+      "tkSimpleDialog": "tkinter.simpledialog",
+      "tkColorChooser": "tkinter.colorchooser",
+      "tkCommonDialog": "tkinter.commondialog",
+      "Dialog": "tkinter.dialog"
+    }
+  },
+  "subject": "[ Integrity means that you pay your debts.]\n\nDoes this appl StringIO dent Trump too?\n\nThis is malfeasance by the Administrator a",
+  "subject_sha256": "c40e72beb20121f90196cb19cc08d61c66cc3ae68bed3bd1cccaf7f55a535477"
+}

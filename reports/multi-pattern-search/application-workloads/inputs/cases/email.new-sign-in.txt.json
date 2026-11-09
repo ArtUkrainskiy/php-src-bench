@@ -1,0 +1,81 @@
+{
+  "id": "email.new-sign-in.txt",
+  "family": "email",
+  "operation": "replace",
+  "documents": [
+    "email.new-sign-in.txt"
+  ],
+  "dictionary": "payload.new-sign-in.txt",
+  "policy": "case-sensitive",
+  "modes": [
+    "oneshot"
+  ],
+  "methods": [
+    "native",
+    "strtr",
+    "preg_literal_callback",
+    "preg_trie_callback",
+    "str_replace",
+    "preg_tokens_callback"
+  ],
+  "expected": {
+    "email.new-sign-in.txt": "New sign-in to your account\n\nHi Alexandra Morgan, your account was just signed in to from a device we haven't seen before.\n\nWhen:       Signed in at af17bd\nDevice:     Device f0bdc8\nLocation:   Location 387caa\nIP address: Ip address 9a6e00\n\nIf this was you, there's nothing to do.\n\nIf it wasn't, secure your account now. We'll help you change your password and sign out every other session:\nhttps://example.test/secure/url/43617876410e\n\nLocations are estimated from the IP address and may not be exact.\n\n--\n\nAcme\nAcme Inc. · 100 Market Street · San Francisco, CA 94105\n"
+  },
+  "input": {
+    "bytes": 521,
+    "keys": 6,
+    "key_byte_lengths": [
+      8,
+      10,
+      12,
+      14,
+      16
+    ],
+    "occurrences": 6,
+    "unique_matched_keys": 6,
+    "first_offset": 32,
+    "matched_dictionary_ranks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "covered_bytes": 74,
+    "replacements": 6,
+    "output_bytes": 571
+  },
+  "dictionary_contents": {
+    "keys": [
+      "{{name}}",
+      "{{signed_in_at}}",
+      "{{device}}",
+      "{{location}}",
+      "{{ip_address}}",
+      "{{secure_url}}"
+    ],
+    "replacements": {
+      "{{name}}": "Alexandra Morgan",
+      "{{signed_in_at}}": "Signed in at af17bd",
+      "{{device}}": "Device f0bdc8",
+      "{{location}}": "Location 387caa",
+      "{{ip_address}}": "Ip address 9a6e00",
+      "{{secure_url}}": "https://example.test/secure/url/43617876410e"
+    },
+    "policy": "case-sensitive",
+    "payload_kind": "documented-fixture-values"
+  },
+  "document_files": [
+    {
+      "id": "email.new-sign-in.txt",
+      "path": "sources/emails/templates/new-sign-in/new-sign-in.txt",
+      "sha256": "1908efbadc38bd05cdcfe9280d817ec49e7ef135431731143fdce005d3737159",
+      "bytes": 521,
+      "template_family": "new-sign-in"
+    }
+  ],
+  "document_contents": {
+    "email.new-sign-in.txt": "New sign-in to your account\n\nHi {{name}}, your account was just signed in to from a device we haven't seen before.\n\nWhen:       {{signed_in_at}}\nDevice:     {{device}}\nLocation:   {{location}}\nIP address: {{ip_address}}\n\nIf this was you, there's nothing to do.\n\nIf it wasn't, secure your account now. We'll help you change your password and sign out every other session:\n{{secure_url}}\n\nLocations are estimated from the IP address and may not be exact.\n\n--\n\nAcme\nAcme Inc. · 100 Market Street · San Francisco, CA 94105\n"
+  }
+}

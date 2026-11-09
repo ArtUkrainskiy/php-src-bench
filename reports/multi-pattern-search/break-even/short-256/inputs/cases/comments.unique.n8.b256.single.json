@@ -1,0 +1,54 @@
+{
+  "id": "comments.unique.n8.b256.single",
+  "operation": "unique",
+  "policy": "case-sensitive",
+  "documents": [
+    "subject"
+  ],
+  "modes": [
+    "prepared",
+    "oneshot"
+  ],
+  "methods": [
+    "native",
+    "string_loop",
+    "preg_literal",
+    "preg_trie"
+  ],
+  "expected": {
+    "subject": [
+      "StringIO"
+    ]
+  },
+  "keys": 8,
+  "bytes": 256,
+  "background": "comments",
+  "condition": "single",
+  "occurrences": 1,
+  "unique_matched_keys": 1,
+  "first_offset": 124,
+  "dictionary": {
+    "keys": [
+      "StringIO",
+      "cStringIO",
+      "cPickle",
+      "__builtin__",
+      "copy_reg",
+      "Queue",
+      "SocketServer",
+      "ConfigParser"
+    ],
+    "replacements": {
+      "StringIO": "io",
+      "cStringIO": "io",
+      "cPickle": "pickle",
+      "__builtin__": "builtins",
+      "copy_reg": "copyreg",
+      "Queue": "queue",
+      "SocketServer": "socketserver",
+      "ConfigParser": "configparser"
+    }
+  },
+  "subject": "[ Integrity means that you pay your debts.]\n\nDoes this apply to President Trump too?\n\nThis is malfeasance by the Administra StringIO e Board.  They are wasting our money!\n\nthe people against O'Leary are the same people against\n\nTrump\nBrexit\n\nnot a good tra",
+  "subject_sha256": "32c81cc5ce67d30e2b25092caf3eebdff48f5ecad60f23de053983e2ecae84e4"
+}

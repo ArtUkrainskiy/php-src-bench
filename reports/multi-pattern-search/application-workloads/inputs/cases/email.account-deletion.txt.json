@@ -1,0 +1,70 @@
+{
+  "id": "email.account-deletion.txt",
+  "family": "email",
+  "operation": "replace",
+  "documents": [
+    "email.account-deletion.txt"
+  ],
+  "dictionary": "payload.account-deletion.txt",
+  "policy": "case-sensitive",
+  "modes": [
+    "oneshot"
+  ],
+  "methods": [
+    "native",
+    "strtr",
+    "preg_literal_callback",
+    "preg_trie_callback",
+    "str_replace",
+    "preg_tokens_callback"
+  ],
+  "expected": {
+    "email.account-deletion.txt": "Your account is scheduled for deletion\n\nHi Alexandra Morgan, as you asked, we'll permanently delete your account and all of its data on 2026-11-09 12:30 UTC.\n\nChanged your mind? You can restore your account any time before 2026-11-09 12:30 UTC:\nhttps://example.test/restore/url/c60fa0bcc577\n\nAfter that date the deletion can't be undone. If you didn't ask to delete your account, restore it now and change your password.\n\n--\n\nAcme\nAcme Inc. · 100 Market Street · San Francisco, CA 94105\n"
+  },
+  "input": {
+    "bytes": 445,
+    "keys": 3,
+    "key_byte_lengths": [
+      8,
+      15,
+      17
+    ],
+    "occurrences": 4,
+    "unique_matched_keys": 3,
+    "first_offset": 43,
+    "matched_dictionary_ranks": [
+      1,
+      2,
+      3
+    ],
+    "covered_bytes": 57,
+    "replacements": 4,
+    "output_bytes": 489
+  },
+  "dictionary_contents": {
+    "keys": [
+      "{{name}}",
+      "{{deletion_date}}",
+      "{{restore_url}}"
+    ],
+    "replacements": {
+      "{{name}}": "Alexandra Morgan",
+      "{{deletion_date}}": "2026-11-09 12:30 UTC",
+      "{{restore_url}}": "https://example.test/restore/url/c60fa0bcc577"
+    },
+    "policy": "case-sensitive",
+    "payload_kind": "documented-fixture-values"
+  },
+  "document_files": [
+    {
+      "id": "email.account-deletion.txt",
+      "path": "sources/emails/templates/account-deletion/account-deletion.txt",
+      "sha256": "6a896f07e80f28f3b4460d11e4a35c30394019b07ae59ec7c74cad07f624a9bf",
+      "bytes": 445,
+      "template_family": "account-deletion"
+    }
+  ],
+  "document_contents": {
+    "email.account-deletion.txt": "Your account is scheduled for deletion\n\nHi {{name}}, as you asked, we'll permanently delete your account and all of its data on {{deletion_date}}.\n\nChanged your mind? You can restore your account any time before {{deletion_date}}:\n{{restore_url}}\n\nAfter that date the deletion can't be undone. If you didn't ask to delete your account, restore it now and change your password.\n\n--\n\nAcme\nAcme Inc. · 100 Market Street · San Francisco, CA 94105\n"
+  }
+}

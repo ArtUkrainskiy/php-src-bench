@@ -1,0 +1,4316 @@
+--------------
+
+.. class:: HTTPServer(server_address, RequestHandlerClass)
+
+   This class builds on the :class:`TCPServer` class by storing the server
+   address as instance variables named :attr:`server_name` and
+   :attr:`server_port`. The server is accessible by the handler, typically
+   through the handler's :attr:`server` instance variable.
+
+.. class:: BaseHTTPRequestHandler(request, client_address, server)
+
+   This class is used to handle the HTTP requests that arrive at the server. By
+   itself, it cannot respond to any actual HTTP requests; it must be subclassed
+   to handle each request method (e.g. GET or
+   POST). :class:`BaseHTTPRequestHandler` provides a number of class and
+   instance variables, and methods for use by subclasses.
+
+   The handler will parse the request and the headers, then call a method
+   specific to the request type. The method name is constructed from the
+   request. For example, for the request method ``SPAM``, the :meth:`do_SPAM`
+   method will be called with no arguments. All of the relevant information is
+   stored in instance variables of the handler.  Subclasses should not need to
+   override or extend the :meth:`__init__` method.
+
+   :class:`BaseHTTPRequestHandler` has the following instance variables:
+
+   .. attribute:: client_address
+
+      Contains a tuple of the form ``(host, port)`` referring to the client's
+      address.
+
+   .. attribute:: server
+
+      Contains the server instance.
+
+   .. attribute:: command
+
+      Contains the command (request type). For example, ``'GET'``.
+
+   .. attribute:: path
+
+      Contains the request path.
+
+   .. attribute:: request_version
+
+      Contains the version string from the request. For example, ``'HTTP/1.0'``.
+
+   .. attribute:: headers
+
+      Holds an instance of the class specified by the :attr:`MessageClass` class
+      variable. This instance parses and manages the headers in the HTTP
+      request.
+
+   .. attribute:: rfile
+
+      Contains an input stream, positioned at the start of the optional input
+      data.
+
+   .. attribute:: wfile
+
+      Contains the output stream for writing a response back to the
+      client. Proper adherence to the HTTP protocol must be used when writing to
+      this stream.
+
+   :class:`BaseHTTPRequestHandler` has the following class variables:
+
+   .. attribute:: server_version
+
+      Specifies the server software version.  You may want to override this. The
+      format is multiple whitespace-separated strings, where each string is of
+      the form name[/version]. For example, ``'BaseHTTP/0.2'``.
+
+   .. attribute:: sys_version
+
+      Contains the Python system version, in a form usable by the
+      :attr:`version_string` method and the :attr:`server_version` class
+      variable. For example, ``'Python/1.4'``.
+
+   .. attribute:: error_message_format
+
+      Specifies a format string for building an error response to the client. It
+      uses parenthesized, keyed format specifiers, so the format operand must be
+      a dictionary. The *code* key should be an integer, specifying the numeric
+      HTTP error code value. *message* should be a string containing a
+      (detailed) error message of what occurred, and *explain* should be an
+      explanation of the error code number. Default *message* and *explain*
+      values can found in the *responses* class variable.
+
+   .. attribute:: error_content_type
+
+      Specifies the Content-Type HTTP header of error responses sent to the
+      client.  The default value is ``'text/html'``.
+
+      .. versionadded:: 2.6
+         Previously, the content type was always ``'text/html'``.
+
+   .. attribute:: protocol_version
+
+      This specifies the HTTP protocol version used in responses.  If set to
+      ``'HTTP/1.1'``, the server will permit HTTP persistent connections;
+      however, your server *must* then include an accurate ``Content-Length``
+      header (using :meth:`send_header`) in all of its responses to clients.
+      For backwards compatibility, the setting defaults to ``'HTTP/1.0'``.
+
+   .. attribute:: MessageClass
+
+      .. index:: single: Message (in module mimetools)
+
+      Specifies a :class:`rfc822.Message`\ -like class to parse HTTP headers.
+      Typically, this is not overridden, and it defaults to
+      :class:`mimetools.Message`.
+
+   .. attribute:: responses
+
+      This variable contains a mapping of error code integers to two-element tuples
+      containing a short and long message. For example, ``{code: (shortmessage,
+      longmessage)}``. The *shortmessage* is usually used as the *message* key in an
+      error response, and *longmessage* as the *explain* key (see the
+      :attr:`error_message_format` class variable).
+
+   A :class:`BaseHTTPRequestHandler` instance has the following methods:
+
+   .. method:: handle()
+
+      Calls :meth:`handle_one_request` once (or, if persistent connections are
+      enabled, multiple times) to handle incoming HTTP requests. You should
+      never need to override it; instead, implement appropriate :meth:`do_\*`
+      methods.
+
+   .. method:: handle_one_request()
+
+      This method will parse and dispatch the request to the appropriate
+      :meth:`do_\*` method.  You should never need to override it.
+
+   .. method:: send_error(code[, message])
+
+      Sends and logs a complete error reply to the client. The numeric *code*
+      specifies the HTTP error code, with *message* as optional, more specific text. A
+      complete set of headers is sent, followed by text composed using the
+      :attr:`error_message_format` class variable. The body will be empty
+      if the method is HEAD or the response code is one of the following:
+      ``1xx``, ``204 No Content``, ``205 Reset Content``,
+      ``304 Not Modified``.
+
+   .. method:: send_response(code[, message])
+
+      Sends a response header and logs the accepted request. The HTTP response
+      line is sent, followed by *Server* and *Date* headers. The values for
+      these two headers are picked up from the :meth:`version_string` and
+      :meth:`date_time_string` methods, respectively.
+
+   .. method:: send_header(keyword, value)
+
+      Writes a specific HTTP header to the output stream. *keyword* should
+      specify the header keyword, with *value* specifying its value.
+
+   .. method:: end_headers()
+
+      Sends a blank line, indicating the end of the HTTP headers in the
+      response.
+
+   .. method:: log_request([code[, size]])
+
+      Logs an accepted (successful) request. *code* should specify the numeric
+      HTTP code associated with the response. If a size of the response is
+      available, then it should be passed as the *size* parameter.
+
+   .. method:: log_error(...)
+
+      Logs an error when a request cannot be fulfilled. By default, it passes
+      the message to :meth:`log_message`, so it takes the same arguments
+      (*format* and additional values).
+
+   .. method:: log_message(format, ...)
+
+      Logs an arbitrary message to ``sys.stderr``. This is typically overridden
+      to create custom error logging mechanisms. The *format* argument is a
+      standard printf-style format string, where the additional arguments to
+      :meth:`log_message` are applied as inputs to the formatting. The client
+      ip address and current date and time are prefixed to every message logged.
+
+   .. method:: version_string()
+
+      Returns the server software's version string. This is a combination of the
+      :attr:`server_version` and :attr:`sys_version` class variables.
+
+   .. method:: date_time_string([timestamp])
+
+      Returns the date and time given by *timestamp* (which must be in the
+      format returned by :func:`time.time`), formatted for a message header. If
+      *timestamp* is omitted, it uses the current date and time.
+
+      The result looks like ``'Sun, 06 Nov 1994 08:49:37 GMT'``.
+
+      .. versionadded:: 2.5
+         The *timestamp* parameter.
+
+   .. method:: log_date_time_string()
+
+      Returns the current date and time, formatted for logging.
+
+   .. method:: address_string()
+
+      Returns the client address, formatted for logging. A name lookup is
+      performed on the client's IP address.
+
+More examples
+-------------
+
+To create a server that doesn't run forever, but until some condition is
+fulfilled::
+
+.. seealso::
+
+:mod:`collections` --- High-performance container datatypes
+===========================================================
+
+.. module:: collections
+   :synopsis: High-performance datatypes
+.. moduleauthor:: Raymond Hettinger <python@rcn.com>
+.. sectionauthor:: Raymond Hettinger <python@rcn.com>
+
+.. versionadded:: 2.4
+
+.. testsetup:: *
+
+   from collections import *
+   import itertools
+   __name__ = '<doctest>'
+
+**Source code:** :source:`Lib/collections.py` and :source:`Lib/_abcoll.py`
+
+This module implements specialized container datatypes providing alternatives to
+Python's general purpose built-in containers, :class:`dict`, :class:`list`,
+:class:`set`, and :class:`tuple`.
+
+=====================   ====================================================================  ===========================
+:func:`namedtuple`      factory function for creating tuple subclasses with named fields      .. versionadded:: 2.6
+:class:`deque`          list-like container with fast appends and pops on either end          .. versionadded:: 2.4
+:class:`Counter`        dict subclass for counting hashable objects                           .. versionadded:: 2.7
+:class:`OrderedDict`    dict subclass that remembers the order entries were added             .. versionadded:: 2.7
+:class:`defaultdict`    dict subclass that calls a factory function to supply missing values  .. versionadded:: 2.5
+=====================   ====================================================================  ===========================
+
+In addition to the concrete container classes, the collections module provides
+:ref:`abstract base classes <collections-abstract-base-classes>` that can be
+used to test whether a class provides a particular interface, for example,
+whether it is hashable or a mapping.
+
+:class:`Counter` objects
+------------------------
+
+A counter tool is provided to support convenient and rapid tallies.
+For example::
+
+    >>> # Tally occurrences of words in a list
+    >>> cnt = Counter()
+    >>> for word in ['red', 'blue', 'red', 'green', 'blue', 'blue']:
+    ...     cnt[word] += 1
+    >>> cnt
+    Counter({'blue': 3, 'red': 2, 'green': 1})
+
+    >>> # Find the ten most common words in Hamlet
+    >>> import re
+    >>> words = re.findall(r'\w+', open('hamlet.txt').read().lower())
+    >>> Counter(words).most_common(10)
+    [('the', 1143), ('and', 966), ('to', 762), ('of', 669), ('i', 631),
+     ('you', 554),  ('a', 546), ('my', 514), ('hamlet', 471), ('in', 451)]
+
+.. class:: Counter([iterable-or-mapping])
+
+   A :class:`Counter` is a :class:`dict` subclass for counting hashable objects.
+   It is an unordered collection where elements are stored as dictionary keys
+   and their counts are stored as dictionary values.  Counts are allowed to be
+   any integer value including zero or negative counts.  The :class:`Counter`
+   class is similar to bags or multisets in other languages.
+
+   Elements are counted from an *iterable* or initialized from another
+   *mapping* (or counter):
+
+        >>> c = Counter()                           # a new, empty counter
+        >>> c = Counter('gallahad')                 # a new counter from an iterable
+        >>> c = Counter({'red': 4, 'blue': 2})      # a new counter from a mapping
+        >>> c = Counter(cats=4, dogs=8)             # a new counter from keyword args
+
+   Counter objects have a dictionary interface except that they return a zero
+   count for missing items instead of raising a :exc:`KeyError`:
+
+        >>> c = Counter(['eggs', 'ham'])
+        >>> c['bacon']                              # count of a missing element is zero
+        0
+
+   Setting a count to zero does not remove an element from a counter.
+   Use ``del`` to remove it entirely:
+
+        >>> c['sausage'] = 0                        # counter entry with a zero count
+        >>> del c['sausage']                        # del actually removes the entry
+
+   .. versionadded:: 2.7
+
+   Counter objects support three methods beyond those available for all
+   dictionaries:
+
+   .. method:: elements()
+
+      Return an iterator over elements repeating each as many times as its
+      count.  Elements are returned in arbitrary order.  If an element's count
+      is less than one, :meth:`elements` will ignore it.
+
+            >>> c = Counter(a=4, b=2, c=0, d=-2)
+            >>> list(c.elements())
+            ['a', 'a', 'a', 'a', 'b', 'b']
+
+   .. method:: most_common([n])
+
+      Return a list of the *n* most common elements and their counts from the
+      most common to the least.  If *n* is omitted or ``None``,
+      :func:`most_common` returns *all* elements in the counter.
+      Elements with equal counts are ordered arbitrarily:
+
+            >>> Counter('abracadabra').most_common(3)
+            [('a', 5), ('r', 2), ('b', 2)]
+
+   .. method:: subtract([iterable-or-mapping])
+
+      Elements are subtracted from an *iterable* or from another *mapping*
+      (or counter).  Like :meth:`dict.update` but subtracts counts instead
+      of replacing them.  Both inputs and outputs may be zero or negative.
+
+            >>> c = Counter(a=4, b=2, c=0, d=-2)
+            >>> d = Counter(a=1, b=2, c=3, d=4)
+            >>> c.subtract(d)
+            >>> c
+            Counter({'a': 3, 'b': 0, 'c': -3, 'd': -6})
+
+   The usual dictionary methods are available for :class:`Counter` objects
+   except for two which work differently for counters.
+
+   .. method:: fromkeys(iterable)
+
+      This class method is not implemented for :class:`Counter` objects.
+
+   .. method:: update([iterable-or-mapping])
+
+      Elements are counted from an *iterable* or added-in from another
+      *mapping* (or counter).  Like :meth:`dict.update` but adds counts
+      instead of replacing them.  Also, the *iterable* is expected to be a
+      sequence of elements, not a sequence of ``(key, value)`` pairs.
+
+Common patterns for working with :class:`Counter` objects::
+
+    sum(c.values())                 # total of all counts
+    c.clear()                       # reset all counts
+    list(c)                         # list unique elements
+    set(c)                          # convert to a set
+    dict(c)                         # convert to a regular dictionary
+    c.items()                       # convert to a list of (elem, cnt) pairs
+    Counter(dict(list_of_pairs))    # convert from a list of (elem, cnt) pairs
+    c.most_common()[:-n-1:-1]       # n least common elements
+    c += Counter()                  # remove zero and negative counts
+
+Several mathematical operations are provided for combining :class:`Counter`
+objects to produce multisets (counters that have counts greater than zero).
+Addition and subtraction combine counters by adding or subtracting the counts
+of corresponding elements.  Intersection and union return the minimum and
+maximum of corresponding counts.  Each operation can accept inputs with signed
+counts, but the output will exclude results with counts of zero or less.
+
+    >>> c = Counter(a=3, b=1)
+    >>> d = Counter(a=1, b=2)
+    >>> c + d                       # add two counters together:  c[x] + d[x]
+    Counter({'a': 4, 'b': 3})
+    >>> c - d                       # subtract (keeping only positive counts)
+    Counter({'a': 2})
+    >>> c & d                       # intersection:  min(c[x], d[x])
+    Counter({'a': 1, 'b': 1})
+    >>> c | d                       # union:  max(c[x], d[x])
+    Counter({'a': 3, 'b': 2})
+
+.. note::
+
+   * The :meth:`most_common` method requires only that the values be orderable.
+
+   * For in-place operations such as ``c[key] += 1``, the value type need only
+     support addition and subtraction.  So fractions, floats, and decimals would
+     work and negative values are supported.  The same is also true for
+     :meth:`update` and :meth:`subtract` which allow negative and zero values
+     for both inputs and outputs.
+
+   * The multiset methods are designed only for use cases with positive values.
+     The inputs may be negative or zero, but only outputs with positive values
+     are created.  There are no type restrictions, but the value type needs to
+     support addition, subtraction, and comparison.
+
+   * The :meth:`elements` method requires integer counts.  It ignores zero and
+     negative counts.
+
+    * `Counter class <https://code.activestate.com/recipes/576611/>`_
+      adapted for Python 2.5 and an early `Bag recipe
+      <https://code.activestate.com/recipes/259174/>`_ for Python 2.4.
+
+    * `Bag class <https://www.gnu.org/software/smalltalk/manual-base/html_node/Bag.html>`_
+      in Smalltalk.
+
+    * Wikipedia entry for `Multisets <https://en.wikipedia.org/wiki/Multiset>`_.
+
+    * `C++ multisets <http://www.java2s.com/Tutorial/Cpp/0380__set-multiset/Catalog0380__set-multiset.htm>`_
+      tutorial with examples.
+
+    * For mathematical operations on multisets and their use cases, see
+      *Knuth, Donald. The Art of Computer Programming Volume II,
+      Section 4.6.3, Exercise 19*.
+
+    * To enumerate all distinct multisets of a given size over a given set of
+      elements, see :func:`itertools.combinations_with_replacement`.
+
+          map(Counter, combinations_with_replacement('ABC', 2)) --> AA AB AC BB BC CC
+
+:class:`deque` objects
+----------------------
+
+.. class:: deque([iterable[, maxlen]])
+
+   Returns a new deque object initialized left-to-right (using :meth:`append`) with
+   data from *iterable*.  If *iterable* is not specified, the new deque is empty.
+
+   .. versionadded:: 2.4
+
+   If *maxlen* is not specified or is ``None``, deques may grow to an
+   arbitrary length.  Otherwise, the deque is bounded to the specified maximum
+   length.  Once a bounded length deque is full, when new items are added, a
+   corresponding number of items are discarded from the opposite end.  Bounded
+   length deques provide functionality similar to the ``tail`` filter in
+   Unix. They are also useful for tracking transactions and other pools of data
+   where only the most recent activity is of interest.
+
+   .. versionchanged:: 2.6
+      Added *maxlen* parameter.
+
+   Deque objects support the following methods:
+
+   .. method:: append(x)
+
+      Add *x* to the right side of the deque.
+
+   .. method:: appendleft(x)
+
+      Add *x* to the left side of the deque.
+
+   .. method:: clear()
+
+      Remove all elements from the deque leaving it with length 0.
+
+   .. method:: count(x)
+
+      Count the number of deque elements equal to *x*.
+
+      .. versionadded:: 2.7
+
+   .. method:: extend(iterable)
+
+      Extend the right side of the deque by appending elements from the iterable
+      argument.
+
+   .. method:: extendleft(iterable)
+
+      Extend the left side of the deque by appending elements from *iterable*.
+      Note, the series of left appends results in reversing the order of
+      elements in the iterable argument.
+
+   .. method:: pop()
+
+      Remove and return an element from the right side of the deque. If no
+      elements are present, raises an :exc:`IndexError`.
+
+   .. method:: popleft()
+
+      Remove and return an element from the left side of the deque. If no
+      elements are present, raises an :exc:`IndexError`.
+
+   .. method:: remove(value)
+
+      Remove the first occurrence of *value*.  If not found, raises a
+      :exc:`ValueError`.
+
+      .. versionadded:: 2.5
+
+   .. method:: reverse()
+
+      Reverse the elements of the deque in-place and then return ``None``.
+
+   .. method:: rotate(n=1)
+
+      Rotate the deque *n* steps to the right.  If *n* is negative, rotate to
+      the left.
+
+      When the deque is not empty, rotating one step to the right is equivalent to
+      ``d.appendleft(d.pop())``, and rotating one step to the left is
+      equivalent to ``d.append(d.popleft())``.
+
+   Deque objects also provide one read-only attribute:
+
+   .. attribute:: maxlen
+
+      Maximum size of a deque or ``None`` if unbounded.
+
+In addition to the above, deques support iteration, pickling, ``len(d)``,
+``reversed(d)``, ``copy.copy(d)``, ``copy.deepcopy(d)``, membership testing with
+the :keyword:`in` operator, and subscript references such as ``d[-1]``.  Indexed
+access is O(1) at both ends but slows to O(n) in the middle.  For fast random
+access, use lists instead.
+
+Example:
+
+.. doctest::
+
+   >>> from collections import deque
+   >>> d = deque('ghi')                 # make a new deque with three items
+   >>> for elem in d:                   # iterate over the deque's elements
+   ...     print elem.upper()
+   G
+   H
+   I
+
+   >>> d.pop()                          # return and remove the rightmost item
+   'j'
+   >>> d.popleft()                      # return and remove the leftmost item
+   'f'
+   >>> list(d)                          # list the contents of the deque
+   ['g', 'h', 'i']
+   >>> d[0]                             # peek at leftmost item
+   'g'
+   >>> d[-1]                            # peek at rightmost item
+   'i'
+
+   >>> list(reversed(d))                # list the contents of a deque in reverse
+   ['i', 'h', 'g']
+   >>> 'h' in d                         # search the deque
+   True
+   >>> d.extend('jkl')                  # add multiple elements at once
+   >>> d
+   deque(['g', 'h', 'i', 'j', 'k', 'l'])
+   >>> d.rotate(1)                      # right rotation
+   >>> d
+   deque(['l', 'g', 'h', 'i', 'j', 'k'])
+   >>> d.rotate(-1)                     # left rotation
+   >>> d
+   deque(['g', 'h', 'i', 'j', 'k', 'l'])
+
+   >>> deque(reversed(d))               # make a new deque in reverse order
+   deque(['l', 'k', 'j', 'i', 'h', 'g'])
+   >>> d.clear()                        # empty the deque
+   >>> d.pop()                          # cannot pop from an empty deque
+   Traceback (most recent call last):
+     File "<pyshell#6>", line 1, in -toplevel-
+       d.pop()
+   IndexError: pop from an empty deque
+
+   >>> d.extendleft('abc')              # extendleft() reverses the input order
+   >>> d
+   deque(['c', 'b', 'a'])
+
+:class:`deque` Recipes
+^^^^^^^^^^^^^^^^^^^^^^
+
+This section shows various approaches to working with deques.
+
+Bounded length deques provide functionality similar to the ``tail`` filter
+in Unix::
+
+   def tail(filename, n=10):
+       'Return the last n lines of a file'
+       return deque(open(filename), n)
+
+Another approach to using deques is to maintain a sequence of recently
+added elements by appending to the right and popping to the left::
+
+    def moving_average(iterable, n=3):
+        # moving_average([40, 30, 50, 46, 39, 44]) --> 40.0 42.0 45.0 43.0
+        # http://en.wikipedia.org/wiki/Moving_average
+        it = iter(iterable)
+        d = deque(itertools.islice(it, n-1))
+        d.appendleft(0)
+        s = sum(d)
+        for elem in it:
+            s += elem - d.popleft()
+            d.append(elem)
+            yield s / float(n)
+
+The :meth:`rotate` method provides a way to implement :class:`deque` slicing and
+deletion.  For example, a pure Python implementation of ``del d[n]`` relies on
+the :meth:`rotate` method to position elements to be popped::
+
+   def delete_nth(d, n):
+       d.rotate(-n)
+       d.popleft()
+       d.rotate(n)
+
+To implement :class:`deque` slicing, use a similar approach applying
+:meth:`rotate` to bring a target element to the left side of the deque. Remove
+old entries with :meth:`popleft`, add new entries with :meth:`extend`, and then
+reverse the rotation.
+With minor variations on that approach, it is easy to implement Forth style
+stack manipulations such as ``dup``, ``drop``, ``swap``, ``over``, ``pick``,
+``rot``, and ``roll``.
+
+:class:`defaultdict` objects
+----------------------------
+
+.. class:: defaultdict([default_factory[, ...]])
+
+   Returns a new dictionary-like object.  :class:`defaultdict` is a subclass of the
+   built-in :class:`dict` class.  It overrides one method and adds one writable
+   instance variable.  The remaining functionality is the same as for the
+   :class:`dict` class and is not documented here.
+
+   The first argument provides the initial value for the :attr:`default_factory`
+   attribute; it defaults to ``None``. All remaining arguments are treated the same
+   as if they were passed to the :class:`dict` constructor, including keyword
+   arguments.
+
+   .. versionadded:: 2.5
+
+   :class:`defaultdict` objects support the following method in addition to the
+   standard :class:`dict` operations:
+
+   .. method:: __missing__(key)
+
+      If the :attr:`default_factory` attribute is ``None``, this raises a
+      :exc:`KeyError` exception with the *key* as argument.
+
+      If :attr:`default_factory` is not ``None``, it is called without arguments
+      to provide a default value for the given *key*, this value is inserted in
+      the dictionary for the *key*, and returned.
+
+      If calling :attr:`default_factory` raises an exception this exception is
+      propagated unchanged.
+
+      This method is called by the :meth:`__getitem__` method of the
+      :class:`dict` class when the requested key is not found; whatever it
+      returns or raises is then returned or raised by :meth:`__getitem__`.
+
+      Note that :meth:`__missing__` is *not* called for any operations besides
+      :meth:`__getitem__`. This means that :meth:`get` will, like normal
+      dictionaries, return ``None`` as a default rather than using
+      :attr:`default_factory`.
+
+   :class:`defaultdict` objects support the following instance variable:
+
+   .. attribute:: default_factory
+
+      This attribute is used by the :meth:`__missing__` method; it is
+      initialized from the first argument to the constructor, if present, or to
+      ``None``, if absent.
+
+:class:`defaultdict` Examples
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Using :class:`list` as the :attr:`default_factory`, it is easy to group a
+sequence of key-value pairs into a dictionary of lists:
+
+   >>> s = [('yellow', 1), ('blue', 2), ('yellow', 3), ('blue', 4), ('red', 1)]
+   >>> d = defaultdict(list)
+   >>> for k, v in s:
+   ...     d[k].append(v)
+   ...
+   >>> d.items()
+   [('blue', [2, 4]), ('red', [1]), ('yellow', [1, 3])]
+
+When each key is encountered for the first time, it is not already in the
+mapping; so an entry is automatically created using the :attr:`default_factory`
+function which returns an empty :class:`list`.  The :meth:`list.append`
+operation then attaches the value to the new list.  When keys are encountered
+again, the look-up proceeds normally (returning the list for that key) and the
+:meth:`list.append` operation adds another value to the list. This technique is
+simpler and faster than an equivalent technique using :meth:`dict.setdefault`:
+
+   >>> d = {}
+   >>> for k, v in s:
+   ...     d.setdefault(k, []).append(v)
+   ...
+   >>> d.items()
+   [('blue', [2, 4]), ('red', [1]), ('yellow', [1, 3])]
+
+Setting the :attr:`default_factory` to :class:`int` makes the
+:class:`defaultdict` useful for counting (like a bag or multiset in other
+languages):
+
+   >>> s = 'mississippi'
+   >>> d = defaultdict(int)
+   >>> for k in s:
+   ...     d[k] += 1
+   ...
+   >>> d.items()
+   [('i', 4), ('p', 2), ('s', 4), ('m', 1)]
+
+When a letter is first encountered, it is missing from the mapping, so the
+:attr:`default_factory` function calls :func:`int` to supply a default count of
+zero.  The increment operation then builds up the count for each letter.
+
+The function :func:`int` which always returns zero is just a special case of
+constant functions.  A faster and more flexible way to create constant functions
+is to use :func:`itertools.repeat` which can supply any constant value (not just
+zero):
+
+   >>> def constant_factory(value):
+   ...     return itertools.repeat(value).next
+   >>> d = defaultdict(constant_factory('<missing>'))
+   >>> d.update(name='John', action='ran')
+   >>> '%(name)s %(action)s to %(object)s' % d
+   'John ran to <missing>'
+
+Setting the :attr:`default_factory` to :class:`set` makes the
+:class:`defaultdict` useful for building a dictionary of sets:
+
+   >>> s = [('red', 1), ('blue', 2), ('red', 3), ('blue', 4), ('red', 1), ('blue', 4)]
+   >>> d = defaultdict(set)
+   >>> for k, v in s:
+   ...     d[k].add(v)
+   ...
+   >>> d.items()
+   [('blue', set([2, 4])), ('red', set([1, 3]))]
+
+:func:`namedtuple` Factory Function for Tuples with Named Fields
+----------------------------------------------------------------
+
+Named tuples assign meaning to each position in a tuple and allow for more readable,
+self-documenting code.  They can be used wherever regular tuples are used, and
+they add the ability to access fields by name instead of position index.
+
+.. function:: namedtuple(typename, field_names, [verbose=False], [rename=False])
+
+   The *field_names* are a sequence of strings such as ``['x', 'y']``.
+   Alternatively, *field_names* can be a single string with each fieldname
+   separated by whitespace and/or commas, for example ``'x y'`` or ``'x, y'``.
+
+   Any valid Python identifier may be used for a fieldname except for names
+   starting with an underscore.  Valid identifiers consist of letters, digits,
+   and underscores but do not start with a digit or underscore and cannot be
+   a :mod:`keyword` such as *class*, *for*, *return*, *global*, *pass*, *print*,
+   or *raise*.
+
+   If *rename* is true, invalid fieldnames are automatically replaced
+   with positional names.  For example, ``['abc', 'def', 'ghi', 'abc']`` is
+   converted to ``['abc', '_1', 'ghi', '_3']``, eliminating the keyword
+   ``def`` and the duplicate fieldname ``abc``.
+
+   If *verbose* is true, the class definition is printed just before being built.
+
+   Named tuple instances do not have per-instance dictionaries, so they are
+   lightweight and require no more memory than regular tuples.
+
+   .. versionadded:: 2.6
+
+   .. versionchanged:: 2.7
+      added support for *rename*.
+
+.. doctest::
+   :options: +NORMALIZE_WHITESPACE
+
+Named tuples are especially useful for assigning field names to result tuples returned
+by the :mod:`csv` or :mod:`sqlite3` modules::
+
+   EmployeeRecord = namedtuple('EmployeeRecord', 'name, age, title, department, paygrade')
+
+   import csv
+   for emp in map(EmployeeRecord._make, csv.reader(open("employees.csv", "rb"))):
+       print emp.name, emp.title
+
+   import sqlite3
+   conn = sqlite3.connect('/companydata')
+   cursor = conn.cursor()
+   cursor.execute('SELECT name, age, title, department, paygrade FROM employees')
+   for emp in map(EmployeeRecord._make, cursor.fetchall()):
+       print emp.name, emp.title
+
+In addition to the methods inherited from tuples, named tuples support
+three additional methods and one attribute.  To prevent conflicts with
+field names, the method and attribute names start with an underscore.
+
+.. classmethod:: somenamedtuple._make(iterable)
+
+   Class method that makes a new instance from an existing sequence or iterable.
+
+   .. doctest::
+
+      >>> t = [11, 22]
+      >>> Point._make(t)
+      Point(x=11, y=22)
+
+.. method:: somenamedtuple._asdict()
+
+   Return a new :class:`OrderedDict` which maps field names to their corresponding
+   values::
+
+      >>> p = Point(x=11, y=22)
+      >>> p._asdict()
+      OrderedDict([('x', 11), ('y', 22)])
+
+   .. versionchanged:: 2.7
+      Returns an :class:`OrderedDict` instead of a regular :class:`dict`.
+
+.. method:: somenamedtuple._replace(**kwargs)
+
+   Return a new instance of the named tuple replacing specified fields with new
+   values::
+
+      >>> p = Point(x=11, y=22)
+      >>> p._replace(x=33)
+      Point(x=33, y=22)
+
+      >>> for partnum, record in inventory.items():
+      ...     inventory[partnum] = record._replace(price=newprices[partnum], timestamp=time.now())
+
+.. attribute:: somenamedtuple._fields
+
+   Tuple of strings listing the field names.  Useful for introspection
+   and for creating new named tuple types from existing named tuples.
+
+      >>> p._fields            # view the field names
+      ('x', 'y')
+
+      >>> Color = namedtuple('Color', 'red green blue')
+      >>> Pixel = namedtuple('Pixel', Point._fields + Color._fields)
+      >>> Pixel(11, 22, 128, 255, 0)
+      Pixel(x=11, y=22, red=128, green=255, blue=0)
+
+To retrieve a field whose name is stored in a string, use the :func:`getattr`
+function:
+
+    >>> getattr(p, 'x')
+    11
+
+To convert a dictionary to a named tuple, use the double-star-operator
+(as described in :ref:`tut-unpacking-arguments`):
+
+   >>> d = {'x': 11, 'y': 22}
+   >>> Point(**d)
+   Point(x=11, y=22)
+
+Since a named tuple is a regular Python class, it is easy to add or change
+functionality with a subclass.  Here is how to add a calculated field and
+a fixed-width print format:
+
+    >>> class Point(namedtuple('Point', 'x y')):
+    ...     __slots__ = ()
+    ...     @property
+    ...     def hypot(self):
+    ...         return (self.x ** 2 + self.y ** 2) ** 0.5
+    ...     def __str__(self):
+    ...         return 'Point: x=%6.3f  y=%6.3f  hypot=%6.3f' % (self.x, self.y, self.hypot)
+    ...
+    >>> for p in Point(3, 4), Point(14, 5/7.):
+    ...     print p
+    Point: x= 3.000  y= 4.000  hypot= 5.000
+    Point: x=14.000  y= 0.714  hypot=14.018
+
+The subclass shown above sets ``__slots__`` to an empty tuple.  This helps
+keep memory requirements low by preventing the creation of instance dictionaries.
+
+Subclassing is not useful for adding new, stored fields.  Instead, simply
+create a new named tuple type from the :attr:`_fields` attribute:
+
+    >>> Point3D = namedtuple('Point3D', Point._fields + ('z',))
+
+Default values can be implemented by using :meth:`_replace` to
+customize a prototype instance:
+
+    >>> Account = namedtuple('Account', 'owner balance transaction_count')
+    >>> default_account = Account('<owner name>', 0.0, 0)
+    >>> johns_account = default_account._replace(owner='John')
+
+Enumerated constants can be implemented with named tuples, but it is simpler
+and more efficient to use a simple class declaration:
+
+    >>> Status = namedtuple('Status', 'open pending closed')._make(range(3))
+    >>> Status.open, Status.pending, Status.closed
+    (0, 1, 2)
+    >>> class Status:
+    ...     open, pending, closed = range(3)
+
+   `Named tuple recipe <https://code.activestate.com/recipes/500261/>`_
+   adapted for Python 2.4.
+
+:class:`OrderedDict` objects
+----------------------------
+
+Ordered dictionaries are just like regular dictionaries but they remember the
+order that items were inserted.  When iterating over an ordered dictionary,
+the items are returned in the order their keys were first added.
+
+.. class:: OrderedDict([items])
+
+   Return an instance of a dict subclass, supporting the usual :class:`dict`
+   methods.  An *OrderedDict* is a dict that remembers the order that keys
+   were first inserted. If a new entry overwrites an existing entry, the
+   original insertion position is left unchanged.  Deleting an entry and
+   reinserting it will move it to the end.
+
+.. method:: OrderedDict.popitem(last=True)
+
+   The :meth:`popitem` method for ordered dictionaries returns and removes
+   a (key, value) pair.  The pairs are returned in LIFO order if *last* is
+   true or FIFO order if false.
+
+In addition to the usual mapping methods, ordered dictionaries also support
+reverse iteration using :func:`reversed`.
+
+Equality tests between :class:`OrderedDict` objects are order-sensitive
+and are implemented as ``list(od1.items())==list(od2.items())``.
+Equality tests between :class:`OrderedDict` objects and other
+:class:`Mapping` objects are order-insensitive like regular
+dictionaries.  This allows :class:`OrderedDict` objects to be substituted
+anywhere a regular dictionary is used.
+
+The :class:`OrderedDict` constructor and :meth:`update` method both accept
+keyword arguments, but their order is lost because Python's function call
+semantics pass-in keyword arguments using a regular unordered dictionary.
+
+   `Equivalent OrderedDict recipe <https://code.activestate.com/recipes/576693/>`_
+   that runs on Python 2.4 or later.
+
+:class:`OrderedDict` Examples and Recipes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Since an ordered dictionary remembers its insertion order, it can be used
+in conjunction with sorting to make a sorted dictionary::
+
+    >>> # regular unsorted dictionary
+    >>> d = {'banana': 3, 'apple': 4, 'pear': 1, 'orange': 2}
+
+    >>> # dictionary sorted by key
+    >>> OrderedDict(sorted(d.items(), key=lambda t: t[0]))
+    OrderedDict([('apple', 4), ('banana', 3), ('orange', 2), ('pear', 1)])
+
+    >>> # dictionary sorted by value
+    >>> OrderedDict(sorted(d.items(), key=lambda t: t[1]))
+    OrderedDict([('pear', 1), ('orange', 2), ('banana', 3), ('apple', 4)])
+
+    >>> # dictionary sorted by length of the key string
+    >>> OrderedDict(sorted(d.items(), key=lambda t: len(t[0])))
+    OrderedDict([('pear', 1), ('apple', 4), ('orange', 2), ('banana', 3)])
+
+The new sorted dictionaries maintain their sort order when entries
+are deleted.  But when new keys are added, the keys are appended
+to the end and the sort is not maintained.
+
+It is also straight-forward to create an ordered dictionary variant
+that remembers the order the keys were *last* inserted.
+If a new entry overwrites an existing entry, the
+original insertion position is changed and moved to the end::
+
+    class LastUpdatedOrderedDict(OrderedDict):
+        'Store items in the order the keys were last added'
+
+        def __setitem__(self, key, value):
+            if key in self:
+                del self[key]
+            OrderedDict.__setitem__(self, key, value)
+
+An ordered dictionary can be combined with the :class:`Counter` class
+so that the counter remembers the order elements are first encountered::
+
+   class OrderedCounter(Counter, OrderedDict):
+        'Counter that remembers the order elements are first encountered'
+
+        def __reduce__(self):
+            return self.__class__, (OrderedDict(self),)
+
+.. _collections-abstract-base-classes:
+
+Collections Abstract Base Classes
+---------------------------------
+
+The collections module offers the following :term:`ABCs <abstract base class>`:
+
+=========================  =====================  ======================  ====================================================
+ABC                        Inherits from          Abstract Methods        Mixin Methods
+=========================  =====================  ======================  ====================================================
+:class:`Container`                                ``__contains__``
+:class:`Hashable`                                 ``__hash__``
+:class:`Iterable`                                 ``__iter__``
+:class:`Iterator`          :class:`Iterable`      ``next``                ``__iter__``
+:class:`Sized`                                    ``__len__``
+:class:`Callable`                                 ``__call__``
+
+:class:`Sequence`          :class:`Sized`,        ``__getitem__``,        ``__contains__``, ``__iter__``, ``__reversed__``,
+                           :class:`Iterable`,     ``__len__``             ``index``, and ``count``
+                           :class:`Container`
+
+:class:`MutableSequence`   :class:`Sequence`      ``__getitem__``,        Inherited :class:`Sequence` methods and
+                                                  ``__setitem__``,        ``append``, ``reverse``, ``extend``, ``pop``,
+                                                  ``__delitem__``,        ``remove``, and ``__iadd__``
+                                                  ``__len__``,
+                                                  ``insert``
+
+:class:`Set`               :class:`Sized`,        ``__contains__``,       ``__le__``, ``__lt__``, ``__eq__``, ``__ne__``,
+                           :class:`Iterable`,     ``__iter__``,           ``__gt__``, ``__ge__``, ``__and__``, ``__or__``,
+                           :class:`Container`     ``__len__``             ``__sub__``, ``__xor__``, and ``isdisjoint``
+
+:class:`MutableSet`        :class:`Set`           ``__contains__``,       Inherited :class:`Set` methods and
+                                                  ``__iter__``,           ``clear``, ``pop``, ``remove``, ``__ior__``,
+                                                  ``__len__``,            ``__iand__``, ``__ixor__``, and ``__isub__``
+                                                  ``add``,
+                                                  ``discard``
+
+:class:`Mapping`           :class:`Sized`,        ``__getitem__``,        ``__contains__``, ``keys``, ``items``, ``values``,
+                           :class:`Iterable`,     ``__iter__``,           ``get``, ``__eq__``, and ``__ne__``
+                           :class:`Container`     ``__len__``
+
+:class:`MutableMapping`    :class:`Mapping`       ``__getitem__``,        Inherited :class:`Mapping` methods and
+                                                  ``__setitem__``,        ``pop``, ``popitem``, ``clear``, ``update``,
+                                                  ``__delitem__``,        and ``setdefault``
+                                                  ``__iter__``,
+                                                  ``__len__``
+
+:class:`MappingView`       :class:`Sized`                                 ``__len__``
+:class:`ItemsView`         :class:`MappingView`,                          ``__contains__``,
+                           :class:`Set`                                   ``__iter__``
+:class:`KeysView`          :class:`MappingView`,                          ``__contains__``,
+                           :class:`Set`                                   ``__iter__``
+:class:`ValuesView`        :class:`MappingView`                           ``__contains__``, ``__iter__``
+=========================  =====================  ======================  ====================================================
+
+.. class:: Container
+           Hashable
+           Sized
+           Callable
+
+   ABCs for classes that provide respectively the methods :meth:`__contains__`,
+   :meth:`__hash__`, :meth:`__len__`, and :meth:`__call__`.
+
+.. class:: Iterable
+
+   ABC for classes that provide the :meth:`__iter__` method.
+   See also the definition of :term:`iterable`.
+
+.. class:: Iterator
+
+   ABC for classes that provide the :meth:`~iterator.__iter__` and
+   :meth:`~iterator.next` methods.  See also the definition of :term:`iterator`.
+
+.. class:: Sequence
+           MutableSequence
+
+   ABCs for read-only and mutable :term:`sequences <sequence>`.
+
+.. class:: Set
+           MutableSet
+
+   ABCs for read-only and mutable sets.
+
+.. class:: Mapping
+           MutableMapping
+
+   ABCs for read-only and mutable :term:`mappings <mapping>`.
+
+.. class:: MappingView
+           ItemsView
+           KeysView
+           ValuesView
+
+   ABCs for mapping, items, keys, and values :term:`views <dictionary view>`.
+
+These ABCs allow us to ask classes or instances if they provide
+particular functionality, for example::
+
+    size = None
+    if isinstance(myvar, collections.Sized):
+        size = len(myvar)
+
+Several of the ABCs are also useful as mixins that make it easier to develop
+classes supporting container APIs.  For example, to write a class supporting
+the full :class:`Set` API, it only necessary to supply the three underlying
+abstract methods: :meth:`__contains__`, :meth:`__iter__`, and :meth:`__len__`.
+The ABC supplies the remaining methods such as :meth:`__and__` and
+:meth:`isdisjoint` ::
+
+    class ListBasedSet(collections.Set):
+         ''' Alternate set implementation favoring space over speed
+             and not requiring the set elements to be hashable. '''
+         def __init__(self, iterable):
+             self.elements = lst = []
+             for value in iterable:
+                 if value not in lst:
+                     lst.append(value)
+
+         def __iter__(self):
+             return iter(self.elements)
+
+         def __contains__(self, value):
+             return value in self.elements
+
+         def __len__(self):
+             return len(self.elements)
+
+    s1 = ListBasedSet('abcdef')
+    s2 = ListBasedSet('defghi')
+    overlap = s1 & s2            # The __and__() method is supported automatically
+
+Notes on using :class:`Set` and :class:`MutableSet` as a mixin:
+
+(1)
+   Since some set operations create new sets, the default mixin methods need
+   a way to create new instances from an iterable. The class constructor is
+   assumed to have a signature in the form ``ClassName(iterable)``.
+   That assumption is factored-out to an internal classmethod called
+   :meth:`_from_iterable` which calls ``cls(iterable)`` to produce a new set.
+   If the :class:`Set` mixin is being used in a class with a different
+   constructor signature, you will need to override :meth:`_from_iterable`
+   with a classmethod that can construct new instances from
+   an iterable argument.
+
+(2)
+   To override the comparisons (presumably for speed, as the
+   semantics are fixed), redefine :meth:`__le__` and :meth:`__ge__`,
+   then the other operations will automatically follow suit.
+
+(3)
+   The :class:`Set` mixin provides a :meth:`_hash` method to compute a hash value
+   for the set; however, :meth:`__hash__` is not defined because not all sets
+   are hashable or immutable.  To add set hashability using mixins,
+   inherit from both :meth:`Set` and :meth:`Hashable`, then define
+   ``__hash__ = Set._hash``.
+
+   * `OrderedSet recipe <https://code.activestate.com/recipes/576694/>`_ for an
+     example built on :class:`MutableSet`.
+
+   * For more about ABCs, see the :mod:`abc` module and :pep:`3119`.
+
+
+.. moduleauthor:: Ken Manheimer <klm@zope.com>
+.. moduleauthor:: Barry Warsaw <bwarsaw@python.org>
+.. moduleauthor:: Eric S. Raymond <esr@thyrsus.com>
+.. sectionauthor:: Christopher G. Petrilli <petrilli@amber.org>
+
+.. index::
+   pair: .ini; file
+   pair: configuration; file
+   single: ini file
+   single: Windows ini file
+
+   This library does *not* interpret or write the value-type prefixes used in
+   the Windows Registry extended version of INI syntax.
+
+   Module :mod:`shlex`
+      Support for creating Unix shell-like mini-languages which can be used as
+      an alternate format for application configuration files.
+
+   Module :mod:`json`
+      The json module implements a subset of JavaScript syntax which can also
+      be used for this purpose.
+
+The configuration file consists of sections, led by a ``[section]`` header and
+followed by ``name: value`` entries, with continuations in the style of
+:rfc:`822` (see section 3.1.1, "LONG HEADER FIELDS"); ``name=value`` is also
+accepted.  Note that leading whitespace is removed from values. The optional
+values can contain format strings which refer to other values in the same
+section, or values in a special ``DEFAULT`` section.  Additional defaults can be
+provided on initialization and retrieval.  Lines beginning with ``'#'`` or
+``';'`` are ignored and may be used to provide comments.
+
+Configuration files may include comments, prefixed by specific characters (``#``
+and ``;``).  Comments may appear on their own in an otherwise empty line, or may
+be entered in lines holding values or section names.  In the latter case, they
+need to be preceded by a whitespace character to be recognized as a comment.
+(For backwards compatibility, only ``;`` starts an inline comment, while ``#``
+does not.)
+
+For example::
+
+   [My Section]
+   foodir: %(dir)s/whatever
+   dir=frob
+   long: this value continues
+      in the next line
+
+would resolve the ``%(dir)s`` to the value of ``dir`` (``frob`` in this case).
+All reference expansions are done on demand.
+
+   The basic configuration object.  When *defaults* is given, it is initialized
+   into the dictionary of intrinsic defaults.  When *dict_type* is given, it will
+   be used to create the dictionary objects for the list of sections, for the
+   options within a section, and for the default values.  When *allow_no_value*
+   is true (default: ``False``), options without values are accepted; the value
+   presented for these is ``None``.
+
+   This class does not
+   support the magical interpolation behavior.
+
+   All option names are passed through the :meth:`optionxform` method.  Its
+   default implementation converts option names to lower case.
+
+   .. versionadded:: 2.3
+
+   .. versionchanged:: 2.6
+      *dict_type* was added.
+
+   .. versionchanged:: 2.7
+      The default *dict_type* is :class:`collections.OrderedDict`.
+      *allow_no_value* was added.
+
+   All option names used in interpolation will be passed through the
+   :meth:`optionxform` method just like any other option name reference.  Using
+   the default implementation of :meth:`optionxform`, the values ``foo %(bar)s``
+   and ``foo %(BAR)s`` are equivalent.
+
+   .. XXX Need to explain what's safer/more predictable about it.
+
+.. exception:: Error
+
+   Base class for all other configparser exceptions.
+
+.. exception:: NoSectionError
+
+   Exception raised when a specified section is not found.
+
+.. exception:: DuplicateSectionError
+
+   Exception raised if :meth:`add_section` is called with the name of a section
+   that is already present.
+
+.. exception:: NoOptionError
+
+   Exception raised when a specified option is not found in the specified  section.
+
+.. exception:: InterpolationError
+
+   Base class for exceptions raised when problems occur performing string
+   interpolation.
+
+.. exception:: InterpolationDepthError
+
+   Exception raised when string interpolation cannot be completed because the
+   number of iterations exceeds :const:`MAX_INTERPOLATION_DEPTH`. Subclass of
+   :exc:`InterpolationError`.
+
+.. exception:: InterpolationMissingOptionError
+
+   Exception raised when an option referenced from a value does not exist. Subclass
+   of :exc:`InterpolationError`.
+
+.. exception:: InterpolationSyntaxError
+
+   Exception raised when the source text into which substitutions are made does not
+   conform to the required syntax. Subclass of :exc:`InterpolationError`.
+
+.. exception:: MissingSectionHeaderError
+
+   Exception raised when attempting to parse a file which has no section headers.
+
+.. exception:: ParsingError
+
+   Exception raised when errors occur attempting to parse a file.
+
+.. data:: MAX_INTERPOLATION_DEPTH
+
+   Module :mod:`shlex`
+      Support for a creating Unix shell-like mini-languages which can be used as an
+      alternate format for application configuration files.
+
+.. _rawconfigparser-objects:
+
+   Return a dictionary containing the instance-wide defaults.
+
+   Return a list of the sections available; ``DEFAULT`` is not included in the
+   list.
+
+   Add a section named *section* to the instance.  If a section by the given name
+   already exists, :exc:`DuplicateSectionError` is raised. If the name
+   ``DEFAULT`` (or any of it's case-insensitive variants) is passed,
+   :exc:`ValueError` is raised.
+
+   Indicates whether the named section is present in the configuration. The
+   ``DEFAULT`` section is not acknowledged.
+
+   Returns a list of options available in the specified *section*.
+
+   If the given section exists, and contains the given option, return
+   :const:`True`; otherwise return :const:`False`.
+
+   .. versionadded:: 1.6
+
+   .. versionchanged:: 2.4
+      Returns list of successfully parsed filenames.
+
+   Read and parse configuration data from the file or file-like object in *fp*
+   (only the :meth:`readline` method is used).  If *filename* is omitted and *fp*
+   has a :attr:`name` attribute, that is used for *filename*; the default is
+   ``<???>``.
+
+   Get an *option* value for the named *section*.
+
+   A convenience method which coerces the *option* in the specified *section* to an
+   integer.
+
+   A convenience method which coerces the *option* in the specified *section* to a
+   floating point number.
+
+   A convenience method which coerces the *option* in the specified *section* to a
+   Boolean value.  Note that the accepted values for the option are ``"1"``,
+   ``"yes"``, ``"true"``, and ``"on"``, which cause this method to return ``True``,
+   and ``"0"``, ``"no"``, ``"false"``, and ``"off"``, which cause it to return
+   ``False``.  These string values are checked in a case-insensitive manner.  Any
+   other value will cause it to raise :exc:`ValueError`.
+
+   Return a list of ``(name, value)`` pairs for each option in the given *section*.
+
+   Remove the specified *option* from the specified *section*. If the section does
+   not exist, raise :exc:`NoSectionError`.  If the option existed to be removed,
+   return :const:`True`; otherwise return :const:`False`.
+
+   Remove the specified *section* from the configuration. If the section in fact
+   existed, return ``True``. Otherwise return ``False``.
+
+   Transforms the option name *option* as found in an input file or as passed in
+   by client code to the form that should be used in the internal structures.
+   The default implementation returns a lower-case version of *option*;
+   subclasses may override this or client code can set an attribute of this name
+   on instances to affect this behavior.
+
+   Note that when reading configuration files, whitespace around the
+   option names are stripped before :meth:`optionxform` is called.
+
+.. _configparser-objects:
+
+   Get an *option* value for the named *section*.  If *vars* is provided, it
+   must be a dictionary.  The *option* is looked up in *vars* (if provided),
+   *section*, and in *defaults* in that order.
+
+   All the ``'%'`` interpolations are expanded in the return values, unless the
+   *raw* argument is true.  Values for interpolation keys are looked up in the
+   same manner as the option.
+
+   Return a list of ``(name, value)`` pairs for each option in the given *section*.
+   Optional arguments have the same meaning as for the :meth:`get` method.
+
+.. _safeconfigparser-objects:
+
+   If the given section exists, set the given option to the specified value;
+   otherwise raise :exc:`NoSectionError`.  *value* must be a string (:class:`str`
+   or :class:`unicode`); if not, :exc:`TypeError` is raised.
+
+Examples
+--------
+
+An example of writing to a configuration file::
+
+   # Writing our configuration file to 'example.cfg'
+   with open('example.cfg', 'wb') as configfile:
+       config.write(configfile)
+
+An example of reading the configuration file again::
+
+   # getfloat() raises an exception if the value is not a float
+   # getint() and getboolean() also do this for their respective types
+   a_float = config.getfloat('Section1', 'a_float')
+   an_int = config.getint('Section1', 'an_int')
+   print a_float + an_int
+
+   # Set the third, optional argument of get to 1 if you wish to use raw mode.
+   print config.get('Section1', 'foo', 0)  # -> "Python is fun!"
+   print config.get('Section1', 'foo', 1)  # -> "%(bar)s is %(baz)s!"
+
+   # The optional fourth argument is a dict with members that will take
+   # precedence in interpolation.
+   print config.get('Section1', 'foo', 0, {'bar': 'Documentation',
+                                           'baz': 'evil'})
+
+   print config.get('Section1', 'foo')  # -> "Python is fun!"
+   config.remove_option('Section1', 'bar')
+   config.remove_option('Section1', 'baz')
+   print config.get('Section1', 'foo')  # -> "Life is hard!"
+
+The function ``opt_move`` below can be used to move options between sections::
+
+   >>> # Settings with values are treated as before:
+   >>> config.get("mysqld", "user")
+   'mysql'
+
+   >>> # Settings without values provide None:
+   >>> config.get("mysqld", "skip-bdb")
+
+   This class is a dictionary-like object whose keys are strings and whose values
+   are :class:`Morsel` instances. Note that upon setting a key to a value, the
+   value is first converted to a :class:`Morsel` containing the key and the value.
+
+   If *input* is given, it is passed to the :meth:`load` method.
+
+   .. deprecated:: 2.3
+      Reading pickled values from untrusted cookie data is a huge security hole, as
+      pickle strings can be crafted to cause arbitrary code to execute on your server.
+      It is supported for backwards compatibility only, and may eventually go away.
+
+   :rfc:`2109` - HTTP State Management Mechanism
+      This is the state management specification implemented by this module.
+
+.. _cookie-objects:
+
+   In general, it should be the case that :meth:`value_encode` and
+   :meth:`value_decode` are inverses on the range of *value_decode*.
+
+   .. versionchanged:: 2.5
+      The default separator has been changed from ``'\n'`` to match the cookie
+      specification.
+
+   Return an embeddable JavaScript snippet, which, if run on a browser which
+   supports JavaScript, will act the same as if the HTTP headers was sent.
+
+   The meaning for *attrs* is the same as in :meth:`output`.
+
+   If *rawdata* is a string, parse it as an ``HTTP_COOKIE`` and add the values
+   found there as :class:`Morsel`\ s. If it is a dictionary, it is equivalent to::
+
+      for k, v in rawdata.items():
+          cookie[k] = v
+
+.. _morsel-objects:
+
+Morsel Objects
+--------------
+
+.. class:: Morsel
+
+   Abstract a key/value pair, which has some :rfc:`2109` attributes.
+
+   Morsels are dictionary-like objects, whose set of keys is constant --- the valid
+   :rfc:`2109` attributes, which are
+
+   * ``expires``
+   * ``path``
+   * ``comment``
+   * ``domain``
+   * ``max-age``
+   * ``secure``
+   * ``version``
+   * ``httponly``
+
+   The attribute :attr:`httponly` specifies that the cookie is only transferred
+   in HTTP requests, and is not accessible through JavaScript. This is intended
+   to mitigate some forms of cross-site scripting.
+
+   The keys are case-insensitive.
+
+   .. versionadded:: 2.6
+      The :attr:`httponly` attribute was added.
+
+.. attribute:: Morsel.value
+
+   The value of the cookie.
+
+.. attribute:: Morsel.coded_value
+
+   The encoded value of the cookie --- this is what should be sent.
+
+.. attribute:: Morsel.key
+
+   The name of the cookie.
+
+.. method:: Morsel.set(key, value, coded_value)
+
+   Set the *key*, *value* and *coded_value* attributes.
+
+.. method:: Morsel.isReservedKey(K)
+
+   Whether *K* is a member of the set of keys of a :class:`Morsel`.
+
+.. method:: Morsel.output([attrs[, header]])
+
+.. method:: Morsel.js_output([attrs])
+
+   Return an embeddable JavaScript snippet, which, if run on a browser which
+   supports JavaScript, will act the same as if the HTTP header was sent.
+
+.. method:: Morsel.OutputString([attrs])
+
+.. _cookie-example:
+
+Example
+-------
+
+The module defines the following exception:
+
+.. exception:: LoadError
+
+   .. note::
+
+      For backwards-compatibility with Python 2.4 (which raised an :exc:`IOError`),
+      :exc:`LoadError` is a subclass of :exc:`IOError`.
+
+The following classes are provided:
+
+   This class is responsible for deciding whether each cookie should be accepted
+   from / returned to the server.
+
+   Module :mod:`urllib2`
+      URL opening with automatic cookie handling.
+
+   http://kristol.org/cookie/errata.html
+      Unfinished errata to RFC 2965.
+
+   :rfc:`2964` - Use of HTTP State Management
+
+.. _cookie-jar-objects:
+
+   The *request* object (usually a :class:`urllib2.Request` instance) must support
+   the methods :meth:`get_full_url`, :meth:`get_host`, :meth:`get_type`,
+   :meth:`unverifiable`, :meth:`get_origin_req_host`, :meth:`has_header`,
+   :meth:`get_header`, :meth:`header_items`, and :meth:`add_unredirected_header`,as
+   documented by :mod:`urllib2`.
+
+   The *response* object (usually the result of a call to :meth:`urllib2.urlopen`,
+   or similar) should support an :meth:`info` method, which returns an object with
+   a :meth:`getallmatchingheaders` method (usually a :class:`mimetools.Message`
+   instance).
+
+   The *request* object (usually a :class:`urllib2.Request` instance) must support
+   the methods :meth:`get_full_url`, :meth:`get_host`, :meth:`unverifiable`, and
+   :meth:`get_origin_req_host`, as documented by :mod:`urllib2`.  The request is
+   used to set default values for cookie-attributes as well as for checking that
+   the cookie is allowed to be set.
+
+   See the documentation for :meth:`extract_cookies` for the interfaces required of
+   the *response* and *request* arguments.
+
+   Clear some cookies.
+
+   If invoked without arguments, clear all cookies.  If given a single argument,
+   only cookies belonging to that *domain* will be removed. If given two arguments,
+   cookies belonging to the specified *domain* and URL *path* are removed.  If
+   given three arguments, then the cookie with the specified *domain*, *path* and
+   *name* is removed.
+
+   Raises :exc:`KeyError` if no matching cookie exists.
+
+   Discard all session cookies.
+
+   Discards all contained cookies that have a true :attr:`discard` attribute
+   (usually because they had either no ``max-age`` or ``expires`` cookie-attribute,
+   or an explicit ``discard`` cookie-attribute).  For interactive browsers, the end
+   of a session usually corresponds to closing the browser window.
+
+   Note that the :meth:`save` method won't save session cookies anyway, unless you
+   ask otherwise by passing a true *ignore_discard* argument.
+
+   Save cookies to a file.
+
+   This base class raises :exc:`NotImplementedError`.  Subclasses may leave this
+   method unimplemented.
+
+   *filename* is the name of file in which to save cookies.  If *filename* is not
+   specified, :attr:`self.filename` is used (whose default is the value passed to
+   the constructor, if any); if :attr:`self.filename` is :const:`None`,
+   :exc:`ValueError` is raised.
+
+   *ignore_discard*: save even cookies set to be discarded. *ignore_expires*: save
+   even cookies that have expired
+
+   The file is overwritten if it already exists, thus wiping all the cookies it
+   contains.  Saved cookies can be restored later using the :meth:`load` or
+   :meth:`revert` methods.
+
+   Load cookies from a file.
+
+   Old cookies are kept unless overwritten by newly loaded ones.
+
+   Arguments are as for :meth:`save`.
+
+   The named file must be in the format understood by the class, or
+   :exc:`LoadError` will be raised.  Also, :exc:`IOError` may be raised, for
+   example if the file does not exist.
+
+   Clear all cookies and reload cookies from a saved file.
+
+   :meth:`revert` can raise the same exceptions as :meth:`load`. If there is a
+   failure, the object's state will not be altered.
+
+   Filename of default file in which to keep cookies.  This attribute may be
+   assigned to.
+
+.. _file-cookie-jar-classes:
+
+      Version 3 of the Firefox web browser no longer writes cookies in the
+      ``cookies.txt`` file format.
+
+      This loses information about RFC 2965 cookies, and also about newer or
+      non-standard cookie-attributes such as ``port``.
+
+   .. warning::
+
+      Back up your cookies before saving if you have cookies whose loss / corruption
+      would be inconvenient (there are some subtleties which may lead to slight
+      changes in the file over a load / save round-trip).
+
+   Also note that cookies saved while Mozilla is running will get clobbered by
+   Mozilla.
+
+.. _cookie-policy-objects:
+
+   Return boolean value indicating whether cookie should be accepted from server.
+
+   Return boolean value indicating whether cookie should be returned to server.
+
+   Return false if cookies should not be returned, given cookie domain.
+
+   This method is an optimization.  It removes the need for checking every cookie
+   with a particular domain (which might involve reading many files).  Returning
+   true from :meth:`domain_return_ok` and :meth:`path_return_ok` leaves all the
+   work to :meth:`return_ok`.
+
+   Note that :meth:`domain_return_ok` is called for every *cookie* domain, not just
+   for the *request* domain.  For example, the function might be called with both
+   ``".example.com"`` and ``"www.example.com"`` if the request domain is
+   ``"www.example.com"``.  The same goes for :meth:`path_return_ok`.
+
+   The *request* argument is as documented for :meth:`return_ok`.
+
+   Return false if cookies should not be returned, given cookie path.
+
+   See the documentation for :meth:`domain_return_ok`.
+
+   Implement Netscape protocol.
+
+   Implement RFC 2965 protocol.
+
+.. _default-cookie-policy-objects:
+
+Implements the standard rules for accepting and returning cookies.
+
+Both RFC 2965 and Netscape cookies are covered.  RFC 2965 handling is switched
+off by default.
+
+The easiest way to provide your own policy is to override this class and call
+its methods in your overridden implementations before adding your own additional
+checks::
+
+A domain blacklist and whitelist is provided (both off by default). Only domains
+not in the blacklist and present in the whitelist (if the whitelist is active)
+participate in cookie setting and returning.  Use the *blocked_domains*
+constructor argument, and :meth:`blocked_domains` and
+:meth:`set_blocked_domains` methods (and the corresponding argument and methods
+for *allowed_domains*).  If you set a whitelist, you can turn it off again by
+setting it to :const:`None`.
+
+Domains in block or allow lists that do not start with a dot must equal the
+cookie domain to be matched.  For example, ``"example.com"`` matches a blacklist
+entry of ``"example.com"``, but ``"www.example.com"`` does not.  Domains that do
+start with a dot are matched by more specific domains too. For example, both
+``"www.example.com"`` and ``"www.coyote.example.com"`` match ``".example.com"``
+(but ``"example.com"`` itself does not).  IP addresses are an exception, and
+must match exactly.  For example, if blocked_domains contains ``"192.168.1.2"``
+and ``".168.1.2"``, 192.168.1.2 is blocked, but 193.168.1.2 is not.
+
+   Return the sequence of blocked domains (as a tuple).
+
+   Set the sequence of blocked domains.
+
+   Return whether *domain* is on the blacklist for setting or receiving cookies.
+
+   Return :const:`None`, or the sequence of allowed domains (as a tuple).
+
+   Set the sequence of allowed domains, or :const:`None`.
+
+   Return whether *domain* is not on the whitelist for setting or receiving
+   cookies.
+
+General strictness switches:
+
+   Don't allow sites to set two-component domains with country-code top-level
+   domains like ``.co.uk``, ``.gov.uk``, ``.co.nz``.etc.  This is far from perfect
+   and isn't guaranteed to work!
+
+RFC 2965 protocol strictness switches:
+
+   Follow RFC 2965 rules on unverifiable transactions (usually, an unverifiable
+   transaction is one resulting from a redirect or a request for an image hosted on
+   another site).  If this is false, cookies are *never* blocked on the basis of
+   verifiability
+
+Netscape protocol strictness switches:
+
+   Apply RFC 2965 rules on unverifiable transactions even to Netscape cookies.
+
+   Flags indicating how strict to be with domain-matching rules for Netscape
+   cookies.  See below for acceptable values.
+
+   Don't allow setting cookies whose path doesn't path-match request URI.
+
+:attr:`strict_ns_domain` is a collection of flags.  Its value is constructed by
+or-ing together (for example, ``DomainStrictNoDots|DomainStrictNonDomain`` means
+both flags are set).
+
+   When setting cookies, the 'host prefix' must not contain a dot (eg.
+   ``www.foo.bar.com`` can't set a cookie for ``.bar.com``, because ``www.foo``
+   contains a dot).
+
+   When setting cookies, require a full RFC 2965 domain-match.
+
+The following attributes are provided for convenience, and are the most useful
+combinations of the above flags:
+
+   Equivalent to 0 (ie. all of the above Netscape domain strictness flags switched
+   off).
+
+   Equivalent to ``DomainStrictNoDots|DomainStrictNonDomain``.
+
+   ``True`` if cookie should only be returned over a secure connection.
+
+   Integer expiry date in seconds since epoch, or :const:`None`.  See also the
+   :meth:`is_expired` method.
+
+   ``True`` if this is a session cookie.
+
+   String comment from the server explaining the function of this cookie, or
+   :const:`None`.
+
+   URL linking to a comment from the server explaining the function of this cookie,
+   or :const:`None`.
+
+   ``True`` if a domain was explicitly specified by the server.
+
+   ``True`` if the domain explicitly specified by the server began with a dot
+   (``'.'``).
+
+   Return true if cookie has the named cookie-attribute.
+
+   If cookie has the named cookie-attribute, return its value. Otherwise, return
+   *default*.
+
+   Set the value of the named cookie-attribute.
+
+   ``True`` if cookie has passed the time at which the server requested it should
+   expire.  If *now* is given (in seconds since the epoch), return whether the
+   cookie has expired at the specified time.
+
+This example illustrates how to open a URL using your Netscape, Mozilla, or Lynx
+cookies (assumes Unix/Netscape convention for location of the cookies file)::
+
+.. index:: module: urllib
+
+This module defines classes which implement the client side of the HTTP and
+HTTPS protocols.  It is normally not used directly --- the module :mod:`urllib`
+uses it to handle URLs that use HTTP and HTTPS.
+
+    The `Requests package <http://requests.readthedocs.org/>`_
+    is recommended for a higher-level HTTP client interface.
+
+   HTTPS support is only available if the :mod:`socket` module was compiled with
+   SSL support.
+
+   The public interface for this module changed substantially in Python 2.0.  The
+   :class:`HTTP` class is retained only for backward compatibility with 1.5.2.  It
+   should not be used in new code.  Refer to the online docstrings for usage.
+
+The module provides the following classes:
+
+.. class:: HTTPConnection(host[, port[, strict[, timeout[, source_address]]]])
+
+   For example, the following calls all create instances that connect to the server
+   at the same host and port::
+
+   .. versionadded:: 2.0
+
+   .. versionchanged:: 2.6
+      *timeout* was added.
+
+   .. versionchanged:: 2.7
+      *source_address* was added.
+
+.. class:: HTTPSConnection(host[, port[, key_file[, cert_file[, strict[, timeout[, source_address[, context]]]]]]])
+
+   A subclass of :class:`HTTPConnection` that uses SSL for communication with
+   secure servers.  Default port is ``443``.  If *context* is specified, it must
+   be a :class:`ssl.SSLContext` instance describing the various SSL options.
+
+   *key_file* and *cert_file* are deprecated, please use
+   :meth:`ssl.SSLContext.load_cert_chain` instead, or let
+   :func:`ssl.create_default_context` select the system's trusted CA
+   certificates for you.
+
+   Please read :ref:`ssl-security` for more information on best practices.
+
+   .. versionchanged:: 2.7.9
+      *context* was added.
+
+      This class now performs all the necessary certificate and hostname checks
+      by default. To revert to the previous, unverified, behavior
+      :func:`ssl._create_unverified_context` can be passed to the *context*
+      parameter.
+
+.. class:: HTTPResponse(sock, debuglevel=0, strict=0)
+
+   Class whose instances are returned upon successful connection.  Not instantiated
+   directly by user.
+
+.. class:: HTTPMessage
+
+   An :class:`HTTPMessage` instance is used to hold the headers from an HTTP
+   response. It is implemented using the :class:`mimetools.Message` class and
+   provides utility functions to deal with HTTP Headers. It is not directly
+   instantiated by the users.
+
+The following exceptions are raised as appropriate:
+
+.. exception:: HTTPException
+
+   The base class of the other exceptions in this module.  It is a subclass of
+   :exc:`Exception`.
+
+.. exception:: NotConnected
+
+   A subclass of :exc:`HTTPException`.
+
+.. exception:: InvalidURL
+
+   A subclass of :exc:`HTTPException`, raised if a port is given and is either
+   non-numeric or empty.
+
+.. exception:: UnknownProtocol
+
+.. exception:: UnknownTransferEncoding
+
+.. exception:: UnimplementedFileMode
+
+.. exception:: IncompleteRead
+
+.. exception:: ImproperConnectionState
+
+.. exception:: CannotSendRequest
+
+   A subclass of :exc:`ImproperConnectionState`.
+
+.. exception:: CannotSendHeader
+
+.. exception:: ResponseNotReady
+
+.. exception:: BadStatusLine
+
+   A subclass of :exc:`HTTPException`.  Raised if a server responds with a HTTP
+   status code that we don't understand.
+
+The constants defined in this module are:
+
+.. data:: HTTP_PORT
+
+   The default port for the HTTP protocol (always ``80``).
+
+.. data:: HTTPS_PORT
+
+   The default port for the HTTPS protocol (always ``443``).
+
+and also the following constants for integer status codes:
+
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| Constant                                 | Value   | Definition                                                            |
++==========================================+=========+=======================================================================+
+| :const:`CONTINUE`                        | ``100`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.1.1                                                                |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.1.1>`_  |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`SWITCHING_PROTOCOLS`             | ``101`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.1.2                                                                |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.1.2>`_  |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`PROCESSING`                      | ``102`` | WEBDAV, `RFC 2518, Section 10.1                                       |
+|                                          |         | <http://www.webdav.org/specs/rfc2518.html#STATUS_102>`_               |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`OK`                              | ``200`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.2.1                                                                |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1>`_  |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`CREATED`                         | ``201`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.2.2                                                                |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.2>`_  |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`ACCEPTED`                        | ``202`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.2.3                                                                |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.3>`_  |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`NON_AUTHORITATIVE_INFORMATION`   | ``203`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.2.4                                                                |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.4>`_  |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`NO_CONTENT`                      | ``204`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.2.5                                                                |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.5>`_  |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`RESET_CONTENT`                   | ``205`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.2.6                                                                |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.6>`_  |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`PARTIAL_CONTENT`                 | ``206`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.2.7                                                                |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.7>`_  |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`MULTI_STATUS`                    | ``207`` | WEBDAV `RFC 2518, Section 10.2                                        |
+|                                          |         | <http://www.webdav.org/specs/rfc2518.html#STATUS_207>`_               |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`IM_USED`                         | ``226`` | Delta encoding in HTTP,                                               |
+|                                          |         | :rfc:`3229`, Section 10.4.1                                           |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`MULTIPLE_CHOICES`                | ``300`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.3.1                                                                |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.3.1>`_  |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`MOVED_PERMANENTLY`               | ``301`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.3.2                                                                |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.3.2>`_  |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`FOUND`                           | ``302`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.3.3                                                                |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.3.3>`_  |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`SEE_OTHER`                       | ``303`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.3.4                                                                |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.3.4>`_  |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`NOT_MODIFIED`                    | ``304`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.3.5                                                                |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.3.5>`_  |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`USE_PROXY`                       | ``305`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.3.6                                                                |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.3.6>`_  |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`TEMPORARY_REDIRECT`              | ``307`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.3.8                                                                |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.3.8>`_  |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`BAD_REQUEST`                     | ``400`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.4.1                                                                |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.1>`_  |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`UNAUTHORIZED`                    | ``401`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.4.2                                                                |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.2>`_  |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`PAYMENT_REQUIRED`                | ``402`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.4.3                                                                |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.3>`_  |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`FORBIDDEN`                       | ``403`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.4.4                                                                |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.4>`_  |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`NOT_FOUND`                       | ``404`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.4.5                                                                |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.5>`_  |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`METHOD_NOT_ALLOWED`              | ``405`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.4.6                                                                |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.6>`_  |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`NOT_ACCEPTABLE`                  | ``406`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.4.7                                                                |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.7>`_  |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`PROXY_AUTHENTICATION_REQUIRED`   | ``407`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.4.8                                                                |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.8>`_  |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`REQUEST_TIMEOUT`                 | ``408`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.4.9                                                                |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.9>`_  |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`CONFLICT`                        | ``409`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.4.10                                                               |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.10>`_ |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`GONE`                            | ``410`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.4.11                                                               |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.11>`_ |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`LENGTH_REQUIRED`                 | ``411`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.4.12                                                               |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.12>`_ |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`PRECONDITION_FAILED`             | ``412`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.4.13                                                               |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.13>`_ |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`REQUEST_ENTITY_TOO_LARGE`        | ``413`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.4.14                                                               |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.14>`_ |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`REQUEST_URI_TOO_LONG`            | ``414`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.4.15                                                               |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.15>`_ |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`UNSUPPORTED_MEDIA_TYPE`          | ``415`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.4.16                                                               |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.16>`_ |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`REQUESTED_RANGE_NOT_SATISFIABLE` | ``416`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.4.17                                                               |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.17>`_ |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`EXPECTATION_FAILED`              | ``417`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.4.18                                                               |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.18>`_ |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`UNPROCESSABLE_ENTITY`            | ``422`` | WEBDAV, `RFC 2518, Section 10.3                                       |
+|                                          |         | <http://www.webdav.org/specs/rfc2518.html#STATUS_422>`_               |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`LOCKED`                          | ``423`` | WEBDAV `RFC 2518, Section 10.4                                        |
+|                                          |         | <http://www.webdav.org/specs/rfc2518.html#STATUS_423>`_               |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`FAILED_DEPENDENCY`               | ``424`` | WEBDAV, `RFC 2518, Section 10.5                                       |
+|                                          |         | <http://www.webdav.org/specs/rfc2518.html#STATUS_424>`_               |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`UPGRADE_REQUIRED`                | ``426`` | HTTP Upgrade to TLS,                                                  |
+|                                          |         | :rfc:`2817`, Section 6                                                |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`INTERNAL_SERVER_ERROR`           | ``500`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.5.1                                                                |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.5.1>`_  |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`NOT_IMPLEMENTED`                 | ``501`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.5.2                                                                |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.5.2>`_  |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`BAD_GATEWAY`                     | ``502`` | HTTP/1.1 `RFC 2616, Section                                           |
+|                                          |         | 10.5.3                                                                |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.5.3>`_  |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`SERVICE_UNAVAILABLE`             | ``503`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.5.4                                                                |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.5.4>`_  |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`GATEWAY_TIMEOUT`                 | ``504`` | HTTP/1.1 `RFC 2616, Section                                           |
+|                                          |         | 10.5.5                                                                |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.5.5>`_  |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`HTTP_VERSION_NOT_SUPPORTED`      | ``505`` | HTTP/1.1, `RFC 2616, Section                                          |
+|                                          |         | 10.5.6                                                                |
+|                                          |         | <http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.5.6>`_  |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`INSUFFICIENT_STORAGE`            | ``507`` | WEBDAV, `RFC 2518, Section 10.6                                       |
+|                                          |         | <http://www.webdav.org/specs/rfc2518.html#STATUS_507>`_               |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+| :const:`NOT_EXTENDED`                    | ``510`` | An HTTP Extension Framework,                                          |
+|                                          |         | :rfc:`2774`, Section 7                                                |
++------------------------------------------+---------+-----------------------------------------------------------------------+
+
+.. data:: responses
+
+   This dictionary maps the HTTP 1.1 status codes to the W3C names.
+
+.. _httpconnection-objects:
+
+HTTPConnection Objects
+----------------------
+
+:class:`HTTPConnection` instances have the following methods:
+
+.. method:: HTTPConnection.request(method, url[, body[, headers]])
+
+   This will send a request to the server using the HTTP request method *method*
+   and the selector *url*.  If the *body* argument is present, it should be a
+   string of data to send after the headers are finished. Alternatively, it may
+   be an open file object, in which case the contents of the file is sent; this
+   file object should support ``fileno()`` and ``read()`` methods. The
+   *headers* argument should be a mapping of extra HTTP headers to send with
+   the request.
+
+   .. versionchanged:: 2.6
+      *body* can be a file object.
+
+.. method:: HTTPConnection.getresponse()
+
+   Should be called after a request is sent to get the response from the server.
+   Returns an :class:`HTTPResponse` instance.
+
+      Note that you must have read the whole response before you can send a new
+      request to the server.
+
+.. method:: HTTPConnection.set_debuglevel(level)
+
+   Set the debugging level (the amount of debugging output printed). The default
+   debug level is ``0``, meaning no debugging output is printed.
+
+.. method:: HTTPConnection.set_tunnel(host,port=None, headers=None)
+
+   Set the host and the port for HTTP Connect Tunnelling. Normally used when
+   it is required to do HTTPS Connection through a proxy server.
+
+   The headers argument should be a mapping of extra HTTP headers to send
+   with the CONNECT request.
+
+.. method:: HTTPConnection.connect()
+
+   Connect to the server specified when the object was created.
+
+.. method:: HTTPConnection.close()
+
+   Close the connection to the server.
+
+As an alternative to using the :meth:`request` method described above, you can
+also send your request step by step, by using the four functions below.
+
+.. method:: HTTPConnection.putrequest(request, selector[, skip_host[, skip_accept_encoding]])
+
+   This should be the first call after the connection to the server has been made.
+   It sends a line to the server consisting of the *request* string, the *selector*
+   string, and the HTTP version (``HTTP/1.1``).  To disable automatic sending of
+   ``Host:`` or ``Accept-Encoding:`` headers (for example to accept additional
+   content encodings), specify *skip_host* or *skip_accept_encoding* with non-False
+   values.
+
+   .. versionchanged:: 2.4
+      *skip_accept_encoding* argument added.
+
+.. method:: HTTPConnection.putheader(header, argument[, ...])
+
+   Send an :rfc:`822`\ -style header to the server.  It sends a line to the server
+   consisting of the header, a colon and a space, and the first argument.  If more
+   arguments are given, continuation lines are sent, each consisting of a tab and
+   an argument.
+
+.. method:: HTTPConnection.endheaders(message_body=None)
+
+   Send a blank line to the server, signalling the end of the headers. The
+   optional *message_body* argument can be used to pass a message body
+   associated with the request.  The message body will be sent in the same
+   packet as the message headers if it is string, otherwise it is sent in a
+   separate packet.
+
+   .. versionchanged:: 2.7
+      *message_body* was added.
+
+.. method:: HTTPConnection.send(data)
+
+   Send data to the server.  This should be used directly only after the
+   :meth:`endheaders` method has been called and before :meth:`getresponse` is
+   called.
+
+.. _httpresponse-objects:
+
+HTTPResponse Objects
+--------------------
+
+:class:`HTTPResponse` instances have the following methods and attributes:
+
+.. method:: HTTPResponse.read([amt])
+
+   Reads and returns the response body, or up to the next *amt* bytes.
+
+.. method:: HTTPResponse.getheader(name[, default])
+
+   Get the contents of the header *name*, or *default* if there is no matching
+   header.
+
+.. method:: HTTPResponse.getheaders()
+
+   Return a list of (header, value) tuples.
+
+.. method:: HTTPResponse.fileno()
+
+   Returns the ``fileno`` of the underlying socket.
+
+.. attribute:: HTTPResponse.msg
+
+   A :class:`mimetools.Message` instance containing the response headers.
+
+.. attribute:: HTTPResponse.version
+
+   HTTP protocol version used by server.  10 for HTTP/1.0, 11 for HTTP/1.1.
+
+.. attribute:: HTTPResponse.status
+
+   Status code returned by server.
+
+.. attribute:: HTTPResponse.reason
+
+   Reason phrase returned by server.
+
+Here is an example session that uses the ``GET`` method::
+
+Here is an example session that uses the ``HEAD`` method.  Note that the
+``HEAD`` method never returns any data. ::
+
+Here is an example session that shows how to ``POST`` requests::
+
+:mod:`pickle` --- Python object serialization
+=============================================
+
+.. index::
+   single: persistence
+   pair: persistent; objects
+   pair: serializing; objects
+   pair: marshalling; objects
+   pair: flattening; objects
+   pair: pickling; objects
+
+.. module:: pickle
+   :synopsis: Convert Python objects to streams of bytes and back.
+.. sectionauthor:: Jim Kerr <jbkerr@sr.hp.com>.
+.. sectionauthor:: Barry Warsaw <barry@zope.com>
+
+The :mod:`pickle` module implements a fundamental, but powerful algorithm for
+serializing and de-serializing a Python object structure.  "Pickling" is the
+process whereby a Python object hierarchy is converted into a byte stream, and
+"unpickling" is the inverse operation, whereby a byte stream is converted back
+into an object hierarchy.  Pickling (and unpickling) is alternatively known as
+"serialization", "marshalling," [#]_ or "flattening", however, to avoid
+confusion, the terms used here are "pickling" and "unpickling".
+
+.. warning::
+
+   The :mod:`pickle` module is not secure against erroneous or maliciously
+   constructed data.  Never unpickle data received from an untrusted or
+   unauthenticated source.
+
+Relationship to other Python modules
+------------------------------------
+
+The data streams the two modules produce are guaranteed to be interchangeable.
+
+Python has a more primitive serialization module called :mod:`marshal`, but in
+general :mod:`pickle` should always be the preferred way to serialize Python
+objects.  :mod:`marshal` exists primarily to support Python's :file:`.pyc`
+files.
+
+The :mod:`pickle` module differs from :mod:`marshal` in several significant ways:
+
+* The :mod:`pickle` module keeps track of the objects it has already serialized,
+  so that later references to the same object won't be serialized again.
+  :mod:`marshal` doesn't do this.
+
+  This has implications both for recursive objects and object sharing.  Recursive
+  objects are objects that contain references to themselves.  These are not
+  handled by marshal, and in fact, attempting to marshal recursive objects will
+  crash your Python interpreter.  Object sharing happens when there are multiple
+  references to the same object in different places in the object hierarchy being
+  serialized.  :mod:`pickle` stores such objects only once, and ensures that all
+  other references point to the master copy.  Shared objects remain shared, which
+  can be very important for mutable objects.
+
+* :mod:`marshal` cannot be used to serialize user-defined classes and their
+  instances.  :mod:`pickle` can save and restore class instances transparently,
+  however the class definition must be importable and live in the same module as
+  when the object was stored.
+
+* The :mod:`marshal` serialization format is not guaranteed to be portable
+  across Python versions.  Because its primary job in life is to support
+  :file:`.pyc` files, the Python implementers reserve the right to change the
+  serialization format in non-backwards compatible ways should the need arise.
+  The :mod:`pickle` serialization format is guaranteed to be backwards compatible
+  across Python releases.
+
+Note that serialization is a more primitive notion than persistence; although
+:mod:`pickle` reads and writes file objects, it does not handle the issue of
+naming persistent objects, nor the (even more complicated) issue of concurrent
+access to persistent objects.  The :mod:`pickle` module can transform a complex
+object into a byte stream and it can transform the byte stream into an object
+with the same internal structure.  Perhaps the most obvious thing to do with
+these byte streams is to write them onto a file, but it is also conceivable to
+send them across a network or store them in a database.  The module
+:mod:`shelve` provides a simple interface to pickle and unpickle objects on
+DBM-style database files.
+
+Data stream format
+------------------
+
+.. index::
+   single: XDR
+   single: External Data Representation
+
+There are currently 3 different protocols which can be used for pickling.
+
+* Protocol version 0 is the original ASCII protocol and is backwards compatible
+  with earlier versions of Python.
+
+* Protocol version 1 is the old binary format which is also compatible with
+  earlier versions of Python.
+
+* Protocol version 2 was introduced in Python 2.3.  It provides much more
+  efficient pickling of :term:`new-style class`\es.
+
+Refer to :pep:`307` for more information.
+
+If a *protocol* is not specified, protocol 0 is used. If *protocol* is specified
+as a negative value or :const:`HIGHEST_PROTOCOL`, the highest protocol version
+available will be used.
+
+.. versionchanged:: 2.3
+   Introduced the *protocol* parameter.
+
+A binary format, which is slightly more efficient, can be chosen by specifying a
+*protocol* version >= 1.
+
+Usage
+-----
+
+To serialize an object hierarchy, you first create a pickler, then you call the
+pickler's :meth:`dump` method.  To de-serialize a data stream, you first create
+an unpickler, then you call the unpickler's :meth:`load` method.  The
+:mod:`pickle` module provides the following constant:
+
+.. data:: HIGHEST_PROTOCOL
+
+   The highest protocol version available.  This value can be passed as a
+   *protocol* value.
+
+   Be sure to always open pickle files created with protocols >= 1 in binary mode.
+   For the old ASCII-based pickle protocol 0 you can use either text mode or binary
+   mode as long as you stay consistent.
+
+   A pickle file written with protocol 0 in binary mode will contain lone linefeeds
+   as line terminators and therefore will look "funny" when viewed in Notepad or
+   other editors which do not support this format.
+
+The :mod:`pickle` module provides the following functions to make the pickling
+process more convenient:
+
+.. function:: dump(obj, file[, protocol])
+
+   If the *protocol* parameter is omitted, protocol 0 is used. If *protocol* is
+   specified as a negative value or :const:`HIGHEST_PROTOCOL`, the highest protocol
+   version will be used.
+
+   .. versionchanged:: 2.3
+      Introduced the *protocol* parameter.
+
+.. function:: load(file)
+
+   Read a string from the open file object *file* and interpret it as a pickle data
+   stream, reconstructing and returning the original object hierarchy.  This is
+   equivalent to ``Unpickler(file).load()``.
+
+   This function automatically determines whether the data stream was written in
+   binary mode or not.
+
+.. function:: dumps(obj[, protocol])
+
+   .. versionchanged:: 2.3
+      The *protocol* parameter was added.
+
+.. function:: loads(string)
+
+The :mod:`pickle` module also defines three exceptions:
+
+.. exception:: PickleError
+
+   A common base class for the other exceptions defined below.  This inherits from
+   :exc:`Exception`.
+
+.. exception:: PicklingError
+
+   This exception is raised when an unpicklable object is passed to the
+   :meth:`dump` method.
+
+.. exception:: UnpicklingError
+
+   This exception is raised when there is a problem unpickling an object. Note that
+   other exceptions may also be raised during unpickling, including (but not
+   necessarily limited to) :exc:`AttributeError`, :exc:`EOFError`,
+   :exc:`ImportError`, and :exc:`IndexError`.
+
+The :mod:`pickle` module also exports two callables [#]_, :class:`Pickler` and
+:class:`Unpickler`:
+
+.. class:: Pickler(file[, protocol])
+
+   This takes a file-like object to which it will write a pickle data stream.
+
+   If the *protocol* parameter is omitted, protocol 0 is used. If *protocol* is
+   specified as a negative value or :const:`HIGHEST_PROTOCOL`, the highest
+   protocol version will be used.
+
+   :class:`Pickler` objects define one (or two) public methods:
+
+   .. method:: dump(obj)
+
+   .. method:: clear_memo()
+
+      Clears the pickler's "memo".  The memo is the data structure that remembers
+      which objects the pickler has already seen, so that shared or recursive objects
+      pickled by reference and not by value.  This method is useful when re-using
+      picklers.
+
+      .. note::
+
+            mypickler.memo.clear()
+
+         Code that does not need to support older versions of Python should simply use
+         :meth:`clear_memo`.
+
+It is possible to make multiple calls to the :meth:`dump` method of the same
+:class:`Pickler` instance.  These must then be matched to the same number of
+calls to the :meth:`load` method of the corresponding :class:`Unpickler`
+instance.  If the same object is pickled by multiple :meth:`dump` calls, the
+:meth:`load` will all yield references to the same object. [#]_
+
+:class:`Unpickler` objects are defined as:
+
+.. class:: Unpickler(file)
+
+   This takes a file-like object from which it will read a pickle data stream.
+   This class automatically determines whether the data stream was written in
+   binary mode or not, so it does not need a flag as in the :class:`Pickler`
+   factory.
+
+   :class:`Unpickler` objects have one (or two) public methods:
+
+   .. method:: load()
+
+      This method automatically determines whether the data stream was written
+      in binary mode or not.
+
+   .. method:: noload()
+
+      This is just like :meth:`load` except that it doesn't actually create any
+      objects.  This is useful primarily for finding what's called "persistent
+      ids" that may be referenced in a pickle data stream.  See section
+      :ref:`pickle-protocol` below for more details.
+
+What can be pickled and unpickled?
+----------------------------------
+
+The following types can be pickled:
+
+* ``None``, ``True``, and ``False``
+
+* integers, long integers, floating point numbers, complex numbers
+
+* normal and Unicode strings
+
+* tuples, lists, sets, and dictionaries containing only picklable objects
+
+* functions defined at the top level of a module
+
+* built-in functions defined at the top level of a module
+
+* classes that are defined at the top level of a module
+
+* instances of such classes whose :attr:`~object.__dict__` or the result of
+  calling :meth:`__getstate__` is picklable  (see section :ref:`pickle-protocol`
+  for details).
+
+Attempts to pickle unpicklable objects will raise the :exc:`PicklingError`
+exception; when this happens, an unspecified number of bytes may have already
+been written to the underlying file. Trying to pickle a highly recursive data
+structure may exceed the maximum recursion depth, a :exc:`RuntimeError` will be
+raised in this case. You can carefully raise this limit with
+:func:`sys.setrecursionlimit`.
+
+Note that functions (built-in and user-defined) are pickled by "fully qualified"
+name reference, not by value.  This means that only the function name is
+pickled, along with the name of the module the function is defined in.  Neither
+the function's code, nor any of its function attributes are pickled.  Thus the
+defining module must be importable in the unpickling environment, and the module
+must contain the named object, otherwise an exception will be raised. [#]_
+
+Similarly, classes are pickled by named reference, so the same restrictions in
+the unpickling environment apply.  Note that none of the class's code or data is
+pickled, so in the following example the class attribute ``attr`` is not
+restored in the unpickling environment::
+
+   class Foo:
+       attr = 'a class attr'
+
+   picklestring = pickle.dumps(Foo)
+
+These restrictions are why picklable functions and classes must be defined in
+the top level of a module.
+
+Similarly, when class instances are pickled, their class's code and data are not
+pickled along with them.  Only the instance data are pickled.  This is done on
+purpose, so you can fix bugs in a class or add methods to the class and still
+load objects that were created with an earlier version of the class.  If you
+plan to have long-lived objects that will see many versions of a class, it may
+be worthwhile to put a version number in the objects so that suitable
+conversions can be made by the class's :meth:`__setstate__` method.
+
+.. _pickle-protocol:
+
+The pickle protocol
+-------------------
+
+.. currentmodule:: None
+
+This section describes the "pickling protocol" that defines the interface
+between the pickler/unpickler and the objects that are being serialized.  This
+protocol provides a standard way for you to define, customize, and control how
+your objects are serialized and de-serialized.  The description in this section
+doesn't cover specific customizations that you can employ to make the unpickling
+environment slightly safer from untrusted pickle data streams; see section
+:ref:`pickle-sub` for more details.
+
+.. _pickle-inst:
+
+Pickling and unpickling normal class instances
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. method:: object.__getinitargs__()
+
+   When a pickled class instance is unpickled, its :meth:`__init__` method is
+   normally *not* invoked.  If it is desirable that the :meth:`__init__` method
+   be called on unpickling, an old-style class can define a method
+   :meth:`__getinitargs__`, which should return a *tuple* of positional
+   arguments to be passed to the class constructor (:meth:`__init__` for
+   example).  Keyword arguments are not supported.  The :meth:`__getinitargs__`
+   method is called at pickle time; the tuple it returns is incorporated in the
+   pickle for the instance.
+
+.. method:: object.__getnewargs__()
+
+   New-style types can provide a :meth:`__getnewargs__` method that is used for
+   protocol 2.  Implementing this method is needed if the type establishes some
+   internal invariants when the instance is created, or if the memory allocation
+   is affected by the values passed to the :meth:`__new__` method for the type
+   (as it is for tuples and strings).  Instances of a :term:`new-style class`
+   ``C`` are created using ::
+
+      obj = C.__new__(C, *args)
+
+   where *args* is the result of calling :meth:`__getnewargs__` on the original
+   object; if there is no :meth:`__getnewargs__`, an empty tuple is assumed.
+
+.. method:: object.__getstate__()
+
+   Classes can further influence how their instances are pickled; if the class
+   defines the method :meth:`__getstate__`, it is called and the return state is
+   pickled as the contents for the instance, instead of the contents of the
+   instance's dictionary.  If there is no :meth:`__getstate__` method, the
+   instance's :attr:`~object.__dict__` is pickled.
+
+.. method:: object.__setstate__(state)
+
+   Upon unpickling, if the class also defines the method :meth:`__setstate__`,
+   it is called with the unpickled state. [#]_ If there is no
+   :meth:`__setstate__` method, the pickled state must be a dictionary and its
+   items are assigned to the new instance's dictionary.  If a class defines both
+   :meth:`__getstate__` and :meth:`__setstate__`, the state object needn't be a
+   dictionary and these methods can do what they want. [#]_
+
+      For :term:`new-style class`\es, if :meth:`__getstate__` returns a false
+      value, the :meth:`__setstate__` method will not be called.
+
+   At unpickling time, some methods like :meth:`__getattr__`,
+   :meth:`__getattribute__`, or :meth:`__setattr__` may be called upon the
+   instance.  In case those methods rely on some internal invariant being
+   true, the type should implement either :meth:`__getinitargs__` or
+   :meth:`__getnewargs__` to establish such an invariant; otherwise, neither
+   :meth:`__new__` nor :meth:`__init__` will be called.
+
+Pickling and unpickling extension types
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. method:: object.__reduce__()
+
+   When the :class:`Pickler` encounters an object of a type it knows nothing
+   about --- such as an extension type --- it looks in two places for a hint of
+   how to pickle it.  One alternative is for the object to implement a
+   :meth:`__reduce__` method.  If provided, at pickling time :meth:`__reduce__`
+   will be called with no arguments, and it must return either a string or a
+   tuple.
+
+   If a string is returned, it names a global variable whose contents are
+   pickled as normal.  The string returned by :meth:`__reduce__` should be the
+   object's local name relative to its module; the pickle module searches the
+   module namespace to determine the object's module.
+
+   When a tuple is returned, it must be between two and five elements long.
+   Optional elements can either be omitted, or ``None`` can be provided as their
+   value.  The contents of this tuple are pickled as normal and used to
+   reconstruct the object at unpickling time.  The semantics of each element
+   are:
+
+   * A callable object that will be called to create the initial version of the
+     object.  The next element of the tuple will provide arguments for this
+     callable, and later elements provide additional state information that will
+     subsequently be used to fully reconstruct the pickled data.
+
+     In the unpickling environment this object must be either a class, a
+     callable registered as a "safe constructor" (see below), or it must have an
+     attribute :attr:`__safe_for_unpickling__` with a true value. Otherwise, an
+     :exc:`UnpicklingError` will be raised in the unpickling environment.  Note
+     that as usual, the callable itself is pickled by name.
+
+   * A tuple of arguments for the callable object.
+
+     .. versionchanged:: 2.5
+        Formerly, this argument could also be ``None``.
+
+   * Optionally, the object's state, which will be passed to the object's
+     :meth:`__setstate__` method as described in section :ref:`pickle-inst`.  If
+     the object has no :meth:`__setstate__` method, then, as above, the value
+     must be a dictionary and it will be added to the object's
+     :attr:`~object.__dict__`.
+
+   * Optionally, an iterator (and not a sequence) yielding successive list
+     items.  These list items will be pickled, and appended to the object using
+     either ``obj.append(item)`` or ``obj.extend(list_of_items)``.  This is
+     primarily used for list subclasses, but may be used by other classes as
+     long as they have :meth:`append` and :meth:`extend` methods with the
+     appropriate signature.  (Whether :meth:`append` or :meth:`extend` is used
+     depends on which pickle protocol version is used as well as the number of
+     items to append, so both must be supported.)
+
+   * Optionally, an iterator (not a sequence) yielding successive dictionary
+     items, which should be tuples of the form ``(key, value)``.  These items
+     will be pickled and stored to the object using ``obj[key] = value``. This
+     is primarily used for dictionary subclasses, but may be used by other
+     classes as long as they implement :meth:`__setitem__`.
+
+.. method:: object.__reduce_ex__(protocol)
+
+   It is sometimes useful to know the protocol version when implementing
+   :meth:`__reduce__`.  This can be done by implementing a method named
+   :meth:`__reduce_ex__` instead of :meth:`__reduce__`. :meth:`__reduce_ex__`,
+   when it exists, is called in preference over :meth:`__reduce__` (you may
+   still provide :meth:`__reduce__` for backwards compatibility).  The
+   :meth:`__reduce_ex__` method will be called with a single integer argument,
+   the protocol version.
+
+   The :class:`object` class implements both :meth:`__reduce__` and
+   :meth:`__reduce_ex__`; however, if a subclass overrides :meth:`__reduce__`
+   but not :meth:`__reduce_ex__`, the :meth:`__reduce_ex__` implementation
+   detects this and calls :meth:`__reduce__`.
+
+The registered constructor is deemed a "safe constructor" for purposes of
+unpickling as described above.
+
+Pickling and unpickling external objects
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. index::
+   single: persistent_id (pickle protocol)
+   single: persistent_load (pickle protocol)
+
+For the benefit of object persistence, the :mod:`pickle` module supports the
+notion of a reference to an object outside the pickled data stream.  Such
+objects are referenced by a "persistent id", which is just an arbitrary string
+of printable ASCII characters. The resolution of such names is not defined by
+the :mod:`pickle` module; it will delegate this resolution to user defined
+functions on the pickler and unpickler. [#]_
+
+To define external persistent id resolution, you need to set the
+:attr:`~Pickler.persistent_id` attribute of the pickler object and the
+:attr:`~Unpickler.persistent_load` attribute of the unpickler object.
+
+To pickle objects that have an external persistent id, the pickler must have a
+custom :func:`~Pickler.persistent_id` method that takes an object as an
+argument and returns either ``None`` or the persistent id for that object.
+When ``None`` is returned, the pickler simply pickles the object as normal.
+When a persistent id string is returned, the pickler will pickle that string,
+along with a marker so that the unpickler will recognize the string as a
+persistent id.
+
+To unpickle external objects, the unpickler must have a custom
+:func:`~Unpickler.persistent_load` function that takes a persistent id string
+and returns the referenced object.
+
+Here's a silly example that *might* shed more light::
+
+   def persistent_id(obj):
+       if hasattr(obj, 'x'):
+           return 'the value %d' % obj.x
+       else:
+           return None
+
+   p.persistent_id = persistent_id
+
+   class Integer:
+       def __init__(self, x):
+           self.x = x
+       def __str__(self):
+           return 'My name is integer %d' % self.x
+
+   i = Integer(7)
+   print i
+   p.dump(i)
+
+   up = pickle.Unpickler(dst)
+
+   class FancyInteger(Integer):
+       def __str__(self):
+           return 'I am the integer %d' % self.x
+
+   def persistent_load(persid):
+       if persid.startswith('the value '):
+           value = int(persid.split()[2])
+           return FancyInteger(value)
+       else:
+           raise pickle.UnpicklingError, 'Invalid persistent id'
+
+   up.persistent_load = persistent_load
+
+   j = up.load()
+   print j
+
+.. _pickle-sub:
+
+Subclassing Unpicklers
+----------------------
+
+.. index::
+   single: load_global() (pickle protocol)
+   single: find_global() (pickle protocol)
+
+In the :mod:`pickle` module, you need to derive a subclass from
+:class:`Unpickler`, overriding the :meth:`load_global` method.
+:meth:`load_global` should read two lines from the pickle data stream where the
+first line will the name of the module containing the class and the second line
+will be the name of the instance's class.  It then looks up the class, possibly
+importing the module and digging out the attribute, then it appends what it
+finds to the unpickler's stack.  Later on, this class will be assigned to the
+:attr:`__class__` attribute of an empty class, as a way of magically creating an
+instance without calling its class's :meth:`__init__`. Your job (should you
+choose to accept it), would be to have :meth:`load_global` push onto the
+unpickler's stack, a known safe version of any class you deem safe to unpickle.
+It is up to you to produce such a class.  Or you could raise an error if you
+want to disallow all unpickling of instances.  If this sounds like a hack,
+you're right.  Refer to the source code to make this work.
+
+The moral of the story is that you should be really careful about the source of
+the strings your application unpickles.
+
+.. _pickle-example:
+
+For the simplest code, use the :func:`dump` and :func:`load` functions.  Note
+that a self-referencing list is pickled and restored correctly. ::
+
+   import pickle
+
+   data1 = {'a': [1, 2.0, 3, 4+6j],
+            'b': ('string', u'Unicode string'),
+            'c': None}
+
+   selfref_list = [1, 2, 3]
+   selfref_list.append(selfref_list)
+
+   output = open('data.pkl', 'wb')
+
+   # Pickle dictionary using protocol 0.
+   pickle.dump(data1, output)
+
+   # Pickle the list using the highest protocol available.
+   pickle.dump(selfref_list, output, -1)
+
+   output.close()
+
+The following example reads the resulting pickled data.  When reading a
+pickle-containing file, you should open the file in binary mode because you
+can't be sure if the ASCII or binary format was used. ::
+
+   import pprint, pickle
+
+   pkl_file = open('data.pkl', 'rb')
+
+   data1 = pickle.load(pkl_file)
+   pprint.pprint(data1)
+
+   data2 = pickle.load(pkl_file)
+   pprint.pprint(data2)
+
+   pkl_file.close()
+
+Here's a larger example that shows how to modify pickling behavior for a class.
+The :class:`TextReader` class opens a text file, and returns the line number and
+line contents each time its :meth:`!readline` method is called. If a
+:class:`TextReader` instance is pickled, all attributes *except* the file object
+member are saved. When the instance is unpickled, the file is reopened, and
+reading resumes from the last location. The :meth:`__setstate__` and
+:meth:`__getstate__` methods are used to implement this behavior. ::
+
+   #!/usr/local/bin/python
+
+   class TextReader:
+       """Print and number lines in a text file."""
+       def __init__(self, file):
+           self.file = file
+           self.fh = open(file)
+           self.lineno = 0
+
+       def readline(self):
+           self.lineno = self.lineno + 1
+           line = self.fh.readline()
+           if not line:
+               return None
+           if line.endswith("\n"):
+               line = line[:-1]
+           return "%d: %s" % (self.lineno, line)
+
+       def __getstate__(self):
+           odict = self.__dict__.copy() # copy the dict since we change it
+           del odict['fh']              # remove filehandle entry
+           return odict
+
+       def __setstate__(self, dict):
+           fh = open(dict['file'])      # reopen file
+           count = dict['lineno']       # read from file...
+           while count:                 # until line count is restored
+               fh.readline()
+               count = count - 1
+           self.__dict__.update(dict)   # update attributes
+           self.fh = fh                 # save the file object
+
+A sample usage might be something like this::
+
+   >>> import TextReader
+   >>> obj = TextReader.TextReader("TextReader.py")
+   >>> obj.readline()
+   '1: #!/usr/local/bin/python'
+   >>> obj.readline()
+   '2: '
+   >>> obj.readline()
+   '3: class TextReader:'
+   >>> import pickle
+   >>> pickle.dump(obj, open('save.p', 'wb'))
+
+If you want to see that :mod:`pickle` works across Python processes, start
+another Python session, before continuing.  What follows can happen from either
+the same process or a new process. ::
+
+   >>> import pickle
+   >>> reader = pickle.load(open('save.p', 'rb'))
+   >>> reader.readline()
+   '4:     """Print and number lines in a text file."""'
+
+   Module :mod:`shelve`
+      Indexed databases of objects; uses :mod:`pickle`.
+
+   Module :mod:`copy`
+      Shallow and deep object copying.
+
+   Module :mod:`marshal`
+      High-performance serialization of built-in types.
+
+.. index:: module: pickle
+
+.. rubric:: Footnotes
+
+.. [#] Don't confuse this with the :mod:`marshal` module
+
+.. [#] *Warning*: this is intended for pickling multiple objects without intervening
+   modifications to the objects or their parts.  If you modify an object and then
+   pickle it again using the same :class:`Pickler` instance, the object is not
+   pickled again --- a reference to it is pickled and the :class:`Unpickler` will
+   return the old value, not the modified one. There are two problems here: (1)
+   detecting changes, and (2) marshalling a minimal set of changes.  Garbage
+   Collection may also become a problem here.
+
+.. [#] The exception raised will likely be an :exc:`ImportError` or an
+   :exc:`AttributeError` but it could be something else.
+
+.. [#] These methods can also be used to implement copying class instances.
+
+.. [#] This protocol is also used by the shallow and deep copying operations defined in
+   the :mod:`copy` module.
+
+.. [#] We'll leave you with the image of Guido and Jim sitting around sniffing pickles
+   in their living rooms.
+
+.. [#] Since the pickle data format is actually a tiny stack-oriented programming
+   language, and some freedom is taken in the encodings of certain objects, it is
+   possible that the two modules produce different data streams for the same input
+   objects.  However it is guaranteed that they will always be able to read each
+   other's data streams.
+
+The module implements three types of queue, which differ only in the order in
+which the entries are retrieved.  In a FIFO queue, the first tasks added are
+the first retrieved. In a LIFO queue, the most recently added entry is
+the first retrieved (operating like a stack).  With a priority queue,
+the entries are kept sorted (using the :mod:`heapq` module) and the
+lowest valued entry is retrieved first.
+
+   Constructor for a FIFO queue.  *maxsize* is an integer that sets the upperbound
+   limit on the number of items that can be placed in the queue.  Insertion will
+   block once this size has been reached, until queue items are consumed.  If
+   *maxsize* is less than or equal to zero, the queue size is infinite.
+
+   Constructor for a LIFO queue.  *maxsize* is an integer that sets the upperbound
+   limit on the number of items that can be placed in the queue.  Insertion will
+   block once this size has been reached, until queue items are consumed.  If
+   *maxsize* is less than or equal to zero, the queue size is infinite.
+
+   Constructor for a priority queue.  *maxsize* is an integer that sets the upperbound
+   limit on the number of items that can be placed in the queue.  Insertion will
+   block once this size has been reached, until queue items are consumed.  If
+   *maxsize* is less than or equal to zero, the queue size is infinite.
+
+   The lowest valued entries are retrieved first (the lowest valued entry is the
+   one returned by ``sorted(list(entries))[0]``).  A typical pattern for entries
+   is a tuple in the form: ``(priority_number, data)``.
+
+.. exception:: Empty
+
+.. exception:: Full
+
+   :class:`collections.deque` is an alternative implementation of unbounded
+   queues with fast atomic :func:`append` and :func:`popleft` operations that
+   do not require locking.
+
+.. _queueobjects:
+
+   Return the approximate size of the queue.  Note, qsize() > 0 doesn't
+   guarantee that a subsequent get() will not block, nor will qsize() < maxsize
+   guarantee that put() will not block.
+
+   Return ``True`` if the queue is empty, ``False`` otherwise.  If empty()
+   returns ``True`` it doesn't guarantee that a subsequent call to put()
+   will not block.  Similarly, if empty() returns ``False`` it doesn't
+   guarantee that a subsequent call to get() will not block.
+
+   Return ``True`` if the queue is full, ``False`` otherwise.  If full()
+   returns ``True`` it doesn't guarantee that a subsequent call to get()
+   will not block.  Similarly, if full() returns ``False`` it doesn't
+   guarantee that a subsequent call to put() will not block.
+
+   Put *item* into the queue. If optional args *block* is true and *timeout* is
+   ``None`` (the default), block if necessary until a free slot is available. If
+   *timeout* is a positive number, it blocks at most *timeout* seconds and raises
+   the :exc:`Full` exception if no free slot was available within that time.
+   Otherwise (*block* is false), put an item on the queue if a free slot is
+   immediately available, else raise the :exc:`Full` exception (*timeout* is
+   ignored in that case).
+
+   .. versionadded:: 2.3
+      The *timeout* parameter.
+
+   Equivalent to ``put(item, False)``.
+
+   Remove and return an item from the queue. If optional args *block* is true and
+   *timeout* is ``None`` (the default), block if necessary until an item is available.
+   If *timeout* is a positive number, it blocks at most *timeout* seconds and
+   raises the :exc:`Empty` exception if no item was available within that time.
+   Otherwise (*block* is false), return an item if one is immediately available,
+   else raise the :exc:`Empty` exception (*timeout* is ignored in that case).
+
+   Equivalent to ``get(False)``.
+
+   If a :meth:`join` is currently blocking, it will resume when all items have been
+   processed (meaning that a :meth:`task_done` call was received for every item
+   that had been :meth:`put` into the queue).
+
+   Raises a :exc:`ValueError` if called more times than there were items placed in
+   the queue.
+
+   Blocks until all items in the queue have been gotten and processed.
+
+Example of how to wait for enqueued tasks to be completed::
+
+   def worker():
+       while True:
+           item = q.get()
+           do_work(item)
+           q.task_done()
+
+   for item in source():
+       q.put(item)
+
+   q.join()       # block until all tasks are done
+
+.. index::
+   single: WWW
+   single: World Wide Web
+   single: URL
+   single: robots.txt
+
+This module provides a single class, :class:`RobotFileParser`, which answers
+questions about whether or not a particular user agent can fetch a URL on the
+Web site that published the :file:`robots.txt` file.  For more details on the
+structure of :file:`robots.txt` files, see http://www.robotstxt.org/orig.html.
+
+.. class:: RobotFileParser(url='')
+
+   This class provides methods to read, parse and answer questions about the
+   :file:`robots.txt` file at *url*.
+
+   .. method:: set_url(url)
+
+      Sets the URL referring to a :file:`robots.txt` file.
+
+   .. method:: read()
+
+      Reads the :file:`robots.txt` URL and feeds it to the parser.
+
+   .. method:: parse(lines)
+
+      Parses the lines argument.
+
+   .. method:: can_fetch(useragent, url)
+
+      Returns ``True`` if the *useragent* is allowed to fetch the *url*
+      according to the rules contained in the parsed :file:`robots.txt`
+      file.
+
+   .. method:: mtime()
+
+      Returns the time the ``robots.txt`` file was last fetched.  This is
+      useful for long-running web spiders that need to check for new
+      ``robots.txt`` files periodically.
+
+   .. method:: modified()
+
+      Sets the time the ``robots.txt`` file was last fetched to the current
+      time.
+
+The following example demonstrates basic use of the RobotFileParser class. ::
+
+.. class:: SimpleHTTPRequestHandler(request, client_address, server)
+
+   This class serves files from the current directory and below, directly
+   mapping the directory structure to HTTP requests.
+
+   The following are defined as class-level attributes of
+   :class:`SimpleHTTPRequestHandler`:
+
+   This will be ``"SimpleHTTP/" + __version__``, where ``__version__`` is
+   defined at the module level.
+
+   .. attribute:: extensions_map
+
+      A dictionary mapping suffixes into MIME types. The default is
+      signified by an empty string, and is considered to be
+      ``application/octet-stream``. The mapping is used case-insensitively,
+      and so should contain only lower-cased keys.
+
+   The :class:`SimpleHTTPRequestHandler` class defines the following methods:
+
+   .. method:: do_HEAD()
+
+      This method serves the ``'HEAD'`` request type: it sends the headers it
+      would send for the equivalent ``GET`` request. See the :meth:`do_GET`
+      method for a more complete explanation of the possible headers.
+
+   .. method:: do_GET()
+
+      The request is mapped to a local file by interpreting the request as a
+      path relative to the current working directory.
+
+      If the request was mapped to a directory, the directory is checked for a
+      file named ``index.html`` or ``index.htm`` (in that order). If found, the
+      file's contents are returned; otherwise a directory listing is generated
+      by calling the :meth:`list_directory` method. This method uses
+      :func:`os.listdir` to scan the directory, and returns a ``404`` error
+      response if the :func:`listdir` fails.
+
+      If the request was mapped to a file, it is opened and the contents are
+      returned.  Any :exc:`IOError` exception in opening the requested file is
+      mapped to a ``404``, ``'File not found'`` error. Otherwise, the content
+      type is guessed by calling the :meth:`guess_type` method, which in turn
+      uses the *extensions_map* variable.
+
+      A ``'Content-type:'`` header with the guessed content type is output,
+      followed by a ``'Content-Length:'`` header with the file's size and a
+      ``'Last-Modified:'`` header with the file's modification time.
+
+      Then follows a blank line signifying the end of the headers, and then the
+      contents of the file are output. If the file's MIME type starts with
+      ``text/`` the file is opened in text mode; otherwise binary mode is used.
+
+      .. versionadded:: 2.5
+         The ``'Last-Modified'`` header.
+
+   PORT = 8000
+
+   print "serving at port", PORT
+   httpd.serve_forever()
+
+.. versionadded:: 2.2
+
+   .. versionchanged:: 2.5
+      The *allow_none* and *encoding* parameters were added.
+
+   .. versionchanged:: 2.6
+      The *bind_and_activate* parameter was added.
+
+.. class:: CGIXMLRPCRequestHandler([allow_none[, encoding]])
+
+.. class:: SimpleXMLRPCRequestHandler()
+
+.. _simple-xmlrpc-servers:
+
+   Register a function that can respond to XML-RPC requests.  If *name* is given,
+   it will be the method name associated with *function*, otherwise
+   ``function.__name__`` will be used.  *name* can be either a normal or Unicode
+   string, and may contain characters not legal in Python identifiers, including
+   the period character.
+
+   If the optional *allow_dotted_names* argument is true and the instance does not
+   have a :meth:`_dispatch` method, then if the requested method name contains
+   periods, each component of the method name is searched for individually, with
+   the effect that a simple hierarchical search is performed.  The value found from
+   this search is then called with the parameters from the request, and the return
+   value is passed back to the client.
+
+      Enabling the *allow_dotted_names* option allows intruders to access your
+      module's global variables and may allow intruders to execute arbitrary code on
+      your machine.  Only use this option on a secure, closed network.
+
+   .. versionchanged:: 2.3.5, 2.4.1
+      *allow_dotted_names* was added to plug a security hole; prior versions are
+      insecure.
+
+   Registers the XML-RPC introspection functions ``system.listMethods``,
+   ``system.methodHelp`` and ``system.methodSignature``.
+
+   Registers the XML-RPC multicall function system.multicall.
+
+.. attribute:: SimpleXMLRPCRequestHandler.rpc_paths
+
+   An attribute value that must be a tuple listing valid path portions of the URL
+   for receiving XML-RPC requests.  Requests posted to other paths will result in a
+   404 "no such page" HTTP error.  If this tuple is empty, all paths will be
+   considered valid. The default value is ``('/', '/RPC2')``.
+
+.. attribute:: SimpleXMLRPCRequestHandler.encode_threshold
+
+   If this attribute is not ``None``, responses larger than this value
+   will be encoded using the *gzip* transfer encoding, if permitted by
+   the client.  The default is ``1400`` which corresponds roughly
+   to a single TCP packet.
+
+.. _simplexmlrpcserver-example:
+
+   # Restrict to a particular path.
+   class RequestHandler(SimpleXMLRPCRequestHandler):
+       rpc_paths = ('/RPC2',)
+
+   # Register pow() function; this will use the value of
+   # pow.__name__ as the name, which is just 'pow'.
+   server.register_function(pow)
+
+   # Register a function under a different name
+   def adder_function(x,y):
+       return x + y
+   server.register_function(adder_function, 'add')
+
+   # Register an instance; all the methods of the instance are
+   # published as XML-RPC methods (in this case, just 'div').
+   class MyFuncs:
+       def div(self, x, y):
+           return x // y
+
+   server.register_instance(MyFuncs())
+
+   # Run the server's main loop
+   server.serve_forever()
+
+The following client code will call the methods made available by the preceding
+server::
+
+   # Print list of available methods
+   print s.system.listMethods()
+
+This demo server can be run from the command line as::
+
+    server = ServerProxy("http://localhost:8000")
+    print server
+    multi = MultiCall(server)
+    multi.pow(2, 9)
+    multi.add(5, 1)
+    multi.add(24, 11)
+    try:
+        for response in multi():
+            print response
+    except Error, v:
+        print "ERROR", v
+
+And the client can be invoked directly using the following command::
+
+CGIXMLRPCRequestHandler
+-----------------------
+
+The :class:`CGIXMLRPCRequestHandler` class can be used to  handle XML-RPC
+requests sent to Python CGI scripts.
+
+.. method:: CGIXMLRPCRequestHandler.register_function(function[, name])
+
+   Register a function that can respond to XML-RPC requests. If  *name* is given,
+   it will be the method name associated with  function, otherwise
+   *function.__name__* will be used. *name* can be either a normal or Unicode
+   string, and may contain  characters not legal in Python identifiers, including
+   the period character.
+
+.. method:: CGIXMLRPCRequestHandler.register_instance(instance)
+
+   Register an object which is used to expose method names  which have not been
+   registered using :meth:`register_function`. If  instance contains a
+   :meth:`_dispatch` method, it is called with the  requested method name and the
+   parameters from the  request; the return value is returned to the client as the
+   result. If instance does not have a :meth:`_dispatch` method, it is searched
+   for an attribute matching the name of the requested method; if  the requested
+   method name contains periods, each  component of the method name is searched for
+   individually,  with the effect that a simple hierarchical search is performed.
+   The value found from this search is then called with the  parameters from the
+   request, and the return value is passed  back to the client.
+
+.. method:: CGIXMLRPCRequestHandler.register_introspection_functions()
+
+   Register the XML-RPC introspection functions  ``system.listMethods``,
+   ``system.methodHelp`` and  ``system.methodSignature``.
+
+.. method:: CGIXMLRPCRequestHandler.register_multicall_functions()
+
+   Register the XML-RPC multicall function ``system.multicall``.
+
+.. method:: CGIXMLRPCRequestHandler.handle_request([request_text = None])
+
+   Handle an XML-RPC request. If *request_text* is given, it should be the POST
+   data provided by the HTTP server,  otherwise the contents of stdin will be used.
+
+Example::
+
+   class MyFuncs:
+       def div(self, x, y): return x // y
+
+   handler = CGIXMLRPCRequestHandler()
+   handler.register_function(pow)
+   handler.register_function(lambda x,y: x+y, 'add')
+   handler.register_introspection_functions()
+   handler.register_instance(MyFuncs())
+   handler.handle_request()
+
+There are four basic concrete server classes:
+
+.. class:: TCPServer(server_address, RequestHandlerClass, bind_and_activate=True)
+
+   This uses the Internet TCP protocol, which provides for
+   continuous streams of data between the client and server.
+   If *bind_and_activate* is true, the constructor automatically attempts to
+   invoke :meth:`~BaseServer.server_bind` and
+   :meth:`~BaseServer.server_activate`.  The other parameters are passed to
+   the :class:`BaseServer` base class.
+
+.. class:: UDPServer(server_address, RequestHandlerClass, bind_and_activate=True)
+
+   This uses datagrams, which are discrete packets of information that may
+   arrive out of order or be lost while in transit.  The parameters are
+   the same as for :class:`TCPServer`.
+
+.. class:: UnixStreamServer(server_address, RequestHandlerClass, bind_and_activate=True)
+           UnixDatagramServer(server_address, RequestHandlerClass, bind_and_activate=True)
+
+   These more infrequently used classes are similar to the TCP and
+   UDP classes, but use Unix domain sockets; they're not available on
+   non-Unix platforms.  The parameters are the same as for
+   :class:`TCPServer`.
+
+Creating a server requires several steps.  First, you must create a request
+handler class by subclassing the :class:`BaseRequestHandler` class and
+overriding its :meth:`~BaseRequestHandler.handle` method;
+this method will process incoming
+requests.  Second, you must instantiate one of the server classes, passing it
+the server's address and the request handler class.  Then call the
+:meth:`~BaseServer.handle_request` or
+:meth:`~BaseServer.serve_forever` method of the server object to
+process one or many requests.  Finally, call :meth:`~BaseServer.server_close`
+to close the socket.
+
+Server classes have the same external methods and attributes, no matter what
+network protocol they use.
+
+Server Creation Notes
+---------------------
+
+   +------------+
+   | BaseServer |
+   +------------+
+         |
+         v
+   +-----------+        +------------------+
+   | TCPServer |------->| UnixStreamServer |
+   +-----------+        +------------------+
+         |
+         v
+   +-----------+        +--------------------+
+   | UDPServer |------->| UnixDatagramServer |
+   +-----------+        +--------------------+
+
+Note that :class:`UnixDatagramServer` derives from :class:`UDPServer`, not from
+:class:`UnixStreamServer` --- the only difference between an IP and a Unix
+stream server is the address family, which is simply repeated in both Unix
+server classes.
+
+.. class:: ForkingMixIn
+           ThreadingMixIn
+
+      class ThreadingUDPServer(ThreadingMixIn, UDPServer):
+          pass
+
+   The mix-in class comes first, since it overrides a method defined in
+   :class:`UDPServer`.  Setting the various attributes also changes the
+   behavior of the underlying server mechanism.
+
+   :class:`ForkingMixIn` and the Forking classes mentioned below are
+   only available on POSIX platforms that support :func:`~os.fork`.
+
+.. class:: ForkingTCPServer
+           ForkingUDPServer
+           ThreadingTCPServer
+           ThreadingUDPServer
+
+   These classes are pre-defined using the mix-in classes.
+
+To implement a service, you must derive a class from :class:`BaseRequestHandler`
+and redefine its :meth:`~BaseRequestHandler.handle` method.
+You can then run various versions of
+the service by combining one of the server classes with your request handler
+class.  The request handler class must be different for datagram or stream
+services.  This can be hidden by using the handler subclasses
+:class:`StreamRequestHandler` or :class:`DatagramRequestHandler`.
+
+In some cases, it may be appropriate to process part of a request synchronously,
+but to finish processing in a forked child depending on the request data.  This
+can be implemented by using a synchronous server and doing an explicit fork in
+the request handler class :meth:`~BaseRequestHandler.handle` method.
+
+.. XXX should data and methods be intermingled, or separate?
+   how should the distinction between class and instance variables be drawn?
+
+Server Objects
+--------------
+
+.. class:: BaseServer(server_address, RequestHandlerClass)
+
+   This is the superclass of all Server objects in the module.  It defines the
+   interface, given below, but does not implement most of the methods, which is
+   done in subclasses.  The two parameters are stored in the respective
+   :attr:`server_address` and :attr:`RequestHandlerClass` attributes.
+
+   .. method:: fileno()
+
+      Return an integer file descriptor for the socket on which the server is
+      listening.  This function is most commonly passed to :func:`select.select`, to
+      allow monitoring multiple servers in the same process.
+
+   .. method:: handle_request()
+
+      Process a single request.  This function calls the following methods in
+      order: :meth:`get_request`, :meth:`verify_request`, and
+      :meth:`process_request`.  If the user-provided
+      :meth:`~BaseRequestHandler.handle` method of the
+      handler class raises an exception, the server's :meth:`handle_error` method
+      will be called.  If no request is received within :attr:`timeout`
+      seconds, :meth:`handle_timeout` will be called and :meth:`handle_request`
+      will return.
+
+   .. method:: serve_forever(poll_interval=0.5)
+
+   .. method:: shutdown()
+
+      Tell the :meth:`serve_forever` loop to stop and wait until it does.
+
+      .. versionadded:: 2.6
+
+   .. method:: server_close()
+
+      Clean up the server. May be overridden.
+
+   .. attribute:: address_family
+
+      The family of protocols to which the server's socket belongs.
+      Common examples are :const:`socket.AF_INET` and :const:`socket.AF_UNIX`.
+
+   .. attribute:: RequestHandlerClass
+
+      The user-provided request handler class; an instance of this class is created
+      for each request.
+
+   .. attribute:: server_address
+
+      The address on which the server is listening.  The format of addresses varies
+      depending on the protocol family;
+      see the documentation for the :mod:`socket` module
+      for details.  For Internet protocols, this is a tuple containing a string giving
+      the address, and an integer port number: ``('127.0.0.1', 80)``, for example.
+
+   .. attribute:: socket
+
+      The socket object on which the server will listen for incoming requests.
+
+   The server classes support the following class variables:
+
+   .. XXX should class variables be covered before instance variables, or vice versa?
+
+   .. attribute:: allow_reuse_address
+
+      Whether the server will allow the reuse of an address. This defaults to
+      :const:`False`, and can be set in subclasses to change the policy.
+
+   .. attribute:: request_queue_size
+
+      The size of the request queue.  If it takes a long time to process a single
+      request, any requests that arrive while the server is busy are placed into a
+      queue, up to :attr:`request_queue_size` requests.  Once the queue is full,
+      further requests from clients will get a "Connection denied" error.  The default
+      value is usually 5, but this can be overridden by subclasses.
+
+   .. attribute:: socket_type
+
+      The type of socket used by the server; :const:`socket.SOCK_STREAM` and
+      :const:`socket.SOCK_DGRAM` are two common values.
+
+   .. attribute:: timeout
+
+      Timeout duration, measured in seconds, or :const:`None` if no timeout is
+      desired.  If :meth:`handle_request` receives no incoming requests within the
+      timeout period, the :meth:`handle_timeout` method is called.
+
+   There are various server methods that can be overridden by subclasses of base
+   server classes like :class:`TCPServer`; these methods aren't useful to external
+   users of the server object.
+
+   .. method:: finish_request(request, client_address)
+
+      Actually processes the request by instantiating :attr:`RequestHandlerClass` and
+      calling its :meth:`~BaseRequestHandler.handle` method.
+
+   .. method:: get_request()
+
+      Must accept a request from the socket, and return a 2-tuple containing the *new*
+      socket object to be used to communicate with the client, and the client's
+      address.
+
+   .. method:: handle_error(request, client_address)
+
+      This function is called if the :meth:`~BaseRequestHandler.handle`
+      method of a :attr:`RequestHandlerClass` instance raises
+      an exception.  The default action is to print the traceback to
+      standard output and continue handling further requests.
+
+   .. method:: handle_timeout()
+
+   .. method:: process_request(request, client_address)
+
+   .. Is there any point in documenting the following two functions?
+      What would the purpose of overriding them be: initializing server
+      instance variables, adding new network families?
+
+   .. method:: server_activate()
+
+      Called by the server's constructor to activate the server.  The default behavior
+      for a TCP server just invokes :meth:`~socket.socket.listen`
+      on the server's socket. May be overridden.
+
+   .. method:: server_bind()
+
+      Called by the server's constructor to bind the socket to the desired address.
+      May be overridden.
+
+   .. method:: verify_request(request, client_address)
+
+      Must return a Boolean value; if the value is :const:`True`, the request will be
+      processed, and if it's :const:`False`, the request will be denied. This function
+      can be overridden to implement access controls for a server. The default
+      implementation always returns :const:`True`.
+
+Request Handler Objects
+-----------------------
+
+.. class:: BaseRequestHandler
+
+   This is the superclass of all request handler objects.  It defines
+   the interface, given below.  A concrete request handler subclass must
+   define a new :meth:`handle` method, and can override any of
+   the other methods.  A new instance of the subclass is created for each
+   request.
+
+   .. method:: setup()
+
+      Called before the :meth:`handle` method to perform any initialization actions
+      required.  The default implementation does nothing.
+
+      This function must do all the work required to service a request.  The
+      default implementation does nothing.  Several instance attributes are
+      available to it; the request is available as :attr:`self.request`; the client
+      address as :attr:`self.client_address`; and the server instance as
+      :attr:`self.server`, in case it needs access to per-server information.
+
+      The type of :attr:`self.request` is different for datagram or stream
+      services.  For stream services, :attr:`self.request` is a socket object; for
+      datagram services, :attr:`self.request` is a pair of string and socket.
+
+   .. method:: finish()
+
+      Called after the :meth:`handle` method to perform any clean-up actions
+      required.  The default implementation does nothing.  If :meth:`setup`
+      raises an exception, this function will not be called.
+
+.. class:: StreamRequestHandler
+           DatagramRequestHandler
+
+   These :class:`BaseRequestHandler` subclasses override the
+   :meth:`~BaseRequestHandler.setup` and :meth:`~BaseRequestHandler.finish`
+   methods, and provide :attr:`self.rfile` and :attr:`self.wfile` attributes.
+   The :attr:`self.rfile` and :attr:`self.wfile` attributes can be
+   read or written, respectively, to get the request data or return data
+   to the client.
+
+This is the server side::
+
+       It is instantiated once per connection to the server, and must
+       override the handle() method to implement communication to the
+       client.
+       """
+
+       def handle(self):
+           # self.request is the TCP socket connected to the client
+           self.data = self.request.recv(1024).strip()
+           print "{} wrote:".format(self.client_address[0])
+           print self.data
+           # just send back the same data, but upper-cased
+           self.request.sendall(self.data.upper())
+
+   if __name__ == "__main__":
+       HOST, PORT = "localhost", 9999
+
+       # Activate the server; this will keep running until you
+       # interrupt the program with Ctrl-C
+       server.serve_forever()
+
+An alternative request handler class that makes use of streams (file-like
+objects that simplify communication by providing the standard file interface)::
+
+       def handle(self):
+           # self.rfile is a file-like object created by the handler;
+           # we can now use e.g. readline() instead of raw recv() calls
+           self.data = self.rfile.readline().strip()
+           print "{} wrote:".format(self.client_address[0])
+           print self.data
+           # Likewise, self.wfile is a file-like object used to write back
+           # to the client
+           self.wfile.write(self.data.upper())
+
+The difference is that the ``readline()`` call in the second handler will call
+``recv()`` multiple times until it encounters a newline character, while the
+single ``recv()`` call in the first handler will just return what has been sent
+from the client in one ``sendall()`` call.
+
+This is the client side::
+
+   import socket
+   import sys
+
+   HOST, PORT = "localhost", 9999
+   data = " ".join(sys.argv[1:])
+
+   # Create a socket (SOCK_STREAM means a TCP socket)
+   sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+   try:
+       # Connect to server and send data
+       sock.connect((HOST, PORT))
+       sock.sendall(data + "\n")
+
+       # Receive data from the server and shut down
+       received = sock.recv(1024)
+   finally:
+       sock.close()
+
+   print "Sent:     {}".format(data)
+   print "Received: {}".format(received)
+
+The output of the example should look something like this:
+
+Server:
+
+.. code-block:: shell-session
+
+   $ python TCPServer.py
+   127.0.0.1 wrote:
+   hello world with TCP
+   127.0.0.1 wrote:
+   python is nice
+
+Client:
+
+   $ python TCPClient.py hello world with TCP
+   Sent:     hello world with TCP
+   Received: HELLO WORLD WITH TCP
+   $ python TCPClient.py python is nice
+   Sent:     python is nice
+   Received: PYTHON IS NICE
+
+       def handle(self):
+           data = self.request[0].strip()
+           socket = self.request[1]
+           print "{} wrote:".format(self.client_address[0])
+           print data
+           socket.sendto(data.upper(), self.client_address)
+
+   # SOCK_DGRAM is the socket type to use for UDP sockets
+   sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+   # As you can see, there is no connect() call; UDP has no connections.
+   # Instead, data is directly sent to the recipient via sendto().
+   sock.sendto(data + "\n", (HOST, PORT))
+   received = sock.recv(1024)
+
+The output of the example should look exactly like for the TCP server example.
+
+Asynchronous Mixins
+~~~~~~~~~~~~~~~~~~~
+
+To build asynchronous handlers, use the :class:`ThreadingMixIn` and
+:class:`ForkingMixIn` classes.
+
+An example for the :class:`ThreadingMixIn` class::
+
+   def client(ip, port, message):
+       sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+       sock.connect((ip, port))
+       try:
+           sock.sendall(message)
+           response = sock.recv(1024)
+           print "Received: {}".format(response)
+       finally:
+           sock.close()
+
+   if __name__ == "__main__":
+       # Port 0 means to select an arbitrary unused port
+       HOST, PORT = "localhost", 0
+
+       server = ThreadedTCPServer((HOST, PORT), ThreadedTCPRequestHandler)
+       ip, port = server.server_address
+
+       client(ip, port, "Hello World 1")
+       client(ip, port, "Hello World 2")
+       client(ip, port, "Hello World 3")
+
+       server.shutdown()
+       server.server_close()
+
+The :class:`ForkingMixIn` class is used in the same way, except that the server
+will spawn a new process for each request.
+Available only on POSIX platforms that support :func:`~os.fork`.
+
+
+Example usage::
+
+   # Retrieve file contents -- this will be
+   # 'First line.\nSecond line.\n'
+   contents = output.getvalue()
+
+   # Close object and discard memory buffer --
+   # .getvalue() will now raise an exception.
+   output.close()
+
+The following data objects are provided as well:
+
+.. data:: InputType
+
+.. data:: OutputType
+
+There is a C API to the module as well; refer to the module source for  more
+information.
+
+.. index::
+   single: light-weight processes
+   single: processes, light-weight
+   single: binary semaphores
+   single: semaphores, binary
+
+It defines the following constant and functions:
+
+.. exception:: error
+
+.. data:: LockType
+
+   This is the type of lock objects.
+
+.. function:: interrupt_main()
+
+.. function:: exit()
+
+..
+   function:: exit_prog(status)
+
+.. function:: allocate_lock()
+
+   Return a new lock object.  Methods of locks are described below.  The lock is
+   initially unlocked.
+
+.. function:: get_ident()
+
+.. function:: stack_size([size])
+
+Lock objects have the following methods:
+
+.. method:: lock.acquire([waitflag])
+
+.. method:: lock.release()
+
+.. method:: lock.locked()
+
+In addition to these methods, lock objects can also be used via the
+:keyword:`with` statement, e.g.::
+
+   with a_lock:
+       print "a_lock is locked while this executes"
+
+**Caveats:**
+
+  .. index:: module: signal
+
+* It is not possible to interrupt the :meth:`acquire` method on a lock --- the
+  :exc:`KeyboardInterrupt` exception will happen after the lock has been acquired.
+
+.. index::
+   single: WWW
+   single: World Wide Web
+   single: URL
+   pair: URL; parsing
+   pair: relative; URL
+
+This module defines a standard interface to break Uniform Resource Locator (URL)
+strings up in components (addressing scheme, network location, path etc.), to
+combine the components back into a URL string, and to convert a "relative URL"
+to an absolute URL given a "base URL."
+
+The module has been designed to match the Internet RFC on Relative Uniform
+Resource Locators. It supports the following URL schemes: ``file``, ``ftp``,
+``gopher``, ``hdl``, ``http``, ``https``, ``imap``, ``mailto``, ``mms``,
+``news``,  ``nntp``, ``prospero``, ``rsync``, ``rtsp``, ``rtspu``,  ``sftp``,
+``shttp``, ``sip``, ``sips``, ``snews``, ``svn``,  ``svn+ssh``, ``telnet``,
+``wais``.
+
+.. versionadded:: 2.5
+   Support for the ``sftp`` and ``sips`` schemes.
+
+   Parse a URL into six components, returning a 6-tuple.  This corresponds to the
+   general structure of a URL: ``scheme://netloc/path;parameters?query#fragment``.
+   Each tuple item is a string, possibly empty. The components are not broken up in
+   smaller parts (for example, the network location is a single string), and %
+   escapes are not expanded. The delimiters as shown above are not part of the
+   result, except for a leading slash in the *path* component, which is retained if
+   present.  For example:
+
+   If the *scheme* argument is specified, it gives the default addressing
+   scheme, to be used only if the URL does not specify one.  The default value for
+   this argument is the empty string.
+
+   If the *allow_fragments* argument is false, fragment identifiers are not
+   recognized and parsed as part of the preceding component, even if the URL's
+   addressing scheme normally does support them.  The default value for this
+   argument is :const:`True`.
+
+   The return value is actually an instance of a subclass of :class:`tuple`.  This
+   class has the following additional read-only convenience attributes:
+
+   +------------------+-------+--------------------------+----------------------+
+   | Attribute        | Index | Value                    | Value if not present |
+   +==================+=======+==========================+======================+
+   | :attr:`scheme`   | 0     | URL scheme specifier     | *scheme* parameter   |
+   +------------------+-------+--------------------------+----------------------+
+   | :attr:`netloc`   | 1     | Network location part    | empty string         |
+   +------------------+-------+--------------------------+----------------------+
+   | :attr:`path`     | 2     | Hierarchical path        | empty string         |
+   +------------------+-------+--------------------------+----------------------+
+   | :attr:`params`   | 3     | Parameters for last path | empty string         |
+   |                  |       | element                  |                      |
+   +------------------+-------+--------------------------+----------------------+
+   | :attr:`query`    | 4     | Query component          | empty string         |
+   +------------------+-------+--------------------------+----------------------+
+   | :attr:`fragment` | 5     | Fragment identifier      | empty string         |
+   +------------------+-------+--------------------------+----------------------+
+   | :attr:`username` |       | User name                | :const:`None`        |
+   +------------------+-------+--------------------------+----------------------+
+   | :attr:`password` |       | Password                 | :const:`None`        |
+   +------------------+-------+--------------------------+----------------------+
+   | :attr:`hostname` |       | Host name (lower case)   | :const:`None`        |
+   +------------------+-------+--------------------------+----------------------+
+   | :attr:`port`     |       | Port number as integer,  | :const:`None`        |
+   |                  |       | if present               |                      |
+   +------------------+-------+--------------------------+----------------------+
+
+   Characters in the :attr:`netloc` attribute that decompose under NFKC
+   normalization (as used by the IDNA encoding) into any of ``/``, ``?``,
+   ``#``, ``@``, or ``:`` will raise a :exc:`ValueError`. If the URL is
+   decomposed before parsing, or is not a Unicode string, no error will be
+   raised.
+
+   .. versionchanged:: 2.5
+      Added attributes to return value.
+
+   .. versionchanged:: 2.7
+      Added IPv6 URL parsing capabilities.
+
+   .. versionchanged:: 2.7.17
+      Characters that affect netloc parsing under NFKC normalization will
+      now raise :exc:`ValueError`.
+
+.. function:: parse_qs(qs[, keep_blank_values[, strict_parsing[, max_num_fields]]])
+
+   Parse a query string given as a string argument (data of type
+   :mimetype:`application/x-www-form-urlencoded`).  Data are returned as a
+   dictionary.  The dictionary keys are the unique query variable names and the
+   values are lists of values for each name.
+
+   The optional argument *keep_blank_values* is a flag indicating whether blank
+   values in percent-encoded queries should be treated as blank strings.   A true value
+   indicates that blanks should be retained as  blank strings.  The default false
+   value indicates that blank values are to be ignored and treated as if they were
+   not included.
+
+   The optional argument *strict_parsing* is a flag indicating what to do with
+   parsing errors.  If false (the default), errors are silently ignored.  If true,
+   errors raise a :exc:`ValueError` exception.
+
+   The optional argument *max_num_fields* is the maximum number of fields to
+   read. If set, then throws a :exc:`ValueError` if there are more than
+   *max_num_fields* fields read.
+
+   Use the :func:`urllib.urlencode` function to convert such dictionaries into
+   query strings.
+
+   .. versionadded:: 2.6
+      Copied from the :mod:`cgi` module.
+
+   .. versionchanged:: 2.7.16
+      Added *max_num_fields* parameter.
+
+.. function:: parse_qsl(qs[, keep_blank_values[, strict_parsing[, max_num_fields]]])
+
+   Parse a query string given as a string argument (data of type
+   :mimetype:`application/x-www-form-urlencoded`).  Data are returned as a list of
+   name, value pairs.
+
+   Use the :func:`urllib.urlencode` function to convert such lists of pairs into
+   query strings.
+
+.. function:: urlunparse(parts)
+
+.. function:: urlsplit(urlstring[, scheme[, allow_fragments]])
+
+   +------------------+-------+-------------------------+----------------------+
+   | Attribute        | Index | Value                   | Value if not present |
+   +==================+=======+=========================+======================+
+   | :attr:`scheme`   | 0     | URL scheme specifier    | *scheme* parameter   |
+   +------------------+-------+-------------------------+----------------------+
+   | :attr:`netloc`   | 1     | Network location part   | empty string         |
+   +------------------+-------+-------------------------+----------------------+
+   | :attr:`path`     | 2     | Hierarchical path       | empty string         |
+   +------------------+-------+-------------------------+----------------------+
+   | :attr:`query`    | 3     | Query component         | empty string         |
+   +------------------+-------+-------------------------+----------------------+
+   | :attr:`fragment` | 4     | Fragment identifier     | empty string         |
+   +------------------+-------+-------------------------+----------------------+
+   | :attr:`username` |       | User name               | :const:`None`        |
+   +------------------+-------+-------------------------+----------------------+
+   | :attr:`password` |       | Password                | :const:`None`        |
+   +------------------+-------+-------------------------+----------------------+
+   | :attr:`hostname` |       | Host name (lower case)  | :const:`None`        |
+   +------------------+-------+-------------------------+----------------------+
+   | :attr:`port`     |       | Port number as integer, | :const:`None`        |
+   |                  |       | if present              |                      |
+   +------------------+-------+-------------------------+----------------------+
+
+   .. versionadded:: 2.2
+
+.. function:: urlunsplit(parts)
+
+   Combine the elements of a tuple as returned by :func:`urlsplit` into a complete
+   URL as a string. The *parts* argument can be any five-item iterable. This may
+   result in a slightly different, but equivalent URL, if the URL that was parsed
+   originally had unnecessary delimiters (for example, a ? with an empty query; the
+   RFC states that these are equivalent).
+
+.. function:: urljoin(base, url[, allow_fragments])
+
+   Construct a full ("absolute") URL by combining a "base URL" (*base*) with
+   another URL (*url*).  Informally, this uses components of the base URL, in
+   particular the addressing scheme, the network location and (part of) the path,
+   to provide missing components in the relative URL.  For example:
+
+      If *url* is an absolute URL (that is, starting with ``//`` or ``scheme://``),
+      the *url*'s host name and/or scheme will be present in the result.  For example:
+
+      >>> urljoin('http://www.cwi.nl/%7Eguido/Python.html',
+      ...         '//www.python.org/%7Eguido')
+      'http://www.python.org/%7Eguido'
+
+.. function:: urldefrag(url)
+
+   If *url* contains a fragment identifier, returns a modified version of *url*
+   with no fragment identifier, and the fragment identifier as a separate string.
+   If there is no fragment identifier in *url*, returns *url* unmodified and an
+   empty string.
+
+   :rfc:`2732` - Format for Literal IPv6 Addresses in URL's.
+      This specifies the parsing requirements of IPv6 URLs.
+
+   :rfc:`2396` - Uniform Resource Identifiers (URI): Generic Syntax
+      Document describing the generic syntactic requirements for both Uniform Resource
+      Names (URNs) and Uniform Resource Locators (URLs).
+
+   :rfc:`2368` - The mailto URL scheme.
+      Parsing requirements for mailto URL schemes.
+
+   :rfc:`1808` - Relative Uniform Resource Locators
+      This Request For Comments includes the rules for joining an absolute and a
+      relative URL, including a fair number of "Abnormal Examples" which govern the
+      treatment of border cases.
+
+   :rfc:`1738` - Uniform Resource Locators (URL)
+      This specifies the formal syntax and semantics of absolute URLs.
+
+.. method:: ParseResult.geturl()
+
+   Return the re-combined version of the original URL as a string. This may differ
+   from the original URL in that the scheme will always be normalized to lower case
+   and empty components may be dropped. Specifically, empty parameters, queries,
+   and fragment identifiers will be removed.
+
+   The result of this method is a fixpoint if passed back through the original
+   parsing function:
+
+The following classes provide the implementations of the parse results:
+
+.. class:: ParseResult(scheme, netloc, path, params, query, fragment)
+
+.. class:: SplitResult(scheme, netloc, path, query, fragment)
+
+   Concrete class for :func:`urlsplit` results.
+
+.. XXX Not everything is documented yet.  It might be good to describe
+   Marshaller, Unmarshaller, getparser, dumps, loads, and Transport.
+
+XML-RPC is a Remote Procedure Call method that uses XML passed via HTTP(S) as a
+transport.  With it, a client can call methods with parameters on a remote
+server (the server is named by a URI) and get back structured data.  This module
+supports writing XML-RPC client code; it handles all the details of translating
+between conformable Python objects and XML on the wire.
+
+.. versionchanged:: 2.7.9
+
+.. class:: ServerProxy(uri[, transport[, encoding[, verbose[, allow_none[, use_datetime[, context]]]]]])
+
+   A :class:`ServerProxy` instance is an object that manages communication with a
+   remote XML-RPC server.  The required first argument is a URI (Uniform Resource
+   Indicator), and will normally be the URL of the server.  The optional second
+   argument is a transport factory instance; by default it is an internal
+   :class:`SafeTransport` instance for https: URLs and an internal HTTP
+   :class:`Transport` instance otherwise.  The optional third argument is an
+   encoding, by default UTF-8. The optional fourth argument is a debugging flag.
+
+   The following parameters govern the use of the returned proxy instance.
+   If *allow_none* is true,  the Python constant ``None`` will be translated into
+   XML; the default behaviour is for ``None`` to raise a :exc:`TypeError`. This is
+   a commonly-used extension to the XML-RPC specification, but isn't supported by
+   all clients and servers; see `http://ontosys.com/xml-rpc/extensions.php
+   <https://web.archive.org/web/20130120074804/http://ontosys.com/xml-rpc/extensions.php>`_
+   for a description.
+   The *use_datetime* flag can be used to cause date/time values to
+   be presented as :class:`datetime.datetime` objects; this is false by default.
+   :class:`datetime.datetime` objects may be passed to calls.
+
+   Both the HTTP and HTTPS transports support the URL syntax extension for HTTP
+   Basic Authentication: ``http://user:pass@host:port/path``.  The ``user:pass``
+   portion will be base64-encoded as an HTTP 'Authorization' header, and sent to
+   the remote server as part of the connection process when invoking an XML-RPC
+   method.  You only need to use this if the remote server requires a Basic
+   Authentication user and password. If an HTTPS URL is provided, *context* may
+   be :class:`ssl.SSLContext` and configures the SSL settings of the underlying
+   HTTPS connection.
+
+   The returned instance is a proxy object with methods that can be used to invoke
+   corresponding RPC calls on the remote server.  If the remote server supports the
+   introspection API, the proxy can also be used to query the remote server for the
+   methods it supports (service discovery) and fetch other server-associated
+   metadata.
+
+   Types that are conformable (e.g. that can be marshalled through XML),
+   include the following (and except where noted, they are unmarshalled
+   as the same Python type):
+
+   .. tabularcolumns:: |l|L|
+
+   +----------------------+-------------------------------------------------------+
+   | XML-RPC type         | Python type                                           |
+   +======================+=======================================================+
+   | ``boolean``          | :class:`bool`                                         |
+   +----------------------+-------------------------------------------------------+
+   | ``int`` or ``i4``    | :class:`int` or :class:`long` in range from           |
+   |                      | -2147483648 to 2147483647.                            |
+   +----------------------+-------------------------------------------------------+
+   | ``double``           | :class:`float`                                        |
+   +----------------------+-------------------------------------------------------+
+   | ``string``           | :class:`str` or :class:`unicode`                      |
+   +----------------------+-------------------------------------------------------+
+   | ``array``            | :class:`list` or :class:`tuple` containing            |
+   |                      | conformable elements.  Arrays are returned as         |
+   |                      | :class:`lists <list>`.                                |
+   +----------------------+-------------------------------------------------------+
+   | ``struct``           | :class:`dict`.  Keys must be strings, values may be   |
+   |                      | any conformable type.  Objects of user-defined        |
+   |                      | classes can be passed in; only their                  |
+   |                      | :attr:`~object.__dict__` attribute is transmitted.    |
+   +----------------------+-------------------------------------------------------+
+   | ``dateTime.iso8601`` | :class:`DateTime` or :class:`datetime.datetime`.      |
+   |                      | Returned type depends on values of the *use_datetime* |
+   |                      | flags.                                                |
+   +----------------------+-------------------------------------------------------+
+   | ``base64``           | :class:`Binary`                                       |
+   +----------------------+-------------------------------------------------------+
+   | ``nil``              | The ``None`` constant.  Passing is allowed only if    |
+   |                      | *allow_none* is true.                                 |
+   +----------------------+-------------------------------------------------------+
+
+   When passing strings, characters special to XML such as ``<``, ``>``, and ``&``
+   will be automatically escaped.  However, it's the caller's responsibility to
+   ensure that the string is free of characters that aren't allowed in XML, such as
+   the control characters with ASCII values between 0 and 31 (except, of course,
+   tab, newline and carriage return); failing to do this will result in an XML-RPC
+   request that isn't well-formed XML.  If you have to pass arbitrary strings via
+   XML-RPC, use the :class:`Binary` wrapper class described below.
+
+   :class:`Server` is retained as an alias for :class:`ServerProxy` for backwards
+   compatibility.  New code should use :class:`ServerProxy`.
+
+   .. versionchanged:: 2.5
+      The *use_datetime* flag was added.
+
+   .. versionchanged:: 2.6
+      Instances of :term:`new-style class`\es can be passed in if they have an
+      *__dict__* attribute and don't have a base class that is marshalled in a
+      special way.
+
+   .. versionchanged:: 2.7.9
+      Added the *context* argument.
+
+   `XML-RPC HOWTO <http://www.tldp.org/HOWTO/XML-RPC-HOWTO/index.html>`_
+      A good description of XML-RPC operation and client software in several languages.
+      Contains pretty much everything an XML-RPC client developer needs to know.
+
+   `XML-RPC Introspection <http://xmlrpc-c.sourceforge.net/introspection.html>`_
+      Describes the XML-RPC protocol extension for introspection.
+
+   `XML-RPC Specification <http://www.xmlrpc.com/spec>`_
+      The official specification.
+
+   `Unofficial XML-RPC Errata <http://effbot.org/zone/xmlrpc-errata.htm>`_
+      Fredrik Lundh's "unofficial errata, intended to clarify certain
+      details in the XML-RPC specification, as well as hint at
+      'best practices' to use when designing your own XML-RPC
+      implementations."
+
+.. _serverproxy-objects:
+
+ServerProxy Objects
+-------------------
+
+A :class:`ServerProxy` instance has a method corresponding to each remote
+procedure call accepted by the XML-RPC server.  Calling the method performs an
+RPC, dispatched by both name and argument signature (e.g. the same method name
+can be overloaded with multiple argument signatures).  The RPC finishes by
+returning a value, which may be either returned data in a conformant type or a
+:class:`Fault` or :class:`ProtocolError` object indicating an error.
+
+Servers that support the XML introspection API support some common methods
+grouped under the reserved :attr:`~ServerProxy.system` attribute:
+
+.. method:: ServerProxy.system.listMethods()
+
+   This method returns a list of strings, one for each (non-system) method
+   supported by the XML-RPC server.
+
+.. method:: ServerProxy.system.methodSignature(name)
+
+   This method takes one parameter, the name of a method implemented by the XML-RPC
+   server. It returns an array of possible signatures for this method. A signature
+   is an array of types. The first of these types is the return type of the method,
+   the rest are parameters.
+
+   Because multiple signatures (ie. overloading) is permitted, this method returns
+   a list of signatures rather than a singleton.
+
+   Signatures themselves are restricted to the top level parameters expected by a
+   method. For instance if a method expects one array of structs as a parameter,
+   and it returns a string, its signature is simply "string, array". If it expects
+   three integers and returns a string, its signature is "string, int, int, int".
+
+   If no signature is defined for the method, a non-array value is returned. In
+   Python this means that the type of the returned  value will be something other
+   than list.
+
+.. method:: ServerProxy.system.methodHelp(name)
+
+   This method takes one parameter, the name of a method implemented by the XML-RPC
+   server.  It returns a documentation string describing the use of that method. If
+   no such string is available, an empty string is returned. The documentation
+   string may contain HTML markup.
+
+.. _boolean-objects:
+
+Boolean Objects
+---------------
+
+It also has the following method, supported mainly for internal use by the
+unmarshalling code:
+
+.. method:: Boolean.encode(out)
+
+   Write the XML-RPC encoding of this Boolean item to the out stream object.
+
+A working example follows. The server code::
+
+   def is_even(n):
+       return n % 2 == 0
+
+The client code for the preceding server::
+
+.. _datetime-objects:
+
+DateTime Objects
+----------------
+
+.. class:: DateTime
+
+   This class may be initialized with seconds since the epoch, a time
+   tuple, an ISO 8601 time/date string, or a :class:`datetime.datetime`
+   instance.  It has the following methods, supported mainly for internal
+   use by the marshalling/unmarshalling code:
+
+   .. method:: decode(string)
+
+      Accept a string as the instance's new time value.
+
+   .. method:: encode(out)
+
+      Write the XML-RPC encoding of this :class:`DateTime` item to the *out* stream
+      object.
+
+   today = proxy.today()
+   # convert the ISO8601 string to a datetime object
+   converted = datetime.datetime.strptime(today.value, "%Y%m%dT%H:%M:%S")
+   print "Today: %s" % converted.strftime("%d.%m.%Y, %H:%M")
+
+.. _binary-objects:
+
+Binary Objects
+--------------
+
+.. class:: Binary
+
+   This class may be initialized from string data (which may include NULs). The
+   primary access to the content of a :class:`Binary` object is provided by an
+   attribute:
+
+   .. attribute:: data
+
+      The binary data encapsulated by the :class:`Binary` instance.  The data is
+      provided as an 8-bit string.
+
+   :class:`Binary` objects have the following methods, supported mainly for
+   internal use by the marshalling/unmarshalling code:
+
+      Accept a base64 string and decode it as the instance's new data.
+
+      Write the XML-RPC base 64 encoding of this binary item to the *out* stream object.
+
+      The encoded data will have newlines every 76 characters as per
+      `RFC 2045 section 6.8 <https://tools.ietf.org/html/rfc2045#section-6.8>`_,
+      which was the de facto standard base64 specification when the
+      XML-RPC spec was written.
+
+   It also supports certain of Python's built-in operators through a
+   :meth:`__cmp__` method.
+
+Example usage of the binary objects.  We're going to transfer an image over
+XMLRPC::
+
+   server.serve_forever()
+
+The client gets the image and saves it to a file::
+
+.. _fault-objects:
+
+Fault Objects
+-------------
+
+.. class:: Fault
+
+   A :class:`Fault` object encapsulates the content of an XML-RPC fault tag. Fault
+   objects have the following attributes:
+
+   .. attribute:: faultCode
+
+      A string indicating the fault type.
+
+   .. attribute:: faultString
+
+      A string containing a diagnostic message associated with the fault.
+
+In the following example we're going to intentionally cause a :exc:`Fault` by
+returning a complex type object.  The server code::
+
+   # A marshalling error is going to occur because we're returning a
+   # complex number
+   def add(x, y):
+       return x+y+0j
+
+.. _protocol-error-objects:
+
+ProtocolError Objects
+---------------------
+
+.. class:: ProtocolError
+
+   A :class:`ProtocolError` object describes a protocol error in the underlying
+   transport layer (such as a 404 'not found' error if the server named by the URI
+   does not exist).  It has the following attributes:
+
+   .. attribute:: url
+
+      The URI or URL that triggered the error.
+
+   .. attribute:: errcode
+
+      The error code.
+
+   .. attribute:: errmsg
+
+      The error message or diagnostic string.
+
+      A string containing the headers of the HTTP/HTTPS request that triggered the
+      error.
+
+In the following example we're going to intentionally cause a :exc:`ProtocolError`
+by providing a URI that doesn't point to an XMLRPC server::
+
+MultiCall Objects
+-----------------
+
+The :class:`MultiCall` object provides a way to encapsulate multiple calls to a
+remote server into a single request [#]_.
+
+.. class:: MultiCall(server)
+
+   Create an object used to boxcar method calls. *server* is the eventual target of
+   the call. Calls can be made to the result object, but they will immediately
+   return ``None``, and only store the call name and parameters in the
+   :class:`MultiCall` object. Calling the object itself causes all stored calls to
+   be transmitted as a single ``system.multicall`` request. The result of this call
+   is a :term:`generator`; iterating over this generator yields the individual
+   results.
+
+A usage example of this class follows.  The server code ::
+
+   def add(x,y):
+       return x+y
+
+   def subtract(x, y):
+       return x-y
+
+   def multiply(x, y):
+       return x*y
+
+   def divide(x, y):
+       return x/y
+
+   print "7+3=%d, 7-3=%d, 7*3=%d, 7/3=%d" % tuple(result)
+
+Convenience Functions
+---------------------
+
+.. function:: boolean(value)
+
+   Convert any Python value to one of the XML-RPC Boolean constants, ``True`` or
+   ``False``.
+
+.. function:: dumps(params[, methodname[,  methodresponse[, encoding[, allow_none]]]])
+
+   Convert *params* into an XML-RPC request. or into a response if *methodresponse*
+   is true. *params* can be either a tuple of arguments or an instance of the
+   :exc:`Fault` exception class.  If *methodresponse* is true, only a single value
+   can be returned, meaning that *params* must be of length 1. *encoding*, if
+   supplied, is the encoding to use in the generated XML; the default is UTF-8.
+   Python's :const:`None` value cannot be used in standard XML-RPC; to allow using
+   it via an extension,  provide a true value for *allow_none*.
+
+.. function:: loads(data[, use_datetime])
+
+.. _xmlrpc-client-example:
+
+Example of Client Usage
+-----------------------
+
+::
+
+   # server = ServerProxy("http://localhost:8000") # local server
+   server = ServerProxy("http://betty.userland.com")
+
+   print server
+
+   try:
+       print server.examples.getStateName(41)
+   except Error as v:
+       print "ERROR", v
+
+To access an XML-RPC server through a HTTP proxy, you need to define a custom
+transport.  The following example shows how:
+
+.. Example taken from http://lowlife.jp/nobonobo/wiki/xmlrpcwithproxy.html
+
+       def send_request(self, connection, handler, request_body):
+           connection.putrequest("POST", 'http://%s%s' % (self.realhost, handler))
+
+       def send_host(self, connection, host):
+           connection.putheader('Host', self.realhost)
+
+Example of Client and Server Usage
+----------------------------------
+
+See :ref:`simplexmlrpcserver-example`.
+
+.. [#] This approach has been first presented in `a discussion on xmlrpc.com
+   <https://web.archive.org/web/20060624230303/http://www.xmlrpc.com/discuss/msgReader$1208?mode=topic>`_.
+.. the link now points to webarchive since the one at
+.. http://www.xmlrpc.com/discuss/msgReader%241208 is broken (and webadmin
+.. doesn't reply)

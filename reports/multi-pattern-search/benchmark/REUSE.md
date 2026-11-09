@@ -19,7 +19,7 @@ The whole series constructs one object, processes the same string B times, relea
 | gcc15 | `getMatchedKeywords()`; 4096 B; 128 keys; 4 occurrences | 16 | preg_grouped_unique: 1702.149 | 125.107 | -92.66% |
 | clang21 | `matches()`; 4096 B; 128 keys; 0 occurrences | 64 | preg_match_chunks: 6396.260 | 269.862 | -95.79% |
 | gcc15 | `matchAll()`; 65536 B; 1024 keys; 16 occurrences | 16 | strpos_all: 246929.518 | 3884.404 | -98.43% |
-| clang21 | `getMatchedKeywords()`; 4096 B; 128 keys; 4 occurrences | 16 | preg_grouped_unique: 1706.092† | 115.408† | † |
+| clang21 | `getMatchedKeywords()`; 4096 B; 128 keys; 4 occurrences | 16 | preg_grouped_unique: 1706.092† | 115.408† | -93.25%† |
 | clang21 | `matches()`; 4096 B; 128 keys; 0 occurrences | 16 | preg_match_chunks: 1599.645 | 107.011 | -93.32% |
 | gcc15 | `matches()`; 128 B; 128 keys; 0 occurrences | 16 | preg_match_chunks: 47.739 | 54.221 | +13.67% |
 | clang21 | `getMatchedKeywords()`; 4096 B; 128 keys; 4 occurrences | 4 | preg_grouped_unique: 427.160 | 67.047 | -84.31% |

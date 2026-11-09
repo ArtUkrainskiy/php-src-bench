@@ -1,0 +1,57 @@
+{
+  "id": "technical.all.n8.b256.single",
+  "operation": "all",
+  "policy": "case-sensitive",
+  "documents": [
+    "subject"
+  ],
+  "modes": [
+    "prepared"
+  ],
+  "methods": [
+    "native",
+    "string_loop",
+    "preg_literal",
+    "preg_trie"
+  ],
+  "expected": {
+    "subject": [
+      {
+        "offset": 124,
+        "length": 8,
+        "keyword": "StringIO"
+      }
+    ]
+  },
+  "keys": 8,
+  "bytes": 256,
+  "background": "technical",
+  "condition": "single",
+  "occurrences": 1,
+  "unique_matched_keys": 1,
+  "first_offset": 124,
+  "dictionary": {
+    "keys": [
+      "StringIO",
+      "cStringIO",
+      "cPickle",
+      "__builtin__",
+      "copy_reg",
+      "Queue",
+      "SocketServer",
+      "ConfigParser"
+    ],
+    "replacements": {
+      "StringIO": "io",
+      "cStringIO": "io",
+      "cPickle": "pickle",
+      "__builtin__": "builtins",
+      "copy_reg": "copyreg",
+      "Queue": "queue",
+      "SocketServer": "socketserver",
+      "ConfigParser": "configparser"
+    }
+  },
+  "subject": "--------------\n\n.. class:: HTTPServer(server_address, RequestHandlerClass)\n\n   This class builds on the :class:`TCPServer`  StringIO toring the server\n   address as instance variables named :attr:`server_name` and\n   :attr:`server_port`. The server is acce",
+  "subject_sha256": "f6cbd39f78642404f62efff2e91c5af8d470968fbc2a5ceec69cfa30bbc0be8b"
+}

@@ -1,0 +1,68 @@
+{
+  "id": "comments.any.n16.b128.absent",
+  "operation": "any",
+  "policy": "case-sensitive",
+  "documents": [
+    "subject"
+  ],
+  "modes": [
+    "prepared"
+  ],
+  "methods": [
+    "native",
+    "string_loop",
+    "preg_literal",
+    "preg_trie",
+    "contains_loop"
+  ],
+  "expected": {
+    "subject": false
+  },
+  "keys": 16,
+  "bytes": 128,
+  "background": "comments",
+  "condition": "absent",
+  "occurrences": 0,
+  "unique_matched_keys": 0,
+  "first_offset": null,
+  "dictionary": {
+    "keys": [
+      "StringIO",
+      "cStringIO",
+      "cPickle",
+      "__builtin__",
+      "copy_reg",
+      "Queue",
+      "SocketServer",
+      "ConfigParser",
+      "repr",
+      "FileDialog",
+      "tkFileDialog",
+      "SimpleDialog",
+      "tkSimpleDialog",
+      "tkColorChooser",
+      "tkCommonDialog",
+      "Dialog"
+    ],
+    "replacements": {
+      "StringIO": "io",
+      "cStringIO": "io",
+      "cPickle": "pickle",
+      "__builtin__": "builtins",
+      "copy_reg": "copyreg",
+      "Queue": "queue",
+      "SocketServer": "socketserver",
+      "ConfigParser": "configparser",
+      "repr": "reprlib",
+      "FileDialog": "tkinter.filedialog",
+      "tkFileDialog": "tkinter.filedialog",
+      "SimpleDialog": "tkinter.simpledialog",
+      "tkSimpleDialog": "tkinter.simpledialog",
+      "tkColorChooser": "tkinter.colorchooser",
+      "tkCommonDialog": "tkinter.commondialog",
+      "Dialog": "tkinter.dialog"
+    }
+  },
+  "subject": "[ Integrity means that you pay your debts.]\n\nDoes this apply to President Trump too?\n\nThis is malfeasance by the Administrator a",
+  "subject_sha256": "5e65665ae1abdcd36878bdf053a51605b58c335445011dd5e5a02aadec2c196f"
+}

@@ -1,0 +1,68 @@
+{
+  "id": "technical.replace.n16.b128.single",
+  "operation": "replace",
+  "policy": "case-sensitive",
+  "documents": [
+    "subject"
+  ],
+  "modes": [
+    "prepared"
+  ],
+  "methods": [
+    "native",
+    "strtr",
+    "preg_literal_callback",
+    "preg_trie_callback",
+    "str_replace"
+  ],
+  "expected": {
+    "subject": "--------------\n\n.. class:: HTTPServer(server_address, Reque io lass)\n\n   This class builds on the :class:`TCPServer` class"
+  },
+  "keys": 16,
+  "bytes": 128,
+  "background": "technical",
+  "condition": "single",
+  "occurrences": 1,
+  "unique_matched_keys": 1,
+  "first_offset": 60,
+  "dictionary": {
+    "keys": [
+      "StringIO",
+      "cStringIO",
+      "cPickle",
+      "__builtin__",
+      "copy_reg",
+      "Queue",
+      "SocketServer",
+      "ConfigParser",
+      "repr",
+      "FileDialog",
+      "tkFileDialog",
+      "SimpleDialog",
+      "tkSimpleDialog",
+      "tkColorChooser",
+      "tkCommonDialog",
+      "Dialog"
+    ],
+    "replacements": {
+      "StringIO": "io",
+      "cStringIO": "io",
+      "cPickle": "pickle",
+      "__builtin__": "builtins",
+      "copy_reg": "copyreg",
+      "Queue": "queue",
+      "SocketServer": "socketserver",
+      "ConfigParser": "configparser",
+      "repr": "reprlib",
+      "FileDialog": "tkinter.filedialog",
+      "tkFileDialog": "tkinter.filedialog",
+      "SimpleDialog": "tkinter.simpledialog",
+      "tkSimpleDialog": "tkinter.simpledialog",
+      "tkColorChooser": "tkinter.colorchooser",
+      "tkCommonDialog": "tkinter.commondialog",
+      "Dialog": "tkinter.dialog"
+    }
+  },
+  "subject": "--------------\n\n.. class:: HTTPServer(server_address, Reque StringIO lass)\n\n   This class builds on the :class:`TCPServer` class",
+  "subject_sha256": "4d5bd71f79883606069419a079f1f590d8d861a1e96d9fe94f0898c5f7d9b2f2"
+}

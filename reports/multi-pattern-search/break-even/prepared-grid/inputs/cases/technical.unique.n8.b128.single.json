@@ -1,0 +1,53 @@
+{
+  "id": "technical.unique.n8.b128.single",
+  "operation": "unique",
+  "policy": "case-sensitive",
+  "documents": [
+    "subject"
+  ],
+  "modes": [
+    "prepared"
+  ],
+  "methods": [
+    "native",
+    "string_loop",
+    "preg_literal",
+    "preg_trie"
+  ],
+  "expected": {
+    "subject": [
+      "StringIO"
+    ]
+  },
+  "keys": 8,
+  "bytes": 128,
+  "background": "technical",
+  "condition": "single",
+  "occurrences": 1,
+  "unique_matched_keys": 1,
+  "first_offset": 60,
+  "dictionary": {
+    "keys": [
+      "StringIO",
+      "cStringIO",
+      "cPickle",
+      "__builtin__",
+      "copy_reg",
+      "Queue",
+      "SocketServer",
+      "ConfigParser"
+    ],
+    "replacements": {
+      "StringIO": "io",
+      "cStringIO": "io",
+      "cPickle": "pickle",
+      "__builtin__": "builtins",
+      "copy_reg": "copyreg",
+      "Queue": "queue",
+      "SocketServer": "socketserver",
+      "ConfigParser": "configparser"
+    }
+  },
+  "subject": "--------------\n\n.. class:: HTTPServer(server_address, Reque StringIO lass)\n\n   This class builds on the :class:`TCPServer` class",
+  "subject_sha256": "4d5bd71f79883606069419a079f1f590d8d861a1e96d9fe94f0898c5f7d9b2f2"
+}

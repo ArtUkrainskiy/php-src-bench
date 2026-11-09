@@ -2,7 +2,7 @@
 
 [Summary](../README.md) · [Method](METHOD.md) · [Builds](SOURCE.md) · [Sample arrays](data/elapsed.json.gz)
 
-Each row is one text, one dictionary, one method and one mode. Times for different inputs are not combined. † marks a measurement with a quality flag; no comparative percentage is given.
+Each row is one text, one dictionary, one method and one mode. Times for different inputs are not combined. † marks a quality issue. The observed time and relative change are always shown; actual sample spread and A/A deviation are listed in QUALITY.
 
 ## GCC 15.2
 
@@ -12,7 +12,7 @@ Each row is one text, one dictionary, one method and one mode. Times for differe
 | `Matcher::matches()`; 128 B; dictionary of 128 keys; key lengths 12 B; no matches | `preg_match()`<br>3.048 | 0.186 (-93.88%) | 52.553 (17.2 times slower) |
 | `Matcher::matches()`; 1024 B; dictionary of 16 keys; key lengths 12 B; no matches | `preg_match()`<br>2.434 | 1.006 (-58.71%) | 7.102 (+192.19%) |
 | `Matcher::matches()`; 4096 B; dictionary of 128 keys; key lengths 12 B; no matches | `preg_match()`<br>100.021 | 3.817 (-96.18%) | 58.107 (-42.02%) |
-| `Matcher::matches()`; 4096 B; dictionary of 128 keys; key lengths 12 B; match: byte 8, dictionary key #65 | `preg_match()`<br>0.414 | 0.116† | 52.787 (127.4 times slower) |
+| `Matcher::matches()`; 4096 B; dictionary of 128 keys; key lengths 12 B; match: byte 8, dictionary key #65 | `preg_match()`<br>0.414 | 0.116 (-71.84%)† | 52.787 (127.4 times slower) |
 | `Matcher::matches()`; 4096 B; dictionary of 128 keys; key lengths 12 B; match: byte 2042, dictionary key #65 | `preg_match()`<br>51.972 | 1.986 (-96.17%) | 54.966 (+5.90%) |
 | `Matcher::matches()`; 4096 B; dictionary of 128 keys; key lengths 12 B; match: byte 4076, dictionary key #65 | `str_contains()` loop<br>60.558 | 3.814 (-93.66%) | 57.599 (-4.94%) |
 | `Matcher::matches()`; 16384 B; dictionary of 256 keys; key lengths 12 B; no matches | `preg_match()`<br>701.934 | 15.766 (-97.75%) | 204.331 (-70.87%) |
@@ -20,7 +20,7 @@ Each row is one text, one dictionary, one method and one mode. Times for differe
 | `Matcher::matches()`; 65536 B; dictionary of 1024 keys; key lengths 12 B; no matches | `str_contains()` loop<br>15356.114 | 178.630 (-98.84%) | 939.142 (-93.88%) |
 | `Matcher::matches()`; 65536 B; dictionary of 10000 keys; key lengths 12 B; no matches | `str_contains()` loop<br>149551.204 | 178.909 (-99.88%) | 15094.697 (-89.90%) |
 | `Matcher::matches()`; 4096 B; dictionary of 32 keys; key lengths 12 B; match: byte 4076, dictionary key #1 | `str_contains()` loop<br>1.001 | 3.818 (+282.70%) | 15.867 (15.9 times slower) |
-| `Matcher::matches()`; 4096 B; dictionary of 256 keys; key lengths 12 B; match: byte 4076, dictionary key #1 | `str_contains()` loop<br>1.001 | 3.817† | 166.112 (166.1 times slower) |
+| `Matcher::matches()`; 4096 B; dictionary of 256 keys; key lengths 12 B; match: byte 4076, dictionary key #1 | `str_contains()` loop<br>1.001 | 3.817 (3.8 times slower)† | 166.112 (166.1 times slower) |
 | `Matcher::matches()`; 4096 B; dictionary of 10000 keys; key lengths 12 B; match: byte 8, dictionary key #1 | `str_contains()` loop<br>0.123 | 0.118 (-5.72%) | 14901.378 (121389.2 times slower) |
 | `Matcher::getMatchedKeywords()`; 128 B; dictionary of 128 keys; key lengths 12 B; occurrences: 1; unique matched keys: 1 | `strpos()` loop<br>3.922 | 0.243 (-93.80%) | 52.676 (13.4 times slower) |
 | `Matcher::getMatchedKeywords()`; 128 B; dictionary of 10000 keys; key lengths 12 B; occurrences: 0; unique matched keys: 0 | `strpos()` loop<br>383.113 | 0.274 (-99.93%) | 14888.073 (39.0 times slower) |
@@ -94,13 +94,13 @@ Each row is one text, one dictionary, one method and one mode. Times for differe
 | `Matcher::getMatchedKeywords()`; 128 B; dictionary of 128 keys; key lengths 12 B; occurrences: 1; unique matched keys: 1 | `strpos()` loop<br>4.034 | 0.212 (-94.86%) | 51.901 (12.9 times slower) |
 | `Matcher::getMatchedKeywords()`; 128 B; dictionary of 10000 keys; key lengths 12 B; occurrences: 0; unique matched keys: 0 | `strpos()` loop<br>385.617 | 0.247 (-99.94%) | 15035.059 (39.0 times slower) |
 | `Matcher::getMatchedKeywords()`; 128 B; dictionary of 10000 keys; key lengths 12 B; occurrences: 1; unique matched keys: 1 | `strpos()` loop<br>424.338 | 0.284 (-99.93%) | 15040.569 (35.4 times slower) |
-| `Matcher::getMatchedKeywords()`; 1024 B; dictionary of 128 keys; key lengths 12 B; occurrences: 1; unique matched keys: 1 | `preg_match_all()`<br>26.358 | 0.905† | 52.851 (+100.83%) |
+| `Matcher::getMatchedKeywords()`; 1024 B; dictionary of 128 keys; key lengths 12 B; occurrences: 1; unique matched keys: 1 | `preg_match_all()`<br>26.358 | 0.905 (-96.56%)† | 52.851 (+100.83%) |
 | `Matcher::getMatchedKeywords()`; 4096 B; dictionary of 8 keys; key lengths 12 B; occurrences: 1; unique matched keys: 1 | `strpos()` loop<br>6.535 | 3.494 (-46.41%) | 6.689 (+2.24%) |
 | `Matcher::getMatchedKeywords()`; 4096 B; dictionary of 128 keys; key lengths 12 B; occurrences: 0; unique matched keys: 0 | `preg_match_all()`<br>101.352 | 3.446 (-96.61%) | 56.156 (-44.69%) |
 | `Matcher::getMatchedKeywords()`; 4096 B; dictionary of 128 keys; key lengths 12 B; occurrences: 1; unique matched keys: 1 | `preg_match_all()`<br>102.811 | 3.499 (-96.60%) | 56.524 (-45.20%) |
 | `Matcher::getMatchedKeywords()`; 4096 B; dictionary of 128 keys; key lengths 12 B; occurrences: 4; unique matched keys: 4 | `preg_match_all()`<br>106.651 | 3.597 (-96.64%) | 63.482 (-40.48%) |
 | `Matcher::getMatchedKeywords()`; 4096 B; dictionary of 10000 keys; key lengths 12 B; occurrences: 1; unique matched keys: 1 | `strpos()` loop<br>9096.775 | 3.579 (-99.96%) | 15194.400 (+67.17%) |
-| `Matcher::getMatchedKeywords()`; 16384 B; dictionary of 128 keys; key lengths 12 B; occurrences: 1; unique matched keys: 1 | `preg_match_all()`<br>377.932† | 13.377 (-96.46%) | 114.799† |
+| `Matcher::getMatchedKeywords()`; 16384 B; dictionary of 128 keys; key lengths 12 B; occurrences: 1; unique matched keys: 1 | `preg_match_all()`<br>377.932† | 13.377 (-96.46%) | 114.799 (-69.66%)† |
 | `Matcher::getMatchedKeywords()`; 32768 B; dictionary of 128 keys; key lengths 12 B; occurrences: 1; unique matched keys: 1 | `preg_match_all()`<br>799.114 | 88.143 (-88.97%) | 166.240 (-79.20%) |
 | `Matcher::getMatchedKeywords()`; 65536 B; dictionary of 8 keys; key lengths 12 B; occurrences: 16; unique matched keys: 8 | `strpos()` loop<br>28.499 | 136.700 (+380.03%) | 137.454 (+381.28%) |
 | `Matcher::getMatchedKeywords()`; 65536 B; dictionary of 128 keys; key lengths 12 B; occurrences: 1; unique matched keys: 1 | `preg_match_all()`<br>1617.542 | 173.456 (-89.27%) | 259.835 (-83.93%) |
@@ -117,7 +117,7 @@ Each row is one text, one dictionary, one method and one mode. Times for differe
 | `Matcher::countMatches()`; 16384 B; dictionary of 128 keys; key lengths 12 B; occurrences: 1; unique matched keys: 1 | `preg_match_all()`<br>372.846 | 33.806 (-91.07%) | 115.135 (-69.17%) |
 | `Matcher::countMatches()`; 32768 B; dictionary of 8 keys; key lengths 12 B; occurrences: 1; unique matched keys: 1 | `strpos()` loop<br>53.846 | 88.399 (+64.30%) | 92.535 (+71.92%) |
 | `Matcher::countMatches()`; 32768 B; dictionary of 128 keys; key lengths 12 B; occurrences: 1; unique matched keys: 1 | `preg_match_all()`<br>792.860 | 88.605 (-88.81%) | 166.856 (-78.97%) |
-| `Matcher::countMatches()`; 65536 B; dictionary of 8 keys; key lengths 12 B; occurrences: 1; unique matched keys: 1 | `strpos()` loop<br>108.273† | 171.694 (+58.61%) | 176.665† |
+| `Matcher::countMatches()`; 65536 B; dictionary of 8 keys; key lengths 12 B; occurrences: 1; unique matched keys: 1 | `strpos()` loop<br>108.273† | 171.694 (+58.61%) | 176.665 (+63.38%)† |
 | `Matcher::countMatches()`; 65536 B; dictionary of 128 keys; key lengths 12 B; occurrences: 1; unique matched keys: 1 | `preg_match_all()`<br>1605.950 | 172.034 (-89.26%) | 259.315 (-83.85%) |
 | `Matcher::countMatches()`; 4096 B; dictionary of 128 keys; key lengths 12 B; occurrences: 4; unique matched keys: 1 | `preg_match_all()`<br>102.621 | 3.467 (-96.62%) | 56.136 (-45.32%) |
 | `Matcher::countMatches()`; 65536 B; dictionary of 128 keys; key lengths 12 B; occurrences: 64; unique matched keys: 4 | `preg_match_all()`<br>1668.932 | 173.112 (-89.64%) | 260.696 (-84.36%) |
@@ -125,7 +125,7 @@ Each row is one text, one dictionary, one method and one mode. Times for differe
 | `Matcher::matchAll()`; 128 B; dictionary of 10000 keys; key lengths 12 B; occurrences: 0; unique matched keys: 0 | `strpos()` loop<br>410.733 | 0.184 (-99.96%) | 15200.953 (37.0 times slower) |
 | `Matcher::matchAll()`; 128 B; dictionary of 10000 keys; key lengths 12 B; occurrences: 1; unique matched keys: 1 | `strpos()` loop<br>449.467 | 0.240 (-99.95%) | 15236.172 (33.9 times slower) |
 | `Matcher::matchAll()`; 1024 B; dictionary of 128 keys; key lengths 12 B; occurrences: 1; unique matched keys: 1 | `preg_match_all()`<br>26.190 | 0.999 (-96.19%) | 53.049 (+102.44%) |
-| `Matcher::matchAll()`; 4096 B; dictionary of 8 keys; key lengths 12 B; occurrences: 1; unique matched keys: 1 | `strpos()` loop<br>7.016 | 3.506† | 6.746 (-2.81%) |
+| `Matcher::matchAll()`; 4096 B; dictionary of 8 keys; key lengths 12 B; occurrences: 1; unique matched keys: 1 | `strpos()` loop<br>7.016 | 3.506 (-50.05%)† | 6.746 (-2.81%) |
 | `Matcher::matchAll()`; 4096 B; dictionary of 128 keys; key lengths 12 B; occurrences: 0; unique matched keys: 0 | `preg_match_all()`<br>101.631 | 3.431 (-96.61%) | 55.973 (-44.94%) |
 | `Matcher::matchAll()`; 4096 B; dictionary of 128 keys; key lengths 12 B; occurrences: 1; unique matched keys: 1 | `preg_match_all()`<br>102.910 | 3.675 (-96.42%) | 56.847 (-44.67%) |
 | `Matcher::matchAll()`; 4096 B; dictionary of 128 keys; key lengths 12 B; occurrences: 4; unique matched keys: 4 | `preg_match_all()`<br>106.543 | 3.829 (-96.41%) | 57.229 (-46.29%) |

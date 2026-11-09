@@ -1,0 +1,66 @@
+{
+  "id": "email.magic-link.txt",
+  "family": "email",
+  "operation": "replace",
+  "documents": [
+    "email.magic-link.txt"
+  ],
+  "dictionary": "payload.magic-link.txt",
+  "policy": "case-sensitive",
+  "modes": [
+    "oneshot"
+  ],
+  "methods": [
+    "native",
+    "strtr",
+    "preg_literal_callback",
+    "preg_trie_callback",
+    "str_replace",
+    "preg_tokens_callback"
+  ],
+  "expected": {
+    "email.magic-link.txt": "Your sign-in link\n\nOpen this link to sign in. No password needed:\n\nhttps://example.test/login/url/0307d0ac2261\n\nThis link expires in 30 minutes and works once. If you didn't try to sign in, you can safely ignore this email.\n\n--\n\nAcme\nAcme Inc. · 100 Market Street · San Francisco, CA 94105\n"
+  },
+  "input": {
+    "bytes": 266,
+    "keys": 2,
+    "key_byte_lengths": [
+      13,
+      14
+    ],
+    "occurrences": 2,
+    "unique_matched_keys": 2,
+    "first_offset": 67,
+    "matched_dictionary_ranks": [
+      1,
+      2
+    ],
+    "covered_bytes": 27,
+    "replacements": 2,
+    "output_bytes": 292
+  },
+  "dictionary_contents": {
+    "keys": [
+      "{{login_url}}",
+      "{{expires_in}}"
+    ],
+    "replacements": {
+      "{{login_url}}": "https://example.test/login/url/0307d0ac2261",
+      "{{expires_in}}": "30 minutes"
+    },
+    "policy": "case-sensitive",
+    "payload_kind": "documented-fixture-values"
+  },
+  "document_files": [
+    {
+      "id": "email.magic-link.txt",
+      "path": "sources/emails/templates/magic-link/magic-link.txt",
+      "sha256": "f2e5901cf1ca7533e21b1ecbed8d113ad454026840005519f345157d98a5e3c3",
+      "bytes": 266,
+      "template_family": "magic-link"
+    }
+  ],
+  "document_contents": {
+    "email.magic-link.txt": "Your sign-in link\n\nOpen this link to sign in. No password needed:\n\n{{login_url}}\n\nThis link expires in {{expires_in}} and works once. If you didn't try to sign in, you can safely ignore this email.\n\n--\n\nAcme\nAcme Inc. · 100 Market Street · San Francisco, CA 94105\n"
+  }
+}

@@ -2,6 +2,11 @@
 
 A study of `Str\Matcher` / `Str\Replacer`: when preparing a dictionary pays off compared with existing PHP and PCRE tools. [PR #25122](https://github.com/php/php-src/pull/25122) · [Measured code and builds](benchmark/SOURCE.md). The measured extension source matches [commit 7c7550bcdac](https://github.com/php/php-src/commit/7c7550bcdac2091e5f9c256e3f203f82d7db448f).
 
+Additional studies use GCC 14.2 on an Intel Core i7-13700H, independently of the AMD measurements below:
+
+- [Application workloads](application-workloads/README.md): unchanged open-data texts, literal dictionaries, email substitution and reuse across different documents.
+- [Break-even study](break-even/README.md): one-shot calls at different text lengths and prepared calls on 128 B–4 KiB texts with 8, 16, 32 and 48 keys. Replacer performs one replacement per input in this controlled series.
+
 ## Methods and comparisons
 
 | Method | What the method returns | Existing PHP method | PCRE method |
@@ -23,8 +28,8 @@ Results have been checked against a reference and are equivalent in content. `ma
 - A `str_contains()` loop checks keys in sequence, so its time depends on dictionary order. `Matcher::matches()` reads the text from left to right and stops as soon as it has read the last byte of any matched key; it does not iterate through the dictionary key by key.
 - With 32 keys on a 4 KiB text, a prepared Replacer is faster than PCRE, while a one-shot call is slower. On a 16 KiB text with the same 32 keys, the one-shot operation is faster; with 16 keys, the result also depends on key lengths and the compiler. The case below with 16 keys of 11–21 B loses in one-shot use.
 - A single key, a recognizable `{{…}}` format and replacing all matched keys with one marker are examples where existing tools are substantially faster than a prepared Replacer.
-- On a 1 MiB text with 10000 keys and 10000 replacements, `Replacer::replace()`, including object construction and destruction, is approximately twice as fast as `strtr()`.
-- These results apply to one CPU and the saved controlled inputs. They do not establish a universal key-count threshold or estimate the speedup of PHP applications.
+- On a 1 MiB text with 10000 keys of 8–24 B and 10000 replacements, `Replacer::replace()`, including object construction and destruction, is approximately twice as fast as `strtr()`.
+- The findings and tables below describe the saved AMD inputs. The Intel studies above provide separate evidence; results are not pooled across machines. They do not establish a universal key-count threshold or estimate the speedup of PHP applications.
 
 **Prepared object** means calling the method, using the result and releasing it. **One-shot** means object construction, one call, result release and object destruction, measured together. Existing tools use prepared arguments and a warm PCRE cache. This is not a full HTTP request measurement.
 
@@ -32,9 +37,9 @@ AMD Ryzen 9 5950X, Linux x86-64; GCC 15.2 / Clang 21.1. For each compiler, Match
 
 The tables below show GCC 15.2; Clang 21.1 results for the same inputs are available in the appendices. Parentheses show the median paired change relative to the fastest eligible existing method. Large slowdowns are shown as multiples derived from the same paired ratios. A negative value means less time. Prepared Matcher calls and one-shot calls were measured separately, each alongside existing methods. The table shows the existing method's time from the one-shot measurement. The prepared Matcher percentage therefore cannot be reproduced exactly from the adjacent numbers.
 
-We do not call a difference below 2% a win or a loss; this is a reporting rule, not an estimate of measurement error. † marks measurements that did not pass the quality checks: the time is shown, but no win or loss is inferred from it.
+We do not call a difference below 2% a win or a loss; this is a reporting rule, not an estimate of measurement error. † marks a quality issue. The observed time and relative change are shown, with the actual spread and A/A deviation in the quality register.
 
-In the full Clang tables, 11 prepared-object comparisons and 13 one-shot comparisons did not pass the quality checks — out of 135 inputs in each mode. Only one comparison exceeded the A/A threshold. Percentages are omitted for results marked †. [Reasons and affected inputs](benchmark/QUALITY.md).
+In the full Clang tables, 11 prepared-object comparisons and 13 one-shot comparisons did not pass the quality checks — out of 135 inputs in each mode. Only one comparison exceeded the A/A threshold. Results marked † retain their observed percentages or multiples; the quality register quantifies the issue. [Reasons and affected inputs](benchmark/QUALITY.md).
 
 ## `Matcher::matches()`: no match, or a match near the start, middle or end of the text
 
@@ -43,7 +48,7 @@ A 4 KiB text and a dictionary of 128 keys, each 12 B long. In positive variants,
 | Test condition | Best existing method, µs | Prepared object, µs | One-shot, µs |
 |---|---|---:|---:|
 | [No matches](benchmark/inputs/cases/any/presence.any.bytes4096.keys128.absent.rank65.json) | `preg_match()`<br>100.021 | 3.817 (-96.18%) | 58.107 (-42.02%) |
-| [Match: byte 8](benchmark/inputs/cases/any/presence.any.bytes4096.keys128.start.rank65.json) | `preg_match()`<br>0.414 | 0.116† | 52.787 (127.4 times slower) |
+| [Match: byte 8](benchmark/inputs/cases/any/presence.any.bytes4096.keys128.start.rank65.json) | `preg_match()`<br>0.414 | 0.116 (-71.84%)† | 52.787 (127.4 times slower) |
 | [Match: byte 2042](benchmark/inputs/cases/any/presence.any.bytes4096.keys128.middle.rank65.json) | `preg_match()`<br>51.972 | 1.986 (-96.17%) | 54.966 (+5.90%) |
 | [Match: byte 4076](benchmark/inputs/cases/any/presence.any.bytes4096.keys128.end.rank65.json) | `str_contains()` loop<br>60.558 | 3.814 (-93.66%) | 57.599 (-4.94%) |
 
@@ -122,7 +127,7 @@ Each job constructs one Matcher, processes the same string B times, then destroy
 | [Matcher::matches(); 4 KiB; 128 keys; no matches](benchmark/inputs/cases/any/presence.any.bytes4096.keys128.absent.rank65.json) | 1 | `preg_match()`<br>100.021 | 58.107 (-42.02%) |
 | [Matcher::matchAll(); 64 KiB; 1024 keys; occurrences: 16](benchmark/inputs/cases/all/results.all.bytes65536.keys1024.sparse.json) | 1 | `strpos()` loop<br>15395.728 | 966.145 (-93.72%) |
 
-For the 128 B text, B=1, 4 and 16 did not show a win; B=64 did. This repeats one text, not a batch of different documents. Replacer reuse series were not measured. [All tested B values, Clang and raw samples](benchmark/REUSE.md).
+For the 128 B text, B=1, 4 and 16 did not show a win; B=64 did. This repeats one text, not a batch of different documents. Replacer reuse was not measured in the AMD series; [the Intel application study](application-workloads/README.md#reuse-one-object-different-texts) measures batches of different texts. [All tested AMD B values, Clang and raw samples](benchmark/REUSE.md).
 
 ## Construction and memory
 
@@ -150,6 +155,6 @@ In ordinary PHP-FPM, the object does not persist across independent requests. Re
 
 The main controlled Matcher series uses artificial 12-byte ASCII keys. Texts are based on saved PHP Manual fragments, with matches placed at specified positions. This does not measure the natural distribution of words and matches in user documents.
 
-One fixed text and dictionary are processed repeatedly after warmup. Times for different texts are not averaged together. This is a stable working set, not an independent sample of requests. Lengths and occurrence counts are controlled; production workload frequencies are unknown. Other CPUs, architectures and batches of different documents were not measured.
+In the AMD series, one fixed text and dictionary are processed repeatedly after warmup. Times for different texts are not averaged together. This is a warm working set, not an independent sample of requests. Lengths and occurrence counts are controlled; production workload frequencies are unknown. The linked Intel studies add another CPU and fixed batches of different documents; neither study measures production request throughput or other architectures.
 
 [Method and comparison recipes](benchmark/METHOD.md) · [Code and build hashes](benchmark/SOURCE.md) · [Exact inputs and verification scope](benchmark/INPUTS.md) · [Correctness and sanitizers](benchmark/CHECKS.md) · [Quality control](benchmark/QUALITY.md) · [Cycles and instructions](benchmark/COUNTERS.md) · [Unusual results](benchmark/OBSERVATIONS.md) · [Reproduction](benchmark/REPRODUCE.md) · [Repeated calls](benchmark/REUSE.md).

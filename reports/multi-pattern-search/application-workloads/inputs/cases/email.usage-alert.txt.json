@@ -1,0 +1,85 @@
+{
+  "id": "email.usage-alert.txt",
+  "family": "email",
+  "operation": "replace",
+  "documents": [
+    "email.usage-alert.txt"
+  ],
+  "dictionary": "payload.usage-alert.txt",
+  "policy": "case-sensitive",
+  "modes": [
+    "oneshot"
+  ],
+  "methods": [
+    "native",
+    "strtr",
+    "preg_literal_callback",
+    "preg_trie_callback",
+    "str_replace",
+    "preg_tokens_callback"
+  ],
+  "expected": {
+    "email.usage-alert.txt": "You've used Usage percent 5076b0% of your Metric 6048c3\n\nHi Alexandra Morgan, you're getting close to your plan's limit for this billing period.\n\nUsed:      Used 9fc26b of Limit 5c945a\nResets on: Resets on 0830c4\n\nTo avoid interruptions, upgrade your plan before you reach the limit: https://example.test/upgrade/url/cc69ac957731\n\nYou can change when you get these alerts in your account settings.\n\n--\n\nAcme\nAcme Inc. · 100 Market Street · San Francisco, CA 94105\n"
+  },
+  "input": {
+    "bytes": 413,
+    "keys": 7,
+    "key_byte_lengths": [
+      8,
+      9,
+      10,
+      13,
+      15,
+      17
+    ],
+    "occurrences": 7,
+    "unique_matched_keys": 7,
+    "first_offset": 12,
+    "matched_dictionary_ranks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "covered_bytes": 80,
+    "replacements": 7,
+    "output_bytes": 466
+  },
+  "dictionary_contents": {
+    "keys": [
+      "{{usage_percent}}",
+      "{{metric}}",
+      "{{name}}",
+      "{{used}}",
+      "{{limit}}",
+      "{{resets_on}}",
+      "{{upgrade_url}}"
+    ],
+    "replacements": {
+      "{{usage_percent}}": "Usage percent 5076b0",
+      "{{metric}}": "Metric 6048c3",
+      "{{name}}": "Alexandra Morgan",
+      "{{used}}": "Used 9fc26b",
+      "{{limit}}": "Limit 5c945a",
+      "{{resets_on}}": "Resets on 0830c4",
+      "{{upgrade_url}}": "https://example.test/upgrade/url/cc69ac957731"
+    },
+    "policy": "case-sensitive",
+    "payload_kind": "documented-fixture-values"
+  },
+  "document_files": [
+    {
+      "id": "email.usage-alert.txt",
+      "path": "sources/emails/templates/usage-alert/usage-alert.txt",
+      "sha256": "85a5fa9d512206b45abfd2a9c30167fe9c0447ca4ff8233e64a8a7b8bcc897fb",
+      "bytes": 413,
+      "template_family": "usage-alert"
+    }
+  ],
+  "document_contents": {
+    "email.usage-alert.txt": "You've used {{usage_percent}}% of your {{metric}}\n\nHi {{name}}, you're getting close to your plan's limit for this billing period.\n\nUsed:      {{used}} of {{limit}}\nResets on: {{resets_on}}\n\nTo avoid interruptions, upgrade your plan before you reach the limit: {{upgrade_url}}\n\nYou can change when you get these alerts in your account settings.\n\n--\n\nAcme\nAcme Inc. · 100 Market Street · San Francisco, CA 94105\n"
+  }
+}

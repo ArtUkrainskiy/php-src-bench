@@ -1,0 +1,52 @@
+{
+  "id": "technical.any.n8.b128.absent",
+  "operation": "any",
+  "policy": "case-sensitive",
+  "documents": [
+    "subject"
+  ],
+  "modes": [
+    "prepared"
+  ],
+  "methods": [
+    "native",
+    "string_loop",
+    "preg_literal",
+    "preg_trie",
+    "contains_loop"
+  ],
+  "expected": {
+    "subject": false
+  },
+  "keys": 8,
+  "bytes": 128,
+  "background": "technical",
+  "condition": "absent",
+  "occurrences": 0,
+  "unique_matched_keys": 0,
+  "first_offset": null,
+  "dictionary": {
+    "keys": [
+      "StringIO",
+      "cStringIO",
+      "cPickle",
+      "__builtin__",
+      "copy_reg",
+      "Queue",
+      "SocketServer",
+      "ConfigParser"
+    ],
+    "replacements": {
+      "StringIO": "io",
+      "cStringIO": "io",
+      "cPickle": "pickle",
+      "__builtin__": "builtins",
+      "copy_reg": "copyreg",
+      "Queue": "queue",
+      "SocketServer": "socketserver",
+      "ConfigParser": "configparser"
+    }
+  },
+  "subject": "--------------\n\n.. class:: HTTPServer(server_address, RequestHandlerClass)\n\n   This class builds on the :class:`TCPServer` class",
+  "subject_sha256": "7ed474eb5bcc32bb3f1727f790832d21ecd1393533be6a0ff38e4b461dba473a"
+}

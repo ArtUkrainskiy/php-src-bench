@@ -1,0 +1,53 @@
+{
+  "id": "comments.unique.n8.b128.single",
+  "operation": "unique",
+  "policy": "case-sensitive",
+  "documents": [
+    "subject"
+  ],
+  "modes": [
+    "prepared"
+  ],
+  "methods": [
+    "native",
+    "string_loop",
+    "preg_literal",
+    "preg_trie"
+  ],
+  "expected": {
+    "subject": [
+      "StringIO"
+    ]
+  },
+  "keys": 8,
+  "bytes": 128,
+  "background": "comments",
+  "condition": "single",
+  "occurrences": 1,
+  "unique_matched_keys": 1,
+  "first_offset": 60,
+  "dictionary": {
+    "keys": [
+      "StringIO",
+      "cStringIO",
+      "cPickle",
+      "__builtin__",
+      "copy_reg",
+      "Queue",
+      "SocketServer",
+      "ConfigParser"
+    ],
+    "replacements": {
+      "StringIO": "io",
+      "cStringIO": "io",
+      "cPickle": "pickle",
+      "__builtin__": "builtins",
+      "copy_reg": "copyreg",
+      "Queue": "queue",
+      "SocketServer": "socketserver",
+      "ConfigParser": "configparser"
+    }
+  },
+  "subject": "[ Integrity means that you pay your debts.]\n\nDoes this appl StringIO dent Trump too?\n\nThis is malfeasance by the Administrator a",
+  "subject_sha256": "c40e72beb20121f90196cb19cc08d61c66cc3ae68bed3bd1cccaf7f55a535477"
+}

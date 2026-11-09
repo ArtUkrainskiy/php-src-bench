@@ -2,7 +2,7 @@
 
 [Summary](../README.md) · [Method](METHOD.md) · [Builds](SOURCE.md) · [Sample arrays](data/elapsed.json.gz)
 
-Each row is one text, one dictionary, one method and one mode. Times for different inputs are not combined. † marks a measurement with a quality flag; no comparative percentage is given.
+Each row is one text, one dictionary, one method and one mode. Times for different inputs are not combined. † marks a quality issue. The observed time and relative change are always shown; actual sample spread and A/A deviation are listed in QUALITY.
 
 ## GCC 15.2
 
@@ -39,42 +39,42 @@ Each row is one text, one dictionary, one method and one mode. Times for differe
 | `Replacer::replace()`; 16384 B; dictionary of 32 keys; key lengths 11–21 B; replacements: 16 | `preg_replace_callback()`<br>62.595 | 26.065 (-58.33%) | 40.257 (-35.67%) |
 | `Replacer::replace()`; 16384 B; dictionary of 32 keys; key lengths 16 B; replacements: 32 | `preg_replace_callback()`<br>78.930 | 26.358 (-66.59%) | 40.770 (-48.37%) |
 | `Replacer::replace()`; 16384 B; dictionary of 32 keys; key lengths 11–21 B; replacements: 32 | `preg_replace_callback()`<br>62.564 | 26.422 (-57.84%) | 40.482 (-35.29%) |
-| `Replacer::replace()`; 16384 B; dictionary of 1 key; key lengths 8 B; replacements: 1 | `preg_replace()`<br>1.134 | 30.420† | 30.207 (26.6 times slower) |
-| `Replacer::replace()`; 16384 B; dictionary of 1 key; key lengths 8 B; replacements: 5 | `preg_replace()`<br>1.174 | 29.923† | 30.008 (25.6 times slower) |
-| `Replacer::replace()`; 16384 B; dictionary of 1 key; key lengths 24 B; replacements: 1 | `preg_replace()`<br>0.926 | 47.385† | 48.116 (51.9 times slower) |
+| `Replacer::replace()`; 16384 B; dictionary of 1 key; key lengths 8 B; replacements: 1 | `preg_replace()`<br>1.134 | 30.420 (26.7 times slower)† | 30.207 (26.6 times slower) |
+| `Replacer::replace()`; 16384 B; dictionary of 1 key; key lengths 8 B; replacements: 5 | `preg_replace()`<br>1.174 | 29.923 (25.5 times slower)† | 30.008 (25.6 times slower) |
+| `Replacer::replace()`; 16384 B; dictionary of 1 key; key lengths 24 B; replacements: 1 | `preg_replace()`<br>0.926 | 47.385 (50.8 times slower)† | 48.116 (51.9 times slower) |
 | `Replacer::replace()`; 16384 B; dictionary of 1 key; key lengths 24 B; replacements: 5 | `preg_replace()`<br>1.079 | 46.748 (43.3 times slower) | 47.403 (43.9 times slower) |
 | `Replacer::replace()`; 16384 B; dictionary of 32 keys; key lengths 11–21 B; replacements: 16; one replacement value; output 16144 B | `preg_replace()`<br>61.069 | 26.111 (-57.25%) | 40.313 (-33.92%) |
 | `Replacer::replace()`; 16384 B; dictionary of 32 keys; key lengths 11–21 B; replacements: 16; output 16896 B | `preg_replace_callback()`<br>62.618 | 26.044 (-58.41%) | 40.037 (-36.07%) |
 | `Replacer::replace()`; 16384 B; dictionary of 32 keys; key lengths 11–21 B; replacements: 16; one replacement value; output 16288 B | `preg_replace()`<br>60.998 | 26.090 (-57.26%) | 40.352 (-33.75%) |
 | `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 8–24 B; replacements: 100; keys {{…}} | `preg_replace_callback()`<br>63.977 | 1148.500 (18.0 times slower) | 1471.567 (23.0 times slower) |
-| `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 8–24 B; replacements: 1000; keys {{…}} | `preg_replace_callback()`<br>193.951† | 1241.525† | 10414.542† |
+| `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 8–24 B; replacements: 1000; keys {{…}} | `preg_replace_callback()`<br>193.951† | 1241.525 (6.4 times slower)† | 10414.542 (53.8 times slower)† |
 | `Replacer::replace()`; 820 B; dictionary of 10 keys; key lengths 13–20 B; replacements: 11; keys {{…}}; output 860 B | `strtr()`<br>0.910 | 1.095 (+20.39%) | 4.158 (+356.59%) |
 | `Replacer::replace()`; 7301 B; dictionary of 128 keys; key lengths 4–28 B; replacements: 4; output 7372 B | `preg_replace_callback()`<br>47.209 | 9.520 (-79.85%) | 130.398 (+176.24%) |
 | `Replacer::replace()`; 8607 B; dictionary of 64 keys; key lengths 30–69 B; replacements: 9; output 8454 B | `preg_replace_callback()`<br>1.515 | 11.831 (+677.96%) | 76.339 (50.4 times slower) |
 | `Replacer::replace()`; 69643 B; dictionary of 24 keys; key lengths 24 B; replacements: 3; one replacement value; output 69601 B | `preg_replace()`<br>4.515 | 75.878 (16.8 times slower) | 92.197 (20.4 times slower) |
 | `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 16 B; replacements: 0 | `strtr()`<br>7156.061 | 1457.415 (-79.63%) | 2784.489 (-61.11%) |
 | `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 16 B; replacements: 10 | `strtr()`<br>8188.538 | 1481.345 (-81.91%) | 2829.715 (-65.44%) |
-| `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 16 B; replacements: 100 | `strtr()`<br>8182.432 | 1493.313 (-81.77%) | 2834.801† |
-| `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 16 B; replacements: 500 | `strtr()`<br>8140.808 | 1511.285 (-81.43%) | 2874.812† |
+| `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 16 B; replacements: 100 | `strtr()`<br>8182.432 | 1493.313 (-81.77%) | 2834.801 (-65.39%)† |
+| `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 16 B; replacements: 500 | `strtr()`<br>8140.808 | 1511.285 (-81.43%) | 2874.812 (-64.69%)† |
 | `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 16 B; replacements: 750 | `strtr()`<br>7074.251 | 1534.695 (-78.31%) | 2872.105 (-59.38%) |
 | `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 16 B; replacements: 1000 | `strtr()`<br>7028.564 | 1531.632 (-78.20%) | 2896.826 (-58.78%) |
 | `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 8–24 B; replacements: 0 | `preg_replace_callback()`<br>13820.881 | 1454.626 (-89.48%) | 2820.693 (-79.59%) |
 | `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 8–24 B; replacements: 10 | `preg_replace_callback()`<br>14105.458 | 1485.002 (-89.33%) | 2865.932 (-79.64%) |
-| `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 8–24 B; replacements: 100 | `preg_replace_callback()`<br>14586.666 | 1505.039 (-89.51%) | 2891.558† |
-| `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 8–24 B; replacements: 500 | `preg_replace_callback()`<br>14159.429 | 1523.642 (-89.06%) | 2933.008† |
+| `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 8–24 B; replacements: 100 | `preg_replace_callback()`<br>14586.666 | 1505.039 (-89.51%) | 2891.558 (-80.05%)† |
+| `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 8–24 B; replacements: 500 | `preg_replace_callback()`<br>14159.429 | 1523.642 (-89.06%) | 2933.008 (-79.15%)† |
 | `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 8–24 B; replacements: 750 | `preg_replace_callback()`<br>13820.233 | 1545.014 (-88.82%) | 2939.002 (-78.74%) |
 | `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 8–24 B; replacements: 1000 | `preg_replace_callback()`<br>13762.732 | 1550.727 (-88.73%) | 2932.962 (-78.70%) |
 | `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 16 B; replacements: 0 | `strtr()`<br>7045.148 | 1466.895 (-79.15%) | 32658.311 (+362.97%) |
-| `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 16 B; replacements: 100 | `strtr()`<br>7989.388† | 1584.511† | 32784.979† |
-| `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 16 B; replacements: 1000 | `strtr()`<br>7904.654† | 1678.333† | 31977.561† |
-| `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 16 B; replacements: 5000 | `strtr()`<br>7459.772† | 1908.203† | 32275.469† |
-| `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 16 B; replacements: 7500 | `strtr()`<br>7232.448† | 2058.518† | 33092.606† |
-| `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 16 B; replacements: 10000 | `strtr()`<br>6050.234† | 2093.268† | 31639.788† |
+| `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 16 B; replacements: 100 | `strtr()`<br>7989.388† | 1584.511 (-79.95%)† | 32784.979 (4.1 times slower)† |
+| `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 16 B; replacements: 1000 | `strtr()`<br>7904.654† | 1678.333 (-78.59%)† | 31977.561 (4.1 times slower)† |
+| `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 16 B; replacements: 5000 | `strtr()`<br>7459.772† | 1908.203 (-74.21%)† | 32275.469 (4.3 times slower)† |
+| `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 16 B; replacements: 7500 | `strtr()`<br>7232.448† | 2058.518 (-71.36%)† | 33092.606 (4.6 times slower)† |
+| `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 16 B; replacements: 10000 | `strtr()`<br>6050.234† | 2093.268 (-65.39%)† | 31639.788 (5.3 times slower)† |
 | `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 8–24 B; replacements: 0 | `strtr()`<br>89600.329 | 1489.095 (-98.34%) | 32682.993 (-63.52%) |
 | `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 8–24 B; replacements: 100 | `strtr()`<br>90225.119 | 1619.717 (-98.20%) | 33003.634 (-63.43%) |
 | `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 8–24 B; replacements: 1000 | `strtr()`<br>88142.636 | 1708.998 (-98.06%) | 32219.304 (-63.33%) |
-| `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 8–24 B; replacements: 5000 | `strtr()`<br>78489.934 | 2016.537† | 32520.899 (-58.43%) |
-| `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 8–24 B; replacements: 7500 | `strtr()`<br>72824.786 | 2204.313† | 33497.088 (-53.85%) |
+| `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 8–24 B; replacements: 5000 | `strtr()`<br>78489.934 | 2016.537 (-97.41%)† | 32520.899 (-58.43%) |
+| `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 8–24 B; replacements: 7500 | `strtr()`<br>72824.786 | 2204.313 (-96.95%)† | 33497.088 (-53.85%) |
 | `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 8–24 B; replacements: 10000 | `strtr()`<br>65678.021 | 2262.316 (-96.54%) | 31892.938 (-51.41%) |
 | `Replacer::replace()`; 4096 B; dictionary of 32 keys; key lengths 11–21 B; replacements: 2 | `preg_replace_callback()`<br>9.510 | 6.044 (-36.52%) | 19.533 (+105.34%) |
 
@@ -115,40 +115,40 @@ Each row is one text, one dictionary, one method and one mode. Times for differe
 | `Replacer::replace()`; 16384 B; dictionary of 32 keys; key lengths 11–21 B; replacements: 32 | `preg_replace_callback()`<br>62.034 | 25.311 (-59.26%) | 39.888 (-35.72%) |
 | `Replacer::replace()`; 16384 B; dictionary of 1 key; key lengths 8 B; replacements: 1 | `preg_replace()`<br>1.117 | 9.881 (+784.99%) | 10.168 (+810.81%) |
 | `Replacer::replace()`; 16384 B; dictionary of 1 key; key lengths 8 B; replacements: 5 | `preg_replace()`<br>1.149 | 10.135 (+781.38%) | 10.416 (+806.82%) |
-| `Replacer::replace()`; 16384 B; dictionary of 1 key; key lengths 24 B; replacements: 1 | `preg_replace()`<br>0.924† | 12.073† | 12.799† |
-| `Replacer::replace()`; 16384 B; dictionary of 1 key; key lengths 24 B; replacements: 5 | `preg_replace()`<br>1.057 | 12.285† | 12.960† |
+| `Replacer::replace()`; 16384 B; dictionary of 1 key; key lengths 24 B; replacements: 1 | `preg_replace()`<br>0.924† | 12.073 (12.9 times slower)† | 12.799 (13.8 times slower)† |
+| `Replacer::replace()`; 16384 B; dictionary of 1 key; key lengths 24 B; replacements: 5 | `preg_replace()`<br>1.057 | 12.285 (11.6 times slower)† | 12.960 (12.2 times slower)† |
 | `Replacer::replace()`; 16384 B; dictionary of 32 keys; key lengths 11–21 B; replacements: 16; one replacement value; output 16144 B | `preg_replace()`<br>60.048 | 25.073 (-58.24%) | 39.643 (-33.97%) |
 | `Replacer::replace()`; 16384 B; dictionary of 32 keys; key lengths 11–21 B; replacements: 16; output 16896 B | `preg_replace_callback()`<br>61.727 | 24.946 (-59.59%) | 38.573 (-37.45%) |
 | `Replacer::replace()`; 16384 B; dictionary of 32 keys; key lengths 11–21 B; replacements: 16; one replacement value; output 16288 B | `preg_replace()`<br>59.838 | 25.056 (-58.15%) | 39.643 (-33.69%) |
 | `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 8–24 B; replacements: 100; keys {{…}} | `preg_replace_callback()`<br>64.276 | 1054.442 (16.4 times slower) | 1372.608 (21.4 times slower) |
-| `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 8–24 B; replacements: 1000; keys {{…}} | `preg_replace_callback()`<br>201.461 | 1138.352† | 10287.061† |
+| `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 8–24 B; replacements: 1000; keys {{…}} | `preg_replace_callback()`<br>201.461 | 1138.352 (5.6 times slower)† | 10287.061 (52.8 times slower)† |
 | `Replacer::replace()`; 820 B; dictionary of 10 keys; key lengths 13–20 B; replacements: 11; keys {{…}}; output 860 B | `strtr()`<br>0.804 | 1.013 (+26.07%) | 3.920 (+387.85%) |
 | `Replacer::replace()`; 7301 B; dictionary of 128 keys; key lengths 4–28 B; replacements: 4; output 7372 B | `preg_replace_callback()`<br>45.644 | 7.296 (-83.99%) | 132.369 (+190.53%) |
 | `Replacer::replace()`; 8607 B; dictionary of 64 keys; key lengths 30–69 B; replacements: 9; output 8454 B | `preg_replace_callback()`<br>1.546 | 8.529 (+452.01%) | 68.143 (44.1 times slower) |
 | `Replacer::replace()`; 69643 B; dictionary of 24 keys; key lengths 24 B; replacements: 3; one replacement value; output 69601 B | `preg_replace()`<br>4.476 | 51.700 (11.5 times slower) | 68.461 (15.3 times slower) |
 | `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 16 B; replacements: 0 | `strtr()`<br>6731.642 | 1175.950 (-82.53%) | 2580.458 (-61.69%) |
 | `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 16 B; replacements: 10 | `strtr()`<br>7819.658 | 1208.181 (-84.55%) | 2622.602 (-66.50%) |
-| `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 16 B; replacements: 100 | `strtr()`<br>7820.770 | 1220.281 (-84.38%) | 2634.902† |
-| `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 16 B; replacements: 500 | `strtr()`<br>7815.941 | 1238.923 (-84.14%) | 2640.844† |
+| `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 16 B; replacements: 100 | `strtr()`<br>7820.770 | 1220.281 (-84.38%) | 2634.902 (-66.29%)† |
+| `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 16 B; replacements: 500 | `strtr()`<br>7815.941 | 1238.923 (-84.14%) | 2640.844 (-66.20%)† |
 | `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 16 B; replacements: 750 | `strtr()`<br>6714.296 | 1261.340 (-81.21%) | 2648.530 (-60.54%) |
 | `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 16 B; replacements: 1000 | `strtr()`<br>6675.492 | 1253.919 (-81.21%) | 2702.478 (-59.52%) |
 | `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 8–24 B; replacements: 0 | `preg_replace_callback()`<br>13815.902 | 1176.615 (-91.48%) | 2622.848 (-81.02%) |
 | `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 8–24 B; replacements: 10 | `preg_replace_callback()`<br>13895.000 | 1207.877 (-91.15%) | 2657.612 (-80.78%) |
-| `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 8–24 B; replacements: 100 | `preg_replace_callback()`<br>14208.184 | 1231.112 (-91.22%) | 2667.470† |
-| `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 8–24 B; replacements: 500 | `preg_replace_callback()`<br>14174.451 | 1259.617 (-91.05%) | 2708.370† |
+| `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 8–24 B; replacements: 100 | `preg_replace_callback()`<br>14208.184 | 1231.112 (-91.22%) | 2667.470 (-81.06%)† |
+| `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 8–24 B; replacements: 500 | `preg_replace_callback()`<br>14174.451 | 1259.617 (-91.05%) | 2708.370 (-80.78%)† |
 | `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 8–24 B; replacements: 750 | `preg_replace_callback()`<br>13616.161 | 1280.920 (-90.60%) | 2719.131 (-80.02%) |
 | `Replacer::replace()`; 1048576 B; dictionary of 1000 keys; key lengths 8–24 B; replacements: 1000 | `preg_replace_callback()`<br>13679.984 | 1290.924 (-90.57%) | 2747.874 (-79.90%) |
 | `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 16 B; replacements: 0 | `strtr()`<br>6573.642 | 1185.057 (-81.97%) | 32827.694 (+400.18%) |
-| `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 16 B; replacements: 100 | `strtr()`<br>7516.301† | 1301.452† | 33377.765† |
-| `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 16 B; replacements: 1000 | `strtr()`<br>7451.324† | 1383.389† | 32485.854† |
-| `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 16 B; replacements: 5000 | `strtr()`<br>7073.328† | 1645.629† | 32535.226† |
-| `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 16 B; replacements: 7500 | `strtr()`<br>6876.280† | 1811.480† | 33753.855† |
+| `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 16 B; replacements: 100 | `strtr()`<br>7516.301† | 1301.452 (-82.59%)† | 33377.765 (4.4 times slower)† |
+| `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 16 B; replacements: 1000 | `strtr()`<br>7451.324† | 1383.389 (-81.30%)† | 32485.854 (4.4 times slower)† |
+| `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 16 B; replacements: 5000 | `strtr()`<br>7073.328† | 1645.629 (-76.47%)† | 32535.226 (4.6 times slower)† |
+| `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 16 B; replacements: 7500 | `strtr()`<br>6876.280† | 1811.480 (-73.40%)† | 33753.855 (4.9 times slower)† |
 | `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 16 B; replacements: 10000 | `strtr()`<br>5640.754 | 1888.118 (-66.49%) | 32163.218 (+474.90%) |
 | `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 8–24 B; replacements: 0 | `strtr()`<br>89526.581 | 1196.013 (-98.66%) | 32943.512 (-63.24%) |
 | `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 8–24 B; replacements: 100 | `strtr()`<br>89894.059 | 1341.688 (-98.51%) | 33396.901 (-62.82%) |
 | `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 8–24 B; replacements: 1000 | `strtr()`<br>87657.407 | 1429.152 (-98.36%) | 32511.131 (-62.79%) |
-| `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 8–24 B; replacements: 5000 | `strtr()`<br>78562.570 | 1771.273† | 33024.293 (-57.89%) |
-| `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 8–24 B; replacements: 7500 | `strtr()`<br>72474.038 | 1991.769† | 33925.772 (-53.12%) |
+| `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 8–24 B; replacements: 5000 | `strtr()`<br>78562.570 | 1771.273 (-97.73%)† | 33024.293 (-57.89%) |
+| `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 8–24 B; replacements: 7500 | `strtr()`<br>72474.038 | 1991.769 (-97.24%)† | 33925.772 (-53.12%) |
 | `Replacer::replace()`; 1048576 B; dictionary of 10000 keys; key lengths 8–24 B; replacements: 10000 | `strtr()`<br>65353.252 | 2096.196 (-96.79%) | 32314.737 (-50.39%) |
 | `Replacer::replace()`; 4096 B; dictionary of 32 keys; key lengths 11–21 B; replacements: 2 | `preg_replace_callback()`<br>9.997 | 5.789 (-42.10%) | 19.807 (+98.10%) |
 

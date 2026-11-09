@@ -1,0 +1,81 @@
+{
+  "id": "email.payment-failed.txt",
+  "family": "email",
+  "operation": "replace",
+  "documents": [
+    "email.payment-failed.txt"
+  ],
+  "dictionary": "payload.payment-failed.txt",
+  "policy": "case-sensitive",
+  "modes": [
+    "oneshot"
+  ],
+  "methods": [
+    "native",
+    "strtr",
+    "preg_literal_callback",
+    "preg_trie_callback",
+    "str_replace",
+    "preg_tokens_callback"
+  ],
+  "expected": {
+    "email.payment-failed.txt": "Your payment didn't go through\n\nHi Alexandra Morgan, we couldn't charge your Payment method db4a1f for your Alexandra Morgan plan. This usually happens when a card expires or the bank declines the charge.\n\nPlan:         Alexandra Morgan\nAmount due:   $49.00\nNext attempt: 2026-11-09 12:30 UTC\n\nUpdate your payment method before 2026-11-09 12:30 UTC to keep your account active:\n\nhttps://example.test/update/url/cec6cbd2c7ef\n\nAlready updated your details? You can ignore this email.\n\n--\n\nAcme\nAcme Inc. · 100 Market Street · San Francisco, CA 94105\n"
+  },
+  "input": {
+    "bytes": 495,
+    "keys": 6,
+    "key_byte_lengths": [
+      8,
+      10,
+      13,
+      14,
+      18
+    ],
+    "occurrences": 8,
+    "unique_matched_keys": 6,
+    "first_offset": 35,
+    "matched_dictionary_ranks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "covered_bytes": 104,
+    "replacements": 8,
+    "output_bytes": 550
+  },
+  "dictionary_contents": {
+    "keys": [
+      "{{name}}",
+      "{{payment_method}}",
+      "{{plan_name}}",
+      "{{amount}}",
+      "{{retry_date}}",
+      "{{update_url}}"
+    ],
+    "replacements": {
+      "{{name}}": "Alexandra Morgan",
+      "{{payment_method}}": "Payment method db4a1f",
+      "{{plan_name}}": "Alexandra Morgan",
+      "{{amount}}": "$49.00",
+      "{{retry_date}}": "2026-11-09 12:30 UTC",
+      "{{update_url}}": "https://example.test/update/url/cec6cbd2c7ef"
+    },
+    "policy": "case-sensitive",
+    "payload_kind": "documented-fixture-values"
+  },
+  "document_files": [
+    {
+      "id": "email.payment-failed.txt",
+      "path": "sources/emails/templates/payment-failed/payment-failed.txt",
+      "sha256": "8afbf7f43c25c58d9eb6f74cd6f34415a4380d80dcadfebaccc6ff6da7e0069a",
+      "bytes": 495,
+      "template_family": "payment-failed"
+    }
+  ],
+  "document_contents": {
+    "email.payment-failed.txt": "Your payment didn't go through\n\nHi {{name}}, we couldn't charge your {{payment_method}} for your {{plan_name}} plan. This usually happens when a card expires or the bank declines the charge.\n\nPlan:         {{plan_name}}\nAmount due:   {{amount}}\nNext attempt: {{retry_date}}\n\nUpdate your payment method before {{retry_date}} to keep your account active:\n\n{{update_url}}\n\nAlready updated your details? You can ignore this email.\n\n--\n\nAcme\nAcme Inc. · 100 Market Street · San Francisco, CA 94105\n"
+  }
+}
