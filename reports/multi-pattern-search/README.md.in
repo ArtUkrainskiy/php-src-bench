@@ -6,7 +6,7 @@ They find or replace many literal keys in one pass over the text:
 ```php
 $matcher = new Str\Matcher(['viagra', 'casino', 'free money']);
 $matcher->matches($comment);   // also getMatchedKeywords(), countMatches(), matchAll()
-(new Str\Replacer(['strlen' => '<a href="…">strlen</a>']))->replace($page);
+(new Str\Replacer(['str_contains' => '<a href="…">str_contains</a>']))->replace($page);
 ```
 
 The report compares them with the fastest existing way to do the same: a `str_contains()`/`strpos()` loop, `strtr()`, or a PCRE alternation.
@@ -37,7 +37,7 @@ Ranges cover the five calls (`matches()`, `getMatchedKeywords()`, `countMatches(
 
 ### When a single call pays for the build
 
-The smallest measured text on which building the object for one call is already faster than the fastest existing method, on both compilers. Measured lengths: 1, 1.5, 2, 3, 4, 16 and 64 KiB; PHP names have no 16 KiB cell.
+The smallest measured text on which building the object for one call is already faster than the fastest existing method for every call of the column, on both compilers. Measured lengths: 1, 1.5, 2, 3, 4, 16 and 64 KiB; PHP names have no 16 KiB cell.
 Random keys: one match in the middle third or none. The last column adds 16 matches across the text (measured at 1, 4, 16 and 64 KiB) and, for `matches()`, a match in the last 64 bytes (4 and 64 KiB), so it only looks at those lengths. 2048 PHP names were measured at 1, 4 and 64 KiB only.
 
 {{ONESHOT_MIN_LENGTH}}
@@ -47,7 +47,7 @@ Random keys: one match in the middle third or none. The last column adds 16 matc
 `matches()` with a match is the hardest case: the existing methods stop at the first match, so they spend less the earlier it comes. With a match in the first 64 bytes a one-shot `matches()` didn't pay at 4 or 64 KiB: {{ONESHOT_START_16}} with 16 keys or more.
 On PHP names the text decides where matches are, so `matches()` is left out of the first column there.
 
-Below that length a one-shot call is slower. One call on a 128 B text, one-shot, GCC, over the five calls and match positions:
+Below that length at least one of those calls is still slower; others may already win. One call on a 128 B text, one-shot, GCC, over the five calls and match positions:
 
 {{ONESHOT_128B_TABLE}}
 
@@ -69,7 +69,7 @@ With 1024 keys the reference is `strtr()`: on 1–4 KiB with GCC it takes {{REPL
 
 ### Applications
 
-| Application | Prepared | One-shot | One-shot against the prepared existing method | Calls on one object to repay the build |
+| Application | Prepared | One-shot | One-shot against the prepared existing method | Calls on one object to repay the build, estimated |
 |---|---:|---:|---:|---:|
 {{APPS_SUMMARY}}
 
@@ -85,9 +85,10 @@ Not measured: other CPUs, cold CPU caches, the PHP JIT, keys starting with a byt
 
 - Only existing methods that are right on every text compete. `str_replace()` is left out: it replaces inside text it has already replaced, so its output can differ from `strtr()`.
 - PCRE is tried as a plain alternation and as one that shares key prefixes (`/cas(?:ino|h)/`); the faster one counts. For which keys, how many and every occurrence, PCRE uses a lookahead so that overlapping keys are found. An alternation that consumes matches took 2–25% less time in a probe but misses overlapping keys, so it doesn't compete.
+- Existing methods return the same keys, counts and offsets in a simpler form: plain arrays in any order, no `Str\MatchResult` objects. The new class pays for its full result. Results are sorted and compared outside the timer.
 - `strtr()` has no prepared form: its time includes processing the whole key array on every call.
 - One-shot includes building the PCRE pattern string, not compiling it: PCRE keeps compiled patterns in its per-process cache.
-- Every call gets a different text. On one repeated text the new class ran 3–4 times faster, because the CPU learns its branches (an earlier version; the existing methods weren't probed).
+- Calls go through a pool of different texts instead of repeating one. On one repeated text the new class ran 3–4 times faster, because the CPU learns its branches (an earlier version; the existing methods weren't probed).
 
 [METHOD.md](METHOD.md) has the details, [REPRODUCE.md](REPRODUCE.md) the commands.
 
@@ -95,11 +96,11 @@ Not measured: other CPUs, cold CPU caches, the PHP JIT, keys starting with a byt
 
 {{SCENARIO_INPUTS}}
 
-- **Moderation**: [Civil Comments](https://huggingface.co/datasets/google/civil_comments) against the English [LDNOOBW](dictionaries/ldnoobw/ATTRIBUTION.md) list, ignoring ASCII case.
-- **Bot detection**: User-Agents (80% browsers, 20% crawlers) against the literal patterns of [crawler-user-agents](https://github.com/monperrus/crawler-user-agents).
-- **Auto-linking**: PHP manual pages; `replace()` turns every function name into a link. For `replace()` only `strtr()` competes: PCRE can't compile a replacement pattern this large.
+- **Moderation**: the literal substring check of moderation. [Civil Comments](https://huggingface.co/datasets/google/civil_comments) against the English [LDNOOBW](dictionaries/ldnoobw/ATTRIBUTION.md) list, ignoring ASCII case. No word boundaries, Unicode case folding or judgement of false positives.
+- **Bot detection**: the literal patterns of [crawler-user-agents](https://github.com/monperrus/crawler-user-agents) against real User-Agent strings, mixed by the generator: 80% browsers picked by their observed weight in the source data, 20% crawler examples. The 10,000 texts hold {{BOTS_DISTINCT}} distinct strings; caching results per string is not modelled.
+- **Auto-linking**: PHP manual pages as plain text, markup removed; `replace()` turns every function name that contains `_` into a link. Names without `_`, such as `strlen`, are not in the list. Existing links and identifier boundaries are not handled. For `replace()` only `strtr()` competes: PCRE can't compile a replacement pattern this large.
 
-Change is GCC / Clang. † = noisy value, details in [data/results.json](data/results.json).
+Times are GCC, change is GCC / Clang. A time is the time of a block of calls over the pool divided by the calls, not the latency of a median text. † = noisy value, details in [data/results.json](data/results.json).
 
 **Prepared**
 
@@ -109,7 +110,7 @@ Change is GCC / Clang. † = noisy value, details in [data/results.json](data/re
 
 {{SCENARIOS_ONESHOT}}
 
-Build time and the number of calls on one object that repay it: build ÷ prepared saving per call, from the two modes. The existing method's own one-time work, such as building and compiling its pattern, counts as zero, which favours it.
+Build time and an estimate of the number of calls on one object that repay it: build ÷ prepared saving per call, from the two modes; no series of that many calls was timed. The existing method's own one-time work, such as building and compiling its pattern, counts as zero, which favours it.
 
 {{REPAY_TABLE}}
 
@@ -135,7 +136,7 @@ GCC; Clang is within {{CLANG_BUILD_GAP}}%. Memory is what the object keeps, with
 | Build time and memory of every dictionary | [construction.md](construction.md) |
 | Moderation, bot detection, auto-linking | [Application scenarios](#application-scenarios) above |
 | How a value was measured, what counts as the reference | [METHOD.md](METHOD.md) |
-| Why every call gets a different text | [data/branch-probe.md](data/branch-probe.md) |
+| Why calls don't repeat one text | [data/branch-probe.md](data/branch-probe.md) |
 | How many passes and processes are enough | [data/calibration.md](data/calibration.md) |
 | Rerun on your machine | [REPRODUCE.md](REPRODUCE.md) |
 | Every value against every existing method, in µs | [all-methods.md](all-methods.md) |

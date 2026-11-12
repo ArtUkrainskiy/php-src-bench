@@ -10,6 +10,6 @@ Times per call in µs for the new class and for each existing method that was ru
 - **too large** — PCRE refused to compile the pattern.
 - **in chunks of 512 / 1024**: PCRE with the keys split into several patterns of that many keys, for dictionaries too large for one pattern.
 - **second copy**: for `matches()` without case folding two timed methods are the same `str_contains()` loop; the faster of the two counts.
-- Replacement methods that are wrong on some texts (`str_replace()`, PCRE that consumes matches) never compete and are not listed; see [METHOD.md](METHOD.md).
+- Replacement methods that are wrong on some texts (`str_replace()`, PCRE in dictionary order, several patterns applied in turn) never compete and are not listed; see [METHOD.md](METHOD.md).
 
 {{ALL_METHODS}}

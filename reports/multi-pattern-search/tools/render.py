@@ -160,8 +160,15 @@ def scenario_inputs(data):
                        ('Auto-linking', 'scenarios/autolink.replace')]:
         c = data.cells[cell]
         keys = len(c['keys'] if 'keys' in c else c['mapping'])
-        out.append([name, f"{len(c['pool']['indices']):,}", size(c['pool']['bytes']['median']), f'{keys:,}'])
-    return table(['Scenario', 'Texts', 'Median text', 'Keys'], out, 1)
+        texts, hits = len(c['pool']['indices']), c['pool']['occurrences']['texts_with_matches']
+        out.append([name, f'{texts:,}', size(c['pool']['bytes']['median']), f'{keys:,}', f'{100 * hits / texts:.1f}%',
+                    f"{c['pool']['occurrences']['max']}"])
+    return table(['Scenario', 'Texts', 'Median text', 'Keys', 'Texts with a match', 'Most matches in a text'], out, 1)
+
+
+def distinct_documents(cell):
+    pool = cell['pool']
+    return len(set(json.loads((ROOT / pool['documents']).read_text())))
 
 
 REPAY = [('Moderation', 'scenarios/moderation.any', 'LDNOOBW, 403 keys', 'matcher'),
@@ -648,6 +655,7 @@ def placeholders(data):
     v['SCENARIOS_PREPARED'] = scenario_table(data, 'prepared')
     v['SCENARIOS_ONESHOT'] = scenario_table(data, 'oneshot')
     v['SCENARIO_INPUTS'] = scenario_inputs(data)
+    v['BOTS_DISTINCT'] = f"{distinct_documents(data.cells['scenarios/bots.any']):,}"
     v['REPAY_TABLE'] = repay_table(data)
     calls = [int(c) for row in REPAY_ROWS for c in (row[2], row[4]) if c != 'never']
     v['REPAY_RANGE'] = f'{min(calls)} to {max(calls)}'
