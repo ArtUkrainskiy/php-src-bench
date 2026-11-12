@@ -3087,7 +3087,7 @@ Times per call in µs for the new class and for each existing method that was ru
 | all texts of the scenario | GCC | 119 | **20.4** | 24.9 | 82.5 | ≈508 | +483% |
 | all texts of the scenario | Clang | 111 | **21.7** | 24.2 | 87.6 | ≈525 | +417% |
 
-### Auto-linking: which function names occur?
+### Auto-linking, all pages, 3,345 names: which names occur?
 
 **prepared**
 
@@ -3135,7 +3135,7 @@ Times per call in µs for the new class and for each existing method that was ru
 | all texts of the scenario | GCC | 119 | **26** | 31.8 | 96 | ≈526 | +359% |
 | all texts of the scenario | Clang | 112 | **27.6** | 30.6 | 101 | ≈549 | +304% |
 
-### Auto-linking: every function name with its offset
+### Auto-linking, all pages, 3,345 names: every name with its offset
 
 **prepared**
 
@@ -3151,7 +3151,7 @@ Times per call in µs for the new class and for each existing method that was ru
 | all texts of the scenario | GCC | 1,642 | **622** | too large | 1,848 | 1,401 | ≈7,483 | ≈8,669 | ≈9,104 | +164% |
 | all texts of the scenario | Clang | 1,618 | **602** | too large | 1,828 | 1,371 | ≈7,961 | ≈9,082 | ≈9,565 | +169% |
 
-### Auto-linking: link PHP function names in a manual page
+### Auto-linking, all pages, 3,345 names: link them
 
 **prepared**
 
@@ -3292,3 +3292,141 @@ Times per call in µs for the new class and for each existing method that was ru
 | few keys, 1 keys, 4 KiB | Clang | 6.61 | **0.63** | 0.91 | 2.24 | 2.02 | +948% |
 | few keys, 4 keys, 4 KiB | GCC | 6.91 | ≈16.1 | **2.79** | 9.89 | — | +148% |
 | few keys, 4 keys, 4 KiB | Clang | 7.64 | ≈16 | **2.75** | 10.3 | — | +178% |
+
+## Manual pages by length
+
+### `matchAll()`
+
+**128 PHP names, prepared**
+
+| Input | Compiler | New class, µs | `strpos()` loop, µs | PCRE alternation, µs | PCRE, shared prefixes, µs | Change against the fastest |
+|---|---|---:|---:|---:|---:|---:|
+| 128 PHP names, pages of 1–2 KiB | GCC | 2.16 | 40.6 | 41 | **12.7** | −83% |
+| 128 PHP names, pages of 1–2 KiB | Clang | 2.5 | 38.7 | 38.9 | **12.8** | −80% |
+| 128 PHP names, pages of 2–4 KiB | GCC | 4.03 | 74.6 | 75.4 | **22.9** | −82% |
+| 128 PHP names, pages of 2–4 KiB | Clang | 4.76 | 70.7 | 71.4 | **23.3** | −80% |
+| 128 PHP names, pages of 4–16 KiB | GCC | 9.57 | 175 | 173 | **51** | −81% |
+| 128 PHP names, pages of 4–16 KiB | Clang | 11.4 | 165 | 164 | **51.9** | −78% |
+
+**128 PHP names, one-shot**
+
+| Input | Compiler | New class, µs | `strpos()` loop, µs | PCRE alternation, µs | PCRE, shared prefixes, µs | Change against the fastest |
+|---|---|---:|---:|---:|---:|---:|
+| 128 PHP names, pages of 1–2 KiB | GCC | 41.6 | **41.4** | 49.2 | ≈331 | +0.5% |
+| 128 PHP names, pages of 1–2 KiB | Clang | 42.8 | **39.3** | 45.5 | ≈347 | +8.9% |
+| 128 PHP names, pages of 2–4 KiB | GCC | 44.3 | **75.8** | 83.5 | 341 | −42% |
+| 128 PHP names, pages of 2–4 KiB | Clang | 44.6 | **71.7** | 78.2 | 360 | −38%† |
+| 128 PHP names, pages of 4–16 KiB | GCC | 49.5 | **176** | 182 | 371 | −72% |
+| 128 PHP names, pages of 4–16 KiB | Clang | 51.2 | **166** | 172 | 387 | −69% |
+
+**512 PHP names, prepared**
+
+| Input | Compiler | New class, µs | `strpos()` loop, µs | PCRE alternation, µs | PCRE, shared prefixes, µs | Change against the fastest |
+|---|---|---:|---:|---:|---:|---:|
+| 512 PHP names, pages of 1–2 KiB | GCC | 2.28 | ≈163 | ≈372 | **18.1** | −87% |
+| 512 PHP names, pages of 1–2 KiB | Clang | 2.6 | ≈154 | ≈343 | **18.6** | −86% |
+| 512 PHP names, pages of 2–4 KiB | GCC | 4.2 | ≈281 | ≈557 | **32.5** | −87% |
+| 512 PHP names, pages of 2–4 KiB | Clang | 4.91 | ≈267 | ≈508 | **33.5** | −85% |
+| 512 PHP names, pages of 4–16 KiB | GCC | 9.88 | ≈686 | ≈2,440 | **72** | −86% |
+| 512 PHP names, pages of 4–16 KiB | Clang | 11.7 | ≈648 | ≈2,386 | **74.6** | −84% |
+
+**512 PHP names, one-shot**
+
+| Input | Compiler | New class, µs | `strpos()` loop, µs | PCRE alternation, µs | PCRE, shared prefixes, µs | Change against the fastest |
+|---|---|---:|---:|---:|---:|---:|
+| 512 PHP names, pages of 1–2 KiB | GCC | 223 | **161** | 354 | ≈1,229 | +38% |
+| 512 PHP names, pages of 1–2 KiB | Clang | 210 | **154** | 326 | ≈1,302 | +37% |
+| 512 PHP names, pages of 2–4 KiB | GCC | 227 | **297** | 628 | 1,337 | −24% |
+| 512 PHP names, pages of 2–4 KiB | Clang | 214 | **282** | 580 | 1,401 | −25% |
+| 512 PHP names, pages of 4–16 KiB | GCC | 232 | **678** | 1,331 | 1,382 | −66%† |
+| 512 PHP names, pages of 4–16 KiB | Clang | 221 | **663** | 1,401 | 1,435 | −67%† |
+
+**3345 PHP names, prepared**
+
+| Input | Compiler | New class, µs | `strpos()` loop, µs | PCRE alternation, µs | PCRE alternation in chunks of 1024, µs | PCRE alternation in chunks of 512, µs | PCRE, shared prefixes, µs | PCRE, shared prefixes in chunks of 1024, µs | PCRE, shared prefixes in chunks of 512, µs | Change against the fastest |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 3345 PHP names, pages of 1–2 KiB | GCC | 2.87 | ≈1,050 | too large | ≈3,220 | ≈2,450 | **39.2** | 71.2 | 120 | −93% |
+| 3345 PHP names, pages of 1–2 KiB | Clang | 3.19 | ≈998 | too large | ≈3,230 | ≈2,435 | **39.9** | 71.3 | 117 | −92% |
+| 3345 PHP names, pages of 2–4 KiB | GCC | 5.11 | ≈2,254 | too large | ≈4,652 | ≈3,374 | **68.4** | 126 | 213 | −93% |
+| 3345 PHP names, pages of 2–4 KiB | Clang | 5.78 | ≈2,122 | too large | ≈4,594 | ≈3,386 | **69.9** | 126 | 208 | −92% |
+| 3345 PHP names, pages of 4–16 KiB | GCC | 11.3 | ≈7,969 | too large | ≈18,491 | ≈13,568 | **147** | 275 | 465 | −92% |
+| 3345 PHP names, pages of 4–16 KiB | Clang | 13 | ≈7,500 | too large | ≈18,689 | ≈13,460 | **150** | 274 | 453 | −91% |
+
+**3345 PHP names, one-shot**
+
+| Input | Compiler | New class, µs | `strpos()` loop, µs | PCRE alternation, µs | PCRE alternation in chunks of 1024, µs | PCRE alternation in chunks of 512, µs | PCRE, shared prefixes, µs | PCRE, shared prefixes in chunks of 1024, µs | PCRE, shared prefixes in chunks of 512, µs | Change against the fastest |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 3345 PHP names, pages of 1–2 KiB | GCC | 1,646 | **1,025** | too large | 2,671 | 1,997 | ≈7,528 | ≈8,813 | ≈9,332 | +60% |
+| 3345 PHP names, pages of 1–2 KiB | Clang | 1,626 | **971** | too large | 2,631 | 1,969 | ≈8,010 | ≈9,286 | ≈9,736 | +67% |
+| 3345 PHP names, pages of 2–4 KiB | GCC | 1,648 | **1,902** | too large | 4,726 | 3,500 | 8,114 | 8,977 | 9,582 | −13% |
+| 3345 PHP names, pages of 2–4 KiB | Clang | 1,629 | **1,794** | too large | 4,700 | 3,433 | 8,442 | 9,340 | 9,934 | −9.5% |
+| 3345 PHP names, pages of 4–16 KiB | GCC | 1,652 | **4,310** | too large | 9,844 | 7,260 | 8,174 | 9,086 | 9,800 | −62% |
+| 3345 PHP names, pages of 4–16 KiB | Clang | 1,629 | **4,060** | too large | 9,740 | 7,153 | 8,533 | 9,492 | 10,179 | −60% |
+
+### `replace()`
+
+**128 PHP names, prepared**
+
+| Input | Compiler | New class, µs | `strtr()`, µs | PCRE, longest first, µs | PCRE, shared prefixes, µs | Change against the fastest |
+|---|---|---:|---:|---:|---:|---:|
+| 128 PHP names, pages of 1–2 KiB | GCC | 2.4 | ≈253 | 40.5 | **11.5** | −79% |
+| 128 PHP names, pages of 1–2 KiB | Clang | 2.62 | ≈256 | 39.7 | **11.6** | −77% |
+| 128 PHP names, pages of 2–4 KiB | GCC | 4.48 | ≈387 | 74.8 | **21.1** | −79% |
+| 128 PHP names, pages of 2–4 KiB | Clang | 4.99 | ≈392 | 72.9 | **21.4** | −77% |
+| 128 PHP names, pages of 4–16 KiB | GCC | 10.6 | ≈950 | 173 | **47.2** | −78% |
+| 128 PHP names, pages of 4–16 KiB | Clang | 11.9 | ≈960 | 168 | **48** | −75% |
+
+**128 PHP names, one-shot**
+
+| Input | Compiler | New class, µs | `strtr()`, µs | PCRE, longest first, µs | PCRE, shared prefixes, µs | Change against the fastest |
+|---|---|---:|---:|---:|---:|---:|
+| 128 PHP names, pages of 1–2 KiB | GCC | 52.2 | ≈257 | **48.9** | ≈328 | +5.5%† |
+| 128 PHP names, pages of 1–2 KiB | Clang | 52.8 | ≈260 | **46.1** | ≈347 | +14% |
+| 128 PHP names, pages of 2–4 KiB | GCC | 53.9 | 415 | **82.7** | 340 | −35% |
+| 128 PHP names, pages of 2–4 KiB | Clang | 53.7 | 421 | **79.4** | 358 | −32% |
+| 128 PHP names, pages of 4–16 KiB | GCC | 59.4 | ≈959 | **181** | 371 | −67% |
+| 128 PHP names, pages of 4–16 KiB | Clang | 60.8 | ≈973 | **175** | 383 | −65% |
+
+**512 PHP names, prepared**
+
+| Input | Compiler | New class, µs | `strtr()`, µs | PCRE, longest first, µs | PCRE, shared prefixes, µs | Change against the fastest |
+|---|---|---:|---:|---:|---:|---:|
+| 512 PHP names, pages of 1–2 KiB | GCC | 3.01 | ≈474 | ≈298 | **13.8** | −78% |
+| 512 PHP names, pages of 1–2 KiB | Clang | 3.22 | ≈490 | ≈300 | **14** | −77% |
+| 512 PHP names, pages of 2–4 KiB | GCC | 5.53 | ≈752 | ≈469 | **25.1** | −78% |
+| 512 PHP names, pages of 2–4 KiB | Clang | 6.02 | ≈779 | ≈466 | **25.5** | −76% |
+| 512 PHP names, pages of 4–16 KiB | GCC | 12.6 | ≈3,311 | ≈2,169 | **55.6** | −77% |
+| 512 PHP names, pages of 4–16 KiB | Clang | 13.9 | ≈3,419 | ≈2,131 | **56.6** | −75% |
+
+**512 PHP names, one-shot**
+
+| Input | Compiler | New class, µs | `strtr()`, µs | PCRE, longest first, µs | PCRE, shared prefixes, µs | Change against the fastest |
+|---|---|---:|---:|---:|---:|---:|
+| 512 PHP names, pages of 1–2 KiB | GCC | 343 | 423 | **323** | 1,315 | +6.2% |
+| 512 PHP names, pages of 1–2 KiB | Clang | 333 | 432 | **312** | 1,367 | +6.6% |
+| 512 PHP names, pages of 2–4 KiB | GCC | 346 | 796 | **564** | 1,331 | −39% |
+| 512 PHP names, pages of 2–4 KiB | Clang | 336 | 818 | **545** | 1,378 | −38% |
+| 512 PHP names, pages of 4–16 KiB | GCC | 353 | 1,731 | **1,204** | 1,350 | −71%† |
+| 512 PHP names, pages of 4–16 KiB | Clang | 346 | 1,778 | **1,162** | 1,403 | −70% |
+
+**3345 PHP names, prepared**
+
+| Input | Compiler | New class, µs | `strtr()`, µs | PCRE, longest first, µs | PCRE, shared prefixes, µs | Change against the fastest |
+|---|---|---:|---:|---:|---:|---:|
+| 3345 PHP names, pages of 1–2 KiB | GCC | 4.21 | **534** | too large | too large | −99% |
+| 3345 PHP names, pages of 1–2 KiB | Clang | 4.39 | **558** | too large | too large | −99% |
+| 3345 PHP names, pages of 2–4 KiB | GCC | 7.55 | **997** | too large | too large | −99% |
+| 3345 PHP names, pages of 2–4 KiB | Clang | 7.96 | **1,045** | too large | too large | −99% |
+| 3345 PHP names, pages of 4–16 KiB | GCC | 16.4 | **2,313** | too large | too large | −99% |
+| 3345 PHP names, pages of 4–16 KiB | Clang | 18.1 | **2,413** | too large | too large | −99% |
+
+**3345 PHP names, one-shot**
+
+| Input | Compiler | New class, µs | `strtr()`, µs | PCRE, longest first, µs | PCRE, shared prefixes, µs | Change against the fastest |
+|---|---|---:|---:|---:|---:|---:|
+| 3345 PHP names, pages of 1–2 KiB | GCC | 3,198 | **531** | too large | too large | +502% |
+| 3345 PHP names, pages of 1–2 KiB | Clang | 3,151 | **558** | too large | too large | +465% |
+| 3345 PHP names, pages of 2–4 KiB | GCC | 3,194 | **994** | too large | too large | +222% |
+| 3345 PHP names, pages of 2–4 KiB | Clang | 3,159 | **1,064** | too large | too large | +197% |
+| 3345 PHP names, pages of 4–16 KiB | GCC | 3,194 | **2,273** | too large | too large | +40% |
+| 3345 PHP names, pages of 4–16 KiB | Clang | 3,149 | **2,394** | too large | too large | +32% |

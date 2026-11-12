@@ -4,7 +4,7 @@ How every number in the report was measured, and what keeps the comparison fair 
 
 ## What is compared
 
-`Str\Matcher` and `Str\Replacer` from [PR #25122](https://github.com/php/php-src/pull/25122) at commit [bb508627af](https://github.com/php/php-src/pull/25122/commits/bb508627af16e029c3c760109461c7596259484c), built into `ext/standard`.
+`Str\Matcher` and `Str\Replacer` from [PR #25122](https://github.com/php/php-src/pull/25122) at commit [bb508627af](https://github.com/php/php-src/commit/bb508627af16e029c3c760109461c7596259484c), built into `ext/standard`.
 They are compared with the existing ways to do the same job in PHP:
 
 | Task | Existing methods |
@@ -37,7 +37,7 @@ The order of found keys and occurrences doesn't matter: the native call pays for
 ## Two modes
 
 - **Prepared**: the object, pattern strings and arrays exist before the timer starts, wherever they were built. The timer covers the call, the result and its release.
-- **One-shot**: one build and one call. The timer also covers building the object, or the pattern strings, callbacks and arrays, and destroying them. Compiled PCRE patterns stay in PCRE's per-process cache, as they do between requests of PHP-FPM. Analysis that depends only on the dictionary, such as sorting keys or grouping nested keys, is done before the timer for the existing methods. If an application keeps a ready pattern as a constant in its code, its one-shot cost is the prepared row.
+- **One-shot**: one build and one call. The timer also covers building the object, or the pattern strings, callbacks and arrays, and destroying them. Compiled PCRE patterns stay in PCRE's per-process cache, as they do between requests of PHP-FPM. Analysis that depends only on the dictionary, such as sorting keys or grouping nested keys, is done before the timer for the existing methods.
 
 ## How a cell is measured
 

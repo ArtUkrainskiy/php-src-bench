@@ -4,8 +4,8 @@
     python3 tools/render.py
 
 Every *.md.in template is written to *.md with {{NAME}} placeholders filled by this script.
-Every table and every measured value in the text comes from the data; the templates hold only the
-fixed facts of the setup (sizes, thresholds, sources).
+Every table and most measured values in the text come from the data. The templates also state a few
+fixed facts of the setup (sizes, sources, the 3% noise floor) and the replace() thresholds read off its table.
 """
 import json
 import math
@@ -98,7 +98,10 @@ class Data:
         self.sources = json.loads((ROOT / 'corpus/SOURCES.json').read_text())
 
     def get(self, cell, compiler, mode):
-        return self.results.get((cell, compiler, mode))
+        """A record of the main series or, failing that, of the page-length series. Run-wide statistics
+        iterate self.results directly."""
+        key = (cell, compiler, mode)
+        return self.results.get(key) or self.pages.get(key)
 
     def marked(self, r):
         return r['spread_percent'] > MARK_SPREAD or abs(r['aa_max_percent']) > MARK_AA or bool({'preempted', 'load'} & set(r['flags']))
@@ -142,20 +145,45 @@ SCENARIOS = [
     ('Moderation: which listed words occur?', 'scenarios/moderation.unique'),
     ('Bot detection: is this User-Agent a crawler?', 'scenarios/bots.any'),
     ('Bot detection: which crawler patterns match?', 'scenarios/bots.unique'),
-    ('Auto-linking: link PHP function names in a manual page', 'scenarios/autolink.replace'),
-    ('Auto-linking: every function name with its offset', 'scenarios/autolink.all'),
-    ('Auto-linking: which function names occur?', 'scenarios/autolink.unique'),
+    ('Auto-linking, all pages, 3,345 names: link them', 'scenarios/autolink.replace'),
+    ('Auto-linking, all pages, 3,345 names: every name with its offset', 'scenarios/autolink.all'),
+    ('Auto-linking, all pages, 3,345 names: which names occur?', 'scenarios/autolink.unique'),
 ]
 
 
-def scenario_table(data, mode):
-    """One mode: task, fastest existing method and its time (GCC), native change 'GCC / Clang'."""
-    out = []
-    for label, cell in SCENARIOS:
-        r = data.get(cell, 'gcc15', mode)
-        out.append([label, method_name(r['reference'], data.cells[cell]), micro(r['reference_us']),
-                    micro(r['native_us']), f"{data.change(cell, 'gcc15', mode, '%')} / {data.change(cell, 'clang21', mode, '%')}"])
-    return table(['Task', 'Fastest existing method', 'Its time, µs', 'New class, µs', 'Change, GCC / Clang'], out, 2)
+PAGE_SCENARIOS = [
+    ('Auto-linking, 4–16 KiB pages, 128 names: link them', 'pages/autolink.replace.n128.p4096'),
+    ('Auto-linking, 4–16 KiB pages, 128 names: every name with its offset', 'pages/autolink.all.n128.p4096'),
+    ('Auto-linking, 4–16 KiB pages, 512 names: link them', 'pages/autolink.replace.n512.p4096'),
+    ('Auto-linking, 4–16 KiB pages, 512 names: every name with its offset', 'pages/autolink.all.n512.p4096'),
+]
+
+
+def repay_calls(data, cell, compiler):
+    """Calls on one object after which the build is repaid: 1 when a single call is already faster.
+    Otherwise build / (existing prepared time - native prepared time), rounded up, where build = one-shot
+    minus prepared time of the new class; the existing method's own one-time work counts as zero."""
+    prepared, oneshot = data.get(cell, compiler, 'prepared'), data.get(cell, compiler, 'oneshot')
+    if oneshot['ratio'] < 1:
+        return '1'
+    build = oneshot['native_us'] - prepared['native_us']
+    gain = prepared['reference_us'] - prepared['native_us']
+    return f'{math.ceil(build / gain)}' if gain > 0 else 'never'
+
+
+def scenario_table(data):
+    """Every scenario task in both modes: GCC times of the fastest existing method and the new class,
+    the change 'GCC / Clang', and the calls that repay the build 'GCC / Clang'."""
+    rows = []
+    for label, cell in SCENARIOS + PAGE_SCENARIOS:
+        row = [label]
+        for mode, _ in MODES:
+            r = data.get(cell, 'gcc15', mode)
+            row += [f"{micro(r['reference_us'])} / {micro(r['native_us'])}", data.pair(cell, mode)]
+        row.append(' / '.join(repay_calls(data, cell, cc) for cc, _ in COMPILERS))
+        rows.append(row)
+    return table(['Task', 'Prepared, µs: existing / new', 'Prepared change', 'One-shot, µs: existing / new',
+                  'One-shot change', 'Calls to repay the build, GCC / Clang'], rows)
 
 
 def scenario_inputs(data):
@@ -173,35 +201,6 @@ def scenario_inputs(data):
 def distinct_documents(cell):
     pool = cell['pool']
     return len(set(json.loads((ROOT / pool['documents']).read_text())))
-
-
-REPAY = [('Moderation', 'scenarios/moderation.any', 'LDNOOBW, 403 keys', 'matcher'),
-         ('Bot detection', 'scenarios/bots.any', 'crawler patterns, 1469 keys', 'matcher'),
-         ('Auto-linking, replace', 'scenarios/autolink.replace', 'PHP functions, 3345 keys', 'replacer'),
-         ('Auto-linking, offsets', 'scenarios/autolink.all', 'PHP functions, 3345 keys', 'matcher')]
-
-
-REPAY_ROWS = []
-
-
-def repay_table(data):
-    """Calls per request after which building the object once beats the fastest existing method.
-
-    build = one-shot - prepared time of the new class (both modes cover the whole scenario pool);
-    calls = build / (existing prepared time - native prepared time), rounded up. The existing method's
-    own per-request work (pattern strings, arrays) is counted as zero, which favours the existing method.
-    """
-    rows = []
-    for label, cell, _, _ in REPAY:
-        row = [label]
-        for cc, _ in COMPILERS:
-            prepared, oneshot = data.get(cell, cc, 'prepared'), data.get(cell, cc, 'oneshot')
-            build = oneshot['native_us'] - prepared['native_us']
-            gain = prepared['reference_us'] - prepared['native_us']
-            row += [micro(build), f'{math.ceil(build / gain)}' if gain > 0 else 'never']
-        rows.append(row)
-    REPAY_ROWS[:] = rows
-    return table(['Task', 'Build, GCC, µs', 'Calls, GCC', 'Build, Clang, µs', 'Calls, Clang'], rows)
 
 
 PAGE_NAMES = [128, 512, 3345]
@@ -228,30 +227,27 @@ def page_values(data):
     groups = [data.cells[page_cell('all', 3345, low)]['pool'] for low, _ in PAGE_SIZES]
     v['PAGES_INPUTS'] = (f"The groups hold {', '.join(str(len(g['indices'])) for g in groups[:-1])} and "
                          f"{len(groups[-1]['indices'])} pages with a median length of "
-                         f"{', '.join(f'{g['bytes']['median'] / 1024:.1f}' for g in groups[:-1])} and "
+                         f"{', '.join(format(g['bytes']['median'] / 1024, '.1f') for g in groups[:-1])} and "
                          f"{groups[-1]['bytes']['median'] / 1024:.1f} KiB.")
     heads = ['Names', 'Call'] + [page_label(lo, hi) for lo, hi in PAGE_SIZES]
-    rows, times = [], []
+    rows = []
     for n in PAGE_NAMES:
         for op in ('all', 'replace'):
             first = f'{n:,}' if op == 'all' else ''
             rows.append([first, OPS[op]] + [page_change(data, page_cell(op, n, lo)) for lo, _ in PAGE_SIZES])
-            recs = [data.pages[(page_cell(op, n, lo), 'gcc15', 'oneshot')] for lo, _ in PAGE_SIZES]
-            times.append([first, OPS[op]] + [f"{micro(r['native_us'])} / {micro(r['reference_us'])}" for r in recs]
-                         + [method_name(recs[-1]['reference'], data.cells[page_cell(op, n, PAGE_SIZES[-1][0])])])
     v['PAGES_TABLE'] = table(heads, rows, 2)
-    v['PAGES_TIMES'] = table(heads + ['Fastest existing method on 4–16 KiB'], times, 2)
     longest = PAGE_SIZES[-1][0]
     span = lambda recs: (lambda xs: f'{num(min(xs))}…{num(max(xs))}%')([r['change_percent'] for r in recs])  # noqa: E731
     pick = lambda pred: [r for (c, _, m), r in data.pages.items() if m == 'oneshot' and pred(c)]  # noqa: E731
     v['PAGES_LONG_SMALL'] = span(pick(lambda c: c.endswith(f'.p{longest}') and '.n3345.' not in c))
-    v['PAGES_LONG_ALL_3345'] = span(pick(lambda c: c == page_cell('all', 3345, longest)))
-    v['PAGES_LONG_REPLACE_3345'] = span(pick(lambda c: c == page_cell('replace', 3345, longest)))
-    v['PAGES_SHORT'] = span(pick(lambda c: c.endswith(f'.p{PAGE_SIZES[0][0]}') and c != page_cell('replace', 3345, PAGE_SIZES[0][0])))
-    v['PAGES_SHORT_REPLACE_3345'] = span(pick(lambda c: c == page_cell('replace', 3345, PAGE_SIZES[0][0])))
-    v['PAGES_PREPARED'] = span([r for (c, _, m), r in data.pages.items() if m == 'prepared'])
+    v['PAGES_REPLACE_3345'] = span(pick(lambda c: '.replace.n3345.' in c))
+    hits = []
+    for n in PAGE_NAMES:
+        shares = [100 * c['pool']['occurrences']['texts_with_matches'] / len(c['pool']['indices'])
+                  for c in (data.cells[page_cell('all', n, lo)] for lo, _ in PAGE_SIZES)]
+        hits.append(f"{n:,} names {', '.join(f'{x:.0f}' for x in shares)}%")
+    v['PAGES_HITS'] = 'Pages with at least one name, by group: ' + '; '.join(hits) + '.'
     v['PAGES_LONGEST'] = page_label(*PAGE_SIZES[-1])
-    v['PAGES_SHORTEST'] = page_label(*PAGE_SIZES[0])
     return v
 
 
@@ -265,23 +261,6 @@ def grid(data, prefix, ns, lengths, placement, mode):
     return table(['Keys'] + [size(b) for b in lengths], rows)
 
 
-def span_grid(data, group, ns, lengths, mode):
-    """Keys x length: range of the change over all calls and placements (except a match in the first
-    64 bytes) and both compilers; bold when the new class is faster in all of them."""
-    rows = []
-    for n in ns:
-        row = [n]
-        for b in lengths:
-            cells = [c for c in data.cells if c.startswith(group + '/') and re.search(rf'\.n{n}\.b{b}(\.|$)', c)
-                     and not c.endswith('.start')]
-            values = data.changes(cells, [mode])
-            text = f'{num(min(values))}…{num(max(values))}%' if values else ''
-            row.append(f'**{text}**' if values and max(values) < 0 else text)
-        rows.append(row)
-    return table(['Keys'] + [size(b) for b in lengths], rows)
-
-
-CROSS_LENGTHS = [1024, 1536, 2048, 3072, 4096]
 
 
 def oneshot_cell(n, b, op, placement):
@@ -289,53 +268,39 @@ def oneshot_cell(n, b, op, placement):
     return f'{group}/{op}.n{n}.b{b}.{placement}'
 
 
-def crossover_table(data, n):
-    """One-shot change per call for n random keys between 1 KiB and 4 KiB, 'GCC / Clang'."""
+NOISE = 3.0  # changes within this many percent are not told apart
+GRID_LENGTHS = [1024, 1536, 2048, 3072, 4096, 16384, 65536]
+
+
+def bold_pair(data, cell):
+    """One-shot 'GCC / Clang' change, bold when both compilers are faster by more than NOISE %."""
+    text = data.pair(cell, 'oneshot')
+    return f'**{text}**' if max(data.changes([cell], ['oneshot'])) < -NOISE else text
+
+
+def oneshot_grid(data):
+    """Random keys x length, one-shot, 'GCC / Clang', one row per search call: one match in the middle
+    third, and matches() also with no match. Bold when both compilers are faster by more than NOISE %."""
     rows = []
-    for op, placement, label in [('unique', 'one', OPS['unique']), ('count', 'one', OPS['count']),
-                                 ('all', 'one', OPS['all']), ('replace', 'one', OPS['replace']),
-                                 ('any', 'absent', OPS['any'] + ', no match'),
-                                 ('any', 'one', OPS['any'] + ', match in the middle')]:
-        rows.append([label] + [data.pair(oneshot_cell(n, b, op, placement), 'oneshot') for b in CROSS_LENGTHS])
-    return table(['Call'] + [size(b) if b % 1024 == 0 else f'{b / 1024:g} KiB' for b in CROSS_LENGTHS], rows)
+    for n in (16, 32, 128, 1024):
+        calls = [('unique', 'one', OPS['unique']), ('count', 'one', OPS['count']), ('all', 'one', OPS['all']),
+                 ('any', 'absent', OPS['any'] + ', no match'), ('any', 'one', OPS['any'])]
+        out = [[n if i == 0 else '', label] for i, (_, _, label) in enumerate(calls)]
+        for b in GRID_LENGTHS:
+            for row, (op, placement, _) in zip(out, calls):
+                row.append(bold_pair(data, oneshot_cell(n, b, op, placement)))
+        rows += out
+    heads = ['Keys', 'Call'] + [size(b) if b % 1024 == 0 else f'{b / 1024:g} KiB' for b in GRID_LENGTHS]
+    return table(heads, rows, 2)
 
 
-def min_length_table(data):
-    """Smallest measured text length where one-shot is faster on both compilers, for three sets of cases."""
-    def cells_for(kind, n, b, placements):
-        if kind == 'random':
-            group = 'crossover' if b in (1536, 2048, 3072) else 'controlled'
-            return [c for c in data.cells if c.startswith(group + '/') and re.search(rf'\.n{n}\.b{b}\.', c)
-                    and c.rsplit('.', 1)[1] in placements]
-        if b in (1536, 2048, 3072):
-            return [c for c in data.cells if c.startswith('crossover/') and f'.names{n}.b{b}' in c]
-        return [c for c in data.cells if c.startswith('natural/') and re.search(rf'\.n{n}\.b{b}$', c)]
-
-    def smallest(kind, n, lengths, placements, skip_match):
-        for b in lengths:
-            cells = [c for c in cells_for(kind, n, b, placements)
-                     if not (skip_match and '/any.' in c and not c.endswith('.absent'))]
-            values = data.changes(cells, ['oneshot'])
-            if values and max(values) < 0:
-                return (size(b) if b % 1024 == 0 else f'{b / 1024:g} KiB') + ('*' if max(values) > -3 else '')
-        return 'not up to 64 KiB'
-    rows = []
-    simple, more = ('one', 'absent'), ('one', 'absent', 'end', 'spread16')
-    for kind, label, ns, lengths in [('random', 'Random keys', [16, 32, 128, 1024], [1024, 1536, 2048, 3072, 4096, 16384, 65536]),
-                                     ('names', 'PHP names', [32, 128, 512, 2048], [1024, 1536, 2048, 3072, 4096, 65536])]:
-        for n in ns:
-            row = [label, n, smallest(kind, n, lengths, simple, True), smallest(kind, n, lengths, simple, False)]
-            row.append(smallest(kind, n, [b for b in lengths if b in LENGTHS], more, False) if kind == 'random' else '—')
-            rows.append(row)
-    return table(['Dictionary', 'Keys', 'Every call but `matches()` with a match', 'Every call',
-                  'Every call, also 16 matches or a match in the last 64 bytes'], rows, 1)
 
 
 def replace_oneshot_table(data):
     """One-shot replace(): change against the fastest existing method, 'GCC / Clang', by keys and length."""
-    lengths = [1024, 1536, 2048, 3072, 4096, 16384, 65536]
+    lengths = GRID_LENGTHS
     rows = []
-    for label, n, cell in [('random', n, None) for n in (16, 32, 128, 1024)] + [('names', n, None) for n in (32, 128, 512)]:
+    for label, n in [('random', n) for n in (16, 32, 128, 1024)] + [('names', n) for n in (32, 128, 512)]:
         row = [f'{n} random keys' if label == 'random' else f'{n} PHP names']
         for b in lengths:
             if label == 'random':
@@ -344,7 +309,7 @@ def replace_oneshot_table(data):
                 c = f'crossover/replace.names{n}.b{b}'
             else:
                 c = f'natural/replace.n{n}.b{b}'
-            row.append(data.pair(c, 'oneshot') if c in data.cells else '—')
+            row.append(bold_pair(data, c) if c in data.cells else '—')
         rows.append(row)
     return table(['Dictionary'] + [size(b) if b % 1024 == 0 else f'{b / 1024:g} KiB' for b in lengths], rows)
 
@@ -538,7 +503,7 @@ COMMIT = 'bb508627af16e029c3c760109461c7596259484c'
 ENVIRONMENT = {
     'PR_URL': 'https://github.com/php/php-src/pull/25122',
     'COMMIT_SHORT': COMMIT[:10],
-    'COMMIT_URL': f'https://github.com/php/php-src/pull/25122/commits/{COMMIT}',
+    'COMMIT_URL': f'https://github.com/php/php-src/commit/{COMMIT}',
     'AA_LIMIT': f'{AA_LIMIT:g}', 'SPREAD_LIMIT': f'{SPREAD_LIMIT:g}', 'PROCESSES': '3', 'RECHECK': '2',
     'MACHINE': 'AMD Ryzen 9 5950X (Zen 3, two 8-core CCDs), Ubuntu 26.04, Linux 7.0',
     'GCC': '15.2.0', 'CLANG': '21.1.8',
@@ -612,7 +577,8 @@ def calibration_table():
 
 
 KINDS = [('controlled', 'Random keys'), ('natural', 'PHP names'), ('crossover', 'Crossover lengths'),
-         ('languages', 'Text languages'), ('scenarios', 'Application scenarios'), ('counterexamples', 'Edge cases')]
+         ('languages', 'Text languages'), ('scenarios', 'Application scenarios'), ('counterexamples', 'Edge cases'),
+         ('pages', 'Manual pages by length')]
 
 
 def input_label(kind, cell_id):
@@ -624,11 +590,15 @@ def input_label(kind, cell_id):
         if token in OPS:
             continue
         if m := re.fullmatch(r'n(\d+)', token):
-            parts.append(f'{m.group(1)} keys' if kind != 'natural' else f'{m.group(1)} PHP names')
+            parts.append(f'{m.group(1)} keys' if kind not in ('natural', 'pages') else f'{m.group(1)} PHP names')
         elif m := re.fullmatch(r'names(\d+)', token):
             parts.append(f'{m.group(1)} PHP names')
         elif m := re.fullmatch(r'b(\d+)', token):
             parts.append(size(int(m.group(1))))
+        elif m := re.fullmatch(r'p(\d+)', token):
+            parts.append('pages of ' + page_label(*next(s for s in PAGE_SIZES if s[0] == int(m.group(1)))))
+        elif token == 'autolink':
+            continue
         elif token in PLACEMENTS:
             parts.append(PLACEMENTS[token])
         else:
@@ -638,7 +608,7 @@ def input_label(kind, cell_id):
 
 
 def sort_key(cell_id):
-    numbers = [int(x) for x in re.findall(r'(?:^|\.)(?:n|names|b)(\d+)', cell_id)]
+    numbers = [int(x) for x in re.findall(r'(?:^|\.)(?:n|names|b|p)(\d+)', cell_id)]
     return (re.sub(r'\d+', '', cell_id), numbers)
 
 
@@ -655,7 +625,7 @@ def method_cell(r, method):
 
 def keys_of(kind, cid):
     m = re.search(r'(?:^|\.)(?:n|names)(\d+)(?:\.|$)', cid)
-    return int(m.group(1)) if m and kind in ('controlled', 'natural', 'crossover') else None
+    return int(m.group(1)) if m and kind in ('controlled', 'natural', 'crossover', 'pages') else None
 
 
 def all_methods(data):
@@ -697,57 +667,33 @@ def all_methods(data):
                             + [method_cell(r, m) for m in methods]
                             + [data.change(f'{kind}/{cid}', r['compiler'], mode)] for cid, label, r in recs]
                     n = keys_of(kind, cids[0])
-                    what = f'{n} {"PHP names" if kind == "natural" or "names" in cids[0] else "keys"}, ' if n else ''
+                    what = f'{n} {"PHP names" if kind in ("natural", "pages") or "names" in cids[0] else "keys"}, ' if n else ''
                     out.append(f'**{what}{mode_title.lower()}**')
                     out.append(table(heads, rows, 2))
     return '\n\n'.join(out)
+
+
 
 
 def placeholders(data):
     v = {**ENVIRONMENT, 'BRANCH_PROBE_TABLE': branch_probe_table(), 'CALIBRATION_TABLE': calibration_table(),
          'LEGEND': LEGEND, 'GRID_LEGEND': GRID_LEGEND.format(root=''), 'MARK_SPREAD': f'{MARK_SPREAD:.0f}',
          'MARK_AA': f'{MARK_AA:.0f}', 'PROBE_ONE_US': probe_range('1'), 'PROBE_MANY_US': probe_range('64')}
-    v['SCENARIOS_PREPARED'] = scenario_table(data, 'prepared')
-    v['SCENARIOS_ONESHOT'] = scenario_table(data, 'oneshot')
+    v['SCENARIOS_TABLE'] = scenario_table(data)
     v['SCENARIO_INPUTS'] = scenario_inputs(data)
     v['BOTS_DISTINCT'] = f"{distinct_documents(data.cells['scenarios/bots.any']):,}"
-    v['REPAY_TABLE'] = repay_table(data)
     v.update(page_values(data))
-    calls = [int(c) for row in REPAY_ROWS for c in (row[2], row[4]) if c != 'never']
-    v['REPAY_RANGE'] = f'{min(calls)} to {max(calls)}'
-    by = {row[0]: (int(row[2]), int(row[4])) for row in REPAY_ROWS}
-    rng = lambda name: f'{min(by[name])}' if min(by[name]) == max(by[name]) else f'{min(by[name])}–{max(by[name])}'  # noqa: E731
-    apps = []
-    for name, prefix, repay in [('Moderation', 'scenarios/moderation.', ['Moderation']),
-                                ('Bot detection', 'scenarios/bots.', ['Bot detection']),
-                                ('Auto-linking', 'scenarios/autolink.', ['Auto-linking, replace', 'Auto-linking, offsets'])]:
-        recs = [r for (c, _, _), r in data.results.items() if c.startswith(prefix)]
-        fast = [1 / r['ratio'] for r in recs if r['mode'] == 'prepared']
-        slow = [r['ratio'] for r in recs if r['mode'] == 'oneshot']
-        reps = [n for row in by.items() if row[0] in repay for n in row[1]]
-        times = lambda x: f'{x:.1f}' if x < 10 else f'{x:.0f}'  # noqa: E731
-        const = [r['native_us'] / data.get(r['cell'], r['compiler'], 'prepared')['reference_us'] for r in recs
-                 if r['mode'] == 'oneshot']
-        apps.append([name, f'{times(min(fast))}–{times(max(fast))}× faster', f'{times(min(slow))}–{times(max(slow))}× slower',
-                     f'{times(min(const))}–{times(max(const))}× slower', f'{min(reps)}–{max(reps)}'])
-    v['APPS_SUMMARY'] = '\n'.join('| ' + ' | '.join(r) + ' |' for r in apps)
-    v['REPAY_MODERATION'], v['REPAY_BOTS'] = rng('Moderation'), rng('Bot detection')
-    v['REPAY_LINKS'] = f"{min(by['Auto-linking, replace'] + by['Auto-linking, offsets'])}–{max(by['Auto-linking, replace'] + by['Auto-linking, offsets'])}"
     for mode, _ in MODES:
         key = mode.upper()
-        v[f'MAP_{key}'] = grid(data, 'controlled/any', CONTROLLED_N, LENGTHS, 'one', mode)
         v[f'CONTROLLED_{key}'] = controlled_tables(data, mode)
         v[f'NATURAL_{key}'] = natural_tables(data, mode)
         v[f'LANGUAGES_{key}'] = language_tables(data, mode)
-    v['CROSSOVER_128'] = crossover_table(data, 128)
+    v['ONESHOT_GRID'] = oneshot_grid(data)
     v['REPLACE_ONESHOT'] = replace_oneshot_table(data)
     b1024 = [data.get(oneshot_cell(1024, b, 'replace', 'one'), 'gcc15', 'oneshot') for b in (1024, 4096)]
     b1024 = [data.get(oneshot_cell(1024, b, 'replace', 'one'), 'gcc15', 'oneshot') for b in (1024, 1536, 2048, 3072, 4096)]
     v['REPLACE_1024_STRTR_US'] = f"{micro(min(r['reference_us'] for r in b1024))}–{micro(max(r['reference_us'] for r in b1024))}"
     v['REPLACE_1024_NATIVE_US'] = f"{micro(min(r['native_us'] for r in b1024))}–{micro(max(r['native_us'] for r in b1024))}"
-    v['ONESHOT_MIN_LENGTH'] = min_length_table(data)
-    v['ONESHOT_SPAN_RANDOM'] = span_grid(data, 'controlled', CONTROLLED_N, LENGTHS, 'oneshot')
-    v['ONESHOT_SPAN_NATURAL'] = span_grid(data, 'natural', NATURAL_N, NATURAL_LENGTHS, 'oneshot')
     v['FEW_TABLE'], v['DENSE_TABLE'] = counterexample_tables(data)
     v['CONSTRUCT_TABLE'] = construct_table(data)
     v['CONSTRUCT_MEMORY'] = construct_table(data, memory=True)
@@ -761,17 +707,10 @@ def placeholders(data):
     check = json.loads((ROOT / 'data/corecheck.json').read_text())
     v['CROSS_MAX'] = f"{max(100 * abs(r['ratio'] / data.get(r['cell'], r['compiler'], r['mode'])['ratio'] - 1) for r in check):.1f}"
     pairs = [(r, data.get(c, 'clang21', m)) for (c, cc, m), r in data.results.items() if cc == 'gcc15']
-    v['CLANG_NATIVE_GAP'] = f"{100 * st.median(c['native_us'] / g['native_us'] - 1 for g, c in pairs):.0f}"
     for mode in ('prepared', 'oneshot'):
         v[f'CLANG_GAP_{mode.upper()}'] = f"{100 * st.median(c['native_us'] / g['native_us'] - 1 for g, c in pairs if g['mode'] == mode):.0f}"
-    def const(cells):
-        xs = [data.get(c, cc, 'oneshot')['native_us'] / data.get(c, cc, 'prepared')['reference_us'] for c in cells for cc, _ in COMPILERS]
-        return f'{min(xs):.1f}–{max(xs):.1f}' if max(xs) < 10 else f'{min(xs):.0f}–{max(xs):.0f}'
-    v['AUTOLINK_STRTR_CONST'] = const(['scenarios/autolink.replace'])
-    v['AUTOLINK_PCRE_CONST'] = const(['scenarios/autolink.all', 'scenarios/autolink.unique'])
     v['LOAD_COUNT'] = str(sum(1 for r in data.results.values() if 'load' in r['flags']))
     v['UNTIMED_MIN'] = f"{min(min(r['untimed'].values()) / r['reference_us'] for r in data.results.values() if r['untimed']):.2f}"
-    v['CLANG_REFERENCE_GAP'] = num(100 * st.median(c['reference_us'] / g['reference_us'] - 1 for g, c in pairs if c['reference'] == g['reference']))
 
     controlled = [c for c in data.cells if c.startswith('controlled/')]
     natural = [c for c in data.cells if c.startswith('natural/')]
@@ -783,61 +722,42 @@ def placeholders(data):
     r32 = [r['ratio'] for c in not_start + natural if n_of(c) >= 32 for cc, _ in COMPILERS
            if (r := data.get(c, cc, 'prepared'))]
     v['PREPARED_32_TIMES'] = f'{1 / max(r32):.1f} to {1 / min(r32):.0f}'
-    v['START_32_PLUS'] = data.span([c for c in start if n_of(c) >= 32], ['prepared'])
     v['PREPARED_16'] = data.span([c for c in not_start if n_of(c) == 16], ['prepared'])
     v['START_16'] = data.span([c for c in start if n_of(c) == 16], ['prepared'])
     v['PREPARED_8_ALL'] = data.span([c for c in not_start if n_of(c) == 8], ['prepared'])
-    v['START_REFERENCE_US'] = '–'.join(micro(f(data.get(c, cc, 'prepared')['reference_us'] for c in start
-                                                if n_of(c) in (32, 128) for cc, _ in COMPILERS)) for f in (min, max))
-    v['START_NATIVE_US'] = '–'.join(micro(f(data.get(c, cc, 'prepared')['native_us'] for c in start
-                                             for cc, _ in COMPILERS)) for f in (min, max))
     rows = construct_rows(data)
     v['CLANG_BUILD_GAP'] = f"{100 * max(abs(rows[(d, c, 'clang21')]['us'] / x['us'] - 1) for (d, c, cc), x in rows.items() if cc == 'gcc15'):.0f}"
     scen = [r['ratio'] for (c, _, m), r in data.results.items() if c.startswith('scenarios/') and m == 'prepared']
-    v['SCENARIO_TIMES'] = f'{1 / max(scen):.0f} to {1 / min(scen):.0f}'
-    v['SCENARIO_PREPARED_SPAN'] = data.span([c for c in data.cells if c.startswith('scenarios/')], ['prepared'])
-    v['PREPARED_8'] = data.span([c for c in controlled if n_of(c) == 8 and c.endswith(('.one', '.absent'))], ['prepared'])
-    v['ONESHOT_64K_START'] = data.span([c for c in start if b_of(c) == 65536 and n_of(c) >= 16], ['oneshot'])
-    v['ONESHOT_64K_16_ALL'] = data.span([c for c in controlled if b_of(c) == 65536 and n_of(c) >= 16
-                                         and not c.endswith('.start')], ['oneshot'])
+    v['ONESHOT_4K_128'] = data.span([c for c in not_start if n_of(c) == 128 and b_of(c) == 4096], ['oneshot'])
+    mid = lambda n: data.get(f'controlled/any.n{n}.b4096.one', 'gcc15', 'prepared')  # noqa: E731
+    v['ANY_MID_16_US'], v['ANY_MID_1024_US'] = micro(mid(16)['native_us']), micro(mid(1024)['native_us'])
     v['PREPARED_NATURAL_8'] = data.span([c for c in natural if n_of(c) == 8], ['prepared'])
     v['PREPARED_NATURAL_32_PLUS'] = data.span([c for c in natural if n_of(c) >= 32], ['prepared'])
-    o128 = data.changes([c for c in controlled + natural if b_of(c) == 128], ['oneshot'])
-    v['ONESHOT_128_TIMES'] = f'{1 + min(o128) / 100:.1f} to {1 + max(o128) / 100:.0f}'
-    for key, group in (('RANDOM', controlled), ('NATURAL', natural)):
-        ch = data.changes([c for c in group if b_of(c) == 128], ['oneshot'])
-        v[f'ONESHOT_128_{key}_TIMES'] = f'{1 + min(ch) / 100:.1f}–{1 + max(ch) / 100:.0f}×'
     st32 = data.changes([c for c in start if n_of(c) >= 32], ['prepared'])
     v['START_32_PLUS_LO'], v['START_32_PLUS_HI'] = f'{num(min(st32))}%', f'{num(max(st32))}%'
-    v['START_8'] = data.span([c for c in start if n_of(c) == 8], ['prepared'])
     v['ONESHOT_START_16'] = data.span([c for c in start if n_of(c) >= 16], ['oneshot'])
-    short = []
-    for n in (16, 32, 128):
-        recs = [data.get(c, 'gcc15', 'oneshot') for c in controlled if n_of(c) == n and b_of(c) == 128]
-        span = lambda xs: f'{micro(min(xs))}–{micro(max(xs))}'  # noqa: E731
-        short.append([n, span([r['reference_us'] for r in recs]), span([r['native_us'] for r in recs])])
-        if n == 16:
-            v['ONESHOT_128B_16_REF'] = span([r['reference_us'] for r in recs])
-            v['ONESHOT_128B_16_NATIVE'] = span([r['native_us'] for r in recs])
+    v['START_1024'] = data.span([c for c in start if n_of(c) == 1024], ['prepared'])
+    rng = lambda xs: f'{micro(min(xs))}–{micro(max(xs))}'  # noqa: E731
+    pcre_start = lambda n: [data.get(c, 'gcc15', 'prepared')['reference_us'] for c in start if n_of(c) == n]  # noqa: E731
+    v['START_PCRE_LOW_US'] = rng(pcre_start(16))
+    v['START_PCRE_HIGH_US'] = rng(pcre_start(1024))
+    v['REF_MID_16_US'] = micro(data.get('controlled/any.n16.b4096.one', 'gcc15', 'prepared')['reference_us'])
+    v['REF_MID_1024_US'] = micro(data.get('controlled/any.n1024.b4096.one', 'gcc15', 'prepared')['reference_us'])
+    v['REPLACE_1024_SHORT'] = data.span([oneshot_cell(1024, b, 'replace', p) for b in GRID_LENGTHS if b <= 4096
+                                         for p in ('one', 'absent', 'spread16')
+                                         if oneshot_cell(1024, b, 'replace', p) in data.cells], ['oneshot'])
+    gcc_start = lambda mode, key: [data.get(c, 'gcc15', mode)[key] for c in start if n_of(c) >= 16]  # noqa: E731
+    v['START_NATIVE_16_US'] = rng(gcc_start('prepared', 'native_us'))
+    v['START_ONESHOT_NATIVE_US'] = rng(gcc_start('oneshot', 'native_us'))
+    v['START_ONESHOT_PCRE_US'] = rng(gcc_start('oneshot', 'reference_us'))
+    recs = [data.get(c, 'gcc15', 'oneshot') for c in controlled if n_of(c) == 16 and b_of(c) == 128]
+    span = lambda xs: f'{micro(min(xs))}–{micro(max(xs))}'  # noqa: E731
+    v['ONESHOT_128B_16_REF'] = span([r['reference_us'] for r in recs])
+    v['ONESHOT_128B_16_NATIVE'] = span([r['native_us'] for r in recs])
     v['ALL_METHODS'] = all_methods(data)
-    v['ONESHOT_128B_TABLE'] = table(['Random keys', 'Fastest existing method, µs', 'Build and call, µs'], short)
     raw = [r['change_without_noop_percent'] for c in not_start if n_of(c) >= 32 for cc, _ in COMPILERS
            if (r := data.get(c, cc, 'prepared'))]
     v['PREPARED_32_PLUS_RAW'] = f'{num(min(raw))}…{num(max(raw))}%'
-    v['ONESHOT_128_RANDOM'] = data.span([c for c in controlled if b_of(c) == 128], ['oneshot'])
-    v['ONESHOT_128_NATURAL'] = data.span([c for c in natural if b_of(c) == 128], ['oneshot'])
-    v['ONESHOT_128'] = data.span([c for c in controlled + natural if b_of(c) == 128], ['oneshot'])
-    v['ONESHOT_64K_16'] = data.span([c for c in controlled if b_of(c) == 65536 and 16 <= n_of(c)
-                                     and not c.endswith(('.start', '.end', '.spread16'))], ['oneshot'])
-    natural64 = [c for c in natural if b_of(c) == 65536 and n_of(c) >= 32]
-    v['ONESHOT_64K_NATURAL'] = data.span(natural64, ['oneshot'])
-    v['UNIQUE_SPREAD_8'] = data.span([c for c in controlled if c.startswith('controlled/unique.n8.')
-                                      and c.endswith('.spread16')], ['prepared'])
-    langs = [c for c in data.cells if c.startswith('languages/')]
-    v['LANG_WORDS_LATIN'] = data.span([c for c in langs if c.split('/')[1].split('.')[0] in ('en', 'es', 'emoji')
-                                       and '.words.' in c], ['prepared'])
-    v['LANG_WORDS_OTHER'] = data.span([c for c in langs if c.split('/')[1].split('.')[0] in ('ru', 'zh', 'ja', 'ko')
-                                     and '.words.' in c], ['prepared'])
     return v
 
 

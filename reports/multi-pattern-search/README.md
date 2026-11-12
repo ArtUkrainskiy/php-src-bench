@@ -11,15 +11,19 @@ $matcher->matches($comment);   // also getMatchedKeywords(), countMatches(), mat
 
 The report compares them with the fastest existing way to do the same: a `str_contains()`/`strpos()` loop, `strtr()`, or a PCRE alternation.
 
-Each result is shown in two modes:
+Two modes:
 
-- **Prepared**: the time of a call on an object that already exists. The build is paid elsewhere: once per worker in a long-running runtime, once per request before a loop over many texts, or anywhere else the object is reused. Under PHP-FPM an object lives for one request.
-- **One-shot**: the time of building the object and making one call with it.
+- **Prepared**: a call on an object built earlier, once per worker in a long-running runtime or once before a loop over many texts. Under PHP-FPM an object lives for one request.
+- **One-shot**: building the object and one call.
 
-The cost of the build decides between them. On the random-key and PHP-name grids, a prepared object with 32 keys or more is 1.9 to 16 times faster per call, unless a match comes in the first 64 bytes.
-Building it for a single check of a short text is slower: on 128 B with 16 random keys the build and call take 4.19–4.58 µs, the fastest existing method 0.46–1.89 µs. In the moderation scenario the build pays off from about 29–32 checks with the same object.
-On long texts a single call usually pays for the build: at 64 KiB with 16 random keys or more a one-shot call changes the time by −82…+5.2%. The exception is `matches()` with a match in the first 64 bytes: +221…+550% at 4 and 64 KiB.
-On real documents it depends on the length and the dictionary. Auto-linking whole manual pages of 4–16 KiB in one call with 128 or 512 names changes the time by −72…−65%; with all 3,345 names `matchAll()` by −62…−60%, while `replace()` stays slower than `strtr()`: +32…+40%. On pages of 1–2 KiB a single call doesn't pay off: +0.5…+67%, and +465…+502% for `replace()` with 3,345 names. See [One call on long pages](#one-call-on-long-pages).
+Main results, times with GCC:
+
+- A prepared object with 32 keys or more is 1.9 to 16 times faster per call.
+- One call on a short text is slower: on 128 B with 16 random keys the build and call take 4.19–4.58 µs, the fastest existing method 0.46–1.89 µs.
+- One call pays for the build on longer texts: at 4 KiB with 128 random keys it changes the time by −67…−29%. On whole manual pages of 4–16 KiB, one auto-linking call with 128 or 512 names changes it by −72…−65%.
+- One `replace()` with a large dictionary is slower than `strtr()`: +95…+751% with 1024 random keys up to 4 KiB, +32…+502% with the 3,345 auto-linking names on every page length.
+- `matches()` stops at the first match. Its time grows with the position of the match, not with the number of keys. With a match in the middle of 4 KiB a prepared call takes 2.86 µs with 16 keys and 2.96 µs with 1024, the fastest existing method 6.39 and 17.7 µs.
+- The ranges above leave out a match in the first 64 bytes. There every method stops after a few bytes. Prepared, the new class takes 0.26–0.27 µs at any key count, PCRE 0.12–0.16 µs with 16 keys and 0.68–0.75 µs with 1024: the change is +58…+115% with 16 keys and −70…−61% with 1024. One-shot, the new class still builds its object, 4.43–392 µs. PCRE only builds its pattern string, 1.34–62.4 µs, and keeps the compiled pattern in its cache. One call changes the time by +221…+550%.
 
 Detailed tables by question: [Where to look](#where-to-look).
 
@@ -28,7 +32,7 @@ Detailed tables by question: [Where to look](#where-to-look).
 Each value is the change in time per call against the fastest existing method for the same call, text, keys and mode. Which methods compete: [How it was compared](#how-it-was-compared); the time of each of them for every value: [all-methods.md](all-methods.md).
 Negative = the new class is faster: −50% is twice as fast, −90% ten times. † = noisy value (see [METHOD.md](METHOD.md)).
 Random keys are random strings of the letters a–p, written into English text. PHP names are function and method names from the PHP manual, on manual text.
-Ranges cover the five calls (`matches()`, `getMatchedKeywords()`, `countMatches()`, `matchAll()`, `replace()`), texts from 128 B to 64 KiB, and both compilers. A match in the first 64 bytes is listed separately below.
+Ranges cover the five calls (`matches()`, `getMatchedKeywords()`, `countMatches()`, `matchAll()`, `replace()`), texts from 128 B to 64 KiB, and both compilers, without a match in the first 64 bytes.
 
 | Mode | Keys | Random keys | PHP names |
 |---|---|---:|---:|
@@ -38,79 +42,55 @@ Ranges cover the five calls (`matches()`, `getMatchedKeywords()`, `countMatches(
 
 ### When a single call pays for the build
 
-The smallest measured text on which building the object for one call is already faster than the fastest existing method for every call of the column, on both compilers. Measured lengths: 1, 1.5, 2, 3, 4, 16 and 64 KiB; PHP names have no 16 KiB cell.
-Random keys: one match in the middle third or none. The last column adds 16 matches across the text (measured at 1, 4, 16 and 64 KiB) and, for `matches()`, a match in the last 64 bytes (4 and 64 KiB), so it only looks at those lengths. 2048 PHP names were measured at 1, 4 and 64 KiB only.
+Random keys, build and one call, change against the fastest existing method, GCC / Clang. **Bold**: faster by more than 3% with both compilers. The text has one match in the middle third, or none where the row says so. `matches()` stops at the match, about halfway. The other calls read the whole text. `replace()` is in the next section.
 
-| Dictionary | Keys | Every call but `matches()` with a match | Every call | Every call, also 16 matches or a match in the last 64 bytes |
-|---|---:|---:|---:|---:|
-| Random keys | 16 | 4 KiB | 16 KiB | not up to 64 KiB |
-| Random keys | 32 | 1.5 KiB* | 4 KiB | 16 KiB |
-| Random keys | 128 | 1.5 KiB | 3 KiB | 4 KiB |
-| Random keys | 1024 | 16 KiB | 16 KiB | 16 KiB |
-| PHP names | 32 | 4 KiB | 4 KiB | — |
-| PHP names | 128 | 3 KiB* | 4 KiB | — |
-| PHP names | 512 | 4 KiB | 64 KiB | — |
-| PHP names | 2048 | 64 KiB | not up to 64 KiB | — |
+| Keys | Call | 1 KiB | 1.5 KiB | 2 KiB | 3 KiB | 4 KiB | 16 KiB | 64 KiB |
+|---|---|---:|---:|---:|---:|---:|---:|---:|
+| 16 | `getMatchedKeywords()` | +58% / +72% | +27% / +39% | +9.0% / +21% | −9.8% / +2.0% | **−20% / −7.3%** | **−45% / −33%** | **−52% / −41%** |
+|  | `countMatches()` | +54%† / +66% | +23% / +35% | +4.8% / +17% | −14% / −1.5% | **−24% / −12%** | **−47% / −35%** | **−53% / −41%** |
+|  | `matchAll()` | +54% / +65% | +22% / +35% | +5.3% / +18% | −14% / −0.8%† | **−24% / −11%†** | **−47% / −35%** | **−53% / −41%** |
+|  | `matches()`, no match | +59% / +72% | +25% / +38% | +6.8% / +19% | −12% / +0.1% | **−23% / −11%** | **−48% / −36%** | **−53% / −41%** |
+|  | `matches()` | +159% / +173% | +96% / +111% | +63% / +76% | +25% / +38% | +5.1%† / +17% | **−41% / −29%** | **−54% / −44%** |
+| 32 | `getMatchedKeywords()` | +20% / +29% | −9.5%† / −2.1% | **−26% / −18%** | **−42% / −36%** | **−50% / −44%** | **−70% / −65%†** | **−72% / −69%** |
+|  | `countMatches()` | +16% / +23% | **−12% / −3.8%** | **−26% / −18%** | **−41% / −32%** | **−49% / −42%** | **−69% / −62%** | **−70% / −64%** |
+|  | `matchAll()` | +17% / +24% | **−13% / −4.9%** | **−27% / −21%** | **−42% / −36%** | **−50% / −44%** | **−70% / −65%** | **−72% / −68%** |
+|  | `matches()`, no match | +20% / +28% | −10% / −2.9% | **−25% / −18%** | **−41% / −35%** | **−50% / −43%** | **−69% / −64%** | **−71% / −66%** |
+|  | `matches()` | +129% / +140% | +69% / +79%† | +35% / +45% | −1.2% / +6.6% | **−19% / −12%** | **−62% / −56%** | **−73% / −67%** |
+| 128 | `getMatchedKeywords()` | +8.3% / +12% | **−20% / −16%** | **−34% / −32%** | **−52% / −50%** | **−62% / −59%** | **−84% / −83%** | **−81% / −79%** |
+|  | `countMatches()` | +12% / +15% | **−16% / −14%** | **−31% / −31%** | **−50% / −48%** | **−60% / −59%** | **−84% / −82%** | **−81% / −78%** |
+|  | `matchAll()` | +6.8% / +12% | **−20%† / −16%** | **−34% / −32%** | **−52% / −49%** | **−62% / −60%** | **−84% / −83%** | **−81% / −79%** |
+|  | `matches()`, no match | +17% / +18% | **−13% / −13%** | **−31% / −31%** | **−49% / −49%** | **−59% / −59%** | **−83% / −83%** | **−80% / −77%** |
+|  | `matches()` | +100% / +108% | +42% / +47% | +19% / +18% | **−13% / −13%** | **−29% / −29%** | **−76% / −75%** | **−82% / −81%** |
+| 1024 | `getMatchedKeywords()` | +72% / +76% | +19% / +21% | **−7.9% / −5.0%** | **−38% / −35%** | **−52% / −51%** | **−80% / −81%** | **−80% / −81%** |
+|  | `countMatches()` | +70% / +74% | +19% / +21% | **−8.6% / −6.3%** | **−37% / −35%** | **−52% / −51%** | **−80%† / −81%** | **−80% / −80%** |
+|  | `matchAll()` | +70% / +74% | +18% / +21% | **−9.0% / −7.5%** | **−36% / −35%** | **−52% / −51%** | **−80% / −81%** | **−81% / −81%** |
+|  | `matches()`, no match | +71% / +74% | +20% / +23% | **−7.1% / −5.0%** | **−36% / −34%** | **−52% / −51%** | **−80% / −81%** | **−80% / −80%** |
+|  | `matches()` | +234% / +242% | +134% / +138% | +82% / +85% | +26% / +27% | **−6.3% / −4.9%** | **−76% / −76%** | **−80%† / −80%** |
 
-\* The slowest case at that length is within 3% of the reference, inside the noise.
-
-`matches()` with a match is the hardest case: the existing methods stop at the first match, so they spend less the earlier it comes. With a match in the first 64 bytes a one-shot `matches()` didn't pay at 4 or 64 KiB: +221…+550% with 16 keys or more.
-On PHP names the text decides where matches are, so `matches()` is left out of the first column there.
-
-Below that length at least one of those calls is still slower; others may already win. One call on a 128 B text, one-shot, GCC, over the five calls and match positions:
-
-| Random keys | Fastest existing method, µs | Build and call, µs |
-|---|---:|---:|
-| 16 | 0.46–1.89 | 4.19–4.58 |
-| 32 | 0.78–3.1 | 8.02–8.39 |
-| 128 | 2.85–6.26 | 29.3–31.1 |
-
-One-shot with 128 random keys, change per call (GCC / Clang):
-
-| Call | 1 KiB | 1.5 KiB | 2 KiB | 3 KiB | 4 KiB |
-|---|---:|---:|---:|---:|---:|
-| `getMatchedKeywords()` | +8.3% / +12% | −20% / −16% | −34% / −32% | −52% / −50% | −62% / −59% |
-| `countMatches()` | +12% / +15% | −16% / −14% | −31% / −31% | −50% / −48% | −60% / −59% |
-| `matchAll()` | +6.8% / +12% | −20%† / −16% | −34% / −32% | −52% / −49% | −62% / −60% |
-| `replace()` | +7.2% / +13% | −18% / −15% | −35% / −33% | −53% / −51% | −63% / −60% |
-| `matches()`, no match | +17% / +18% | −13% / −13% | −31% / −31% | −49% / −49% | −59% / −59% |
-| `matches()`, match in the middle | +100% / +108% | +42% / +47% | +19% / +18% | −13% / −13% | −29% / −29% |
-
-Every key count, call and match position, for both modes: [boundaries.md](boundaries.md).
+PHP names, other match positions and both modes: [boundaries.md](boundaries.md).
 
 ### When a single `replace()` call pays for the build
 
-One-shot `Str\Replacer`: build, one `replace()` call and destroy, against the fastest existing method (GCC / Clang).
-Random keys have one match in the middle of the text; PHP names occur as they do in the manual.
+Build, one `replace()` call and destroy, against the fastest existing method (GCC / Clang). **Bold**: faster by more than 3% with both compilers. Random keys have one match in the middle of the text; PHP names occur as they do in the manual.
 
 | Dictionary | 1 KiB | 1.5 KiB | 2 KiB | 3 KiB | 4 KiB | 16 KiB | 64 KiB |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| 16 random keys | +14% / +17% | −3.6% / −0.8% | −15% / −12% | −26% / −24% | −32% / −28% | −48% / −43% | −53% / −49% |
-| 32 random keys | +11% / +20% | −9.1% / −6.6%† | −23% / −21% | −38% / −36% | −50% / −44% | −70% / −65% | −71% / −67% |
-| 128 random keys | +7.2% / +13% | −18% / −15% | −35% / −33% | −53% / −51% | −63% / −60% | −84%† / −83% | −80% / −79% |
-| 1024 random keys | +658% / +635% | +423% / +411% | +298% / +290% | +169% / +165% | +98% / +95% | −47% / −47% | −81% / −81% |
-| 32 PHP names | +62%† / +69% | +29% / +32% | +7.9% / +11% | −17% / −13% | −33% / −26% | — | −74% / −71% |
-| 128 PHP names | +86%† / +85%† | +39%† / +42%† | +12%† / +15%† | −15%† / −18%† | −35%† / −30%† | — | −83% / −82% |
-| 512 PHP names | +64% / +43%† | +17% / +7.5% | −6.7%† / −13% | −38% / −40%† | −51% / −54%† | — | −77% / −79% |
+| 16 random keys | +14% / +17% | −3.6% / −0.8% | **−15% / −12%** | **−26% / −24%** | **−32% / −28%** | **−48% / −43%** | **−53% / −49%** |
+| 32 random keys | +11% / +20% | **−9.1% / −6.6%†** | **−23% / −21%** | **−38% / −36%** | **−50% / −44%** | **−70% / −65%** | **−71% / −67%** |
+| 128 random keys | +7.2% / +13% | **−18% / −15%** | **−35% / −33%** | **−53% / −51%** | **−63% / −60%** | **−84%† / −83%** | **−80% / −79%** |
+| 1024 random keys | +658% / +635% | +423% / +411% | +298% / +290% | +169% / +165% | +98% / +95% | **−47% / −47%** | **−81% / −81%** |
+| 32 PHP names | +62%† / +69% | +29% / +32% | +7.9% / +11% | **−17% / −13%** | **−33% / −26%** | — | **−74% / −71%** |
+| 128 PHP names | +86%† / +85%† | +39%† / +42%† | +12%† / +15%† | **−15%† / −18%†** | **−35%† / −30%†** | — | **−83% / −82%** |
+| 512 PHP names | +64% / +43%† | +17% / +7.5% | **−6.7%† / −13%** | **−38% / −40%†** | **−51% / −54%†** | — | **−77% / −79%** |
 
-A single `replace()` pays for the build from 1.5–2 KiB with 16 to 128 random keys (16 keys at 1.5 KiB is within the noise), and from 2–3 KiB of manual text with 32 to 512 PHP names.
-With 1024 keys the reference is `strtr()`: on 1–4 KiB with GCC it takes 51.4–198 µs, the build and call of the new class 389–392 µs.
+A single `replace()` pays for the build from 1.5–2 KiB with 16 to 128 random keys, and from 2–3 KiB of manual text with 32 to 512 PHP names.
+With 1024 keys the fastest existing method is `strtr()`: on 1–4 KiB with GCC it takes 51.4–198 µs, the build and call of the new class 389–392 µs.
 
-### Applications
-
-| Application | Prepared | One-shot | One-shot against the prepared existing method | Calls on one object to repay the build, estimated |
-|---|---:|---:|---:|---:|
-| Moderation | 8.0–13× faster | 4.0–5.8× slower | 13–28× slower | 29–32 |
-| Bot detection | 11–12× faster | 27–31× slower | 262–324× slower | 350–354 |
-| Auto-linking | 12–123× faster | 2.6–9.5× slower | 8.4–61× slower | 9–66 |
+Other inputs:
 
 - **Fewer than 8 keys**: not the intended use; [edge-cases.md](edge-cases.md) shows the loss.
-- **"Against the prepared existing method"**: the application keeps the PCRE pattern as a constant, and PCRE has it compiled already, as under PHP-FPM; the new object is still built on every request. For auto-linking `replace()` the existing method is `strtr()`, which has no prepared form: 8.4–8.7× there, 58–61× against PCRE.
-- **A match in the first 64 bytes** (`matches()`, 4 and 64 KiB): prepared −70% to +49% with 32 or more keys, +58…+115% with 16 and +94…+155% with 8. One-shot `matches()`: +221…+550% with 16 keys or more.
 - **Russian, Chinese, Japanese, Korean**: smaller gains, −76…−48% prepared; `matches()` with frequent words −62…+23%. See [languages.md](languages.md).
-
-One AMD Ryzen 9 5950X, GCC 15.2 and Clang 21.1, 3 to 5 fresh processes per value; the processes of a value differ by 1.0% in the median and by 3.3% or less in 90% of values; changes within about 3% are not told apart. The prepared new class is 13% slower with Clang than with GCC in the median value, one-shot 2%, which moves the boundaries at 8 and 16 keys.
-Not measured: other CPUs, cold CPU caches, the PHP JIT, keys starting with a byte rare in the text (`$`, `<`), userland Aho–Corasick libraries, PCRE compile time and the memory of compiled patterns.
+- **Real applications**: [Application scenarios](#application-scenarios).
 
 ## How it was compared
 
@@ -133,46 +113,28 @@ Not measured: other CPUs, cold CPU caches, the PHP JIT, keys starting with a byt
 
 - **Moderation**: the literal substring check of moderation. [Civil Comments](https://huggingface.co/datasets/google/civil_comments) against the English [LDNOOBW](dictionaries/ldnoobw/ATTRIBUTION.md) list, ignoring ASCII case. No word boundaries, Unicode case folding or judgement of false positives.
 - **Bot detection**: the literal patterns of [crawler-user-agents](https://github.com/monperrus/crawler-user-agents) against real User-Agent strings, mixed by the generator: 80% browsers picked by their observed weight in the source data, 20% crawler examples. The 10,000 texts hold 2,069 distinct strings; caching results per string is not modelled.
-- **Auto-linking**: PHP manual pages as plain text, markup removed; `replace()` turns every function name that contains `_` into a link. Names without `_`, such as `strlen`, are not in the list. Existing links and identifier boundaries are not handled. For `replace()` only `strtr()` competes: PCRE can't compile a replacement pattern this large.
+- **Auto-linking**: PHP manual pages as plain text, markup removed; `replace()` turns every function name that contains `_` into a link. Names without `_`, such as `strlen`, are not in the list. Existing links and identifier boundaries are not handled. With 3,345 names only `strtr()` competes for `replace()`: PCRE can't compile a replacement pattern this large.
 
-Times are GCC, change is GCC / Clang. A time is the time of a block of calls over the pool divided by the calls, not the latency of a median text. † = noisy value, details in [data/results.json](data/results.json).
+Times are GCC, change is GCC / Clang. A time is the time of a block of calls over the pool divided by the calls, not the latency of a median text. The last four rows are pages of 4–16 KiB, see [One call on long pages](#one-call-on-long-pages).
+Calls to repay the build: 1 when a single call is already faster. Otherwise an estimate: build time ÷ prepared saving per call, with the existing method's one-time work counted as zero, which favours it.
 
-**Prepared**
-
-| Task | Fastest existing method | Its time, µs | New class, µs | Change, GCC / Clang |
-|---|---|---:|---:|---:|
-| Moderation: does a comment contain a listed word? | PCRE, shared prefixes | 4.24 | 0.53 | −87% / −87% |
-| Moderation: which listed words occur? | PCRE, shared prefixes | 8.54 | 0.64 | −93% / −93% |
-| Bot detection: is this User-Agent a crawler? | PCRE, shared prefixes | 3.15 | 0.27 | −92% / −91% |
-| Bot detection: which crawler patterns match? | PCRE, shared prefixes | 3.84 | 0.33 | −91% / −91% |
-| Auto-linking: link PHP function names in a manual page | `strtr()` | 363 | 2.99 | −99% / −99% |
-| Auto-linking: every function name with its offset | PCRE, shared prefixes | 27.1 | 2.07 | −93% / −92% |
-| Auto-linking: which function names occur? | PCRE, shared prefixes | 27.3 | 2.03 | −93% / −92% |
-
-**One-shot**
-
-| Task | Fastest existing method | Its time, µs | New class, µs | Change, GCC / Clang |
-|---|---|---:|---:|---:|
-| Moderation: does a comment contain a listed word? | `strtolower()` + `str_contains()` loop | 20.4 | 119 | +483% / +417% |
-| Moderation: which listed words occur? | `strtolower()` + `str_contains()` loop | 26 | 119 | +359% / +304% |
-| Bot detection: is this User-Agent a crawler? | `str_contains()` loop | 32.7 | 1,019 | +3004% / +2873% |
-| Bot detection: which crawler patterns match? | `str_contains()` loop | 35.8 | 1,013 | +2730% / +2604% |
-| Auto-linking: link PHP function names in a manual page | `strtr()` | 345 | 3,169 | +851% / +796% |
-| Auto-linking: every function name with its offset | `strpos()` loop | 622 | 1,642 | +164% / +169% |
-| Auto-linking: which function names occur? | `str_contains()` loop | 618 | 1,651 | +167% / +177% |
-
-Build time and an estimate of the number of calls on one object that repay it: build ÷ prepared saving per call, from the two modes; no series of that many calls was timed. The existing method's own one-time work, such as building and compiling its pattern, counts as zero, which favours it.
-
-| Task | Build, GCC, µs | Calls, GCC | Build, Clang, µs | Calls, Clang |
-|---|---:|---:|---:|---:|
-| Moderation | 118 | 32 | 110 | 29 |
-| Bot detection | 1,018 | 354 | 1,009 | 350 |
-| Auto-linking, replace | 3,166 | 9 | 3,130 | 9 |
-| Auto-linking, offsets | 1,640 | 66 | 1,615 | 63 |
+| Task | Prepared, µs: existing / new | Prepared change | One-shot, µs: existing / new | One-shot change | Calls to repay the build, GCC / Clang |
+|---|---:|---:|---:|---:|---:|
+| Moderation: does a comment contain a listed word? | 4.24 / 0.53 | −87% / −87% | 20.4 / 119 | +483% / +417% | 32 / 29 |
+| Moderation: which listed words occur? | 8.54 / 0.64 | −93% / −93% | 26 / 119 | +359% / +304% | 16 / 14 |
+| Bot detection: is this User-Agent a crawler? | 3.15 / 0.27 | −92% / −91% | 32.7 / 1,019 | +3004% / +2873% | 354 / 350 |
+| Bot detection: which crawler patterns match? | 3.84 / 0.33 | −91% / −91% | 35.8 / 1,013 | +2730% / +2604% | 289 / 287 |
+| Auto-linking, all pages, 3,345 names: link them | 363 / 2.99 | −99% / −99% | 345 / 3,169 | +851% / +796% | 9 / 9 |
+| Auto-linking, all pages, 3,345 names: every name with its offset | 27.1 / 2.07 | −93% / −92% | 622 / 1,642 | +164% / +169% | 66 / 63 |
+| Auto-linking, all pages, 3,345 names: which names occur? | 27.3 / 2.03 | −93% / −92% | 618 / 1,651 | +167% / +177% | 66 / 63 |
+| Auto-linking, 4–16 KiB pages, 128 names: link them | 47.2 / 10.6 | −78% / −75% | 181 / 59.4 | −67% / −65% | 1 / 1 |
+| Auto-linking, 4–16 KiB pages, 128 names: every name with its offset | 51 / 9.57 | −81% / −78% | 176 / 49.5 | −72% / −69% | 1 / 1 |
+| Auto-linking, 4–16 KiB pages, 512 names: link them | 55.6 / 12.6 | −77% / −75% | 1,204 / 353 | −71%† / −70% | 1 / 1 |
+| Auto-linking, 4–16 KiB pages, 512 names: every name with its offset | 72 / 9.88 | −86% / −84% | 678 / 232 | −66%† / −67%† | 1 / 1 |
 
 ### One call on long pages
 
-The auto-linking task on whole manual pages, grouped by length. The dictionary is the full list of 3,345 names or a random subset of 128 or 512 of them. The groups hold 726, 231 and 91 pages with a median length of 1.3, 2.6 and 5.6 KiB. Pages longer than 16 KiB are left out: there are 9 of them, too few for a pool.
+The auto-linking task on whole manual pages, grouped by length. The dictionary is the full list of 3,345 names or a random subset of 128 or 512 of them. The groups hold 726, 231 and 91 pages with a median length of 1.3, 2.6 and 5.6 KiB. Pages under 1 KiB and the 9 over 16 KiB are left out. Pages with at least one name, by group: 128 names 6, 6, 7%; 512 names 20, 24, 27%; 3,345 names 60, 67, 65%.
 
 Build and one call, change against the fastest existing method, GCC / Clang:
 
@@ -185,18 +147,7 @@ Build and one call, change against the fastest existing method, GCC / Clang:
 | 3,345 | `matchAll()` | +60% / +67% | −13% / −9.5% | −62% / −60% |
 |  | `replace()` | +502% / +465% | +222% / +197% | +40% / +32% |
 
-Times with GCC, µs: build and call of the new class / the fastest existing method.
-
-| Names | Call | 1–2 KiB | 2–4 KiB | 4–16 KiB | Fastest existing method on 4–16 KiB |
-|---|---|---:|---:|---:|---:|
-| 128 | `matchAll()` | 41.6 / 41.4 | 44.3 / 75.8 | 49.5 / 176 | `strpos()` loop |
-|  | `replace()` | 52.2 / 48.9 | 53.9 / 82.7 | 59.4 / 181 | PCRE, longest first |
-| 512 | `matchAll()` | 223 / 161 | 227 / 297 | 232 / 678 | `strpos()` loop |
-|  | `replace()` | 343 / 323 | 346 / 564 | 353 / 1,204 | PCRE, longest first |
-| 3,345 | `matchAll()` | 1,646 / 1,025 | 1,648 / 1,902 | 1,652 / 4,310 | `strpos()` loop |
-|  | `replace()` | 3,198 / 531 | 3,194 / 994 | 3,194 / 2,273 | `strtr()` |
-
-`replace()` with 3,345 names competes only with `strtr()`, and building the object takes most of its time. Prepared, the new class changes the time by −99…−75% on these pages. These cells ran in a separate series with the same builds; their values are in [data/pages.json](data/pages.json). † = noisy value, as in the tables above.
+With 3,345 names building the object takes most of the time of `replace()`, and `strtr()` stays faster. These cells ran in a separate series with the same builds: [data/pages.json](data/pages.json).
 
 ## Build time and memory
 
@@ -214,9 +165,10 @@ GCC; Clang is within 15%. Memory is what the object keeps, without the key strin
 
 ## Limits
 
-- One machine, one build per compiler.
-- Random keys use the letters a–p. Keys starting with a rare byte let `strpos()` and PCRE skip faster; not measured.
-- Calls run back to back with warm caches. PHP JIT and garbage collection were off.
+- One AMD Ryzen 9 5950X, one build per compiler: GCC 15.2 and Clang 21.1. The new class is 13% slower with Clang in the median prepared value, 2% one-shot.
+- 3 to 5 fresh processes per value. They differ by 1.0% in the median value and by 3.3% or less in 90% of values. Changes within about 3% are noise.
+- Calls run back to back with warm caches. Garbage collection was off.
+- Not measured: other CPUs, cold caches, the PHP JIT, keys starting with a byte rare in the text (`$`, `<`), which let `strpos()` and PCRE skip faster, userland Aho–Corasick libraries, PCRE compile time and the memory of compiled patterns.
 
 ## Where to look
 
@@ -232,5 +184,5 @@ GCC; Clang is within 15%. Memory is what the object keeps, without the key strin
 | How many passes and processes are enough | [data/calibration.md](data/calibration.md) |
 | Rerun on your machine | [REPRODUCE.md](REPRODUCE.md) |
 | Every value against every existing method, in µs | [all-methods.md](all-methods.md) |
-| Every value with its times in µs, the winning method, spread and A/A | [data/results.json](data/results.json) |
+| Every value with its times in µs, the winning method, spread and A/A | [data/results.json](data/results.json), [data/pages.json](data/pages.json) |
 | Scripts | [tools/](tools) |

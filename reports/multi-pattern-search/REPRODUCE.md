@@ -18,7 +18,7 @@ done
 ```
 
 The binaries are `../php-gcc/sapi/cli/php` and `../php-clang/sapi/cli/php`. OPcache and PCRE are built in.
-The rest runs from this directory.
+The rest runs from a copy of this directory, so that your data and pages don't overwrite ours: `cp -a . ../mps-repro && cd ../mps-repro`.
 
 ## 2. Unpack the inputs
 
@@ -45,19 +45,19 @@ INI='-n -d memory_limit=-1 -d opcache.enable_cli=1 -d opcache.file_update_protec
 ## 4. Run the series
 
 [tools/full-run.sh](tools/full-run.sh) runs everything on CPU 15 and CPU 7, two cores of different CCDs of a Ryzen 9 5950X.
-On another machine, pick two cores whose SMT siblings are idle (`lscpu -e`) and pass them as `CPU_A`, `SIB_A`, `CPU_B` and `SIB_B`; change `taskset -c 15` in the build-time loop below too. The output directories keep the names `cpu15` and `cpu7`. On Intel hybrid CPUs use performance cores only, and fix the frequency or expect more values marked †.
+On another machine, pick two cores whose SMT siblings are idle (`lscpu -e`) and pass them as `CPU_A`, `SIB_A`, `CPU_B` and `SIB_B`. The page-length series and the build-time loop below use `CPU_A` and `SIB_A` too. The output directories keep the names `cpu15` and `cpu7`. On Intel hybrid CPUs use performance cores only, and fix the frequency or expect more values marked †.
 
 ```sh
 bash tools/full-run.sh runs <gcc build>/sapi/cli/php <clang build>/sapi/cli/php
 ```
 
 It takes about 2.5 hours on the machine above and returns at once; the series is done when `runs/cpu15/done.json` and `runs/cpu7/done.json` exist. The published data came from separate runs of the same cells: the two grids with languages in parallel, then edge cases, then scenarios on CPU 15, with a version of `bench.php` that also timed the replacement methods dropped since; see [METHOD.md](METHOD.md). `data/corecheck.json` also holds the 45 PHP-name cells of 1.5–3 KiB, which an earlier version of `full-run.sh` ran on CPU 15 as well. The compiler labels must stay `gcc15` and `clang21`, the names `render.py` expects.
-Rerunning a `run.py` command with the same arguments resumes an interrupted series.
+Rerunning a `run.py` command with the same arguments resumes an interrupted series. Start the next commands only after both `done.json` files exist: they use the same core.
 
 The page-length cells are not in `full-run.sh`. They ran on their own on CPU 15, in under 10 minutes:
 
 ```sh
-python3 tools/run.py --out runs/pages --cpu 15 --sibling 31 \
+python3 tools/run.py --out runs/pages --cpu ${CPU_A:-15} --sibling ${SIB_A:-31} \
   --php gcc15=<gcc build>/sapi/cli/php --php clang21=<clang build>/sapi/cli/php cells/pages/*.json
 ```
 
@@ -70,7 +70,7 @@ php=<gcc build>/sapi/cli/php
 for p in 1 2 3; do
   $php $INI tools/construct.php | while read -r name; do
     for cc in gcc15:<gcc build> clang21:<clang build>; do
-      taskset -c 15 ${cc#*:}/sapi/cli/php $INI tools/construct.php "$name" | sed "s/^{/{\"compiler\":\"${cc%%:*}\",\"process\":$p,/"
+      taskset -c ${CPU_A:-15} ${cc#*:}/sapi/cli/php $INI tools/construct.php "$name" | sed "s/^{/{\"compiler\":\"${cc%%:*}\",\"process\":$p,/"
     done
   done
 done > data/construct.jsonl
@@ -87,7 +87,7 @@ python3 tools/summarize.py runs/pages --out data/pages.json
 python3 tools/render.py
 ```
 
-`render.py` writes every `*.md` page from its `*.md.in` template, over the published pages; work in a copy of this directory to compare your results with ours. Tables and measured values come from the data files.
+`render.py` writes every `*.md` page from its `*.md.in` template. Tables and measured values come from the data files. The machine and compiler versions in the text come from `ENVIRONMENT` in `tools/render.py`: set yours there.
 
 ## Not reproducible from these tools
 
