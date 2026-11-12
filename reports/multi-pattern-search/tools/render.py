@@ -182,7 +182,7 @@ def scenario_table(data):
             row += [f"{micro(r['reference_us'])} / {micro(r['native_us'])}", data.pair(cell, mode)]
         row.append(' / '.join(repay_calls(data, cell, cc) for cc, _ in COMPILERS))
         rows.append(row)
-    return table(['Task', 'Prepared, µs: existing / new', 'Prepared change', 'One-shot, µs: existing / new',
+    return table(['Task', 'Prepared, µs: fastest existing / new', 'Prepared change', 'One-shot, µs: fastest existing / new',
                   'One-shot change', 'Calls to repay the build, GCC / Clang'], rows)
 
 

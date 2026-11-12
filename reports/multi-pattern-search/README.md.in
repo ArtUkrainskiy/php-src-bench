@@ -27,6 +27,28 @@ Main results, times with GCC:
 
 Detailed tables by question: [Where to look](#where-to-look).
 
+## How it was compared
+
+Every change compares the new class with the **fastest existing method** for the same call, text, keys and mode: change = new time ÷ its time − 1. Negative = the new class is faster: −50% is twice as fast, −90% ten times. The fastest method is picked per value, after the run, from these:
+
+| Call | Existing methods |
+|---|---|
+| `matches()` | `str_contains()` loop, `preg_match()` |
+| `getMatchedKeywords()` | `str_contains()` loop, `preg_match_all()` |
+| `countMatches()` | `strpos()` loop, `substr_count()` loop, `preg_match_all()` |
+| `matchAll()` | `strpos()` loop, `preg_match_all()` with offsets |
+| `replace()` | `strtr()`, `preg_replace_callback()`, `preg_replace()` when every key has the same replacement |
+
+PCRE is tried as a plain alternation and as one that shares key prefixes (`/cas(?:ino|h)/`). When case is ignored, the loops use `stripos()` or lowercase the text once. The code of every method: [METHOD.md](METHOD.md#existing-methods-in-code).
+
+- Only methods that are right on every text compete. `str_replace()` is left out: it replaces inside text it has already replaced, so its output can differ from `strtr()`. For which keys, how many and every occurrence, PCRE uses a lookahead so that overlapping keys are found. An alternation that consumes matches took 2–25% less time in a probe but misses overlapping keys.
+- Existing methods return the same keys, counts and offsets in a simpler form: plain arrays in any order, no `Str\MatchResult` objects. The new class pays for its full result. Results are sorted and compared outside the timer.
+- Prepared: the object or the pattern strings exist before the timer. `strtr()` has no prepared form: its time includes processing the whole key array on every call.
+- One-shot: the timer also covers building the object or the PCRE pattern string. Compiling the pattern isn't timed: PCRE keeps compiled patterns in its per-process cache.
+- Calls go through a pool of different texts instead of repeating one. On one repeated text the new class ran 3–4 times faster, because the CPU learns its branches (an earlier version; the existing methods weren't probed).
+
+[METHOD.md](METHOD.md) has the details, [REPRODUCE.md](REPRODUCE.md) the commands.
+
 ## Application scenarios
 
 {{SCENARIO_INPUTS}}
@@ -35,7 +57,7 @@ Detailed tables by question: [Where to look](#where-to-look).
 - **Bot detection**: the literal patterns of [crawler-user-agents](https://github.com/monperrus/crawler-user-agents) against real User-Agent strings, mixed by the generator: 80% browsers picked by their observed weight in the source data, 20% crawler examples. The 10,000 texts hold {{BOTS_DISTINCT}} distinct strings; caching results per string is not modelled.
 - **Auto-linking**: PHP manual pages as plain text, markup removed; `replace()` turns every function name that contains `_` into a link. Names without `_`, such as `strlen`, are not in the list. Existing links and identifier boundaries are not handled. With 3,345 names only `strtr()` competes for `replace()`: PCRE can't compile a replacement pattern this large.
 
-Times are GCC, change is GCC / Clang. A time is the time of a block of calls over the pool divided by the calls, not the latency of a median text. The last four rows are pages of 4–16 KiB, see [One call on long pages](#one-call-on-long-pages).
+Times are GCC, changes are GCC / Clang, both against the fastest existing method for that task and mode ([How it was compared](#how-it-was-compared)). A time is the time of a block of calls over the pool divided by the calls, not the latency of a median text. The last four rows are pages of 4–16 KiB, see [One call on long pages](#one-call-on-long-pages).
 Calls to repay the build: 1 when a single call is already faster. Otherwise an estimate: build time ÷ prepared saving per call, with the existing method's one-time work counted as zero, which favours it.
 
 {{SCENARIOS_TABLE}}
@@ -52,8 +74,7 @@ With 3,345 names building the object takes most of the time of `replace()`, and 
 
 ## Results by keys and text length
 
-Each value is the change in time per call against the fastest existing method for the same call, text, keys and mode, GCC / Clang. Which methods compete: [How it was compared](#how-it-was-compared); the time of each of them for every value: [all-methods.md](all-methods.md).
-Negative = the new class is faster: −50% is twice as fast, −90% ten times. **Bold**: faster by more than 3% with both compilers. † = noisy value (see [METHOD.md](METHOD.md)).
+Change in time per call against the fastest existing method ([How it was compared](#how-it-was-compared)), GCC / Clang. **Bold**: faster by more than 3% with both compilers. † = noisy value (see [METHOD.md](METHOD.md)). The time of every method for every value: [all-methods.md](all-methods.md).
 Random keys are random strings of the letters a–p, written into English text. The text has one match in the middle third, or none where the row says so. `matches()` stops at the match, about halfway. The other calls read the whole text.
 
 ### Prepared
@@ -70,17 +91,6 @@ Other inputs:
 
 - **Fewer than 8 keys**: not the intended use; [edge-cases.md](edge-cases.md) shows the loss.
 - **Russian, Chinese, Japanese, Korean**: smaller gains, {{LANG_PREP_OTHER}} prepared; `matches()` with frequent words {{LANG_ANY_WORDS_PREP}}. See [languages.md](languages.md).
-
-## How it was compared
-
-- Only existing methods that are right on every text compete. `str_replace()` is left out: it replaces inside text it has already replaced, so its output can differ from `strtr()`.
-- PCRE is tried as a plain alternation and as one that shares key prefixes (`/cas(?:ino|h)/`); the faster one counts. For which keys, how many and every occurrence, PCRE uses a lookahead so that overlapping keys are found. An alternation that consumes matches took 2–25% less time in a probe but misses overlapping keys, so it doesn't compete.
-- Existing methods return the same keys, counts and offsets in a simpler form: plain arrays in any order, no `Str\MatchResult` objects. The new class pays for its full result. Results are sorted and compared outside the timer.
-- `strtr()` has no prepared form: its time includes processing the whole key array on every call.
-- One-shot includes building the PCRE pattern string, not compiling it: PCRE keeps compiled patterns in its per-process cache.
-- Calls go through a pool of different texts instead of repeating one. On one repeated text the new class ran 3–4 times faster, because the CPU learns its branches (an earlier version; the existing methods weren't probed).
-
-[METHOD.md](METHOD.md) has the details, [REPRODUCE.md](REPRODUCE.md) the commands.
 
 ## Build time and memory
 

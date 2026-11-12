@@ -5,21 +5,85 @@ How every number in the report was measured, and what keeps the comparison fair 
 ## What is compared
 
 `Str\Matcher` and `Str\Replacer` from [PR #25122](https://github.com/php/php-src/pull/25122) at commit [bb508627af](https://github.com/php/php-src/commit/bb508627af16e029c3c760109461c7596259484c), built into `ext/standard`.
-They are compared with the existing ways to do the same job in PHP:
+They are compared with the existing ways to do the same job in PHP, listed by call in [README.md](README.md#how-it-was-compared).
 
-| Task | Existing methods |
-|---|---|
-| Does any key occur? | `str_contains()` loop; `stripos()` loop or `strtolower()` + `str_contains()` loop when case is ignored; `preg_match()` |
-| Which keys occur? | the same loops; `preg_match_all()` |
-| How many occurrences? | `strpos()` or `stripos()` loop, `substr_count()` loop, `preg_match_all()` |
-| Every occurrence with its offset | `strpos()` or `stripos()` loop, `preg_match_all()` with offsets |
-| Replace keys | `strtr()`; `preg_replace_callback()`, or `preg_replace()` when every key gets the same replacement |
+## Existing methods in code
 
-With a single key, a single `str_contains()` call competes too.
-Each PCRE method comes as a plain alternation and as an alternation that shares key prefixes, whose greedy optional groups pick the longest key at a position.
-For "which keys", "how many" and "every occurrence" the pattern is a lookahead, `(?=(…))`, so that overlapping and nested keys are found as the native call finds them.
-For search, large dictionaries also get the same patterns in chunks of 512 or 1024 keys.
-For replacement the plain alternation puts longer keys first, so that the longest key wins as in `strtr()` and the native call.
+Each block shows one method as [tools/recipes.php](tools/recipes.php) runs it, for a list `$keys`, a `$mapping` for replacement and a text `$text`.
+Prepared timing covers only the search or replacement. One-shot timing also covers what is built per call: the `Str\Matcher` or `Str\Replacer` object, or the PCRE pattern strings and callback.
+
+The new classes:
+
+```php
+$matcher = new Str\Matcher($keys);            // built per call in one-shot mode
+$matcher->matches($text);                      // or getMatchedKeywords(), countMatches(), matchAll()
+(new Str\Replacer($mapping))->replace($text);
+```
+
+Loops over the keys:
+
+```php
+// matches()
+foreach ($keys as $key) {
+    if (str_contains($text, $key)) { return true; }
+}
+return false;
+
+// getMatchedKeywords()
+$found = [];
+foreach ($keys as $key) {
+    if (str_contains($text, $key)) { $found[] = $key; }
+}
+
+// countMatches(): strpos() finds overlapping occurrences too
+$count = 0;
+foreach ($keys as $key) {
+    for ($at = strpos($text, $key); $at !== false; $at = strpos($text, $key, $at + 1)) { ++$count; }
+}
+
+// countMatches() with substr_count(); keys that can overlap themselves, such as "aa", use the strpos() loop
+foreach ($plainKeys as $key) { $count += substr_count($text, $key); }
+
+// matchAll(): [offset, key] pairs
+$hits = [];
+foreach ($keys as $key) {
+    for ($at = strpos($text, $key); $at !== false; $at = strpos($text, $key, $at + 1)) { $hits[] = [$at, $key]; }
+}
+```
+
+When case is ignored, the loops call `stripos()` instead, or run `$text = strtolower($text)` once and then the loop above. With a single key, `str_contains($text, $key)` alone competes too.
+
+PCRE. For the keys `cash`, `casino` and `cat` the body of the pattern is either a plain alternation, `cash|casino|cat`, or one that shares key prefixes, `ca(?:s(?:h|ino)|t)`, whose greedy optional groups pick the longest key at a position:
+
+```php
+// pattern strings, built per call in one-shot mode
+$body = 'ca(?:s(?:h|ino)|t)';
+
+preg_match("~(?:$body)~", $text);                                   // matches()
+preg_match_all("~(?=($body))~", $text, $m);                         // getMatchedKeywords(): the keys of array_flip($m[1])
+preg_match_all("~(?=(?:$body))~", $text);                           // countMatches()
+preg_match_all("~(?=($body))~", $text, $m, PREG_OFFSET_CAPTURE);    // matchAll(): $m[1]
+```
+
+The lookahead `(?=…)` doesn't consume text, so overlapping keys are found as the native call finds them.
+A lookahead captures one key per position, so keys that are prefixes of other keys go to separate patterns: `cas` and `cat` in one, `casino` in a second. Results of all patterns are merged.
+For search, dictionaries over 512 keys are also tried as patterns of at most 512 or 1024 keys each.
+When case is ignored, the patterns get the `i` flag.
+
+Replacement:
+
+```php
+strtr($text, $mapping);
+
+// longest key first, so that the longest key wins at a position as in strtr()
+$keys = array_keys($mapping);
+usort($keys, fn($a, $b) => strlen($b) <=> strlen($a));
+$pattern = '~(?:' . implode('|', array_map(fn($k) => preg_quote($k, '~'), $keys)) . ')~';    // per call in one-shot mode
+preg_replace_callback($pattern, fn($m) => $mapping[$m[0]], $text);
+
+// the same with the shared-prefix body; when every key has the same replacement $value:
+preg_replace($pattern, $value, $text);
+```
 
 For "which keys", "how many" and "every occurrence", a plain alternation that consumes each match would take 2–25% less time than the lookahead in a probe on four inputs with GCC ([data](data/probe/consuming-alternation.json), methods `pcre_consuming_*`; the recipe isn't kept in `tools/`). It finds the right answer only when no two occurrences overlap, so it isn't used.
 
