@@ -3,7 +3,7 @@
 window, so each text is rebuilt byte for byte from the corpus; the generator checks that every window
 yields exactly the intended occurrences.
 
-    python3 tools/cells.py <set> [<set>...]     # sets: controlled crossover natural languages scenarios counterexamples
+    python3 tools/cells.py <set> [<set>...]     # sets: controlled crossover natural languages scenarios counterexamples pages
 """
 import hashlib
 import json
@@ -78,11 +78,15 @@ def natural_pool(corpus, length, keys, seed):
                             'texts_with_matches': sum(1 for h in hits if h)}}
 
 
-def documents_pool(corpus, keys, fold=False):
-    """Every document of a JSON corpus, in a fixed shuffled order; occurrences are whatever the documents contain."""
+def documents_pool(corpus, keys, fold=False, size=None):
+    """Every document of a JSON corpus, in a fixed shuffled order; occurrences are whatever the documents contain.
+    `size` = (min, max) keeps only documents of min <= bytes < max."""
     docs = json.loads((ROOT / corpus).read_text())
     order = list(range(len(docs)))
     random.Random(corpus).shuffle(order)
+    if size:
+        order = [i for i in order if size[0] <= len(docs[i].encode()) < size[1]]
+        docs = [docs[i] for i in sorted(order)]
     hits = sorted(len(occurrences((d.lower() if fold else d).encode(), keys)) for d in docs)
     lengths = sorted(len(d.encode()) for d in docs)
     return {'documents': corpus, 'corpus_sha256': sha(ROOT / corpus), 'indices': order,
@@ -228,6 +232,23 @@ def scenarios():
         write('scenarios', cell)
 
 
+PAGE_SIZES = [(1024, 2048), (2048, 4096), (4096, 16384)]
+
+
+def pages():
+    """Auto-linking on whole manual pages grouped by length, with the full name list and random subsets of it."""
+    functions = json.loads((ROOT / 'dictionaries/php-functions.json').read_text())
+    for n in [128, 512, len(functions)]:
+        names = functions[:n]
+        links = {name: f'<a href="https://www.php.net/function.{name.replace("_", "-")}">{name}</a>' for name in names}
+        for low, high in PAGE_SIZES:
+            for op in ['replace', 'all']:
+                cell = {'id': f'autolink.{op}.n{n}.p{low}', 'op': op, 'grid': 'pages'}
+                cell.update({'mapping': links} if op == 'replace' else {'keys': names})
+                cell['pool'] = documents_pool('corpus/manual-pages.json', names, size=(low, high))
+                write('pages', cell)
+
+
 def counterexamples():
     """Where existing functions are expected to win: one or four keys, and dense results."""
     corpus = 'corpus/en.txt'
@@ -249,7 +270,7 @@ def counterexamples():
 
 if __name__ == '__main__':
     sets = {'controlled': controlled, 'crossover': crossover, 'natural': natural, 'languages': languages,
-            'scenarios': scenarios, 'counterexamples': counterexamples}
+            'scenarios': scenarios, 'counterexamples': counterexamples, 'pages': pages}
     if len(sys.argv) < 2:
         sys.exit(__doc__)
     for name in sys.argv[1:]:

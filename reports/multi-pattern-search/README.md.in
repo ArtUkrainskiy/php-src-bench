@@ -19,6 +19,7 @@ Each result is shown in two modes:
 The cost of the build decides between them. On the random-key and PHP-name grids, a prepared object with 32 keys or more is {{PREPARED_32_TIMES}} times faster per call, unless a match comes in the first 64 bytes.
 Building it for a single check of a short text is slower: on 128 B with 16 random keys the build and call take {{ONESHOT_128B_16_NATIVE}} µs, the fastest existing method {{ONESHOT_128B_16_REF}} µs. In the moderation scenario the build pays off from about {{REPAY_MODERATION}} checks with the same object.
 On long texts a single call usually pays for the build: at 64 KiB with 16 random keys or more a one-shot call changes the time by {{ONESHOT_64K_16_ALL}}. The exception is `matches()` with a match in the first 64 bytes: {{ONESHOT_START_16}} at 4 and 64 KiB.
+On real documents it depends on the length and the dictionary. Auto-linking whole manual pages of {{PAGES_LONGEST}} in one call with 128 or 512 names changes the time by {{PAGES_LONG_SMALL}}; with all 3,345 names `matchAll()` by {{PAGES_LONG_ALL_3345}}, while `replace()` stays slower than `strtr()`: {{PAGES_LONG_REPLACE_3345}}. On pages of {{PAGES_SHORTEST}} a single call doesn't pay off: {{PAGES_SHORT}}, and {{PAGES_SHORT_REPLACE_3345}} for `replace()` with 3,345 names. See [One call on long pages](#one-call-on-long-pages).
 
 Detailed tables by question: [Where to look](#where-to-look).
 
@@ -113,6 +114,20 @@ Times are GCC, change is GCC / Clang. A time is the time of a block of calls ove
 Build time and an estimate of the number of calls on one object that repay it: build ÷ prepared saving per call, from the two modes; no series of that many calls was timed. The existing method's own one-time work, such as building and compiling its pattern, counts as zero, which favours it.
 
 {{REPAY_TABLE}}
+
+### One call on long pages
+
+The auto-linking task on whole manual pages, grouped by length. The dictionary is the full list of 3,345 names or a random subset of 128 or 512 of them. {{PAGES_INPUTS}} Pages longer than 16 KiB are left out: there are 9 of them, too few for a pool.
+
+Build and one call, change against the fastest existing method, GCC / Clang:
+
+{{PAGES_TABLE}}
+
+Times with GCC, µs: build and call of the new class / the fastest existing method.
+
+{{PAGES_TIMES}}
+
+`replace()` with 3,345 names competes only with `strtr()`, and building the object takes most of its time. Prepared, the new class changes the time by {{PAGES_PREPARED}} on these pages. These cells ran in a separate series with the same builds; their values are in [data/pages.json](data/pages.json). † = noisy value, as in the tables above.
 
 ## Build time and memory
 

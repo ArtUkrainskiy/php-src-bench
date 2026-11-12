@@ -19,6 +19,7 @@ Each result is shown in two modes:
 The cost of the build decides between them. On the random-key and PHP-name grids, a prepared object with 32 keys or more is 1.9 to 16 times faster per call, unless a match comes in the first 64 bytes.
 Building it for a single check of a short text is slower: on 128 B with 16 random keys the build and call take 4.19–4.58 µs, the fastest existing method 0.46–1.89 µs. In the moderation scenario the build pays off from about 29–32 checks with the same object.
 On long texts a single call usually pays for the build: at 64 KiB with 16 random keys or more a one-shot call changes the time by −82…+5.2%. The exception is `matches()` with a match in the first 64 bytes: +221…+550% at 4 and 64 KiB.
+On real documents it depends on the length and the dictionary. Auto-linking whole manual pages of 4–16 KiB in one call with 128 or 512 names changes the time by −72…−65%; with all 3,345 names `matchAll()` by −62…−60%, while `replace()` stays slower than `strtr()`: +32…+40%. On pages of 1–2 KiB a single call doesn't pay off: +0.5…+67%, and +465…+502% for `replace()` with 3,345 names. See [One call on long pages](#one-call-on-long-pages).
 
 Detailed tables by question: [Where to look](#where-to-look).
 
@@ -168,6 +169,34 @@ Build time and an estimate of the number of calls on one object that repay it: b
 | Bot detection | 1,018 | 354 | 1,009 | 350 |
 | Auto-linking, replace | 3,166 | 9 | 3,130 | 9 |
 | Auto-linking, offsets | 1,640 | 66 | 1,615 | 63 |
+
+### One call on long pages
+
+The auto-linking task on whole manual pages, grouped by length. The dictionary is the full list of 3,345 names or a random subset of 128 or 512 of them. The groups hold 726, 231 and 91 pages with a median length of 1.3, 2.6 and 5.6 KiB. Pages longer than 16 KiB are left out: there are 9 of them, too few for a pool.
+
+Build and one call, change against the fastest existing method, GCC / Clang:
+
+| Names | Call | 1–2 KiB | 2–4 KiB | 4–16 KiB |
+|---|---|---:|---:|---:|
+| 128 | `matchAll()` | +0.5% / +8.9% | −42% / −38%† | −72% / −69% |
+|  | `replace()` | +5.5%† / +14% | −35% / −32% | −67% / −65% |
+| 512 | `matchAll()` | +38% / +37% | −24% / −25% | −66%† / −67%† |
+|  | `replace()` | +6.2% / +6.6% | −39% / −38% | −71%† / −70% |
+| 3,345 | `matchAll()` | +60% / +67% | −13% / −9.5% | −62% / −60% |
+|  | `replace()` | +502% / +465% | +222% / +197% | +40% / +32% |
+
+Times with GCC, µs: build and call of the new class / the fastest existing method.
+
+| Names | Call | 1–2 KiB | 2–4 KiB | 4–16 KiB | Fastest existing method on 4–16 KiB |
+|---|---|---:|---:|---:|---:|
+| 128 | `matchAll()` | 41.6 / 41.4 | 44.3 / 75.8 | 49.5 / 176 | `strpos()` loop |
+|  | `replace()` | 52.2 / 48.9 | 53.9 / 82.7 | 59.4 / 181 | PCRE, longest first |
+| 512 | `matchAll()` | 223 / 161 | 227 / 297 | 232 / 678 | `strpos()` loop |
+|  | `replace()` | 343 / 323 | 346 / 564 | 353 / 1,204 | PCRE, longest first |
+| 3,345 | `matchAll()` | 1,646 / 1,025 | 1,648 / 1,902 | 1,652 / 4,310 | `strpos()` loop |
+|  | `replace()` | 3,198 / 531 | 3,194 / 994 | 3,194 / 2,273 | `strtr()` |
+
+`replace()` with 3,345 names competes only with `strtr()`, and building the object takes most of its time. Prepared, the new class changes the time by −99…−75% on these pages. These cells ran in a separate series with the same builds; their values are in [data/pages.json](data/pages.json). † = noisy value, as in the tables above.
 
 ## Build time and memory
 

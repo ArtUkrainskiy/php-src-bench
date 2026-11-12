@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Renders the report pages from data/results.json, data/construct.jsonl and the cell files.
+"""Renders the report pages from data/results.json, data/pages.json, data/construct.jsonl and the cell files.
 
     python3 tools/render.py
 
@@ -16,6 +16,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from summarize import AA_LIMIT, SPREAD_LIMIT, universal  # noqa: E402
+from cells import PAGE_SIZES  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 COMPILERS = [('gcc15', 'GCC 15.2'), ('clang21', 'Clang 21.1')]
@@ -84,6 +85,9 @@ class Data:
     def __init__(self):
         records = json.loads((ROOT / 'data/results.json').read_text())
         self.results = {(r['cell'], r['compiler'], r['mode']): r for r in records}
+        # The page-length series ran separately; it is kept apart so it doesn't enter the run-wide statistics.
+        pages = json.loads((ROOT / 'data/pages.json').read_text())
+        self.pages = {(r['cell'], r['compiler'], r['mode']): r for r in pages}
         self.cells = {}
         for path in (ROOT / 'cells').glob('*/*.json'):
             self.cells[f'{path.parent.name}/{path.stem}'] = json.loads(path.read_text())
@@ -198,6 +202,57 @@ def repay_table(data):
         rows.append(row)
     REPAY_ROWS[:] = rows
     return table(['Task', 'Build, GCC, µs', 'Calls, GCC', 'Build, Clang, µs', 'Calls, Clang'], rows)
+
+
+PAGE_NAMES = [128, 512, 3345]
+
+
+def page_label(low, high):
+    return f'{low // 1024}–{high // 1024} KiB'
+
+
+def page_cell(op, n, low):
+    return f'pages/autolink.{op}.n{n}.p{low}'
+
+
+def page_change(data, cell, mode='oneshot'):
+    out = []
+    for cc, _ in COMPILERS:
+        r = data.pages[(cell, cc, mode)]
+        out.append(num(r['change_percent']) + '%' + ('†' if data.marked(r) else ''))
+    return ' / '.join(out)
+
+
+def page_values(data):
+    v = {}
+    groups = [data.cells[page_cell('all', 3345, low)]['pool'] for low, _ in PAGE_SIZES]
+    v['PAGES_INPUTS'] = (f"The groups hold {', '.join(str(len(g['indices'])) for g in groups[:-1])} and "
+                         f"{len(groups[-1]['indices'])} pages with a median length of "
+                         f"{', '.join(f'{g['bytes']['median'] / 1024:.1f}' for g in groups[:-1])} and "
+                         f"{groups[-1]['bytes']['median'] / 1024:.1f} KiB.")
+    heads = ['Names', 'Call'] + [page_label(lo, hi) for lo, hi in PAGE_SIZES]
+    rows, times = [], []
+    for n in PAGE_NAMES:
+        for op in ('all', 'replace'):
+            first = f'{n:,}' if op == 'all' else ''
+            rows.append([first, OPS[op]] + [page_change(data, page_cell(op, n, lo)) for lo, _ in PAGE_SIZES])
+            recs = [data.pages[(page_cell(op, n, lo), 'gcc15', 'oneshot')] for lo, _ in PAGE_SIZES]
+            times.append([first, OPS[op]] + [f"{micro(r['native_us'])} / {micro(r['reference_us'])}" for r in recs]
+                         + [method_name(recs[-1]['reference'], data.cells[page_cell(op, n, PAGE_SIZES[-1][0])])])
+    v['PAGES_TABLE'] = table(heads, rows, 2)
+    v['PAGES_TIMES'] = table(heads + ['Fastest existing method on 4–16 KiB'], times, 2)
+    longest = PAGE_SIZES[-1][0]
+    span = lambda recs: (lambda xs: f'{num(min(xs))}…{num(max(xs))}%')([r['change_percent'] for r in recs])  # noqa: E731
+    pick = lambda pred: [r for (c, _, m), r in data.pages.items() if m == 'oneshot' and pred(c)]  # noqa: E731
+    v['PAGES_LONG_SMALL'] = span(pick(lambda c: c.endswith(f'.p{longest}') and '.n3345.' not in c))
+    v['PAGES_LONG_ALL_3345'] = span(pick(lambda c: c == page_cell('all', 3345, longest)))
+    v['PAGES_LONG_REPLACE_3345'] = span(pick(lambda c: c == page_cell('replace', 3345, longest)))
+    v['PAGES_SHORT'] = span(pick(lambda c: c.endswith(f'.p{PAGE_SIZES[0][0]}') and c != page_cell('replace', 3345, PAGE_SIZES[0][0])))
+    v['PAGES_SHORT_REPLACE_3345'] = span(pick(lambda c: c == page_cell('replace', 3345, PAGE_SIZES[0][0])))
+    v['PAGES_PREPARED'] = span([r for (c, _, m), r in data.pages.items() if m == 'prepared'])
+    v['PAGES_LONGEST'] = page_label(*PAGE_SIZES[-1])
+    v['PAGES_SHORTEST'] = page_label(*PAGE_SIZES[0])
+    return v
 
 
 def grid(data, prefix, ns, lengths, placement, mode):
@@ -657,6 +712,7 @@ def placeholders(data):
     v['SCENARIO_INPUTS'] = scenario_inputs(data)
     v['BOTS_DISTINCT'] = f"{distinct_documents(data.cells['scenarios/bots.any']):,}"
     v['REPAY_TABLE'] = repay_table(data)
+    v.update(page_values(data))
     calls = [int(c) for row in REPAY_ROWS for c in (row[2], row[4]) if c != 'never']
     v['REPAY_RANGE'] = f'{min(calls)} to {max(calls)}'
     by = {row[0]: (int(row[2]), int(row[4])) for row in REPAY_ROWS}

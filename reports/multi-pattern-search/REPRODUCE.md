@@ -24,7 +24,7 @@ The rest runs from this directory.
 
 ```sh
 gunzip -kf corpus/*.gz
-python3 tools/cells.py controlled crossover natural languages scenarios counterexamples
+python3 tools/cells.py controlled crossover natural languages scenarios counterexamples pages
 sha256sum -c data/cells.sha256
 ```
 
@@ -54,6 +54,13 @@ bash tools/full-run.sh runs <gcc build>/sapi/cli/php <clang build>/sapi/cli/php
 It takes about 2.5 hours on the machine above and returns at once; the series is done when `runs/cpu15/done.json` and `runs/cpu7/done.json` exist. The published data came from separate runs of the same cells: the two grids with languages in parallel, then edge cases, then scenarios on CPU 15, with a version of `bench.php` that also timed the replacement methods dropped since; see [METHOD.md](METHOD.md). `data/corecheck.json` also holds the 45 PHP-name cells of 1.5–3 KiB, which an earlier version of `full-run.sh` ran on CPU 15 as well. The compiler labels must stay `gcc15` and `clang21`, the names `render.py` expects.
 Rerunning a `run.py` command with the same arguments resumes an interrupted series.
 
+The page-length cells are not in `full-run.sh`. They ran on their own on CPU 15, in under 10 minutes:
+
+```sh
+python3 tools/run.py --out runs/pages --cpu 15 --sibling 31 \
+  --php gcc15=<gcc build>/sapi/cli/php --php clang21=<clang build>/sapi/cli/php cells/pages/*.json
+```
+
 Build time and memory:
 
 ```sh
@@ -76,6 +83,7 @@ Each dictionary is built in a fresh process with only that dictionary loaded: wi
 ```sh
 python3 tools/summarize.py runs/cpu15 runs/cpu7 --out data/results.json
 python3 tools/summarize.py runs/corecheck --out data/corecheck.json
+python3 tools/summarize.py runs/pages --out data/pages.json
 python3 tools/render.py
 ```
 
