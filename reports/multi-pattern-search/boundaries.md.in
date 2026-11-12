@@ -5,7 +5,7 @@ Every call, in both modes, for every measured key count and text length. Use it 
 
 - **Prepared, 32 keys or more**: faster everywhere ({{PREPARED_32_PLUS}} on random keys, {{PREPARED_NATURAL_32_PLUS}} on PHP names), except a match in the first 64 bytes: {{START_32_PLUS_LO}} to {{START_32_PLUS_HI}}.
 - **Prepared, 16 keys**: {{PREPARED_16}}. **8 keys**: {{PREPARED_8_ALL}} on random keys; GCC and Clang often disagree on the sign.
-- **One-shot**: slower on short texts, faster on long ones. Where it starts to pay off: [README.md](README.md#when-a-single-call-pays-for-the-build).
+- **One-shot**: slower on short texts, faster on long ones. Where it starts to pay off: [README.md](README.md#one-shot).
 
 {{GRID_LEGEND}}
 

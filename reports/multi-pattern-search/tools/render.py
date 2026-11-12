@@ -5,7 +5,7 @@
 
 Every *.md.in template is written to *.md with {{NAME}} placeholders filled by this script.
 Every table and most measured values in the text come from the data. The templates also state a few
-fixed facts of the setup (sizes, sources, the 3% noise floor) and the replace() thresholds read off its table.
+fixed facts of the setup (sizes, sources, the 3% noise floor).
 """
 import json
 import math
@@ -176,7 +176,7 @@ def scenario_table(data):
     the change 'GCC / Clang', and the calls that repay the build 'GCC / Clang'."""
     rows = []
     for label, cell in SCENARIOS + PAGE_SCENARIOS:
-        row = [label]
+        row = [f"{label} {OPS[data.cells[cell]['op']]}"]
         for mode, _ in MODES:
             r = data.get(cell, 'gcc15', mode)
             row += [f"{micro(r['reference_us'])} / {micro(r['native_us'])}", data.pair(cell, mode)]
@@ -269,49 +269,33 @@ def oneshot_cell(n, b, op, placement):
 
 
 NOISE = 3.0  # changes within this many percent are not told apart
-GRID_LENGTHS = [1024, 1536, 2048, 3072, 4096, 16384, 65536]
 
 
-def bold_pair(data, cell):
-    """One-shot 'GCC / Clang' change, bold when both compilers are faster by more than NOISE %."""
-    text = data.pair(cell, 'oneshot')
-    return f'**{text}**' if max(data.changes([cell], ['oneshot'])) < -NOISE else text
+def bold_pair(data, cell, mode):
+    """'GCC / Clang' change, bold when both compilers are faster by more than NOISE %; '—' if not measured."""
+    if data.get(cell, 'gcc15', mode) is None:
+        return '—'
+    text = data.pair(cell, mode)
+    return f'**{text}**' if max(data.changes([cell], [mode])) < -NOISE else text
 
 
-def oneshot_grid(data):
-    """Random keys x length, one-shot, 'GCC / Clang', one row per search call: one match in the middle
-    third, and matches() also with no match. Bold when both compilers are faster by more than NOISE %."""
+GRID_CALLS = [('unique', 'one', OPS['unique']), ('count', 'one', OPS['count']), ('all', 'one', OPS['all']),
+              ('any', 'absent', OPS['any'] + ', no match'), ('any', 'one', OPS['any'] + ', match in the middle'),
+              ('replace', 'one', OPS['replace'])]
+GRID_LENGTHS = {'prepared': [128, 1024, 4096, 16384, 65536],
+                'oneshot': [128, 1024, 1536, 2048, 3072, 4096, 16384, 65536]}
+
+
+def mode_grid(data, mode):
+    """Random keys x text length for one mode, one row per call: 'GCC / Clang' change against the fastest
+    existing method. The text has one match in the middle third, or none for matches() where the row says so."""
     rows = []
-    for n in (16, 32, 128, 1024):
-        calls = [('unique', 'one', OPS['unique']), ('count', 'one', OPS['count']), ('all', 'one', OPS['all']),
-                 ('any', 'absent', OPS['any'] + ', no match'), ('any', 'one', OPS['any'])]
-        out = [[n if i == 0 else '', label] for i, (_, _, label) in enumerate(calls)]
-        for b in GRID_LENGTHS:
-            for row, (op, placement, _) in zip(out, calls):
-                row.append(bold_pair(data, oneshot_cell(n, b, op, placement)))
-        rows += out
-    heads = ['Keys', 'Call'] + [size(b) if b % 1024 == 0 else f'{b / 1024:g} KiB' for b in GRID_LENGTHS]
+    for n in CONTROLLED_N:
+        for i, (op, placement, label) in enumerate(GRID_CALLS):
+            rows.append([n if i == 0 else '', label]
+                        + [bold_pair(data, oneshot_cell(n, b, op, placement), mode) for b in GRID_LENGTHS[mode]])
+    heads = ['Keys', 'Call'] + [size(b) if b % 1024 == 0 or b < 1024 else f'{b / 1024:g} KiB' for b in GRID_LENGTHS[mode]]
     return table(heads, rows, 2)
-
-
-
-
-def replace_oneshot_table(data):
-    """One-shot replace(): change against the fastest existing method, 'GCC / Clang', by keys and length."""
-    lengths = GRID_LENGTHS
-    rows = []
-    for label, n in [('random', n) for n in (16, 32, 128, 1024)] + [('names', n) for n in (32, 128, 512)]:
-        row = [f'{n} random keys' if label == 'random' else f'{n} PHP names']
-        for b in lengths:
-            if label == 'random':
-                c = oneshot_cell(n, b, 'replace', 'one')
-            elif b in (1536, 2048, 3072):
-                c = f'crossover/replace.names{n}.b{b}'
-            else:
-                c = f'natural/replace.n{n}.b{b}'
-            row.append(bold_pair(data, c) if c in data.cells else '—')
-        rows.append(row)
-    return table(['Dictionary'] + [size(b) if b % 1024 == 0 else f'{b / 1024:g} KiB' for b in lengths], rows)
 
 
 def controlled_tables(data, mode):
@@ -688,12 +672,8 @@ def placeholders(data):
         v[f'CONTROLLED_{key}'] = controlled_tables(data, mode)
         v[f'NATURAL_{key}'] = natural_tables(data, mode)
         v[f'LANGUAGES_{key}'] = language_tables(data, mode)
-    v['ONESHOT_GRID'] = oneshot_grid(data)
-    v['REPLACE_ONESHOT'] = replace_oneshot_table(data)
-    b1024 = [data.get(oneshot_cell(1024, b, 'replace', 'one'), 'gcc15', 'oneshot') for b in (1024, 4096)]
-    b1024 = [data.get(oneshot_cell(1024, b, 'replace', 'one'), 'gcc15', 'oneshot') for b in (1024, 1536, 2048, 3072, 4096)]
-    v['REPLACE_1024_STRTR_US'] = f"{micro(min(r['reference_us'] for r in b1024))}–{micro(max(r['reference_us'] for r in b1024))}"
-    v['REPLACE_1024_NATIVE_US'] = f"{micro(min(r['native_us'] for r in b1024))}–{micro(max(r['native_us'] for r in b1024))}"
+    v['PREPARED_GRID'] = mode_grid(data, 'prepared')
+    v['ONESHOT_GRID'] = mode_grid(data, 'oneshot')
     v['FEW_TABLE'], v['DENSE_TABLE'] = counterexample_tables(data)
     v['CONSTRUCT_TABLE'] = construct_table(data)
     v['CONSTRUCT_MEMORY'] = construct_table(data, memory=True)
@@ -731,7 +711,6 @@ def placeholders(data):
     v['ONESHOT_4K_128'] = data.span([c for c in not_start if n_of(c) == 128 and b_of(c) == 4096], ['oneshot'])
     mid = lambda n: data.get(f'controlled/any.n{n}.b4096.one', 'gcc15', 'prepared')  # noqa: E731
     v['ANY_MID_16_US'], v['ANY_MID_1024_US'] = micro(mid(16)['native_us']), micro(mid(1024)['native_us'])
-    v['PREPARED_NATURAL_8'] = data.span([c for c in natural if n_of(c) == 8], ['prepared'])
     v['PREPARED_NATURAL_32_PLUS'] = data.span([c for c in natural if n_of(c) >= 32], ['prepared'])
     st32 = data.changes([c for c in start if n_of(c) >= 32], ['prepared'])
     v['START_32_PLUS_LO'], v['START_32_PLUS_HI'] = f'{num(min(st32))}%', f'{num(max(st32))}%'
@@ -743,7 +722,7 @@ def placeholders(data):
     v['START_PCRE_HIGH_US'] = rng(pcre_start(1024))
     v['REF_MID_16_US'] = micro(data.get('controlled/any.n16.b4096.one', 'gcc15', 'prepared')['reference_us'])
     v['REF_MID_1024_US'] = micro(data.get('controlled/any.n1024.b4096.one', 'gcc15', 'prepared')['reference_us'])
-    v['REPLACE_1024_SHORT'] = data.span([oneshot_cell(1024, b, 'replace', p) for b in GRID_LENGTHS if b <= 4096
+    v['REPLACE_1024_SHORT'] = data.span([oneshot_cell(1024, b, 'replace', p) for b in GRID_LENGTHS['oneshot'] if 1024 <= b <= 4096
                                          for p in ('one', 'absent', 'spread16')
                                          if oneshot_cell(1024, b, 'replace', p) in data.cells], ['oneshot'])
     gcc_start = lambda mode, key: [data.get(c, 'gcc15', mode)[key] for c in start if n_of(c) >= 16]  # noqa: E731

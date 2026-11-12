@@ -27,53 +27,6 @@ Main results, times with GCC:
 
 Detailed tables by question: [Where to look](#where-to-look).
 
-## Results
-
-Each value is the change in time per call against the fastest existing method for the same call, text, keys and mode. Which methods compete: [How it was compared](#how-it-was-compared); the time of each of them for every value: [all-methods.md](all-methods.md).
-Negative = the new class is faster: −50% is twice as fast, −90% ten times. † = noisy value (see [METHOD.md](METHOD.md)).
-Random keys are random strings of the letters a–p, written into English text. PHP names are function and method names from the PHP manual, on manual text.
-Ranges cover the five calls (`matches()`, `getMatchedKeywords()`, `countMatches()`, `matchAll()`, `replace()`), texts from 128 B to 64 KiB, and both compilers, without a match in the first 64 bytes.
-
-| Mode | Keys | Random keys | PHP names |
-|---|---|---:|---:|
-| Prepared | 32 or more | {{PREPARED_32_PLUS}} | {{PREPARED_NATURAL_32_PLUS}} |
-| Prepared | 16 | {{PREPARED_16}} | not measured |
-| Prepared | 8 | {{PREPARED_8_ALL}} | {{PREPARED_NATURAL_8}} |
-
-### When a single call pays for the build
-
-Random keys, build and one call, change against the fastest existing method, GCC / Clang. **Bold**: faster by more than 3% with both compilers. The text has one match in the middle third, or none where the row says so. `matches()` stops at the match, about halfway. The other calls read the whole text. `replace()` is in the next section.
-
-{{ONESHOT_GRID}}
-
-PHP names, other match positions and both modes: [boundaries.md](boundaries.md).
-
-### When a single `replace()` call pays for the build
-
-Build, one `replace()` call and destroy, against the fastest existing method (GCC / Clang). **Bold**: faster by more than 3% with both compilers. Random keys have one match in the middle of the text; PHP names occur as they do in the manual.
-
-{{REPLACE_ONESHOT}}
-
-A single `replace()` pays for the build from 1.5–2 KiB with 16 to 128 random keys, and from 2–3 KiB of manual text with 32 to 512 PHP names.
-With 1024 keys the fastest existing method is `strtr()`: on 1–4 KiB with GCC it takes {{REPLACE_1024_STRTR_US}} µs, the build and call of the new class {{REPLACE_1024_NATIVE_US}} µs.
-
-Other inputs:
-
-- **Fewer than 8 keys**: not the intended use; [edge-cases.md](edge-cases.md) shows the loss.
-- **Russian, Chinese, Japanese, Korean**: smaller gains, {{LANG_PREP_OTHER}} prepared; `matches()` with frequent words {{LANG_ANY_WORDS_PREP}}. See [languages.md](languages.md).
-- **Real applications**: [Application scenarios](#application-scenarios).
-
-## How it was compared
-
-- Only existing methods that are right on every text compete. `str_replace()` is left out: it replaces inside text it has already replaced, so its output can differ from `strtr()`.
-- PCRE is tried as a plain alternation and as one that shares key prefixes (`/cas(?:ino|h)/`); the faster one counts. For which keys, how many and every occurrence, PCRE uses a lookahead so that overlapping keys are found. An alternation that consumes matches took 2–25% less time in a probe but misses overlapping keys, so it doesn't compete.
-- Existing methods return the same keys, counts and offsets in a simpler form: plain arrays in any order, no `Str\MatchResult` objects. The new class pays for its full result. Results are sorted and compared outside the timer.
-- `strtr()` has no prepared form: its time includes processing the whole key array on every call.
-- One-shot includes building the PCRE pattern string, not compiling it: PCRE keeps compiled patterns in its per-process cache.
-- Calls go through a pool of different texts instead of repeating one. On one repeated text the new class ran 3–4 times faster, because the CPU learns its branches (an earlier version; the existing methods weren't probed).
-
-[METHOD.md](METHOD.md) has the details, [REPRODUCE.md](REPRODUCE.md) the commands.
-
 ## Application scenarios
 
 {{SCENARIO_INPUTS}}
@@ -96,6 +49,38 @@ Build and one call, change against the fastest existing method, GCC / Clang:
 {{PAGES_TABLE}}
 
 With 3,345 names building the object takes most of the time of `replace()`, and `strtr()` stays faster. These cells ran in a separate series with the same builds: [data/pages.json](data/pages.json).
+
+## Results by keys and text length
+
+Each value is the change in time per call against the fastest existing method for the same call, text, keys and mode, GCC / Clang. Which methods compete: [How it was compared](#how-it-was-compared); the time of each of them for every value: [all-methods.md](all-methods.md).
+Negative = the new class is faster: −50% is twice as fast, −90% ten times. **Bold**: faster by more than 3% with both compilers. † = noisy value (see [METHOD.md](METHOD.md)).
+Random keys are random strings of the letters a–p, written into English text. The text has one match in the middle third, or none where the row says so. `matches()` stops at the match, about halfway. The other calls read the whole text.
+
+### Prepared
+
+{{PREPARED_GRID}}
+
+### One-shot
+
+{{ONESHOT_GRID}}
+
+PHP names, other match positions and every value in µs: [boundaries.md](boundaries.md), [all-methods.md](all-methods.md).
+
+Other inputs:
+
+- **Fewer than 8 keys**: not the intended use; [edge-cases.md](edge-cases.md) shows the loss.
+- **Russian, Chinese, Japanese, Korean**: smaller gains, {{LANG_PREP_OTHER}} prepared; `matches()` with frequent words {{LANG_ANY_WORDS_PREP}}. See [languages.md](languages.md).
+
+## How it was compared
+
+- Only existing methods that are right on every text compete. `str_replace()` is left out: it replaces inside text it has already replaced, so its output can differ from `strtr()`.
+- PCRE is tried as a plain alternation and as one that shares key prefixes (`/cas(?:ino|h)/`); the faster one counts. For which keys, how many and every occurrence, PCRE uses a lookahead so that overlapping keys are found. An alternation that consumes matches took 2–25% less time in a probe but misses overlapping keys, so it doesn't compete.
+- Existing methods return the same keys, counts and offsets in a simpler form: plain arrays in any order, no `Str\MatchResult` objects. The new class pays for its full result. Results are sorted and compared outside the timer.
+- `strtr()` has no prepared form: its time includes processing the whole key array on every call.
+- One-shot includes building the PCRE pattern string, not compiling it: PCRE keeps compiled patterns in its per-process cache.
+- Calls go through a pool of different texts instead of repeating one. On one repeated text the new class ran 3–4 times faster, because the CPU learns its branches (an earlier version; the existing methods weren't probed).
+
+[METHOD.md](METHOD.md) has the details, [REPRODUCE.md](REPRODUCE.md) the commands.
 
 ## Build time and memory
 

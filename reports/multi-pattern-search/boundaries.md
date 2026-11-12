@@ -5,7 +5,7 @@ Every call, in both modes, for every measured key count and text length. Use it 
 
 - **Prepared, 32 keys or more**: faster everywhere (−90…−46% on random keys, −94…−62% on PHP names), except a match in the first 64 bytes: −70% to +49%.
 - **Prepared, 16 keys**: −62…+0.7%. **8 keys**: −42…+117% on random keys; GCC and Clang often disagree on the sign.
-- **One-shot**: slower on short texts, faster on long ones. Where it starts to pay off: [README.md](README.md#when-a-single-call-pays-for-the-build).
+- **One-shot**: slower on short texts, faster on long ones. Where it starts to pay off: [README.md](README.md#one-shot).
 
 **How to read a cell.** `−80% / −75%` is the change in time per call against the fastest existing method: −80% with GCC 15.2, −75% with Clang 21.1. Negative = the new class is faster: −50% is twice as fast, −75% four times, −90% ten times. +100% is twice as slow. † = the processes disagree by more than 5%, the A/A control is off by more than 3%, a process was preempted more than 20 times a second, or the core was not idle; the values are in [data/results.json](data/results.json). The same file has the times in µs and the existing method that was fastest.
 
