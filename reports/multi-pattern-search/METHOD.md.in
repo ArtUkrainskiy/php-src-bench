@@ -1,0 +1,79 @@
+# Method
+
+How every number in the report was measured, and what keeps the comparison fair to both sides.
+
+## What is compared
+
+`Str\Matcher` and `Str\Replacer` from [PR #25122]({{PR_URL}}) at commit [{{COMMIT_SHORT}}]({{COMMIT_URL}}), built into `ext/standard`.
+They are compared with the existing ways to do the same job in PHP:
+
+| Task | Existing methods |
+|---|---|
+| Does any key occur? | `str_contains()` loop; `stripos()` loop or `strtolower()` + `str_contains()` loop when case is ignored; `preg_match()` |
+| Which keys occur? | the same loops; `preg_match_all()` |
+| How many occurrences? | `strpos()` or `stripos()` loop, `substr_count()` loop, `preg_match_all()` |
+| Every occurrence with its offset | `strpos()` or `stripos()` loop, `preg_match_all()` with offsets |
+| Replace keys | `strtr()`; `preg_replace_callback()`, or `preg_replace()` when every key gets the same replacement |
+
+With a single key, a single `str_contains()` call competes too.
+Each PCRE method comes as a plain alternation and as an alternation that shares key prefixes, whose greedy optional groups pick the longest key at a position.
+For "which keys", "how many" and "every occurrence" the pattern is a lookahead, `(?=(…))`, so that overlapping and nested keys are found as the native call finds them.
+For search, large dictionaries also get the same patterns in chunks of 512 or 1024 keys.
+For replacement the plain alternation puts longer keys first, so that the longest key wins as in `strtr()` and the native call.
+
+For "which keys", "how many" and "every occurrence", a plain alternation that consumes each match would take 2–25% less time than the lookahead in a probe on four inputs with GCC ([data](data/probe/consuming-alternation.json), methods `pcre_consuming_*`; the recipe isn't kept in `tools/`). It finds the right answer only when no two occurrences overlap, so it isn't used.
+
+The **reference** in every table is the fastest existing method for that input and mode, chosen after the run from the timed methods that are right on every text.
+That choice favours the existing side a little: an application would have to pick one method in advance. So does one duplicate: for `matches()` without case folding, two timed methods are the same `str_contains()` loop, and the reference is the faster of the two noisy copies.
+
+## Only methods that are right on every text
+
+An existing method competes only if it gives the same answer as the native call on any text, not just on the measured ones.
+`str_replace()` is left out because it rescans its own output, and so are, for replacement, PCRE alternations in dictionary order and several replacement patterns applied in turn.
+On short texts some of them are faster, and they would give the right answer on many texts, but not on all of them.
+As a check, every method also runs on every text of the cell before timing, and a method whose result differs from the native one is dropped. The check rejected `str_replace()`, dictionary-order PCRE and chunked replacement patterns on replacement cells. For search calls no method gave a different result; no deliberately broken method was tried. PCRE alternations too large to compile were dropped too.
+The order of found keys and occurrences doesn't matter: the native call pays for sorting its results and the existing methods don't.
+
+## Two modes
+
+- **Prepared**: the object, pattern strings and arrays exist before the timer starts, wherever they were built. The timer covers the call, the result and its release.
+- **One-shot**: one build and one call. The timer also covers building the object, or the pattern strings, callbacks and arrays, and destroying them. Compiled PCRE patterns stay in PCRE's per-process cache, as they do between requests of PHP-FPM. Analysis that depends only on the dictionary, such as sorting keys or grouping nested keys, is done before the timer for the existing methods. If an application keeps a ready pattern as a constant in its code, its one-shot cost is the prepared row.
+
+## How a cell is measured
+
+A **cell** is one operation, one dictionary and a pool of texts. Cells at 1.5, 2 and 3 KiB (`cells/crossover`) are timed in one-shot mode only, to find where a single call starts to pay for the build.
+
+- **Different texts every call.** Repeating one text lets the CPU's branch predictor learn it. On a 16 KiB text, a prepared call took {{PROBE_ONE_US}} µs on one repeated text and {{PROBE_MANY_US}} µs on 64 different texts ([probe](data/branch-probe.md), with an earlier version of the extension). A pool of windows holds 2 MiB of text (4 MiB for 64 KiB windows) at random positions of a corpus; windows may overlap. Scenario pools are whole documents in a fixed shuffled order: 10,000 comments, 10,000 User-Agent strings, which repeat as in real traffic, and 4,153 manual pages. Earlier reports on this API repeated one text and are not comparable with this one.
+- **Same texts for every method.** In each pass every method makes the same number of calls on the same texts. The number of calls is set so that the slowest timed method takes at most about 100 ms per pass, and the fastest at least 20 ms when that limit allows; the median pass of the fastest method took {{FAST_PASS_MEDIAN}} ms. A process makes at least 64 calls per method on window pools, and covers the whole pool on scenario pools. The two modes make different numbers of calls, so they time different samples of the pool: compare times within one mode.
+- **Slow methods are not timed.** Before timing, every method's time per call is estimated. An existing method more than 5 times slower than the fastest existing one can't be the reference, so it isn't timed; its estimate is in the data. The main runs still timed the replacement methods that are not right on every text; they never count as the reference, and the methods they pushed out of timing were at least {{UNTIMED_MIN}} times slower than the reference.
+- **Fair order.** Methods run in a rotated order that reverses every other pass. One untimed call precedes every timed block, so pattern compilation and cold caches are never timed. Calls run back to back, so caches stay warm for both sides.
+- **Empty-call correction.** Every pass also times an empty call (loop, closure call, result accounting); it is subtracted from every method. Tables show the corrected change; the change without the correction is in the data. It matters most on short texts: for 32 keys or more the prepared range on random keys is {{PREPARED_32_PLUS}} corrected and {{PREPARED_32_PLUS_RAW}} without the correction.
+- **A/A control.** Native is timed twice per pass.
+- **Repetition.** Each cell runs in {{PROCESSES}} fresh processes; reported values are medians over processes. When the processes disagree by more than {{SPREAD_LIMIT}}% or the A/A pair by more than {{AA_LIMIT}}%, both modes of that cell and compiler get {{RECHECK}} more processes.
+
+The noise floor was calibrated before the run: one process is reproducible to about ±2%, the median of three to about ±0.7% ([calibration](data/calibration.md)). The run was noisier: the processes of a value differ by {{SPREAD_P90}}% or less in 90% of values, and repeats on the other core moved the ratio by up to {{CROSS_MAX}}%. Differences within about 3% are not told apart.
+
+In the run, {{RECHECKED}} of {{RECORDS}} records got the extra processes. The decision was made with those extra replacement methods included, so {{UNRECHECKED}} records whose processes disagree by more than {{SPREAD_LIMIT}}% kept 3 processes. The per-process ratios differ by {{SPREAD_MEDIAN}}% in the median record and by {{SPREAD_P90}}% or less in 90% of them. {{AA_OVER}} records still have an A/A pair off by more than {{AA_LIMIT}}%. Tables mark a value with † when the processes differ by more than {{MARK_SPREAD}}%, the A/A pair by more than {{MARK_AA}}%, a process was preempted more than 20 times a second, or the core or its SMT sibling was not idle: {{MARKED}} records. Every record keeps its per-process range, A/A result and flags in [data/results.json](data/results.json).
+
+## Environment
+
+{{MACHINE}}, `performance` governor with boost on. Time is wall time from `hrtime()`; each pass pairs both sides, so frequency drift between passes cancels out. GCC {{GCC}} and Clang {{CLANG}}, release builds of `--disable-all --enable-cli` with the flags of the official PHP Docker image (`{{CFLAGS}}`). PHP runs with OPcache enabled and JIT disabled, PCRE JIT enabled, garbage collection disabled. Each cell runs pinned to one core whose SMT sibling is idle ({{LOAD_COUNT}} records were flagged when it was not); other cores of the same CCD are not checked. {{CORE_SPLIT}}
+
+## Inputs
+
+| Source | Revision | Licence | Used for |
+|---|---|---|---|
+{{SOURCES_TABLE}}
+
+Texts are windows at random positions of these corpora, or whole documents. English with emoji is the English corpus with an emoji sequence after about every 40 bytes. Word dictionaries are words of the given frequency ranks in each corpus. In the random-key grid, keys are random strings of the letters a–p that never occur in the corpus; occurrences are written into each window. [corpus/ATTRIBUTION.md](corpus/ATTRIBUTION.md) lists authors, licences and changes. [REPRODUCE.md](REPRODUCE.md) rebuilds every cell byte for byte from [corpus](corpus) and [dictionaries](dictionaries).
+
+## Limits
+
+- Results are from one machine. Other CPUs, especially with different branch predictors, can move the boundaries.
+- One build per compiler. GCC and Clang differ near the boundaries, and one build can't separate the compiler from code placement.
+- PHP's JIT was disabled, and so was garbage collection. Results with the JIT were not measured.
+- Calls run back to back with warm caches. A worker that does other work between calls was not modelled.
+- Matching is byte-wise and case-sensitive. The moderation scenario lowercases the text with `strtolower()` for the native call, as an application would. With `/i`, PCRE returns the text's spelling of a key, not the key; the existing method doesn't pay to map it back.
+- Approaches with different results are not compared: splitting a text into words and looking them up with `isset()` finds whole words only.
+- User-Agent strings repeat as in real traffic; an application could cache results per string, which is not modelled.
+- Dictionaries with fewer than 8 keys are outside the intended use. [edge-cases.md](edge-cases.md) shows them for completeness.

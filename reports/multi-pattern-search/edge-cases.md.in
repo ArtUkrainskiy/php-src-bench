@@ -1,0 +1,19 @@
+# Edge cases: very small dictionaries and dense matches
+
+- **1 key**: the new class takes {{FEW_1_TIMES}} times as long as the fastest existing method.
+- **4 keys**: {{FEW_4_TIMES}} times as long. `Str\Matcher` and `Str\Replacer` are not meant for dictionaries this small, and the main tables leave them out.
+- **Text dense with matches**: the new class is faster in every case, {{DENSE_SPAN}}.
+
+{{LEGEND}}
+
+## Fewer than 8 keys
+
+Texts are 4 KiB of English PHP documentation with one key written in.
+
+{{FEW_TABLE}}
+
+## Texts dense with matches
+
+128 frequent English words (ranks 101–228) on English text, so matches are close together.
+
+{{DENSE_TABLE}}

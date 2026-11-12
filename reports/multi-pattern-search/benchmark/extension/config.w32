@@ -1,6 +1,0 @@
-ARG_ENABLE("strmatch", "multi-pattern string matching support", "no");
-
-if (PHP_STRMATCH != "no") {
-	AC_DEFINE("HAVE_STRMATCH", 1, "Whether strmatch is enabled");
-	EXTENSION("strmatch", "strmatch.c");
-}

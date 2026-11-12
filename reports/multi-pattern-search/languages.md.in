@@ -1,0 +1,26 @@
+# Text languages
+
+Does the language of the text change the result? Every call was run on seven kinds of text, 4 and 64 KiB long, with two dictionaries of 128 keys.
+
+## Findings
+
+- **Prepared object**: faster in every case but one. English, Spanish and English with emoji: {{LANG_PREP_LATIN}}. Russian, Chinese, Japanese and Korean: {{LANG_PREP_OTHER}}.
+- **The exception is `matches()` with frequent words**: {{LANG_ANY_WORDS_PREP}} on Russian, Chinese, Japanese and Korean. Both sides stop at the first word found. The fastest existing method takes {{LANG_ANY_WORDS_US}} µs, on 64 KiB as on 4 KiB, so there is little left to win. One-shot this call is slower on every text ({{LANG_ANY_WORDS_ONESHOT}}): the build costs more than the whole search.
+- **One-shot, other calls**: at 64 KiB faster on every text ({{LANG_ONESHOT_64K}}). At 4 KiB faster on English, Spanish and emoji texts ({{LANG_ONESHOT_4K_LATIN}}). On Russian, Chinese, Japanese and Korean at 4 KiB the change is {{LANG_ONESHOT_4K_OTHER}}: the build often doesn't pay off at this length.
+
+## Inputs
+
+- **Texts**: windows at random positions of the PHP manual in each language. Korean comes from MDN. English with emoji is the English manual with an emoji after about every 40 bytes.
+- **Bytes per character**: the average UTF-8 length of a character in the text. Matching works on bytes.
+- **Frequent words**: 128 words of ranks 1001–1128 in the same language; for Chinese and Japanese, sequences of 2 and 3 characters of the same ranks. They occur in the text.
+- **PHP names**: 128 ASCII function and method names. The translated manuals keep code examples in English, so the names occur in every corpus except Korean, though not in every window.
+
+{{GRID_LEGEND}}
+
+## Prepared object
+
+{{LANGUAGES_PREPARED}}
+
+## One-shot: build and one call
+
+{{LANGUAGES_ONESHOT}}

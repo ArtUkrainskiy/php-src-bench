@@ -1,0 +1,15 @@
+# Every measured value against every existing method
+
+Times per call in µs for the new class and for each existing method that was run on the same texts.
+**Bold** is the fastest existing method: the base for the change in the last column and in every other table of the report.
+[README.md](README.md) has the summary, [METHOD.md](METHOD.md) how the methods were built and timed.
+
+- **≈** — the method was more than 5 times slower than the fastest in a short check run, so it was not timed in full. The value is that check's estimate.
+- **—** — not run for this input.
+- **Change against the fastest**: negative = the new class is faster; −50% is twice as fast, −90% ten times. † = noisy value, see [METHOD.md](METHOD.md).
+- **too large** — PCRE refused to compile the pattern.
+- **in chunks of 512 / 1024**: PCRE with the keys split into several patterns of that many keys, for dictionaries too large for one pattern.
+- **second copy**: for `matches()` without case folding two timed methods are the same `str_contains()` loop; the faster of the two counts.
+- Replacement methods that are wrong on some texts (`str_replace()`, PCRE that consumes matches) never compete and are not listed; see [METHOD.md](METHOD.md).
+
+{{ALL_METHODS}}

@@ -1,0 +1,28 @@
+# Build time and memory
+
+- **Build time**: {{BUILD_PER_KIB}} µs per KiB of keys for `Str\Matcher` with GCC on the real and random-letter dictionaries below. The slow dictionaries at the end take up to {{BUILD_PER_KIB_MAX}} µs per KiB.
+- **`Str\Replacer`** builds as fast as `Str\Matcher` on random keys and word lists (within {{REPLACER_SIMPLE_GAP}}% on either compiler). On 512 or more PHP names it takes {{REPLACER_NAMES_RATIO}} times as long with GCC: it also builds an automaton of the reversed keys to pick the longest match.
+- **The last three rows** are dictionaries built to be slow.
+
+## Build time, µs
+
+{{CONSTRUCT_TABLE}}
+
+Median time of `new Str\Matcher($keys)` or `new Str\Replacer($map)`, repeated for at least 200 ms on the same dictionary, so caches are warm. The value is the median of three processes. Destroying the object is outside the timer.
+"Keys, KiB" is the total length of the keys.
+Each dictionary is measured in a fresh process with only that dictionary loaded. `Str\Replacer` maps every key to its uppercase.
+
+## Memory, KiB
+
+{{CONSTRUCT_MEMORY}}
+
+- **Kept**: `memory_get_usage()` after the build minus before it, with GCC. Key and replacement strings are shared with the input array and are not counted.
+- **Peak**: `memory_get_peak_usage()` during the build minus the usage before it.
+
+Memory is counted by the Zend allocator, not as process RSS.
+
+## The slow dictionaries
+
+- **nested a, aa, …**: keys `a`, `aa`, … up to 512 `a`. Every key is a prefix of the next one.
+- **64-byte common prefix**: 10,000 keys that share their first 64 bytes. Reversed, these keys share almost nothing, so the reversed automaton of `Str\Replacer` is large.
+- **random bytes**: 10,000 keys of 12 random bytes. They share almost no prefixes, so the automaton has a state for almost every key byte, and its first levels are full 256-entry rows.

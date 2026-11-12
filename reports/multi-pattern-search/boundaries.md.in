@@ -1,0 +1,41 @@
+# Boundaries: number of keys and text length
+
+Every call, in both modes, for every measured key count and text length. Use it to look up a case close to yours.
+[README.md](README.md) has the summary, [METHOD.md](METHOD.md) the measurement.
+
+- **Prepared, 32 keys or more**: faster everywhere ({{PREPARED_32_PLUS}} on random keys, {{PREPARED_NATURAL_32_PLUS}} on PHP names), except a match in the first 64 bytes: {{START_32_PLUS_LO}} to {{START_32_PLUS_HI}}.
+- **Prepared, 16 keys**: {{PREPARED_16}}. **8 keys**: {{PREPARED_8_ALL}} on random keys; GCC and Clang often disagree on the sign.
+- **One-shot**: slower on short texts, faster on long ones. Where it starts to pay off: [README.md](README.md#when-a-single-call-pays-for-the-build).
+
+{{GRID_LEGEND}}
+
+## Random keys
+
+Keys are 4 to 16 random letters a–p that never occur in the corpus, so the matches are only where we put them.
+Texts are windows of English PHP documentation at random positions.
+Each table title says where the matches are put:
+
+- **one occurrence in the middle third**, **in the first 64 bytes** or **in the last 64 bytes**: one key at a random position in that region;
+- **no occurrence**: the text has no key;
+- **16 occurrences across the text**: the text is cut into 16 equal parts with one key in each (with 8 keys, each key twice). Measured from 1 KiB.
+
+### Prepared object
+
+{{CONTROLLED_PREPARED}}
+
+### One-shot: build and one call
+
+{{CONTROLLED_ONESHOT}}
+
+## PHP names
+
+Keys are function and method names from the PHP manual, such as `shm_put_var` or `Imagick::negateImage`, in a fixed random order; a dictionary of n keys takes the first n.
+Texts are windows of the same manual, so matches occur as they do in real text.
+
+### Prepared object
+
+{{NATURAL_PREPARED}}
+
+### One-shot: build and one call
+
+{{NATURAL_ONESHOT}}
