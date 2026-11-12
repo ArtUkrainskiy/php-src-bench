@@ -21,9 +21,9 @@ Main results, times with GCC:
 - A prepared object with 32 keys or more is 1.9 to 16 times faster per call.
 - One call on a short text is slower: on 128 B with 16 random keys the build and call take 4.19–4.58 µs, the fastest existing method 0.46–1.89 µs.
 - One call pays for the build on longer texts: at 4 KiB with 128 random keys it changes the time by −67…−29%. On whole manual pages of 4–16 KiB, one auto-linking call with 128 or 512 names changes it by −72…−65%.
-- One `replace()` with a large dictionary is slower than `strtr()`: +95…+751% with 1024 random keys up to 4 KiB, +32…+502% with the 3,345 auto-linking names on every page length.
+- One `replace()` with a large dictionary is slower than `strtr()`: +95…+751% with 1024 random keys on 1–4 KiB, +32…+502% with the 3,345 auto-linking names on pages of 1–16 KiB.
 - `matches()` stops at the first match. Its time grows with the position of the match, not with the number of keys. With a match in the middle of 4 KiB a prepared call takes 2.86 µs with 16 keys and 2.96 µs with 1024, the fastest existing method 6.39 and 17.7 µs.
-- The ranges above leave out a match in the first 64 bytes. There every method stops after a few bytes. Prepared, the new class takes 0.26–0.27 µs at any key count, PCRE 0.12–0.16 µs with 16 keys and 0.68–0.75 µs with 1024: the change is +58…+115% with 16 keys and −70…−61% with 1024. One-shot, the new class still builds its object, 4.43–392 µs. PCRE only builds its pattern string, 1.34–62.4 µs, and keeps the compiled pattern in its cache. One call changes the time by +221…+550%.
+- The ranges above leave out a match in the first 64 bytes. There `matches()` and PCRE stop after a few bytes. Prepared, the new class takes 0.26–0.27 µs at any key count, PCRE 0.12–0.16 µs with 16 keys and 0.68–0.75 µs with 1024: the change is +58…+115% with 16 keys and −70…−61% with 1024. One-shot, the new class still builds its object, 4.43–392 µs. PCRE only builds its pattern string, 1.34–62.4 µs, and keeps the compiled pattern in its cache. One call changes the time by +221…+550%.
 
 Detailed tables by question: [Where to look](#where-to-look).
 
