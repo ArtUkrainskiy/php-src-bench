@@ -1,7 +1,7 @@
 # Build time and memory
 
 - **Build time**: 21–58 µs per KiB of keys for `Str\Matcher` with GCC on the real and random-letter dictionaries below. The slow dictionaries at the end take up to 183 µs per KiB.
-- **`Str\Replacer`** builds as fast as `Str\Matcher` on random keys and word lists (within 11% on either compiler). On 512 or more PHP names it takes 1.4–2.2 times as long with GCC: it also builds an automaton of the reversed keys to pick the longest match.
+- **`Str\Replacer`** builds as fast as `Str\Matcher` on random keys and word lists (within 11% on either compiler). On 512 or more PHP names it takes 1.4–2.2 times as long with GCC.
 - **The last three rows** are dictionaries built to be slow.
 
 ## Build time, µs
