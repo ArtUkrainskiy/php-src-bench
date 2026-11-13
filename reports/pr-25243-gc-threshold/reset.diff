@@ -1,0 +1,12 @@
+diff --git a/Zend/zend_gc.c b/Zend/zend_gc.c
+index bbbb77db3ec..944c03bb396 100644
+--- a/Zend/zend_gc.c
++++ b/Zend/zend_gc.c
+@@ -2214,6 +2214,7 @@ ZEND_API int zend_gc_collect_cycles(void)
+ 	 * run GC another time. */
+ 	if (should_rerun_gc && !did_rerun_gc) {
+ 		did_rerun_gc = true;
++		GC_G(visited) = 0;
+ 		goto rerun_gc;
+ 	}
+ 
