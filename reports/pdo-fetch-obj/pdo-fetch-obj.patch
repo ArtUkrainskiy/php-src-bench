@@ -1,0 +1,165 @@
+From 3561fa5f896d0b552ef847d1c5947aa2c893bf50 Mon Sep 17 00:00:00 2001
+From: Artem Ukrainskiy <art.ukrainskiy@gmail.com>
+Date: Fri, 13 Nov 2026 19:45:20 +0000
+Subject: [PATCH] PDO: build FETCH_OBJ rows as a properties table
+
+do_fetch() wrote each column of a FETCH_OBJ row into an empty stdClass with
+zend_update_property_ex(), which goes through the generic write_property
+handler and grows the properties table from 8 slots. The row is now collected
+into a hash table sized for the column count with zend_hash_update(), and the
+stdClass is created around it with object_and_properties_init().
+
+Column names are stored as string keys, as the property handler stores them,
+and a repeated name replaces the earlier value in place. When a column name
+starts with "\0", which the property handler rejects, the old path is used.
+---
+ ext/pdo/pdo_stmt.c                            | 30 +++++++-
+ .../pdo_sqlite_fetch_obj_column_names.phpt    | 73 +++++++++++++++++++
+ 2 files changed, 101 insertions(+), 2 deletions(-)
+ create mode 100644 ext/pdo_sqlite/tests/pdo_sqlite_fetch_obj_column_names.phpt
+
+diff --git a/ext/pdo/pdo_stmt.c b/ext/pdo/pdo_stmt.c
+index ce4253c82c..cf3ea8ac3e 100644
+--- a/ext/pdo/pdo_stmt.c
++++ b/ext/pdo/pdo_stmt.c
+@@ -662,6 +662,18 @@ static bool pdo_call_fetch_object_constructor(zend_function *constructor, HashTa
+ 	return failed;
+ }
+ 
++/* Whether a column name starts with "\0", the prefix of mangled property names */
++static bool pdo_any_column_name_starts_with_nul(const pdo_stmt_t *stmt)
++{
++	for (int i = 0; i < stmt->column_count; i++) {
++		const zend_string *name = stmt->columns[i].name;
++		if (UNEXPECTED(ZSTR_LEN(name) != 0 && ZSTR_VAL(name)[0] == '\0')) {
++			return true;
++		}
++	}
++	return false;
++}
++
+ /* Performs a row fetch, the value is stored into return_value according to HOW.
+  * return_value MUST be safely destroyable as it will be freed if an error occurs. */
+ static bool do_fetch(pdo_stmt_t *stmt, zval *return_value, enum pdo_fetch_type how, enum pdo_fetch_orientation ori, zend_long offset, zval *group_key) /* {{{ */
+@@ -747,7 +759,12 @@ static bool do_fetch(pdo_stmt_t *stmt, zval *return_value, enum pdo_fetch_type h
+ 
+ 		case PDO_FETCH_OBJ:
+ 			ce = zend_standard_class_def;
+-			object_init(return_value);
++			if (!pdo_any_column_name_starts_with_nul(stmt)) {
++				/* Collect the row into the properties table, the object is created after the loop */
++				array_init_size(return_value, stmt->column_count);
++			} else {
++				object_init(return_value);
++			}
+ 			break;
+ 
+ 		case PDO_FETCH_CLASS:
+@@ -912,8 +929,13 @@ static bool do_fetch(pdo_stmt_t *stmt, zval *return_value, enum pdo_fetch_type h
+ 				zend_hash_next_index_insert_new(Z_ARRVAL_P(return_value), &val);
+ 				break;
+ 
+-			case PDO_FETCH_CLASS:
+ 			case PDO_FETCH_OBJ:
++				if (Z_TYPE_P(return_value) == IS_ARRAY) {
++					zend_hash_update(Z_ARRVAL_P(return_value), column_name, &val);
++					break;
++				}
++				ZEND_FALLTHROUGH;
++			case PDO_FETCH_CLASS:
+ 			case PDO_FETCH_INTO:
+ 				zend_update_property_ex(ce, Z_OBJ_P(return_value), column_name, &val);
+ 				zval_ptr_dtor(&val);
+@@ -926,6 +948,10 @@ static bool do_fetch(pdo_stmt_t *stmt, zval *return_value, enum pdo_fetch_type h
+ 		}
+ 	}
+ 
++	if (how == PDO_FETCH_OBJ && Z_TYPE_P(return_value) == IS_ARRAY) {
++		object_and_properties_init(return_value, zend_standard_class_def, Z_ARRVAL_P(return_value));
++	}
++
+ 	/* Run constructor for objects if not already run and not unserialized */
+ 	if (how == PDO_FETCH_CLASS && ce->constructor && !(flags & (PDO_FETCH_PROPS_LATE | PDO_FETCH_SERIALIZE))) {
+ 		bool failed = pdo_call_fetch_object_constructor(ce->constructor, ctor_arguments, Z_OBJ_P(return_value));
+diff --git a/ext/pdo_sqlite/tests/pdo_sqlite_fetch_obj_column_names.phpt b/ext/pdo_sqlite/tests/pdo_sqlite_fetch_obj_column_names.phpt
+new file mode 100644
+index 0000000000..8ba23f7e09
+--- /dev/null
++++ b/ext/pdo_sqlite/tests/pdo_sqlite_fetch_obj_column_names.phpt
+@@ -0,0 +1,73 @@
++--TEST--
++PDO_sqlite: PDO::FETCH_OBJ with duplicate, numeric and empty column names
++--EXTENSIONS--
++pdo_sqlite
++--FILE--
++<?php
++$db = new PDO('sqlite::memory:');
++$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
++
++$row = $db->query('SELECT 1 AS a, 2 AS a, 3 AS "0", 4 AS "01", 5 AS "", 6 AS "-1"')->fetch(PDO::FETCH_OBJ);
++var_dump($row);
++var_dump($row->{'0'}, (array) $row);
++
++$row->a = 'changed';
++$row->extra = true;
++unset($row->{'01'});
++var_dump($row);
++
++var_dump($db->query('SELECT 1 AS g, 2 AS v UNION ALL SELECT 1, 3')->fetchAll(PDO::FETCH_OBJ | PDO::FETCH_GROUP));
++?>
++--EXPECTF--
++object(stdClass)#%d (5) {
++  ["a"]=>
++  int(2)
++  ["0"]=>
++  int(3)
++  ["01"]=>
++  int(4)
++  [""]=>
++  int(5)
++  ["-1"]=>
++  int(6)
++}
++int(3)
++array(5) {
++  ["a"]=>
++  int(2)
++  [0]=>
++  int(3)
++  ["01"]=>
++  int(4)
++  [""]=>
++  int(5)
++  [-1]=>
++  int(6)
++}
++object(stdClass)#%d (5) {
++  ["a"]=>
++  string(7) "changed"
++  ["0"]=>
++  int(3)
++  [""]=>
++  int(5)
++  ["-1"]=>
++  int(6)
++  ["extra"]=>
++  bool(true)
++}
++array(1) {
++  [1]=>
++  array(2) {
++    [0]=>
++    object(stdClass)#%d (1) {
++      ["v"]=>
++      int(2)
++    }
++    [1]=>
++    object(stdClass)#%d (1) {
++      ["v"]=>
++      int(3)
++    }
++  }
++}
+-- 
+2.53.0
+

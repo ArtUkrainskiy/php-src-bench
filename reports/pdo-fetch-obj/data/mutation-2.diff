@@ -1,0 +1,13 @@
+diff --git a/ext/pdo/pdo_stmt.c b/ext/pdo/pdo_stmt.c
+index cf3ea8ac3e..43de8a92f4 100644
+--- a/ext/pdo/pdo_stmt.c
++++ b/ext/pdo/pdo_stmt.c
+@@ -931,7 +931,7 @@ static bool do_fetch(pdo_stmt_t *stmt, zval *return_value, enum pdo_fetch_type h
+ 
+ 			case PDO_FETCH_OBJ:
+ 				if (Z_TYPE_P(return_value) == IS_ARRAY) {
+-					zend_hash_update(Z_ARRVAL_P(return_value), column_name, &val);
++					zend_hash_add(Z_ARRVAL_P(return_value), column_name, &val);
+ 					break;
+ 				}
+ 				ZEND_FALLTHROUGH;
