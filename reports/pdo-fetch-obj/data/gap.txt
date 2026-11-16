@@ -1,31 +1,33 @@
 FETCH_OBJ against FETCH_ASSOC, cycles
 case                                   compiler   master  change
-fetchAll OBJ @ mysql-10cols            gcc15        +25%     +7%
-fetchAll OBJ @ mysql-10cols            clang21      +33%     +7%
-fetchAll OBJ @ sqlite-10cols           gcc15        +20%     +6%
-fetchAll OBJ @ sqlite-10cols           clang21      +22%     +6%
-fetchAll OBJ @ sqlite-1col             gcc15        +21%    +16%
-fetchAll OBJ @ sqlite-1col             clang21      +19%    +18%
-fetchAll OBJ @ sqlite-30cols           gcc15        +19%     +3%
-fetchAll OBJ @ sqlite-30cols           clang21      +20%     +3%
-fetchAll OBJ @ sqlite-3cols            gcc15        +19%    +14%
-fetchAll OBJ @ sqlite-3cols            clang21      +18%     +9%
+fetchAll OBJ @ mysql-10cols            gcc15        +27%     +6%
+fetchAll OBJ @ mysql-10cols            clang21      +32%     +6%
+fetchAll OBJ @ sqlite-10cols           gcc15        +19%     +6%
+fetchAll OBJ @ sqlite-10cols           clang21      +20%     +5%
+fetchAll OBJ @ sqlite-1col             gcc15        +21%    +15%
+fetchAll OBJ @ sqlite-1col             clang21      +19%    +21%
+fetchAll OBJ @ sqlite-30cols           gcc15        +20%     +3%
+fetchAll OBJ @ sqlite-30cols           clang21      +20%     +2%
+fetchAll OBJ @ sqlite-3cols            gcc15        +18%    +14%
+fetchAll OBJ @ sqlite-3cols            clang21      +18%     +8%
 prepared OBJ @ mysql-10cols            gcc15        +29%     +7%
-prepared OBJ @ mysql-10cols            clang21      +31%     +7%
+prepared OBJ @ mysql-10cols            clang21      +33%     +7%
 
 Saved per row by the change (master minus change)
 case                                   compiler  instructions  cycles
-fetch OBJ loop @ sqlite-10cols         gcc15             1275     365
-fetch OBJ loop @ sqlite-10cols         clang21           1287     454
-fetchAll OBJ @ mysql-10cols            gcc15             1275     303
-fetchAll OBJ @ mysql-10cols            clang21           1288     419
-fetchAll OBJ @ sqlite-10cols           gcc15             1275     369
-fetchAll OBJ @ sqlite-10cols           clang21           1287     431
-fetchAll OBJ @ sqlite-1col             gcc15               46      45
-fetchAll OBJ @ sqlite-1col             clang21             43      16
-fetchAll OBJ @ sqlite-30cols           gcc15             3882    1142
-fetchAll OBJ @ sqlite-30cols           clang21           3923    1282
-fetchAll OBJ @ sqlite-3cols            gcc15              266      40
-fetchAll OBJ @ sqlite-3cols            clang21            263      83
-prepared OBJ @ mysql-10cols            gcc15             1275     301
-prepared OBJ @ mysql-10cols            clang21           1288     377
+fetch OBJ loop @ sqlite-10cols         gcc15             1273     389
+fetch OBJ loop @ sqlite-10cols         clang21           1285     442
+fetchAll OBJ @ mysql-10cols            gcc15             1273     313
+fetchAll OBJ @ mysql-10cols            clang21           1286     409
+fetchAll OBJ @ sqlite-10cols           gcc15             1273     352
+fetchAll OBJ @ sqlite-10cols           clang21           1285     416
+fetchAll OBJ @ sqlite-1col             gcc15               44      43
+fetchAll OBJ @ sqlite-1col             clang21             41      -1
+fetchAll OBJ @ sqlite-30cols           gcc15             3880    1166
+fetchAll OBJ @ sqlite-30cols           clang21           3921    1289
+fetchAll OBJ @ sqlite-3cols            gcc15              264      49
+fetchAll OBJ @ sqlite-3cols            clang21            261      86
+fetchAll OBJ GROUP @ sqlite-10cols     gcc15             1167     339
+fetchAll OBJ GROUP @ sqlite-10cols     clang21           1172     362
+prepared OBJ @ mysql-10cols            gcc15             1273     291
+prepared OBJ @ mysql-10cols            clang21           1286     375

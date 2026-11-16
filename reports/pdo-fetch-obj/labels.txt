@@ -3,6 +3,7 @@ fetchAll OBJ @ sqlite-3cols=same, 3 columns
 fetchAll OBJ @ sqlite-10cols=same, 10 columns
 fetchAll OBJ @ sqlite-30cols=same, 30 columns
 fetchAll OBJ @ mysql-10cols=same, MySQL 8.4, 10 columns
+fetchAll OBJ GROUP @ sqlite-10cols=`query()` + `fetchAll(PDO::FETCH_OBJ \| PDO::FETCH_GROUP)`, SQLite, 100 rows × 10 columns
 fetch OBJ loop @ sqlite-10cols=`query()` + `fetch(PDO::FETCH_OBJ)` in a loop, SQLite, 100 rows × 10 columns
 fetchAll ASSOC @ sqlite-1col=control, code not touched: `fetchAll(PDO::FETCH_ASSOC)`, SQLite, 1 column
 fetchAll ASSOC @ sqlite-3cols=control, code not touched: same, 3 columns

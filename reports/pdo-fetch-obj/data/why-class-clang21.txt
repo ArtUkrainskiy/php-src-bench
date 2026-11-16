@@ -1,6 +1,6 @@
-# bench why $R/suite.php pdoobj-base-clang21 pdoobj-chg-clang21 --filter "CLASS @ sqlite" --passes 15 --cpu 15
+# bench why $R/suite.php pdoobj-base-clang21 pdoobj-fix-clang21 --filter "CLASS @ sqlite" --passes 15 --cpu 15
 #   --functions do_fetch,fetch_value,zend_update_property_ex,zend_std_write_property
-# A = master, B = the change, clang 21.1, AMD Ryzen 9 5950X, 14 November 2026. Progress lines first, the tables at the end.
+# A = master, B = the change, clang 21.1, AMD Ryzen 9 5950X, 16 November 2026. Progress lines first, the tables at the end.
 fetchAll CLASS @ sqlite-10cols: pass 1/15, A
 fetchAll CLASS @ sqlite-10cols: pass 1/15, B
 fetchAll CLASS @ sqlite-10cols: pass 2/15, B
@@ -32,24 +32,24 @@ fetchAll CLASS @ sqlite-10cols: pass 14/15, A
 fetchAll CLASS @ sqlite-10cols: pass 15/15, A
 fetchAll CLASS @ sqlite-10cols: pass 15/15, B
 A: pdoobj-base-clang21
-B: pdoobj-chg-clang21
+B: pdoobj-fix-clang21
 
 fetchAll CLASS @ sqlite-10cols (per call, median of 15 passes; user space only, except the top-down slots)
 
 | event | A | B | B vs A |
 |---|--:|--:|--:|
-| cycles | 297,406 | 308,635 | +4% |
+| cycles | 297,295 | 297,704 | 0% |
 | instructions | 971,979 | 971,879 | 0% |
 | branches | 234,706 | 234,606 | 0% |
-| branch-misses | 200 | 197 | −2% |
-| L1-icache-load-misses | 133 | 117 | −12% |
-| iTLB-load-misses | 0.75 | 0.26 | -0.49 |
+| branch-misses | 201 | 198 | −1% |
+| L1-icache-load-misses | 134 | 102 | −24% |
+| iTLB-load-misses | 0.39 | 0.27 | -0.12 |
 
 | function | A address | A size | B address | B size | moved by | alignment A / B |
 |---|--:|--:|--:|--:|--:|--:|
-| do_fetch | 0x491750 | 2125 | 0x491750 | 2269 | +0 | 16 / 16 |
-| fetch_value | 0x4923f0 | 635 | 0x492480 | 635 | +144 | 48 / 0 |
-| zend_update_property_ex | 0x6308e0 | 58 | 0x630970 | 58 | +144 | 32 / 48 |
-| zend_std_write_property | 0x746fb0 | 2699 | 0x747040 | 2699 | +144 | 48 / 0 |
+| do_fetch | 0x491750 | 2125 | 0x491750 | 2285 | +0 | 16 / 16 |
+| fetch_value | 0x4923f0 | 635 | 0x492490 | 635 | +160 | 48 / 16 |
+| zend_update_property_ex | 0x6308e0 | 58 | 0x630980 | 58 | +160 | 32 / 0 |
+| zend_std_write_property | 0x746fb0 | 2699 | 0x747050 | 2699 | +160 | 48 / 16 |
 
 Alignment is the address modulo 64 (a cache line). Run `objdump -d` on both binaries for the hot loop itself.

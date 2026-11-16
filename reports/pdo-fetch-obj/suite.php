@@ -1,7 +1,8 @@
 <?php
 // PDO::FETCH_OBJ against FETCH_ASSOC and FETCH_CLASS, a php-src-bench suite (README, Reproduce):
 //   bench compare suite.php gcc15=<master build>:<change build> ...
-// One call = query() + fetchAll() of 100 rows, or query() + fetch() in a loop.
+// One call = query() + fetchAll() of 100 rows, or query() + fetch() in a loop, or execute() + fetchAll()
+// of a statement prepared once.
 //
 // Tables of 1, 3, 10 and 30 columns: id BIGINT, then VARCHAR(64), DOUBLE and BIGINT in turn (in SQLite
 // the affinities INTEGER, TEXT, REAL), 100 rows, built once per process. SQLite in memory; MySQL through
@@ -73,6 +74,12 @@ function fo_prepared(array $s, int $mode): int
     return count($stmts[$s[1]]->fetchAll($mode));
 }
 
+// FETCH_OBJ | FETCH_GROUP on the id column: one group per row.
+function fo_group(array $s): int
+{
+    return count(fo_db($s[0])->query("SELECT * FROM fo_$s[1]")->fetchAll(PDO::FETCH_OBJ | PDO::FETCH_GROUP));
+}
+
 function fo_each(array $s): int
 {
     $st = fo_db($s[0])->query("SELECT * FROM fo_$s[1]");
@@ -99,6 +106,7 @@ return [
     'inputs' => $inputs,
     'cases' => [
         'fetchAll OBJ' => ['code' => 'fo_all($s, PDO::FETCH_OBJ)', 'setup' => $prime],
+        'fetchAll OBJ GROUP' => ['code' => 'fo_group($s)', 'inputs' => ['sqlite-10cols'], 'setup' => $prime],
         'fetch OBJ loop' => ['code' => 'fo_each($s)', 'inputs' => ['sqlite-10cols'], 'setup' => $prime],
         'fetchAll ASSOC' => ['code' => 'fo_all($s, PDO::FETCH_ASSOC)', 'setup' => $prime],
         'prepared OBJ' => ['code' => 'fo_prepared($s, PDO::FETCH_OBJ)', 'inputs' => $mysqlOnly, 'setup' => $prime],

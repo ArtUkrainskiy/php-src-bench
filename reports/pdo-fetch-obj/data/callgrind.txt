@@ -1,34 +1,37 @@
 # valgrind --tool=callgrind php -n profile.php N MODE, GCC 15.2; per call = (N=100 minus N=0) / 100
-pdoobj-base-gcc15 obj N=0 35,140,708 (100.0%)  PROGRAM TOTALS
-pdoobj-base-gcc15 obj N=100 133,424,152 (100.0%)  PROGRAM TOTALS
-pdoobj-chg-gcc15 obj N=0 35,140,697 (100.0%)  PROGRAM TOTALS
-pdoobj-chg-gcc15 obj N=100 120,674,645 (100.0%)  PROGRAM TOTALS
-pdoobj-chg-gcc15 assoc N=0 35,140,714 (100.0%)  PROGRAM TOTALS
-pdoobj-chg-gcc15 assoc N=100 117,452,100 (100.0%)  PROGRAM TOTALS
+pdoobj-base-gcc15 obj N=0 35,194,160 (100.0%)  PROGRAM TOTALS
+pdoobj-base-gcc15 obj N=100 133,476,627 (100.0%)  PROGRAM TOTALS
+pdoobj-fix-gcc15 obj N=0 35,194,199 (100.0%)  PROGRAM TOTALS
+pdoobj-fix-gcc15 obj N=100 120,747,044 (100.0%)  PROGRAM TOTALS
+pdoobj-fix-gcc15 assoc N=0 35,194,222 (100.0%)  PROGRAM TOTALS
+pdoobj-fix-gcc15 assoc N=100 117,505,725 (100.0%)  PROGRAM TOTALS
 
 ## pdoobj-base-gcc15 obj N=100, inclusive instructions
- 88,163,646 (66.08%)  ext/pdo/pdo_stmt.c:do_fetch
- 43,183,300 (32.37%)  ext/pdo/pdo_stmt.c:fetch_value
- 19,440,632 (14.57%)  Zend/zend_API.c:zend_update_property_ex
- 18,069,232 (13.54%)  Zend/zend_object_handlers.c:zend_std_write_property
-  8,621,182 ( 6.46%)  Zend/zend_hash.c:zend_hash_add_new
-  8,552,584 ( 6.41%)  Zend/zend_hash.c:zend_array_destroy
+ 88,162,537 (66.05%)  ext/pdo/pdo_stmt.c:do_fetch
+ 43,183,300 (32.35%)  ext/pdo/pdo_stmt.c:fetch_value
+ 19,440,637 (14.56%)  Zend/zend_API.c:zend_update_property_ex
+ 18,069,237 (13.54%)  Zend/zend_object_handlers.c:zend_std_write_property
+  8,621,373 ( 6.46%)  Zend/zend_hash.c:zend_hash_add_new
+  8,552,918 ( 6.41%)  Zend/zend_hash.c:zend_array_destroy
   4,352,439 ( 3.26%)  Zend/zend_objects.c:zend_object_std_dtor
   1,796,815 ( 1.35%)  Zend/zend_API.c:object_init_ex
   1,471,076 ( 1.10%)  Zend/zend_hash.c:zend_hash_rehash
 
-## pdoobj-chg-gcc15 obj N=100, inclusive instructions
- 75,414,046 (62.49%)  ext/pdo/pdo_stmt.c:do_fetch
- 43,183,300 (35.78%)  ext/pdo/pdo_stmt.c:fetch_value
-  8,552,584 ( 7.09%)  Zend/zend_hash.c:zend_array_destroy
-  6,085,557 ( 5.04%)  Zend/zend_hash.c:zend_hash_update
-  4,352,439 ( 3.61%)  Zend/zend_objects.c:zend_object_std_dtor
+## pdoobj-fix-gcc15 obj N=100, inclusive instructions
+ 75,432,937 (62.47%)  ext/pdo/pdo_stmt.c:do_fetch
+ 43,183,300 (35.76%)  ext/pdo/pdo_stmt.c:fetch_value
+  8,552,918 ( 7.08%)  Zend/zend_hash.c:zend_array_destroy
+  6,085,754 ( 5.04%)  Zend/zend_hash.c:zend_hash_update
+  4,352,439 ( 3.60%)  Zend/zend_objects.c:zend_object_std_dtor
   1,796,815 ( 1.49%)  Zend/zend_API.c:object_init_ex
-  1,381,114 ( 1.14%)  Zend/zend_API.c:object_and_properties_init
+  1,380,000 ( 1.14%)  Zend/zend_API.c:object_and_properties_init
 
-## pdoobj-chg-gcc15 assoc N=100, inclusive instructions
- 73,422,932 (62.51%)  ext/pdo/pdo_stmt.c:do_fetch
- 43,183,300 (36.77%)  ext/pdo/pdo_stmt.c:fetch_value
-  7,322,584 ( 6.23%)  Zend/zend_hash.c:zend_array_destroy
-  6,085,557 ( 5.18%)  Zend/zend_hash.c:zend_hash_update
+## pdoobj-fix-gcc15 assoc N=100, inclusive instructions
+ 73,422,937 (62.48%)  ext/pdo/pdo_stmt.c:do_fetch
+ 43,183,300 (36.75%)  ext/pdo/pdo_stmt.c:fetch_value
+  7,322,918 ( 6.23%)  Zend/zend_hash.c:zend_array_destroy
+  6,085,754 ( 5.18%)  Zend/zend_hash.c:zend_hash_update
   1,796,815 ( 1.53%)  Zend/zend_API.c:object_init_ex
+
+# zend_hash_rehash in the full callgrind_annotate --inclusive=yes output of the N=100 runs (lines found):
+# pdoobj-base-gcc15 obj: 1 (above), pdoobj-fix-gcc15 obj: 0, pdoobj-fix-gcc15 assoc: 0

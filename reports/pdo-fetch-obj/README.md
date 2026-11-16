@@ -1,18 +1,19 @@
 # PDO::FETCH_OBJ rows built as a properties table
 
-Status: prototype, not a php-src PR yet, so no PHP release has it. The change is commit `3561fa5f896` on branch [`pdo-fetch-obj`](https://github.com/ArtUkrainskiy/php-src/tree/pdo-fetch-obj) of ArtUkrainskiy/php-src. It's one commit on top of php-src master [`48e34bf6348`](https://github.com/php/php-src/commit/48e34bf6348b0e9c5818218aeb06f8121cde3e24). The same commit as a patch: [`pdo-fetch-obj.patch`](pdo-fetch-obj.patch). Measured and checked on 14 November 2026 on an AMD Ryzen 9 5950X with GCC 15.2 and clang 21.1.
+Status: prototype, not a php-src PR yet, so no PHP release has it. The change is commit `5b322ca1e8e` on branch [`pdo-fetch-obj`](https://github.com/ArtUkrainskiy/php-src/tree/pdo-fetch-obj) of ArtUkrainskiy/php-src. It's one commit on top of php-src master [`48e34bf6348`](https://github.com/php/php-src/commit/48e34bf6348b0e9c5818218aeb06f8121cde3e24). The same commit as a patch: [`pdo-fetch-obj.patch`](pdo-fetch-obj.patch). Measured and checked on 16 November 2026 on an AMD Ryzen 9 5950X with GCC 15.2 and clang 21.1.
 
-`PDO::FETCH_OBJ` returns each row as a `stdClass` object. It's the default fetch mode of Laravel's database layer ([`Connection::$fetchMode`](https://github.com/laravel/framework/blob/12.x/src/Illuminate/Database/Connection.php)), so query builder results and Eloquent models go through it. On master, `query()` + `fetchAll(PDO::FETCH_OBJ)` of 100 rows takes 18–22% more CPU cycles in the PHP process than the same call with `FETCH_ASSOC` from SQLite. From MySQL 8.4 it's 25–33% more ([table](#results)).
+`PDO::FETCH_OBJ` returns each row as a `stdClass` object. It's the default fetch mode of Laravel's database layer ([`Connection::$fetchMode`](https://github.com/laravel/framework/blob/12.x/src/Illuminate/Database/Connection.php)), so query builder results and Eloquent models go through it. On master, `query()` + `fetchAll(PDO::FETCH_OBJ)` of 100 rows takes 18–21% more CPU cycles in the PHP process than the same call with `FETCH_ASSOC` from SQLite. From MySQL 8.4 it's 27–32% more ([table](#results)).
 
 The change makes `FETCH_OBJ` build the row the way `FETCH_ASSOC` builds its array, then wrap it in an object. Once merged, code that fetches with `FETCH_OBJ` gets it without any change or setting. The report measures the change against master and checks that scripts see the same rows as on master.
 
 ## Summary
 
-- **`FETCH_OBJ` with 10 or 30 columns:** 12–19% fewer CPU cycles than master per call of 100 rows, on GCC 15.2 and clang 21.1. Measured on SQLite with 10 and 30 columns, on MySQL with 10 columns through `query()` and through native prepared statements, and with `fetch()` in a loop. With 10 columns every driver and call saves 1,275–1,288 instructions and 301–454 cycles per row. For MySQL the percentages count only the PHP process: no server, no kernel, no wait.
-- **`FETCH_OBJ` with 1 or 3 columns:** 3–8% fewer cycles, 2–7% fewer instructions. With 1 column on GCC the cycles drop more than the instructions (−8% against −2%). I think part of that is code placement. On the same build, `FETCH_ASSOC` with 1 column also takes 3% fewer cycles, and its source isn't changed.
-- **Other modes:** the change doesn't touch the code of `FETCH_ASSOC` and `FETCH_CLASS`, but they run through the same `do_fetch()`. They take up to 3 more instructions per row, less than 0.2%. Their cycles move by 3% or less. The largest moves are −3% for `FETCH_ASSOC` with 1 column on GCC and +3% for `FETCH_CLASS` on clang (see [Trade-offs](#trade-offs)).
-- **Gap to `FETCH_ASSOC`:** with 10 or 30 columns, `FETCH_OBJ` now takes 3–7% more cycles than `FETCH_ASSOC`, down from 19–33%. With 1 or 3 columns it's 9–18%, down from 18–21%.
-- **Same rows as master:** master and the change print the same output on GCC 15.2, clang 21.1 and an ASan + UBSan build, from SQLite and MySQL. The inputs include duplicate, numeric, empty and non-ASCII column names, `FETCH_GROUP`, `FETCH_UNIQUE` and rows changed after the fetch ([Correctness checks](#correctness-checks)). Memory per row is the same as master in `fetchAll(PDO::FETCH_OBJ)` with unique column names. With `FETCH_GROUP` or repeated names it can be larger (see [Trade-offs](#trade-offs)).
+- **`FETCH_OBJ` with 10 or 30 columns:** 12–19% fewer CPU cycles than master per call of 100 rows, on GCC 15.2 and clang 21.1. Measured on SQLite with 10 and 30 columns, on MySQL with 10 columns through `query()` and through native prepared statements, and with `fetch()` in a loop. Without `FETCH_GROUP`, with 10 columns, every driver and call saves 1,273–1,286 instructions and 291–442 cycles per row. For MySQL the percentages count only the PHP process: no server, no kernel, no wait. `FETCH_OBJ | FETCH_GROUP` with 10 columns: 11% fewer cycles.
+- **`FETCH_OBJ` with 1 or 3 columns:** 2–7% fewer instructions. Cycles: 4–7% fewer, except 1 column on clang, which is within the control. With 1 column on GCC the cycles drop more than the instructions (−7% against −2%). I think part of that is code placement. On the same build, `FETCH_ASSOC` with 1 column also takes 3% fewer cycles, and its source isn't changed.
+- **Other modes:** the change doesn't touch the code of `FETCH_ASSOC` and `FETCH_CLASS`, but they run through the same `do_fetch()`. They take at most 3 more instructions per row, less than 0.2%. Their cycles move by 3% or less (see [Trade-offs](#trade-offs)).
+- **Gap to `FETCH_ASSOC`:** with 10 or 30 columns, `FETCH_OBJ` now takes 2–7% more cycles than `FETCH_ASSOC`, down from 19–33%. With 1 or 3 columns it's 8–21%, down from 18–21%.
+- **Same rows as master:** master and the change print the same output on GCC 15.2, clang 21.1 and an ASan + UBSan build, from SQLite and MySQL. The inputs include duplicate, numeric, empty and non-ASCII column names, `FETCH_GROUP`, `FETCH_UNIQUE` and rows changed after the fetch ([Correctness checks](#correctness-checks)).
+- **Memory:** the same bytes per row as master, also with `FETCH_GROUP`. A row with a repeated column name can take more: 928 bytes instead of 608 with 9 columns and 8 names (see [Trade-offs](#trade-offs)).
 - **Checks:** I put three bugs into the change on purpose, to see whether the checks catch them. They catch two. The third is in the path for names that start with `"\0"`, which neither driver returns. The php-src tests of `ext/pdo`, `ext/pdo_sqlite` and `ext/pdo_mysql` pass, plus a new one.
 - **Not checked:** Intel, other compilers, PostgreSQL, a full application (see [Not tested](#not-tested)).
 
@@ -20,7 +21,7 @@ The change makes `FETCH_OBJ` build the row the way `FETCH_ASSOC` builds its arra
 
 Before: `do_fetch()` in `ext/pdo/pdo_stmt.c` creates an empty `stdClass` and writes each column with `zend_update_property_ex()`. Every write goes through the generic property handler `zend_std_write_property()`. For `stdClass` it checks that the class declares no properties, checks the name for a leading `"\0"`, looks the name up in the object's properties table, then inserts it. The table is created at the first write with room for 8 entries. It grows and rehashes at the 9th column, and again at the 17th.
 
-After: `do_fetch()` collects the row into a hash table sized for the column count, with `zend_hash_update()` per column. Then it creates the `stdClass` around that table with `object_and_properties_init()`. `FETCH_ASSOC` builds its array the same way, but with `zend_symtable_update()`.
+After: `do_fetch()` collects the row into a hash table sized for the column count, with `zend_hash_update()` per column. With `FETCH_GROUP` or `FETCH_UNIQUE` the first column is the group key, so the table is one entry smaller. Then `do_fetch()` creates the `stdClass` around that table with `object_and_properties_init()`. Without a group key, `FETCH_ASSOC` builds its array the same way, but with `zend_symtable_update()`.
 
 Why the result is the same: for a `stdClass`, `zend_std_write_property()` stores a column as a dynamic property, keyed by the name as a string. `zend_hash_update()` does the same. `zend_symtable_update()` would turn the name `"0"` into the integer key `0`, which is why `FETCH_OBJ` doesn't use it. On the old and the new path, a later column with the same name overwrites the value and keeps the first one's position. The one name the property handler rejects is a name that starts with `"\0"`, the prefix PHP uses for private and protected property names. It throws "Cannot access property starting with "\0"". The change checks the column names on each row and keeps the old path when any name starts with `"\0"`.
 
@@ -28,26 +29,27 @@ Instructions counted with callgrind, GCC 15.2, `query()` + `fetchAll()` of 100 r
 
 | instructions | master, `FETCH_OBJ` | change, `FETCH_OBJ` | change, `FETCH_ASSOC` |
 |---|--:|--:|--:|
-| per row, whole process | 9,828 | 8,553 | 8,231 |
+| per row, whole process | 9,828 | 8,555 | 8,231 |
 | writing one column, with the functions it calls | 194 (`zend_update_property_ex`) | 61 (`zend_hash_update`) | 61 (`zend_hash_update`) |
-| `zend_hash_rehash` when the table grows, per row | 147 | 0 | 0 |
+| `zend_hash_rehash` when the table grows, per row | 147 | not called | not called |
 
-`FETCH_OBJ` on the change takes 322 instructions per row more than `FETCH_ASSOC`. 199 of them are in `do_fetch()`, of which 138 are `object_and_properties_init()`. The other 123 are spent when the rows are freed.
+`FETCH_OBJ` on the change takes 324 instructions per row more than `FETCH_ASSOC`. 201 of them are in `do_fetch()`, of which 138 are `object_and_properties_init()`. The other 123 are spent when the rows are freed.
 
 ## Trade-offs
 
-- **1 column:** the change adds the name check and creates the object after the loop. Even so, a row takes 43–46 fewer instructions than on master. The name check runs on every row. I didn't measure it on its own.
-- **`FETCH_CLASS` on clang 21.1:** +3% cycles with 1 fewer instruction per row. Single passes range from +1% to +4%. The source of this path isn't changed. But `do_fetch()` grew by 144 bytes, so it and the functions after it sit at other addresses. A separate 15-pass run with more counters ([`data/why-class-clang21.txt`](data/why-class-clang21.txt)) shows cycles +4%, branch misses −2% and L1 instruction cache misses −12%. None of these counters explains the extra cycles. On GCC 15.2 the same row is within the control. With MySQL on clang 21.1 it's +1%.
-- **Memory with `FETCH_GROUP`, `FETCH_UNIQUE` or repeated column names:** the change sizes the table for all columns. With `FETCH_GROUP` the first column becomes the group key, and a repeated name keeps one entry, so the row has fewer entries than columns. On master the table grows with the entries. Sometimes the column count passes a power of two and the entry count doesn't. Then the table is twice as large: 9 columns with `FETCH_GROUP` get 16 slots instead of 8. By the size of a hash table slot that's about 320 bytes more per row. I computed this and didn't measure it. `FETCH_ASSOC` avoids it for `FETCH_GROUP` with `array_init()`, and the change should do the same.
+- **1 column:** the change adds the name check and creates the object after the loop. Even so, a row takes 41–44 fewer instructions than on master. On clang that doesn't show in cycles: 0%, within the control. The name check runs on every row. I didn't measure it on its own.
+- **Repeated column names:** the table is sized for all columns, but a repeated name keeps one entry. When the column count passes a power of two and the name count doesn't, the table is twice as large as on master. 9 columns with 8 names: 928 bytes per row instead of 608 ([`data/memory.txt`](data/memory.txt)). `SELECT *` over a join with a shared `id` column can do that. The number of names isn't known before the row is built, so the change doesn't size for it.
+- **Other modes:** `FETCH_ASSOC` and `FETCH_CLASS` take up to 3 more instructions per row, from the extra check after the loop in `do_fetch()`. Their cycles move by −3% to +2%. The same rows moved differently with the earlier commit of this change, built from the same source except the `FETCH_GROUP` sizing: `FETCH_CLASS` on clang was +3% there and is −1% here, at the same instructions ([`data/series-3561fa5f896.json`](data/series-3561fa5f896.json)). I read that as code placement, since `do_fetch()` grew and moved what follows it. On this commit `bench why` shows the same cycles and instructions for that row ([`data/why-class-clang21.txt`](data/why-class-clang21.txt)). I didn't prove the cause.
 - **Names starting with `"\0"`:** these rows take the old path, at the old cost plus the check.
 - **`fetchObject()` and `FETCH_CLASS` into `stdClass`** still use the old path. They go through the class branch of `do_fetch()`, which can run a constructor and writes declared properties.
 
 ## Machine and method
 
-- AMD Ryzen 9 5950X, kernel 7.0.0-42, governor `performance`, turbo on. Measured on CPU 15, on the second CCD. CPU 15 and its sibling 31 were idle at the start. The load average was 7.6 because builds had just finished on other cores. A desktop application was running. MySQL 8.4.11 ran in Docker on CPUs 0–7 ([`data/environment.txt`](data/environment.txt), also the SQLite version).
+- AMD Ryzen 9 5950X, kernel 7.0.0-42, governor `performance`, turbo on. Measured on CPU 15, on the second CCD. CPU 15 and its sibling 31 were idle at the start. The load average was 9.9 because builds had just finished on other cores. A desktop application was running. MySQL 8.4.11 ran in Docker on CPUs 0–7 ([`data/environment.txt`](data/environment.txt), also the SQLite version).
+- The measured builds were made from commit `5741d870de3`. The published commit `5b322ca1e8e` only adds the measured numbers to its message: both have the tree `67e1e07d03f`.
 - GCC 15.2 and clang 21.1, builds by `bench build --slim --profile docker`: the flags of the official Docker image (`-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64`, link `-Wl,-O1 -pie`), `--enable-werror`, with `--enable-pdo --with-pdo-sqlite --with-pdo-mysql`. The harness runs `php -n` (no opcache) and disables the cycle collector during the loop.
 - The number is user-space CPU cycles of the PHP process per call (`perf stat`, minus an empty loop). For MySQL it excludes the server, the kernel's socket work and the wait. A call is `query()` + `fetchAll()`, `query()` + 101 × `fetch()`, or `execute()` + `fetchAll()` of a statement prepared once with `ATTR_EMULATE_PREPARES = false`, 100 rows each ([`suite.php`](suite.php)). Tables of 1, 3, 10 and 30 columns: `id`, then text, float and integer columns in turn.
-- `bench compare`: 15 alternating passes per case and compiler. Each pass runs master and the change back to back. A cell is the median of those per-pass changes. The A/A control runs master against itself, on GCC 15.2 only, at the start and at the end. Its medians are at most 1% from zero on every row. Single A/A passes reach −12% (MySQL `FETCH_OBJ`) and +102% (one outlier, `FETCH_ASSOC` with 30 columns). A `~` marks a change no larger than the A/A median of its row. The clang column uses the GCC control.
+- `bench compare`: 15 alternating passes per case and compiler. Each pass runs master and the change back to back. A cell is the median of those per-pass changes. The A/A control runs master against itself, on GCC 15.2 only, at the start and at the end. Its medians are at most 1% from zero on every row. Single A/A passes reach −34% (one outlier, `fetch()` in a loop) and +15% (`FETCH_OBJ` with 1 column). A `~` marks a change no larger than the A/A median of its row. The clang column uses the GCC control.
 
 ## Results
 
@@ -55,54 +57,54 @@ Change in CPU cycles per call against master (negative = fewer cycles, faster).
 
 <!-- bench-table series.json --labels labels.txt --header -->
 Machine: AMD Ryzen 9 5950X 16-Core Processor, CPU 15, kernel 7.0.0-42-generic.
-Group gcc15: A = pdoobj-base-gcc15 (48e34bf6348 GCC 15.2, profile docker), B = pdoobj-chg-gcc15 (3561fa5f896 GCC 15.2, profile docker).
-Group clang21: A = pdoobj-base-clang21 (48e34bf6348 clang 21.1, profile docker), B = pdoobj-chg-clang21 (3561fa5f896 clang 21.1, profile docker).
+Group gcc15: A = pdoobj-base-gcc15 (48e34bf6348 GCC 15.2, profile docker), B = pdoobj-fix-gcc15 (5741d870de3 GCC 15.2, profile docker).
+Group clang21: A = pdoobj-base-clang21 (48e34bf6348 clang 21.1, profile docker), B = pdoobj-fix-clang21 (5741d870de3 clang 21.1, profile docker).
 15 alternating passes per case, user-space cycles per call (perf stat, minus the empty loop), A against A at the start and the end.
 Machine: turbo boost is on: thermal and frequency drift between rounds (sudo ./bench tune on).
-Machine: load average is 7.6: other programs are competing for the CPU.
+Machine: load average is 9.9: other programs are competing for the CPU.
 negative = fewer cycles (faster)
 
 | call | master, CPU cycles per call (GCC 15.2) | GCC 15.2 | clang 21.1 |
 |---|--:|--:|--:|
-| `query()` + `fetchAll(PDO::FETCH_OBJ)`, SQLite, 100 rows × 1 column | 60,320 | −8% | −3% |
-| same, 3 columns | 120,469 | −3% | −7% |
-| same, 10 columns | 305,902 | −12% | −13% |
-| same, 30 columns | 838,411 | −14% | −15% |
-| same, MySQL 8.4, 10 columns | 198,276 | −15% | −19% |
-| `query()` + `fetch(PDO::FETCH_OBJ)` in a loop, SQLite, 100 rows × 10 columns | 312,516 | −12% | −14% |
-| control, code not touched: `fetchAll(PDO::FETCH_ASSOC)`, SQLite, 1 column | 49,662 | −3% | −1% |
-| control, code not touched: same, 3 columns | 101,544 | 0% ~ | 0% |
-| control, code not touched: same, 10 columns | 254,416 | 0% | 0% |
-| control, code not touched: same, 30 columns | 706,880 | −1% | −1% |
-| control, code not touched: same, MySQL 8.4, 10 columns | 159,131 | −2% | 0% ~ |
-| control, code not touched: `fetchAll(PDO::FETCH_CLASS)`, SQLite, 10 columns | 296,144 | 0% ~ | +3% layout? |
-| control, code not touched: same, MySQL 8.4, 10 columns | 186,262 | 0% ~ | +1% |
-| `execute()` + `fetchAll(PDO::FETCH_OBJ)` of a prepared statement, MySQL 8.4, native prepares, 10 columns | 178,657 | −17% | −19% |
-| control, code not touched: same with `fetchAll(PDO::FETCH_ASSOC)` | 138,549 | 0% ~ | −1% |
+| `query()` + `fetchAll(PDO::FETCH_OBJ)`, SQLite, 100 rows × 1 column | 59,800 | −7% | 0% ~ |
+| same, 3 columns | 119,979 | −4% | −7% |
+| same, 10 columns | 304,032 | −12% | −13% |
+| same, 30 columns | 841,453 | −14% | −14% |
+| same, MySQL 8.4, 10 columns | 199,072 | −16% | −19% |
+| `query()` + `fetchAll(PDO::FETCH_OBJ \| PDO::FETCH_GROUP)`, SQLite, 100 rows × 10 columns | 321,583 | −11% | −11% |
+| `query()` + `fetch(PDO::FETCH_OBJ)` in a loop, SQLite, 100 rows × 10 columns | 313,346 | −12% | −14% |
+| control, code not touched: `fetchAll(PDO::FETCH_ASSOC)`, SQLite, 1 column | 49,580 | −3% | −2% |
+| control, code not touched: same, 3 columns | 101,743 | −1% | +2% |
+| control, code not touched: same, 10 columns | 254,914 | 0% | 0% ~ |
+| control, code not touched: same, 30 columns | 703,745 | 0% | 0% ~ |
+| control, code not touched: same, MySQL 8.4, 10 columns | 157,031 | −1% ~ | +1% |
+| control, code not touched: `fetchAll(PDO::FETCH_CLASS)`, SQLite, 10 columns | 292,877 | +1% | −1% |
+| control, code not touched: same, MySQL 8.4, 10 columns | 184,829 | +1% | 0% ~ |
+| `execute()` + `fetchAll(PDO::FETCH_OBJ)` of a prepared statement, MySQL 8.4, native prepares, 10 columns | 178,149 | −16% | −19% |
+| control, code not touched: same with `fetchAll(PDO::FETCH_ASSOC)` | 138,391 | 0% ~ | 0% ~ |
 
 Control: master against itself.
 
 | call | master, CPU cycles per call (GCC 15.2) | A/A start | A/A end |
 |---|--:|--:|--:|
-| `query()` + `fetchAll(PDO::FETCH_OBJ)`, SQLite, 100 rows × 1 column | 60,186 | 0% | 0% |
-| same, 3 columns | 120,490 | 0% | 0% |
-| same, 10 columns | 304,548 | 0% | 0% |
-| same, 30 columns | 837,772 | 0% | +1% |
-| same, MySQL 8.4, 10 columns | 197,560 | 0% | 0% |
-| `query()` + `fetch(PDO::FETCH_OBJ)` in a loop, SQLite, 100 rows × 10 columns | 315,638 | 0% | 0% |
-| control, code not touched: `fetchAll(PDO::FETCH_ASSOC)`, SQLite, 1 column | 49,758 | −1% | 0% |
-| control, code not touched: same, 3 columns | 102,306 | 0% | 0% |
-| control, code not touched: same, 10 columns | 253,636 | 0% | 0% |
-| control, code not touched: same, 30 columns | 702,902 | 0% | 0% |
-| control, code not touched: same, MySQL 8.4, 10 columns | 156,022 | +1% | 0% |
-| control, code not touched: `fetchAll(PDO::FETCH_CLASS)`, SQLite, 10 columns | 295,565 | 0% | 0% |
-| control, code not touched: same, MySQL 8.4, 10 columns | 184,751 | 0% | +1% |
-| `execute()` + `fetchAll(PDO::FETCH_OBJ)` of a prepared statement, MySQL 8.4, native prepares, 10 columns | 177,398 | −1% | 0% |
-| control, code not touched: same with `fetchAll(PDO::FETCH_ASSOC)` | 137,254 | 0% | −1% |
+| `query()` + `fetchAll(PDO::FETCH_OBJ)`, SQLite, 100 rows × 1 column | 60,052 | 0% | 0% |
+| same, 3 columns | 119,987 | 0% | 0% |
+| same, 10 columns | 304,253 | 0% | 0% |
+| same, 30 columns | 837,213 | 0% | +1% |
+| same, MySQL 8.4, 10 columns | 196,408 | +1% | −1% |
+| `query()` + `fetchAll(PDO::FETCH_OBJ \| PDO::FETCH_GROUP)`, SQLite, 100 rows × 10 columns | 319,995 | 0% | 0% |
+| `query()` + `fetch(PDO::FETCH_OBJ)` in a loop, SQLite, 100 rows × 10 columns | 313,795 | 0% | +1% |
+| control, code not touched: `fetchAll(PDO::FETCH_ASSOC)`, SQLite, 1 column | 49,362 | 0% | 0% |
+| control, code not touched: same, 3 columns | 101,357 | 0% | 0% |
+| control, code not touched: same, 10 columns | 254,037 | 0% | 0% |
+| control, code not touched: same, 30 columns | 701,896 | 0% | 0% |
+| control, code not touched: same, MySQL 8.4, 10 columns | 155,549 | +1% | 0% |
+| control, code not touched: `fetchAll(PDO::FETCH_CLASS)`, SQLite, 10 columns | 293,233 | 0% | 0% |
+| control, code not touched: same, MySQL 8.4, 10 columns | 184,859 | 0% | −1% |
+| `execute()` + `fetchAll(PDO::FETCH_OBJ)` of a prepared statement, MySQL 8.4, native prepares, 10 columns | 177,389 | 0% | −1% |
+| control, code not touched: same with `fetchAll(PDO::FETCH_ASSOC)` | 137,482 | 0% | −1% |
 
 ~: the change is not larger than the A/A control of the same row: not evidence of a difference.
-
-layout?: in every pass the cycles changed in the same direction, by 3% or more in the median, the instructions by less than 0.5%: the work is the same, so look for the cause (code placement, branch prediction) with `bench why` before reporting the row.
 <!-- /bench-table -->
 
 Full table, with the range over the passes and the change in instructions on both compilers:
@@ -110,59 +112,65 @@ Full table, with the range over the passes and the change in instructions on bot
 <!-- bench-table series.json --labels labels.txt --full -->
 | call | master, CPU cycles per call (GCC 15.2) | GCC 15.2 | clang 21.1 | instructions |
 |---|--:|--:|--:|--:|
-| `query()` + `fetchAll(PDO::FETCH_OBJ)`, SQLite, 100 rows × 1 column | 60,320 | −8% (−10 … +32) | −3% (−11 … +1) | −2% |
-| same, 3 columns | 120,469 | −3% (−6 … +2) | −7% (−8 … −3) | −7% |
-| same, 10 columns | 305,902 | −12% (−14 … −11) | −13% (−14 … −11) | −13% |
-| same, 30 columns | 838,411 | −14% (−15 … −12) | −15% (−16 … −13) | −14% |
-| same, MySQL 8.4, 10 columns | 198,276 | −15% (−19 … −13) | −19% (−21 … −18) | −18% |
-| `query()` + `fetch(PDO::FETCH_OBJ)` in a loop, SQLite, 100 rows × 10 columns | 312,516 | −12% (−14 … −10) | −14% (−15 … −13) | −13% |
-| control, code not touched: `fetchAll(PDO::FETCH_ASSOC)`, SQLite, 1 column | 49,662 | −3% (−5 … −1) | −1% (−4 … +2) | 0% |
-| control, code not touched: same, 3 columns | 101,544 | 0% (−2 … +2) ~ | 0% (−13 … +8) | 0% |
-| control, code not touched: same, 10 columns | 254,416 | 0% (−2 … +2) | 0% (−1 … 0) | 0% |
-| control, code not touched: same, 30 columns | 706,880 | −1% (−4 … +1) | −1% (−3 … +9) | 0% |
-| control, code not touched: same, MySQL 8.4, 10 columns | 159,131 | −2% (−6 … +9) | 0% (−2 … +3) ~ | 0% |
-| control, code not touched: `fetchAll(PDO::FETCH_CLASS)`, SQLite, 10 columns | 296,144 | 0% (−2 … +1) ~ | +3% (+1 … +4) layout? | 0% |
-| control, code not touched: same, MySQL 8.4, 10 columns | 186,262 | 0% (−2 … +6) ~ | +1% (−1 … +6) | 0% |
-| `execute()` + `fetchAll(PDO::FETCH_OBJ)` of a prepared statement, MySQL 8.4, native prepares, 10 columns | 178,657 | −17% (−19 … −14) | −19% (−21 … −15) | −20% |
-| control, code not touched: same with `fetchAll(PDO::FETCH_ASSOC)` | 138,549 | 0% (−2 … +5) ~ | −1% (−2 … +1) | 0% |
+| `query()` + `fetchAll(PDO::FETCH_OBJ)`, SQLite, 100 rows × 1 column | 59,800 | −7% (−10 … +7) | 0% (−7 … +2) ~ | −2% |
+| same, 3 columns | 119,979 | −4% (−6 … −1) | −7% (−9 … −4) | −7% |
+| same, 10 columns | 304,032 | −12% (−13 … −10) | −13% (−18 … −11) | −13% |
+| same, 30 columns | 841,453 | −14% (−16 … −12) | −14% (−17 … −11) | −14% |
+| same, MySQL 8.4, 10 columns | 199,072 | −16% (−18 … −13) | −19% (−22 … −18) | −18% |
+| `query()` + `fetchAll(PDO::FETCH_OBJ \| PDO::FETCH_GROUP)`, SQLite, 100 rows × 10 columns | 321,583 | −11% (−12 … −9) | −11% (−12 … −9) | −11% |
+| `query()` + `fetch(PDO::FETCH_OBJ)` in a loop, SQLite, 100 rows × 10 columns | 313,346 | −12% (−13 … −11) | −14% (−17 … −10) | −13% |
+| control, code not touched: `fetchAll(PDO::FETCH_ASSOC)`, SQLite, 1 column | 49,580 | −3% (−4 … 0) | −2% (−4 … 0) | 0% |
+| control, code not touched: same, 3 columns | 101,743 | −1% (−1 … +2) | +2% (0 … +4) | 0% |
+| control, code not touched: same, 10 columns | 254,914 | 0% (−1 … +1) | 0% (−16 … +2) ~ | 0% |
+| control, code not touched: same, 30 columns | 703,745 | 0% (−2 … +1) | 0% (−2 … +2) ~ | 0% |
+| control, code not touched: same, MySQL 8.4, 10 columns | 157,031 | −1% (−3 … +4) ~ | +1% (−4 … +4) | 0% |
+| control, code not touched: `fetchAll(PDO::FETCH_CLASS)`, SQLite, 10 columns | 292,877 | +1% (0 … +12) | −1% (−2 … +2) | 0% |
+| control, code not touched: same, MySQL 8.4, 10 columns | 184,829 | +1% (−3 … +5) | 0% (−2 … +7) ~ | 0% |
+| `execute()` + `fetchAll(PDO::FETCH_OBJ)` of a prepared statement, MySQL 8.4, native prepares, 10 columns | 178,149 | −16% (−18 … −15) | −19% (−22 … −15) | −20% |
+| control, code not touched: same with `fetchAll(PDO::FETCH_ASSOC)` | 138,391 | 0% (−3 … +3) ~ | 0% (−2 … +5) ~ | 0% |
 
 Control: master against itself.
 
 | call | master, CPU cycles per call (GCC 15.2) | A/A start | A/A end |
 |---|--:|--:|--:|
-| `query()` + `fetchAll(PDO::FETCH_OBJ)`, SQLite, 100 rows × 1 column | 60,186 | 0% (−2 … +2) | 0% (−3 … +3) |
-| same, 3 columns | 120,490 | 0% (−2 … +2) | 0% (−2 … +2) |
-| same, 10 columns | 304,548 | 0% (−2 … +2) | 0% (−2 … +1) |
-| same, 30 columns | 837,772 | 0% (−2 … +2) | +1% (−4 … +3) |
-| same, MySQL 8.4, 10 columns | 197,560 | 0% (−3 … +5) | 0% (−12 … +2) |
-| `query()` + `fetch(PDO::FETCH_OBJ)` in a loop, SQLite, 100 rows × 10 columns | 315,638 | 0% (−2 … +1) | 0% (−2 … +2) |
-| control, code not touched: `fetchAll(PDO::FETCH_ASSOC)`, SQLite, 1 column | 49,758 | −1% (−7 … +1) | 0% (−4 … +2) |
-| control, code not touched: same, 3 columns | 102,306 | 0% (−3 … +4) | 0% (−2 … +2) |
-| control, code not touched: same, 10 columns | 253,636 | 0% (−2 … +2) | 0% (−3 … +5) |
-| control, code not touched: same, 30 columns | 702,902 | 0% (−1 … +102) | 0% (−2 … +2) |
-| control, code not touched: same, MySQL 8.4, 10 columns | 156,022 | +1% (−3 … +3) | 0% (−1 … +2) |
-| control, code not touched: `fetchAll(PDO::FETCH_CLASS)`, SQLite, 10 columns | 295,565 | 0% (−2 … +2) | 0% (−2 … +2) |
-| control, code not touched: same, MySQL 8.4, 10 columns | 184,751 | 0% (−3 … +2) | +1% (−2 … +5) |
-| `execute()` + `fetchAll(PDO::FETCH_OBJ)` of a prepared statement, MySQL 8.4, native prepares, 10 columns | 177,398 | −1% (−4 … +3) | 0% (−3 … +5) |
-| control, code not touched: same with `fetchAll(PDO::FETCH_ASSOC)` | 137,254 | 0% (−2 … +2) | −1% (−4 … +3) |
+| `query()` + `fetchAll(PDO::FETCH_OBJ)`, SQLite, 100 rows × 1 column | 60,052 | 0% (−1 … +15) | 0% (−2 … +2) |
+| same, 3 columns | 119,987 | 0% (−2 … +2) | 0% (−14 … +3) |
+| same, 10 columns | 304,253 | 0% (−12 … +3) | 0% (−2 … +2) |
+| same, 30 columns | 837,213 | 0% (−8 … +1) | +1% (−2 … +2) |
+| same, MySQL 8.4, 10 columns | 196,408 | +1% (−2 … +3) | −1% (−2 … +3) |
+| `query()` + `fetchAll(PDO::FETCH_OBJ \| PDO::FETCH_GROUP)`, SQLite, 100 rows × 10 columns | 319,995 | 0% (−2 … +4) | 0% (−2 … +9) |
+| `query()` + `fetch(PDO::FETCH_OBJ)` in a loop, SQLite, 100 rows × 10 columns | 313,795 | 0% (−1 … +2) | +1% (−34 … +2) |
+| control, code not touched: `fetchAll(PDO::FETCH_ASSOC)`, SQLite, 1 column | 49,362 | 0% (−3 … +3) | 0% (−3 … +3) |
+| control, code not touched: same, 3 columns | 101,357 | 0% (−2 … +3) | 0% (−1 … +5) |
+| control, code not touched: same, 10 columns | 254,037 | 0% (−2 … +2) | 0% (−5 … +2) |
+| control, code not touched: same, 30 columns | 701,896 | 0% (−3 … +3) | 0% (−1 … +2) |
+| control, code not touched: same, MySQL 8.4, 10 columns | 155,549 | +1% (−2 … +2) | 0% (−1 … +4) |
+| control, code not touched: `fetchAll(PDO::FETCH_CLASS)`, SQLite, 10 columns | 293,233 | 0% (−1 … +2) | 0% (−2 … +3) |
+| control, code not touched: same, MySQL 8.4, 10 columns | 184,859 | 0% (−2 … +4) | −1% (−13 … +3) |
+| `execute()` + `fetchAll(PDO::FETCH_OBJ)` of a prepared statement, MySQL 8.4, native prepares, 10 columns | 177,389 | 0% (−2 … +2) | −1% (−2 … +2) |
+| control, code not touched: same with `fetchAll(PDO::FETCH_ASSOC)` | 137,482 | 0% (−3 … +2) | −1% (−3 … +2) |
 
 ~: the change is not larger than the A/A control of the same row: not evidence of a difference.
-
-layout?: in every pass the cycles changed in the same direction, by 3% or more in the median, the instructions by less than 0.5%: the work is the same, so look for the cause (code placement, branch prediction) with `bench why` before reporting the row.
 <!-- /bench-table -->
 
-How many more cycles `FETCH_OBJ` takes than `FETCH_ASSOC` for the same rows in the same build, from the median cycles per call ([`gap.py`](gap.py), [`data/gap.txt`](data/gap.txt)). The two cases run at different moments of the series. The five master samples of the series vary by 1–2 points.
+How many more cycles `FETCH_OBJ` takes than `FETCH_ASSOC` for the same rows in the same build, from the median cycles per call ([`gap.py`](gap.py), [`data/gap.txt`](data/gap.txt)). The two cases run at different moments of the series. On master the five samples of the series vary by up to 1.3 points.
 
 | table | master, GCC 15.2 | change, GCC 15.2 | master, clang 21.1 | change, clang 21.1 |
 |---|--:|--:|--:|--:|
-| SQLite, 1 column | +21% | +16% | +19% | +18% |
-| SQLite, 3 columns | +19% | +14% | +18% | +9% |
-| SQLite, 10 columns | +20% | +6% | +22% | +6% |
-| SQLite, 30 columns | +19% | +3% | +20% | +3% |
-| MySQL 8.4, 10 columns, `query()` | +25% | +7% | +33% | +7% |
-| MySQL 8.4, 10 columns, native prepares | +29% | +7% | +31% | +7% |
+| SQLite, 1 column | +21% | +15% | +19% | +21% |
+| SQLite, 3 columns | +18% | +14% | +18% | +8% |
+| SQLite, 10 columns | +19% | +6% | +20% | +5% |
+| SQLite, 30 columns | +20% | +3% | +20% | +2% |
+| MySQL 8.4, 10 columns, `query()` | +27% | +6% | +32% | +6% |
+| MySQL 8.4, 10 columns, native prepares | +29% | +7% | +33% | +7% |
 
-Memory held per row after `fetchAll(PDO::FETCH_OBJ)` with unique column names, SQLite ([`memory.php`](memory.php), [`data/memory.txt`](data/memory.txt), GCC 15.2): 442 bytes with 1 column, 497 with 3, 928 with 10, 1,960 with 30, master and change alike.
+Memory held per row after `fetchAll()` of 100 rows, SQLite, GCC 15.2 ([`memory.php`](memory.php), [`data/memory.txt`](data/memory.txt)). The earlier commit `3561fa5f896` sized the table for all columns also with `FETCH_GROUP`:
+
+| `FETCH_OBJ` rows | master | change | earlier commit |
+|---|--:|--:|--:|
+| 1, 3, 10, 30 columns | 442, 497, 928, 1,960 | same | same |
+| 9 columns, `FETCH_GROUP` (8 properties, group arrays included) | 824 | 824 | 1,144 |
+| 9 columns, one name twice (8 properties) | 608 | 928 | 928 |
 
 ## Correctness checks
 
@@ -189,10 +197,9 @@ Memory held per row after `fetchAll(PDO::FETCH_OBJ)` with unique column names, S
 - Intel CPUs and other compilers (GCC 13/14, clang 18/20). Only AMD Zen 3 with GCC 15.2 and clang 21.1.
 - PostgreSQL, Oracle, Firebird, ODBC. The change is in the driver-independent `do_fetch()`. The column names come from the driver.
 - A column name that starts with `"\0"`: the fallback path wasn't run (mutation 3).
-- The cause of +3% for `FETCH_CLASS` on clang 21.1.
+- The cause of +3% for `FETCH_CLASS` on clang 21.1 with the earlier commit `3561fa5f896`.
 - Single-row queries such as `find()` and `first()`, where `query()` takes a larger share of the call. Also more than 100 rows per call, long values, opcache and JIT, RSS.
 - The cycles of the other fetch modes that go through `do_fetch()`: `FETCH_BOTH` (the PDO default), `FETCH_NUM`, `FETCH_NAMED`, `FETCH_COLUMN`, `FETCH_FUNC`. Their output is covered by the php-src tests.
-- Memory with `FETCH_GROUP` and with repeated column names (see Trade-offs).
 - A full application (a Laravel request, Eloquent hydration) and wall time.
 - 32-bit builds, ZTS builds.
 
@@ -212,7 +219,7 @@ About 55 minutes on a 16-core machine, plus 15 for the optional step 7. Run all 
    git clone https://github.com/ArtUkrainskiy/php-src-bench.git
    git clone --filter=blob:none https://github.com/php/php-src.git
    git -C php-src fetch https://github.com/ArtUkrainskiy/php-src.git pdo-fetch-obj:pdo-fetch-obj
-   git -C php-src log -1 --format=%H pdo-fetch-obj    # expected: 3561fa5f896d0b552ef847d1c5947aa2c893bf50
+   git -C php-src log -1 --format=%H pdo-fetch-obj    # expected: 5b322ca1e8e01ae0b05944b7f261db9077bb2436
    cd php-src-bench
    R=reports/pdo-fetch-obj
    ```
