@@ -5,6 +5,7 @@
 # MySQL: the DSN in PDO_MYSQL_DSN, user root, password bench (README, Reproduce).
 set -euo pipefail
 here=$(cd "$(dirname "$0")" && pwd)
+: "${PDO_MYSQL_DSN:?set PDO_MYSQL_DSN, see README, Reproduce step 3}"
 out=$1
 shift
 mkdir -p "$out"
