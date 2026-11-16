@@ -1,6 +1,6 @@
 # PDO::FETCH_OBJ rows built as a properties table
 
-Status: prototype, not a php-src PR yet, so no PHP release has it. The change is commit `5b322ca1e8e` on branch [`pdo-fetch-obj`](https://github.com/ArtUkrainskiy/php-src/tree/pdo-fetch-obj) of ArtUkrainskiy/php-src. It's one commit on top of php-src master [`48e34bf6348`](https://github.com/php/php-src/commit/48e34bf6348b0e9c5818218aeb06f8121cde3e24). The same commit as a patch: [`pdo-fetch-obj.patch`](pdo-fetch-obj.patch). Measured and checked on 16 November 2026 on an AMD Ryzen 9 5950X with GCC 15.2 and clang 21.1.
+Status: prototype, not a php-src PR yet, so no PHP release has it. The change is one commit on top of php-src master [`48e34bf6348`](https://github.com/php/php-src/commit/48e34bf6348b0e9c5818218aeb06f8121cde3e24), on branch [`pdo-fetch-obj`](https://github.com/ArtUkrainskiy/php-src/tree/pdo-fetch-obj) of ArtUkrainskiy/php-src and as a patch: [`pdo-fetch-obj.patch`](pdo-fetch-obj.patch). Measured and checked on 16 November 2026 on an AMD Ryzen 9 5950X with GCC 15.2 and clang 21.1.
 
 `PDO::FETCH_OBJ` returns each row as a `stdClass` object. It's the default fetch mode of Laravel's database layer ([`Connection::$fetchMode`](https://github.com/laravel/framework/blob/12.x/src/Illuminate/Database/Connection.php)), so query builder results and Eloquent models go through it. On master, `query()` + `fetchAll(PDO::FETCH_OBJ)` of 100 rows takes 18–21% more CPU cycles in the PHP process than the same call with `FETCH_ASSOC` from SQLite. From MySQL 8.4 it's 27–32% more ([table](#results)).
 
@@ -39,14 +39,13 @@ Instructions counted with callgrind, GCC 15.2, `query()` + `fetchAll()` of 100 r
 
 - **1 column:** the change adds the name check and creates the object after the loop. Even so, a row takes 41–44 fewer instructions than on master. On clang that doesn't show in cycles: 0%, within the control. The name check runs on every row. I didn't measure it on its own.
 - **Repeated column names:** the table is sized for all columns, but a repeated name keeps one entry. When the column count passes a power of two and the name count doesn't, the table is twice as large as on master. 9 columns with 8 names: 928 bytes per row instead of 608 ([`data/memory.txt`](data/memory.txt)). `SELECT *` over a join with a shared `id` column can do that. The number of names isn't known before the row is built, so the change doesn't size for it.
-- **Other modes:** `FETCH_ASSOC` and `FETCH_CLASS` take up to 3 more instructions per row, from the extra check after the loop in `do_fetch()`. Their cycles move by −3% to +2%. The same rows moved differently with the earlier commit of this change, built from the same source except the `FETCH_GROUP` sizing: `FETCH_CLASS` on clang was +3% there and is −1% here, at the same instructions ([`data/series-3561fa5f896.json`](data/series-3561fa5f896.json)). I read that as code placement, since `do_fetch()` grew and moved what follows it. On this commit `bench why` shows the same cycles and instructions for that row ([`data/why-class-clang21.txt`](data/why-class-clang21.txt)). I didn't prove the cause.
+- **Other modes:** `FETCH_ASSOC` and `FETCH_CLASS` take up to 3 more instructions per row, from the extra check after the loop in `do_fetch()`. Their cycles move by −3% to +2% while the instructions stay within 0.2%. I read that as code placement.
 - **Names starting with `"\0"`:** these rows take the old path, at the old cost plus the check.
 - **`fetchObject()` and `FETCH_CLASS` into `stdClass`** still use the old path. They go through the class branch of `do_fetch()`, which can run a constructor and writes declared properties.
 
 ## Machine and method
 
 - AMD Ryzen 9 5950X, kernel 7.0.0-42, governor `performance`, turbo on. Measured on CPU 15, on the second CCD. CPU 15 and its sibling 31 were idle at the start. The load average was 9.9 because builds had just finished on other cores. A desktop application was running. MySQL 8.4.11 ran in Docker on CPUs 0–7 ([`data/environment.txt`](data/environment.txt), also the SQLite version).
-- The measured builds were made from commit `5741d870de3`. The published commit `5b322ca1e8e` only adds the measured numbers to its message: both have the tree `67e1e07d03f`.
 - GCC 15.2 and clang 21.1, builds by `bench build --slim --profile docker`: the flags of the official Docker image (`-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64`, link `-Wl,-O1 -pie`), `--enable-werror`, with `--enable-pdo --with-pdo-sqlite --with-pdo-mysql`. The harness runs `php -n` (no opcache) and disables the cycle collector during the loop.
 - The number is user-space CPU cycles of the PHP process per call (`perf stat`, minus an empty loop). For MySQL it excludes the server, the kernel's socket work and the wait. A call is `query()` + `fetchAll()`, `query()` + 101 × `fetch()`, or `execute()` + `fetchAll()` of a statement prepared once with `ATTR_EMULATE_PREPARES = false`, 100 rows each ([`suite.php`](suite.php)). Tables of 1, 3, 10 and 30 columns: `id`, then text, float and integer columns in turn.
 - `bench compare`: 15 alternating passes per case and compiler. Each pass runs master and the change back to back. A cell is the median of those per-pass changes. The A/A control runs master against itself, on GCC 15.2 only, at the start and at the end. Its medians are at most 1% from zero on every row. Single A/A passes reach −34% (one outlier, `fetch()` in a loop) and +15% (`FETCH_OBJ` with 1 column). A `~` marks a change no larger than the A/A median of its row. The clang column uses the GCC control.
@@ -55,15 +54,7 @@ Instructions counted with callgrind, GCC 15.2, `query()` + `fetchAll()` of 100 r
 
 Change in CPU cycles per call against master (negative = fewer cycles, faster).
 
-<!-- bench-table series.json --labels labels.txt --header -->
-Machine: AMD Ryzen 9 5950X 16-Core Processor, CPU 15, kernel 7.0.0-42-generic.
-Group gcc15: A = pdoobj-base-gcc15 (48e34bf6348 GCC 15.2, profile docker), B = pdoobj-fix-gcc15 (5741d870de3 GCC 15.2, profile docker).
-Group clang21: A = pdoobj-base-clang21 (48e34bf6348 clang 21.1, profile docker), B = pdoobj-fix-clang21 (5741d870de3 clang 21.1, profile docker).
-15 alternating passes per case, user-space cycles per call (perf stat, minus the empty loop), A against A at the start and the end.
-Machine: turbo boost is on: thermal and frequency drift between rounds (sudo ./bench tune on).
-Machine: load average is 9.9: other programs are competing for the CPU.
-negative = fewer cycles (faster)
-
+<!-- bench-table series.json --labels labels.txt -->
 | call | master, CPU cycles per call (GCC 15.2) | GCC 15.2 | clang 21.1 |
 |---|--:|--:|--:|
 | `query()` + `fetchAll(PDO::FETCH_OBJ)`, SQLite, 100 rows × 1 column | 59,800 | −7% | 0% ~ |
@@ -164,13 +155,13 @@ How many more cycles `FETCH_OBJ` takes than `FETCH_ASSOC` for the same rows in t
 | MySQL 8.4, 10 columns, `query()` | +27% | +6% | +32% | +6% |
 | MySQL 8.4, 10 columns, native prepares | +29% | +7% | +33% | +7% |
 
-Memory held per row after `fetchAll()` of 100 rows, SQLite, GCC 15.2 ([`memory.php`](memory.php), [`data/memory.txt`](data/memory.txt)). The earlier commit `3561fa5f896` sized the table for all columns also with `FETCH_GROUP`:
+Memory held per row after `fetchAll()` of 100 rows, SQLite, GCC 15.2 ([`memory.php`](memory.php), [`data/memory.txt`](data/memory.txt)):
 
-| `FETCH_OBJ` rows | master | change | earlier commit |
-|---|--:|--:|--:|
-| 1, 3, 10, 30 columns | 442, 497, 928, 1,960 | same | same |
-| 9 columns, `FETCH_GROUP` (8 properties, group arrays included) | 824 | 824 | 1,144 |
-| 9 columns, one name twice (8 properties) | 608 | 928 | 928 |
+| `FETCH_OBJ` rows | master | change |
+|---|--:|--:|
+| 1, 3, 10, 30 columns | 442, 497, 928, 1,960 | same |
+| 9 columns, `FETCH_GROUP` (8 properties, group arrays included) | 824 | 824 |
+| 9 columns, one name twice (8 properties) | 608 | 928 |
 
 ## Correctness checks
 
@@ -197,7 +188,6 @@ Memory held per row after `fetchAll()` of 100 rows, SQLite, GCC 15.2 ([`memory.p
 - Intel CPUs and other compilers (GCC 13/14, clang 18/20). Only AMD Zen 3 with GCC 15.2 and clang 21.1.
 - PostgreSQL, Oracle, Firebird, ODBC. The change is in the driver-independent `do_fetch()`. The column names come from the driver.
 - A column name that starts with `"\0"`: the fallback path wasn't run (mutation 3).
-- The cause of +3% for `FETCH_CLASS` on clang 21.1 with the earlier commit `3561fa5f896`.
 - Single-row queries such as `find()` and `first()`, where `query()` takes a larger share of the call. Also more than 100 rows per call, long values, opcache and JIT, RSS.
 - The cycles of the other fetch modes that go through `do_fetch()`: `FETCH_BOTH` (the PDO default), `FETCH_NUM`, `FETCH_NAMED`, `FETCH_COLUMN`, `FETCH_FUNC`. Their output is covered by the php-src tests.
 - A full application (a Laravel request, Eloquent hydration) and wall time.
@@ -284,11 +274,9 @@ About 55 minutes on a 16-core machine, plus 15 for the optional step 7. Run all 
 
    For a quick try add `--passes 1 --filter 10cols`. Without `PDO_MYSQL_DSN`, or with `--filter`, some cases are missing: run `bench table` without `--labels` then.
 
-7. Optional: the cause analysis and the rest of `data/` (about 15 minutes):
+7. Optional: the rest of `data/` (about 15 minutes):
 
    ```
-   ./bench why $R/suite.php pdoobj-base-$C pdoobj-chg-$C --filter 'CLASS @ sqlite' --passes 15 --cpu $CPU \
-     --functions do_fetch,fetch_value,zend_update_property_ex,zend_std_write_property
    for v in base chg; do echo "## pdoobj-$v-$G"; $P/pdoobj-$v-$G/sapi/cli/php -n $R/memory.php; done
    for v in base chg; do
      USE_ZEND_ALLOC=0 valgrind --leak-check=full $P/pdoobj-$v-$G/sapi/cli/php -n $R/difftest.php > /dev/null
