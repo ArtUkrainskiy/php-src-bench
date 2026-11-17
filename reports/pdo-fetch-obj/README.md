@@ -89,33 +89,18 @@ Memory held per row after `fetchAll()` of 100 rows, SQLite, GCC 15.2 ([`memory.p
 
 ## Correctness checks
 
-- [`difftest.php`](difftest.php) prints everything a script can see in `FETCH_OBJ` rows: `var_dump`, `(array)` cast, `get_object_vars()`, `json_encode()`, `foreach` keys, `serialize()`. Inputs:
-  - duplicate column names (`SELECT id AS a, name AS a`);
-  - numeric names `"0"`, `"1"`, `"01"`, `"-1"`, `"9223372036854775808"`;
-  - an empty name, SQLite only. MySQL replaces an empty alias with a generated name;
-  - Cyrillic, CJK and emoji names and values, names with spaces, 41 columns, a query without rows;
-  - `fetch()`, `fetchObject()`, `fetchAll()`, `FETCH_OBJ | FETCH_GROUP`, `FETCH_OBJ | FETCH_UNIQUE`, `ATTR_CASE`, `foreach` over a statement, `ATTR_DEFAULT_FETCH_MODE`;
-  - MySQL with emulated and native prepares, buffered and unbuffered;
-  - rows changed after the fetch: a property written, added, removed, a `clone`.
-
-  [`difftest.sh`](difftest.sh) runs it with every build. The output is identical for master and change on GCC 15.2, clang 21.1 and ASan + UBSan (GCC, debug), from SQLite and from MySQL: [`data/difftest-md5.txt`](data/difftest-md5.txt), outputs in [`data/difftest/`](data/difftest/).
-- **Bugs put in on purpose (mutations)** ([`mutants.sh`](mutants.sh), [`data/mutants.txt`](data/mutants.txt)). Each one is applied to the change, built, and checked with `difftest.php` on SQLite and with the new php-src test:
-  - [`data/mutation-1.diff`](data/mutation-1.diff), `zend_symtable_update()` instead of `zend_hash_update()`: numeric names turn into integer keys. 25 output lines differ, the test fails.
-  - [`data/mutation-2.diff`](data/mutation-2.diff), `zend_hash_add()`: a repeated column name keeps the first value. 12 output lines differ, the test fails.
-  - [`data/mutation-3.diff`](data/mutation-3.diff), the check for `"\0"` never matches: not caught. SQLite and MySQL can't return such a name, so the fallback path isn't run by any check.
-- **New php-src test** `ext/pdo_sqlite/tests/pdo_sqlite_fetch_obj_column_names.phpt`: duplicate, numeric and empty names, writes after the fetch, `FETCH_GROUP`. It passes on master and on the change ([`data/new-test.txt`](data/new-test.txt)), so it pins the behaviour.
-- **php-src tests** ([`tests.sh`](tests.sh)): `ext/pdo_sqlite` + `ext/pdo_mysql`, then the generic `ext/pdo` tests against SQLite and against MySQL. 0 failed on every build. Master, from the master tree: 512 passed in `ext/pdo_sqlite` and `ext/pdo_mysql`, 131 in `ext/pdo` on SQLite, 134 in `ext/pdo` on MySQL ([`data/tests-master-gcc15.txt`](data/tests-master-gcc15.txt)). The change, from the branch tree with the new test: 513, 131 and 134, on GCC 15.2 and on ASan + UBSan ([`data/tests-change-gcc15.txt`](data/tests-change-gcc15.txt), [`data/tests-change-asan.txt`](data/tests-change-asan.txt)).
-- **valgrind** memcheck on `difftest.php` with SQLite and with MySQL, `USE_ZEND_ALLOC=0`, GCC 15.2: 0 errors and all heap blocks freed, master and change ([`data/valgrind.txt`](data/valgrind.txt)).
+- **Same output as master:** [`difftest.php`](difftest.php) prints everything a script can see in `FETCH_OBJ` rows, from `var_dump()` to `serialize()`. Inputs: duplicate, numeric, empty and non-ASCII column names, `FETCH_GROUP` and `FETCH_UNIQUE`, emulated and native prepares, rows changed after the fetch. Master and the change print the same on GCC, clang and ASan + UBSan, from SQLite and MySQL ([`data/difftest-md5.txt`](data/difftest-md5.txt)).
+- **php-src tests** of `ext/pdo`, `ext/pdo_sqlite` and `ext/pdo_mysql`: 0 failed on GCC and on ASan + UBSan ([`tests.sh`](tests.sh), [`data/`](data/)). A new test, `pdo_sqlite_fetch_obj_column_names.phpt`, covers the column names above and passes on master too.
+- **valgrind:** 0 errors, no leaks ([`data/valgrind.txt`](data/valgrind.txt)).
+- **Do the checks catch bugs?** I put three bugs into the change ([`mutants.sh`](mutants.sh), [`data/mutants.txt`](data/mutants.txt)). Numeric names turned into integer keys and a repeated name keeping the first value are both caught. A broken check for `"\0"` isn't: neither driver returns such a name.
 
 ## Not tested
 
-- Intel CPUs and other compilers (GCC 13/14, clang 18/20). Only AMD Zen 3 with GCC 15.2 and clang 21.1.
-- PostgreSQL, Oracle, Firebird, ODBC. The change is in the driver-independent `do_fetch()`. The column names come from the driver.
-- A column name that starts with `"\0"`: the fallback path wasn't run (mutation 3).
-- Single-row queries such as `find()` and `first()`, where `query()` takes a larger share of the call. Also more than 100 rows per call, long values, opcache and JIT, RSS.
-- The cycles of the other fetch modes that go through `do_fetch()`: `FETCH_BOTH` (the PDO default), `FETCH_NUM`, `FETCH_NAMED`, `FETCH_COLUMN`, `FETCH_FUNC`. Their output is covered by the php-src tests.
-- A full application (a Laravel request, Eloquent hydration) and wall time.
-- 32-bit builds, ZTS builds.
+- Intel CPUs and other compilers.
+- PostgreSQL and the other drivers.
+- Column names that start with `"\0"`.
+- Single-row queries such as `find()` and `first()`, opcache and JIT.
+- A full application, such as a Laravel request.
 
 ## Machine and method
 
