@@ -76,7 +76,7 @@ Control: PHP-8.2 against itself.
 | `hash_pbkdf2('sha3-256', …, 1000)`, 1000 iterations | 5,433,750 | 0% | 0% |
 | `hash_pbkdf2('whirlpool', …, 1000)`, 1000 iterations | 7,210,028 | −1% | 0% |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 <!-- /bench-table -->
 
 Full table, with the range over the passes and the change in instructions:
@@ -126,7 +126,7 @@ Control: PHP-8.2 against itself.
 | `hash_pbkdf2('sha3-256', …, 1000)`, 1000 iterations | 5,433,750 | 0% (−2 … +1) | 0% (0 … +4) |
 | `hash_pbkdf2('whirlpool', …, 1000)`, 1000 iterations | 7,210,028 | −1% (−3 … 0) | 0% (−51 … 0) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 <!-- /bench-table -->
 
 ## Code

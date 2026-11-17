@@ -63,7 +63,7 @@ A synthetic sweep isolates the break-even. This is a worst case: one 20000-chara
 | json_decode, 30% non-ASCII | 47,972 | +121% | +24% |
 | json_decode, 100% non-ASCII | 62,996 | +454% | +321% |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 <!-- /bench-table -->
 
 Break-even in cycles is around 10% non-ASCII characters for the default encode and 10–15% for decode on GCC, later on clang. Past that it is a regression, worst at a high density (dense CJK or Cyrillic). On real documents the strings are one part of a larger parse, so the magnitude is smaller than the single-string sweep, but the direction is the same.

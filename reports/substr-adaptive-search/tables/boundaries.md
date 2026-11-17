@@ -248,7 +248,7 @@ Absolute cycles/call: Stock with GCC 15.2.
 | late-density/n256/remaining4097/absent @ late-density/n256/remaining4097/absent | 945,580 | +1% (−3 … +5) | 0% (−2 … +4) |
 | late-density/n256/remaining4097/match @ late-density/n256/remaining4097/match | 965,744 | 0% (−2 … +1) | 0% (−5 … +3) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 
 layout?: in every pass the cycles changed in the same direction, by 3% or more in the median, the instructions by less than 0.5%: the work is the same, so look for the cause (code placement, branch prediction) with `bench why` before reporting the row.
 
@@ -506,7 +506,7 @@ Absolute cycles/call: Stock with GCC 13.3.
 | late-density/n256/remaining4097/absent @ late-density/n256/remaining4097/absent | 566,174 | +1% (−1 … +2) | −1% (−5 … +1) |
 | late-density/n256/remaining4097/match @ late-density/n256/remaining4097/match | 565,110 | 0% (−3 … +4) | 0% (−2 … +1) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 
 layout?: in every pass the cycles changed in the same direction, by 3% or more in the median, the instructions by less than 0.5%: the work is the same, so look for the cause (code placement, branch prediction) with `bench why` before reporting the row.
 

@@ -53,7 +53,7 @@ Absolute cycles/call: master with GCC 14.2.
 | grapheme_strstr/en/middle @ grapheme_strpos-en-middle | 10,370 | 0% (0 … 0) | +1% (−3 … +2) |
 | grapheme_strstr/en/end @ grapheme_strpos-en-end | 11,740 | −1% (−3 … +2) | +2% (−1 … +4) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 <!-- /bench-table -->
 
 ## mbstring
@@ -131,5 +131,5 @@ Absolute cycles/call: master with GCC 14.2.
 | mb_substr_count/zh/absent @ mb_strpos-zh-absent | 4,243 | 0% (−1 … +1) | +1% (−3 … +1) |
 | mb_substr_count/zh/middle @ mb_strpos-zh-middle | 4,222 | 0% (0 … +1) | 0% (−2 … +1) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 <!-- /bench-table -->

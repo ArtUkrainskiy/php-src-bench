@@ -18,4 +18,4 @@ Control: master against itself.
 | `mb_substr($s, 0, 10)`, English (1.00 B/char), 31-byte title, without the flag | 200 | 0% (0 … +2) | +1% (0 … +5) |
 | `mb_substr($s, $half, 20)`, Chinese (2.89 B/char), 1 KB, without the flag | 2,837 | 0% (−2 … +1) | −1% (−1 … 0) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.

@@ -55,7 +55,7 @@ Control: master against itself.
 | same with `fetchAll(PDO::FETCH_ASSOC)`, 4 `int4` over the full range | 9,072,293 | 0% | 0% |
 | same with `fetchAll(PDO::FETCH_ASSOC)`, 2 `int4` + 9 `text` | 17,749,719 | +2% | 0% |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 <!-- /bench-table -->
 
 Other programs loaded the machine during the series (CPU 2 was 36% busy with them), so the ranges over the passes are wide. The change in instructions, which that load does not affect, backs every integer row. Full table, with the range over the passes and the change in instructions:
@@ -87,7 +87,7 @@ Control: master against itself.
 | same with `fetchAll(PDO::FETCH_ASSOC)`, 4 `int4` over the full range | 9,072,293 | 0% (−4 … +1) | 0% (−2 … +1) |
 | same with `fetchAll(PDO::FETCH_ASSOC)`, 2 `int4` + 9 `text` | 17,749,719 | +2% (−8 … +5) | 0% (−2 … +3) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 <!-- /bench-table -->
 
 ## Code

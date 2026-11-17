@@ -43,5 +43,5 @@ Control: master against itself.
 | `execute()` + `fetchAll(PDO::FETCH_OBJ)` of a prepared statement, MySQL 8.4, native prepares, 10 columns | 177,389 | 0% (−2 … +2) | −1% (−2 … +2) |
 | control, code not touched: same with `fetchAll(PDO::FETCH_ASSOC)` | 137,482 | 0% (−3 … +2) | −1% (−3 … +2) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 <!-- /bench-table -->

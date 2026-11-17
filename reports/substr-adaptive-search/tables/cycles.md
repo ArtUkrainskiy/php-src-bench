@@ -169,7 +169,7 @@ Absolute cycles/call: Stock with GCC 15.2.
 | log-contains/event/thread/late @ logs-thread-late | 63,097 | 0% (0 … 0) | 0% (−1 … +1) |
 | log-filter/thread/late @ logs-thread-late | 192,781 | 0% (−2 … +2) | +2% (−3 … +2) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 
 layout?: in every pass the cycles changed in the same direction, by 3% or more in the median, the instructions by less than 0.5%: the work is the same, so look for the cause (code placement, branch prediction) with `bench why` before reporting the row.
 <!-- /bench-table -->
@@ -341,7 +341,7 @@ Absolute cycles/call: Stock with GCC 13.3.
 | log-contains/event/thread/late @ logs-thread-late | 64,688 | 0% (−9 … +1) | 0% (−1 … 0) |
 | log-filter/thread/late @ logs-thread-late | 210,048 | 0% (0 … +1) | −1% (−2 … +1) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 
 layout?: in every pass the cycles changed in the same direction, by 3% or more in the median, the instructions by less than 0.5%: the work is the same, so look for the cause (code placement, branch prediction) with `bench why` before reporting the row.
 <!-- /bench-table -->

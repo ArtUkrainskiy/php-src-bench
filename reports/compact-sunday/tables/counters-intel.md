@@ -49,7 +49,7 @@ Absolute cycles/call: master with GCC 14.2.
 | controls/length-31/middle @ controls-length-31-middle | 1,027 | 0% (−1 … 0) | 0% (−1 … 0) |
 | controls/length-31/end @ controls-length-31-end | 2,103 | 0% (0 … 0) | 0% (0 … 0) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 <!-- /bench-table -->
 
 ## controls-prefix
@@ -75,7 +75,7 @@ Absolute cycles/call: master with GCC 14.2.
 | controls/prefix-31/absent @ controls-prefix-9-absent | 66,325 | 0% (−2 … +2) | +1% (−1 … +2) |
 | controls/prefix-64/absent @ controls-prefix-9-absent | 194,091 | 0% (−3 … 0) | −1% (−3 … +1) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 
 layout?: in every pass the cycles changed in the same direction, by 3% or more in the median, the instructions by less than 0.5%: the work is the same, so look for the cause (code placement, branch prediction) with `bench why` before reporting the row.
 <!-- /bench-table -->
@@ -133,7 +133,7 @@ Absolute cycles/call: master with GCC 14.2.
 | controls/remaining-1024/absent @ controls-remaining-1023-absent | 1,010 | 0% (−1 … 0) | 0% (−1 … +1) |
 | controls/stream/buffer-seam @ controls-stream-buffer-seam | 6,680 | 0% (−1 … 0) | 0% (0 … +18) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 
 layout?: in every pass the cycles changed in the same direction, by 3% or more in the median, the instructions by less than 0.5%: the work is the same, so look for the cause (code placement, branch prediction) with `bench why` before reporting the row.
 <!-- /bench-table -->
@@ -185,7 +185,7 @@ Absolute cycles/call: master with GCC 14.2.
 | documents/explode/mail_delivery/limit2 @ documents-explode-mail_delivery-all | 514 | +1% (−1 … +2) | 0% (−2 … +1) |
 | documents/stream/mail_delivery/closing @ documents-explode-mail_delivery-all | 2,820 | 0% (−1 … 0) | 0% (0 … 0) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 <!-- /bench-table -->
 
 ## documents-moderation
@@ -215,7 +215,7 @@ Absolute cycles/call: master with GCC 14.2.
 | documents/moderation/zh/absent @ documents-moderation-zh-absent | 11,755 | 0% (−2 … 0) | +1% (−1 … +1) |
 | documents/moderation/zh/middle @ documents-moderation-zh-middle | 7,410 | 0% (−1 … +1) | 0% (0 … 0) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 <!-- /bench-table -->
 
 ## documents-repeated
@@ -315,7 +315,7 @@ Absolute cycles/call: master with GCC 14.2.
 | documents/search/log_long/absent @ documents-search-log_long-absent | 58,709 | 0% (−3 … +8) | 0% (−14 … +9) |
 | documents/search/log_long/present @ documents-search-log_long-present | 28,952 | 0% (−1 … +1) | −1% (−1 … +1) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 <!-- /bench-table -->
 
 ## explode
@@ -383,7 +383,7 @@ Absolute cycles/call: master with GCC 14.2.
 | moderation/long/zh/middle @ moderation-long-zh-middle | 537,849 | 0% (0 … +1) | 0% (0 … +11) |
 | moderation/long/zh/end @ moderation-long-zh-end | 573,433 | 0% (−9 … 0) | 0% (−5 … +12) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 <!-- /bench-table -->
 
 ## moderation-medium
@@ -425,7 +425,7 @@ Absolute cycles/call: master with GCC 14.2.
 | moderation/medium/zh/middle @ moderation-medium-zh-middle | 26,467 | −1% (−2 … 0) | 0% (−2 … +2) |
 | moderation/medium/zh/end @ moderation-medium-zh-end | 28,084 | 0% (−1 … 0) | 0% (−1 … 0) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 <!-- /bench-table -->
 
 ## moderation-short
@@ -467,7 +467,7 @@ Absolute cycles/call: master with GCC 14.2.
 | moderation/short/zh/middle @ moderation-short-zh-middle | 1,771 | 0% (0 … 0) | 0% (−1 … 0) |
 | moderation/short/zh/end @ moderation-short-zh-end | 1,828 | 0% (0 … 0) | 0% (0 … 0) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 <!-- /bench-table -->
 
 ## replace
@@ -539,7 +539,7 @@ Absolute cycles/call: master with GCC 14.2.
 | strpos/en/64k/middle @ strpos-en-64k-middle | 22,648 | 0% (0 … 0) | 0% (0 … 0) |
 | strpos/en/64k/end @ strpos-en-64k-end | 45,325 | 0% (0 … +16) | +1% (−1 … +21) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 <!-- /bench-table -->
 
 ## search
@@ -581,7 +581,7 @@ Absolute cycles/call: master with GCC 14.2.
 | strstr/en/middle @ strstr-en-middle | 1,685 | 0% (−1 … 0) | 0% (0 … 0) |
 | strstr/en/end @ strstr-en-end | 3,191 | 0% (0 … 0) | 0% (0 … 0) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 <!-- /bench-table -->
 
 ## stream-get-line
@@ -633,5 +633,5 @@ Absolute cycles/call: master with GCC 14.2.
 | substr_count/en/end @ substr_count-en-end | 3,560 | 0% (0 … 0) | 0% (0 … 0) |
 | substr_count/en/repeated @ substr_count-en-repeated | 2,647 | +2% (−4 … +17) | −1% (−6 … +2) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 <!-- /bench-table -->

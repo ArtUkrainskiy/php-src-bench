@@ -78,7 +78,7 @@ Control: master against itself.
 | `[$a, $b] = $pair` (not covered) | 92 | 0% | 0% |
 | `['x' => $a, 'y' => $b] = ['x' => $b, 'y' => $a]` (not covered) | 187 | 0% | 0% |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 <!-- /bench-table -->
 
 Full table, with the range over the passes and the change in instructions:
@@ -128,7 +128,7 @@ Control: master against itself.
 | `[$a, $b] = $pair` (not covered) | 92 | 0% (−1 … +1) | 0% (−4 … +1) |
 | `['x' => $a, 'y' => $b] = ['x' => $b, 'y' => $a]` (not covered) | 187 | 0% (−2 … +4) | 0% (−7 … +6) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 <!-- /bench-table -->
 
 ### Loops with opcache and the JIT

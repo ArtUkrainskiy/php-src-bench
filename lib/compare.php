@@ -736,7 +736,7 @@ function series_table(array $series, array $labels, bool $full, string $baseName
         }
     }
     if ($withinNoise) {
-        $out .= "\n~: the change is not larger than the A/A control of the same row: not evidence of a difference.\n";
+        $out .= "\n~: within noise, the change is no larger than the difference between master and master on the same row.\n";
     }
     if ($layout) {
         $out .= sprintf("\nlayout?: in every pass the cycles changed in the same direction, by %d%% or more in the median, the instructions by less than %.1f%%: the work is the same, so look for the cause (code placement, branch prediction) with `bench why` before reporting the row.\n",

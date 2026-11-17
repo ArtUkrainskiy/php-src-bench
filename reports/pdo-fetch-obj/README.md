@@ -63,7 +63,7 @@ Change in CPU cycles per call against master (negative = fewer cycles, faster). 
 | `execute()` + `fetchAll(PDO::FETCH_OBJ)` of a prepared statement, MySQL 8.4, native prepares, 10 columns | 178,149 | −16% | −19% |
 | control, code not touched: same with `fetchAll(PDO::FETCH_ASSOC)` | 138,391 | 0% ~ | 0% ~ |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 <!-- /bench-table -->
 
 How much slower `FETCH_OBJ` is than `FETCH_ASSOC` on the same rows, in the same build: extra CPU cycles per call, in percent of the `FETCH_ASSOC` call ([`gap.py`](gap.py), [`data/gap.txt`](data/gap.txt)). From 10 columns up the change brings `FETCH_OBJ` within 2–7% of `FETCH_ASSOC`.

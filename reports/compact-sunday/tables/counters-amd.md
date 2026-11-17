@@ -73,7 +73,7 @@ Absolute cycles/call: master with GCC 15.2.
 | controls/prefix-31/absent @ controls-prefix-9-absent | 72,764 | 0% (−5 … +2) | −1% (−4 … +7) |
 | controls/prefix-64/absent @ controls-prefix-9-absent | 143,844 | 0% (0 … +1) | 0% (0 … 0) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 
 layout?: in every pass the cycles changed in the same direction, by 3% or more in the median, the instructions by less than 0.5%: the work is the same, so look for the cause (code placement, branch prediction) with `bench why` before reporting the row.
 <!-- /bench-table -->
@@ -131,7 +131,7 @@ Absolute cycles/call: master with GCC 15.2.
 | controls/remaining-1024/absent @ controls-remaining-1023-absent | 926 | 0% (0 … 0) | 0% (0 … +1) |
 | controls/stream/buffer-seam @ controls-stream-buffer-seam | 7,100 | 0% (0 … +1) | 0% (−1 … +1) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 
 layout?: in every pass the cycles changed in the same direction, by 3% or more in the median, the instructions by less than 0.5%: the work is the same, so look for the cause (code placement, branch prediction) with `bench why` before reporting the row.
 <!-- /bench-table -->
@@ -377,7 +377,7 @@ Absolute cycles/call: master with GCC 15.2.
 | grapheme_strstr/en/middle @ grapheme_strpos-en-middle | 9,205 | 0% (0 … 0) | 0% (−1 … +1) |
 | grapheme_strstr/en/end @ grapheme_strpos-en-end | 10,471 | 0% (−1 … 0) | 0% (−1 … 0) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 
 layout?: in every pass the cycles changed in the same direction, by 3% or more in the median, the instructions by less than 0.5%: the work is the same, so look for the cause (code placement, branch prediction) with `bench why` before reporting the row.
 <!-- /bench-table -->
@@ -457,7 +457,7 @@ Absolute cycles/call: master with GCC 15.2.
 | mb_substr_count/zh/absent @ mb_strpos-zh-absent | 4,276 | 0% (−1 … +1) | 0% (−1 … +1) |
 | mb_substr_count/zh/middle @ mb_strpos-zh-middle | 4,344 | 0% (0 … +1) | 0% (−1 … +1) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 <!-- /bench-table -->
 
 ## moderation-long
@@ -581,7 +581,7 @@ Absolute cycles/call: master with GCC 15.2.
 | moderation/short/zh/middle @ moderation-short-zh-middle | 2,142 | 0% (−1 … +2) | 0% (−3 … 0) |
 | moderation/short/zh/end @ moderation-short-zh-end | 2,189 | +1% (−1 … +4) | 0% (0 … +1) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 <!-- /bench-table -->
 
 ## replace

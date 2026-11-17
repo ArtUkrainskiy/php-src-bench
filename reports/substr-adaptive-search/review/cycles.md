@@ -89,7 +89,7 @@ Absolute cycles/call: ca89 with GCC 15.2.
 | route/threshold/8191 @ route-157 | 160,557 | −1% (−3 … +1) | −1% (−2 … 0) |
 | route/threshold/8192 @ route-158 | 2,524 | −1% (−2 … −1) | 0% (−1 … +1) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 
 layout?: in every pass the cycles changed in the same direction, by 3% or more in the median, the instructions by less than 0.5%: the work is the same, so look for the cause (code placement, branch prediction) with `bench why` before reporting the row.
 <!-- /bench-table -->
@@ -181,7 +181,7 @@ Absolute cycles/call: ca89 with GCC 15.2.
 | route/threshold/8191 @ route-157 | 160,557 | −1% (−3 … +1) | −1% (−2 … 0) |
 | route/threshold/8192 @ route-158 | 2,524 | −1% (−2 … −1) | 0% (−1 … +1) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 
 layout?: in every pass the cycles changed in the same direction, by 3% or more in the median, the instructions by less than 0.5%: the work is the same, so look for the cause (code placement, branch prediction) with `bench why` before reporting the row.
 <!-- /bench-table -->
@@ -273,7 +273,7 @@ Absolute cycles/call: Stock with GCC 15.2.
 | route/threshold/8191 @ route-157 | 160,557 | −1% (−3 … +1) | −1% (−2 … 0) |
 | route/threshold/8192 @ route-158 | 2,524 | −1% (−2 … −1) | 0% (−1 … +1) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 
 layout?: in every pass the cycles changed in the same direction, by 3% or more in the median, the instructions by less than 0.5%: the work is the same, so look for the cause (code placement, branch prediction) with `bench why` before reporting the row.
 <!-- /bench-table -->

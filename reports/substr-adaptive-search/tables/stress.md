@@ -36,7 +36,7 @@ Absolute cycles/call: Stock with GCC 15.2.
 | late dense pair @ changing-density | 14,782,377 | 0% (−5 … +4) | +1% (0 … +4) |
 | late dense pair @ changing-density-match | 14,837,029 | −3% (−6 … +8) | +5% (−2 … +11) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 
 layout?: in every pass the cycles changed in the same direction, by 3% or more in the median, the instructions by less than 0.5%: the work is the same, so look for the cause (code placement, branch prediction) with `bench why` before reporting the row.
 <!-- /bench-table -->
@@ -105,7 +105,7 @@ Absolute cycles/call: Stock with GCC 13.3.
 | late dense pair @ changing-density | 14,420,279 | 0% (0 … 0) | 0% (0 … 0) |
 | late dense pair @ changing-density-match | 14,439,849 | 0% (0 … 0) | 0% (0 … 0) |
 
-~: the change is not larger than the A/A control of the same row: not evidence of a difference.
+~: within noise, the change is no larger than the difference between master and master on the same row.
 <!-- /bench-table -->
 
 ## intel-long-prefix
