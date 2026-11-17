@@ -1,10 +1,10 @@
 # PDO::FETCH_OBJ rows built as a properties table
 
-Status: prototype, not a php-src PR yet, so no PHP release has it. The change is one commit on top of php-src master [`48e34bf6348`](https://github.com/php/php-src/commit/48e34bf6348b0e9c5818218aeb06f8121cde3e24), on branch [`pdo-fetch-obj`](https://github.com/ArtUkrainskiy/php-src/tree/pdo-fetch-obj) of ArtUkrainskiy/php-src and as a patch: [`pdo-fetch-obj.patch`](pdo-fetch-obj.patch). Measured and checked on 16 November 2026 on an AMD Ryzen 9 5950X with GCC 15.2 and clang 21.1.
+The change is on branch [`pdo-fetch-obj`](https://github.com/ArtUkrainskiy/php-src/tree/pdo-fetch-obj) of ArtUkrainskiy/php-src, also as a patch: [`pdo-fetch-obj.patch`](pdo-fetch-obj.patch). Measured and checked on 16 November 2026 on an AMD Ryzen 9 5950X with GCC 15.2 and clang 21.1.
 
 `PDO::FETCH_OBJ` returns each row as a `stdClass` object. It's the default fetch mode of Laravel's database layer ([`Connection::$fetchMode`](https://github.com/laravel/framework/blob/12.x/src/Illuminate/Database/Connection.php)), so query builder results and Eloquent models go through it. On master, `query()` + `fetchAll(PDO::FETCH_OBJ)` of 100 rows takes 18–21% more CPU cycles in the PHP process than the same call with `FETCH_ASSOC` from SQLite. From MySQL 8.4 it's 27–32% more ([table](#results)).
 
-The change makes `FETCH_OBJ` build the row the way `FETCH_ASSOC` builds its array, then wrap it in an object. Once merged, code that fetches with `FETCH_OBJ` gets it without any change or setting. The report measures the change against master and checks that scripts see the same rows as on master.
+The change makes `FETCH_OBJ` build the row the way `FETCH_ASSOC` builds its array, then wrap it in an object. Code that fetches with `FETCH_OBJ` gets it without any change or setting. The report measures the change against master and checks that scripts see the same rows as on master.
 
 ## Summary
 
@@ -209,7 +209,6 @@ About 55 minutes on a 16-core machine, plus 15 for the optional step 7. Run all 
    git clone https://github.com/ArtUkrainskiy/php-src-bench.git
    git clone --filter=blob:none https://github.com/php/php-src.git
    git -C php-src fetch https://github.com/ArtUkrainskiy/php-src.git pdo-fetch-obj:pdo-fetch-obj
-   git -C php-src log -1 --format=%H pdo-fetch-obj    # expected: 5b322ca1e8e01ae0b05944b7f261db9077bb2436
    cd php-src-bench
    R=reports/pdo-fetch-obj
    ```
