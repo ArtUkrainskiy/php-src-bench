@@ -66,16 +66,18 @@ Change in CPU cycles per call against master (negative = fewer cycles, faster). 
 ~: the change is not larger than the A/A control of the same row: not evidence of a difference.
 <!-- /bench-table -->
 
-How many more cycles `FETCH_OBJ` takes than `FETCH_ASSOC` for the same rows in the same build ([`gap.py`](gap.py), [`data/gap.txt`](data/gap.txt)). On master the five samples of the series vary by up to 1.3 points.
+How much slower `FETCH_OBJ` is than `FETCH_ASSOC` on the same rows, in the same build: extra CPU cycles per call, in percent of the `FETCH_ASSOC` call ([`gap.py`](gap.py), [`data/gap.txt`](data/gap.txt)). From 10 columns up the change brings `FETCH_OBJ` within 2–7% of `FETCH_ASSOC`.
 
-| table | master, GCC 15.2 | change, GCC 15.2 | master, clang 21.1 | change, clang 21.1 |
-|---|--:|--:|--:|--:|
-| SQLite, 1 column | +21% | +15% | +19% | +21% |
-| SQLite, 3 columns | +18% | +14% | +18% | +8% |
-| SQLite, 10 columns | +19% | +6% | +20% | +5% |
-| SQLite, 30 columns | +20% | +3% | +20% | +2% |
-| MySQL 8.4, 10 columns, `query()` | +27% | +6% | +32% | +6% |
-| MySQL 8.4, 10 columns, native prepares | +29% | +7% | +33% | +7% |
+| rows | GCC 15.2, master → change | clang 21.1, master → change |
+|---|--:|--:|
+| SQLite, 1 column | +21% → +15% | +19% → +21% |
+| SQLite, 3 columns | +18% → +14% | +18% → +8% |
+| SQLite, 10 columns | +19% → +6% | +20% → +5% |
+| SQLite, 30 columns | +20% → +3% | +20% → +2% |
+| MySQL 8.4, 10 columns, `query()` | +27% → +6% | +32% → +6% |
+| MySQL 8.4, 10 columns, native prepares | +29% → +7% | +33% → +7% |
+
+The two calls are measured at different moments, so these numbers are noisier than the table above. On master the same cell differs by up to 1.3 points between measurements.
 
 Memory held per row after `fetchAll()` of 100 rows, SQLite, GCC 15.2 ([`memory.php`](memory.php), [`data/memory.txt`](data/memory.txt)):
 
