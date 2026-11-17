@@ -18,15 +18,15 @@ About 55 minutes on a 16-core machine, plus 15 for the optional step 7. Run all 
    R=reports/pdo-fetch-obj
    ```
 
-   If the branch has moved, build the measured code from the patch instead: `git -C php-src checkout -q -b pdo-fetch-obj-report 48e34bf6348 && git -C php-src -c user.name=repro -c user.email=repro@localhost am "$PWD/php-src-bench/reports/pdo-fetch-obj/pdo-fetch-obj.patch"`, and use `pdo-fetch-obj-report` for `pdo-fetch-obj` below.
+   If the branch has moved, build the measured code from the patch instead: `git -C php-src checkout -q -b pdo-fetch-obj-report 6c5e66cb30 && git -C php-src -c user.name=repro -c user.email=repro@localhost am "$PWD/php-src-bench/reports/pdo-fetch-obj/pdo-fetch-obj.patch"`, and use `pdo-fetch-obj-report` for `pdo-fetch-obj` below.
 
 2. Builds (about 3 minutes each, `ok: …/sapi/cli/php` at the end). The default profile is `docker` with `--enable-werror`. If your compiler stops on a warning outside this change, add `--no-werror` and say so. `bench build --cc` names a build after the compiler's major version, so `G` and `C` pick up yours:
 
    ```
    export BENCH_CONFIGURE_EXTRA='--enable-pdo --with-pdo-sqlite --with-pdo-mysql'
-   ./bench build --slim --cc gcc,clang pdoobj-base 48e34bf6348
+   ./bench build --slim --cc gcc,clang pdoobj-base 6c5e66cb30
    ./bench build --slim --cc gcc,clang pdoobj-chg pdo-fetch-obj
-   CC=gcc ./bench build --profile asan pdoobj-base-asan 48e34bf6348
+   CC=gcc ./bench build --profile asan pdoobj-base-asan 6c5e66cb30
    CC=gcc ./bench build --profile asan pdoobj-chg-asan pdo-fetch-obj
    P=../php-builds
    G=$(cd $P && ls -d pdoobj-base-gcc* | sed 's/pdoobj-base-//'); C=$(cd $P && ls -d pdoobj-base-clang* | sed 's/pdoobj-base-//'); echo $G $C
@@ -58,14 +58,14 @@ About 55 minutes on a 16-core machine, plus 15 for the optional step 7. Run all 
 5. php-src tests (about 3 minutes per build, 10 with ASan). The tree must be at the tested commit:
 
    ```
-   git -C ../php-src checkout -q 48e34bf6348
+   git -C ../php-src checkout -q 6c5e66cb30
    $R/tests.sh ../php-src $P/pdoobj-base-$G/sapi/cli/php $O/tests-master.txt
    git -C ../php-src checkout -q pdo-fetch-obj
    $R/tests.sh ../php-src $P/pdoobj-chg-$G/sapi/cli/php $O/tests-change.txt
    $R/tests.sh ../php-src $P/pdoobj-chg-asan/sapi/cli/php $O/tests-change-asan.txt --asan
    ```
 
-   Expected: 0 failed. The change has exactly one more passed test than master in the first run, the new test. Here: 512 / 131 / 134 passed on master and 513 / 131 / 134 on the change, with 22 / 5 / 2 skipped. The counts depend on the SQLite and MySQL versions. Many more skipped tests in the MySQL runs mean the server wasn't reachable.
+   Expected: 0 failed. The change has exactly one more passed test than master in the first run, the new test. Here: 510 / 130 / 133 passed on master and 511 / 130 / 133 on the change, with 24 / 6 / 3 skipped. The counts depend on the SQLite and MySQL versions. Many more skipped tests in the MySQL runs mean the server wasn't reachable.
 
 6. The series (about 8 minutes) on `$CPU`. The first `bench table` prints the table of the README, the second the tables of `FULL-TABLES.md`:
 
@@ -93,7 +93,7 @@ About 55 minutes on a 16-core machine, plus 15 for the optional step 7. Run all 
    $R/mutants.sh ../php-src pdo-fetch-obj $O/difftest/pdoobj-base-$G-sqlite.txt $O
    ```
 
-   valgrind prints its summary on stderr: expected "0 errors" and "All heap blocks were freed". Instructions per row = (PROGRAM TOTALS at N=100 − at N=0) / 100 calls / 100 rows. `mutants.sh` should print the three lines of [`data/mutants.txt`](data/mutants.txt).
+   valgrind prints its summary on stderr: expected "0 errors" and "All heap blocks were freed". Instructions per row = (PROGRAM TOTALS at N=100 − at N=0) / 100 calls / 100 rows. `mutants.sh` should print the two lines of [`data/mutants.txt`](data/mutants.txt).
 
 8. Clean up: `docker rm -fv pdoobj-mysql; rm -rf "$O"; git -C ../php-src checkout -q master; git -C ../php-src worktree prune; git -C ../php-src branch -D pdo-fetch-obj; ./bench gc --yes 'pdoobj-*'`.
 
