@@ -68,7 +68,7 @@ Change in CPU cycles per call against master (negative = fewer cycles, faster). 
 
 How much slower `FETCH_OBJ` is than `FETCH_ASSOC` on the same rows, in the same build: extra CPU cycles per call, in percent of the `FETCH_ASSOC` call ([`gap.py`](gap.py), [`data/gap.txt`](data/gap.txt)). From 10 columns up the change brings `FETCH_OBJ` within 2–7% of `FETCH_ASSOC`.
 
-| rows | GCC 15.2, master → change | clang 21.1, master → change |
+| rows | GCC 15.2, before → after | clang 21.1, before → after |
 |---|--:|--:|
 | SQLite, 1 column | +21% → +15% | +19% → +21% |
 | SQLite, 3 columns | +18% → +14% | +18% → +8% |
