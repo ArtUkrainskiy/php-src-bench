@@ -1,0 +1,9 @@
+# First run (not reproduced, see l1i-3way.txt). perf stat on Symfony Demo /en/blog/ (cgi.sh, 20 warm-up + 400 requests, CPU 9), per request; master-gcc15 vs pr-gcc15
+# (not the placement build), 3 alternating runs. Columns: build cycles instructions branch-misses L1-icache-load-misses
+# L1-dcache-load-misses dTLB-load-misses iTLB-load-misses
+1 master 29762976 34262332 386838 83975 973494 16570 4302
+1 pr     30124942 34232809 389458 109084 976265 17458 4780
+2 master 29769566 34253084 386917 84117 976266 16568 4360
+2 pr     30059364 34252191 389156 108624 975382 17202 4498
+3 master 29914078 34285377 388178 85199 978188 16673 4778
+3 pr     30193007 34207710 391917 109241 981262 16940 4402

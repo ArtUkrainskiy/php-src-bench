@@ -1,0 +1,65 @@
+# callgrind, per request: (run with 12 measured requests - run with 2) / 10 (count.sh), worker: (60 - 30) / 30.
+# "_emalloc" under zend_create_closure_ex = private (fresh) run-time caches. OTel rows: opentelemetry.so + otel-hooks.php.
+== master, no OTel, Laravel /
+program Ir per request 7,263,591
+zend_create_closure_ex                                       calls    288.0  incl Ir      118,399    1.63%  per call      411
+zend_create_closure_ex: self Ir/request 37,189
+  _emalloc                                           calls   260.0 incl Ir     11,220  per call     43
+== master, no OTel, Laravel /users
+program Ir per request 80,286,237
+zend_create_closure_ex                                       calls    723.0  incl Ir      298,787    0.37%  per call      413
+zend_create_closure_ex: self Ir/request 93,602
+  _emalloc                                           calls   694.0 incl Ir     28,042  per call     40
+== pr, no OTel, Laravel /
+program Ir per request 7,225,015
+zend_create_closure_ex                                       calls    288.0  incl Ir      107,879    1.49%  per call      375
+zend_create_closure_ex: self Ir/request 38,880
+  _emalloc                                           calls     4.0 incl Ir        493  per call    123
+== pr, no OTel, Laravel /users
+program Ir per request 80,181,465
+zend_create_closure_ex                                       calls    723.0  incl Ir      261,829    0.33%  per call      362
+zend_create_closure_ex: self Ir/request 92,462
+  _emalloc                                           calls     4.0 incl Ir        514  per call    128
+
+== placement, OTel, Laravel /
+program Ir per request 9,553,725
+find_withspan_attribute                                      calls   1353.0  incl Ir      512,304    5.36%  per call      379
+observer_fcall_init                                          calls   1556.0  incl Ir    1,180,529   12.36%  per call      759
+zend_create_closure_ex                                       calls    290.0  incl Ir      121,608    1.27%  per call      419
+zend_create_closure_ex: self Ir/request 37,457
+  _emalloc                                           calls   260.0 incl Ir     12,796  per call     49
+== placement, OTel, Laravel /users
+program Ir per request 89,991,323
+find_withspan_attribute                                      calls   1849.0  incl Ir      767,899    0.85%  per call      415
+observer_fcall_init                                          calls   2070.0  incl Ir    1,780,566    1.98%  per call      860
+zend_create_closure_ex                                       calls    725.0  incl Ir      301,330    0.33%  per call      416
+zend_create_closure_ex: self Ir/request 93,870
+  _emalloc                                           calls   694.0 incl Ir     30,693  per call     44
+== pr, OTel, Laravel /
+program Ir per request 9,471,704
+find_withspan_attribute                                      calls   1283.0  incl Ir      501,625    5.30%  per call      391
+observer_fcall_init                                          calls   1486.0  incl Ir    1,118,510   11.81%  per call      753
+zend_create_closure_ex                                       calls    290.0  incl Ir      108,993    1.15%  per call      376
+zend_create_closure_ex: self Ir/request 39,456
+  _emalloc                                           calls     6.0 incl Ir        565  per call     94
+== pr, OTel, Laravel /users
+program Ir per request 89,533,684
+find_withspan_attribute                                      calls   1584.0  incl Ir      656,361    0.73%  per call      414
+observer_fcall_init                                          calls   1805.0  incl Ir    1,446,842    1.62%  per call      802
+zend_create_closure_ex                                       calls    725.0  incl Ir      262,763    0.29%  per call      362
+zend_create_closure_ex: self Ir/request 93,287
+  _emalloc                                           calls     6.0 incl Ir        571  per call     95
+== placement, OTel, Laravel worker (60 - 30 worker requests) / 30
+program Ir per request 52,813,414
+find_withspan_attribute                                      calls    183.7  incl Ir       79,551    0.15%  per call      433
+observer_fcall_init                                          calls    187.0  incl Ir      232,999    0.44%  per call     1246
+zend_create_closure_ex                                       calls    336.0  incl Ir      142,850    0.27%  per call      425
+zend_create_closure_ex: self Ir/request 43,829
+  _emalloc                                           calls   332.3 incl Ir     14,009  per call     42
+== pr, OTel, Laravel worker (60 - 30 worker requests) / 30
+program Ir per request 52,502,437
+find_withspan_attribute                                      calls      1.0  incl Ir           88    0.00%  per call       88
+observer_fcall_init                                          calls      4.3  incl Ir        1,028    0.00%  per call      237
+zend_create_closure_ex                                       calls    336.0  incl Ir      121,546    0.23%  per call      362
+zend_create_closure_ex: self Ir/request 41,211
+  _emalloc                                           calls     3.0 incl Ir        130  per call     43

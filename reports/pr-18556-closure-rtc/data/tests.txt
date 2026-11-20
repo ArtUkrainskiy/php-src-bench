@@ -1,0 +1,177 @@
+# run-tests.php summaries, opcache.enable_cli=0|1 (the -0 / -1 suffix) with opcache.file_update_protection=0.
+# tests-*: Zend/tests ext/opcache/tests ext/reflection/tests ext/zend_test/tests, zend_test not loaded (its tests skip).
+# zend_test + closures: ext/zend_test/tests Zend/tests/closures with zend_test loaded (-d extension=zend_test.so).
+# asan-*: the four directories of tests-*, zend_test loaded, ASan/UBSan debug build, --asan, USE_ZEND_ALLOC=0.
+# The PR builds have the PR's new tests (closure_069.phpt, observer_closure_04.phpt). In the zend_test + closures and asan runs
+# the master and placement builds have observer_closure_04.phpt copied in; in the tests-master-* runs they don't.
+== tests-master-0
+Tests skipped   :   371 (  4.9%) --------
+Tests failed    :    11 (  0.1%) (  0.2%)
+Tests passed    :  7211 ( 94.9%) ( 99.8%)
+[ext/opcache/tests/bug66338.phpt]
+[ext/opcache/tests/bug78106.phpt]
+[ext/opcache/tests/gh20469.phpt]
+[ext/opcache/tests/gh20469_child_variance_resolves_parent.phpt]
+[ext/opcache/tests/gh20469_inherited_method.phpt]
+[ext/opcache/tests/gh24534.phpt]
+[ext/opcache/tests/gh8739.phpt]
+[ext/opcache/tests/gh8846.phpt]
+[ext/opcache/tests/issue0115.phpt]
+[ext/opcache/tests/issue0149.phpt]
+[ext/opcache/tests/revalidate_path_01.phpt]
+== tests-pr-0
+Tests skipped   :   372 (  4.9%) --------
+Tests failed    :    11 (  0.1%) (  0.2%)
+Tests passed    :  7212 ( 94.9%) ( 99.8%)
+[ext/opcache/tests/bug66338.phpt]
+[ext/opcache/tests/bug78106.phpt]
+[ext/opcache/tests/gh20469.phpt]
+[ext/opcache/tests/gh20469_child_variance_resolves_parent.phpt]
+[ext/opcache/tests/gh20469_inherited_method.phpt]
+[ext/opcache/tests/gh24534.phpt]
+[ext/opcache/tests/gh8739.phpt]
+[ext/opcache/tests/gh8846.phpt]
+[ext/opcache/tests/issue0115.phpt]
+[ext/opcache/tests/issue0149.phpt]
+[ext/opcache/tests/revalidate_path_01.phpt]
+== tests-master-1
+Tests skipped   :   371 (  4.9%) --------
+Tests failed    :    11 (  0.1%) (  0.2%)
+Tests passed    :  7211 ( 94.9%) ( 99.8%)
+[ext/opcache/tests/bug66338.phpt]
+[ext/opcache/tests/bug78106.phpt]
+[ext/opcache/tests/gh20469.phpt]
+[ext/opcache/tests/gh20469_child_variance_resolves_parent.phpt]
+[ext/opcache/tests/gh20469_inherited_method.phpt]
+[ext/opcache/tests/gh24534.phpt]
+[ext/opcache/tests/gh8739.phpt]
+[ext/opcache/tests/gh8846.phpt]
+[ext/opcache/tests/issue0115.phpt]
+[ext/opcache/tests/issue0149.phpt]
+[ext/opcache/tests/revalidate_path_01.phpt]
+== tests-pr-1
+Tests skipped   :   372 (  4.9%) --------
+Tests failed    :    11 (  0.1%) (  0.2%)
+Tests passed    :  7212 ( 94.9%) ( 99.8%)
+[ext/opcache/tests/bug66338.phpt]
+[ext/opcache/tests/bug78106.phpt]
+[ext/opcache/tests/gh20469.phpt]
+[ext/opcache/tests/gh20469_child_variance_resolves_parent.phpt]
+[ext/opcache/tests/gh20469_inherited_method.phpt]
+[ext/opcache/tests/gh24534.phpt]
+[ext/opcache/tests/gh8739.phpt]
+[ext/opcache/tests/gh8846.phpt]
+[ext/opcache/tests/issue0115.phpt]
+[ext/opcache/tests/issue0149.phpt]
+[ext/opcache/tests/revalidate_path_01.phpt]
+== zend_test + closures only: zt-master-0
+Tests failed    :     0 (  0.0%) (  0.0%)
+Tests passed    :   308 ( 99.0%) (100.0%)
+== zend_test + closures only: zt-master-1
+Tests failed    :     1 (  0.3%) (  0.3%)
+Tests passed    :   307 ( 98.7%) ( 99.7%)
+[ext/zend_test/tests/observer_closure_04.phpt]
+== zend_test + closures only: zt-placement-0
+Tests failed    :     0 (  0.0%) (  0.0%)
+Tests passed    :   308 ( 99.0%) (100.0%)
+== zend_test + closures only: zt-placement-1
+Tests failed    :     1 (  0.3%) (  0.3%)
+Tests passed    :   307 ( 98.7%) ( 99.7%)
+[ext/zend_test/tests/observer_closure_04.phpt]
+== zend_test + closures only: zt-pr-0
+Tests failed    :     0 (  0.0%) (  0.0%)
+Tests passed    :   309 ( 99.0%) (100.0%)
+== zend_test + closures only: zt-pr-1
+Tests failed    :     0 (  0.0%) (  0.0%)
+Tests passed    :   309 ( 99.0%) (100.0%)
+== asan-master-0
+Tests failed    :    11 (  0.1%) (  0.1%)
+Tests passed    :  7497 ( 98.7%) ( 99.8%)
+ASan/UBSan reports: 0
+[ext/opcache/tests/bug66338.phpt]
+[ext/opcache/tests/bug78106.phpt]
+[ext/opcache/tests/gh20469.phpt]
+[ext/opcache/tests/gh20469_child_variance_resolves_parent.phpt]
+[ext/opcache/tests/gh20469_inherited_method.phpt]
+[ext/opcache/tests/gh24534.phpt]
+[ext/opcache/tests/gh8739.phpt]
+[ext/opcache/tests/gh8846.phpt]
+[ext/opcache/tests/issue0115.phpt]
+[ext/opcache/tests/issue0149.phpt]
+[ext/opcache/tests/revalidate_path_01.phpt]
+== asan-pr-0
+Tests failed    :    11 (  0.1%) (  0.1%)
+Tests passed    :  7498 ( 98.7%) ( 99.8%)
+ASan/UBSan reports: 0
+[ext/opcache/tests/bug66338.phpt]
+[ext/opcache/tests/bug78106.phpt]
+[ext/opcache/tests/gh20469.phpt]
+[ext/opcache/tests/gh20469_child_variance_resolves_parent.phpt]
+[ext/opcache/tests/gh20469_inherited_method.phpt]
+[ext/opcache/tests/gh24534.phpt]
+[ext/opcache/tests/gh8739.phpt]
+[ext/opcache/tests/gh8846.phpt]
+[ext/opcache/tests/issue0115.phpt]
+[ext/opcache/tests/issue0149.phpt]
+[ext/opcache/tests/revalidate_path_01.phpt]
+== asan-master-1
+Tests failed    :    12 (  0.2%) (  0.2%)
+Tests passed    :  7495 ( 98.7%) ( 99.8%)
+ASan/UBSan reports: 0
+[ext/opcache/tests/bug66338.phpt]
+[ext/opcache/tests/bug78106.phpt]
+[ext/opcache/tests/gh20469.phpt]
+[ext/opcache/tests/gh20469_child_variance_resolves_parent.phpt]
+[ext/opcache/tests/gh20469_inherited_method.phpt]
+[ext/opcache/tests/gh24534.phpt]
+[ext/opcache/tests/gh8739.phpt]
+[ext/opcache/tests/gh8846.phpt]
+[ext/opcache/tests/issue0115.phpt]
+[ext/opcache/tests/issue0149.phpt]
+[ext/opcache/tests/revalidate_path_01.phpt]
+[ext/zend_test/tests/observer_closure_04.phpt]
+== asan-pr-1
+Tests failed    :    11 (  0.1%) (  0.1%)
+Tests passed    :  7498 ( 98.7%) ( 99.8%)
+ASan/UBSan reports: 0
+[ext/opcache/tests/bug66338.phpt]
+[ext/opcache/tests/bug78106.phpt]
+[ext/opcache/tests/gh20469.phpt]
+[ext/opcache/tests/gh20469_child_variance_resolves_parent.phpt]
+[ext/opcache/tests/gh20469_inherited_method.phpt]
+[ext/opcache/tests/gh24534.phpt]
+[ext/opcache/tests/gh8739.phpt]
+[ext/opcache/tests/gh8846.phpt]
+[ext/opcache/tests/issue0115.phpt]
+[ext/opcache/tests/issue0149.phpt]
+[ext/opcache/tests/revalidate_path_01.phpt]
+== tests-cold-zend_test-0 (cold build, the four directories, zend_test loaded)
+Tests skipped   :    60 (  0.8%) --------
+Tests failed    :    11 (  0.1%) (  0.1%)
+Tests passed    :  7524 ( 99.0%) ( 99.8%)
+[ext/opcache/tests/bug66338.phpt]
+[ext/opcache/tests/bug78106.phpt]
+[ext/opcache/tests/gh20469.phpt]
+[ext/opcache/tests/gh20469_child_variance_resolves_parent.phpt]
+[ext/opcache/tests/gh20469_inherited_method.phpt]
+[ext/opcache/tests/gh24534.phpt]
+[ext/opcache/tests/gh8739.phpt]
+[ext/opcache/tests/gh8846.phpt]
+[ext/opcache/tests/issue0115.phpt]
+[ext/opcache/tests/issue0149.phpt]
+[ext/opcache/tests/revalidate_path_01.phpt]
+== tests-cold-zend_test-1 (cold build, the four directories, zend_test loaded)
+Tests skipped   :    60 (  0.8%) --------
+Tests failed    :    11 (  0.1%) (  0.1%)
+Tests passed    :  7524 ( 99.0%) ( 99.8%)
+[ext/opcache/tests/bug66338.phpt]
+[ext/opcache/tests/bug78106.phpt]
+[ext/opcache/tests/gh20469.phpt]
+[ext/opcache/tests/gh20469_child_variance_resolves_parent.phpt]
+[ext/opcache/tests/gh20469_inherited_method.phpt]
+[ext/opcache/tests/gh24534.phpt]
+[ext/opcache/tests/gh8739.phpt]
+[ext/opcache/tests/gh8846.phpt]
+[ext/opcache/tests/issue0115.phpt]
+[ext/opcache/tests/issue0149.phpt]
+[ext/opcache/tests/revalidate_path_01.phpt]

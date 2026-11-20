@@ -1,0 +1,13 @@
+# perf stat on Symfony Demo /en/blog/ (cgi.sh, 20 warm-up + 400 requests, CPU 9), per request; master-gcc15,
+# placement-gcc15 and pr-gcc15 in turn, 3 rounds. A later run than l1i-master-pr-run1.txt, where the PR had
+# 108-109 thousand L1i misses; that didn't repeat. Columns: round build cycles instructions branch-misses
+# L1-icache-load-misses L1-dcache-load-misses dTLB-load-misses iTLB-load-misses
+1 master 29884386 34376796 387141 84300 967126 17276 4320
+1 placement 30114127 34246189 389940 90146 974027 17207 6040
+1 pr 30210639 34277761 389876 91592 976059 16825 6087
+2 master 29791316 34249000 386104 84364 973240 17125 4344
+2 placement 30101119 34296558 390114 89754 977843 17800 6101
+2 pr 30339142 34216113 390896 92139 987232 17570 6177
+3 master 29825495 34258642 388085 83862 970240 17199 4191
+3 placement 30108430 34289348 391127 89382 974284 16970 6750
+3 pr 30253813 34243478 390232 91172 974323 17357 6028

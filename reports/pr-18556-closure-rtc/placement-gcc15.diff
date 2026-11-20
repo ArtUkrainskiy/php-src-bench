@@ -1,0 +1,17 @@
+diff --git a/Zend/zend_closures.c b/Zend/zend_closures.c
+index 76fecf92..4ae7d594 100644
+--- a/Zend/zend_closures.c
++++ b/Zend/zend_closures.c
+@@ -857,6 +857,12 @@ static ZEND_NAMED_FUNCTION(zend_closure_internal_handler) /* {{{ */
+ }
+ /* }}} */
+ 
++/* placement control: 128 bytes of dead code, same .text shift as the #18556 port */
++__attribute__((used, noinline)) void zend_closures_placement_pad(void)
++{
++	__asm__ volatile(".skip 127, 0x90");
++}
++
+ static void zend_create_closure_ex(
+ 	zval *res, zend_function *func,
+ 	zend_class_entry *scope, zend_class_entry *called_scope,

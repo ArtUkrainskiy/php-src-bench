@@ -1,0 +1,29 @@
+# Request memory, GCC 15.2, opcache on, php-cgi -T (cgi.sh), 6 requests per process; every request after the
+# first gives the same numbers. memory_get_peak_usage() and memory_get_usage() read in a shutdown function
+# (auto_prepend_file with register_shutdown_function); memory_get_peak_usage(true) was 2 MB (2097152) on every build.
+# Columns: page, build, peak bytes, bytes in use at shutdown.
+laravel /            master     882880   780856
+laravel /            placement  882880   780856
+laravel /            pr         932720   775488
+laravel /users       master    1214560   889016
+laravel /users       pr        1206104   882960
+sfdemo  /en/blog/    master    1575672  1373760
+sfdemo  /en/blog/    pr        1566072  1364440
+
+# Compiler arena (CG(arena)) at shutdown_compiler(), from gdb: blocks, bytes reserved, bytes used.
+laravel /            master     2  131072   75448
+laravel /            pr         2  131072   82304
+laravel /users       master     2  131072   95640
+laravel /users       pr         2  131072  104120
+sfdemo  /en/blog/    master     4  262144  224120
+sfdemo  /en/blog/    pr         4  262144  233720
+
+# Laravel /, where the peak happens (gdb watchpoint on the heap peak, third request):
+# with the PR the peak is the 70,403-byte copy of the output buffer in ob_get_clean() (php_output_get_contents);
+# on master the peak comes later, in json_encode(), and is lower.
+# Heap size just before that copy: master 802,232, pr 860,000.
+# With the PR, the arena's second 64 KB block is allocated before that point (zend_arena_alloc() from
+# init_func_run_time_cache_i(), after the 271st closure of the request); on master it is allocated after it.
+
+# Laravel worker loop (worker.php, 1000 requests, CLI): heap 6.97 MB on both, peak 7.29 MB master / 7.28 MB pr,
+# RSS 67,020 KB master / 67,048 KB pr.
