@@ -71,7 +71,7 @@ L1 instruction-cache misses per request on Symfony Demo: 84 thousand on master, 
 
 ## OpenTelemetry
 
-[opentelemetry-php-instrumentation](https://github.com/open-telemetry/opentelemetry-php-instrumentation) with default settings, plus 20 empty hooks ([`otel-hooks.php`](otel-hooks.php)) on classes that the Laravel, Symfony and PDO auto-instrumentation packages hook. Earlier series:
+[opentelemetry-php-instrumentation](https://github.com/open-telemetry/opentelemetry-php-instrumentation) with default settings, plus 20 empty hooks ([`otel-hooks.php`](otel-hooks.php)) on Laravel, Symfony, Doctrine, Twig and PDO methods. Earlier series:
 
 | | Laravel `/` | Laravel `/users` | Symfony Demo |
 |---|--:|--:|--:|

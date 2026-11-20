@@ -1,5 +1,5 @@
 <?php
-// hooks.php: no-op pre/post hooks on classes that opentelemetry-auto-laravel / -symfony / -pdo hook, so the
+// otel-hooks.php: no-op pre/post hooks on Laravel, Symfony, Doctrine, Twig and PDO methods, so the
 // observer lookup tables are not empty. Loaded with auto_prepend_file next to the opentelemetry extension.
 use function OpenTelemetry\Instrumentation\hook;
 
