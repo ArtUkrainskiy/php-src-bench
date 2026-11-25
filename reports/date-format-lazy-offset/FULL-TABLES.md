@@ -138,62 +138,62 @@ layout?: in every pass the cycles changed in the same direction, by 3% or more i
 
 ## Aligned builds
 
-Master and the change built with plain `-O2 -g -falign-functions=64 -falign-loops=32` (`bench build --profile align`): no PIE, no stack protector, no `-Werror`. Only to see how much the cycles of these rows depend on the build. Formats that print the time zone, and `format('Y')` on two zones, 7 passes ([`align-series.json`](align-series.json)). The load average was 9.0 at the start, from the builds of this series.
+Master and the change built with the flags of the main series plus `-falign-functions=64 -falign-loops=32` (`BENCH_CFLAGS` with `--profile docker`, so the link flags and `--enable-werror` are the same). Only to see how much of the cycles of these rows comes from where the code sits. Formats that print the time zone, and `format('Y')` on two zones, 15 passes ([`align-series.json`](align-series.json)). The load average was 9.1 at the start, from the builds of this series.
 
 <!-- bench-table align-series.json --full -->
 | call | master, CPU cycles per call (GCC 15.2) | GCC 15.2 | clang 21.1 | instructions |
 |---|--:|--:|--:|--:|
-| format('Y') @ UTC | 381 | −35% (−37 … −34) | −21% (−31 … −20) | −28% … −24% |
-| format('Y') @ Europe/Madrid | 757 | −67% (−67 … −67) | −64% (−65 … −63) | −64% … −63% |
-| format('c') @ UTC | 784 | −1% (−2 … −1) | 0% (−2 … +1) ~ | 0% |
-| format('c') @ Europe/Madrid | 1,149 | −3% (−4 … −3) layout? | −3% (−3 … −2) | 0% |
-| format('c') @ America/New_York | 1,115 | −3% (−5 … −2) | −3% (−3 … −2) | 0% |
-| format('c') @ offset +05:30 | 869 | −1% (−3 … −1) | 0% (−2 … +2) ~ | 0% |
-| format('c') @ abbreviation EST | 730 | 0% (0 … +5) ~ | +1% (0 … +5) | 0% |
-| format('Y-m-d\TH:i:sP') @ UTC | 1,145 | +2% (−1 … +3) | −2% (−4 … −2) | 0% |
-| format('Y-m-d\TH:i:sP') @ Europe/Madrid | 1,460 | 0% (0 … +1) | −1% (−1 … 0) | 0% |
-| format('Y-m-d\TH:i:sP') @ America/New_York | 1,486 | 0% (0 … +1) ~ | −4% (−4 … −3) layout? | 0% |
-| format('Y-m-d\TH:i:sP') @ offset +05:30 | 1,233 | +4% (+2 … +5) layout? | −2% (−3 … −1) | 0% |
-| format('Y-m-d\TH:i:sP') @ abbreviation EST | 1,105 | +2% (+1 … +8) | −3% (−4 … −2) | 0% |
-| format('D, d M Y H:i:s O') @ UTC | 1,277 | +5% (+3 … +6) layout? | +3% (−1 … +4) | 0% |
-| format('D, d M Y H:i:s O') @ Europe/Madrid | 1,662 | +1% (0 … +3) | +1% (0 … +2) | 0% |
-| format('D, d M Y H:i:s O') @ America/New_York | 1,639 | +1% (0 … +2) | +1% (0 … +2) | 0% |
-| format('D, d M Y H:i:s O') @ offset +05:30 | 1,369 | +4% (+4 … +5) layout? | +1% (+1 … +4) | 0% |
-| format('D, d M Y H:i:s O') @ abbreviation EST | 1,226 | +5% (+3 … +6) layout? | +1% (−1 … +2) | 0% |
-| format('T') @ UTC | 316 | 0% (−4 … +1) ~ | −5% (−8 … −1) | 0% … +1% |
-| format('T') @ Europe/Madrid | 662 | 0% (−1 … 0) | −5% (−5 … +13) | 0% |
-| format('T') @ America/New_York | 625 | +1% (0 … +3) | −5% (−5 … −1) layout? | 0% |
-| format('T') @ offset +05:30 | 420 | −3% (−4 … −3) layout? | −2% (−2 … −1) | 0% … +1% |
-| format('T') @ abbreviation EST | 277 | −2% (−3 … +4) | −3% (−5 … −1) | +1% |
-| date(DATE_ATOM) @ timestamp | 1,431 | 0% (−1 … +1) | −3% (−3 … 0) | 0% |
+| format('Y') @ UTC | 364 | −31% (−32 … −30) | −26% (−27 … −25) | −28% … −24% |
+| format('Y') @ Europe/Madrid | 730 | −66% (−67 … −65) | −64% (−64 … −62) | −63% |
+| format('c') @ UTC | 769 | 0% (−4 … +6) ~ | −5% (−7 … +4) | 0% |
+| format('c') @ Europe/Madrid | 1,135 | −2% (−6 … +1) | −2% (−3 … +3) | 0% |
+| format('c') @ America/New_York | 1,105 | −2% (−4 … +1) | −2% (−2 … 0) | 0% |
+| format('c') @ offset +05:30 | 858 | 0% (−3 … +1) | −3% (−5 … +1) | 0% |
+| format('c') @ abbreviation EST | 715 | +3% (+2 … +10) layout? | −3% (−4 … 0) | 0% |
+| format('Y-m-d\TH:i:sP') @ UTC | 1,145 | +2% (0 … +3) | 0% (−1 … +1) ~ | 0% |
+| format('Y-m-d\TH:i:sP') @ Europe/Madrid | 1,461 | +1% (0 … +7) | −1% (−2 … −1) | 0% |
+| format('Y-m-d\TH:i:sP') @ America/New_York | 1,489 | +1% (−2 … +2) | +1% (−4 … +2) | 0% |
+| format('Y-m-d\TH:i:sP') @ offset +05:30 | 1,233 | +3% (+1 … +4) | +2% (+1 … +3) | 0% |
+| format('Y-m-d\TH:i:sP') @ abbreviation EST | 1,104 | +2% (+2 … +3) | 0% (−1 … +2) ~ | 0% |
+| format('D, d M Y H:i:s O') @ UTC | 1,285 | +3% (0 … +7) | +1% (−1 … +3) | 0% |
+| format('D, d M Y H:i:s O') @ Europe/Madrid | 1,652 | +2% (−1 … +4) | 0% (−3 … +1) | 0% |
+| format('D, d M Y H:i:s O') @ America/New_York | 1,624 | +2% (−1 … +4) | +1% (−1 … +4) | 0% |
+| format('D, d M Y H:i:s O') @ offset +05:30 | 1,371 | +5% (0 … +6) layout? | +2% (+1 … +6) | 0% |
+| format('D, d M Y H:i:s O') @ abbreviation EST | 1,235 | +3% (+2 … +5) layout? | +2% (0 … +4) | 0% |
+| format('T') @ UTC | 300 | +8% (+5 … +10) layout? | +2% (−3 … +4) | 0% … +1% |
+| format('T') @ Europe/Madrid | 644 | +4% (+3 … +5) layout? | −2% (−3 … −1) | 0% |
+| format('T') @ America/New_York | 614 | +4% (+2 … +5) layout? | −3% (−4 … +2) | 0% |
+| format('T') @ offset +05:30 | 406 | 0% (−2 … +1) ~ | −3% (−4 … −3) | 0% … +1% |
+| format('T') @ abbreviation EST | 260 | +7% (+1 … +29) | +3% (+1 … +19) | +1% |
+| date(DATE_ATOM) @ timestamp | 1,426 | 0% (−1 … +1) ~ | −1% (−2 … 0) | 0% |
 
 Control: master against itself.
 
 | call | master, CPU cycles per call (GCC 15.2) | A/A start | A/A end |
 |---|--:|--:|--:|
-| format('Y') @ UTC | 381 | 0% (−4 … 0) | 0% (−1 … +1) |
-| format('Y') @ Europe/Madrid | 755 | 0% (0 … 0) | 0% (−1 … +1) |
-| format('c') @ UTC | 783 | 0% (−6 … +1) | 0% (−5 … +1) |
-| format('c') @ Europe/Madrid | 1,144 | 0% (−4 … +2) | 0% (0 … +4) |
-| format('c') @ America/New_York | 1,111 | 0% (−1 … +4) | −1% (−4 … +4) |
-| format('c') @ offset +05:30 | 868 | 0% (−2 … +3) | 0% (−3 … +1) |
-| format('c') @ abbreviation EST | 726 | 0% (−5 … +7) | 0% (−1 … +4) |
-| format('Y-m-d\TH:i:sP') @ UTC | 1,141 | 0% (−1 … +1) | 0% (0 … +1) |
-| format('Y-m-d\TH:i:sP') @ Europe/Madrid | 1,459 | 0% (−1 … +1) | 0% (−1 … +2) |
-| format('Y-m-d\TH:i:sP') @ America/New_York | 1,486 | 0% (−1 … +1) | −1% (−3 … 0) |
-| format('Y-m-d\TH:i:sP') @ offset +05:30 | 1,229 | −1% (−4 … 0) | 0% (−4 … +2) |
-| format('Y-m-d\TH:i:sP') @ abbreviation EST | 1,101 | 0% (−1 … 0) | 0% (−1 … +1) |
-| format('D, d M Y H:i:s O') @ UTC | 1,277 | 0% (−1 … +1) | 0% (0 … +1) |
-| format('D, d M Y H:i:s O') @ Europe/Madrid | 1,654 | 0% (−1 … +3) | 0% (−1 … +1) |
-| format('D, d M Y H:i:s O') @ America/New_York | 1,629 | 0% (0 … +1) | 0% (−1 … +1) |
-| format('D, d M Y H:i:s O') @ offset +05:30 | 1,370 | 0% (−1 … 0) | 0% (−2 … 0) |
-| format('D, d M Y H:i:s O') @ abbreviation EST | 1,227 | 0% (−1 … +1) | 0% (−2 … +2) |
-| format('T') @ UTC | 314 | 0% (−1 … +1) | 0% (−1 … +1) |
-| format('T') @ Europe/Madrid | 661 | 0% (0 … 0) | 0% (−1 … +2) |
-| format('T') @ America/New_York | 626 | 0% (−1 … +2) | 0% (−1 … +3) |
-| format('T') @ offset +05:30 | 421 | −1% (−2 … +1) | 0% (0 … +2) |
-| format('T') @ abbreviation EST | 276 | 0% (0 … +1) | 0% (−4 … +1) |
-| date(DATE_ATOM) @ timestamp | 1,428 | 0% (−1 … +1) | 0% (0 … +1) |
+| format('Y') @ UTC | 363 | 0% (−1 … +2) | 0% (−3 … 0) |
+| format('Y') @ Europe/Madrid | 731 | 0% (−1 … +1) | 0% (−1 … +1) |
+| format('c') @ UTC | 769 | 0% (−1 … +6) | 0% (−7 … +6) |
+| format('c') @ Europe/Madrid | 1,133 | 0% (−4 … +4) | 0% (−5 … +4) |
+| format('c') @ America/New_York | 1,103 | 0% (−4 … +5) | 0% (−1 … +4) |
+| format('c') @ offset +05:30 | 858 | 0% (−3 … +4) | 0% (−3 … +4) |
+| format('c') @ abbreviation EST | 717 | 0% (−6 … +6) | 0% (−6 … +7) |
+| format('Y-m-d\TH:i:sP') @ UTC | 1,144 | 0% (−1 … +1) | 0% (−1 … +1) |
+| format('Y-m-d\TH:i:sP') @ Europe/Madrid | 1,458 | 0% (−1 … +2) | 0% (−2 … +1) |
+| format('Y-m-d\TH:i:sP') @ America/New_York | 1,488 | 0% (−3 … +1) | 0% (−1 … +1) |
+| format('Y-m-d\TH:i:sP') @ offset +05:30 | 1,232 | 0% (−2 … +3) | 0% (−2 … +3) |
+| format('Y-m-d\TH:i:sP') @ abbreviation EST | 1,102 | 0% (−2 … +2) | 0% (−1 … +1) |
+| format('D, d M Y H:i:s O') @ UTC | 1,284 | 0% (−1 … +3) | 0% (−3 … +2) |
+| format('D, d M Y H:i:s O') @ Europe/Madrid | 1,653 | 0% (−2 … +1) | 0% (−2 … +1) |
+| format('D, d M Y H:i:s O') @ America/New_York | 1,624 | 0% (−1 … +2) | 0% (−3 … +3) |
+| format('D, d M Y H:i:s O') @ offset +05:30 | 1,370 | 0% (−2 … +3) | 0% (−2 … +1) |
+| format('D, d M Y H:i:s O') @ abbreviation EST | 1,233 | 0% (−2 … +1) | 0% (−1 … +3) |
+| format('T') @ UTC | 299 | 0% (−1 … +1) | 0% (−1 … +4) |
+| format('T') @ Europe/Madrid | 644 | 0% (−1 … 0) | 0% (−2 … +3) |
+| format('T') @ America/New_York | 615 | 0% (−1 … +3) | 0% (−1 … +3) |
+| format('T') @ offset +05:30 | 405 | 0% (−1 … +1) | 0% (0 … +1) |
+| format('T') @ abbreviation EST | 260 | 0% (−1 … +4) | 0% (0 … +1) |
+| date(DATE_ATOM) @ timestamp | 1,424 | 0% (−21 … +1) | 0% (−2 … +1) |
 
 ~: within noise, the change is no larger than the difference between master and master on the same row.
 

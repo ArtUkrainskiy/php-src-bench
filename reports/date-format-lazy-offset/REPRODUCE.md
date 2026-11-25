@@ -72,12 +72,14 @@ About an hour on a 16-core machine, plus about 20 minutes for the optional step 
 
    Expected: the tables of [`data/mutants-release.txt`](data/mutants-release.txt) and [`data/mutants-asan.txt`](data/mutants-asan.txt).
 
-7. Optional: the aligned builds and the code placement data (about 20 minutes). The aligned builds use plain `-O2 -g -falign-functions=64 -falign-loops=32`. The `perf record` lines print the profile of [`data/placement-clang.md`](data/placement-clang.md):
+7. Optional: the aligned builds and the code placement data (about 25 minutes). The aligned builds use the flags of the main series plus `-falign-functions=64 -falign-loops=32`. The `perf record` lines print the profile of [`data/placement-clang.md`](data/placement-clang.md):
 
    ```
-   ./bench build --slim --profile align --cc gcc,clang dfo-base-al 5ddcc3591fb
-   ./bench build --slim --profile align --cc gcc,clang dfo-chg-al date-format-lazy-offset
-   ./bench compare $R/date.php $G=dfo-base-al-$G:dfo-chg-al-$G $C=dfo-base-al-$C:dfo-chg-al-$C --passes 7 --cpu $CPU \
+   export BENCH_CFLAGS='-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -falign-functions=64 -falign-loops=32'
+   ./bench build --slim --profile docker --cc gcc,clang dfo-base-al 5ddcc3591fb
+   ./bench build --slim --profile docker --cc gcc,clang dfo-chg-al date-format-lazy-offset
+   unset BENCH_CFLAGS
+   ./bench compare $R/date.php $G=dfo-base-al-$G:dfo-chg-al-$G $C=dfo-base-al-$C:dfo-chg-al-$C --passes 15 --cpu $CPU \
      --filter "\((.c.|.Y-m-d.TH:i:sP.|.D, d M Y H:i:s O.|.T.|DATE_ATOM)\)|format\(.Y.\) @ (UTC|Europe)" --out $O/align.json
    ./bench table $O/align.json --full
    ./bench why $R/date.php dfo-base-$C dfo-chg-$C --filter "format\(.c.\) @ offset" \
