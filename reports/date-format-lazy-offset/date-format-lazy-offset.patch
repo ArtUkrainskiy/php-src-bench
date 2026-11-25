@@ -1,4 +1,4 @@
-From 71733ca35665eb3eb3504e6b01cddb7d53c73ff1 Mon Sep 17 00:00:00 2001
+From e81a60a2864eb0929e5f3d1de0c8550d2f43cbe4 Mon Sep 17 00:00:00 2001
 From: Artem Ukrainskiy <art.ukrainskiy@gmail.com>
 Date: Wed, 25 Nov 2026 10:11:54 +0000
 Subject: [PATCH] ext/date: Look up the time zone offset in date_format() only
@@ -11,29 +11,12 @@ them, and e for a zone given as an offset or abbreviation. The offset
 is now built once, when the format first reaches one of these
 characters, and not at all for a format without them.
 ---
- NEWS                                          |  5 +
  UPGRADING                                     |  4 +
  ext/date/php_date.c                           | 96 ++++++++++++-------
  .../date_format_escaped_timezone_chars.phpt   | 43 +++++++++
- 4 files changed, 116 insertions(+), 32 deletions(-)
+ 3 files changed, 111 insertions(+), 32 deletions(-)
  create mode 100644 ext/date/tests/date_format_escaped_timezone_chars.phpt
 
-diff --git a/NEWS b/NEWS
-index aabe78ad2a..44db4ebe0b 100644
---- a/NEWS
-+++ b/NEWS
-@@ -23,6 +23,11 @@ PHP                                                                        NEWS
-     passing an array of CURLFile or CURLStringFile objects to
-     CURLOPT_POSTFIELDS. (Sjoerd Langkemper)
- 
-+- Date:
-+  . Improved performance of date() and DateTimeInterface::format() when the
-+    format prints no time zone offset, abbreviation or DST flag.
-+    (Artem Ukrainskiy)
-+
- - FPM:
-   . Use recommended TYPE, HELP order for OpenMetrics metadata.
-     (Marcel Hernandez)
 diff --git a/UPGRADING b/UPGRADING
 index 607f9427ed..dbb697b23e 100644
 --- a/UPGRADING

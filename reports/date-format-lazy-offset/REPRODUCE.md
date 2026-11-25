@@ -33,7 +33,7 @@ About 70 minutes on a 16-core machine, plus about 35 minutes for the optional st
    $P/dfo-chg-zts/sapi/cli/php -v | head -1     # ends with "(cli) (built: …) (ZTS)"
    ```
 
-   The series files of this report call these builds `k14-base-*` (master) and `k14off-*` (the change). The measured commit differs from the branch only in `NEWS`, `UPGRADING` and the new test.
+   The series files of this report call these builds `k14-base-*` (master) and `k14off-*` (the change). The measured commit differs from the branch only in `NEWS`, `UPGRADING` and the new test: the branch has no `NEWS` entry.
 
 3. Output comparison (about a minute). Every line must say `reference` or `same`, and the last line `exit 0`. Expected: `difftest-chars.php` `557f4136519883344edbc0edbbf557ab`, 969 lines; `difftest-random.php` `0be9298e6b81ff1bebbf5646e96acecc`, 51242 lines ([`data/difftest.txt`](data/difftest.txt)). The time zone database comes with php-src, so other machines should get the same hashes.
 
