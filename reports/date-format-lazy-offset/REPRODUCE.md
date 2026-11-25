@@ -1,6 +1,6 @@
 # Reproduce the date_format() report
 
-About an hour on a 16-core machine, plus about 20 minutes for the optional step 7. Run all steps in one shell. Needs:
+About 70 minutes on a 16-core machine, plus about 35 minutes for the optional step 7. Run all steps in one shell. Needs:
 - git, Python 3, `taskset`, GCC and clang;
 - the build tools of php-src: on Debian or Ubuntu `sudo apt install build-essential autoconf bison re2c pkg-config clang linux-tools-$(uname -r)`, on Fedora `sudo dnf install gcc make autoconf bison re2c pkgconf clang perf`. The builds use `--disable-all`, so no library headers are needed;
 - `perf` with access to hardware counters (`kernel.perf_event_paranoid` ≤ 2);
@@ -33,7 +33,7 @@ About an hour on a 16-core machine, plus about 20 minutes for the optional step 
    $P/dfo-chg-zts/sapi/cli/php -v | head -1     # ends with "(cli) (built: …) (ZTS)"
    ```
 
-   The series files of this report call these builds `k14-base-*` (master) and `k14off-*` (the change). The measured commit differs from the branch only in `NEWS` and `UPGRADING`.
+   The series files of this report call these builds `k14-base-*` (master) and `k14off-*` (the change). The measured commit differs from the branch only in `NEWS`, `UPGRADING` and the new test.
 
 3. Output comparison (about a minute). Every line must say `reference` or `same`, and the last line `exit 0`. Expected: `difftest-chars.php` `557f4136519883344edbc0edbbf557ab`, 969 lines; `difftest-random.php` `0be9298e6b81ff1bebbf5646e96acecc`, 51242 lines ([`data/difftest.txt`](data/difftest.txt)). The time zone database comes with php-src, so other machines should get the same hashes.
 
@@ -59,7 +59,11 @@ About an hour on a 16-core machine, plus about 20 minutes for the optional step 
    ./bench compare $R/date.php $G=dfo-base-$G:dfo-chg-$G $C=dfo-base-$C:dfo-chg-$C --passes 15 --cpu $CPU --out $O/series.json
    ./bench table $O/series.json --labels $R/labels.txt --no-control
    ./bench table $O/series.json --full
+   ./bench compare $R/date-extra.php $G=dfo-base-$G:dfo-chg-$G $C=dfo-base-$C:dfo-chg-$C $C-aa=dfo-base-$C:dfo-base-$C --passes 15 --cpu $CPU --out $O/extra.json
+   ./bench table $O/extra.json --labels $R/extra-labels.txt --no-control
    ```
+
+   The second series (about 10 minutes) prints the table of "More paths"; its last column is clang master against itself.
 
    On a hybrid Intel CPU the last cores are E-cores: pick a P-core instead, one with the highest `MAXMHZ` in `lscpu --extended`, not CPU 0 or its sibling. For a quick try add `--passes 1 --filter "Madrid"`, and run `bench table` without `--labels` then. One pass swings by up to 10% on this machine, so it shows the large rows only.
 
@@ -72,7 +76,7 @@ About an hour on a 16-core machine, plus about 20 minutes for the optional step 
 
    Expected: the tables of [`data/mutants-release.txt`](data/mutants-release.txt) and [`data/mutants-asan.txt`](data/mutants-asan.txt).
 
-7. Optional: the aligned builds and the code placement data (about 25 minutes). The aligned builds use the flags of the main series plus `-falign-functions=64 -falign-loops=32`. The `perf record` lines print the profile of [`data/placement-clang.md`](data/placement-clang.md):
+7. Optional: the aligned builds and the code placement data (about 35 minutes). The aligned builds use the flags of the main series plus `-falign-functions=64 -falign-loops=32`. The `perf record` lines print the profile of [`data/placement-clang.md`](data/placement-clang.md):
 
    ```
    export BENCH_CFLAGS='-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -falign-functions=64 -falign-loops=32'
@@ -82,6 +86,9 @@ About an hour on a 16-core machine, plus about 20 minutes for the optional step 
    ./bench compare $R/date.php $G=dfo-base-al-$G:dfo-chg-al-$G $C=dfo-base-al-$C:dfo-chg-al-$C --passes 15 --cpu $CPU \
      --filter "\((.c.|.Y-m-d.TH:i:sP.|.D, d M Y H:i:s O.|.T.|DATE_ATOM)\)|format\(.Y.\) @ (UTC|Europe)" --out $O/align.json
    ./bench table $O/align.json --full
+   ./bench compare $R/date-extra.php $G=dfo-base-al-$G:dfo-chg-al-$G $C=dfo-base-al-$C:dfo-chg-al-$C $C-aa=dfo-base-al-$C:dfo-base-al-$C --passes 15 --cpu $CPU \
+     --filter "gmdate|format|date\(" --out $O/extra-align.json
+   ./bench table $O/extra-align.json --full
    ./bench why $R/date.php dfo-base-$C dfo-chg-$C --filter "format\(.c.\) @ offset" \
      --functions date_format,ap_php_slprintf,ap_php_conv_10,php_conv_fp,_emalloc,timelib_time_offset_ctor --passes 7 --cpu $CPU
    for v in base chg; do
@@ -93,4 +100,4 @@ About an hour on a 16-core machine, plus about 20 minutes for the optional step 
 
 8. Clean up: `rm -rf "$O"; git -C ../php-src checkout -q master; git -C ../php-src branch -D date-format-lazy-offset date-format-lazy-offset-report 2>/dev/null; ./bench gc --yes 'dfo-*'`.
 
-The published tables are rendered from [`series.json`](series.json), [`align-series.json`](align-series.json) and [`earlier-series.json`](earlier-series.json) with `bench table`. [`date.php`](date.php) got clearer comments after the series ran; its cases are the same. Back to the [report](README.md).
+The published tables are rendered from [`series.json`](series.json), [`align-series.json`](align-series.json), [`extra-series.json`](extra-series.json), [`extra-align-series.json`](extra-align-series.json) and [`earlier-series.json`](earlier-series.json) with `bench table`. [`date.php`](date.php) got clearer comments after the series ran; its cases are the same. Back to the [report](README.md).

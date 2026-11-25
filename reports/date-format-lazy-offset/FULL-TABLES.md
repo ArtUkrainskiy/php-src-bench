@@ -200,6 +200,142 @@ Control: master against itself.
 layout?: in every pass the cycles changed in the same direction, by 3% or more in the median, the instructions by less than 0.5%: the work is the same, so look for the cause (code placement, branch prediction) with `bench why` before reporting the row.
 <!-- /bench-table -->
 
+## More paths
+
+All 27 calls of [`date-extra.php`](date-extra.php), same builds as the main series, 15 passes ([`extra-series.json`](extra-series.json)). The column `clang21-aa` runs clang master against itself. The instructions column spans all three columns, so its 0% end comes from that control.
+
+<!-- bench-table extra-series.json --full -->
+| call | master, CPU cycles per call (GCC 15.2 (gcc15)) | GCC 15.2 (gcc15) | clang 21.1 (clang21) | clang 21.1 (clang21-aa) | instructions |
+|---|--:|--:|--:|--:|--:|
+| json_encode(100 dates) @ 100 dates UTC | 182,579 | −9% (−10 … −6) | −1% (−2 … 0) | 0% (−1 … +4) ~ | −6% … 0% |
+| json_encode(100 dates) @ 100 dates Europe/Madrid | 218,476 | −22% (−23 … −21) | −20% (−21 … −19) | 0% (−3 … +1) | −22% … 0% |
+| serialize(100 dates) @ 100 dates UTC | 194,702 | −9% (−11 … −8) | −1% (−2 … +1) | 0% (−2 … +1) | −6% … 0% |
+| serialize(100 dates) @ 100 dates Europe/Madrid | 232,803 | −23% (−31 … −22) | −18% (−19 … −17) | 0% (−1 … +2) ~ | −24% … 0% |
+| gmdate('Y-m-d H:i:s') @ timestamp | 892 | −3% (−5 … +1) | +8% (+5 … +9) layout? | 0% (−2 … +2) ~ | 0% |
+| gmdate('c') @ timestamp | 639 | 0% (−7 … 0) ~ | +11% (+5 … +13) layout? | 0% (−1 … 0) ~ | 0% |
+| gmdate('Y-m-d\\TH:i:sP') @ timestamp | 1,059 | −3% (−5 … −1) | +8% (+2 … +10) layout? | 0% (−2 … +4) | 0% |
+| gmdate('D, d M Y H:i:s \\G\\M\\T') @ timestamp | 1,039 | −2% (−4 … 0) | +3% (+2 … +5) | 0% (−2 … +2) ~ | 0% |
+| date('Y-m-d') @ timestamp | 1,541 | −31% (−32 … −29) | −28% (−28 … −27) | 0% (−1 … +1) ~ | −31% … 0% |
+| date('Y-m-d H:i:s') @ timestamp | 1,947 | −25% (−25 … −24) | −21% (−22 … −20) | 0% (−1 … +1) ~ | −26% … 0% |
+| date('Y-m-d\\TH:i:sP') @ timestamp | 2,111 | −1% (−1 … 0) | +3% (+2 … +4) layout? | 0% (−1 … +3) ~ | 0% |
+| format('p') @ UTC | 334 | +3% (+1 … +5) | −1% (−2 … +12) | 0% (−3 … +1) | 0% … +1% |
+| format('p') @ Europe/Madrid | 838 | −2% (−7 … −1) | +1% (0 … +4) | 0% (−1 … +1) ~ | 0% |
+| format('p') @ offset +05:30 | 525 | +2% (+1 … +3) | +6% (+5 … +7) layout? | 0% (−1 … 0) ~ | 0% |
+| format('p') @ abbreviation EST | 453 | −7% (−7 … +2) | 0% (−2 … +1) | 0% (−1 … +3) ~ | 0% … +1% |
+| format('e') @ UTC | 339 | −39% (−40 … −39) | −33% (−34 … −29) | 0% (−1 … +1) ~ | −32% … 0% |
+| format('e') @ Europe/Madrid | 687 | −69% (−69 … −68) | −68% (−68 … −67) | 0% (−1 … +1) ~ | −66% … 0% |
+| format('e') @ offset +05:30 | 459 | +3% (+2 … +5) | +6% (+4 … +7) | 0% (−1 … +1) ~ | 0% … +1% |
+| format('e') @ abbreviation EST | 291 | +1% (−1 … +4) | −2% (−5 … −1) | 0% (−1 … +1) | 0% … +1% |
+| format('Y-m-d H:i:s T (P)') @ UTC | 1,405 | −4% (−15 … −2) layout? | +4% (+1 … +6) layout? | 0% (−3 … +2) ~ | 0% |
+| format('Y-m-d H:i:s T (P)') @ Europe/Madrid | 1,664 | −1% (−3 … −1) | +7% (+2 … +8) layout? | 0% (−2 … +2) | 0% |
+| format('Y-m-d H:i:s T (P)') @ offset +05:30 | 1,443 | −2% (−4 … +1) | +4% (+3 … +7) layout? | +1% (−2 … +3) | 0% |
+| format('Y-m-d H:i:s T (P)') @ abbreviation EST | 1,345 | −3% (−4 … −1) layout? | +3% (+2 … +5) layout? | 0% (−2 … +2) ~ | 0% |
+| format('P T e I Z') @ UTC | 869 | −5% (−8 … −4) layout? | +2% (0 … +3) | 0% (−2 … +3) ~ | 0% … +1% |
+| format('P T e I Z') @ Europe/Madrid | 1,217 | −3% (−4 … −1) | +3% (+2 … +5) layout? | 0% (−2 … +6) | 0% |
+| format('P T e I Z') @ offset +05:30 | 1,000 | −2% (−3 … −1) | +6% (+3 … +7) | 0% (−2 … +1) | 0% … +1% |
+| format('P T e I Z') @ abbreviation EST | 817 | −3% (−5 … 0) layout? | +3% (0 … +6) | 0% (−1 … +2) | 0% … +1% |
+
+Control: master against itself.
+
+| call | master, CPU cycles per call (GCC 15.2) | A/A start | A/A end |
+|---|--:|--:|--:|
+| json_encode(100 dates) @ 100 dates UTC | 182,110 | 0% (−1 … +1) | 0% (−1 … +1) |
+| json_encode(100 dates) @ 100 dates Europe/Madrid | 218,210 | 0% (−1 … +1) | 0% (−1 … +2) |
+| serialize(100 dates) @ 100 dates UTC | 194,399 | 0% (−3 … +3) | 0% (−1 … +1) |
+| serialize(100 dates) @ 100 dates Europe/Madrid | 232,507 | 0% (0 … +1) | 0% (−11 … +4) |
+| gmdate('Y-m-d H:i:s') @ timestamp | 893 | 0% (−3 … +2) | −1% (−3 … 0) |
+| gmdate('c') @ timestamp | 641 | 0% (−7 … +4) | 0% (−1 … +1) |
+| gmdate('Y-m-d\\TH:i:sP') @ timestamp | 1,058 | 0% (−2 … +2) | 0% (−5 … +2) |
+| gmdate('D, d M Y H:i:s \\G\\M\\T') @ timestamp | 1,042 | −1% (−1 … +1) | 0% (−1 … +2) |
+| date('Y-m-d') @ timestamp | 1,537 | 0% (−1 … +1) | 0% (−1 … +1) |
+| date('Y-m-d H:i:s') @ timestamp | 1,943 | 0% (−1 … +1) | 0% (−1 … +1) |
+| date('Y-m-d\\TH:i:sP') @ timestamp | 2,113 | 0% (−1 … +1) | 0% (−1 … +1) |
+| format('p') @ UTC | 334 | 0% (−4 … +1) | 0% (0 … 0) |
+| format('p') @ Europe/Madrid | 837 | 0% (0 … +1) | 0% (−1 … +1) |
+| format('p') @ offset +05:30 | 524 | 0% (−1 … 0) | 0% (0 … +3) |
+| format('p') @ abbreviation EST | 453 | 0% (−1 … +2) | 0% (−12 … +20) |
+| format('e') @ UTC | 339 | 0% (−1 … +1) | 0% (−1 … +1) |
+| format('e') @ Europe/Madrid | 687 | 0% (−1 … +1) | 0% (−1 … +1) |
+| format('e') @ offset +05:30 | 459 | 0% (−1 … +1) | 0% (−1 … +2) |
+| format('e') @ abbreviation EST | 291 | 0% (−5 … +3) | 0% (−1 … +1) |
+| format('Y-m-d H:i:s T (P)') @ UTC | 1,404 | 0% (−1 … +2) | 0% (−5 … +1) |
+| format('Y-m-d H:i:s T (P)') @ Europe/Madrid | 1,666 | 0% (−1 … 0) | 0% (0 … +2) |
+| format('Y-m-d H:i:s T (P)') @ offset +05:30 | 1,442 | 0% (−4 … +3) | 0% (−3 … +5) |
+| format('Y-m-d H:i:s T (P)') @ abbreviation EST | 1,343 | 0% (−1 … +1) | 0% (−6 … 0) |
+| format('P T e I Z') @ UTC | 858 | 0% (0 … +1) | 0% (−2 … +1) |
+| format('P T e I Z') @ Europe/Madrid | 1,217 | 0% (−3 … +1) | 0% (−2 … +1) |
+| format('P T e I Z') @ offset +05:30 | 998 | 0% (−1 … +1) | 0% (0 … +3) |
+| format('P T e I Z') @ abbreviation EST | 821 | 0% (−2 … +1) | 0% (−2 … +2) |
+
+~: within noise, the change is no larger than the difference between master and master on the same row.
+
+layout?: in every pass the cycles changed in the same direction, by 3% or more in the median, the instructions by less than 0.5%: the work is the same, so look for the cause (code placement, branch prediction) with `bench why` before reporting the row.
+<!-- /bench-table -->
+
+## More paths, aligned builds
+
+The same calls without serialization on the aligned builds of the section above, 15 passes ([`extra-align-series.json`](extra-align-series.json)).
+
+<!-- bench-table extra-align-series.json --full -->
+| call | master, CPU cycles per call (GCC 15.2 (gcc15)) | GCC 15.2 (gcc15) | clang 21.1 (clang21) | clang 21.1 (clang21-aa) | instructions |
+|---|--:|--:|--:|--:|--:|
+| gmdate('Y-m-d H:i:s') @ timestamp | 873 | +4% (+3 … +5) layout? | −2% (−3 … +1) | 0% (−3 … +2) ~ | 0% |
+| gmdate('c') @ timestamp | 653 | 0% (−2 … +6) | −4% (−5 … 0) layout? | 0% (−1 … +5) ~ | 0% |
+| gmdate('Y-m-d\\TH:i:sP') @ timestamp | 1,035 | +2% (+1 … +3) | −1% (−3 … 0) | 0% (−2 … +3) ~ | 0% |
+| gmdate('D, d M Y H:i:s \\G\\M\\T') @ timestamp | 1,031 | +2% (−1 … +7) | 0% (−3 … +1) ~ | −1% (−2 … +2) | 0% |
+| date('Y-m-d') @ timestamp | 1,532 | −28% (−29 … −27) | −30% (−30 … −29) | 0% (−1 … +1) ~ | −31% … 0% |
+| date('Y-m-d H:i:s') @ timestamp | 1,938 | −21% (−22 … −20) | −23% (−24 … −21) | 0% (−1 … +1) ~ | −26% … 0% |
+| date('Y-m-d\\TH:i:sP') @ timestamp | 2,116 | −1% (−2 … 0) | −2% (−3 … −1) | 0% (−1 … +1) ~ | 0% |
+| format('p') @ UTC | 316 | +1% (−1 … +1) ~ | +2% (−1 … +9) | 0% (−1 … +4) ~ | 0% … +1% |
+| format('p') @ Europe/Madrid | 805 | 0% (−2 … +1) | 0% (−1 … +2) ~ | 0% (0 … +1) | 0% |
+| format('p') @ offset +05:30 | 541 | +8% (+6 … +9) layout? | −2% (−4 … −2) | 0% (−1 … +1) | 0% |
+| format('p') @ abbreviation EST | 418 | +1% (0 … +2) | −3% (−5 … −1) | 0% (−1 … +3) ~ | 0% … +1% |
+| format('e') @ UTC | 299 | −38% (−38 … −37) | −32% (−36 … −24) | 0% (−2 … +5) | −32% … 0% |
+| format('e') @ Europe/Madrid | 661 | −70% (−70 … −66) | −71% (−71 … −70) | 0% (0 … +2) ~ | −66% … 0% |
+| format('e') @ offset +05:30 | 474 | +5% (−5 … +6) | −5% (−6 … −2) | 0% (−1 … +1) | 0% … +1% |
+| format('e') @ abbreviation EST | 260 | +8% (+6 … +9) | +4% (−3 … +8) | 0% (−5 … +9) ~ | 0% … +1% |
+| format('Y-m-d H:i:s T (P)') @ UTC | 1,330 | +8% (+6 … +10) layout? | −1% (−2 … +1) | 0% (−1 … +2) ~ | 0% |
+| format('Y-m-d H:i:s T (P)') @ Europe/Madrid | 1,655 | +5% (+2 … +7) layout? | −1% (−5 … 0) | 0% (−1 … +2) | 0% |
+| format('Y-m-d H:i:s T (P)') @ offset +05:30 | 1,444 | +6% (+3 … +7) layout? | +3% (+1 … +5) layout? | 0% (−1 … +3) ~ | 0% |
+| format('Y-m-d H:i:s T (P)') @ abbreviation EST | 1,291 | +8% (+6 … +9) layout? | +1% (−1 … +3) | +1% (−2 … +6) | 0% |
+| format('P T e I Z') @ UTC | 793 | +4% (0 … +5) layout? | +2% (+1 … +4) | 0% (−1 … +1) ~ | 0% … +1% |
+| format('P T e I Z') @ Europe/Madrid | 1,171 | +3% (+1 … +4) layout? | +3% (+1 … +4) | 0% (−1 … +2) ~ | 0% |
+| format('P T e I Z') @ offset +05:30 | 988 | +5% (+3 … +6) layout? | +3% (−2 … +5) | 0% (−1 … 0) ~ | 0% … +1% |
+| format('P T e I Z') @ abbreviation EST | 764 | +4% (+3 … +6) layout? | +5% (0 … +6) | 0% (−1 … +1) ~ | 0% … +1% |
+
+Control: master against itself.
+
+| call | master, CPU cycles per call (GCC 15.2) | A/A start | A/A end |
+|---|--:|--:|--:|
+| gmdate('Y-m-d H:i:s') @ timestamp | 875 | 0% (−1 … +1) | 0% (−1 … +2) |
+| gmdate('c') @ timestamp | 650 | 0% (−7 … +7) | 0% (−7 … +7) |
+| gmdate('Y-m-d\\TH:i:sP') @ timestamp | 1,036 | 0% (−1 … +31) | 0% (−2 … +3) |
+| gmdate('D, d M Y H:i:s \\G\\M\\T') @ timestamp | 1,032 | 0% (−3 … +1) | 0% (−2 … +2) |
+| date('Y-m-d') @ timestamp | 1,534 | 0% (−1 … +2) | 0% (−2 … +5) |
+| date('Y-m-d H:i:s') @ timestamp | 1,932 | 0% (−1 … +2) | 0% (−1 … +2) |
+| date('Y-m-d\\TH:i:sP') @ timestamp | 2,113 | 0% (−1 … +1) | 0% (0 … +1) |
+| format('p') @ UTC | 314 | 0% (−3 … +2) | −1% (−5 … +1) |
+| format('p') @ Europe/Madrid | 803 | 0% (−1 … +3) | 0% (−1 … +1) |
+| format('p') @ offset +05:30 | 541 | 0% (−2 … +3) | 0% (−1 … +1) |
+| format('p') @ abbreviation EST | 417 | 0% (−1 … +1) | 0% (−1 … +2) |
+| format('e') @ UTC | 299 | 0% (−1 … +3) | 0% (−1 … +2) |
+| format('e') @ Europe/Madrid | 658 | 0% (0 … +1) | 0% (−1 … +1) |
+| format('e') @ offset +05:30 | 473 | 0% (−1 … +2) | 0% (−3 … +5) |
+| format('e') @ abbreviation EST | 260 | 0% (−3 … +1) | 0% (−1 … +1) |
+| format('Y-m-d H:i:s T (P)') @ UTC | 1,331 | 0% (−2 … +1) | 0% (−2 … +1) |
+| format('Y-m-d H:i:s T (P)') @ Europe/Madrid | 1,655 | 0% (−2 … +1) | 0% (−1 … +4) |
+| format('Y-m-d H:i:s T (P)') @ offset +05:30 | 1,440 | 0% (−3 … +1) | 0% (−2 … +1) |
+| format('Y-m-d H:i:s T (P)') @ abbreviation EST | 1,292 | 0% (−1 … +31) | 0% (−2 … +2) |
+| format('P T e I Z') @ UTC | 791 | 0% (−1 … +1) | 0% (−1 … +3) |
+| format('P T e I Z') @ Europe/Madrid | 1,171 | 0% (0 … +1) | 0% (−1 … +1) |
+| format('P T e I Z') @ offset +05:30 | 988 | 0% (−3 … +2) | 0% (−2 … +2) |
+| format('P T e I Z') @ abbreviation EST | 758 | 0% (−1 … +4) | 0% (−1 … +6) |
+
+~: within noise, the change is no larger than the difference between master and master on the same row.
+
+layout?: in every pass the cycles changed in the same direction, by 3% or more in the median, the instructions by less than 0.5%: the work is the same, so look for the cause (code placement, branch prediction) with `bench why` before reporting the row.
+<!-- /bench-table -->
+
 ## Earlier version: scan before the loop
 
 The first version scanned the format before the loop and built the offset when it found a character that prints it. Same machine and flags, 15 passes ([`earlier-series.json`](earlier-series.json)). Not the code of the branch: in `earlier-series.json` the build names `k14off-*` stand for that earlier commit.
