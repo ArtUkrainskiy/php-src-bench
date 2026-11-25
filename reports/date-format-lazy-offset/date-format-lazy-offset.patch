@@ -1,0 +1,250 @@
+From 1ec2773e29b7613c5212a7673b62f171b5bf8931 Mon Sep 17 00:00:00 2001
+From: Artem Ukrainskiy <art.ukrainskiy@gmail.com>
+Date: Wed, 25 Nov 2026 10:11:54 +0000
+Subject: [PATCH] ext/date: Look up the time zone offset in date_format() only
+ when used
+
+For every local time, date_format() allocated a timelib_time_offset and
+an abbreviation string before reading the format, and for a time zone
+identifier it also searched the transitions. Only I O P p T Z c r use
+them, and e for a zone given as an offset or abbreviation. The offset
+is now built once, when the format first reaches one of these
+characters, and not at all for a format without them.
+---
+ NEWS                                          |  5 +
+ UPGRADING                                     |  4 +
+ ext/date/php_date.c                           | 96 ++++++++++++-------
+ .../date_format_escaped_timezone_chars.phpt   | 23 +++++
+ 4 files changed, 96 insertions(+), 32 deletions(-)
+ create mode 100644 ext/date/tests/date_format_escaped_timezone_chars.phpt
+
+diff --git a/NEWS b/NEWS
+index aabe78ad2a..44db4ebe0b 100644
+--- a/NEWS
++++ b/NEWS
+@@ -23,6 +23,11 @@ PHP                                                                        NEWS
+     passing an array of CURLFile or CURLStringFile objects to
+     CURLOPT_POSTFIELDS. (Sjoerd Langkemper)
+ 
++- Date:
++  . Improved performance of date() and DateTimeInterface::format() when the
++    format prints no time zone offset, abbreviation or DST flag.
++    (Artem Ukrainskiy)
++
+ - FPM:
+   . Use recommended TYPE, HELP order for OpenMetrics metadata.
+     (Marcel Hernandez)
+diff --git a/UPGRADING b/UPGRADING
+index 607f9427ed..dbb697b23e 100644
+--- a/UPGRADING
++++ b/UPGRADING
+@@ -220,6 +220,10 @@ PHP 8.7 UPGRADE NOTES
+   . Improved performance of integer to string conversion (string casts, echo,
+     implode(), json_encode(), serialize(), var_export() and others).
+ 
++- Date:
++  . Improved performance of date() and DateTimeInterface::format() when the
++    format prints no time zone offset, abbreviation or DST flag.
++
+ - DOM:
+   . Parsing HTML with Dom\HTMLDocument or innerHTML uses much less memory for
+     small inputs.
+diff --git a/ext/date/php_date.c b/ext/date/php_date.c
+index 98c0240400..5857570d23 100644
+--- a/ext/date/php_date.c
++++ b/ext/date/php_date.c
+@@ -670,6 +670,45 @@ static const char *php_date_short_day_name(timelib_sll y, timelib_sll m, timelib
+ }
+ /* }}} */
+ 
++/* The time zone offset of t, as the format characters I O P p T e Z c r print it. */
++static timelib_time_offset *date_format_offset(const timelib_time *t)
++{
++	timelib_time_offset *offset;
++
++	if (t->zone_type == TIMELIB_ZONETYPE_ABBR) {
++		offset = timelib_time_offset_ctor();
++		offset->offset = (t->z + (t->dst * 3600));
++		offset->leap_secs = 0;
++		offset->is_dst = t->dst;
++		offset->abbr = timelib_strdup(t->tz_abbr);
++	} else if (t->zone_type == TIMELIB_ZONETYPE_OFFSET) {
++		offset = timelib_time_offset_ctor();
++		offset->offset = (t->z);
++		offset->leap_secs = 0;
++		offset->is_dst = 0;
++		offset->abbr = timelib_malloc(9); /* GMT±xxxx\0 */
++		snprintf(offset->abbr, 9, "GMT%c%02d%02d",
++		                          (offset->offset < 0) ? '-' : '+',
++		                          abs(offset->offset / 3600),
++		                          abs((offset->offset % 3600) / 60));
++	} else if (t->zone_type == TIMELIB_ZONETYPE_ID) {
++		offset = timelib_get_time_zone_info(t->sse, t->tz_info);
++	} else {
++		/* Shouldn't happen, but code defensively */
++		offset = timelib_time_offset_ctor();
++	}
++
++	return offset;
++}
++
++/* Sets *offset to the time zone offset of t the first time a local time needs it. */
++static zend_always_inline void date_format_need_offset(timelib_time_offset **offset, const timelib_time *t, bool localtime)
++{
++	if (localtime && !*offset) {
++		*offset = date_format_offset(t);
++	}
++}
++
+ /* {{{ date_format - (gm)date helper */
+ static zend_string *date_format(const char *format, size_t format_len, const timelib_time *t, bool localtime)
+ {
+@@ -686,31 +725,6 @@ static zend_string *date_format(const char *format, size_t format_len, const tim
+ 		return ZSTR_EMPTY_ALLOC();
+ 	}
+ 
+-	if (localtime) {
+-		if (t->zone_type == TIMELIB_ZONETYPE_ABBR) {
+-			offset = timelib_time_offset_ctor();
+-			offset->offset = (t->z + (t->dst * 3600));
+-			offset->leap_secs = 0;
+-			offset->is_dst = t->dst;
+-			offset->abbr = timelib_strdup(t->tz_abbr);
+-		} else if (t->zone_type == TIMELIB_ZONETYPE_OFFSET) {
+-			offset = timelib_time_offset_ctor();
+-			offset->offset = (t->z);
+-			offset->leap_secs = 0;
+-			offset->is_dst = 0;
+-			offset->abbr = timelib_malloc(9); /* GMT±xxxx\0 */
+-			snprintf(offset->abbr, 9, "GMT%c%02d%02d",
+-			                          (offset->offset < 0) ? '-' : '+',
+-			                          abs(offset->offset / 3600),
+-			                          abs((offset->offset % 3600) / 60));
+-		} else if (t->zone_type == TIMELIB_ZONETYPE_ID) {
+-			offset = timelib_get_time_zone_info(t->sse, t->tz_info);
+-		} else {
+-			/* Shouldn't happen, but code defensively */
+-			offset = timelib_time_offset_ctor();
+-		}
+-	}
+-
+ 	for (i = 0; i < format_len; i++) {
+ 		rfc_colon = false;
+ 		switch (format[i]) {
+@@ -769,22 +783,31 @@ static zend_string *date_format(const char *format, size_t format_len, const tim
+ 			case 'v': length = slprintf(buffer, sizeof(buffer), "%03d", (int) floor(t->us / 1000)); break;
+ 
+ 			/* timezone */
+-			case 'I': length = slprintf(buffer, sizeof(buffer), "%d", localtime ? offset->is_dst : 0); break;
++			case 'I':
++				date_format_need_offset(&offset, t, localtime);
++				length = slprintf(buffer, sizeof(buffer), "%d", localtime ? offset->is_dst : 0);
++				break;
+ 			case 'p':
++				date_format_need_offset(&offset, t, localtime);
+ 				if (!localtime || strcmp(offset->abbr, "UTC") == 0 || strcmp(offset->abbr, "Z") == 0 || strcmp(offset->abbr, "GMT+0000") == 0) {
+ 					length = slprintf(buffer, sizeof(buffer), "%s", "Z");
+ 					break;
+ 				}
+ 				ZEND_FALLTHROUGH;
+ 			case 'P': rfc_colon = true; ZEND_FALLTHROUGH;
+-			case 'O': length = slprintf(buffer, sizeof(buffer), "%c%02d%s%02d",
++			case 'O':
++				date_format_need_offset(&offset, t, localtime);
++				length = slprintf(buffer, sizeof(buffer), "%c%02d%s%02d",
+ 											localtime ? ((offset->offset < 0) ? '-' : '+') : '+',
+ 											localtime ? abs(offset->offset / 3600) : 0,
+ 											rfc_colon ? ":" : "",
+ 											localtime ? abs((offset->offset % 3600) / 60) : 0
+ 							  );
+ 					  break;
+-			case 'T': length = slprintf(buffer, sizeof(buffer), "%s", localtime ? offset->abbr : "GMT"); break;
++			case 'T':
++				date_format_need_offset(&offset, t, localtime);
++				length = slprintf(buffer, sizeof(buffer), "%s", localtime ? offset->abbr : "GMT");
++				break;
+ 			case 'e': if (!localtime) {
+ 					      length = slprintf(buffer, sizeof(buffer), "%s", "UTC");
+ 					  } else {
+@@ -793,9 +816,11 @@ static zend_string *date_format(const char *format, size_t format_len, const tim
+ 								  length = slprintf(buffer, sizeof(buffer), "%s", t->tz_info->name);
+ 								  break;
+ 							  case TIMELIB_ZONETYPE_ABBR:
++								  date_format_need_offset(&offset, t, localtime);
+ 								  length = slprintf(buffer, sizeof(buffer), "%s", offset->abbr);
+ 								  break;
+ 							  case TIMELIB_ZONETYPE_OFFSET: {
++								  date_format_need_offset(&offset, t, localtime);
+ 								  int seconds = offset->offset % 60;
+ 								  if (seconds == 0) {
+ 								      length = slprintf(buffer, sizeof(buffer), "%c%02d:%02d",
+@@ -816,10 +841,15 @@ static zend_string *date_format(const char *format, size_t format_len, const tim
+ 						  }
+ 					  }
+ 					  break;
+-			case 'Z': length = slprintf(buffer, sizeof(buffer), "%d", localtime ? offset->offset : 0); break;
++			case 'Z':
++				date_format_need_offset(&offset, t, localtime);
++				length = slprintf(buffer, sizeof(buffer), "%d", localtime ? offset->offset : 0);
++				break;
+ 
+ 			/* full date/time */
+-			case 'c': length = slprintf(buffer, sizeof(buffer), "%04" ZEND_LONG_FMT_SPEC "-%02d-%02dT%02d:%02d:%02d%c%02d:%02d",
++			case 'c':
++				date_format_need_offset(&offset, t, localtime);
++				length = slprintf(buffer, sizeof(buffer), "%04" ZEND_LONG_FMT_SPEC "-%02d-%02dT%02d:%02d:%02d%c%02d:%02d",
+ 							                (zend_long) t->y, (int) t->m, (int) t->d,
+ 											(int) t->h, (int) t->i, (int) t->s,
+ 											localtime ? ((offset->offset < 0) ? '-' : '+') : '+',
+@@ -827,7 +857,9 @@ static zend_string *date_format(const char *format, size_t format_len, const tim
+ 											localtime ? abs((offset->offset % 3600) / 60) : 0
+ 							  );
+ 					  break;
+-			case 'r': length = slprintf(buffer, sizeof(buffer), "%3s, %02d %3s %04" ZEND_LONG_FMT_SPEC " %02d:%02d:%02d %c%02d%02d",
++			case 'r':
++				date_format_need_offset(&offset, t, localtime);
++				length = slprintf(buffer, sizeof(buffer), "%3s, %02d %3s %04" ZEND_LONG_FMT_SPEC " %02d:%02d:%02d %c%02d%02d",
+ 							                php_date_short_day_name(t->y, t->m, t->d),
+ 											(int) t->d, mon_short_names[t->m - 1],
+ 											(zend_long) t->y, (int) t->h, (int) t->i, (int) t->s,
+@@ -847,7 +879,7 @@ static zend_string *date_format(const char *format, size_t format_len, const tim
+ 
+ 	smart_str_0(&string);
+ 
+-	if (localtime) {
++	if (offset) {
+ 		timelib_time_offset_dtor(offset);
+ 	}
+ 
+diff --git a/ext/date/tests/date_format_escaped_timezone_chars.phpt b/ext/date/tests/date_format_escaped_timezone_chars.phpt
+new file mode 100644
+index 0000000000..158a363f87
+--- /dev/null
++++ b/ext/date/tests/date_format_escaped_timezone_chars.phpt
+@@ -0,0 +1,23 @@
++--TEST--
++date_format(): escaped time zone characters
++--INI--
++date.timezone=UTC
++--FILE--
++<?php
++$dates = [
++    new DateTimeImmutable('2026-07-01 12:00:00', new DateTimeZone('Europe/Madrid')),
++    new DateTimeImmutable('2026-11-18T12:34:56-09:30'),
++    new DateTimeImmutable('2026-11-18 12:34:56 EST'),
++];
++foreach ($dates as $d) {
++    var_dump($d->format('\I\O\P\p\T\e\Z\c\r Y-m-d\TH:i:s'));
++    var_dump($d->format('\\\\T \TT'));
++}
++?>
++--EXPECT--
++string(29) "IOPpTeZcr 2026-07-01T12:00:00"
++string(11) "\CEST TCEST"
++string(29) "IOPpTeZcr 2026-11-18T12:34:56"
++string(19) "\GMT-0930 TGMT-0930"
++string(29) "IOPpTeZcr 2026-11-18T12:34:56"
++string(9) "\EST TEST"
+-- 
+2.53.0
+

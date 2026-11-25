@@ -1,0 +1,21 @@
+## release builds: GCC and clang master and change, ZTS change
+difftest-chars.php 557f4136519883344edbc0edbbf557ab 969 reference dfo-base-gcc15/sapi/cli/php
+difftest-chars.php 557f4136519883344edbc0edbbf557ab 969 same dfo-base-clang21/sapi/cli/php
+difftest-chars.php 557f4136519883344edbc0edbbf557ab 969 same dfo-chg-gcc15/sapi/cli/php
+difftest-chars.php 557f4136519883344edbc0edbbf557ab 969 same dfo-chg-clang21/sapi/cli/php
+difftest-chars.php 557f4136519883344edbc0edbbf557ab 969 same dfo-chg-zts/sapi/cli/php
+difftest-random.php 0be9298e6b81ff1bebbf5646e96acecc 51242 reference dfo-base-gcc15/sapi/cli/php
+difftest-random.php 0be9298e6b81ff1bebbf5646e96acecc 51242 same dfo-base-clang21/sapi/cli/php
+difftest-random.php 0be9298e6b81ff1bebbf5646e96acecc 51242 same dfo-chg-gcc15/sapi/cli/php
+difftest-random.php 0be9298e6b81ff1bebbf5646e96acecc 51242 same dfo-chg-clang21/sapi/cli/php
+difftest-random.php 0be9298e6b81ff1bebbf5646e96acecc 51242 same dfo-chg-zts/sapi/cli/php
+exit 0
+
+## ASan + UBSan builds, USE_ZEND_ALLOC=0
+difftest-chars.php 557f4136519883344edbc0edbbf557ab 969 reference dfo-base-gcc15/sapi/cli/php
+difftest-chars.php 557f4136519883344edbc0edbbf557ab 969 same dfo-base-asan/sapi/cli/php
+difftest-chars.php 557f4136519883344edbc0edbbf557ab 969 same dfo-chg-asan/sapi/cli/php
+difftest-random.php 0be9298e6b81ff1bebbf5646e96acecc 51242 reference dfo-base-gcc15/sapi/cli/php
+difftest-random.php 0be9298e6b81ff1bebbf5646e96acecc 51242 same dfo-base-asan/sapi/cli/php
+difftest-random.php 0be9298e6b81ff1bebbf5646e96acecc 51242 same dfo-chg-asan/sapi/cli/php
+exit 0
