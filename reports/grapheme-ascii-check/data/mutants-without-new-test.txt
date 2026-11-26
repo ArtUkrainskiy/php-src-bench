@@ -1,0 +1,10 @@
+| mutation | difftest.sh | grapheme tests failed (of 19) |
+|---|---|---|
+| none (control) | same | 0 |
+| CR LF in 8-byte words not checked | caught | 0 |
+| second word read at p, not p + 1 | caught | 0 |
+| mask misses the top byte of a word | caught | 0 |
+| CR LF not checked in the tail | caught | 0 |
+| 0x80 passes as ASCII in the tail | caught | 0 |
+| last byte not checked | caught | 1 |
+| word loop reads the byte after the length (as master did) | same | 0 |

@@ -1,0 +1,165 @@
+== k10-base-gcc15: grapheme_ascii_check, 60 bytes
+  344c20:	endbr64
+  344c24:	lea    (%rdi,%rsi,1),%rcx
+  344c28:	nopl   0x0(%rax,%rax,1)
+  344c30:	cmp    %rcx,%rdi
+  344c33:	je     344c58 <grapheme_ascii_check(unsigned char const*, unsigned long)+0x38>
+  344c35:	movzbl (%rdi),%edx
+  344c38:	test   %dl,%dl
+  344c3a:	js     344c4a <grapheme_ascii_check(unsigned char const*, unsigned long)+0x2a>
+  344c3c:	add    $0x1,%rdi
+  344c40:	cmpb   $0xa,(%rdi)
+  344c43:	jne    344c30 <grapheme_ascii_check(unsigned char const*, unsigned long)+0x10>
+  344c45:	cmp    $0xd,%dl
+  344c48:	jne    344c30 <grapheme_ascii_check(unsigned char const*, unsigned long)+0x10>
+  344c4a:	mov    $0xffffffffffffffff,%rax
+  344c51:	ret
+  344c52:	nopw   0x0(%rax,%rax,1)
+  344c58:	movslq %esi,%rax
+  344c5b:	ret
+
+== k10-gcc15: grapheme_ascii_check, 213 bytes
+  344cf0:	endbr64
+  344cf4:	push   %rbx
+  344cf5:	mov    %rdi,%rax
+  344cf8:	mov    %rsi,%rbx
+  344cfb:	add    %rsi,%rdi
+  344cfe:	cmp    $0x8,%rsi
+  344d02:	jle    344dc0 <grapheme_ascii_check(unsigned char const*, unsigned long)+0xd0>
+  344d08:	movabs $0xa0a0a0a0a0a0a0a,%r11
+  344d12:	movabs $0xd0d0d0d0d0d0d0d,%r10
+  344d1c:	movabs $0xfefefefefefefeff,%r9
+  344d26:	movabs $0x8080808080808080,%r8
+  344d30:	jmp    344d50 <grapheme_ascii_check(unsigned char const*, unsigned long)+0x60>
+  344d32:	nopl   (%rax)
+  344d35:	data16 cs nopw 0x0(%rax,%rax,1)
+  344d40:	add    $0x8,%rax
+  344d44:	mov    %rdi,%rdx
+  344d47:	sub    %rax,%rdx
+  344d4a:	cmp    $0x8,%rdx
+  344d4e:	jle    344d98 <grapheme_ascii_check(unsigned char const*, unsigned long)+0xa8>
+  344d50:	mov    (%rax),%rsi
+  344d53:	mov    0x1(%rax),%rdx
+  344d57:	mov    %rsi,%rcx
+  344d5a:	xor    %r11,%rdx
+  344d5d:	xor    %r10,%rcx
+  344d60:	or     %rcx,%rdx
+  344d63:	mov    %rdx,%rcx
+  344d66:	add    %r9,%rdx
+  344d69:	not    %rcx
+  344d6c:	and    %rcx,%rdx
+  344d6f:	or     %rsi,%rdx
+  344d72:	test   %r8,%rdx
+  344d75:	je     344d40 <grapheme_ascii_check(unsigned char const*, unsigned long)+0x50>
+  344d77:	mov    $0xffffffffffffffff,%rbx
+  344d7e:	mov    %rbx,%rax
+  344d81:	pop    %rbx
+  344d82:	ret
+  344d83:	nopl   0x0(%rax,%rax,1)
+  344d88:	cmpb   $0xa,0x1(%rax)
+  344d8c:	je     344d77 <grapheme_ascii_check(unsigned char const*, unsigned long)+0x87>
+  344d8e:	add    $0x1,%rax
+  344d92:	mov    %rdi,%rdx
+  344d95:	sub    %rax,%rdx
+  344d98:	cmp    $0x1,%rdx
+  344d9c:	jle    344db0 <grapheme_ascii_check(unsigned char const*, unsigned long)+0xc0>
+  344d9e:	movzbl (%rax),%edx
+  344da1:	test   %dl,%dl
+  344da3:	js     344d77 <grapheme_ascii_check(unsigned char const*, unsigned long)+0x87>
+  344da5:	cmp    $0xd,%dl
+  344da8:	jne    344d8e <grapheme_ascii_check(unsigned char const*, unsigned long)+0x9e>
+  344daa:	jmp    344d88 <grapheme_ascii_check(unsigned char const*, unsigned long)+0x98>
+  344dac:	nopl   0x0(%rax)
+  344db0:	cmp    %rdi,%rax
+  344db3:	jae    344d7e <grapheme_ascii_check(unsigned char const*, unsigned long)+0x8e>
+  344db5:	cmpb   $0x0,(%rax)
+  344db8:	jns    344d7e <grapheme_ascii_check(unsigned char const*, unsigned long)+0x8e>
+  344dba:	jmp    344d77 <grapheme_ascii_check(unsigned char const*, unsigned long)+0x87>
+  344dbc:	nopl   0x0(%rax)
+  344dc0:	mov    %rsi,%rdx
+  344dc3:	jmp    344d98 <grapheme_ascii_check(unsigned char const*, unsigned long)+0xa8>
+
+== k10-base-clang21: grapheme_ascii_check, 56 bytes
+  31ec20:	xor    %edx,%edx
+  31ec22:	mov    $0xffffffffffffffff,%rax
+  31ec29:	nopl   0x0(%rax)
+  31ec30:	cmp    %rdx,%rsi
+  31ec33:	je     31ec54 <grapheme_ascii_check(unsigned char const*, unsigned long)+0x34>
+  31ec35:	mov    %rdx,%rcx
+  31ec38:	movzbl (%rdi,%rdx,1),%r8d
+  31ec3d:	test   %r8b,%r8b
+  31ec40:	js     31ec53 <grapheme_ascii_check(unsigned char const*, unsigned long)+0x33>
+  31ec42:	lea    0x1(%rcx),%rdx
+  31ec46:	cmp    $0xd,%r8b
+  31ec4a:	jne    31ec30 <grapheme_ascii_check(unsigned char const*, unsigned long)+0x10>
+  31ec4c:	cmpb   $0xa,0x1(%rdi,%rcx,1)
+  31ec51:	jne    31ec30 <grapheme_ascii_check(unsigned char const*, unsigned long)+0x10>
+  31ec53:	ret
+  31ec54:	movslq %esi,%rax
+  31ec57:	ret
+
+== k10-clang21: grapheme_ascii_check, 223 bytes
+  31ec00:	push   %r15
+  31ec02:	push   %r14
+  31ec04:	push   %rbx
+  31ec05:	mov    %rdi,%rcx
+  31ec08:	cmp    $0x9,%rsi
+  31ec0c:	jl     31ec87 <grapheme_ascii_check(unsigned char const*, unsigned long)+0x87>
+  31ec0e:	movabs $0x8080808080808080,%rdx
+  31ec18:	movabs $0xd0d0d0d0d0d0d0d,%r8
+  31ec22:	movabs $0xa0a0a0a0a0a0a0a,%r9
+  31ec2c:	movabs $0x101010101010100,%r10
+  31ec36:	mov    %rsi,%r11
+  31ec39:	mov    %rdi,%rcx
+  31ec3c:	mov    $0xffffffffffffffff,%rax
+  31ec43:	data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+  31ec50:	mov    (%rcx),%rbx
+  31ec53:	test   %rdx,%rbx
+  31ec56:	jne    31ecd0 <grapheme_ascii_check(unsigned char const*, unsigned long)+0xd0>
+  31ec58:	mov    0x1(%rcx),%r14
+  31ec5c:	xor    %r8,%rbx
+  31ec5f:	mov    %r14,%r15
+  31ec62:	xor    %r9,%r15
+  31ec65:	or     %rbx,%r15
+  31ec68:	mov    %r10,%rbx
+  31ec6b:	sub    %r15,%rbx
+  31ec6e:	or     %r14,%rbx
+  31ec71:	not    %rbx
+  31ec74:	test   %rbx,%rdx
+  31ec77:	jne    31ecd0 <grapheme_ascii_check(unsigned char const*, unsigned long)+0xd0>
+  31ec79:	add    $0x8,%rcx
+  31ec7d:	add    $0xfffffffffffffff8,%r11
+  31ec81:	cmp    $0x8,%r11
+  31ec85:	jg     31ec50 <grapheme_ascii_check(unsigned char const*, unsigned long)+0x50>
+  31ec87:	add    %rsi,%rdi
+  31ec8a:	mov    %rdi,%rdx
+  31ec8d:	sub    %rcx,%rdx
+  31ec90:	cmp    $0x2,%rdx
+  31ec94:	jl     31ecc3 <grapheme_ascii_check(unsigned char const*, unsigned long)+0xc3>
+  31ec96:	mov    $0xffffffffffffffff,%rax
+  31ec9d:	jmp    31ecac <grapheme_ascii_check(unsigned char const*, unsigned long)+0xac>
+  31ec9f:	nop
+  31eca0:	inc    %rcx
+  31eca3:	dec    %rdx
+  31eca6:	cmp    $0x1,%rdx
+  31ecaa:	jle    31ecc3 <grapheme_ascii_check(unsigned char const*, unsigned long)+0xc3>
+  31ecac:	movzbl (%rcx),%r8d
+  31ecb0:	test   %r8b,%r8b
+  31ecb3:	js     31ecd0 <grapheme_ascii_check(unsigned char const*, unsigned long)+0xd0>
+  31ecb5:	cmp    $0xd,%r8b
+  31ecb9:	jne    31eca0 <grapheme_ascii_check(unsigned char const*, unsigned long)+0xa0>
+  31ecbb:	cmpb   $0xa,0x1(%rcx)
+  31ecbf:	jne    31eca0 <grapheme_ascii_check(unsigned char const*, unsigned long)+0xa0>
+  31ecc1:	jmp    31ecd0 <grapheme_ascii_check(unsigned char const*, unsigned long)+0xd0>
+  31ecc3:	cmp    %rdi,%rcx
+  31ecc6:	jae    31eccd <grapheme_ascii_check(unsigned char const*, unsigned long)+0xcd>
+  31ecc8:	cmpb   $0x0,(%rcx)
+  31eccb:	js     31ecd6 <grapheme_ascii_check(unsigned char const*, unsigned long)+0xd6>
+  31eccd:	mov    %rsi,%rax
+  31ecd0:	pop    %rbx
+  31ecd1:	pop    %r14
+  31ecd3:	pop    %r15
+  31ecd5:	ret
+  31ecd6:	mov    $0xffffffffffffffff,%rax
+  31ecdd:	jmp    31ecd0 <grapheme_ascii_check(unsigned char const*, unsigned long)+0xd0>
+

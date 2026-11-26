@@ -1,0 +1,187 @@
+From 903ef2198a0c2e1f484a707b2c942a0fcb3fa8ab Mon Sep 17 00:00:00 2001
+From: Artem Ukrainskiy <art.ukrainskiy@gmail.com>
+Date: Wed, 25 Nov 2026 16:32:09 +0000
+Subject: [PATCH] ext/intl: Check 8 bytes at a time in grapheme_ascii_check()
+
+grapheme_strlen(), grapheme_substr(), grapheme_strpos() and five other
+grapheme functions call grapheme_ascii_check() to take their ASCII path.
+It read the string one byte at a time. It now reads 8 bytes at a time.
+A byte above 0x7f sets a bit of 0x80 in the word. A CR LF pair is a zero
+byte in (word ^ 0x0d..) | (word one byte later ^ 0x0a..).
+
+On ASCII strings of 9 bytes and more every measured function takes
+fewer cycles. grapheme_strlen() takes 79-80% fewer on 2 KB and 64-67%
+fewer on 80 bytes, and 28-33% fewer on 1-24 byte strings in a random
+order. Across the measured functions, repeating one string of 1-8 bytes
+costs -10 to +8 cycles per call (-10% to +12%).
+
+The check kept the length in an int. It now returns it as zend_long.
+grapheme_strpos(), grapheme_stripos(), grapheme_strrpos(),
+grapheme_strripos() and grapheme_substr() use int32_t offsets on their
+ASCII path, so they skip it for strings longer than INT32_MAX bytes, as
+they did on master for 2-4 GiB. grapheme_strlen() and grapheme_strstr()
+now take the ASCII path on such strings and return the right result.
+---
+ UPGRADING                                     |  5 +++
+ ext/intl/grapheme/grapheme_string.cpp         | 10 ++---
+ ext/intl/grapheme/grapheme_util.cpp           | 29 +++++++++++++--
+ .../tests/grapheme_ascii_check_positions.phpt | 37 +++++++++++++++++++
+ 4 files changed, 72 insertions(+), 9 deletions(-)
+ create mode 100644 ext/intl/tests/grapheme_ascii_check_positions.phpt
+
+diff --git a/UPGRADING b/UPGRADING
+index 607f9427ed..9e5d0ee2ef 100644
+--- a/UPGRADING
++++ b/UPGRADING
+@@ -224,6 +224,11 @@ PHP 8.7 UPGRADE NOTES
+   . Parsing HTML with Dom\HTMLDocument or innerHTML uses much less memory for
+     small inputs.
+ 
++- Intl:
++  . Improved performance of grapheme_strlen(), grapheme_substr(),
++    grapheme_strpos() and the related grapheme functions on ASCII strings
++    longer than 8 bytes.
++
+ - PDO:
+   . Improved performance of fetching rows with PDO::FETCH_OBJ.
+ 
+diff --git a/ext/intl/grapheme/grapheme_string.cpp b/ext/intl/grapheme/grapheme_string.cpp
+index 9c7fa09cb7..3d9053a144 100644
+--- a/ext/intl/grapheme/grapheme_string.cpp
++++ b/ext/intl/grapheme/grapheme_string.cpp
+@@ -113,7 +113,7 @@ U_CFUNC PHP_FUNCTION(grapheme_strpos)
+ 
+ 	/* the offset is 'grapheme count offset' so it still might be invalid - we'll check it later */
+ 
+-	if (offset >= 0 && grapheme_ascii_check((unsigned char *)haystack, haystack_len) >= 0) {
++	if (offset >= 0 && haystack_len <= INT32_MAX && grapheme_ascii_check((unsigned char *)haystack, haystack_len) >= 0) {
+ 		/* quick check to see if the string might be there
+ 		 * I realize that 'offset' is 'grapheme count offset' but will work in spite of that
+ 		*/
+@@ -168,7 +168,7 @@ U_CFUNC PHP_FUNCTION(grapheme_stripos)
+ 
+ 	/* the offset is 'grapheme count offset' so it still might be invalid - we'll check it later */
+ 
+-	is_ascii = ( grapheme_ascii_check((unsigned char*)haystack, haystack_len) >= 0 );
++	is_ascii = haystack_len <= INT32_MAX && grapheme_ascii_check((unsigned char*)haystack, haystack_len) >= 0;
+ 
+ 	if ( is_ascii ) {
+ 		char *haystack_dup, *needle_dup;
+@@ -234,7 +234,7 @@ U_CFUNC PHP_FUNCTION(grapheme_strrpos)
+ 
+ 	/* the offset is 'grapheme count offset' so it still might be invalid - we'll check it later */
+ 
+-	is_ascii = grapheme_ascii_check((unsigned char *)haystack, haystack_len) >= 0;
++	is_ascii = haystack_len <= INT32_MAX && grapheme_ascii_check((unsigned char *)haystack, haystack_len) >= 0;
+ 
+ 	if ( is_ascii ) {
+ 
+@@ -293,7 +293,7 @@ U_CFUNC PHP_FUNCTION(grapheme_strripos)
+ 
+ 	/* the offset is 'grapheme count offset' so it still might be invalid - we'll check it later */
+ 
+-	is_ascii = grapheme_ascii_check((unsigned char *)haystack, haystack_len) >= 0;
++	is_ascii = haystack_len <= INT32_MAX && grapheme_ascii_check((unsigned char *)haystack, haystack_len) >= 0;
+ 
+ 	if ( is_ascii ) {
+ 		char *needle_dup, *haystack_dup;
+@@ -376,7 +376,7 @@ U_CFUNC PHP_FUNCTION(grapheme_substr)
+ 
+ 	/* the offset is 'grapheme count offset' so it still might be invalid - we'll check it later */
+ 
+-	if ( grapheme_ascii_check((unsigned char *)str, str_len) >= 0 ) {
++	if ( str_len <= INT32_MAX && grapheme_ascii_check((unsigned char *)str, str_len) >= 0 ) {
+ 		int32_t asub_str_len;
+ 		char *sub_str;
+ 		grapheme_substr_ascii(str, str_len, start, (int32_t)length, &sub_str, &asub_str_len);
+diff --git a/ext/intl/grapheme/grapheme_util.cpp b/ext/intl/grapheme/grapheme_util.cpp
+index bf4be3f638..fb6190c889 100644
+--- a/ext/intl/grapheme/grapheme_util.cpp
++++ b/ext/intl/grapheme/grapheme_util.cpp
+@@ -230,15 +230,36 @@ finish:
+ /* }}} */
+ 
+ /* {{{ grapheme_ascii_check: ASCII check */
++/* Returns len when every byte is one grapheme: all bytes are ASCII and there is no CR LF pair (CR LF is one
++ * grapheme cluster). Returns -1 otherwise. */
+ zend_long grapheme_ascii_check(const unsigned char *day, size_t len)
+ {
+-	int ret_len = len;
+-	while ( len-- ) {
+-	if ( *day++ > 0x7f || (*day == '\n' && *(day - 1) == '\r') )
++	const unsigned char *p = day;
++	const unsigned char *end = day + len;
++
++	for (; end - p > 8; p += 8) {
++		uint64_t word, next;
++		memcpy(&word, p, sizeof(word));
++		memcpy(&next, p + 1, sizeof(next));
++		if (word & UINT64_C(0x8080808080808080)) {
++			return -1;
++		}
++		/* A zero byte i marks a CR LF pair at p[i], p[i + 1]. */
++		uint64_t crlf = (word ^ UINT64_C(0x0d0d0d0d0d0d0d0d)) | (next ^ UINT64_C(0x0a0a0a0a0a0a0a0a));
++		if ((crlf - UINT64_C(0x0101010101010101)) & ~crlf & UINT64_C(0x8080808080808080)) {
++			return -1;
++		}
++	}
++	for (; end - p > 1; p++) {
++		if (*p > 0x7f || (*p == '\r' && p[1] == '\n')) {
++			return -1;
++		}
++	}
++	if (p < end && *p > 0x7f) {
+ 		return -1;
+ 	}
+ 
+-	return ret_len;
++	return (zend_long) len;
+ }
+ 
+ /* }}} */
+diff --git a/ext/intl/tests/grapheme_ascii_check_positions.phpt b/ext/intl/tests/grapheme_ascii_check_positions.phpt
+new file mode 100644
+index 0000000000..d788c21219
+--- /dev/null
++++ b/ext/intl/tests/grapheme_ascii_check_positions.phpt
+@@ -0,0 +1,37 @@
++--TEST--
++grapheme_strlen() and grapheme_extract() with a non-ASCII byte or CR LF at every position
++--EXTENSIONS--
++intl
++--FILE--
++<?php
++$ascii = 'abcdefghijklmnopq';
++foreach (["\u{00E9}", "\u{1F600}", "\xFF", "\x80", "\r\n", "\r", "\n", "\rx\n", "\rx\r\n"] as $insert) {
++    $lengths = [];
++    for ($pos = 0; $pos <= strlen($ascii); $pos++) {
++        $lengths[] = var_export(grapheme_strlen(substr($ascii, 0, $pos) . $insert . substr($ascii, $pos)), true);
++    }
++    echo bin2hex($insert), ': ', implode(' ', $lengths), "\n";
++}
++
++foreach (["abc\r\n", "abcdefgh\r\nij", "abcdefg\r\nij"] as $s) {
++    $parts = [];
++    for ($size = 1; $size <= strlen($s); $size++) {
++        $next = null;
++        $parts[] = json_encode(grapheme_extract($s, $size, GRAPHEME_EXTR_COUNT, 0, $next)) . " $next";
++    }
++    echo implode('; ', $parts), "\n";
++}
++?>
++--EXPECT--
++c3a9: 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18
++f09f9880: 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18
++ff: NULL NULL NULL NULL NULL NULL NULL NULL NULL NULL NULL NULL NULL NULL NULL NULL NULL NULL
++80: NULL NULL NULL NULL NULL NULL NULL NULL NULL NULL NULL NULL NULL NULL NULL NULL NULL NULL
++0d0a: 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18
++0d: 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18
++0a: 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18
++0d780a: 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20
++0d780d0a: 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20
++"a" 1; "ab" 2; "abc" 3; "abc\r\n" 5; "abc\r\n" 5
++"a" 1; "ab" 2; "abc" 3; "abcd" 4; "abcde" 5; "abcdef" 6; "abcdefg" 7; "abcdefgh" 8; "abcdefgh\r\n" 10; "abcdefgh\r\ni" 11; "abcdefgh\r\nij" 12; "abcdefgh\r\nij" 12
++"a" 1; "ab" 2; "abc" 3; "abcd" 4; "abcde" 5; "abcdef" 6; "abcdefg" 7; "abcdefg\r\n" 9; "abcdefg\r\ni" 10; "abcdefg\r\nij" 11; "abcdefg\r\nij" 11
+-- 
+2.53.0
+

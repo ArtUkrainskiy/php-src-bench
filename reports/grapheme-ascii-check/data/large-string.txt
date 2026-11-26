@@ -1,0 +1,26 @@
+== master
+grapheme_strlen($s) = NULL (grapheme_strlen(): Error converting input string to UTF-16: U_BUFFER_OVERFLOW_ERROR)
+grapheme_strpos($s, 'b') = false (grapheme_strpos(): Error converting input string to UTF-16: U_BUFFER_OVERFLOW_ERROR)
+grapheme_stripos($s, 'b', -1) = false (grapheme_stripos(): Error converting input string to UTF-16: U_BUFFER_OVERFLOW_ERROR)
+grapheme_strrpos($s, 'a', -2) = false (grapheme_strrpos(): Error converting input string to UTF-16: U_BUFFER_OVERFLOW_ERROR)
+grapheme_strripos($s, 'A', 1) = false (grapheme_strripos(): Error converting input string to UTF-16: U_BUFFER_OVERFLOW_ERROR)
+grapheme_substr($s, 0, 8) = false (grapheme_substr(): Error converting input string to UTF-16: U_BUFFER_OVERFLOW_ERROR)
+grapheme_strstr($s, 'b') = false (grapheme_strstr(): Error converting input string to UTF-16: U_BUFFER_OVERFLOW_ERROR)
+grapheme_strstr($s, 'a', true) = false (grapheme_strstr(): Error converting input string to UTF-16: U_BUFFER_OVERFLOW_ERROR)
+grapheme_extract($s, 3, GRAPHEME_EXTR_COUNT, 2 ** 31) = false (grapheme_extract(): start not contained in string: U_ILLEGAL_ARGUMENT_ERROR)
+grapheme_extract($s, 2 ** 31 - 1) = string of 2147483647 bytes (grapheme_extract(): start not contained in string: U_ILLEGAL_ARGUMENT_ERROR)
+done
+exit 0
+== change
+grapheme_strlen($s) = 2147483656 (U_ZERO_ERROR)
+grapheme_strpos($s, 'b') = false (grapheme_strpos(): Error converting input string to UTF-16: U_BUFFER_OVERFLOW_ERROR)
+grapheme_stripos($s, 'b', -1) = false (grapheme_stripos(): Error converting input string to UTF-16: U_BUFFER_OVERFLOW_ERROR)
+grapheme_strrpos($s, 'a', -2) = false (grapheme_strrpos(): Error converting input string to UTF-16: U_BUFFER_OVERFLOW_ERROR)
+grapheme_strripos($s, 'A', 1) = false (grapheme_strripos(): Error converting input string to UTF-16: U_BUFFER_OVERFLOW_ERROR)
+grapheme_substr($s, 0, 8) = false (grapheme_substr(): Error converting input string to UTF-16: U_BUFFER_OVERFLOW_ERROR)
+grapheme_strstr($s, 'b') = false (grapheme_substr(): Error converting input string to UTF-16: U_BUFFER_OVERFLOW_ERROR)
+grapheme_strstr($s, 'a', true) = string of 0 bytes (grapheme_substr(): Error converting input string to UTF-16: U_BUFFER_OVERFLOW_ERROR)
+grapheme_extract($s, 3, GRAPHEME_EXTR_COUNT, 2 ** 31) = false (grapheme_extract(): start not contained in string: U_ILLEGAL_ARGUMENT_ERROR)
+grapheme_extract($s, 2 ** 31 - 1) = string of 2147483647 bytes (grapheme_extract(): start not contained in string: U_ILLEGAL_ARGUMENT_ERROR)
+done
+exit 0

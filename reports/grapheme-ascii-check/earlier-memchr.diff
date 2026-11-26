@@ -1,0 +1,40 @@
+diff --git a/ext/intl/grapheme/grapheme_util.cpp b/ext/intl/grapheme/grapheme_util.cpp
+index bf4be3f638..68314df60c 100644
+--- a/ext/intl/grapheme/grapheme_util.cpp
++++ b/ext/intl/grapheme/grapheme_util.cpp
+@@ -232,13 +232,30 @@ finish:
+ /* {{{ grapheme_ascii_check: ASCII check */
+ zend_long grapheme_ascii_check(const unsigned char *day, size_t len)
+ {
+-	int ret_len = len;
+-	while ( len-- ) {
+-	if ( *day++ > 0x7f || (*day == '\n' && *(day - 1) == '\r') )
+-		return -1;
++	const unsigned char *p = day;
++	const unsigned char *end = day + len;
++
++	for (; end - p >= 8; p += 8) {
++		uint64_t word;
++		memcpy(&word, p, sizeof(word));
++		if (word & UINT64_C(0x8080808080808080)) {
++			return -1;
++		}
++	}
++	for (; p < end; p++) {
++		if (*p > 0x7f) {
++			return -1;
++		}
+ 	}
+ 
+-	return ret_len;
++	/* A CR LF pair is one grapheme cluster, so the string is not one byte per grapheme. */
++	for (p = day; (p = (const unsigned char *) memchr(p, '\r', end - p)) != nullptr; p++) {
++		if (end - p >= 2 && p[1] == '\n') {
++			return -1;
++		}
++	}
++
++	return (zend_long) len;
+ }
+ 
+ /* }}} */
