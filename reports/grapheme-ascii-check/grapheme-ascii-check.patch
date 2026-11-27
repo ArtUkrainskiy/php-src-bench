@@ -1,4 +1,4 @@
-From 8d56276f372982bd40cf63eaf63f0503a5d76de0 Mon Sep 17 00:00:00 2001
+From 191db13571b5524a970dc431d7b3c9ef0b68e87e Mon Sep 17 00:00:00 2001
 From: Artem Ukrainskiy <art.ukrainskiy@gmail.com>
 Date: Wed, 25 Nov 2026 16:32:09 +0000
 Subject: [PATCH] ext/intl: Check 8 bytes at a time in grapheme_ascii_check()
@@ -11,10 +11,10 @@ byte in (word ^ 0x0d..) | (word one byte later ^ 0x0a..).
 
 On ASCII strings of 9 bytes and more every measured function takes
 fewer cycles, and the gain grows with the length. grapheme_strlen()
-takes 25-28% fewer on 16 bytes, 61-63% fewer on 64 bytes, 75% fewer on
-256 bytes and 80% fewer on 4 KB, and 29-31% fewer on 1-24 byte strings
+takes 24-27% fewer on 16 bytes, 61-63% fewer on 64 bytes, 75% fewer on
+256 bytes and 80% fewer on 4 KB, and 27-33% fewer on 1-24 byte strings
 in a random order. Across the measured functions, repeating one string
-of 1-8 bytes costs -11 to +8 cycles per call (-10% to +13%).
+of 1-8 bytes costs -11 to +9 cycles per call (-11% to +15%).
 
 The check kept the length in an int. It now returns it as zend_long.
 grapheme_strpos(), grapheme_stripos(), grapheme_strrpos(),

@@ -1,6 +1,6 @@
 # Full tables of the grapheme_ascii_check() report
 
-All 159 calls of [`grapheme.php`](grapheme.php) in the main series of the [report](README.md). Change in CPU cycles per call against master (negative = fewer cycles, faster), the median over 15 passes and, in brackets, the lowest and the highest pass. The last column is the change in instructions over the three groups, the master-against-master group included.
+All 174 calls of [`grapheme.php`](grapheme.php) in the main series of the [report](README.md). Change in CPU cycles per call against master (negative = fewer cycles, faster), the median over 15 passes and, in brackets, the lowest and the highest pass. The last column is the change in instructions over the three groups, the master-against-master group included.
 
 ## Main series
 
@@ -15,329 +15,359 @@ negative = fewer cycles (faster)
 
 | call | master, CPU cycles per call (GCC 15.2 (gcc15)) | GCC 15.2 (gcc15) | clang 21.1 (clang21) | clang 21.1 (clang21-aa) | instructions |
 |---|--:|--:|--:|--:|--:|
-| grapheme_strlen($s) @ ASCII 1 B | 36 | +9% (+8 … +13) | +4% (−4 … +64) | −2% (−10 … +9) | 0% … +3% |
-| grapheme_strlen($s) @ ASCII 2 B | 38 | +6% (+5 … +14) | +5% (−5 … +8) | 0% (−11 … +9) | 0% … +4% |
-| grapheme_strlen($s) @ ASCII 3 B | 40 | +2% (0 … +11) | −1% (−6 … +11) | 0% (−13 … +14) | 0% … +5% |
-| grapheme_strlen($s) @ ASCII 4 B | 42 | 0% (−1 … +9) | −2% (−7 … +8) | +5% (−5 … +73) | 0% … +6% |
-| grapheme_strlen($s) @ ASCII 5 B | 44 | −2% (−9 … −2) | −1% (−8 … +2) | −1% (−43 … +5) | 0% … +7% |
-| grapheme_strlen($s) @ ASCII 8 B | 50 | −6% (−12 … −6) | −3% (−9 … +5) | 0% (−8 … +14) | 0% … +9% |
-| grapheme_strlen($s) @ ASCII 9 B | 52 | −23% (−24 … −17) | −25% (−29 … −18) | +3% (−8 … +13) | −20% … 0% |
-| grapheme_strlen($s) @ ASCII 10 B | 54 | −24% (−33 … −18) | −24% (−27 … −7) | 0% (−8 … +12) | −19% … 0% |
-| grapheme_strlen($s) @ ASCII 16 B | 69 | −28% (−33 … −25) | −25% (−28 … −19) | 0% (−9 … +7) | −14% … 0% |
-| grapheme_strlen($s) @ ASCII 64 B | 179 | −63% (−65 … −63) | −61% (−62 … −59) | 0% (−2 … +2) | −51% … 0% |
-| grapheme_strlen($s) @ ASCII 256 B | 564 | −75% (−75 … −75) | −75% (−75 … −74) | 0% (−1 … +1) | −68% … 0% |
-| grapheme_strlen($s) @ ASCII 1 KB | 2,105 | −77% (−78 … −77) | −78% (−78 … −78) | 0% (0 … 0) | −73% … 0% |
-| grapheme_strlen($s) @ ASCII 4 KB | 8,264 | −80% (−81 … −79) | −80% (−81 … −80) | 0% (0 … +1) | −75% … 0% |
-| grapheme_strlen($s) @ ASCII 1 KB, CR LF every 80 B | 63,529 | 0% (−3 … +5) ~ | 0% (−3 … +1) ~ | 0% (−4 … +1) ~ | 0% |
-| grapheme_strlen($s) @ ASCII 1 KB, lone CR every 80 B | 2,103 | −77% (−78 … −77) | −80% (−81 … −80) | 0% (−1 … 0) | −73% … 0% |
-| grapheme_strlen($s) @ ASCII 1 KB, "é" first | 63,221 | 0% (−4 … +9) | 0% (−2 … +6) | 0% (−5 … +3) ~ | 0% |
-| grapheme_strlen($s) @ ASCII 16 B, "é" last | 2,244 | −3% (−4 … −1) | +1% (−1 … +4) | 0% (−2 … +1) ~ | 0% |
-| grapheme_strlen($s) @ ASCII 64 B, "é" last | 5,186 | −3% (−4 … −1) | −2% (−3 … 0) | 0% (−1 … +3) | −2% … 0% |
-| grapheme_strlen($s) @ ASCII 256 B, "é" last | 17,297 | −3% (−6 … −1) | −2% (−28 … −1) | 0% (−1 … +3) ~ | −2% … 0% |
-| grapheme_strlen($s) @ ASCII 1 KB, "é" last | 65,214 | −2% (−3 … 0) | −2% (−4 … +10) | 0% (−2 … +2) ~ | −2% … 0% |
-| grapheme_strlen($s) @ ASCII 4 KB, "é" last | 257,840 | −2% (−4 … +2) | −2% (−29 … −1) | 0% (−2 … +46) ~ | −2% … 0% |
-| grapheme_strlen($s) @ Chinese 16 B | 1,564 | −4% (−4 … +7) | +4% (+3 … +5) layout? | 0% (−4 … +6) ~ | 0% |
-| grapheme_strlen($s) @ Chinese 64 B | 2,638 | −2% (−4 … −1) | +1% (0 … +2) | 0% (−1 … +1) ~ | 0% |
-| grapheme_strlen($s) @ Chinese 256 B | 7,350 | −1% (−2 … +3) | 0% (−1 … +2) | 0% (−5 … +2) | 0% |
-| grapheme_strlen($s) @ Chinese 1 KB | 26,525 | 0% (−1 … +5) ~ | 0% (−3 … +4) | 0% (−2 … +18) | 0% |
-| grapheme_strlen($s) @ Chinese 4 KB | 99,615 | 0% (0 … +4) ~ | 0% (−3 … +1) ~ | 0% (−3 … +11) ~ | 0% |
-| grapheme_strlen($s) @ Spanish 256 B | 16,102 | 0% (−2 … +2) | 0% (−2 … +2) | 0% (−18 … +2) | 0% |
-| grapheme_strlen($s) @ Russian 256 B | 10,386 | 0% (−1 … +1) ~ | 0% (−4 … +3) ~ | 0% (−9 … +2) ~ | 0% |
-| grapheme_strlen($s) @ Japanese 256 B | 7,530 | −1% (−20 … +2) | 0% (−2 … +11) | 0% (−30 … +1) ~ | 0% |
-| grapheme_strlen($s) @ Korean 256 B | 8,346 | 0% (−10 … +2) | +1% (−1 … +3) | 0% (−17 … +6) ~ | 0% |
-| grapheme_strlen($s) @ emoji and text 256 B | 11,893 | −1% (−3 … 0) | 0% (−3 … +2) ~ | 0% (−2 … +4) ~ | 0% |
-| grapheme_substr($s, 0, 8) @ ASCII 1 B | 99 | −9% (−17 … −4) | 0% (−14 … +5) | 0% (−6 … +13) ~ | 0% … +2% |
-| grapheme_substr($s, 0, 8) @ ASCII 2 B | 102 | −10% (−20 … +5) | −1% (−8 … +20) | 0% (−11 … +15) | 0% … +2% |
-| grapheme_substr($s, 0, 8) @ ASCII 3 B | 103 | −10% (−23 … −6) | −3% (−12 … +2) | +2% (−9 … +4) | 0% … +3% |
-| grapheme_substr($s, 0, 8) @ ASCII 4 B | 103 | −10% (−20 … +13) | −3% (−14 … +5) | −1% (−10 … +7) ~ | 0% … +3% |
-| grapheme_substr($s, 0, 8) @ ASCII 5 B | 103 | −9% (−20 … +6) | −3% (−10 … +11) | 0% (−13 … +8) ~ | 0% … +4% |
-| grapheme_substr($s, 0, 8) @ ASCII 8 B | 100 | −4% (−34 … +9) | −6% (−12 … +11) | +1% (−6 … +6) | 0% … +5% |
-| grapheme_substr($s, 0, 8) @ ASCII 9 B | 103 | −13% (−21 … −1) | −16% (−22 … +5) | +1% (−7 … +10) ~ | −9% … 0% |
-| grapheme_substr($s, 0, 8) @ ASCII 10 B | 104 | −13% (−24 … −4) | −15% (−21 … 0) | 0% (−23 … +7) ~ | −9% … 0% |
-| grapheme_substr($s, 0, 8) @ ASCII 16 B | 117 | −14% (−16 … −3) | −17% (−22 … −6) | −2% (−5 … +5) | −8% … 0% |
-| grapheme_substr($s, 0, 8) @ ASCII 64 B | 226 | −48% (−50 … −42) | −50% (−52 … −43) | 0% (−3 … +3) | −39% … 0% |
-| grapheme_substr($s, 0, 8) @ ASCII 256 B | 611 | −69% (−71 … −69) | −69% (−69 … −68) | 0% (−3 … +1) | −63% … 0% |
-| grapheme_substr($s, 0, 8) @ ASCII 1 KB | 2,152 | −76% (−76 … −75) | −77% (−77 … −76) | 0% (−1 … 0) | −72% … 0% |
+| grapheme_strlen($s) @ ASCII 1 B | 36 | +11% (+6 … +29) | +5% (−5 … +68) | +1% (−3 … +6) | 0% … +3% |
+| grapheme_strlen($s) @ ASCII 2 B | 35 | +14% (−3 … +18) | +3% (−6 … +11) | 0% (−7 … +13) ~ | 0% … +4% |
+| grapheme_strlen($s) @ ASCII 3 B | 37 | +4% (−12 … +20) | +1% (−6 … +13) | +1% (−6 … +12) | 0% … +5% |
+| grapheme_strlen($s) @ ASCII 4 B | 42 | +1% (−3 … +16) | 0% (−7 … +55) | −1% (−6 … +7) | 0% … +6% |
+| grapheme_strlen($s) @ ASCII 5 B | 44 | −2% (−9 … +5) | 0% (−8 … +18) ~ | +4% (−7 … +14) | 0% … +7% |
+| grapheme_strlen($s) @ ASCII 8 B | 47 | −1% (−13 … +2) ~ | −2% (−8 … +7) | 0% (−8 … +2) ~ | 0% … +9% |
+| grapheme_strlen($s) @ ASCII 9 B | 52 | −22% (−35 … −13) | −23% (−28 … −18) | 0% (−6 … +9) ~ | −20% … 0% |
+| grapheme_strlen($s) @ ASCII 10 B | 54 | −24% (−30 … −17) | −23% (−27 … −21) | 0% (−7 … +6) ~ | −19% … 0% |
+| grapheme_strlen($s) @ ASCII 16 B | 66 | −27% (−29 … −22) | −24% (−27 … −19) | 0% (−10 … +4) | −14% … 0% |
+| grapheme_strlen($s) @ ASCII 64 B | 179 | −63% (−66 … −63) | −61% (−62 … −54) | 0% (−2 … +2) | −51% … 0% |
+| grapheme_strlen($s) @ ASCII 256 B | 561 | −75% (−75 … −74) | −75% (−75 … −74) | 0% (−1 … +1) ~ | −68% … 0% |
+| grapheme_strlen($s) @ ASCII 1 KB | 2,100 | −78% (−78 … −76) | −78% (−79 … −77) | 0% (0 … 0) ~ | −73% … 0% |
+| grapheme_strlen($s) @ ASCII 4 KB | 8,262 | −80% (−80 … −79) | −80% (−81 … −80) | 0% (0 … 0) | −75% … 0% |
+| grapheme_strlen($s) @ ASCII 1 KB, CR LF every 80 B | 63,581 | 0% (−2 … +2) | 0% (−4 … +3) ~ | 0% (−2 … +1) ~ | 0% |
+| grapheme_strlen($s) @ ASCII 1 KB, lone CR every 80 B | 2,101 | −78% (−78 … −77) | −81% (−81 … −80) | 0% (0 … 0) ~ | −73% … 0% |
+| grapheme_strlen($s) @ ASCII 1 KB, "é" first | 63,255 | 0% (−1 … +9) ~ | 0% (−3 … +24) | 0% (−4 … +5) ~ | 0% |
+| grapheme_strlen($s) @ ASCII 16 B, "é" last | 2,244 | −3% (−4 … 0) | 0% (−3 … +2) | 0% (−1 … +1) | 0% |
+| grapheme_strlen($s) @ ASCII 64 B, "é" last | 5,193 | −4% (−6 … −3) | −2% (−14 … +5) | 0% (−1 … +3) | −2% … 0% |
+| grapheme_strlen($s) @ ASCII 256 B, "é" last | 17,275 | −3% (−16 … +13) | −2% (−14 … 0) | 0% (−1 … +7) ~ | −2% … 0% |
+| grapheme_strlen($s) @ ASCII 1 KB, "é" last | 65,310 | −3% (−4 … +3) | −2% (−4 … +3) | 0% (−4 … +2) ~ | −2% … 0% |
+| grapheme_strlen($s) @ ASCII 4 KB, "é" last | 257,050 | −3% (−6 … −2) | −3% (−28 … +1) | 0% (0 … +39) | −2% … 0% |
+| grapheme_strlen($s) @ Chinese 16 B | 1,563 | −4% (−4 … −3) layout? | +4% (+3 … +4) layout? | 0% (−2 … +4) | 0% |
+| grapheme_strlen($s) @ Chinese 64 B | 2,636 | −2% (−4 … +1) | +1% (0 … +2) | 0% (−2 … +3) ~ | 0% |
+| grapheme_strlen($s) @ Chinese 256 B | 7,354 | −1% (−5 … +8) | 0% (−18 … +2) | 0% (−1 … +1) ~ | 0% |
+| grapheme_strlen($s) @ Chinese 1 KB | 26,549 | 0% (−1 … +5) | +1% (−5 … +8) | 0% (−11 … +4) ~ | 0% |
+| grapheme_strlen($s) @ Chinese 4 KB | 99,628 | 0% (−1 … +2) | 0% (−2 … +3) | 0% (−1 … +4) ~ | 0% |
+| grapheme_strlen($s) @ Spanish 256 B | 16,110 | 0% (−2 … +1) | 0% (−2 … +2) | 0% (−3 … +9) | 0% |
+| grapheme_strlen($s) @ Russian 256 B | 10,397 | −1% (−3 … +2) | 0% (−5 … 0) | −1% (−3 … 0) | 0% |
+| grapheme_strlen($s) @ Japanese 256 B | 7,520 | −1% (−2 … +1) | +1% (−2 … +7) | 0% (−2 … +46) ~ | 0% |
+| grapheme_strlen($s) @ Korean 256 B | 8,346 | 0% (−8 … +11) | +1% (−7 … +5) | 0% (−5 … +7) | 0% |
+| grapheme_strlen($s) @ English 256 B, ’ every 170 B | 16,925 | −1% (−6 … +17) | 0% (−5 … +2) | 0% (−3 … +16) ~ | −1% … 0% |
+| grapheme_strlen($s) @ English 1 KB, ’ every 170 B | 63,018 | 0% (−3 … +6) | 0% (−2 … +3) | 0% (−6 … +7) | 0% |
+| grapheme_strlen($s) @ English 4 KB, ’ every 170 B | 247,041 | 0% (−27 … 0) | 0% (−1 … +4) | 0% (−2 … +1) ~ | 0% |
+| grapheme_strlen($s) @ emoji and text 256 B | 11,890 | 0% (−3 … +13) | 0% (−2 … +5) ~ | 0% (−4 … +3) | 0% |
+| grapheme_substr($s, 0, 8) @ ASCII 1 B | 99 | −9% (−20 … −4) | 0% (−17 … +16) ~ | 0% (−4 … +13) | 0% … +2% |
+| grapheme_substr($s, 0, 8) @ ASCII 2 B | 102 | −10% (−18 … +6) | 0% (−9 … +3) ~ | −1% (−14 … +5) | 0% … +2% |
+| grapheme_substr($s, 0, 8) @ ASCII 3 B | 103 | −11% (−24 … +4) | −2% (−7 … +3) | −1% (−14 … +16) | 0% … +3% |
+| grapheme_substr($s, 0, 8) @ ASCII 4 B | 102 | −10% (−22 … −6) | −1% (−14 … +18) | −1% (−8 … +8) | 0% … +3% |
+| grapheme_substr($s, 0, 8) @ ASCII 5 B | 104 | −11% (−18 … +10) | −1% (−9 … +4) ~ | −1% (−15 … +9) ~ | 0% … +4% |
+| grapheme_substr($s, 0, 8) @ ASCII 8 B | 102 | −5% (−15 … +8) | −5% (−15 … +1) ~ | +1% (−3 … +16) ~ | 0% … +5% |
+| grapheme_substr($s, 0, 8) @ ASCII 9 B | 106 | −13% (−25 … −2) | −14% (−22 … −10) | 0% (−5 … +8) ~ | −9% … 0% |
+| grapheme_substr($s, 0, 8) @ ASCII 10 B | 104 | −14% (−17 … −10) | −12% (−17 … +6) | +1% (−6 … +5) ~ | −9% … 0% |
+| grapheme_substr($s, 0, 8) @ ASCII 16 B | 116 | −14% (−19 … −12) | −16% (−20 … −5) | −1% (−8 … +9) ~ | −8% … 0% |
+| grapheme_substr($s, 0, 8) @ ASCII 64 B | 227 | −49% (−50 … −43) | −49% (−50 … −40) | 0% (−4 … +6) ~ | −39% … 0% |
+| grapheme_substr($s, 0, 8) @ ASCII 256 B | 611 | −69% (−70 … −66) | −69% (−69 … −69) | 0% (−2 … +1) | −63% … 0% |
+| grapheme_substr($s, 0, 8) @ ASCII 1 KB | 2,150 | −76% (−76 … −74) | −77% (−77 … −76) | 0% (0 … 0) ~ | −72% … 0% |
 | grapheme_substr($s, 0, 8) @ ASCII 4 KB | 8,311 | −79% (−79 … −79) | −80% (−80 … −80) | 0% (0 … 0) ~ | −74% … 0% |
-| grapheme_substr($s, 0, 8) @ ASCII 1 KB, CR LF every 80 B | 7,735 | −1% (−3 … +1) | −1% (−2 … 0) | 0% (−1 … +1) ~ | −2% … 0% |
-| grapheme_substr($s, 0, 8) @ ASCII 1 KB, lone CR every 80 B | 2,152 | −76% (−76 … −75) | −79% (−79 … −78) | 0% (−1 … 0) | −72% … 0% |
-| grapheme_substr($s, 0, 8) @ ASCII 1 KB, "é" first | 7,663 | 0% (−1 … +1) ~ | +1% (0 … +1) | 0% (−1 … +2) ~ | 0% |
-| grapheme_substr($s, 0, 8) @ ASCII 16 B, "é" last | 2,074 | 0% (−2 … +1) ~ | −1% (−3 … +2) | 0% (−1 … +2) | 0% |
-| grapheme_substr($s, 0, 8) @ ASCII 64 B, "é" last | 2,447 | −5% (−10 … 0) | −3% (−4 … −1) | 0% (−3 … +3) ~ | −4% … 0% |
-| grapheme_substr($s, 0, 8) @ ASCII 256 B, "é" last | 3,905 | −11% (−15 … −9) | −9% (−33 … −7) | 0% (−2 … +1) ~ | −11% … 0% |
-| grapheme_substr($s, 0, 8) @ ASCII 1 KB, "é" last | 9,681 | −17% (−18 … −16) | −17% (−18 … −16) | 0% (−3 … 0) | −18% … 0% |
-| grapheme_substr($s, 0, 8) @ ASCII 4 KB, "é" last | 32,876 | −20% (−20 … −20) | −20% (−21 … −20) | 0% (0 … 0) ~ | −21% … 0% |
-| grapheme_substr($s, 0, 8) @ Chinese 16 B | 1,762 | 0% (−3 … +2) | +1% (0 … +2) | 0% (0 … +1) ~ | 0% |
-| grapheme_substr($s, 0, 8) @ Chinese 64 B | 2,327 | +1% (−1 … +5) | +1% (−1 … +4) | 0% (−1 … +4) ~ | 0% |
-| grapheme_substr($s, 0, 8) @ Chinese 256 B | 3,148 | +1% (0 … +1) | +1% (0 … +2) | 0% (−1 … 0) ~ | 0% |
-| grapheme_substr($s, 0, 8) @ Chinese 1 KB | 6,361 | 0% (−3 … +1) ~ | 0% (0 … +2) | 0% (0 … 0) ~ | 0% |
-| grapheme_substr($s, 0, 8) @ Chinese 4 KB | 19,045 | 0% (−1 … +5) | 0% (−2 … +1) | 0% (0 … 0) ~ | 0% |
-| grapheme_substr($s, 0, 8) @ Spanish 256 B | 3,381 | −1% (−4 … 0) | +1% (0 … +5) | 0% (−1 … +1) ~ | 0% |
-| grapheme_substr($s, 0, 8) @ Russian 256 B | 3,304 | 0% (−2 … +1) | +1% (−2 … +1) | 0% (−1 … +2) | 0% |
-| grapheme_substr($s, 0, 8) @ Japanese 256 B | 3,122 | 0% (−4 … +1) ~ | +2% (0 … +4) | 0% (−2 … +10) | 0% |
-| grapheme_substr($s, 0, 8) @ Korean 256 B | 3,136 | 0% (−2 … +1) | +2% (+1 … +5) | 0% (−1 … +10) ~ | 0% |
-| grapheme_substr($s, 0, 8) @ emoji and text 256 B | 3,606 | −1% (−2 … +2) | 0% (−1 … +1) | 0% (−3 … +1) ~ | 0% |
-| grapheme_strpos($s, 'zz') @ ASCII 1 B | 56 | +13% (+7 … +15) | +12% (+5 … +22) | +6% (−8 … +35) | 0% … +9% |
-| grapheme_strpos($s, 'zz') @ ASCII 2 B | 72 | +7% (+2 … +11) | +7% (−1 … +15) | −1% (−13 … +6) | 0% … +8% |
-| grapheme_strpos($s, 'zz') @ ASCII 3 B | 74 | +6% (+1 … +9) | +7% (+2 … +12) | −1% (−12 … +8) | 0% … +8% |
-| grapheme_strpos($s, 'zz') @ ASCII 4 B | 76 | +5% (−2 … +15) | +5% (−1 … +10) | +1% (−6 … +9) | 0% … +9% |
-| grapheme_strpos($s, 'zz') @ ASCII 5 B | 78 | +3% (−2 … +8) | +5% (0 … +11) | +2% (−5 … +9) | 0% … +9% |
-| grapheme_strpos($s, 'zz') @ ASCII 8 B | 84 | 0% (−4 … +6) | +2% (−2 … +8) | 0% (−5 … +10) | 0% … +10% |
-| grapheme_strpos($s, 'zz') @ ASCII 9 B | 86 | −10% (−13 … −7) | −11% (−12 … −6) | −1% (−6 … +5) | −7% … 0% |
-| grapheme_strpos($s, 'zz') @ ASCII 10 B | 88 | −11% (−14 … −4) | −10% (−16 … −5) | 0% (−5 … +3) | −6% … 0% |
-| grapheme_strpos($s, 'zz') @ ASCII 16 B | 103 | −17% (−19 … −15) | −14% (−18 … −12) | 0% (−9 … +8) | −6% … 0% |
-| grapheme_strpos($s, 'zz') @ ASCII 64 B | 226 | −50% (−51 … −49) | −50% (−51 … −43) | 0% (−2 … +3) | −39% … 0% |
-| grapheme_strpos($s, 'zz') @ ASCII 256 B | 639 | −67% (−67 … −67) | −67% (−67 … −63) | 0% (−1 … +1) | −60% … 0% |
-| grapheme_strpos($s, 'zz') @ ASCII 1 KB | 2,348 | −69% (−69 … −69) | −70% (−70 … −70) | 0% (0 … 0) ~ | −67% … 0% |
-| grapheme_strpos($s, 'zz') @ ASCII 4 KB | 9,319 | −70% (−71 … −70) | −71% (−71 … −71) | 0% (0 … 0) | −69% … 0% |
-| grapheme_strpos($s, 'zz') @ ASCII 1 KB, CR LF every 80 B | 113,026 | 0% (−1 … 0) | 0% (−1 … 0) | 0% (−1 … 0) | 0% |
-| grapheme_strpos($s, 'zz') @ ASCII 1 KB, lone CR every 80 B | 2,349 | −69% (−69 … −69) | −73% (−73 … −72) | 0% (0 … 0) | −67% … 0% |
-| grapheme_strpos($s, 'zz') @ ASCII 1 KB, "é" first | 112,803 | 0% (−1 … 0) | 0% (0 … 0) | 0% (−1 … +1) | 0% |
-| grapheme_strpos($s, 'zz') @ ASCII 16 B, "é" last | 6,280 | −1% (−3 … +2) | +1% (−2 … +2) | 0% (−3 … +5) ~ | 0% |
-| grapheme_strpos($s, 'zz') @ ASCII 64 B, "é" last | 11,427 | −2% (−2 … 0) | −1% (−2 … +1) | 0% (−2 … +2) | −1% … 0% |
-| grapheme_strpos($s, 'zz') @ ASCII 256 B, "é" last | 32,038 | −2% (−2 … −1) | −1% (−2 … 0) | 0% (−1 … 0) ~ | −1% … 0% |
-| grapheme_strpos($s, 'zz') @ ASCII 1 KB, "é" last | 114,849 | −1% (−2 … −1) | −2% (−2 … −1) | 0% (−1 … 0) ~ | −2% … 0% |
-| grapheme_strpos($s, 'zz') @ ASCII 4 KB, "é" last | 444,985 | −1% (−2 … −1) | −1% (−2 … −1) | 0% (−1 … +1) | −2% … 0% |
-| grapheme_strpos($s, 'zz') @ Chinese 16 B | 5,544 | 0% (−3 … +2) ~ | 0% (−3 … +2) ~ | 0% (−3 … +2) ~ | 0% |
-| grapheme_strpos($s, 'zz') @ Chinese 64 B | 8,708 | 0% (−2 … 0) | +1% (−6 … +2) | 0% (−3 … +2) | 0% |
-| grapheme_strpos($s, 'zz') @ Chinese 256 B | 21,673 | 0% (−1 … +1) | 0% (−13 … +2) | 0% (−2 … +1) ~ | 0% |
-| grapheme_strpos($s, 'zz') @ Chinese 1 KB | 72,901 | 0% (−1 … +2) ~ | 0% (−2 … +1) ~ | 0% (−2 … +10) | 0% |
-| grapheme_strpos($s, 'zz') @ Chinese 4 KB | 281,108 | 0% (−1 … +1) | 0% (−1 … +1) ~ | 0% (−1 … +1) ~ | 0% |
-| grapheme_strpos($s, 'zz') @ Spanish 256 B | 31,957 | 0% (−1 … 0) | 0% (−1 … +1) | 0% (0 … 0) | 0% |
-| grapheme_strpos($s, 'zz') @ Russian 256 B | 20,950 | 0% (−4 … +1) ~ | 0% (−1 … +1) ~ | 0% (−3 … +3) ~ | 0% |
-| grapheme_strpos($s, 'zz') @ Japanese 256 B | 14,926 | 0% (−1 … +1) | 0% (−1 … +1) ~ | 0% (−1 … +15) ~ | 0% |
-| grapheme_strpos($s, 'zz') @ Korean 256 B | 27,983 | 0% (−1 … +1) ~ | 0% (−2 … +1) ~ | 0% (−1 … +1) ~ | 0% |
-| grapheme_strpos($s, 'zz') @ emoji and text 256 B | 25,057 | −1% (−1 … 0) | 0% (−1 … +1) ~ | 0% (−3 … +1) ~ | 0% |
-| grapheme_extract($s, 8) @ ASCII 1 B | 104 | +4% (+2 … +5) | +4% (−3 … +8) | 0% (−10 … +8) ~ | 0% … +1% |
-| grapheme_extract($s, 8) @ ASCII 2 B | 106 | +3% (−3 … +4) | +3% (−12 … +9) | 0% (−5 … +8) ~ | 0% … +2% |
-| grapheme_extract($s, 8) @ ASCII 3 B | 107 | +2% (0 … +3) | 0% (−7 … +5) ~ | −1% (−10 … +7) | 0% … +2% |
-| grapheme_extract($s, 8) @ ASCII 4 B | 109 | +2% (0 … +6) | +2% (−7 … +9) | 0% (−6 … +7) ~ | 0% … +3% |
-| grapheme_extract($s, 8) @ ASCII 5 B | 110 | +1% (0 … +4) | 0% (−11 … +7) | −1% (−7 … +5) | 0% … +3% |
-| grapheme_extract($s, 8) @ ASCII 8 B | 114 | +2% (+1 … +3) | −4% (−6 … +4) | 0% (−8 … +7) | 0% … +5% |
-| grapheme_extract($s, 8) @ ASCII 9 B | 114 | −5% (−5 … −2) | −13% (−18 … −8) | −1% (−7 … +10) | −10% … 0% |
-| grapheme_extract($s, 8) @ ASCII 10 B | 114 | −4% (−6 … −4) | −13% (−18 … −7) | 0% (−7 … +4) | −10% … 0% |
-| grapheme_extract($s, 8) @ ASCII 16 B | 115 | −5% (−6 … −4) | −14% (−18 … −7) | +1% (−7 … +6) | −10% … 0% |
-| grapheme_extract($s, 8) @ ASCII 64 B | 114 | −5% (−7 … −4) | −14% (−18 … −8) | +1% (−18 … +7) | −10% … 0% |
-| grapheme_extract($s, 8) @ ASCII 256 B | 114 | −5% (−6 … 0) | −13% (−16 … −9) | −1% (−21 … +5) | −10% … 0% |
-| grapheme_extract($s, 8) @ ASCII 1 KB | 114 | −4% (−5 … −2) | −11% (−18 … −1) | +2% (−7 … +4) | −10% … 0% |
-| grapheme_extract($s, 8) @ ASCII 4 KB | 114 | −5% (−6 … +12) | −13% (−18 … −8) | +2% (−10 … +5) | −10% … 0% |
-| grapheme_extract($s, 8) @ ASCII 1 KB, CR LF every 80 B | 114 | −4% (−5 … −3) | −12% (−15 … −4) | +1% (−5 … +7) | −10% … 0% |
-| grapheme_extract($s, 8) @ ASCII 1 KB, lone CR every 80 B | 114 | −4% (−5 … −3) | −12% (−15 … −3) | −1% (−8 … +6) | −10% … 0% |
-| grapheme_extract($s, 8) @ ASCII 1 KB, "é" first | 2,380 | 0% (−2 … +31) ~ | 0% (−3 … +2) ~ | 0% (−2 … +1) ~ | 0% |
-| grapheme_extract($s, 8) @ ASCII 16 B, "é" last | 114 | −4% (−5 … 0) | −16% (−27 … −11) | −1% (−4 … +5) ~ | −10% … 0% |
-| grapheme_extract($s, 8) @ ASCII 64 B, "é" last | 114 | −4% (−6 … −1) | −12% (−18 … −8) | +1% (−7 … +4) | −10% … 0% |
-| grapheme_extract($s, 8) @ ASCII 256 B, "é" last | 115 | −5% (−5 … +4) | −14% (−16 … −8) | 0% (−4 … +4) ~ | −10% … 0% |
-| grapheme_extract($s, 8) @ ASCII 1 KB, "é" last | 114 | −5% (−7 … −3) | −13% (−24 … −4) | +1% (−14 … +15) | −10% … 0% |
-| grapheme_extract($s, 8) @ ASCII 4 KB, "é" last | 114 | −5% (−8 … −3) | −14% (−18 … −2) | 0% (−7 … +15) | −10% … 0% |
-| grapheme_extract($s, 8) @ Chinese 16 B | 1,791 | −1% (−7 … +2) | 0% (−2 … +2) | 0% (−1 … +1) | 0% |
-| grapheme_extract($s, 8) @ Chinese 64 B | 2,739 | 0% (−11 … +5) | 0% (−3 … +5) | 0% (−5 … +1) | 0% |
-| grapheme_extract($s, 8) @ Chinese 256 B | 3,041 | 0% (−2 … +2) | 0% (−1 … +1) ~ | 0% (−1 … +12) ~ | 0% |
-| grapheme_extract($s, 8) @ Chinese 1 KB | 3,036 | 0% (−1 … +2) ~ | 0% (−1 … +1) | 0% (−1 … +4) ~ | 0% |
-| grapheme_extract($s, 8) @ Chinese 4 KB | 3,039 | 0% (−2 … +1) | 0% (−2 … +1) | 0% (−1 … +1) | 0% |
-| grapheme_extract($s, 8) @ Spanish 256 B | 2,218 | 0% (−35 … +1) | −2% (−6 … +28) | 0% (−1 … +2) ~ | −1% … 0% |
-| grapheme_extract($s, 8) @ Russian 256 B | 2,865 | 0% (−18 … +1) ~ | 0% (−1 … +2) ~ | 0% (−2 … +1) | 0% |
-| grapheme_extract($s, 8) @ Japanese 256 B | 2,951 | 0% (−3 … +2) ~ | 0% (−1 … +6) | 0% (−2 … +4) | 0% |
-| grapheme_extract($s, 8) @ Korean 256 B | 2,814 | 0% (−1 … +2) | 0% (−2 … +2) | 0% (−2 … +2) | 0% |
-| grapheme_extract($s, 8) @ emoji and text 256 B | 2,370 | 0% (−2 … +5) | 0% (−19 … +1) | 0% (−2 … +20) | 0% |
-| grapheme_strpos($s, 'x') @ ASCII 1 B | 66 | +13% (+11 … +24) | +8% (−15 … +14) | 0% (−8 … +11) ~ | 0% … +7% |
-| grapheme_strpos($s, 'x') @ ASCII 5 B | 74 | +7% (0 … +14) | +4% (−2 … +10) | +4% (−5 … +11) | 0% … +9% |
-| grapheme_strpos($s, 'x') @ ASCII 9 B | 82 | −9% (−12 … −3) | −14% (−17 … +1) | +1% (−9 … +5) | −9% … 0% |
-| grapheme_strpos($s, 'x') @ ASCII 16 B | 99 | −15% (−32 … −12) | −19% (−20 … −15) | +1% (−5 … +8) | −7% … 0% |
-| grapheme_strpos($s, 'x') @ ASCII 64 B | 198 | −57% (−59 … −56) | −57% (−57 … −56) | 0% (−2 … +3) | −45% … 0% |
-| grapheme_strpos($s, 'x') @ ASCII 256 B | 583 | −73% (−74 … −71) | −73% (−73 … −73) | 0% (−1 … +1) ~ | −66% … 0% |
-| grapheme_strpos($s, 'x') @ ASCII 1 KB | 2,123 | −77% (−77 … −76) | −78% (−78 … −77) | 0% (0 … 0) | −72% … 0% |
-| grapheme_strpos($s, 'x') @ ASCII 4 KB | 8,282 | −79% (−79 … −79) | −80% (−80 … −80) | 0% (0 … 0) | −74% … 0% |
-| grapheme_strstr($s, 'o') @ ASCII 1 B | 69 | +9% (+8 … +14) | +11% (+5 … +20) | +1% (−5 … +12) | 0% … +3% |
-| grapheme_strstr($s, 'o') @ ASCII 5 B | 77 | +3% (−1 … +11) | +5% (0 … +12) | 0% (−10 … +10) | 0% … +5% |
-| grapheme_strstr($s, 'o') @ ASCII 9 B | 85 | −10% (−11 … −6) | −12% (−18 … −6) | −1% (−7 … +9) | −13% … 0% |
-| grapheme_strstr($s, 'o') @ ASCII 16 B | 128 | −11% (−12 … −7) | −15% (−20 … −12) | −1% (−2 … +5) | −7% … 0% |
-| grapheme_strstr($s, 'o') @ ASCII 64 B | 236 | −46% (−47 … −45) | −44% (−45 … −41) | 0% (−3 … +4) | −39% … 0% |
-| grapheme_strstr($s, 'o') @ ASCII 256 B | 622 | −67% (−67 … −65) | −66% (−67 … −64) | 0% (−1 … +1) | −62% … 0% |
-| grapheme_strstr($s, 'o') @ ASCII 1 KB | 2,188 | −73% (−74 … −73) | −74% (−75 … −74) | 0% (0 … 0) ~ | −71% … 0% |
-| grapheme_strstr($s, 'o') @ ASCII 4 KB | 8,496 | −77% (−77 … −77) | −78% (−78 … −78) | 0% (0 … 0) ~ | −73% … 0% |
-| grapheme_stripos($s, 'Z') @ ASCII 1 B | 140 | +4% (+2 … +6) | +1% (−3 … +5) | 0% (−45 … +7) | 0% … +2% |
-| grapheme_stripos($s, 'Z') @ ASCII 5 B | 151 | +2% (+1 … +4) | −1% (−5 … +3) | −1% (−18 … +4) | 0% … +3% |
-| grapheme_stripos($s, 'Z') @ ASCII 9 B | 162 | −5% (−7 … +2) | −8% (−12 … −5) | 0% (−4 … +3) | −6% … 0% |
-| grapheme_stripos($s, 'Z') @ ASCII 16 B | 174 | −10% (−16 … −8) | −12% (−15 … −9) | 0% (−3 … +4) ~ | −5% … 0% |
-| grapheme_stripos($s, 'Z') @ ASCII 64 B | 280 | −36% (−38 … −36) | −42% (−43 … −41) | 0% (−3 … +20) | −32% … 0% |
-| grapheme_stripos($s, 'Z') @ ASCII 256 B | 689 | −59% (−60 … −59) | −62% (−63 … −61) | 0% (−1 … +2) | −55% … 0% |
-| grapheme_stripos($s, 'Z') @ ASCII 1 KB | 2,342 | −68% (−69 … −68) | −69% (−70 … −69) | 0% (−2 … +2) | −65% … 0% |
-| grapheme_stripos($s, 'Z') @ ASCII 4 KB | 9,030 | −72% (−73 … −72) | −73% (−74 … −73) | 0% (−1 … 0) ~ | −67% … 0% |
-| grapheme_strrpos($s, 'e') @ ASCII 1 B | 64 | +7% (0 … +11) | +5% (−3 … +9) | 0% (−27 … +14) | 0% … +6% |
-| grapheme_strrpos($s, 'e') @ ASCII 5 B | 62 | 0% (−5 … +5) | +5% (−3 … +7) | +1% (−4 … +9) | 0% … +6% |
-| grapheme_strrpos($s, 'e') @ ASCII 9 B | 75 | −15% (−19 … −12) | −11% (−15 … −8) | −1% (−5 … +5) ~ | −12% … 0% |
-| grapheme_strrpos($s, 'e') @ ASCII 16 B | 99 | −17% (−19 … −15) | −10% (−15 … −8) | −1% (−5 … +1) | −8% … 0% |
-| grapheme_strrpos($s, 'e') @ ASCII 64 B | 197 | −57% (−57 … −54) | −57% (−58 … −55) | 0% (−3 … +4) | −44% … 0% |
-| grapheme_strrpos($s, 'e') @ ASCII 256 B | 593 | −72% (−72 … −72) | −71% (−71 … −71) | 0% (−1 … +2) | −63% … 0% |
-| grapheme_strrpos($s, 'e') @ ASCII 1 KB | 2,121 | −77% (−77 … −77) | −78% (−78 … −77) | 0% (−1 … 0) ~ | −72% … 0% |
-| grapheme_strrpos($s, 'e') @ ASCII 4 KB | 8,291 | −79% (−79 … −79) | −80% (−80 … −80) | 0% (0 … 0) | −74% … 0% |
-| grapheme_strlen(next string) @ ASCII, mixed lengths 1-24 B | 100 | −29% (−35 … −25) | −31% (−35 … −30) | 0% (−33 … +4) | −14% … 0% |
-| grapheme_substr(next string, 0, 8) @ ASCII, mixed lengths 1-24 B | 159 | −7% (−9 … −5) | −8% (−10 … −7) | 0% (−1 … +2) | −8% … 0% |
-| grapheme_strpos(next string, 'zz') @ ASCII, mixed lengths 1-24 B | 145 | −11% (−16 … −5) | −12% (−16 … −8) | 0% (−4 … +5) ~ | −6% … 0% |
+| grapheme_substr($s, 0, 8) @ ASCII 1 KB, CR LF every 80 B | 7,715 | −2% (−5 … −1) | −1% (−1 … +1) | 0% (−1 … +2) | −2% … 0% |
+| grapheme_substr($s, 0, 8) @ ASCII 1 KB, lone CR every 80 B | 2,149 | −76% (−76 … −75) | −79% (−79 … −78) | 0% (0 … 0) | −72% … 0% |
+| grapheme_substr($s, 0, 8) @ ASCII 1 KB, "é" first | 7,609 | 0% (−1 … +1) ~ | +1% (0 … +2) | 0% (−1 … +2) ~ | 0% |
+| grapheme_substr($s, 0, 8) @ ASCII 16 B, "é" last | 2,073 | 0% (−5 … +1) ~ | 0% (−4 … +3) | 0% (−13 … +1) ~ | 0% |
+| grapheme_substr($s, 0, 8) @ ASCII 64 B, "é" last | 2,448 | −5% (−6 … −2) | −3% (−8 … 0) | 0% (−1 … +5) ~ | −4% … 0% |
+| grapheme_substr($s, 0, 8) @ ASCII 256 B, "é" last | 3,913 | −12% (−14 … −9) | −10% (−11 … −8) | 0% (−2 … +8) ~ | −11% … 0% |
+| grapheme_substr($s, 0, 8) @ ASCII 1 KB, "é" last | 9,681 | −17% (−18 … −16) | −16% (−18 … −15) | 0% (−1 … 0) | −18% … 0% |
+| grapheme_substr($s, 0, 8) @ ASCII 4 KB, "é" last | 32,868 | −20% (−20 … −20) | −20% (−20 … −20) | 0% (0 … 0) ~ | −21% … 0% |
+| grapheme_substr($s, 0, 8) @ Chinese 16 B | 1,763 | 0% (−1 … 0) | +1% (+1 … +2) | 0% (0 … +1) ~ | 0% |
+| grapheme_substr($s, 0, 8) @ Chinese 64 B | 2,327 | 0% (−1 … +2) | +1% (−3 … +7) | 0% (−2 … +1) ~ | 0% |
+| grapheme_substr($s, 0, 8) @ Chinese 256 B | 3,143 | +1% (−6 … +1) | +1% (0 … +35) | 0% (−2 … +1) ~ | 0% |
+| grapheme_substr($s, 0, 8) @ Chinese 1 KB | 6,377 | 0% (−1 … +1) | +1% (−1 … +2) | 0% (−1 … 0) | 0% |
+| grapheme_substr($s, 0, 8) @ Chinese 4 KB | 19,064 | 0% (0 … +4) | 0% (−5 … 0) | 0% (0 … 0) ~ | 0% |
+| grapheme_substr($s, 0, 8) @ Spanish 256 B | 3,373 | −2% (−4 … +1) | +2% (−1 … +3) | 0% (−2 … +1) ~ | 0% |
+| grapheme_substr($s, 0, 8) @ Russian 256 B | 3,306 | 0% (0 … +4) | 0% (0 … +3) | 0% (−2 … +1) | 0% |
+| grapheme_substr($s, 0, 8) @ Japanese 256 B | 3,102 | 0% (−1 … +3) | +2% (+1 … +4) | 0% (−1 … +1) ~ | 0% |
+| grapheme_substr($s, 0, 8) @ Korean 256 B | 3,140 | −1% (−1 … +3) | +2% (−7 … +3) | 0% (−1 … 0) ~ | 0% |
+| grapheme_substr($s, 0, 8) @ English 256 B, ’ every 170 B | 3,663 | −8% (−13 … −5) | −5% (−7 … −3) | +1% (−3 … +2) | −6% … 0% |
+| grapheme_substr($s, 0, 8) @ English 1 KB, ’ every 170 B | 7,956 | −4% (−6 … +1) | −2% (−17 … −1) | 0% (−1 … +1) ~ | −3% … 0% |
+| grapheme_substr($s, 0, 8) @ English 4 KB, ’ every 170 B | 25,238 | −1% (−2 … +1) | 0% (−1 … +5) | 0% (−1 … 0) ~ | −1% … 0% |
+| grapheme_substr($s, 0, 8) @ emoji and text 256 B | 3,606 | −1% (−1 … 0) | 0% (−1 … +2) ~ | 0% (−2 … +1) | 0% |
+| grapheme_strpos($s, 'zz') @ ASCII 1 B | 56 | +13% (+10 … +25) | +15% (+4 … +19) | 0% (−7 … +14) ~ | 0% … +9% |
+| grapheme_strpos($s, 'zz') @ ASCII 2 B | 69 | +11% (+3 … +19) | +10% (0 … +14) | 0% (−6 … +2) ~ | 0% … +8% |
+| grapheme_strpos($s, 'zz') @ ASCII 3 B | 74 | +6% (+1 … +14) | +5% (−2 … +11) | −1% (−5 … +39) | 0% … +8% |
+| grapheme_strpos($s, 'zz') @ ASCII 4 B | 73 | +6% (0 … +9) | +8% (−1 … +11) | +2% (−7 … +7) | 0% … +9% |
+| grapheme_strpos($s, 'zz') @ ASCII 5 B | 75 | +3% (−1 … +12) | +5% (+1 … +172) | −1% (−6 … +2) | 0% … +9% |
+| grapheme_strpos($s, 'zz') @ ASCII 8 B | 81 | +3% (−4 … +10) | +2% (−7 … +7) ~ | −1% (−5 … +6) ~ | 0% … +10% |
+| grapheme_strpos($s, 'zz') @ ASCII 9 B | 83 | −8% (−18 … −1) | −12% (−17 … −6) | +2% (−4 … +9) | −7% … 0% |
+| grapheme_strpos($s, 'zz') @ ASCII 10 B | 88 | −11% (−18 … −5) | −9% (−18 … −3) | 0% (−6 … +5) | −6% … 0% |
+| grapheme_strpos($s, 'zz') @ ASCII 16 B | 103 | −16% (−20 … −13) | −16% (−20 … −10) | −1% (−5 … +4) | −6% … 0% |
+| grapheme_strpos($s, 'zz') @ ASCII 64 B | 226 | −49% (−52 … −49) | −50% (−53 … −49) | 0% (−2 … +2) ~ | −39% … 0% |
+| grapheme_strpos($s, 'zz') @ ASCII 256 B | 638 | −67% (−67 … −66) | −67% (−67 … −65) | 0% (−1 … +1) | −60% … 0% |
+| grapheme_strpos($s, 'zz') @ ASCII 1 KB | 2,349 | −69% (−70 … −68) | −70% (−70 … −69) | 0% (0 … 0) ~ | −67% … 0% |
+| grapheme_strpos($s, 'zz') @ ASCII 4 KB | 9,333 | −70% (−71 … −70) | −71% (−71 … −71) | 0% (0 … 0) ~ | −69% … 0% |
+| grapheme_strpos($s, 'zz') @ ASCII 1 KB, CR LF every 80 B | 112,860 | 0% (−1 … 0) | 0% (−1 … +1) | 0% (0 … 0) ~ | 0% |
+| grapheme_strpos($s, 'zz') @ ASCII 1 KB, lone CR every 80 B | 2,349 | −69% (−70 … −68) | −73% (−73 … −72) | 0% (0 … 0) | −67% … 0% |
+| grapheme_strpos($s, 'zz') @ ASCII 1 KB, "é" first | 112,784 | 0% (0 … 0) | 0% (0 … 0) | 0% (0 … 0) ~ | 0% |
+| grapheme_strpos($s, 'zz') @ ASCII 16 B, "é" last | 6,187 | −1% (−3 … +3) | 0% (−2 … +4) ~ | 0% (−2 … +2) ~ | 0% |
+| grapheme_strpos($s, 'zz') @ ASCII 64 B, "é" last | 11,365 | −1% (−3 … 0) | −1% (−3 … +1) | 0% (−1 … +1) ~ | −1% … 0% |
+| grapheme_strpos($s, 'zz') @ ASCII 256 B, "é" last | 32,082 | −2% (−2 … −1) | −1% (−2 … −1) | 0% (−1 … +1) | −1% … 0% |
+| grapheme_strpos($s, 'zz') @ ASCII 1 KB, "é" last | 114,841 | −1% (−2 … −1) | −1% (−30 … −1) | 0% (−1 … 0) | −2% … 0% |
+| grapheme_strpos($s, 'zz') @ ASCII 4 KB, "é" last | 444,760 | −2% (−2 … −1) | −2% (−2 … −1) | 0% (−1 … 0) ~ | −2% … 0% |
+| grapheme_strpos($s, 'zz') @ Chinese 16 B | 5,551 | 0% (−3 … 0) | −1% (−3 … +1) | 0% (−2 … +3) | 0% |
+| grapheme_strpos($s, 'zz') @ Chinese 64 B | 8,703 | 0% (−2 … +4) ~ | +1% (−1 … +3) | 0% (−2 … +2) | 0% |
+| grapheme_strpos($s, 'zz') @ Chinese 256 B | 21,681 | 0% (−1 … +1) ~ | +1% (−1 … +1) | 0% (−1 … +1) ~ | 0% |
+| grapheme_strpos($s, 'zz') @ Chinese 1 KB | 72,936 | 0% (−1 … +1) | 0% (−1 … +1) | 0% (−1 … +1) | 0% |
+| grapheme_strpos($s, 'zz') @ Chinese 4 KB | 281,234 | 0% (−1 … +1) | 0% (−1 … +3) ~ | 0% (−1 … +1) ~ | 0% |
+| grapheme_strpos($s, 'zz') @ Spanish 256 B | 31,926 | 0% (−1 … +1) ~ | 0% (−1 … +1) ~ | 0% (−1 … 0) ~ | 0% |
+| grapheme_strpos($s, 'zz') @ Russian 256 B | 20,924 | 0% (−1 … +2) | 0% (−1 … +1) | 0% (−2 … +1) ~ | 0% |
+| grapheme_strpos($s, 'zz') @ Japanese 256 B | 14,932 | 0% (−12 … +1) ~ | 0% (−1 … +1) ~ | 0% (−1 … +1) ~ | 0% |
+| grapheme_strpos($s, 'zz') @ Korean 256 B | 28,001 | 0% (−1 … +1) ~ | 0% (−1 … +1) ~ | 0% (−1 … +1) ~ | 0% |
+| grapheme_strpos($s, 'zz') @ English 256 B, ’ every 170 B | 31,467 | −1% (−2 … 0) | −1% (−1 … 0) | 0% (−3 … +1) | −1% … 0% |
+| grapheme_strpos($s, 'zz') @ English 1 KB, ’ every 170 B | 111,277 | 0% (−1 … +4) | 0% (−1 … 0) | 0% (−1 … +1) | 0% |
+| grapheme_strpos($s, 'zz') @ English 4 KB, ’ every 170 B | 431,176 | 0% (−1 … 0) | 0% (−2 … 0) | 0% (−1 … 0) ~ | 0% |
+| grapheme_strpos($s, 'zz') @ emoji and text 256 B | 25,054 | −1% (−12 … +1) | 0% (−1 … +1) | 0% (−1 … +1) ~ | 0% |
+| grapheme_extract($s, 8) @ ASCII 1 B | 103 | +4% (+1 … +5) | +2% (−3 … +10) | 0% (−5 … +5) ~ | 0% … +1% |
+| grapheme_extract($s, 8) @ ASCII 2 B | 106 | +2% (−1 … +5) | +2% (−16 … +10) | −1% (−9 … +18) | 0% … +2% |
+| grapheme_extract($s, 8) @ ASCII 3 B | 108 | +3% (0 … +18) | +5% (−17 … +14) | −1% (−15 … +7) | 0% … +2% |
+| grapheme_extract($s, 8) @ ASCII 4 B | 109 | +1% (−2 … +4) | +3% (−8 … +30) | +3% (−9 … +31) | 0% … +3% |
+| grapheme_extract($s, 8) @ ASCII 5 B | 109 | +2% (+1 … +4) | +2% (−12 … +7) | 0% (−4 … +13) ~ | 0% … +3% |
+| grapheme_extract($s, 8) @ ASCII 8 B | 113 | +2% (+2 … +3) | −5% (−14 … +78) | +1% (−7 … +5) | 0% … +5% |
+| grapheme_extract($s, 8) @ ASCII 9 B | 114 | −4% (−6 … −3) | −13% (−18 … −7) | 0% (−4 … +3) ~ | −10% … 0% |
+| grapheme_extract($s, 8) @ ASCII 10 B | 114 | −4% (−5 … −2) | −11% (−15 … −8) | +1% (−3 … +7) | −10% … 0% |
+| grapheme_extract($s, 8) @ ASCII 16 B | 114 | −4% (−5 … −4) | −12% (−16 … −5) | −1% (−8 … +14) | −10% … 0% |
+| grapheme_extract($s, 8) @ ASCII 64 B | 114 | −5% (−7 … −4) | −14% (−19 … −6) | 0% (−2 … +5) ~ | −10% … 0% |
+| grapheme_extract($s, 8) @ ASCII 256 B | 114 | −5% (−5 … −4) | −14% (−17 … −10) | −1% (−5 … +5) | −10% … 0% |
+| grapheme_extract($s, 8) @ ASCII 1 KB | 114 | −4% (−5 … −3) | −12% (−19 … −7) | 0% (−7 … +6) ~ | −10% … 0% |
+| grapheme_extract($s, 8) @ ASCII 4 KB | 114 | −5% (−7 … −4) | −12% (−16 … −9) | 0% (−11 … +6) | −10% … 0% |
+| grapheme_extract($s, 8) @ ASCII 1 KB, CR LF every 80 B | 114 | −4% (−6 … −3) | −11% (−16 … +36) | +1% (−4 … +3) | −10% … 0% |
+| grapheme_extract($s, 8) @ ASCII 1 KB, lone CR every 80 B | 114 | −5% (−6 … −2) | −12% (−18 … −8) | +1% (−3 … +4) | −10% … 0% |
+| grapheme_extract($s, 8) @ ASCII 1 KB, "é" first | 2,373 | 0% (−2 … +5) ~ | 0% (−21 … +3) ~ | 0% (−2 … +1) ~ | 0% |
+| grapheme_extract($s, 8) @ ASCII 16 B, "é" last | 114 | −5% (−7 … −4) | −12% (−15 … −4) | 0% (−7 … +4) ~ | −10% … 0% |
+| grapheme_extract($s, 8) @ ASCII 64 B, "é" last | 114 | −4% (−5 … −3) | −12% (−19 … +1) | −1% (−7 … +5) | −10% … 0% |
+| grapheme_extract($s, 8) @ ASCII 256 B, "é" last | 114 | −4% (−8 … −3) | −13% (−16 … +6) | 0% (−6 … +12) | −10% … 0% |
+| grapheme_extract($s, 8) @ ASCII 1 KB, "é" last | 115 | −5% (−6 … −3) | −13% (−17 … −7) | 0% (−5 … +12) | −10% … 0% |
+| grapheme_extract($s, 8) @ ASCII 4 KB, "é" last | 114 | −5% (−8 … −2) | −11% (−18 … −6) | −1% (−5 … +5) | −10% … 0% |
+| grapheme_extract($s, 8) @ Chinese 16 B | 1,791 | 0% (−4 … +1) | 0% (−1 … +2) | 0% (−1 … +3) ~ | 0% |
+| grapheme_extract($s, 8) @ Chinese 64 B | 2,738 | 0% (−4 … +37) | 0% (−5 … +2) | 0% (−16 … +1) | 0% |
+| grapheme_extract($s, 8) @ Chinese 256 B | 3,038 | 0% (−3 … +32) | 0% (−2 … +31) ~ | 0% (−3 … +3) ~ | 0% |
+| grapheme_extract($s, 8) @ Chinese 1 KB | 3,042 | 0% (−4 … +3) | 0% (−1 … +2) | 0% (−3 … +26) | 0% |
+| grapheme_extract($s, 8) @ Chinese 4 KB | 3,038 | 0% (−2 … +34) ~ | 0% (−2 … +1) | 0% (−1 … +2) ~ | 0% |
+| grapheme_extract($s, 8) @ Spanish 256 B | 2,219 | 0% (−2 … +1) ~ | −2% (−5 … 0) | 0% (−5 … +4) | −1% … 0% |
+| grapheme_extract($s, 8) @ Russian 256 B | 2,866 | 0% (−2 … +1) ~ | 0% (−1 … +3) | 0% (−25 … +2) ~ | 0% |
+| grapheme_extract($s, 8) @ Japanese 256 B | 2,958 | 0% (−2 … +1) ~ | 0% (−1 … +1) ~ | 0% (−2 … +11) ~ | 0% |
+| grapheme_extract($s, 8) @ Korean 256 B | 2,812 | 0% (−2 … +5) | 0% (−2 … +8) | 0% (−2 … +28) ~ | 0% |
+| grapheme_extract($s, 8) @ English 256 B, ’ every 170 B | 114 | −4% (−11 … −4) | −12% (−18 … −8) | −1% (−7 … +5) | −10% … 0% |
+| grapheme_extract($s, 8) @ English 1 KB, ’ every 170 B | 114 | −4% (−5 … −3) | −13% (−18 … −8) | +1% (−4 … +6) | −10% … 0% |
+| grapheme_extract($s, 8) @ English 4 KB, ’ every 170 B | 114 | −5% (−11 … −4) | −13% (−17 … −10) | 0% (−4 … +4) ~ | −10% … 0% |
+| grapheme_extract($s, 8) @ emoji and text 256 B | 2,368 | +1% (0 … +5) | 0% (−1 … +2) | 0% (−1 … +1) ~ | 0% |
+| grapheme_strpos($s, 'x') @ ASCII 1 B | 66 | +13% (+5 … +19) | +10% (+3 … +16) | +1% (−7 … +9) | 0% … +7% |
+| grapheme_strpos($s, 'x') @ ASCII 5 B | 74 | +6% (+1 … +15) | +4% (−4 … +10) | +1% (−3 … +7) | 0% … +9% |
+| grapheme_strpos($s, 'x') @ ASCII 9 B | 82 | −9% (−16 … +1) | −13% (−18 … +3) | −1% (−6 … +7) | −9% … 0% |
+| grapheme_strpos($s, 'x') @ ASCII 16 B | 99 | −15% (−19 … −10) | −20% (−25 … −15) | +1% (−7 … +7) ~ | −7% … 0% |
+| grapheme_strpos($s, 'x') @ ASCII 64 B | 198 | −57% (−58 … −53) | −56% (−57 … −55) | 0% (−2 … +2) ~ | −45% … 0% |
+| grapheme_strpos($s, 'x') @ ASCII 256 B | 582 | −73% (−74 … −72) | −73% (−73 … −72) | 0% (−1 … +1) ~ | −66% … 0% |
+| grapheme_strpos($s, 'x') @ ASCII 1 KB | 2,121 | −77% (−77 … −76) | −78% (−78 … −77) | 0% (−1 … 0) | −72% … 0% |
+| grapheme_strpos($s, 'x') @ ASCII 4 KB | 8,278 | −79% (−79 … −79) | −80% (−80 … −80) | 0% (0 … 0) ~ | −74% … 0% |
+| grapheme_strstr($s, 'o') @ ASCII 1 B | 69 | +12% (+1 … +17) | +11% (+5 … +20) | 0% (−7 … +7) ~ | 0% … +3% |
+| grapheme_strstr($s, 'o') @ ASCII 5 B | 77 | +4% (+3 … +11) | +6% (0 … +11) | 0% (−9 … +8) ~ | 0% … +5% |
+| grapheme_strstr($s, 'o') @ ASCII 9 B | 82 | −10% (−11 … +1) | −12% (−19 … −7) | 0% (−5 … +10) ~ | −13% … 0% |
+| grapheme_strstr($s, 'o') @ ASCII 16 B | 125 | −9% (−12 … −4) | −15% (−19 … −12) | +1% (−4 … +3) | −7% … 0% |
+| grapheme_strstr($s, 'o') @ ASCII 64 B | 237 | −45% (−47 … −45) | −44% (−45 … −42) | 0% (−3 … +2) ~ | −39% … 0% |
+| grapheme_strstr($s, 'o') @ ASCII 256 B | 624 | −67% (−68 … −65) | −67% (−68 … −66) | 0% (−1 … +1) | −62% … 0% |
+| grapheme_strstr($s, 'o') @ ASCII 1 KB | 2,186 | −73% (−74 … −73) | −75% (−75 … −74) | 0% (−1 … +1) | −71% … 0% |
+| grapheme_strstr($s, 'o') @ ASCII 4 KB | 8,491 | −77% (−78 … −77) | −78% (−78 … −78) | 0% (−1 … 0) ~ | −73% … 0% |
+| grapheme_stripos($s, 'Z') @ ASCII 1 B | 142 | +4% (−1 … +7) | +1% (−4 … +8) | 0% (−6 … +4) | 0% … +2% |
+| grapheme_stripos($s, 'Z') @ ASCII 5 B | 151 | +2% (0 … +8) | −1% (−18 … +2) ~ | 0% (−6 … +2) ~ | 0% … +3% |
+| grapheme_stripos($s, 'Z') @ ASCII 9 B | 164 | −5% (−6 … +1) | −8% (−13 … −6) | 0% (−2 … +3) ~ | −6% … 0% |
+| grapheme_stripos($s, 'Z') @ ASCII 16 B | 175 | −9% (−12 … −6) | −12% (−13 … −10) | 0% (−2 … +3) ~ | −5% … 0% |
+| grapheme_stripos($s, 'Z') @ ASCII 64 B | 282 | −35% (−37 … −34) | −42% (−42 … −40) | 0% (−2 … +1) ~ | −32% … 0% |
+| grapheme_stripos($s, 'Z') @ ASCII 256 B | 690 | −60% (−61 … −57) | −62% (−63 … −62) | 0% (−2 … +2) ~ | −55% … 0% |
+| grapheme_stripos($s, 'Z') @ ASCII 1 KB | 2,341 | −68% (−69 … −68) | −69% (−71 … −68) | +1% (−2 … +1) | −65% … 0% |
+| grapheme_stripos($s, 'Z') @ ASCII 4 KB | 9,026 | −72% (−73 … −72) | −73% (−74 … −73) | 0% (0 … 0) ~ | −67% … 0% |
+| grapheme_strrpos($s, 'e') @ ASCII 1 B | 61 | +6% (−2 … +17) | +7% (+3 … +9) | 0% (−7 … +20) ~ | 0% … +6% |
+| grapheme_strrpos($s, 'e') @ ASCII 5 B | 59 | +4% (−5 … +12) | +4% (−1 … +6) | 0% (−6 … +5) ~ | 0% … +6% |
+| grapheme_strrpos($s, 'e') @ ASCII 9 B | 74 | −14% (−19 … −8) | −13% (−20 … −8) | +1% (−7 … +9) | −12% … 0% |
+| grapheme_strrpos($s, 'e') @ ASCII 16 B | 95 | −16% (−19 … −11) | −10% (−12 … −6) | −2% (−9 … +3) | −8% … 0% |
+| grapheme_strrpos($s, 'e') @ ASCII 64 B | 194 | −56% (−58 … −54) | −56% (−57 … −55) | 0% (−3 … +2) | −44% … 0% |
+| grapheme_strrpos($s, 'e') @ ASCII 256 B | 592 | −72% (−72 … −71) | −71% (−72 … −71) | 0% (−1 … +1) ~ | −63% … 0% |
+| grapheme_strrpos($s, 'e') @ ASCII 1 KB | 2,119 | −77% (−77 … −76) | −77% (−78 … −77) | 0% (0 … 0) ~ | −72% … 0% |
+| grapheme_strrpos($s, 'e') @ ASCII 4 KB | 8,275 | −79% (−79 … −78) | −80% (−80 … −80) | 0% (0 … 0) ~ | −74% … 0% |
+| grapheme_strlen(next string) @ ASCII, mixed lengths 1-24 B | 100 | −27% (−36 … −23) | −33% (−37 … −29) | 0% (−6 … +7) ~ | −14% … 0% |
+| grapheme_strlen(next string) @ ASCII 1 KB, "é" at a random position | 64,897 | −2% (−6 … −1) | −2% (−8 … +2) | 0% (−4 … +4) ~ | −1% … 0% |
+| grapheme_substr(next string, 0, 8) @ ASCII, mixed lengths 1-24 B | 159 | −9% (−15 … −7) | −8% (−10 … −6) | 0% (−3 … +9) ~ | −8% … 0% |
+| grapheme_substr(next string, 0, 8) @ ASCII 1 KB, "é" at a random position | 8,773 | −9% (−10 … −5) | −9% (−11 … −8) | 0% (−1 … +1) ~ | −11% … 0% |
+| grapheme_strpos(next string, 'zz') @ ASCII, mixed lengths 1-24 B | 144 | −11% (−14 … −7) | −12% (−17 … −8) | 0% (−8 … +7) ~ | −6% … 0% |
+| grapheme_strpos(next string, 'zz') @ ASCII 1 KB, "é" at a random position | 113,931 | −1% (−1 … 0) | −1% (−1 … 0) | 0% (−1 … 0) | −1% … 0% |
 
 Control: master against itself.
 
 | call | master, CPU cycles per call (GCC 15.2) | A/A start | A/A end |
 |---|--:|--:|--:|
-| grapheme_strlen($s) @ ASCII 1 B | 36 | 0% (−10 … 0) | 0% (−11 … 0) |
-| grapheme_strlen($s) @ ASCII 2 B | 38 | 0% (0 … +8) | 0% (−8 … 0) |
-| grapheme_strlen($s) @ ASCII 3 B | 40 | 0% (−10 … 0) | 0% (−2 … +10) |
-| grapheme_strlen($s) @ ASCII 4 B | 42 | 0% (0 … +17) | 0% (−1 … 0) |
-| grapheme_strlen($s) @ ASCII 5 B | 44 | 0% (−7 … +1) | 0% (−7 … +8) |
-| grapheme_strlen($s) @ ASCII 8 B | 50 | 0% (−8 … +5) | 0% (−8 … 0) |
-| grapheme_strlen($s) @ ASCII 9 B | 52 | 0% (−8 … +7) | 0% (0 … +4) |
-| grapheme_strlen($s) @ ASCII 10 B | 54 | 0% (−7 … 0) | 0% (−7 … 0) |
-| grapheme_strlen($s) @ ASCII 16 B | 69 | 0% (−4 … +6) | 0% (−5 … +5) |
-| grapheme_strlen($s) @ ASCII 64 B | 179 | 0% (0 … +2) | 0% (−2 … +1) |
-| grapheme_strlen($s) @ ASCII 256 B | 563 | 0% (0 … 0) | 0% (−1 … +1) |
-| grapheme_strlen($s) @ ASCII 1 KB | 2,099 | 0% (0 … 0) | 0% (−1 … 0) |
+| grapheme_strlen($s) @ ASCII 1 B | 33 | 0% (−10 … +9) | 0% (−16 … +19) |
+| grapheme_strlen($s) @ ASCII 2 B | 37 | 0% (−8 … +19) | 0% (−8 … +19) |
+| grapheme_strlen($s) @ ASCII 3 B | 40 | 0% (−8 … +11) | 0% (−15 … +16) |
+| grapheme_strlen($s) @ ASCII 4 B | 42 | 0% (−15 … +8) | 0% (−15 … +12) |
+| grapheme_strlen($s) @ ASCII 5 B | 44 | 0% (−7 … +16) | 0% (−14 … +8) |
+| grapheme_strlen($s) @ ASCII 8 B | 50 | 0% (−8 … +7) | +2% (−8 … +9) |
+| grapheme_strlen($s) @ ASCII 9 B | 49 | 0% (−12 … +13) | 0% (−12 … +13) |
+| grapheme_strlen($s) @ ASCII 10 B | 54 | 0% (−11 … +6) | 0% (−11 … +6) |
+| grapheme_strlen($s) @ ASCII 16 B | 66 | 0% (−5 … +6) | 0% (−6 … +6) |
+| grapheme_strlen($s) @ ASCII 64 B | 176 | 0% (−2 … +3) | 0% (−3 … +2) |
+| grapheme_strlen($s) @ ASCII 256 B | 563 | 0% (−1 … +1) | 0% (−1 … +2) |
+| grapheme_strlen($s) @ ASCII 1 KB | 2,097 | 0% (0 … 0) | 0% (0 … 0) |
 | grapheme_strlen($s) @ ASCII 4 KB | 8,243 | 0% (0 … 0) | 0% (−1 … 0) |
-| grapheme_strlen($s) @ ASCII 1 KB, CR LF every 80 B | 63,461 | 0% (−1 … +1) | 0% (−5 … 0) |
-| grapheme_strlen($s) @ ASCII 1 KB, lone CR every 80 B | 2,099 | 0% (0 … 0) | 0% (−1 … 0) |
-| grapheme_strlen($s) @ ASCII 1 KB, "é" first | 63,108 | 0% (−14 … +38) | 0% (−2 … +5) |
-| grapheme_strlen($s) @ ASCII 16 B, "é" last | 2,241 | 0% (−3 … +1) | 0% (−7 … +1) |
-| grapheme_strlen($s) @ ASCII 64 B, "é" last | 5,176 | 0% (−14 … +2) | 0% (−20 … +3) |
-| grapheme_strlen($s) @ ASCII 256 B, "é" last | 17,228 | 0% (−2 … +14) | 0% (−19 … +6) |
-| grapheme_strlen($s) @ ASCII 1 KB, "é" last | 65,130 | 0% (−5 … +3) | 0% (−2 … +5) |
-| grapheme_strlen($s) @ ASCII 4 KB, "é" last | 257,917 | 0% (−27 … +4) | 0% (−4 … +2) |
-| grapheme_strlen($s) @ Chinese 16 B | 1,561 | 0% (−6 … +2) | 0% (−1 … 0) |
-| grapheme_strlen($s) @ Chinese 64 B | 2,631 | 0% (−1 … +1) | 0% (−10 … +4) |
-| grapheme_strlen($s) @ Chinese 256 B | 7,339 | 0% (−15 … +1) | 0% (−3 … +6) |
-| grapheme_strlen($s) @ Chinese 1 KB | 26,490 | 0% (−5 … +2) | 0% (−17 … +11) |
-| grapheme_strlen($s) @ Chinese 4 KB | 99,411 | 0% (−1 … +4) | 0% (−17 … +4) |
-| grapheme_strlen($s) @ Spanish 256 B | 16,074 | 0% (−2 … +2) | 0% (−2 … +2) |
-| grapheme_strlen($s) @ Russian 256 B | 10,362 | +1% (−21 … +10) | 0% (−1 … +3) |
-| grapheme_strlen($s) @ Japanese 256 B | 7,514 | 0% (−2 … +5) | 0% (−2 … +11) |
-| grapheme_strlen($s) @ Korean 256 B | 8,323 | 0% (−1 … +3) | 0% (−2 … +1) |
-| grapheme_strlen($s) @ emoji and text 256 B | 11,847 | 0% (−1 … +4) | 0% (−1 … +9) |
-| grapheme_substr($s, 0, 8) @ ASCII 1 B | 99 | 0% (−1 … +36) | 0% (−11 … +4) |
-| grapheme_substr($s, 0, 8) @ ASCII 2 B | 102 | 0% (−5 … +11) | 0% (−5 … +4) |
-| grapheme_substr($s, 0, 8) @ ASCII 3 B | 103 | 0% (−11 … +8) | −1% (−7 … +11) |
-| grapheme_substr($s, 0, 8) @ ASCII 4 B | 102 | 0% (−11 … +14) | +1% (−4 … +20) |
-| grapheme_substr($s, 0, 8) @ ASCII 5 B | 103 | 0% (−15 … +9) | 0% (−8 … +14) |
-| grapheme_substr($s, 0, 8) @ ASCII 8 B | 100 | 0% (−12 … +14) | −1% (−6 … +13) |
-| grapheme_substr($s, 0, 8) @ ASCII 9 B | 103 | −1% (−13 … +17) | −1% (−10 … +9) |
-| grapheme_substr($s, 0, 8) @ ASCII 10 B | 104 | 0% (−7 … +7) | −1% (−12 … +5) |
-| grapheme_substr($s, 0, 8) @ ASCII 16 B | 116 | +1% (−7 … +7) | 0% (−3 … +16) |
-| grapheme_substr($s, 0, 8) @ ASCII 64 B | 226 | 0% (−2 … +3) | 0% (−4 … +4) |
-| grapheme_substr($s, 0, 8) @ ASCII 256 B | 610 | 0% (0 … +2) | 0% (−1 … +1) |
+| grapheme_strlen($s) @ ASCII 1 KB, CR LF every 80 B | 63,450 | 0% (−6 … +3) | 0% (−8 … +2) |
+| grapheme_strlen($s) @ ASCII 1 KB, lone CR every 80 B | 2,097 | 0% (0 … 0) | 0% (−1 … 0) |
+| grapheme_strlen($s) @ ASCII 1 KB, "é" first | 63,039 | 0% (−4 … +7) | 0% (−2 … +3) |
+| grapheme_strlen($s) @ ASCII 16 B, "é" last | 2,241 | 0% (−1 … +2) | 0% (−2 … +2) |
+| grapheme_strlen($s) @ ASCII 64 B, "é" last | 5,178 | 0% (−19 … +1) | 0% (−3 … +30) |
+| grapheme_strlen($s) @ ASCII 256 B, "é" last | 17,240 | +1% (−1 … +24) | 0% (−3 … +3) |
+| grapheme_strlen($s) @ ASCII 1 KB, "é" last | 65,180 | 0% (−10 … +2) | 0% (−27 … +3) |
+| grapheme_strlen($s) @ ASCII 4 KB, "é" last | 256,687 | 0% (−2 … +15) | 0% (−1 … +5) |
+| grapheme_strlen($s) @ Chinese 16 B | 1,561 | 0% (−1 … 0) | 0% (−1 … +1) |
+| grapheme_strlen($s) @ Chinese 64 B | 2,633 | 0% (−2 … +3) | 0% (−2 … +41) |
+| grapheme_strlen($s) @ Chinese 256 B | 7,336 | 0% (−3 … +12) | 0% (−2 … +6) |
+| grapheme_strlen($s) @ Chinese 1 KB | 26,488 | 0% (−2 … +52) | 0% (−3 … 0) |
+| grapheme_strlen($s) @ Chinese 4 KB | 99,422 | 0% (−5 … +2) | 0% (−2 … +1) |
+| grapheme_strlen($s) @ Spanish 256 B | 16,091 | 0% (−2 … +7) | 0% (−3 … +2) |
+| grapheme_strlen($s) @ Russian 256 B | 10,369 | 0% (−3 … +3) | 0% (−3 … +2) |
+| grapheme_strlen($s) @ Japanese 256 B | 7,501 | 0% (0 … +8) | 0% (−3 … +20) |
+| grapheme_strlen($s) @ Korean 256 B | 8,333 | 0% (−8 … +20) | 0% (−8 … +3) |
+| grapheme_strlen($s) @ English 256 B, ’ every 170 B | 16,952 | 0% (−13 … +19) | 0% (−4 … +3) |
+| grapheme_strlen($s) @ English 1 KB, ’ every 170 B | 62,686 | 0% (−1 … +2) | 0% (−40 … +1) |
+| grapheme_strlen($s) @ English 4 KB, ’ every 170 B | 246,456 | 0% (−8 … +6) | 0% (−1 … +1) |
+| grapheme_strlen($s) @ emoji and text 256 B | 11,850 | 0% (−4 … +28) | 0% (−3 … +5) |
+| grapheme_substr($s, 0, 8) @ ASCII 1 B | 99 | 0% (−7 … +19) | 0% (−13 … +12) |
+| grapheme_substr($s, 0, 8) @ ASCII 2 B | 102 | 0% (−9 … +10) | 0% (−1 … +8) |
+| grapheme_substr($s, 0, 8) @ ASCII 3 B | 103 | 0% (−7 … +22) | 0% (−6 … +5) |
+| grapheme_substr($s, 0, 8) @ ASCII 4 B | 102 | 0% (−6 … +15) | +1% (−14 … +16) |
+| grapheme_substr($s, 0, 8) @ ASCII 5 B | 103 | +6% (−6 … +13) | 0% (−12 … +39) |
+| grapheme_substr($s, 0, 8) @ ASCII 8 B | 101 | 0% (−14 … +10) | +5% (−6 … +17) |
+| grapheme_substr($s, 0, 8) @ ASCII 9 B | 102 | +1% (−11 … +10) | −1% (−12 … +13) |
+| grapheme_substr($s, 0, 8) @ ASCII 10 B | 105 | −2% (−6 … +12) | +1% (−10 … +13) |
+| grapheme_substr($s, 0, 8) @ ASCII 16 B | 116 | −1% (−6 … +2) | −1% (−7 … +4) |
+| grapheme_substr($s, 0, 8) @ ASCII 64 B | 226 | +1% (−3 … +4) | 0% (−2 … +4) |
+| grapheme_substr($s, 0, 8) @ ASCII 256 B | 610 | 0% (−1 … +1) | 0% (−1 … +1) |
 | grapheme_substr($s, 0, 8) @ ASCII 1 KB | 2,146 | 0% (0 … 0) | 0% (0 … 0) |
 | grapheme_substr($s, 0, 8) @ ASCII 4 KB | 8,292 | 0% (0 … 0) | 0% (−1 … 0) |
-| grapheme_substr($s, 0, 8) @ ASCII 1 KB, CR LF every 80 B | 7,727 | 0% (−2 … +1) | 0% (−1 … +1) |
-| grapheme_substr($s, 0, 8) @ ASCII 1 KB, lone CR every 80 B | 2,147 | 0% (0 … 0) | 0% (0 … 0) |
-| grapheme_substr($s, 0, 8) @ ASCII 1 KB, "é" first | 7,626 | 0% (−1 … +1) | 0% (−1 … +1) |
-| grapheme_substr($s, 0, 8) @ ASCII 16 B, "é" last | 2,070 | 0% (−2 … +1) | 0% (−5 … +14) |
-| grapheme_substr($s, 0, 8) @ ASCII 64 B, "é" last | 2,446 | 0% (0 … +5) | 0% (−1 … +1) |
-| grapheme_substr($s, 0, 8) @ ASCII 256 B, "é" last | 3,905 | 0% (−3 … +2) | 0% (−3 … +3) |
-| grapheme_substr($s, 0, 8) @ ASCII 1 KB, "é" last | 9,690 | 0% (−1 … +1) | 0% (−1 … +1) |
-| grapheme_substr($s, 0, 8) @ ASCII 4 KB, "é" last | 32,825 | 0% (−6 … 0) | 0% (−1 … 0) |
-| grapheme_substr($s, 0, 8) @ Chinese 16 B | 1,762 | 0% (−1 … +6) | 0% (0 … +5) |
-| grapheme_substr($s, 0, 8) @ Chinese 64 B | 2,320 | 0% (−1 … +2) | 0% (−1 … +2) |
-| grapheme_substr($s, 0, 8) @ Chinese 256 B | 3,144 | 0% (−1 … 0) | 0% (0 … +6) |
-| grapheme_substr($s, 0, 8) @ Chinese 1 KB | 6,345 | 0% (0 … 0) | 0% (−1 … 0) |
-| grapheme_substr($s, 0, 8) @ Chinese 4 KB | 19,012 | 0% (−1 … 0) | 0% (−6 … 0) |
-| grapheme_substr($s, 0, 8) @ Spanish 256 B | 3,371 | 0% (−2 … +3) | 0% (−2 … +3) |
-| grapheme_substr($s, 0, 8) @ Russian 256 B | 3,293 | 0% (−1 … +2) | 0% (−8 … +1) |
-| grapheme_substr($s, 0, 8) @ Japanese 256 B | 3,118 | 0% (−3 … +30) | 0% (−1 … +6) |
-| grapheme_substr($s, 0, 8) @ Korean 256 B | 3,132 | 0% (−4 … +6) | 0% (−2 … +1) |
-| grapheme_substr($s, 0, 8) @ emoji and text 256 B | 3,604 | 0% (−1 … +13) | 0% (−3 … +1) |
-| grapheme_strpos($s, 'zz') @ ASCII 1 B | 56 | 0% (−5 … +5) | 0% (−28 … +6) |
-| grapheme_strpos($s, 'zz') @ ASCII 2 B | 72 | 0% (−4 … +10) | 0% (−4 … +6) |
-| grapheme_strpos($s, 'zz') @ ASCII 3 B | 74 | 0% (−11 … +4) | 0% (−5 … +5) |
-| grapheme_strpos($s, 'zz') @ ASCII 4 B | 76 | 0% (−5 … +4) | 0% (−5 … +6) |
-| grapheme_strpos($s, 'zz') @ ASCII 5 B | 78 | 0% (−4 … +5) | 0% (−4 … +4) |
-| grapheme_strpos($s, 'zz') @ ASCII 8 B | 84 | 0% (−4 … +10) | 0% (−6 … +4) |
-| grapheme_strpos($s, 'zz') @ ASCII 9 B | 86 | 0% (−4 … +5) | 0% (−3 … +6) |
-| grapheme_strpos($s, 'zz') @ ASCII 10 B | 88 | 0% (0 … +6) | 0% (−4 … +5) |
-| grapheme_strpos($s, 'zz') @ ASCII 16 B | 103 | 0% (−3 … +3) | 0% (−6 … +3) |
-| grapheme_strpos($s, 'zz') @ ASCII 64 B | 226 | 0% (−1 … +2) | 0% (−2 … +1) |
-| grapheme_strpos($s, 'zz') @ ASCII 256 B | 637 | 0% (−1 … 0) | 0% (−1 … +1) |
-| grapheme_strpos($s, 'zz') @ ASCII 1 KB | 2,344 | 0% (0 … 0) | 0% (−1 … 0) |
-| grapheme_strpos($s, 'zz') @ ASCII 4 KB | 9,310 | 0% (0 … 0) | 0% (−1 … 0) |
-| grapheme_strpos($s, 'zz') @ ASCII 1 KB, CR LF every 80 B | 112,695 | 0% (0 … 0) | 0% (−1 … +5) |
+| grapheme_substr($s, 0, 8) @ ASCII 1 KB, CR LF every 80 B | 7,695 | 0% (−1 … +4) | 0% (−5 … +4) |
+| grapheme_substr($s, 0, 8) @ ASCII 1 KB, lone CR every 80 B | 2,146 | 0% (0 … 0) | 0% (−1 … 0) |
+| grapheme_substr($s, 0, 8) @ ASCII 1 KB, "é" first | 7,615 | 0% (−1 … +4) | 0% (−4 … +1) |
+| grapheme_substr($s, 0, 8) @ ASCII 16 B, "é" last | 2,068 | 0% (−1 … +8) | 0% (−12 … +2) |
+| grapheme_substr($s, 0, 8) @ ASCII 64 B, "é" last | 2,443 | 0% (0 … +2) | 0% (−2 … +1) |
+| grapheme_substr($s, 0, 8) @ ASCII 256 B, "é" last | 3,916 | 0% (−6 … +1) | 0% (−6 … +1) |
+| grapheme_substr($s, 0, 8) @ ASCII 1 KB, "é" last | 9,666 | 0% (−1 … +1) | 0% (−1 … +1) |
+| grapheme_substr($s, 0, 8) @ ASCII 4 KB, "é" last | 32,791 | 0% (0 … 0) | 0% (−1 … 0) |
+| grapheme_substr($s, 0, 8) @ Chinese 16 B | 1,759 | 0% (0 … 0) | 0% (−1 … +5) |
+| grapheme_substr($s, 0, 8) @ Chinese 64 B | 2,321 | 0% (−1 … +5) | 0% (−1 … +1) |
+| grapheme_substr($s, 0, 8) @ Chinese 256 B | 3,143 | 0% (−2 … +1) | 0% (−3 … +1) |
+| grapheme_substr($s, 0, 8) @ Chinese 1 KB | 6,354 | 0% (−4 … +1) | 0% (−1 … 0) |
+| grapheme_substr($s, 0, 8) @ Chinese 4 KB | 19,018 | 0% (−5 … 0) | 0% (−19 … +6) |
+| grapheme_substr($s, 0, 8) @ Spanish 256 B | 3,366 | 0% (−1 … +19) | 0% (−2 … +2) |
+| grapheme_substr($s, 0, 8) @ Russian 256 B | 3,299 | 0% (−1 … +3) | 0% (−1 … +1) |
+| grapheme_substr($s, 0, 8) @ Japanese 256 B | 3,098 | 0% (−3 … +1) | 0% (−5 … +10) |
+| grapheme_substr($s, 0, 8) @ Korean 256 B | 3,129 | 0% (0 … +1) | 0% (−1 … +2) |
+| grapheme_substr($s, 0, 8) @ English 256 B, ’ every 170 B | 3,626 | 0% (−3 … +3) | 0% (−1 … +2) |
+| grapheme_substr($s, 0, 8) @ English 1 KB, ’ every 170 B | 7,945 | 0% (−1 … +1) | 0% (−1 … +2) |
+| grapheme_substr($s, 0, 8) @ English 4 KB, ’ every 170 B | 25,150 | 0% (0 … 0) | 0% (−1 … +1) |
+| grapheme_substr($s, 0, 8) @ emoji and text 256 B | 3,599 | 0% (−5 … +1) | 0% (−1 … +1) |
+| grapheme_strpos($s, 'zz') @ ASCII 1 B | 53 | 0% (−9 … +10) | 0% (−9 … +6) |
+| grapheme_strpos($s, 'zz') @ ASCII 2 B | 72 | 0% (−4 … +8) | 0% (−8 … +5) |
+| grapheme_strpos($s, 'zz') @ ASCII 3 B | 74 | 0% (−4 … +9) | 0% (−6 … +9) |
+| grapheme_strpos($s, 'zz') @ ASCII 4 B | 76 | 0% (−8 … +4) | 0% (−8 … +9) |
+| grapheme_strpos($s, 'zz') @ ASCII 5 B | 78 | 0% (−8 … +8) | 0% (−4 … +6) |
+| grapheme_strpos($s, 'zz') @ ASCII 8 B | 81 | +3% (−6 … +8) | +2% (−12 … +6) |
+| grapheme_strpos($s, 'zz') @ ASCII 9 B | 83 | 0% (−6 … +7) | −1% (−7 … +7) |
+| grapheme_strpos($s, 'zz') @ ASCII 10 B | 85 | 0% (−3 … +7) | 0% (−8 … +7) |
+| grapheme_strpos($s, 'zz') @ ASCII 16 B | 103 | 0% (−6 … +6) | 0% (−6 … +6) |
+| grapheme_strpos($s, 'zz') @ ASCII 64 B | 226 | −1% (−3 … +4) | 0% (−2 … +2) |
+| grapheme_strpos($s, 'zz') @ ASCII 256 B | 634 | 0% (−1 … +1) | 0% (−1 … +1) |
+| grapheme_strpos($s, 'zz') @ ASCII 1 KB | 2,344 | 0% (0 … +4) | 0% (−1 … 0) |
+| grapheme_strpos($s, 'zz') @ ASCII 4 KB | 9,307 | 0% (0 … 0) | 0% (−1 … 0) |
+| grapheme_strpos($s, 'zz') @ ASCII 1 KB, CR LF every 80 B | 112,734 | 0% (−7 … 0) | 0% (−1 … 0) |
 | grapheme_strpos($s, 'zz') @ ASCII 1 KB, lone CR every 80 B | 2,344 | 0% (0 … 0) | 0% (−1 … 0) |
-| grapheme_strpos($s, 'zz') @ ASCII 1 KB, "é" first | 112,610 | 0% (0 … 0) | 0% (−1 … 0) |
-| grapheme_strpos($s, 'zz') @ ASCII 16 B, "é" last | 6,190 | 0% (−2 … +2) | 0% (−2 … +20) |
-| grapheme_strpos($s, 'zz') @ ASCII 64 B, "é" last | 11,409 | 0% (−2 … +1) | 0% (−1 … +1) |
-| grapheme_strpos($s, 'zz') @ ASCII 256 B, "é" last | 32,006 | 0% (−1 … +1) | 0% (−1 … +1) |
-| grapheme_strpos($s, 'zz') @ ASCII 1 KB, "é" last | 114,660 | 0% (0 … 0) | 0% (−1 … 0) |
-| grapheme_strpos($s, 'zz') @ ASCII 4 KB, "é" last | 444,488 | 0% (0 … 0) | 0% (−1 … 0) |
-| grapheme_strpos($s, 'zz') @ Chinese 16 B | 5,558 | 0% (−2 … +2) | 0% (−3 … +2) |
-| grapheme_strpos($s, 'zz') @ Chinese 64 B | 8,676 | 0% (−2 … +1) | 0% (−2 … +2) |
-| grapheme_strpos($s, 'zz') @ Chinese 256 B | 21,617 | 0% (−1 … +1) | 0% (−1 … +1) |
-| grapheme_strpos($s, 'zz') @ Chinese 1 KB | 72,933 | 0% (−1 … +1) | 0% (−1 … +1) |
-| grapheme_strpos($s, 'zz') @ Chinese 4 KB | 279,998 | 0% (−1 … +1) | 0% (−1 … +1) |
-| grapheme_strpos($s, 'zz') @ Spanish 256 B | 31,868 | 0% (−1 … +1) | 0% (−1 … +1) |
-| grapheme_strpos($s, 'zz') @ Russian 256 B | 20,931 | 0% (−16 … +2) | 0% (−1 … +1) |
-| grapheme_strpos($s, 'zz') @ Japanese 256 B | 14,985 | 0% (−1 … +1) | 0% (−1 … +1) |
-| grapheme_strpos($s, 'zz') @ Korean 256 B | 28,011 | 0% (−2 … +1) | 0% (−10 … +1) |
-| grapheme_strpos($s, 'zz') @ emoji and text 256 B | 24,952 | 0% (−1 … +1) | 0% (−1 … +1) |
-| grapheme_extract($s, 8) @ ASCII 1 B | 103 | 0% (−1 … 0) | 0% (−3 … +1) |
-| grapheme_extract($s, 8) @ ASCII 2 B | 106 | −1% (−4 … +2) | 0% (−11 … +3) |
-| grapheme_extract($s, 8) @ ASCII 3 B | 108 | 0% (−2 … +1) | 0% (−2 … +3) |
-| grapheme_extract($s, 8) @ ASCII 4 B | 109 | 0% (−1 … +1) | 0% (−2 … +3) |
-| grapheme_extract($s, 8) @ ASCII 5 B | 109 | 0% (−1 … +2) | 0% (−3 … +5) |
-| grapheme_extract($s, 8) @ ASCII 8 B | 114 | 0% (−1 … +1) | 0% (−2 … +2) |
-| grapheme_extract($s, 8) @ ASCII 9 B | 114 | 0% (−1 … +1) | 0% (−1 … 0) |
-| grapheme_extract($s, 8) @ ASCII 10 B | 114 | 0% (−1 … +3) | 0% (−2 … +1) |
-| grapheme_extract($s, 8) @ ASCII 16 B | 114 | 0% (−26 … +5) | 0% (0 … +1) |
-| grapheme_extract($s, 8) @ ASCII 64 B | 114 | 0% (0 … +1) | 0% (−1 … +1) |
-| grapheme_extract($s, 8) @ ASCII 256 B | 114 | 0% (−1 … +1) | 0% (−1 … 0) |
-| grapheme_extract($s, 8) @ ASCII 1 KB | 114 | 0% (−4 … +2) | 0% (−1 … +1) |
-| grapheme_extract($s, 8) @ ASCII 4 KB | 114 | 0% (−3 … +2) | 0% (−1 … +4) |
-| grapheme_extract($s, 8) @ ASCII 1 KB, CR LF every 80 B | 114 | 0% (−1 … +2) | 0% (−2 … +3) |
-| grapheme_extract($s, 8) @ ASCII 1 KB, lone CR every 80 B | 114 | 0% (−2 … +2) | 0% (−2 … +1) |
-| grapheme_extract($s, 8) @ ASCII 1 KB, "é" first | 2,357 | +1% (0 … +4) | 0% (−3 … +3) |
-| grapheme_extract($s, 8) @ ASCII 16 B, "é" last | 114 | +1% (−2 … +44) | 0% (−3 … +1) |
-| grapheme_extract($s, 8) @ ASCII 64 B, "é" last | 114 | 0% (−2 … +13) | 0% (−1 … +1) |
-| grapheme_extract($s, 8) @ ASCII 256 B, "é" last | 114 | 0% (−2 … +2) | 0% (−8 … +1) |
-| grapheme_extract($s, 8) @ ASCII 1 KB, "é" last | 114 | 0% (0 … +7) | 0% (−5 … +1) |
-| grapheme_extract($s, 8) @ ASCII 4 KB, "é" last | 114 | 0% (−1 … +1) | 0% (−2 … +1) |
-| grapheme_extract($s, 8) @ Chinese 16 B | 1,785 | 0% (−3 … +5) | 0% (−1 … +1) |
-| grapheme_extract($s, 8) @ Chinese 64 B | 2,731 | 0% (−2 … +1) | 0% (−1 … +1) |
-| grapheme_extract($s, 8) @ Chinese 256 B | 3,029 | 0% (−1 … +4) | 0% (−10 … +1) |
-| grapheme_extract($s, 8) @ Chinese 1 KB | 3,041 | 0% (−3 … +1) | 0% (−3 … +1) |
-| grapheme_extract($s, 8) @ Chinese 4 KB | 3,029 | 0% (−2 … +1) | 0% (0 … +2) |
-| grapheme_extract($s, 8) @ Spanish 256 B | 2,215 | 0% (−1 … +3) | 0% (−3 … +2) |
-| grapheme_extract($s, 8) @ Russian 256 B | 2,861 | 0% (−1 … +2) | 0% (−4 … +1) |
-| grapheme_extract($s, 8) @ Japanese 256 B | 2,946 | 0% (−2 … +1) | 0% (−1 … +2) |
-| grapheme_extract($s, 8) @ Korean 256 B | 2,812 | 0% (−3 … +1) | 0% (−2 … 0) |
-| grapheme_extract($s, 8) @ emoji and text 256 B | 2,371 | 0% (−1 … +1) | 0% (−4 … +3) |
-| grapheme_strpos($s, 'x') @ ASCII 1 B | 66 | 0% (−5 … +6) | 0% (−9 … +5) |
-| grapheme_strpos($s, 'x') @ ASCII 5 B | 74 | 0% (−4 … +4) | 0% (−5 … +5) |
-| grapheme_strpos($s, 'x') @ ASCII 9 B | 82 | 0% (−5 … 0) | 0% (−1 … +5) |
-| grapheme_strpos($s, 'x') @ ASCII 16 B | 99 | 0% (−4 … +7) | 0% (0 … +3) |
-| grapheme_strpos($s, 'x') @ ASCII 64 B | 198 | 0% (−1 … 0) | 0% (−1 … +2) |
-| grapheme_strpos($s, 'x') @ ASCII 256 B | 582 | 0% (−1 … +1) | 0% (−1 … +1) |
-| grapheme_strpos($s, 'x') @ ASCII 1 KB | 2,118 | 0% (0 … 0) | 0% (−1 … 0) |
-| grapheme_strpos($s, 'x') @ ASCII 4 KB | 8,264 | 0% (0 … 0) | 0% (−1 … 0) |
-| grapheme_strstr($s, 'o') @ ASCII 1 B | 69 | 0% (−5 … +5) | 0% (0 … +9) |
-| grapheme_strstr($s, 'o') @ ASCII 5 B | 77 | 0% (−4 … +4) | 0% (−7 … +4) |
-| grapheme_strstr($s, 'o') @ ASCII 9 B | 85 | 0% (−11 … +5) | 0% (−4 … +4) |
-| grapheme_strstr($s, 'o') @ ASCII 16 B | 128 | 0% (−3 … +2) | 0% (−3 … +2) |
-| grapheme_strstr($s, 'o') @ ASCII 64 B | 236 | 0% (−4 … +3) | 0% (−3 … +2) |
-| grapheme_strstr($s, 'o') @ ASCII 256 B | 622 | 0% (−1 … +1) | 0% (−1 … +1) |
-| grapheme_strstr($s, 'o') @ ASCII 1 KB | 2,184 | 0% (0 … 0) | 0% (−1 … 0) |
-| grapheme_strstr($s, 'o') @ ASCII 4 KB | 8,479 | 0% (0 … 0) | 0% (−1 … 0) |
-| grapheme_stripos($s, 'Z') @ ASCII 1 B | 140 | 0% (−3 … +3) | 0% (−4 … +2) |
-| grapheme_stripos($s, 'Z') @ ASCII 5 B | 151 | 0% (−2 … +4) | 0% (−2 … +3) |
-| grapheme_stripos($s, 'Z') @ ASCII 9 B | 162 | 0% (−2 … +4) | 0% (−2 … 0) |
-| grapheme_stripos($s, 'Z') @ ASCII 16 B | 174 | −1% (−2 … +2) | 0% (−4 … +2) |
-| grapheme_stripos($s, 'Z') @ ASCII 64 B | 280 | 0% (−2 … +1) | 0% (−1 … +2) |
-| grapheme_stripos($s, 'Z') @ ASCII 256 B | 688 | 0% (0 … +1) | 0% (−1 … +1) |
-| grapheme_stripos($s, 'Z') @ ASCII 1 KB | 2,338 | 0% (0 … +1) | 0% (−1 … 0) |
-| grapheme_stripos($s, 'Z') @ ASCII 4 KB | 9,013 | 0% (−1 … 0) | 0% (−1 … 0) |
-| grapheme_strrpos($s, 'e') @ ASCII 1 B | 64 | 0% (−4 … +2) | 0% (−10 … +6) |
-| grapheme_strrpos($s, 'e') @ ASCII 5 B | 62 | 0% (−40 … +12) | 0% (−11 … +5) |
-| grapheme_strrpos($s, 'e') @ ASCII 9 B | 74 | 0% (−6 … +5) | −1% (−6 … +7) |
-| grapheme_strrpos($s, 'e') @ ASCII 16 B | 98 | 0% (−4 … +4) | 0% (−7 … +4) |
-| grapheme_strrpos($s, 'e') @ ASCII 64 B | 197 | 0% (−2 … +4) | 0% (−4 … +2) |
-| grapheme_strrpos($s, 'e') @ ASCII 256 B | 592 | 0% (−1 … +1) | 0% (−1 … +1) |
-| grapheme_strrpos($s, 'e') @ ASCII 1 KB | 2,117 | 0% (0 … 0) | 0% (−1 … 0) |
-| grapheme_strrpos($s, 'e') @ ASCII 4 KB | 8,274 | 0% (0 … 0) | 0% (−1 … 0) |
-| grapheme_strlen(next string) @ ASCII, mixed lengths 1-24 B | 99 | 0% (−9 … +10) | 0% (−1 … +10) |
-| grapheme_substr(next string, 0, 8) @ ASCII, mixed lengths 1-24 B | 159 | 0% (−7 … +6) | 0% (−17 … +10) |
-| grapheme_strpos(next string, 'zz') @ ASCII, mixed lengths 1-24 B | 145 | +1% (−4 … +8) | 0% (−7 … +8) |
+| grapheme_strpos($s, 'zz') @ ASCII 1 KB, "é" first | 112,578 | 0% (0 … 0) | 0% (−1 … 0) |
+| grapheme_strpos($s, 'zz') @ ASCII 16 B, "é" last | 6,216 | 0% (−2 … +2) | 0% (−3 … +3) |
+| grapheme_strpos($s, 'zz') @ ASCII 64 B, "é" last | 11,332 | +1% (−1 … +2) | 0% (−1 … +3) |
+| grapheme_strpos($s, 'zz') @ ASCII 256 B, "é" last | 32,014 | 0% (−1 … +1) | 0% (−1 … +1) |
+| grapheme_strpos($s, 'zz') @ ASCII 1 KB, "é" last | 114,613 | 0% (0 … 0) | 0% (−1 … 0) |
+| grapheme_strpos($s, 'zz') @ ASCII 4 KB, "é" last | 444,304 | 0% (−1 … 0) | 0% (−1 … 0) |
+| grapheme_strpos($s, 'zz') @ Chinese 16 B | 5,508 | 0% (−3 … +4) | 0% (−5 … +3) |
+| grapheme_strpos($s, 'zz') @ Chinese 64 B | 8,691 | 0% (−1 … +1) | 0% (−2 … +1) |
+| grapheme_strpos($s, 'zz') @ Chinese 256 B | 21,683 | 0% (−2 … +1) | 0% (−4 … +1) |
+| grapheme_strpos($s, 'zz') @ Chinese 1 KB | 72,917 | 0% (0 … +1) | 0% (−1 … +3) |
+| grapheme_strpos($s, 'zz') @ Chinese 4 KB | 280,557 | 0% (−1 … +1) | 0% (−2 … +1) |
+| grapheme_strpos($s, 'zz') @ Spanish 256 B | 31,887 | 0% (0 … 0) | 0% (0 … +1) |
+| grapheme_strpos($s, 'zz') @ Russian 256 B | 20,938 | 0% (−1 … +1) | 0% (−1 … 0) |
+| grapheme_strpos($s, 'zz') @ Japanese 256 B | 14,980 | 0% (−1 … +1) | +1% (−3 … +1) |
+| grapheme_strpos($s, 'zz') @ Korean 256 B | 27,983 | 0% (−1 … +1) | 0% (−1 … 0) |
+| grapheme_strpos($s, 'zz') @ English 256 B, ’ every 170 B | 31,424 | 0% (−1 … +2) | 0% (−1 … 0) |
+| grapheme_strpos($s, 'zz') @ English 1 KB, ’ every 170 B | 111,140 | 0% (0 … 0) | 0% (−1 … 0) |
+| grapheme_strpos($s, 'zz') @ English 4 KB, ’ every 170 B | 430,397 | 0% (0 … 0) | 0% (−1 … 0) |
+| grapheme_strpos($s, 'zz') @ emoji and text 256 B | 25,048 | 0% (−1 … +2) | 0% (−1 … +1) |
+| grapheme_extract($s, 8) @ ASCII 1 B | 103 | 0% (−2 … +3) | 0% (−2 … +2) |
+| grapheme_extract($s, 8) @ ASCII 2 B | 107 | −1% (−2 … +2) | 0% (−2 … +2) |
+| grapheme_extract($s, 8) @ ASCII 3 B | 107 | 0% (−4 … +2) | 0% (−2 … +2) |
+| grapheme_extract($s, 8) @ ASCII 4 B | 109 | 0% (−2 … +4) | 0% (−1 … +4) |
+| grapheme_extract($s, 8) @ ASCII 5 B | 109 | 0% (−3 … +2) | 0% (−2 … +3) |
+| grapheme_extract($s, 8) @ ASCII 8 B | 113 | 0% (−1 … +1) | 0% (−1 … +1) |
+| grapheme_extract($s, 8) @ ASCII 9 B | 114 | 0% (−3 … +1) | 0% (−1 … +1) |
+| grapheme_extract($s, 8) @ ASCII 10 B | 114 | 0% (−1 … +1) | 0% (−1 … +1) |
+| grapheme_extract($s, 8) @ ASCII 16 B | 114 | 0% (0 … +1) | 0% (−8 … +3) |
+| grapheme_extract($s, 8) @ ASCII 64 B | 114 | 0% (−1 … +7) | 0% (−2 … +1) |
+| grapheme_extract($s, 8) @ ASCII 256 B | 114 | 0% (−19 … +1) | 0% (−1 … +1) |
+| grapheme_extract($s, 8) @ ASCII 1 KB | 114 | 0% (−2 … +5) | 0% (−1 … +1) |
+| grapheme_extract($s, 8) @ ASCII 4 KB | 114 | 0% (−4 … +1) | 0% (−1 … +1) |
+| grapheme_extract($s, 8) @ ASCII 1 KB, CR LF every 80 B | 114 | 0% (−14 … +7) | 0% (−1 … +2) |
+| grapheme_extract($s, 8) @ ASCII 1 KB, lone CR every 80 B | 114 | 0% (−2 … +1) | 0% (−3 … 0) |
+| grapheme_extract($s, 8) @ ASCII 1 KB, "é" first | 2,364 | 0% (−2 … +1) | 0% (−4 … +4) |
+| grapheme_extract($s, 8) @ ASCII 16 B, "é" last | 114 | 0% (−1 … +1) | 0% (−1 … +10) |
+| grapheme_extract($s, 8) @ ASCII 64 B, "é" last | 114 | 0% (−1 … +1) | 0% (−2 … +2) |
+| grapheme_extract($s, 8) @ ASCII 256 B, "é" last | 114 | 0% (−1 … +1) | 0% (−2 … +1) |
+| grapheme_extract($s, 8) @ ASCII 1 KB, "é" last | 114 | 0% (−1 … +3) | 0% (−1 … +3) |
+| grapheme_extract($s, 8) @ ASCII 4 KB, "é" last | 114 | 0% (−1 … +1) | 0% (−3 … +1) |
+| grapheme_extract($s, 8) @ Chinese 16 B | 1,788 | 0% (−31 … +5) | 0% (−5 … 0) |
+| grapheme_extract($s, 8) @ Chinese 64 B | 2,730 | 0% (−1 … +3) | 0% (−1 … 0) |
+| grapheme_extract($s, 8) @ Chinese 256 B | 3,031 | 0% (−7 … +2) | 0% (−2 … +1) |
+| grapheme_extract($s, 8) @ Chinese 1 KB | 3,031 | 0% (−1 … +3) | 0% (−5 … +1) |
+| grapheme_extract($s, 8) @ Chinese 4 KB | 3,031 | 0% (−1 … +4) | 0% (−2 … +2) |
+| grapheme_extract($s, 8) @ Spanish 256 B | 2,213 | 0% (−2 … +3) | 0% (−1 … +6) |
+| grapheme_extract($s, 8) @ Russian 256 B | 2,861 | 0% (−1 … +1) | 0% (−3 … +2) |
+| grapheme_extract($s, 8) @ Japanese 256 B | 2,954 | 0% (−18 … +3) | 0% (−1 … +3) |
+| grapheme_extract($s, 8) @ Korean 256 B | 2,806 | 0% (−2 … +3) | 0% (−2 … +1) |
+| grapheme_extract($s, 8) @ English 256 B, ’ every 170 B | 114 | 0% (0 … +6) | 0% (−1 … +1) |
+| grapheme_extract($s, 8) @ English 1 KB, ’ every 170 B | 114 | 0% (−1 … +1) | 0% (−2 … +2) |
+| grapheme_extract($s, 8) @ English 4 KB, ’ every 170 B | 114 | 0% (−2 … +1) | 0% (−2 … +13) |
+| grapheme_extract($s, 8) @ emoji and text 256 B | 2,370 | 0% (−8 … +10) | 0% (−1 … +2) |
+| grapheme_strpos($s, 'x') @ ASCII 1 B | 66 | 0% (−10 … +10) | 0% (−11 … +12) |
+| grapheme_strpos($s, 'x') @ ASCII 5 B | 74 | 0% (−5 … +9) | 0% (−8 … +9) |
+| grapheme_strpos($s, 'x') @ ASCII 9 B | 81 | 0% (−4 … +8) | 0% (−7 … +8) |
+| grapheme_strpos($s, 'x') @ ASCII 16 B | 99 | 0% (−7 … +7) | −2% (−8 … +6) |
+| grapheme_strpos($s, 'x') @ ASCII 64 B | 198 | 0% (−3 … +2) | 0% (−3 … +2) |
+| grapheme_strpos($s, 'x') @ ASCII 256 B | 582 | 0% (−2 … +1) | 0% (−1 … 0) |
+| grapheme_strpos($s, 'x') @ ASCII 1 KB | 2,115 | 0% (0 … 0) | 0% (0 … 0) |
+| grapheme_strpos($s, 'x') @ ASCII 4 KB | 8,261 | 0% (0 … 0) | 0% (0 … 0) |
+| grapheme_strstr($s, 'o') @ ASCII 1 B | 69 | 0% (−5 … +10) | −1% (−8 … +11) |
+| grapheme_strstr($s, 'o') @ ASCII 5 B | 77 | 0% (−11 … +6) | 0% (−8 … +8) |
+| grapheme_strstr($s, 'o') @ ASCII 9 B | 85 | 0% (−7 … +4) | +3% (−7 … +7) |
+| grapheme_strstr($s, 'o') @ ASCII 16 B | 128 | 0% (−5 … +3) | 0% (−5 … +8) |
+| grapheme_strstr($s, 'o') @ ASCII 64 B | 237 | 0% (−4 … +4) | −1% (−3 … 0) |
+| grapheme_strstr($s, 'o') @ ASCII 256 B | 622 | 0% (−3 … +1) | 0% (−1 … +1) |
+| grapheme_strstr($s, 'o') @ ASCII 1 KB | 2,184 | 0% (−1 … 0) | 0% (0 … 0) |
+| grapheme_strstr($s, 'o') @ ASCII 4 KB | 8,473 | 0% (0 … 0) | 0% (0 … 0) |
+| grapheme_stripos($s, 'Z') @ ASCII 1 B | 140 | 0% (−4 … +5) | 0% (−4 … +5) |
+| grapheme_stripos($s, 'Z') @ ASCII 5 B | 153 | 0% (−9 … +2) | −1% (−5 … +3) |
+| grapheme_stripos($s, 'Z') @ ASCII 9 B | 164 | 0% (−4 … +2) | 0% (−4 … +7) |
+| grapheme_stripos($s, 'Z') @ ASCII 16 B | 175 | 0% (−3 … +2) | +1% (−2 … +5) |
+| grapheme_stripos($s, 'Z') @ ASCII 64 B | 282 | 0% (−2 … +1) | 0% (−2 … +2) |
+| grapheme_stripos($s, 'Z') @ ASCII 256 B | 688 | 0% (−1 … +1) | 0% (−2 … +1) |
+| grapheme_stripos($s, 'Z') @ ASCII 1 KB | 2,337 | 0% (0 … 0) | 0% (0 … +4) |
+| grapheme_stripos($s, 'Z') @ ASCII 4 KB | 9,007 | 0% (0 … +1) | 0% (−1 … 0) |
+| grapheme_strrpos($s, 'e') @ ASCII 1 B | 61 | 0% (−6 … +16) | +2% (−14 … +16) |
+| grapheme_strrpos($s, 'e') @ ASCII 5 B | 59 | +2% (−13 … +16) | 0% (−5 … +11) |
+| grapheme_strrpos($s, 'e') @ ASCII 9 B | 74 | 0% (−9 … +5) | −1% (−8 … +5) |
+| grapheme_strrpos($s, 'e') @ ASCII 16 B | 97 | 0% (−8 … +6) | +2% (−6 … +10) |
+| grapheme_strrpos($s, 'e') @ ASCII 64 B | 197 | 0% (−3 … +3) | 0% (−4 … +5) |
+| grapheme_strrpos($s, 'e') @ ASCII 256 B | 589 | 0% (−1 … +1) | 0% (−1 … +2) |
+| grapheme_strrpos($s, 'e') @ ASCII 1 KB | 2,116 | 0% (0 … 0) | 0% (−1 … 0) |
+| grapheme_strrpos($s, 'e') @ ASCII 4 KB | 8,273 | 0% (0 … 0) | 0% (0 … 0) |
+| grapheme_strlen(next string) @ ASCII, mixed lengths 1-24 B | 98 | +1% (−3 … +5) | 0% (−8 … +10) |
+| grapheme_strlen(next string) @ ASCII 1 KB, "é" at a random position | 64,747 | 0% (−10 … +4) | −1% (−29 … +1) |
+| grapheme_substr(next string, 0, 8) @ ASCII, mixed lengths 1-24 B | 158 | 0% (−1 … +6) | 0% (−3 … +3) |
+| grapheme_substr(next string, 0, 8) @ ASCII 1 KB, "é" at a random position | 8,762 | 0% (−1 … +1) | 0% (−1 … +1) |
+| grapheme_strpos(next string, 'zz') @ ASCII, mixed lengths 1-24 B | 144 | 0% (−3 … +3) | 0% (−9 … +7) |
+| grapheme_strpos(next string, 'zz') @ ASCII 1 KB, "é" at a random position | 113,741 | 0% (0 … 0) | 0% (−1 … 0) |
 
 ~: within noise, the change is no larger than the difference between master and master on the same row.
 
