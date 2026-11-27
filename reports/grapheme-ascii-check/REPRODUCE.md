@@ -1,6 +1,6 @@
 # Reproduce the grapheme_ascii_check() report
 
-About 75 minutes on a 16-core machine, 25 of them the series. Run all steps in one shell. Needs:
+About 80 minutes on a 16-core machine, 32 of them the series. Run all steps in one shell. Needs:
 - git, Python 3, `taskset`, PHP 8 on the `PATH` (it runs the `bench` tool), GCC and clang with their C++ compilers (`g++`, `clang++`);
 - the build tools of php-src and the ICU headers:
   - Ubuntu: `sudo apt install build-essential autoconf bison re2c pkg-config clang libicu-dev php-cli linux-tools-$(uname -r)`;
@@ -66,7 +66,7 @@ The report was measured with GCC 15.2, clang 21.1 and ICU 78.2. Other versions b
 
    Expected on ICU 78.2 ([`data/tests.txt`](data/tests.txt), [`data/new-test-on-master.txt`](data/new-test-on-master.txt)): 0 failed on the release builds, 548 passed with the change and 547 on master (the new test is in the change's tree only), 51 skipped. Both ASan builds fail the same seven `oom_*.phpt` tests, in varying order. Another ICU version changes the passed and skipped counts; the failures must be the same on master and the change. The new test passes on master.
 
-5. The series (about 25 minutes) on an idle core. The first `bench table` prints the table of the README, the second the main table of [`FULL-TABLES.md`](FULL-TABLES.md). The group names are only labels; these are the ones of the published series:
+5. The series (about 32 minutes) on an idle core. The first `bench table` prints the table of the README, the second the main table of [`FULL-TABLES.md`](FULL-TABLES.md). The group names are only labels; these are the ones of the published series:
 
    ```
    CPU=15     # an idle core, not CPU 0 or its sibling; check with ./bench check --cpu $CPU
@@ -77,7 +77,7 @@ The report was measured with GCC 15.2, clang 21.1 and ICU 78.2. Other versions b
    ./bench table $O/series.json --full --header
    ```
 
-   On a hybrid Intel CPU pick a P-core, one with the highest `MAXMHZ` in `lscpu --extended`. For a quick try add `--passes 1 --filter "ASCII (5|80) B"` and run `bench table` without `--labels`. One pass of a short-string row swings by 10% or more on this machine, so it shows the large rows only.
+   On a hybrid Intel CPU pick a P-core, one with the highest `MAXMHZ` in `lscpu --extended`. For a quick try add `--passes 1 --filter "ASCII (5|64) B"` and run `bench table` without `--labels`. One pass of a short-string row swings by 10% or more on this machine, so it shows the large rows only.
 
 6. Strings over 2 GiB (about a minute, about 9 GB of memory per run). [`large-string.php`](large-string.php) calls the eight functions on 2³¹ + 8 bytes. Expected: the text of [`data/large-string.txt`](data/large-string.txt) and `exit 0` for both. Master and the change differ only in the `grapheme_strlen()` and `grapheme_strstr()` lines.
 

@@ -6,11 +6,11 @@ The change is on branch [`grapheme-ascii-check-words`](https://github.com/ArtUkr
 
 ## Summary
 
-- **ASCII strings of 9 bytes and more:** fewer CPU cycles per call than master in every measured function. On 2 KB, `grapheme_strlen()` takes 79% fewer on GCC 15.2 and 80% fewer on clang 21.1, the other functions except `grapheme_extract()` 69–79% fewer. On 80 bytes they take 40–67% fewer, on 16 bytes 10–28%, on 9 bytes 6–25%. `grapheme_extract($s, 8)` checks only 9 bytes and takes 5–14% fewer on all of them ([Results](#results)).
-- **ASCII strings of 1–8 bytes, the same string in every call:** −10% to +12% against master, −10 to +8 cycles per call. Calls with a needle on 1 byte cost the most, up to 12% more. `grapheme_substr()` on GCC is 5–10% faster ([Trade-offs](#trade-offs)).
-- **ASCII strings of mixed lengths, 1–24 bytes in a random order:** `grapheme_strlen()` takes 28–33% fewer cycles, `grapheme_substr()` 7–8%, `grapheme_strpos()` 12–13%.
-- **Text with non-ASCII characters or CR LF:** these strings take the ICU path, as on master, and the change is within 3% of master. Two cases gain: `grapheme_extract($s, 8)` checks only the first 9 bytes, so it takes 5–14% fewer cycles whenever they are ASCII. With one "é" at the end of 2 KB of ASCII, `grapheme_substr()` takes 19% fewer.
-- **Correctness:** the same output as master on 26,470 strings in every function that calls the check, on GCC, clang, ZTS and ASan + UBSan. A new test catches all six mistakes put into the code. On ASCII strings over 2 GiB `grapheme_strlen()` and `grapheme_strstr()` now return the right result instead of an error, and the other functions answer as on master. ([Correctness checks](#correctness-checks)).
+- **ASCII strings of 9 bytes and more:** fewer CPU cycles per call than master in every measured function, and the gain grows with the length. `grapheme_strlen()` takes 25–28% fewer on 16 bytes, 61–63% on 64 bytes, 75% on 256 bytes, 77–78% on 1 KB and 80% on 4 KB, on GCC 15.2 and clang 21.1. Over all functions except `grapheme_extract()` it's 5–25% on 9 bytes, 10–28% on 16, 36–63% on 64, 59–75% on 256, 68–78% on 1 KB and 70–80% on 4 KB. `grapheme_extract($s, 8)` checks only 9 bytes and takes 4–16% fewer from 9 bytes to 4 KB ([Results](#results)).
+- **ASCII strings of 1–8 bytes, the same string in every call:** −10% to +13% against master, −11 to +8 cycles per call. Calls with a needle on 1 byte cost the most, up to 13% more. `grapheme_substr()` on GCC is 4–10% faster ([Trade-offs](#trade-offs)).
+- **ASCII strings of mixed lengths, 1–24 bytes in a random order:** `grapheme_strlen()` takes 29–31% fewer cycles, `grapheme_substr()` 7–8%, `grapheme_strpos()` 11–12%.
+- **Text with non-ASCII characters or CR LF:** these strings take the ICU path, as on master. The change is within 4% of master from 16 bytes to 4 KB and doesn't grow with the length. Two cases gain: `grapheme_extract($s, 8)` checks only the first 9 bytes, so it takes 4–16% fewer cycles whenever they are ASCII. With one "é" at the end of ASCII, `grapheme_substr($s, 0, 8)` takes 3–5% fewer on 64 bytes and 20% fewer on 4 KB.
+- **Correctness:** the same output as master on 26,470 strings in every function that calls the check (20,195 of them for `grapheme_extract()`), on GCC, clang, ZTS and ASan + UBSan. A new test catches all six mistakes put into the code. On ASCII strings over 2 GiB `grapheme_strlen()` and `grapheme_strstr()` now return the right result instead of an error, and the other functions answer as on master ([Correctness checks](#correctness-checks)).
 - **Not checked:** Intel, Windows, big-endian, a full application ([Not tested](#not-tested)).
 
 ## What changes and why it is faster
@@ -29,51 +29,64 @@ Why the result is the same: inside the checked bytes both versions return −1 w
 
 ## Trade-offs
 
-- **ASCII of 1–8 bytes, one string repeated:** the change adds 3 to 34 instructions per call. In cycles it's −10 to +8 per call, on calls of 33–153 cycles on master. The biggest increases are on 1 byte with a needle: `grapheme_strpos($s, 'zz')` +12% on GCC and +11% on clang, `grapheme_strpos($s, 'x')` +12% and +8%, `grapheme_strstr()` +9% and +10%. `grapheme_strstr()` checks the needle whenever the haystack is ASCII, and the others when the needle isn't found in an ASCII haystack. So these calls pay for two short checks. On GCC `grapheme_substr()` is 5–10% faster from 1 to 8 bytes. I didn't profile these rows further.
+- **ASCII of 1–8 bytes, one string repeated:** the change adds 3 to 34 instructions per call. In cycles it's −11 to +8 per call, on calls of 33–151 cycles on master. The biggest increases are on 1 byte with a needle: `grapheme_strpos($s, 'zz')` +13% on GCC and +12% on clang, `grapheme_strpos($s, 'x')` +13% and +8%, `grapheme_strstr()` +9% and +11%. These calls check the needle too, since it isn't found in the ASCII haystack. `grapheme_stripos()` and `grapheme_strrpos()` check both strings on 1 byte as well and cost 1–7% more. On GCC `grapheme_substr()` is 4–10% faster from 1 to 8 bytes. I didn't profile these rows further.
 - **Code size:** `grapheme_ascii_check()` is 213 bytes on GCC instead of 60, and 223 on clang instead of 56. It saves 1 register on GCC and 3 on clang on entry, master's saves none ([`data/disassembly.txt`](data/disassembly.txt)).
-- **Earlier versions:** the first one searched for CR with `memchr()`. In its series `grapheme_strlen()` and `grapheme_strpos()` of 5 bytes cost 21–31% more than master. The second one looked for a CR in each word and then checked that word byte by byte. On clang it cost 7–16% more on 5 bytes. On 2 KB of plain ASCII both were faster than the final version: `grapheme_strlen()` −87% to −91% and −83%, against −79% to −80%. With a lone CR every 80 bytes they were slower ([Appendix](#appendix-earlier-versions)).
+- **Earlier versions:** the first one searched for CR with `memchr()`. In its series `grapheme_strlen()` and `grapheme_strpos()` of 5 bytes cost 21–31% more than master. The second one looked for a CR in each word and then checked that word byte by byte. On clang it cost 7–16% more on 5 bytes. On 2 KB of plain ASCII both were faster than the final version: `grapheme_strlen()` −87% to −91% and −83%. The final version takes 77–80% fewer on 1 KB and 4 KB, in its own series. With a lone CR every 80 bytes their `grapheme_strlen()` took 75–81% and 76–79% fewer, close to the final version's 77–80% on 1 KB ([Appendix](#appendix-earlier-versions)).
 
 ## Results
 
-Change in CPU cycles per call against master (negative = fewer cycles, faster). Each compiler is compared with master built by the same compiler. The strings: ASCII English text of 1 byte to 2 KB; 1024 ASCII strings of 1–24 bytes, one per call in a fixed random order; 2 KB of ASCII with a lone CR or CR LF every 80 bytes, or with one "é" at the start or the end; 80 bytes of Spanish and Chinese. The range over the passes, the change in instructions, all 111 calls (also 2, 4, 8 and 10 bytes, `grapheme_strstr()`, `grapheme_strrpos()`, Russian, Japanese, Korean, emoji) and the master-against-master control are in [`FULL-TABLES.md`](FULL-TABLES.md).
+Change in CPU cycles per call against master (negative = fewer cycles, faster). Each compiler is compared with master built by the same compiler. The strings: ASCII English text of 1 byte to 4 KB; 1024 ASCII strings of 1–24 bytes, one per call in a fixed random order; 1 KB of ASCII with a lone CR or CR LF every 80 bytes, or with one "é" at the start; ASCII of 16 bytes to 4 KB with one "é" at the end; Chinese of 16 bytes to 4 KB; 256 bytes of Spanish. The range over the passes, the change in instructions, all 159 calls (also 2, 4, 8 and 10 bytes, every length for every function, `grapheme_strstr()`, `grapheme_strrpos()`, Russian, Japanese, Korean, emoji) and the master-against-master control are in [`FULL-TABLES.md`](FULL-TABLES.md).
 
 <!-- bench-table series.json --labels labels.txt --no-control -->
 | call | master, CPU cycles per call (GCC 15.2 (gcc15)) | GCC 15.2 (gcc15) | clang 21.1 (clang21) | clang 21.1 (clang21-aa) |
 |---|--:|--:|--:|--:|
-| `grapheme_strlen()`, ASCII 1 B | 36 | +9% | +4% | +3% |
-| `grapheme_strlen()`, ASCII 3 B | 40 | +3% | −4% | 0% |
-| `grapheme_strlen()`, ASCII 5 B | 44 | −2% | −5% | 0% |
-| `grapheme_strlen()`, ASCII 9 B | 52 | −23% | −25% | −6% |
-| `grapheme_strlen()`, ASCII 16 B | 69 | −28% | −27% | 0% ~ |
-| `grapheme_strlen()`, ASCII 80 B | 211 | −67% | −64% | 0% |
-| `grapheme_strlen()`, ASCII 2 KB | 4,157 | −79% | −80% | 0% ~ |
-| `grapheme_strlen()`, ASCII 2 KB, a lone CR every 80 B | 4,157 | −79% | −82% | 0% |
-| `grapheme_strlen()`, ASCII 2 KB, CR LF every 80 B | 125,899 | +1% | +1% | 0% ~ |
-| `grapheme_strlen()`, ASCII 2 KB, "é" at the start | 125,225 | +1% | +1% | 0% ~ |
-| `grapheme_strlen()`, ASCII 2 KB, "é" at the end | 129,355 | −2% | −1% | +1% |
-| `grapheme_strlen()`, Spanish 80 B | 5,847 | −1% | +1% | 0% ~ |
-| `grapheme_strlen()`, Chinese 80 B | 3,067 | −2% | +1% | 0% ~ |
-| `grapheme_strlen()`, ASCII, mixed lengths 1–24 B | 100 | −28% | −33% | 0% ~ |
-| `grapheme_substr($s, 0, 8)`, ASCII, mixed lengths 1–24 B | 159 | −8% | −7% | 0% ~ |
-| `grapheme_strpos($s, 'zz')`, ASCII, mixed lengths 1–24 B | 145 | −12% | −13% | 0% ~ |
-| `grapheme_substr($s, 0, 8)`, ASCII 5 B | 103 | −9% | −2% | −2% |
-| `grapheme_substr($s, 0, 8)`, ASCII 80 B | 258 | −53% | −53% | 0% |
-| `grapheme_substr($s, 0, 8)`, ASCII 2 KB, "é" at the end | 17,422 | −19% | −19% | 0% |
-| `grapheme_strpos($s, 'zz')`, ASCII 5 B | 78 | +3% | +7% | 0% |
-| `grapheme_strpos($s, 'zz')`, ASCII 80 B | 262 | −54% | −54% | −1% |
-| `grapheme_strpos($s, 'zz')`, ASCII 2 KB | 4,725 | −69% | −70% | 0% ~ |
-| `grapheme_strpos($s, 'x')`, ASCII 1 B | 66 | +12% | +8% | 0% |
-| `grapheme_strpos($s, 'x')`, ASCII 80 B | 231 | −60% | −60% | 0% ~ |
-| `grapheme_stripos($s, 'Z')`, ASCII 5 B | 153 | +1% | 0% | −1% |
+| `grapheme_strlen()`, ASCII 1 B | 36 | +9% | +4% | −2% |
+| `grapheme_strlen()`, ASCII 3 B | 40 | +2% | −1% | 0% |
+| `grapheme_strlen()`, ASCII 5 B | 44 | −2% | −1% | −1% |
+| `grapheme_strlen()`, ASCII 9 B | 52 | −23% | −25% | +3% |
+| `grapheme_strlen()`, ASCII 16 B | 69 | −28% | −25% | 0% |
+| `grapheme_strlen()`, ASCII 64 B | 179 | −63% | −61% | 0% |
+| `grapheme_strlen()`, ASCII 256 B | 564 | −75% | −75% | 0% |
+| `grapheme_strlen()`, ASCII 1 KB | 2,105 | −77% | −78% | 0% |
+| `grapheme_strlen()`, ASCII 4 KB | 8,264 | −80% | −80% | 0% |
+| `grapheme_strlen()`, ASCII 1 KB, a lone CR every 80 B | 2,103 | −77% | −80% | 0% |
+| `grapheme_strlen()`, ASCII 1 KB, CR LF every 80 B | 63,529 | 0% ~ | 0% ~ | 0% ~ |
+| `grapheme_strlen()`, ASCII 1 KB, "é" at the start | 63,221 | 0% | 0% | 0% ~ |
+| `grapheme_strlen()`, ASCII 16 B, "é" at the end | 2,244 | −3% | +1% | 0% ~ |
+| `grapheme_strlen()`, ASCII 4 KB, "é" at the end | 257,840 | −2% | −2% | 0% ~ |
+| `grapheme_strlen()`, Chinese 16 B | 1,564 | −4% | +4% layout? | 0% ~ |
+| `grapheme_strlen()`, Chinese 256 B | 7,350 | −1% | 0% | 0% |
+| `grapheme_strlen()`, Chinese 4 KB | 99,615 | 0% ~ | 0% ~ | 0% ~ |
+| `grapheme_strlen()`, Spanish 256 B | 16,102 | 0% | 0% | 0% |
+| `grapheme_strlen()`, ASCII, mixed lengths 1–24 B | 100 | −29% | −31% | 0% |
+| `grapheme_substr($s, 0, 8)`, ASCII, mixed lengths 1–24 B | 159 | −7% | −8% | 0% |
+| `grapheme_strpos($s, 'zz')`, ASCII, mixed lengths 1–24 B | 145 | −11% | −12% | 0% ~ |
+| `grapheme_substr($s, 0, 8)`, ASCII 5 B | 103 | −9% | −3% | 0% ~ |
+| `grapheme_substr($s, 0, 8)`, ASCII 64 B | 226 | −48% | −50% | 0% |
+| `grapheme_substr($s, 0, 8)`, ASCII 4 KB | 8,311 | −79% | −80% | 0% ~ |
+| `grapheme_substr($s, 0, 8)`, ASCII 16 B, "é" at the end | 2,074 | 0% ~ | −1% | 0% |
+| `grapheme_substr($s, 0, 8)`, ASCII 64 B, "é" at the end | 2,447 | −5% | −3% | 0% ~ |
+| `grapheme_substr($s, 0, 8)`, ASCII 256 B, "é" at the end | 3,905 | −11% | −9% | 0% ~ |
+| `grapheme_substr($s, 0, 8)`, ASCII 1 KB, "é" at the end | 9,681 | −17% | −17% | 0% |
+| `grapheme_substr($s, 0, 8)`, ASCII 4 KB, "é" at the end | 32,876 | −20% | −20% | 0% ~ |
+| `grapheme_strpos($s, 'zz')`, ASCII 1 B | 56 | +13% | +12% | +6% |
+| `grapheme_strpos($s, 'zz')`, ASCII 5 B | 78 | +3% | +5% | +2% |
+| `grapheme_strpos($s, 'zz')`, ASCII 64 B | 226 | −50% | −50% | 0% |
+| `grapheme_strpos($s, 'zz')`, ASCII 4 KB | 9,319 | −70% | −71% | 0% |
+| `grapheme_strpos($s, 'x')`, ASCII 1 B | 66 | +13% | +8% | 0% ~ |
+| `grapheme_strpos($s, 'x')`, ASCII 64 B | 198 | −57% | −57% | 0% |
+| `grapheme_stripos($s, 'Z')`, ASCII 5 B | 151 | +2% | −1% | −1% |
 | `grapheme_extract($s, 8)`, ASCII 5 B | 110 | +1% | 0% | −1% |
-| `grapheme_extract($s, 8)`, ASCII 2 KB | 115 | −5% | −13% | 0% |
+| `grapheme_extract($s, 8)`, ASCII 4 KB | 114 | −5% | −13% | +2% |
 
 ~: within noise, the change is no larger than the difference between master and master on the same row.
+
+layout?: in every pass the cycles changed in the same direction, by 3% or more in the median, the instructions by less than 0.5%: the work is the same, so look for the cause (code placement, branch prediction) with `bench why` before reporting the row.
 <!-- /bench-table -->
 
-Noise: the last column runs clang master against itself, as its own group after the clang group. Its medians are from −6% to +3%. The GCC control runs master against itself at the start and the end of the series: medians from −6% to +1%. The `~` mark comes from the GCC control and is put on every column. [`labels.txt`](labels.txt) maps the case names of `series.json` to these labels.
+Noise: the last column runs clang master against itself, as its own group after the clang group. Its medians are from −2% to +6%. The GCC control runs master against itself at the start and the end of the series: medians from −1% to +1%. Chinese 16 B is −4% on GCC and +4% on clang with 0.2–0.4% more instructions, so I read it as code placement. The `~` mark comes from the GCC control and is put on every column. [`labels.txt`](labels.txt) maps the case names of `series.json` to these labels.
 
-`grapheme_extract($s, 8)` checks 9 bytes, so it gains the same 5–14% from 9 bytes to 2 KB. With CR LF every 80 bytes, `grapheme_strlen()` and the others take the ICU path, which costs 13,000–221,000 cycles here. The check is a small part of it.
+`grapheme_extract($s, 8)` checks 9 bytes, so it gains the same 4–16% from 9 bytes to 4 KB. With CR LF every 80 bytes, `grapheme_strlen()`, `grapheme_substr()` and `grapheme_strpos()` take the ICU path, which costs 7,700–113,000 cycles here. The check is a small part of it.
 
 ## Correctness checks
 
@@ -93,25 +106,25 @@ Noise: the last column runs clang master against itself, as its own group after 
 - Windows and big-endian CPUs: the zero-byte test doesn't depend on byte order, but I didn't run it there.
 - Strings over 4 GiB. Master's `int` could hold a small positive length there. With the change the five functions with `int32_t` offsets send them to ICU.
 - Other ICU versions than 78.2.
-- Strings outside the CPU cache: every input of the series is 2 KB or less.
+- Strings outside the CPU cache: every input of the series is 4 KB or less.
 - `grapheme_strripos()` in the series. Its check is the same as in `grapheme_strrpos()`.
 - A full application.
 - Opcache and JIT: the harness runs `php -n`.
 
 ## Machine and method
 
-- AMD Ryzen 9 5950X, kernel 7.0.0-42, governor `performance`, boost on. Measured on CPU 15, on the second CCD. Load average 2.6 at the start of the series, CPU 15 and its sibling 31 idle.
+- AMD Ryzen 9 5950X, kernel 7.0.0-42, governor `performance`, boost on. Measured on CPU 15, on the second CCD. The machine was idle during the series.
 - GCC 15.2 and clang 21.1, builds by `bench build --profile docker`: the flags of the official Docker image (`-fstack-protector-strong -fpic -fpie -O2 -g -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64`, link `-Wl,-O1 -pie`), `--enable-werror`, `--disable-all` with the CLI and `--enable-intl`, ICU 78.2. ext/intl is C++: the image passes the same flags in `CPPFLAGS`, and so do these builds, with `CXX` matching `CC`. Without that, master builds C++ without `-O2` ([GH-25688](https://github.com/php/php-src/issues/25688)).
 - The number is user-space CPU cycles of the PHP process per call (`perf stat`, minus an empty loop), of the calls in [`grapheme.php`](grapheme.php).
 - `bench compare`: 15 alternating passes per call and compiler. Each pass runs master and the change back to back. A cell is the median of those per-pass changes. A `~` marks a change no larger than the master-against-master median of its row.
-- The series names commit `5595f170c35`. The final commit differs from it only in the commit message, and its binaries have the same SHA-1 ([`data/builds.txt`](data/builds.txt)).
+- The series names commit `903ef2198a0`. The final commit differs from it only in the commit message: the source trees are the same ([`data/builds.txt`](data/builds.txt)).
 
 ## Appendix: earlier versions
 
-Two earlier versions, each measured in its own series on the same machine with the same master builds. They ran an earlier, smaller suite, [`earlier-grapheme.php`](earlier-grapheme.php): 56 calls on ASCII of 5, 10, 80 bytes and 2 KB and the same texts with CR, CR LF, "é" and six languages ([`FULL-TABLES.md`](FULL-TABLES.md#earlier-versions)). Only their speed was compared. The correctness checks ran on the final change only.
+Two earlier versions, each measured in its own series on the same machine with the same master builds. They ran an earlier, smaller suite, [`earlier-grapheme.php`](earlier-grapheme.php): 56 calls on ASCII of 5, 10, 80 bytes and 2 KB and the same texts with CR, CR LF, "é", five languages and emoji ([`FULL-TABLES.md`](FULL-TABLES.md#earlier-versions)). Only their speed was compared. The correctness checks ran on the final change only.
 - [`earlier-memchr.diff`](earlier-memchr.diff), [`memchr-series.json`](memchr-series.json): the 8-byte loop for bytes above 0x7f, then `memchr()` for each CR.
 - [`earlier-inword.diff`](earlier-inword.diff), [`inword-series.json`](inword-series.json): a word with a CR is checked byte by byte inside the loop.
 
 ## Reproduce
 
-Steps, about 75 minutes on a 16-core machine: [`REPRODUCE.md`](REPRODUCE.md).
+Steps, about 80 minutes on a 16-core machine: [`REPRODUCE.md`](REPRODUCE.md).
